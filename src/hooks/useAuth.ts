@@ -1,4 +1,4 @@
-import { AuthenticationService } from "@/services/AuthenticationService";
+import { AuthenticationService } from "@/services/authentication.service";
 import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";

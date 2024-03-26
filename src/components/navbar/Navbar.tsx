@@ -1,47 +1,45 @@
 'use client'
 
 import { Group, Code } from '@mantine/core';
-import { IconBellRinging, IconReceipt2, IconFingerprint, IconKey, IconDatabaseImport, Icon2fa, IconSettings, IconSwitchHorizontal, IconLogout, IconProps, Icon } from '@tabler/icons-react';
+import { IconLogout, IconProps, Icon, IconUser, IconUsers, IconStethoscope, IconWheelchair } from '@tabler/icons-react';
 import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react'
 import styles from './Navbar.module.css';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useAuth } from '@/hooks';
+import { LinkProp } from '@/lib/interfaces.lib';
+import Link from 'next/link';
 
-interface LinkProp {
-    link: string;
-    label: string;
-    icon: ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>>
+const LinkIcon: Record<string, { icon: ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>> }> = {
+    "user": { icon: IconUsers },
+    "patient": { icon: IconWheelchair },
+    "doctor": { icon: IconStethoscope },
 }
 
-const data: LinkProp[] = [
-    { link: '', label: 'Notifications', icon: IconBellRinging },
-    { link: '', label: 'Billing', icon: IconReceipt2 },
-    { link: '', label: 'Security', icon: IconFingerprint },
-    { link: '', label: 'SSH Keys', icon: IconKey },
-    { link: '', label: 'Databases', icon: IconDatabaseImport },
-    { link: '', label: 'Authentication', icon: Icon2fa },
-    { link: '', label: 'Other Settings', icon: IconSettings }
-];
+interface NavbarProps {
+    links: LinkProp[]
+}
 
-const Navbar = () => {
-    const [active, setActive] = useState('Billing');
+const Navbar: React.FC<NavbarProps> = ({ links }) => {
+    const [active, setActive] = useState<string>('');
     const { logout } = useAuth();
 
-    const links = data.map((item) => (
-        <a
+    const navLinks = () => links.map((item) => {
+        const icon = item.icon ? LinkIcon[item.icon] : null;
+        return <Link
             className={styles.link}
             data-active={item.label === active || undefined}
             href={item.link}
             key={item.label}
-            onClick={(event) => {
-                event.preventDefault();
+            onClick={() => {
                 setActive(item.label);
             }}
         >
-            <item.icon className={styles.linkIcon} stroke={1.5} />
+            {
+                icon && <icon.icon className={styles.linkIcon} stroke={1.5} />
+            }
             <span>{item.label}</span>
-        </a>
-    ));
+        </Link>
+    });
 
     return (
         <nav className={styles.navbar}>
@@ -53,7 +51,7 @@ const Navbar = () => {
             </div>
 
             <div className={styles.linkGroup}>
-                {links}
+                {navLinks()}
             </div>
 
             <div className={styles.footer}>

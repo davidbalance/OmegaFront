@@ -15,3 +15,7 @@ export type UserAPI = {
     FIND_ONE_AND_INACTIVE: string;
     CREATE: string,
 }
+
+export type WebAppConfigurationAPI = {
+    CONFIGURATION: string;
+}

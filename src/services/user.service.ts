@@ -1,4 +1,4 @@
-import { AbstractService } from "./AbstractService";
+import { AbstractService } from "./abstract.service";
 import { UserAPI } from "./endpoints/endpoint.type";
 
 type CreateUserRequest = { email: string; dni: string; name: string; lastname: string; }

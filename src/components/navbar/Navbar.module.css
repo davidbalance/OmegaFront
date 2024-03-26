@@ -48,6 +48,7 @@
   padding: rem(8px) var(--mantine-spacing-xs);
   border-radius: var(--mantine-radius-sm);
   font-weight: 500;
+  transition: all 0.3s ease-in-out;
 
   @mixin hover {
     background-color: var(--mantine-color-omegaColors-7);

@@ -1,4 +1,4 @@
-import { CredentialAPI, AuthenticationAPI, UserAPI } from "./endpoint.type";
+import { CredentialAPI, AuthenticationAPI, UserAPI, WebAppConfigurationAPI } from "./endpoint.type";
 
 const root: string = process.env.NEXT_PUBLIC_ROOT_API || 'localhost';
 
@@ -23,5 +23,10 @@ export default Object.freeze({
             FIND_ONE_AND_UPDATE: `${root}/users`,
             FIND_ONE_AND_INACTIVE: `${root}/users`,
         } as UserAPI
+    },
+    CONFIGURATION: {
+        V1: {
+            CONFIGURATION: `${root}/omega-web/clients`
+        } as WebAppConfigurationAPI
     }
 });

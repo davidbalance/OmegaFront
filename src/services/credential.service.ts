@@ -1,4 +1,4 @@
-import { AbstractService } from "./AbstractService";
+import { AbstractService } from "./abstract.service";
 import { OmegaFetch } from "./config";
 import { CredentialAPI } from "./endpoints/endpoint.type";
 
