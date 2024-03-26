@@ -1,7 +1,7 @@
+import { setTokens, removeTokens } from "@/lib";
 import { WebAppConfigurationService } from ".";
 import { AbstractService } from "./abstract.service";
 import { OmegaFetch } from "./config/omegaFetch"
-import { removeTokens, setTokens } from "./config/tokenHandler";
 import { AuthenticationAPI } from "./endpoints/endpoint.type";
 import endpoints from "./endpoints/endpoints";
 

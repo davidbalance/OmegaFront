@@ -1,5 +1,5 @@
+import { getBearer, getBearerRefresh, setTokens } from "@/lib";
 import endpoints from "../endpoints/endpoints";
-import { getBearer, getBearerRefresh, setTokens } from "./tokenHandler";
 
 export type RestClientRequest<T> = Omit<RequestInit, 'body'> & { url: string, body?: T }
 

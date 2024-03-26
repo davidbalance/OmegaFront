@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar/Navbar"
 import styles from './layout.module.css'
 import { Paper } from "@mantine/core"
 import { useConfiguration } from "@/hooks"
+import Footer from "@/components/footer/Footer"
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
@@ -17,6 +18,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     {children}
                 </Paper>
             </div>
+            <Footer />
         </main>
     )
 }

@@ -22,7 +22,7 @@ export const getBearerRefresh = async (): Promise<string | undefined> => {
 type Token = { token: string, expiresAt: string }
 export const setTokens = (tokens: { access: Token, refresh: Token }): void => {
     const cookieStore = cookies();
-    cookieStore.set(AUTH_TOKEN_COOKIE, tokens.access.token, { expires: dayjs(tokens.access.expiresAt).toDate(), httpOnly: true });
+    cookieStore.set(AUTH_TOKEN_COOKIE, tokens.access.token, { expires: dayjs(tokens.refresh.expiresAt).toDate(), httpOnly: true });
     cookieStore.set(REFRESH_TOKEN_COOKIE, tokens.refresh.token, { expires: dayjs(tokens.refresh.expiresAt).toDate(), httpOnly: true });
 }
 

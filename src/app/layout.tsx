@@ -6,6 +6,7 @@ import '@mantine/notifications/styles.css';
 import '@mantine/nprogress/styles.css';
 import { ColorSchemeScript, MantineColorsTuple, MantineProvider, createTheme } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
+import './globals.css';
 
 const rubik = Rubik({ subsets: ["latin"] });
 
