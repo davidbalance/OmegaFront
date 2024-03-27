@@ -1,0 +1,1 @@
+export * from './morbidity-group.response.dto';

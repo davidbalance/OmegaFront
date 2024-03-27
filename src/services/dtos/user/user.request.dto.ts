@@ -1,16 +1,11 @@
-export type CreateUserRequest = {
-    email: string;
-    dni: string;
-    name: string;
-    lastname: string;
-}
+import { UserModel } from "@/services";
 
-export type UpdateUserRequest = {
-    email: string;
-    name: string;
-    lastname: string;
-}
+export type CreateUserRequestDTO = Omit<UserModel, 'id'> & {
+    password: string;
+};
 
-export type UpdateDNIRequest = {
+export type FindOneAndUpdateRequestDTO = Partial<Omit<CreateUserRequestDTO, 'dni'>>;
+
+export type UpdateDNIRequestDTO = {
     dni: string;
 }

@@ -1,0 +1,1 @@
+export * from './medical-report-element.response.dto';

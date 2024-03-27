@@ -5,7 +5,9 @@ import { OmegaFetch } from "../config/omegaFetch"
 import { AuthenticationAPI } from "../endpoints/endpoint.type";
 import endpoints from "../endpoints/endpoints";
 
-export class AuthenticationService extends AbstractService<AuthenticationAPI>{
+export class AuthenticationService
+    extends AbstractService<AuthenticationAPI>{
+        
     private appConfiguration: WebAppConfigurationService = new WebAppConfigurationService(endpoints.CONFIGURATION.V1);
 
     constructor(private _: AuthenticationAPI) {

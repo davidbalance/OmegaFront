@@ -1,11 +1,25 @@
 import { AbstractService } from "./abstract.service";
 import { OmegaFetch } from "../config";
 import { UserAPI } from "../endpoints/endpoint.type";
-import { FindUsersResponse, ICrudService, UserModel } from "..";
+import { CreateUserRequestDTO, FindOneAndUpdateRequestDTO, FindUsersResponse, ICrudService, UserModel } from "..";
 
 export class UserService
     extends AbstractService<UserAPI>
     implements ICrudService<UserModel, number> {
+
+    async create(value: any): Promise<UserModel> {
+        try {
+            const body: CreateUserRequestDTO = { ...value };
+            const reponse: any = await OmegaFetch.post({
+                url: this.endpoints.CREATE,
+                body: body
+            });
+            const { user } = reponse;
+            return user as any;
+        } catch (error) {
+            throw error;
+        }
+    }
 
     async find(): Promise<UserModel[]> {
         try {
@@ -17,15 +31,29 @@ export class UserService
         }
     }
 
-    findOne(key: number): UserModel | Promise<UserModel> {
+    findOne(key: number): Promise<UserModel> {
         throw new Error("Method not implemented.");
     }
 
-    findOneAndDelete(key: number): void | Promise<void> {
-        throw new Error("Method not implemented.");
+    async findOneAndDelete(key: number): Promise<void> {
+        try {
+            await OmegaFetch.patch({
+                url: this.endpoints.FIND_ONE_AND_INACTIVE(key)
+            });
+        } catch (error) {
+            throw error;
+        }
     }
-    
-    findOneAndUpdate(key: number, value: UserModel): UserModel | Promise<UserModel> {
-        throw new Error("Method not implemented.");
+
+    async findOneAndUpdate(key: number, value: Partial<UserModel>): Promise<void> {
+        try {
+            const body: FindOneAndUpdateRequestDTO = { ...value };
+            await OmegaFetch.patch({
+                url: this.endpoints.FIND_ONE_AND_UPDATE(key),
+                body: body
+            })
+        } catch (error) {
+            throw error;
+        }
     }
 }
