@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { hasTokens } from "./services/config/tokenHandler"
+import { hasTokens } from "./lib";
 
 const secureRoutes = ['/omega']
 

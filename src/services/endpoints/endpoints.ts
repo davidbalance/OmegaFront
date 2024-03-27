@@ -1,4 +1,4 @@
-import { CredentialAPI, AuthenticationAPI, UserAPI, WebAppConfigurationAPI } from "./endpoint.type";
+import { CredentialAPI, AuthenticationAPI, UserAPI, WebAppConfigurationAPI, RoleAPI } from "./endpoint.type";
 
 const root: string = process.env.NEXT_PUBLIC_ROOT_API || 'localhost';
 
@@ -19,10 +19,15 @@ export default Object.freeze({
         V1: {
             CREATE: `${root}/users`,
             FIND: `${root}/users`,
-            FIND_ONE: `${root}/users`,
-            FIND_ONE_AND_UPDATE: `${root}/users`,
-            FIND_ONE_AND_INACTIVE: `${root}/users`,
+            FIND_ONE: (id: number) => `${root}/users/${id}`,
+            FIND_ONE_AND_UPDATE: (id: number) => `${root}/users/${id}`,
+            FIND_ONE_AND_INACTIVE: (id: number) => `${root}/users/${id}`,
         } as UserAPI
+    },
+    ROLE: {
+        V1: {
+            FIND: `${root}/roles`
+        } as RoleAPI
     },
     CONFIGURATION: {
         V1: {

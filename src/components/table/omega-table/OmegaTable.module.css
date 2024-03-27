@@ -1,0 +1,18 @@
+.sticky {
+  position: sticky;
+  top: 0;
+  background-color: var(--mantine-color-body);
+  transition: box-shadow 150ms ease;
+  z-index: 1;
+}
+
+.scrolled {
+  box-shadow: var(--mantine-shadow-sm);
+}
+
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: rem(16px);
+}

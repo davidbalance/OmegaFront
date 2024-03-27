@@ -10,10 +10,14 @@ export type CredentialAPI = {
 
 export type UserAPI = {
     FIND: string;
-    FIND_ONE: string;
-    FIND_ONE_AND_UPDATE: string;
-    FIND_ONE_AND_INACTIVE: string;
+    FIND_ONE: (id: number) => string;
+    FIND_ONE_AND_UPDATE: (id: number) => string;
+    FIND_ONE_AND_INACTIVE: (id: number) => string;
     CREATE: string,
+}
+
+export type RoleAPI = {
+    FIND: string;
 }
 
 export type WebAppConfigurationAPI = {

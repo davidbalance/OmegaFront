@@ -1,6 +1,6 @@
 'use client'
 
-import { Group, Code } from '@mantine/core';
+import { Group, Code, Loader } from '@mantine/core';
 import { IconLogout, IconProps, Icon, IconUser, IconUsers, IconStethoscope, IconWheelchair } from '@tabler/icons-react';
 import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react'
 import styles from './Navbar.module.css';
@@ -16,10 +16,11 @@ const LinkIcon: Record<string, { icon: ForwardRefExoticComponent<Omit<IconProps,
 }
 
 interface NavbarProps {
-    links: LinkProp[]
+    links: LinkProp[],
+    loading?: boolean
 }
 
-const Navbar: React.FC<NavbarProps> = ({ links }) => {
+const Navbar: React.FC<NavbarProps> = ({ links, loading = false }) => {
     const [active, setActive] = useState<string>('');
     const { logout } = useAuth();
 
@@ -51,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ links }) => {
             </div>
 
             <div className={styles.linkGroup}>
-                {navLinks()}
+                {loading ? <Loader color="blue" /> : navLinks()}
             </div>
 
             <div className={styles.footer}>
