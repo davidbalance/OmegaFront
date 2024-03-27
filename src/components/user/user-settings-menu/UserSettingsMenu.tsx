@@ -2,8 +2,13 @@ import { Menu, MenuTarget, ActionIcon, rem } from '@mantine/core';
 import { IconDotsVertical, IconPencil, IconSettings, IconKey, IconTrash } from '@tabler/icons-react';
 import React from 'react'
 
-type UserSettingsMenuProps = { onConfiguration: () => void, onModification: () => void, onDelete: () => void };
-const UserSettingsMenu: React.FC<UserSettingsMenuProps> = ({ onConfiguration, onDelete, onModification }) => {
+type UserSettingsMenuProps = {
+    onChangePassword?: () => void;
+    onConfiguration?: () => void;
+    onModification?: () => void;
+    onDelete?: () => void;
+};
+const UserSettingsMenu: React.FC<UserSettingsMenuProps> = ({ onChangePassword, onConfiguration, onDelete, onModification }) => {
 
     return (
         <Menu>
@@ -13,33 +18,46 @@ const UserSettingsMenu: React.FC<UserSettingsMenuProps> = ({ onConfiguration, on
                 </ActionIcon>
             </MenuTarget>
             <Menu.Dropdown>
-                <Menu.Label>Aplicacion</Menu.Label>
-                <Menu.Item
-                    leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
-                    onClick={onModification}>
-                    Modificacion
-                </Menu.Item>
-                <Menu.Item
-                    leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
-                    onClick={onConfiguration}>
-                    Configuracion
-                </Menu.Item>
+                {onModification || onConfiguration ? <Menu.Label>Aplicacion</Menu.Label> : <></>}
+                {
+                    onModification &&
+                    <Menu.Item
+                        leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
+                        onClick={onModification}>
+                        Modificacion
+                    </Menu.Item>
+                }
+                {onConfiguration &&
+                    <Menu.Item
+                        leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
+                        onClick={onConfiguration}>
+                        Configuracion
+                    </Menu.Item>
+                }
 
-                <Menu.Divider />
-                <Menu.Label>Danger zone</Menu.Label>
-                <Menu.Item
-                    color="red"
-                    leftSection={<IconKey style={{ width: rem(14), height: rem(14) }} />}
-                    onClick={onConfiguration}>
-                    Generar contraseña
-                </Menu.Item>
-                <Menu.Item
-                    color="red"
-                    leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
-                    onClick={onDelete}
-                >
-                    Eliminar
-                </Menu.Item>
+                {onDelete || onChangePassword
+                    ? <>
+                        <Menu.Label>Danger zone</Menu.Label>
+                        <Menu.Divider />
+                    </>
+                    : <></>
+                }
+                {onChangePassword &&
+                    <Menu.Item
+                        color="red"
+                        leftSection={<IconKey style={{ width: rem(14), height: rem(14) }} />}
+                        onClick={onChangePassword}>
+                        Generar contraseña
+                    </Menu.Item>
+                }
+                {onDelete &&
+                    <Menu.Item
+                        color="red"
+                        leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+                        onClick={onDelete}>
+                        Eliminar
+                    </Menu.Item>
+                }
             </Menu.Dropdown>
         </Menu>
     );

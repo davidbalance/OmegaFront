@@ -7,7 +7,7 @@ type UserRoleFormProps = {
     roles: Role[];
     data?: { roles: number[] };
 };
-const UserRoleForm: React.FC<UserRoleFormProps> = React.forwardRef(({ onSubmit, roles, data }, ref: ForwardedRef<HTMLButtonElement>) => {
+const UserRoleForm = React.forwardRef<HTMLButtonElement, UserRoleFormProps>(({ onSubmit, roles, data }, ref: ForwardedRef<HTMLButtonElement>) => {
 
     const [selected, setSelected] = useState<number[]>(data?.roles || []);
     const [error, setError] = useState<string | undefined>(undefined);

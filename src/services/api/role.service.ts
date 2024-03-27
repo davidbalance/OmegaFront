@@ -1,6 +1,6 @@
-import { AbstractService } from ".";
-import { OmegaFetch } from "./config";
-import { RoleAPI } from "./endpoints/endpoint.type";
+import { OmegaFetch } from "../config";
+import { RoleAPI } from "../endpoints/endpoint.type";
+import { AbstractService } from "./abstract.service";
 
 type FindRoleResponse = {
     id: number;

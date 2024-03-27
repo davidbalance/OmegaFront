@@ -1,6 +1,6 @@
 import { AbstractService } from "./abstract.service";
-import { OmegaFetch } from "./config";
-import { CredentialAPI } from "./endpoints/endpoint.type";
+import { OmegaFetch } from "../config";
+import { CredentialAPI } from "../endpoints/endpoint.type";
 
 export class CredentialService extends AbstractService<CredentialAPI> {
     async updatePassword(credential: {

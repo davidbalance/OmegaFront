@@ -1,29 +1,49 @@
-import { AbtractViewService } from ".";
-import { RoleService } from "..";
 import endpoints from "../endpoints/endpoints";
-import { UserService } from "../user.service";
+import { IConfigurationService, ICrudService } from "../interfaces";
+import { FindUsersResponse, RoleService, UserModel, UserService } from "..";
 
-export class UserViewService implements AbtractViewService {
+type UserViewData = UserModel;
 
-    private readonly userService: UserService = new UserService(endpoints.USER.V1);
+export type UserViewConfiguration = {
+    users: UserViewData[],
+    roles: any[]
+}
+
+export class UserViewService
+    implements
+    IConfigurationService<UserViewConfiguration>,
+    ICrudService<UserViewData, number> {
+
     private readonly roleService: RoleService = new RoleService(endpoints.ROLE.V1);
+    private readonly userService: ICrudService<UserModel, number> = new UserService(endpoints.USER.V1);
 
-    async initialConfiguration() {
-        try {
-            const users = await this.userService.find();
-            const roles = await this.roleService.find();
-            return { users: users, roles: roles };
-        } catch (error) {
-            throw error;
-        }
+    async initialConfiguration(): Promise<UserViewConfiguration> {
+        const users: UserViewData[] = await this.userService.find();
+        const roles = await this.roleService.find();
+        return { users: users, roles: roles };
     }
 
-    async findUsers() {
-        try {
-            const users = await this.userService.find();
-            return users;
-        } catch (error) {
+    async reloadConfiguration(): Promise<UserViewConfiguration> {
+        return await this.initialConfiguration();
+    };
 
-        }
+    async find(): Promise<UserViewData[]> {
+        return await this.userService.find();
+    }
+
+    findOne(key: number): UserViewData | Promise<UserViewData> {
+        throw new Error("Method not implemented.");
+    }
+
+    findOneAndDelete(key: number): void | Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+
+    findOneAndUpdate(key: number, value: UserViewData): UserViewData | Promise<UserViewData> {
+        throw new Error("Method not implemented.");
+    }
+
+    findOneAndUpdateRoles(key: number, roles: any[]): Promise<any[]> {
+        throw new Error("Method not implemented.");
     }
 }

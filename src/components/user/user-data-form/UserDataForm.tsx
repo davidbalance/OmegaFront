@@ -3,13 +3,9 @@ import { SimpleGrid, rem, TextInput, Container, Box, Button } from '@mantine/cor
 import { IconId, IconAt } from '@tabler/icons-react';
 import { joiResolver, useForm } from '@mantine/form';
 import Joi from 'joi';
+import { UserModel } from '@/services';
 
-type IUserForm = {
-    name: string;
-    lastname: string;
-    dni: string;
-    email: string;
-}
+type IUserForm = Omit<UserModel, 'id'>;
 
 const userSchema = Joi.object<IUserForm>({
     name: Joi

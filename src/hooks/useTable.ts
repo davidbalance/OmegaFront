@@ -10,14 +10,13 @@ type SortPayload<T> = {
 export const useTable = <T extends object>(initialData: T[], initialPerPage: number = 5) => {
 
     const [search, setSearch] = useState<string>('');
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState<T[]>(initialData);
     const [sortedData, setSortedData] = useState<T[]>(initialData);
     const [sortBy, setSortBy] = useState<keyof T | null>(null);
     const [perPage, setPerPage] = useState(initialPerPage);
     const [total, setTotal] = useState<number>(initialData.length / initialPerPage);
     const [activePage, setPage] = useState(1);
     const [reverseSortDirection, setReverseSortDirection] = useState(false);
-    const [rows, setRows] = useState<T[]>([]);
 
     const filter = (data: T[], search: string): T[] => {
         const query = search.toLocaleLowerCase().trim();
@@ -70,6 +69,19 @@ export const useTable = <T extends object>(initialData: T[], initialPerPage: num
         setSortedData(sort(data, { sortBy, reversed: reverseSortDirection, search: value }));
     };
 
+    const removeRow = <K>(field: keyof T, value: K) => {
+        const newData = sortedData.filter((row) => typeof row[field] === typeof value && row[field] !== value);
+        setSortedData(newData);
+    }
+
+    const replaceRow = <K>(field: keyof T, key: K, value: T) => {
+        const currentIndex = sortedData.findIndex((row) => typeof row[field] === typeof key && row[field] !== key);
+        if (currentIndex < 0) return;
+        const newData = data;
+        newData[currentIndex] = value;
+        setSortedData(newData);
+    }
+
     return {
         rows: chunk(sortedData, perPage)[activePage - 1] || [],
         total,
@@ -80,6 +92,8 @@ export const useTable = <T extends object>(initialData: T[], initialPerPage: num
         setSorting,
         onSeach,
         setPage,
+        removeRow,
+        replaceRow,
         setData: (newData: T[]): void => {
             setData(newData);
             setSortedData(newData);

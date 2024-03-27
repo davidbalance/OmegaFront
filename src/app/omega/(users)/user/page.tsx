@@ -1,44 +1,43 @@
 'use client'
 
-import { Group, Table, UnstyledButton, Text, Center, rem, ScrollArea, TextInput, Pagination, ActionIcon, Flex, Title, Loader } from '@mantine/core';
+import { Group, Table, Text, Center, rem, TextInput, ActionIcon, Title } from '@mantine/core';
 import React, { useEffect, useState } from 'react'
 import classes from './User.module.css';
-import { IconChevronDown, IconChevronUp, IconCirclePlus, IconLicense, IconLock, IconSearch, IconSelector, IconUserCheck } from '@tabler/icons-react';
-import cx from 'clsx';
+import { IconCirclePlus, IconLicense, IconLock, IconSearch, IconUserCheck } from '@tabler/icons-react';
 import { useTable } from '@/hooks/useTable';
 import { useDisclosure } from '@mantine/hooks';
-import { UserViewService } from '@/services';
+import { IConfigurationService, UserModel, UserViewConfiguration, UserViewService } from '@/services';
 import UserDataForm from '@/components/user/user-data-form/UserDataForm';
 import UserPasswordForm from '@/components/user/user-password-form/UserPasswordForm';
 import UserRoleForm from '@/components/user/user-role-form/UserRoleForm';
 import { UserStepProps } from '@/components/user';
-import CreateUserFormDrawer from '@/components/user/create-user-form/CreateUserForm';
-import UpdateUserFormDrawer from '@/components/user/update-user-form/UpdateUserFormDrawer';
+import CreateUserFormDrawer from '@/components/user/create-user-form-drawer/CreateUserFormDrawer';
+import UpdateUserFormDrawer from '@/components/user/update-user-form-drawer/UpdateUserFormDrawer';
 import UserSettingsMenu from '@/components/user/user-settings-menu/UserSettingsMenu';
 import SortTh from '@/components/table/sort-th/SortTh';
 import OmegaTable from '@/components/table/omega-table/OmegaTable';
+import UpdateUserRoleFormDrawer from '@/components/user/update-user-role-form-drawer/UpdateUserRoleFormDrawer';
+import ChangePasswordDrawer from '@/components/user/change-password-drawer/ChangePasswordDrawer';
+import DeleteUserDialog from '@/components/user/delete-user-dialog/DeleteUserDialog';
 
-interface RowData {
-    id: number;
-    dni: string;
-    name: string;
-    email: string;
-    lastname: string;
-}
+type UserData = UserModel;
 
 const User: React.FC = () => {
 
-    const userViewService: UserViewService = new UserViewService();
+    const userViewService: IConfigurationService<UserViewConfiguration> = new UserViewService();
 
-    const table = useTable<RowData>([], 50);
+    const table = useTable<UserData>([], 50);
 
-    const [selected, setSelected] = useState<RowData>();
-
+    const [steps, setSteps] = useState<UserStepProps[]>([]);
+    const [roles, setRoles] = useState<any>([]);
+    const [selected, setSelected] = useState<UserData>();
 
     const tableLoad = useDisclosure(true);
     const createUserDisclosure = useDisclosure(false);
     const modifyUserDisclosure = useDisclosure(false);
-    const [steps, setSteps] = useState<UserStepProps[]>([]);
+    const modifyPassDisclosure = useDisclosure(false);
+    const modifyRoleDisclosure = useDisclosure(false);
+    const deleteUserDisclosure = useDisclosure(false);
 
     useEffect(() => {
         loadConfiguration();
@@ -49,7 +48,8 @@ const User: React.FC = () => {
         try {
             tableLoad[1].open();
             const { roles, users } = await userViewService.initialConfiguration();
-            const rows = users as unknown as RowData[];
+            setRoles(roles);
+            const rows = users as unknown as UserData[];
             table.setData(rows);
             setSteps([
                 {
@@ -98,8 +98,18 @@ const User: React.FC = () => {
                         setSelected(row);
                         modifyUserDisclosure[1].open();
                     }}
-                    onConfiguration={() => { }}
-                    onDelete={() => { }}
+                    onConfiguration={() => {
+                        setSelected(row);
+                        modifyRoleDisclosure[1].open();
+                    }}
+                    onChangePassword={() => {
+                        setSelected(row);
+                        modifyPassDisclosure[1].open();
+                    }}
+                    onDelete={() => {
+                        setSelected(row);
+                        deleteUserDisclosure[1].open();
+                    }}
                 />
             </Table.Td>
         </Table.Tr>
@@ -113,6 +123,14 @@ const User: React.FC = () => {
         <Table.Th className={classes.th}>Acciones</Table.Th>
     </>
 
+    const handleComplete = (id: number) => {
+        table.removeRow('id', id);
+    }
+
+    const handleModification = (updatedUser: UserModel) => {
+        table.replaceRow('id', updatedUser.id, updatedUser);
+    }
+
     return (
         <>
             <CreateUserFormDrawer
@@ -121,9 +139,31 @@ const User: React.FC = () => {
                 steps={steps}
             />
             <UpdateUserFormDrawer
-                user={selected}
+                user={selected as any}
                 opened={modifyUserDisclosure[0]}
-                close={modifyUserDisclosure[1].close}
+                onClose={modifyUserDisclosure[1].close}
+                onComplete={handleModification} />
+            <UpdateUserRoleFormDrawer
+                user={selected?.id || -1}
+                roles={roles}
+                opened={modifyRoleDisclosure[0]}
+                onClose={modifyRoleDisclosure[1].close}
+                onComplete={(roles) => {
+                    if (selected) {
+                        const data = selected;
+                        data.roles = roles;
+                        handleModification(data);
+                    }
+                }} />
+            <ChangePasswordDrawer
+                opened={modifyPassDisclosure[0]}
+                onClose={modifyPassDisclosure[1].close}
+            />
+            <DeleteUserDialog
+                user={selected?.id || -1}
+                onComplete={handleComplete}
+                opened={deleteUserDisclosure[0]}
+                onClose={deleteUserDisclosure[1].close}
             />
             <Group justify="space-between">
                 <Text fw={500} fz="sm">

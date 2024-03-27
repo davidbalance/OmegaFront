@@ -1,7 +1,7 @@
 import { removeConfiguration, setConfiguration } from "@/lib/configuration.lib";
 import { AbstractService } from "./abstract.service";
-import { OmegaFetch } from "./config";
-import { WebAppConfigurationAPI } from "./endpoints/endpoint.type";
+import { OmegaFetch } from "../config";
+import { WebAppConfigurationAPI } from "../endpoints/endpoint.type";
 
 export class WebAppConfigurationService extends AbstractService<WebAppConfigurationAPI>{
 

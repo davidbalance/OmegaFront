@@ -1,9 +1,9 @@
 import { setTokens, removeTokens } from "@/lib";
-import { WebAppConfigurationService } from ".";
+import { WebAppConfigurationService } from "..";
 import { AbstractService } from "./abstract.service";
-import { OmegaFetch } from "./config/omegaFetch"
-import { AuthenticationAPI } from "./endpoints/endpoint.type";
-import endpoints from "./endpoints/endpoints";
+import { OmegaFetch } from "../config/omegaFetch"
+import { AuthenticationAPI } from "../endpoints/endpoint.type";
+import endpoints from "../endpoints/endpoints";
 
 export class AuthenticationService extends AbstractService<AuthenticationAPI>{
     private appConfiguration: WebAppConfigurationService = new WebAppConfigurationService(endpoints.CONFIGURATION.V1);

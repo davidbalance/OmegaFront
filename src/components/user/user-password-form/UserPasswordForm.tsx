@@ -33,7 +33,7 @@ type UserPasswordFormProps = {
     onSubmit: (values: Omit<IPasswordForm, 'confirmPassword'>) => void;
     data?: { password: string };
 }
-const UserPasswordForm: React.FC<UserPasswordFormProps> = React.forwardRef(({ data, onSubmit }, ref: ForwardedRef<HTMLButtonElement>) => {
+const UserPasswordForm = React.forwardRef<HTMLButtonElement, UserPasswordFormProps>(({ data, onSubmit }, ref: ForwardedRef<HTMLButtonElement>) => {
 
     const form = useForm({
         initialValues: {

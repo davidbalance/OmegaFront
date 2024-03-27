@@ -1,25 +1,32 @@
-import { Drawer, Group, Button, rem } from '@mantine/core';
+import { Drawer, Group, Button, rem, DrawerProps } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useRef } from 'react'
 import UserDataForm from '../user-data-form/UserDataForm';
+import { ICrudService, UserModel, UserViewService } from '@/services';
 
-type UpdateUserFormDrawerProps = { opened: boolean; close: () => void; user: any }
-const UpdateUserFormDrawer: React.FC<UpdateUserFormDrawerProps> = ({ close, opened, user }) => {
+type UpdateUserFormDrawerProps = DrawerProps & {
+    user: Omit<UserModel, 'roles'>;
+    onComplete: (value: UserModel) => void;
+}
+const UpdateUserFormDrawer: React.FC<UpdateUserFormDrawerProps> = ({ user, onComplete, ...props }) => {
+
+    const userViewService: ICrudService<UserModel, number> = new UserViewService();
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const handleSubmit = (data: any) => {
-        console.log(data);
+        const updatedData = { ...user, ...data };
+        userViewService.findOneAndUpdate(user.id, updatedData);
+        onComplete(updatedData);
     }
 
     return (
         <Drawer
-            opened={opened}
-            onClose={close}
             position='right'
             title="Formulario de usuario"
             overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
-            size='lg'>
+            size='lg'
+            {...props}>
 
             <UserDataForm
                 onSubmit={handleSubmit}
