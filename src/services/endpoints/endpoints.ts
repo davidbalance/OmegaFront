@@ -1,4 +1,4 @@
-import { CredentialAPI, AuthenticationAPI, UserAPI, WebAppConfigurationAPI, RoleAPI, PermissionAPI, ExamAPI, OrderAPI, ResultAPI, MorbidityGroupAPI, MorbidityAPI, MedicalReportAPI, MedicalReportElementAPI } from "./endpoint.type";
+import { CredentialAPI, AuthenticationAPI, UserAPI, WebAppConfigurationAPI, RoleAPI, PermissionAPI, ExamAPI, OrderAPI, ResultAPI, MorbidityGroupAPI, MorbidityAPI, MedicalReportAPI, MedicalReportElementAPI, PatientAPI, DoctorAPI } from "./endpoint.type";
 
 const root: string = process.env.NEXT_PUBLIC_ROOT_API || 'localhost';
 
@@ -23,6 +23,16 @@ export default Object.freeze({
             FIND_ONE_AND_UPDATE: (id: number) => `${root}/users/${id}`,
             FIND_ONE_AND_INACTIVE: (id: number) => `${root}/users/${id}`,
         } as UserAPI
+    },
+    PATIENT: {
+        V1: {
+            FIND: `${root}/patients`
+        } as PatientAPI
+    },
+    DOCTOR: {
+        V1: {
+            FIND: `${root}/doctors`
+        } as DoctorAPI
     },
     ROLE: {
         V1: {
@@ -53,11 +63,11 @@ export default Object.freeze({
             FIND_ONE_AND_INSERT_MORBIDITY: (id: number) => `${root}/results/${id}`
         } as ResultAPI
     },
-    MORBIDITY_GROUP:{
-        V1:{
+    MORBIDITY_GROUP: {
+        V1: {
             FIND: `${root}/morbidity-groups`,
-            CREATE:  `${root}/morbidity-groups`,
-            FIND_ONE_AND_UPDATE: (id: number) =>  `${root}/morbidity-groups/${id}`,
+            CREATE: `${root}/morbidity-groups`,
+            FIND_ONE_AND_UPDATE: (id: number) => `${root}/morbidity-groups/${id}`,
             FIND_ONE_AND_INACTIVE: (id: number) => `${root}/morbidity-groups/${id}`,
         } as MorbidityGroupAPI
     },

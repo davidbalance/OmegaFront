@@ -5,3 +5,5 @@ export type DoctorModel = {
     signature: string;
     user: UserModel;
 }
+
+export type DoctorFullModel = Omit<UserModel, 'id'> & DoctorModel;

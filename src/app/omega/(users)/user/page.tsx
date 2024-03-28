@@ -1,8 +1,7 @@
 'use client'
 
 import { Group, Table, Text, Center, rem, TextInput, ActionIcon, Title } from '@mantine/core';
-import React, { useEffect, useState } from 'react'
-import classes from './User.module.css';
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { IconCirclePlus, IconLicense, IconLock, IconSearch, IconUserCheck } from '@tabler/icons-react';
 import { useTable } from '@/hooks/useTable';
 import { useDisclosure } from '@mantine/hooks';
@@ -39,7 +38,7 @@ const User: React.FC = () => {
     const modifyRoleDisclosure = useDisclosure(false);
     const deleteUserDisclosure = useDisclosure(false);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         loadConfiguration();
         return () => { }
     }, [])
@@ -120,7 +119,7 @@ const User: React.FC = () => {
         <SortTh sorted={table.sortBy === 'name'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('name')}>Nombre</SortTh>
         <SortTh sorted={table.sortBy === 'lastname'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('lastname')}>Apellido</SortTh>
         <SortTh sorted={table.sortBy === 'email'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('email')}>Correo Electronico</SortTh>
-        <Table.Th className={classes.th}>Acciones</Table.Th>
+        <Table.Th>Acciones</Table.Th>
     </>
 
     const handleComplete = (id: number) => {
@@ -172,11 +171,11 @@ const User: React.FC = () => {
                     </Title>
                 </Text>
                 {
-                    steps.length && <Center className={classes.icon}>
+                    steps.length &&
+                    <Center>
                         <ActionIcon
                             variant="transparent"
-                            onClick={createUserDisclosure[1].open}
-                        >
+                            onClick={createUserDisclosure[1].open}>
                             <IconCirclePlus
                                 style={{ width: rem(64), height: rem(64) }}
                                 stroke={1.5} />

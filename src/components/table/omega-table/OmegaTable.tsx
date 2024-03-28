@@ -6,17 +6,18 @@ import classes from './OmegaTable.module.css';
 type OmegaTableProps = {
     header: React.ReactNode;
     rows: React.JSX.Element[];
-    loading?: boolean;
     total: number;
     page: number;
     onPageChange: (value: number) => void;
+    loading?: boolean;
+    height?: number;
 }
-const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPageChange, loading = false }) => {
+const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPageChange, height = 400, loading = false }) => {
     const [scrolled, setScrolled] = useState<boolean>(false);
 
     return (
         <>
-            <ScrollArea h={400} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+            <ScrollArea h={height} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
                 <Table horizontalSpacing="md" verticalSpacing="xs" layout='auto' highlightOnHover>
                     <Table.Thead className={cx(classes.sticky, { [classes.scrolled]: scrolled })} c='omegaColors'>
                         <Table.Tr>
@@ -44,17 +45,19 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
                             )}
                     </Table.Tbody>
                 </Table>
-            </ScrollArea >
-            <div className={classes.pagination}>
-                <Pagination
-                    total={total}
-                    color="omegaColors"
-                    size="sm"
-                    value={page}
-                    radius='xl'
-                    onChange={onPageChange}
-                    withEdges />
-            </div>
+            </ScrollArea>
+            {
+                Math.floor(total) !== 0 && <div className={classes.pagination}>
+                    <Pagination
+                        total={total}
+                        color="omegaColors"
+                        size="sm"
+                        value={page}
+                        radius='xl'
+                        onChange={onPageChange}
+                        withEdges />
+                </div>
+            }
         </>
     )
 }

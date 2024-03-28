@@ -13,6 +13,12 @@ export class UserViewService
     implements
     IConfigurationService<UserViewConfiguration>,
     ICrudService<UserViewData, number> {
+    create(value: any): UserModel | Promise<UserModel> {
+        throw new Error("Method not implemented.");
+    }
+    findOneAndUpdate(key: number, value: Partial<UserModel>): void | Promise<void> {
+        throw new Error("Method not implemented.");
+    }
 
     private readonly roleService: RoleService = new RoleService(endpoints.ROLE.V1);
     private readonly userService: ICrudService<UserModel, number> = new UserService(endpoints.USER.V1);
@@ -36,10 +42,6 @@ export class UserViewService
     }
 
     findOneAndDelete(key: number): void | Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-
-    findOneAndUpdate(key: number, value: UserViewData): UserViewData | Promise<UserViewData> {
         throw new Error("Method not implemented.");
     }
 
