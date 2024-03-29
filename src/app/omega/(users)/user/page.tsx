@@ -165,11 +165,9 @@ const User: React.FC = () => {
                 onClose={deleteUserDisclosure[1].close}
             />
             <Group justify="space-between">
-                <Text fw={500} fz="sm">
-                    <Title component="span" variant="text" c='omegaColors'>
-                        Usuarios
-                    </Title>
-                </Text>
+                <Title component="span" variant="text" c='omegaColors'>
+                    Usuarios
+                </Title>
                 {
                     steps.length &&
                     <Center>

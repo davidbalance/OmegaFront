@@ -37,6 +37,7 @@ export type PermissionAPI = {
 
 export type OrderAPI = {
     FIND: string;
+    FIND_BY_DNI: (dni: string) => string;
 }
 
 export type ResultAPI = {

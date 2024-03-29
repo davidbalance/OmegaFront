@@ -1,29 +1,33 @@
 import { Button, Drawer, DrawerProps, Group, rem } from '@mantine/core'
-import { IconDeviceFloppy } from '@tabler/icons-react'
 import React, { useRef } from 'react'
-import UserPasswordForm from '../user-password-form/UserPasswordForm'
+import { RoleFormProps } from '../role-form'
+import { IconDeviceFloppy } from '@tabler/icons-react'
+import { RoleModel } from '@/services'
+import RoleForm from '../role-form/RoleForm'
 
-
-type ChangePasswordDrawerProps = DrawerProps
-const ChangePasswordDrawer: React.FC<ChangePasswordDrawerProps> = ({ ...props }) => {
+type CreateRoleFormDrawerProps = DrawerProps & Omit<RoleFormProps, 'data' | 'onSubmit'> & {
+    onComplete: (data: RoleModel) => void;
+}
+const CreateRoleFormDrawer: React.FC<CreateRoleFormDrawerProps> = ({ permssions, onComplete, ...props }) => {
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const handleSubmit = (data: any) => {
-        console.log(data);
+        onComplete(data);
     }
 
     return (
         <Drawer
-            {...props}
             position='right'
-            title="Formulario de cambio de contraseña"
+            title="Formulario de roles"
             overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
-            size='lg'>
+            size='lg'
+            {...props}>
 
-            <UserPasswordForm
+            <RoleForm
                 onSubmit={handleSubmit}
-                ref={buttonRef} />
+                ref={buttonRef}
+                permssions={permssions} />
 
             <Group justify="center" mt="xl">
                 <Button
@@ -38,4 +42,4 @@ const ChangePasswordDrawer: React.FC<ChangePasswordDrawerProps> = ({ ...props })
     )
 }
 
-export default ChangePasswordDrawer
+export default CreateRoleFormDrawer

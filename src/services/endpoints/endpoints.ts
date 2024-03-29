@@ -54,7 +54,8 @@ export default Object.freeze({
     },
     ORDER: {
         V1: {
-            FIND: `${root}/orders`
+            FIND: `${root}/orders`,
+            FIND_BY_DNI: (dni: string) => `${root}/orders/patient/${dni}`
         } as OrderAPI
     },
     RESULT: {

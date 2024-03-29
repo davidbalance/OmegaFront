@@ -17,4 +17,14 @@ export class OrderService
         }
     }
 
+    async findByDNI(dni: string): Promise<any[]> {
+        try {
+            const response = await OmegaFetch.get<{ orders: any[] }>({ url: this.endpoints.FIND_BY_DNI(dni) });
+            const { orders } = response;
+            return orders;
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }

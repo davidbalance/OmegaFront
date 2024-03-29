@@ -1,27 +1,30 @@
 import { Button, Drawer, DrawerProps, Group, rem } from '@mantine/core'
-import { IconDeviceFloppy } from '@tabler/icons-react'
+import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useRef } from 'react'
-import UserPasswordForm from '../user-password-form/UserPasswordForm'
+import MorbidityGroupForm from '../morbidity-group-form/MorbidityGroupForm';
 
-
-type ChangePasswordDrawerProps = DrawerProps
-const ChangePasswordDrawer: React.FC<ChangePasswordDrawerProps> = ({ ...props }) => {
+type UpdateMorbidityGroupDrawerProps = DrawerProps & {
+    data: any
+};
+const UpdateMorbidityGroupDrawer: React.FC<UpdateMorbidityGroupDrawerProps> = ({ data, ...props }) => {
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const handleSubmit = (data: any) => {
         console.log(data);
+        props.onClose()
     }
 
     return (
         <Drawer
             {...props}
             position='right'
-            title="Formulario de cambio de contraseña"
+            title="Formulario de grupo de morbilidades"
             overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
             size='lg'>
 
-            <UserPasswordForm
+            <MorbidityGroupForm
+                data={data}
                 onSubmit={handleSubmit}
                 ref={buttonRef} />
 
@@ -38,4 +41,4 @@ const ChangePasswordDrawer: React.FC<ChangePasswordDrawerProps> = ({ ...props })
     )
 }
 
-export default ChangePasswordDrawer
+export default UpdateMorbidityGroupDrawer

@@ -1,13 +1,15 @@
 'use client'
 
+import PatientSettingsMenu from '@/components/patient/patient-settings-menu/PatientSettingsMenu';
 import OmegaTable from '@/components/table/omega-table/OmegaTable';
 import SortTh from '@/components/table/sort-th/SortTh';
 import { useTable } from '@/hooks/useTable'
 import { PatientFullModel } from '@/services/models/patient.model';
 import { PatientViewService } from '@/services/view/patient-view.service';
-import { Group, Table, Title, Text, TextInput, rem } from '@mantine/core';
+import { Group, Table, Title, Text, TextInput, rem, ActionIcon } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconSearch } from '@tabler/icons-react';
+import { IconDotsVertical, IconSearch } from '@tabler/icons-react';
+import Link from 'next/link';
 import React, { useLayoutEffect } from 'react'
 
 type PatientData = PatientFullModel;
@@ -42,24 +44,26 @@ const Patient: React.FC = () => {
             <Table.Td>{row.name}</Table.Td>
             <Table.Td>{row.lastname}</Table.Td>
             <Table.Td>{row.email}</Table.Td>
+            <Table.Td>
+                <PatientSettingsMenu link={`patient/${row.dni}`} />
+            </Table.Td>
         </Table.Tr>
     );
 
     const header = <>
         <SortTh sorted={table.sortBy === 'dni'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('dni')}>CI</SortTh>
-        <SortTh sorted={table.sortBy === 'email'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('email')}>Correo Electronico</SortTh>
         <SortTh sorted={table.sortBy === 'name'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('name')}>Nombre</SortTh>
         <SortTh sorted={table.sortBy === 'lastname'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('lastname')}>Apellido</SortTh>
+        <SortTh sorted={table.sortBy === 'email'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('email')}>Correo Electronico</SortTh>
+        <Table.Td>Acciones</Table.Td>
     </>
 
     return (
         <>
             <Group justify="space-between">
-                <Text fw={500} fz="sm">
-                    <Title component="span" variant="text" c='omegaColors'>
-                        Pacientes
-                    </Title>
-                </Text>
+                <Title component="span" variant="text" c='omegaColors'>
+                    Pacientes
+                </Title>
             </Group>
 
             <br />
