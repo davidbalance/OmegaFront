@@ -1,7 +1,7 @@
 'use client'
 
 import { Group, Code, Loader } from '@mantine/core';
-import { IconLogout, IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconFolder, IconFolders } from '@tabler/icons-react';
+import { IconLogout, IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconFolder, IconFolders, IconReportMedical } from '@tabler/icons-react';
 import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react'
 import styles from './Navbar.module.css';
 import { MantineLogo } from '@mantinex/mantine-logo';
@@ -16,6 +16,7 @@ const LinkIcon: Record<string, { icon: ForwardRefExoticComponent<Omit<IconProps,
     "role": { icon: IconLicense },
     "morbidity": { icon: IconFolder },
     "morbidity-group": { icon: IconFolders },
+    "report": { icon: IconReportMedical },
 }
 
 interface NavbarProps {

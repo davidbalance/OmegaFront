@@ -31,7 +31,7 @@ const User: React.FC = () => {
     const [roles, setRoles] = useState<any>([]);
     const [selected, setSelected] = useState<UserData>();
 
-    const tableLoad = useDisclosure(true);
+    const tableLoader = useDisclosure(true);
     const createUserDisclosure = useDisclosure(false);
     const modifyUserDisclosure = useDisclosure(false);
     const modifyPassDisclosure = useDisclosure(false);
@@ -45,7 +45,7 @@ const User: React.FC = () => {
 
     const loadConfiguration = async () => {
         try {
-            tableLoad[1].open();
+            tableLoader[1].open();
             const { roles, users } = await userViewService.initialConfiguration();
             setRoles(roles);
             const rows = users as unknown as UserData[];
@@ -81,7 +81,7 @@ const User: React.FC = () => {
         } catch (error) {
 
         } finally {
-            tableLoad[1].close();
+            tableLoader[1].close();
         }
     }
 
@@ -192,7 +192,7 @@ const User: React.FC = () => {
                 onChange={table.onSeach}
             />
             <OmegaTable
-                loading={tableLoad[0]}
+                loading={tableLoader[0]}
                 header={header}
                 rows={rows}
                 total={table.total}
