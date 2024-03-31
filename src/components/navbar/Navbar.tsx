@@ -6,7 +6,7 @@ import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react
 import styles from './Navbar.module.css';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useAuth } from '@/hooks';
-import { LinkProp } from '@/lib/interfaces.lib';
+import { LinkProp } from '@/lib/type.lib';
 import Link from 'next/link';
 
 const LinkIcon: Record<string, { icon: ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>> }> = {

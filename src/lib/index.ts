@@ -1,3 +1,4 @@
 export * from './configuration.lib'
-export * from './interfaces.lib'
+export * from './type.lib'
 export * from './token.lib'
+export * from './enum.lib'

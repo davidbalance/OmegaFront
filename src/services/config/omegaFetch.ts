@@ -13,9 +13,9 @@ export class RestError<T> extends Error {
 }
 
 const withAuth = (
-    method: <T>(request: RestClientRequest<T>) => Promise<T>,
+    method: <T, R>(request: RestClientRequest<T>) => Promise<R>,
     refresh: boolean = true
-): (<T>(request: RestClientRequest<T>) => Promise<T>) =>
+): (<T, R>(request: RestClientRequest<T>) => Promise<R>) =>
     async (request) => {
         const bearer = await getBearer();
         if (bearer) {
@@ -31,7 +31,7 @@ const withAuth = (
                 const token = await getBearerRefresh();
                 if (error.response.status === 401 && refresh && token) {
                     const refresh: any = await post({
-                        url: endpoints.AUTH.V1.REFRESH,
+                        url: endpoints.AUTHENTICATION.V1.REFRESH,
                         headers: {
                             Authorization: token
                         }
@@ -60,7 +60,7 @@ const initConfig = (
 }
 )
 
-async function get<T>({ url, ...customInit }: RestClientRequest<T>): Promise<T> {
+async function get<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
     const initConfigObject: RequestInit = initConfig("GET", { ...customInit });
 
     const response = await fetch(url, initConfigObject);
@@ -72,7 +72,7 @@ async function get<T>({ url, ...customInit }: RestClientRequest<T>): Promise<T> 
     return data;
 }
 
-async function post<T>({ url, ...customInit }: RestClientRequest<T>): Promise<T> {
+async function post<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
     const initConfigObject: RequestInit = initConfig("POST", { ...customInit });
     const response = await fetch(url, initConfigObject);
     const data = await response.json();
@@ -83,7 +83,7 @@ async function post<T>({ url, ...customInit }: RestClientRequest<T>): Promise<T>
     return data;
 }
 
-async function put<T>({ url, ...customInit }: RestClientRequest<T>): Promise<T> {
+async function put<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
     const initConfigObject: RequestInit = initConfig("PUT", { ...customInit });
     const response = await fetch(url, initConfigObject);
     const data = await response.json();
@@ -94,7 +94,7 @@ async function put<T>({ url, ...customInit }: RestClientRequest<T>): Promise<T> 
     return data;
 }
 
-async function patch<T>({ url, ...customInit }: RestClientRequest<T>): Promise<T> {
+async function patch<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
     const initConfigObject: RequestInit = initConfig("PATCH", { ...customInit });
     const response = await fetch(url, initConfigObject);
     const data = await response.json();
@@ -105,7 +105,7 @@ async function patch<T>({ url, ...customInit }: RestClientRequest<T>): Promise<T
     return data;
 }
 
-async function del<T>({ url, ...customInit }: RestClientRequest<T>): Promise<T> {
+async function del<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
     const initConfigObject: RequestInit = initConfig("PUT", { ...customInit });
     const response = await fetch(url, initConfigObject);
     const data = await response.json();
@@ -116,29 +116,50 @@ async function del<T>({ url, ...customInit }: RestClientRequest<T>): Promise<T> 
     return data;
 }
 
+async function file<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
+    const { body } = customInit;
+    customInit.body = undefined;
+    const initConfigObject: RequestInit = initConfig("POST", {
+        ...customInit,
+        body: body
+    });
+    const response = await fetch(url, initConfigObject);
+    const data = await response.json();
+    if (!response.ok) {
+        throw new RestError(response, `Failed to delete ${response.url}`, data);
+    }
+
+    return data;
+}
+
 export class OmegaFetch {
-    static async get<T>(init: RestClientRequest<T>): Promise<T> {
+    static async get<T, R>(init: RestClientRequest<T>): Promise<R> {
         const getAuthMethod = withAuth(get);
         return getAuthMethod(init);
     }
 
-    static async post<T>(init: RestClientRequest<T>): Promise<T> {
+    static async post<T, R>(init: RestClientRequest<T>): Promise<R> {
         const postAuthMethod = withAuth(post);
         return postAuthMethod(init);
     }
 
-    static async put<T>(init: RestClientRequest<T>): Promise<T> {
+    static async put<T, R>(init: RestClientRequest<T>): Promise<R> {
         const putAuthMethod = withAuth(put);
         return putAuthMethod(init);
     }
 
-    static async patch<T>(init: RestClientRequest<T>): Promise<T> {
+    static async patch<T, R>(init: RestClientRequest<T>): Promise<R> {
         const patchAuthMethod = withAuth(patch);
         return patchAuthMethod(init);
     }
 
-    static async delete<T>(init: RestClientRequest<T>): Promise<T> {
+    static async delete<T, R>(init: RestClientRequest<T>): Promise<R> {
         const deleteAuthMethod = withAuth(del);
         return deleteAuthMethod(init);
+    }
+    
+    static async file<T, R>(init: RestClientRequest<T>): Promise<R> {
+        const fileAuthMethod = withAuth(file);
+        return fileAuthMethod(init);
     }
 }

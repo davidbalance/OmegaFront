@@ -1,5 +1,5 @@
 import { getConfiguration } from "@/lib/configuration.lib";
-import { LinkProp } from "@/lib/interfaces.lib";
+import { LinkProp } from "@/lib/type.lib";
 import { useEffect, useState } from "react"
 
 export const useConfiguration = () => {

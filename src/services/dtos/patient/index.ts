@@ -1,1 +1,0 @@
-export * from './patient.response.dto';
