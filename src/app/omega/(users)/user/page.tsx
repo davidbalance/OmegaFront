@@ -1,11 +1,10 @@
 'use client'
 
-import { Group, Table, Text, Center, rem, TextInput, ActionIcon, Title } from '@mantine/core';
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { Group, Table, Center, rem, TextInput, ActionIcon, Title } from '@mantine/core';
+import React, { useLayoutEffect, useState } from 'react'
 import { IconCirclePlus, IconLicense, IconLock, IconSearch, IconUserCheck } from '@tabler/icons-react';
 import { useTable } from '@/hooks/useTable';
 import { useDisclosure } from '@mantine/hooks';
-import { IConfigurationService, UserModel, UserViewConfiguration, UserViewService } from '@/services';
 import UserDataForm from '@/components/user/user-data-form/UserDataForm';
 import UserPasswordForm from '@/components/user/user-password-form/UserPasswordForm';
 import UserRoleForm from '@/components/user/user-role-form/UserRoleForm';
@@ -18,72 +17,81 @@ import OmegaTable from '@/components/table/omega-table/OmegaTable';
 import UpdateUserRoleFormDrawer from '@/components/user/update-user-role-form-drawer/UpdateUserRoleFormDrawer';
 import ChangePasswordDrawer from '@/components/user/change-password-drawer/ChangePasswordDrawer';
 import DeleteUserDialog from '@/components/user/delete-user-dialog/DeleteUserDialog';
+import { Role, User, User as UserType } from '@/lib';
+import { IFindService, RoleService, UserService } from '@/services';
+import endpoints from '@/services/endpoints/endpoints';
+import { notifications } from '@mantine/notifications';
 
-type UserData = UserModel;
+const stepDataForm: UserStepProps = {
+    description: 'Datos del usuario',
+    icon: <IconUserCheck style={{ width: rem(18), height: rem(18) }} />,
+    step: { form: UserDataForm, props: {} }
+};
+const stepPasswordForm: UserStepProps = {
+    description: 'Creacion de contraseña',
+    icon: <IconLock style={{ width: rem(18), height: rem(18) }} />,
+    step: { form: UserPasswordForm, props: {} }
+};
+const stepRoleForm = (roles: Role[]): UserStepProps => ({
+    description: 'Asignacion de roles',
+    icon: <IconLicense style={{ width: rem(18), height: rem(18) }} />,
+    step: {
+        form: UserRoleForm,
+        props: {
+            roles: roles
+        }
+    },
+});
 
 const User: React.FC = () => {
 
-    const userViewService: IConfigurationService<UserViewConfiguration> = new UserViewService();
+    const userService: IFindService<any, User> = new UserService(endpoints.USER.V1);
+    const roleService: IFindService<any, Role> = new RoleService(endpoints.ROLE.V1);
 
-    const table = useTable<UserData>([], 50);
+    const table = useTable<UserType>([], 50);
 
     const [steps, setSteps] = useState<UserStepProps[]>([]);
-    const [roles, setRoles] = useState<any>([]);
-    const [selected, setSelected] = useState<UserData>();
+    const [selected, setSelected] = useState<UserType>();
+    const [roles, setRoles] = useState<Role[]>([]);
 
-    const tableLoader = useDisclosure(true);
-    const createUserDisclosure = useDisclosure(false);
-    const modifyUserDisclosure = useDisclosure(false);
-    const modifyPassDisclosure = useDisclosure(false);
-    const modifyRoleDisclosure = useDisclosure(false);
-    const deleteUserDisclosure = useDisclosure(false);
+    const [tableLoading, tableDisclosure] = useDisclosure(true);
+
+    const [openCreateForm, createFormDisclosure] = useDisclosure(false);
+    const [openModifyForm, modifyFormDisclosure] = useDisclosure(false);
+    const [openDeleteForm, deleteFormDisclosure] = useDisclosure(false);
+
+    const [openRoleForm, roleFormDisclosure] = useDisclosure(false);
+    const [openPasswordForm, passwordFormDisclosure] = useDisclosure(false);
 
     useLayoutEffect(() => {
-        loadConfiguration();
+        load();
         return () => { }
-    }, [])
+    }, []);
 
-    const loadConfiguration = async () => {
+    const load = async () => {
+        tableDisclosure.open();
         try {
-            tableLoader[1].open();
-            const { roles, users } = await userViewService.initialConfiguration();
+            const users = await userService.find();
+            const roles = await roleService.find();
+            table.setData(users);
             setRoles(roles);
-            const rows = users as unknown as UserData[];
-            table.setData(rows);
-            setSteps([
-                {
-                    description: 'Datos del usuario',
-                    icon: <IconUserCheck style={{ width: rem(18), height: rem(18) }} />,
-                    step: {
-                        form: UserDataForm,
-                        props: {}
-                    }
-                },
-                {
-                    description: 'Creacion de contraseña',
-                    icon: <IconLock style={{ width: rem(18), height: rem(18) }} />,
-                    step: {
-                        form: UserPasswordForm,
-                        props: {}
-                    },
-                },
-                {
-                    description: 'Creacion de contraseña',
-                    icon: <IconLicense style={{ width: rem(18), height: rem(18) }} />,
-                    step: {
-                        form: UserRoleForm,
-                        props: {
-                            roles: roles
-                        }
-                    },
-                }
-            ]);
+            setSteps([stepDataForm, stepPasswordForm, stepRoleForm(roles)]);
         } catch (error) {
-
+            console.error(error);
+            notifications.show({
+                title: 'Error',
+                message: 'Ha ocurrido un error al obtener lo datos del servidor',
+                color: 'red'
+            });
         } finally {
-            tableLoader[1].close();
+            tableDisclosure.close();
         }
     }
+
+    const onModification = (user: User) => { setSelected(user); modifyFormDisclosure.open() };
+    const onConfiguration = (user: User) => { setSelected(user); roleFormDisclosure.open() };
+    const onChangePassword = (user: User) => { setSelected(user); passwordFormDisclosure.open() };
+    const onDelete = (user: User) => { setSelected(user); deleteFormDisclosure.open() };
 
     const rows = table.rows.map((row) => (
         <Table.Tr key={row.id}>
@@ -93,77 +101,31 @@ const User: React.FC = () => {
             <Table.Td>{row.email}</Table.Td>
             <Table.Td>
                 <UserSettingsMenu
-                    onModification={() => {
-                        setSelected(row);
-                        modifyUserDisclosure[1].open();
-                    }}
-                    onConfiguration={() => {
-                        setSelected(row);
-                        modifyRoleDisclosure[1].open();
-                    }}
-                    onChangePassword={() => {
-                        setSelected(row);
-                        modifyPassDisclosure[1].open();
-                    }}
-                    onDelete={() => {
-                        setSelected(row);
-                        deleteUserDisclosure[1].open();
-                    }}
+                    onModification={() => onModification(row)}
+                    onConfiguration={() => onConfiguration(row)}
+                    onChangePassword={() => onChangePassword(row)}
+                    onDelete={() => onDelete(row)}
                 />
             </Table.Td>
         </Table.Tr>
     ));
 
     const header = <>
-        <SortTh sorted={table.sortBy === 'dni'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('dni')} >CI</SortTh>
-        <SortTh sorted={table.sortBy === 'name'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('name')}>Nombre</SortTh>
-        <SortTh sorted={table.sortBy === 'lastname'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('lastname')}>Apellido</SortTh>
-        <SortTh sorted={table.sortBy === 'email'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('email')}>Correo Electronico</SortTh>
+        <SortTh sorted={table.sortBy === 'dni'} reversed={table.sortDirection} onSort={() => table.setSorting('dni')} >CI</SortTh>
+        <SortTh sorted={table.sortBy === 'name'} reversed={table.sortDirection} onSort={() => table.setSorting('name')}>Nombre</SortTh>
+        <SortTh sorted={table.sortBy === 'lastname'} reversed={table.sortDirection} onSort={() => table.setSorting('lastname')}>Apellido</SortTh>
+        <SortTh sorted={table.sortBy === 'email'} reversed={table.sortDirection} onSort={() => table.setSorting('email')}>Correo Electronico</SortTh>
         <Table.Th>Acciones</Table.Th>
     </>
 
-    const handleComplete = (id: number) => {
-        table.removeRow('id', id);
-    }
-
-    const handleModification = (updatedUser: UserModel) => {
-        table.replaceRow('id', updatedUser.id, updatedUser);
-    }
-
     return (
         <>
-            <CreateUserFormDrawer
-                opened={createUserDisclosure[0]}
-                close={createUserDisclosure[1].close}
-                steps={steps}
-            />
-            <UpdateUserFormDrawer
-                user={selected as any}
-                opened={modifyUserDisclosure[0]}
-                onClose={modifyUserDisclosure[1].close}
-                onComplete={handleModification} />
-            <UpdateUserRoleFormDrawer
-                user={selected?.id || -1}
-                roles={roles}
-                opened={modifyRoleDisclosure[0]}
-                onClose={modifyRoleDisclosure[1].close}
-                onComplete={(roles) => {
-                    if (selected) {
-                        const data = selected;
-                        data.roles = roles;
-                        handleModification(data);
-                    }
-                }} />
-            <ChangePasswordDrawer
-                opened={modifyPassDisclosure[0]}
-                onClose={modifyPassDisclosure[1].close}
-            />
-            <DeleteUserDialog
-                user={selected?.id || -1}
-                onComplete={handleComplete}
-                opened={deleteUserDisclosure[0]}
-                onClose={deleteUserDisclosure[1].close}
-            />
+            <CreateUserFormDrawer opened={openCreateForm} onClose={createFormDisclosure.close} steps={steps} onComplete={() => load()} />
+            <UpdateUserFormDrawer opened={openModifyForm} onClose={modifyFormDisclosure.close} user={selected!} />
+            <UpdateUserRoleFormDrawer opened={openRoleForm} onClose={roleFormDisclosure.close} roles={roles} user={selected?.id || -1} />
+            <ChangePasswordDrawer opened={openPasswordForm} onClose={passwordFormDisclosure.close} email={selected ? selected.email : ''} />
+            <DeleteUserDialog opened={openDeleteForm} onClose={deleteFormDisclosure.close} user={selected?.id || -1} onComplete={() => load()}/>
+
             <Group justify="space-between">
                 <Title component="span" variant="text" c='omegaColors'>
                     Usuarios
@@ -173,7 +135,7 @@ const User: React.FC = () => {
                     <Center>
                         <ActionIcon
                             variant="transparent"
-                            onClick={createUserDisclosure[1].open}>
+                            onClick={createFormDisclosure.open}>
                             <IconCirclePlus
                                 style={{ width: rem(64), height: rem(64) }}
                                 stroke={1.5} />
@@ -192,11 +154,11 @@ const User: React.FC = () => {
                 onChange={table.onSeach}
             />
             <OmegaTable
-                loading={tableLoader[0]}
+                loading={tableLoading}
                 header={header}
                 rows={rows}
                 total={table.total}
-                page={table.activePage}
+                page={table.page}
                 onPageChange={table.setPage} />
         </>
     );

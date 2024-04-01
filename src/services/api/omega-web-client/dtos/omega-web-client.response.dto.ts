@@ -1,7 +1,6 @@
-export type OmegaWebClient = {
-    logo: { address: string };
-    resources: { icon?: string; label: string; address: string; }[];
-}
+import { Configuration } from "@/lib"
+
+export type OmegaWebClient = Configuration;
 
 export type FindOmegaWebClient = {
     client: OmegaWebClient

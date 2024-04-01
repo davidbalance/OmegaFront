@@ -1,16 +1,37 @@
-import { Button, Drawer, DrawerProps, Group, rem } from '@mantine/core'
+import { Button, Drawer, DrawerProps, Group, LoadingOverlay, rem } from '@mantine/core'
 import { IconDeviceFloppy } from '@tabler/icons-react'
 import React, { useRef } from 'react'
 import UserPasswordForm from '../user-password-form/UserPasswordForm'
+import { notifications } from '@mantine/notifications'
+import { FindCredentialAndUpdateRQ, IUpdateService, UserCrendentialService } from '@/services'
+import endpoints from '@/services/endpoints/endpoints'
+import { useDisclosure } from '@mantine/hooks'
 
+const credentialService: IUpdateService<FindCredentialAndUpdateRQ, void> = new UserCrendentialService(endpoints.CREDENTIAL.V1);
 
-type ChangePasswordDrawerProps = DrawerProps
-const ChangePasswordDrawer: React.FC<ChangePasswordDrawerProps> = ({ ...props }) => {
+type ChangePasswordDrawerProps = DrawerProps & {
+    email: string;
+}
+const ChangePasswordDrawer: React.FC<ChangePasswordDrawerProps> = ({ email, ...props }) => {
+
+    const [visible, LoadDisclosure] = useDisclosure(false);
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const handleSubmit = (data: any) => {
-        console.log(data);
+    const handleSubmit = async (data: any) => {
+        LoadDisclosure.open();
+        try {
+            await credentialService.findOneAndUpdate({ email, ...data });
+            props.onClose();
+        } catch (error) {
+            notifications.show({
+                title: 'Error',
+                message: 'Al actualizar la contraseña han ocurrio un error',
+                color: 'red'
+            });
+        } finally {
+            LoadDisclosure.close();
+        }
     }
 
     return (
@@ -20,6 +41,7 @@ const ChangePasswordDrawer: React.FC<ChangePasswordDrawerProps> = ({ ...props })
             title="Formulario de cambio de contraseña"
             overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
             size='lg'>
+            <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
             <UserPasswordForm
                 onSubmit={handleSubmit}

@@ -9,14 +9,17 @@ type IPasswordForm = {
     confirmPassword: string;
 }
 
+const strongPasswordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+
 const passwordSchema = Joi.object<IPasswordForm>({
     password: Joi
         .string()
         .empty()
         .required()
+        .regex(new RegExp(strongPasswordRegex))
         .messages({
             "string.empty": 'Debe escribir una contraseña',
-            "string.pattern": "La contraseña debe tener tener caracteres alfanumerico"
+            "string.regex": "La contraseña debe tener tener especiales, numericos y de longitud 8"
         }),
     confirmPassword: Joi
         .string()

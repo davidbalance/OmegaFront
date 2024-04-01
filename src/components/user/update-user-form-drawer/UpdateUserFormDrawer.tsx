@@ -1,23 +1,40 @@
-import { Drawer, Group, Button, rem, DrawerProps } from '@mantine/core';
+import { Drawer, Group, Button, rem, DrawerProps, LoadingOverlay } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useRef } from 'react'
 import UserDataForm from '../user-data-form/UserDataForm';
-import { ICrudService, UserModel, UserViewService } from '@/services';
+import { User } from '@/lib';
+import { FindUserAndUpdateRQ, IUpdateService, UserService } from '@/services';
+import endpoints from '@/services/endpoints/endpoints';
+import { notifications } from '@mantine/notifications';
+import { useDisclosure } from '@mantine/hooks';
+
+const userService: IUpdateService<FindUserAndUpdateRQ, void> = new UserService(endpoints.USER.V1);
 
 type UpdateUserFormDrawerProps = DrawerProps & {
-    user: Omit<UserModel, 'roles'>;
-    onComplete: (value: UserModel) => void;
+    user: Omit<User, 'roles'>;
 }
-const UpdateUserFormDrawer: React.FC<UpdateUserFormDrawerProps> = ({ user, onComplete, ...props }) => {
+const UpdateUserFormDrawer: React.FC<UpdateUserFormDrawerProps> = ({ user, ...props }) => {
 
-    const userViewService: ICrudService<UserModel, number> = new UserViewService();
+    const [visible, LoadDisclosure] = useDisclosure(false);
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const handleSubmit = (data: any) => {
+    const handleSubmit = async (data: any) => {
         const updatedData = { ...user, ...data };
-        userViewService.findOneAndUpdate(user.id, updatedData);
-        onComplete(updatedData);
+        delete updatedData.id;
+        LoadDisclosure.open();
+        try {
+            await userService.findOneAndUpdate({ id: user.id, ...updatedData });
+            props.onClose();
+        } catch (error) {
+            notifications.show({
+                title: 'Error',
+                message: 'Al actualizar el usuario ha ocurrio un error',
+                color: 'red'
+            });
+        } finally {
+            LoadDisclosure.close();
+        }
     }
 
     return (
@@ -27,10 +44,13 @@ const UpdateUserFormDrawer: React.FC<UpdateUserFormDrawerProps> = ({ user, onCom
             overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
             size='lg'
             {...props}>
+            <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
             <UserDataForm
                 onSubmit={handleSubmit}
                 data={user}
+                disabledDni={true}
+                disabledEmail={true}
                 ref={buttonRef} />
 
             <Group justify="center" mt="xl">

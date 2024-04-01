@@ -3,9 +3,9 @@ import { SimpleGrid, rem, TextInput, Container, Box, Button } from '@mantine/cor
 import { IconId, IconAt } from '@tabler/icons-react';
 import { joiResolver, useForm } from '@mantine/form';
 import Joi from 'joi';
-import { UserModel } from '@/services';
+import { User } from '@/lib';
 
-type IUserForm = Omit<UserModel, 'id'>;
+type IUserForm = Omit<User, 'id'>;
 
 const userSchema = Joi.object<IUserForm>({
     name: Joi
@@ -41,10 +41,12 @@ const userSchema = Joi.object<IUserForm>({
 
 type UserDataFormProps = {
     onSubmit: (values: IUserForm) => void;
+    disabledDni?: boolean;
+    disabledEmail?: boolean;
     data?: IUserForm;
 }
 
-const UserDataForm = React.forwardRef<HTMLButtonElement, UserDataFormProps>(({ data, onSubmit }, ref) => {
+const UserDataForm = React.forwardRef<HTMLButtonElement, UserDataFormProps>(({ data, onSubmit, disabledDni, disabledEmail }, ref) => {
 
     const form = useForm({
         initialValues: {
@@ -74,6 +76,7 @@ const UserDataForm = React.forwardRef<HTMLButtonElement, UserDataFormProps>(({ d
                     label="Cedula"
                     placeholder="17*******0"
                     leftSection={<IconId stroke={1.5} />}
+                    disabled={disabledDni}
                     {...form.getInputProps('dni')}
                 />
 
@@ -81,6 +84,7 @@ const UserDataForm = React.forwardRef<HTMLButtonElement, UserDataFormProps>(({ d
                     label="Correo Electronico"
                     placeholder="hello@email.com"
                     leftSection={<IconAt stroke={1.5} />}
+                    disabled={disabledEmail}
                     {...form.getInputProps('email')}
                 />
             </SimpleGrid>

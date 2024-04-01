@@ -1,5 +1,6 @@
 import { getBearer, getBearerRefresh, setTokens } from "@/lib";
 import endpoints from "../endpoints/endpoints";
+import { Stream } from "stream";
 
 export type RestClientRequest<T> = Omit<RequestInit, 'body'> & { url: string, body?: T }
 
@@ -62,7 +63,6 @@ const initConfig = (
 
 async function get<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
     const initConfigObject: RequestInit = initConfig("GET", { ...customInit });
-
     const response = await fetch(url, initConfigObject);
     const data = await response.json();
     if (!response.ok) {
@@ -106,7 +106,7 @@ async function patch<T, R>({ url, ...customInit }: RestClientRequest<T>): Promis
 }
 
 async function del<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
-    const initConfigObject: RequestInit = initConfig("PUT", { ...customInit });
+    const initConfigObject: RequestInit = initConfig("DELETE", { ...customInit });
     const response = await fetch(url, initConfigObject);
     const data = await response.json();
     if (!response.ok) {
@@ -116,7 +116,17 @@ async function del<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<
     return data;
 }
 
-async function file<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
+async function getfile<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
+    const initConfigObject: RequestInit = initConfig("GET", { ...customInit });
+    const response = await fetch(url, initConfigObject);
+    if (!response.ok) {
+        throw new RestError(response, `Failed to delete ${response.url}`, 'File error');
+    }
+
+    return response.blob() as R;
+}
+
+async function postfile<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
     const { body } = customInit;
     customInit.body = undefined;
     const initConfigObject: RequestInit = initConfig("POST", {
@@ -157,9 +167,14 @@ export class OmegaFetch {
         const deleteAuthMethod = withAuth(del);
         return deleteAuthMethod(init);
     }
-    
-    static async file<T, R>(init: RestClientRequest<T>): Promise<R> {
-        const fileAuthMethod = withAuth(file);
+
+    static async sendFile<T, R>(init: RestClientRequest<T>): Promise<R> {
+        const fileAuthMethod = withAuth(postfile);
+        return fileAuthMethod(init);
+    }
+
+    static async getFile<T, R extends Blob>(init: RestClientRequest<T>): Promise<R> {
+        const fileAuthMethod = withAuth(getfile);
         return fileAuthMethod(init);
     }
 }

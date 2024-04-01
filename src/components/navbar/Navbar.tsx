@@ -1,8 +1,28 @@
 'use client'
 
-import { Group, Code, Loader } from '@mantine/core';
-import { IconLogout, IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconFolder, IconFolders, IconReportMedical } from '@tabler/icons-react';
-import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react'
+import {
+    Group,
+    Code,
+    Loader
+} from '@mantine/core';
+import {
+    IconLogout,
+    IconProps,
+    Icon,
+    IconUsers,
+    IconStethoscope,
+    IconWheelchair,
+    IconLicense,
+    IconFolder,
+    IconFolders,
+    IconReportMedical
+} from '@tabler/icons-react';
+import React,
+{
+    ForwardRefExoticComponent,
+    RefAttributes,
+    useState
+} from 'react'
 import styles from './Navbar.module.css';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useAuth } from '@/hooks';
@@ -33,7 +53,7 @@ const Navbar: React.FC<NavbarProps> = ({ links, loading = false }) => {
         return <Link
             className={styles.link}
             data-active={item.label === active || undefined}
-            href={item.link}
+            href={item.address}
             key={item.label}
             onClick={() => {
                 setActive(item.label);

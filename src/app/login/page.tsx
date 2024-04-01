@@ -1,6 +1,12 @@
 'use client'
 
-import { Button, Checkbox, Paper, PasswordInput, TextInput, Title } from '@mantine/core'
+import {
+    Button,
+    Paper,
+    PasswordInput,
+    TextInput,
+    Title
+} from '@mantine/core'
 import React from 'react'
 import style from './Authentication.module.css'
 import { useForm } from '@mantine/form'
@@ -11,62 +17,70 @@ import { useAuth } from '@/hooks'
 interface ILoginForm {
     username: string;
     password: string;
-    keepmeLogged: boolean;
 }
 
+const strongPasswordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+
 const loginSchema = Joi.object<ILoginForm>({
-    username: Joi.string()
+    username: Joi
+        .string()
         .email({ tlds: { allow: false } })
         .empty()
+        .required()
         .messages({
-            'string.email': 'Invalid email',
-            'string.empty': 'Invalid email',
+            'string.email': 'Correo invalido',
+            'string.empty': 'Debe colocar un correo',
         }),
-    password: Joi.string()
+    password: Joi
+        .string()
         .empty()
+        .required()
         .messages({
-            'string.empty': 'Should enter a password',
-        }),
-    keepmeLogged: Joi.allow()
+            'string.empty': 'Debe ingresar una contraseña'
+        })
 });
 
 
 const Authentication: React.FC = () => {
 
     const form = useForm({
-        initialValues: { username: '', password: '', keepmeLogged: false },
+        initialValues: { username: '', password: '' },
         validate: joiResolver(loginSchema)
     });
+    
     const auth = useAuth();
 
     return (
         <div className={style.wrapper}>
-            <Paper onSubmit={form.onSubmit(auth.login)} component='form' className={style.form} p={30}>
+            <Paper
+                onSubmit={form.onSubmit(auth.login)}
+                component='form'
+                className={style.form} p={30}>
                 <Title className={style.title} order={2} ta='center' mt='md' mb={50}>
-                    Welcome back to Omega!
+                    Bienvenido de vuelta a Omega!
                 </Title>
 
                 <TextInput
-                    autoComplete=''
-                    label='Email address'
+                    label='Correo Electronico'
                     placeholder='omega@gmail.com'
                     size='md'
                     {...form.getInputProps('username')}
                 />
                 <PasswordInput
-                    label='Password'
-                    placeholder='Your password'
+                    label='Contraseña'
+                    placeholder='Escribe tu contraseña'
                     mt='md'
                     size='md'
                     {...form.getInputProps('password')}
                 />
-                <Checkbox
-                    label='Keep me logged in'
+                <Button
+                    fullWidth
                     mt='xl'
                     size='md'
-                    {...form.getInputProps('keepmeLogged')} />
-                <Button fullWidth mt='xl' size='md' type='submit' loading={auth.loading} disabled={auth.loading}>
-                    Login
+                    type='submit'
+                    loading={auth.loading}
+                    disabled={auth.loading}>
+                    Iniciar Sesion
                 </Button>
             </Paper>
         </div>

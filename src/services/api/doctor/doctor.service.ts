@@ -9,7 +9,7 @@ export class DoctorService
     find(): Doctor[] | Promise<Doctor[]>;
     find(params: any): Doctor[] | Promise<Doctor[]>;
     async find(params?: any): Promise<Doctor[]> {
-        if (!params) return [];
+        if (params) return [];
         try {
             const { doctors }: FindDoctorsRS = await OmegaFetch.get({ url: this.endpoints.FIND });
             return doctors;
@@ -26,7 +26,7 @@ export class DoctorService
         try {
             const form = new FormData();
             form.append('signature', file);
-            await OmegaFetch.file({
+            await OmegaFetch.sendFile({
                 url: this.endpoints.FIND_ONE_AND_UPDATE_SIGNATURE(`${id}`),
                 body: form
             })

@@ -3,16 +3,18 @@
 import PatientResultDrawer from '@/components/patient/patient-result-drawer/PatientResultDrawer';
 import OmegaTable from '@/components/table/omega-table/OmegaTable';
 import SortTh from '@/components/table/sort-th/SortTh';
-import UserSettingsMenu from '@/components/user/user-settings-menu/UserSettingsMenu';
 import { useTable } from '@/hooks/useTable';
-import { MorbidityModel } from '@/services';
-import { PatientOrderViewService } from '@/services/view/patient-order-view.service';
+import { SelectorOption } from '@/lib';
+import { DiseaseService, FindOrdersRQ, IFindService, ISelectorService, Order as OrderType, OrderService } from '@/services';
+import endpoints from '@/services/endpoints/endpoints';
 import { Group, Table, Text, TextInput, Title, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconSearch } from '@tabler/icons-react';
 import dayjs from 'dayjs';
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 
+const orderService: IFindService<FindOrdersRQ, OrderType> = new OrderService(endpoints.ORDER.V1);
+const diseaseService: ISelectorService<any, number> = new DiseaseService(endpoints.DISEASE.V1);
 
 type ResultData = {
     examName: string
@@ -28,56 +30,70 @@ type PatientOrderData = {
 type PatientOrderProps = { params: { order: string } };
 const PatientOrder: React.FC<PatientOrderProps> = ({ params }) => {
 
-    const patientOrderView = new PatientOrderViewService(params.order);
 
     const [results, setResults] = useState<ResultData[]>([]);
-    const [morbidities, setMorbidities] = useState<MorbidityModel[]>([]);
+    const [morbidities, setMorbidities] = useState<SelectorOption<number>[]>([]);
 
     const table = useTable<PatientOrderData>([], 50);
 
-    const tableLoader = useDisclosure(true);
-    const resultDisclosure = useDisclosure(false);
+    const [tableLoading, TableDisclosure] = useDisclosure(true);
+    const [openResultForm, ResultFormDisclosure] = useDisclosure(false);
 
     useLayoutEffect(() => {
-        loadConfiguration();
+        load();
     }, []);
 
-    const loadConfiguration = async () => {
+    const load = async () => {
         try {
-            tableLoader[1].open();
-            const { orders, morbidities } = await patientOrderView.initialConfiguration();
+            TableDisclosure.open();
+            const orders = await orderService.find({ dni: params.order });
+            const options = await diseaseService.findSelectorOptions();
+            console.log(options);
             table.setData(orders);
-            setMorbidities(morbidities);
+            setMorbidities(options);
         } catch (error) {
         } finally {
-            tableLoader[1].close();
+            TableDisclosure.close();
         }
     }
 
     const handleRowClick = (data: ResultData[]) => {
         setResults(data);
-        resultDisclosure[1].open();
+        ResultFormDisclosure.open();
     }
 
     const rows = table.rows.map((row) => (
-        <Table.Tr key={row.id} style={{ cursor: 'pointer' }} onClick={() => handleRowClick(row.results)}>
+        <Table.Tr
+            key={row.id}
+            style={{ cursor: 'pointer' }}
+            onClick={() => handleRowClick(row.results)}>
             <Table.Td>{dayjs(row.createAt).format("YYYY-MM-DD")}</Table.Td>
             <Table.Td>{row.process}</Table.Td>
         </Table.Tr>
     ));
 
     const header = <>
-        <SortTh sorted={table.sortBy === 'createAt'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('createAt')} >Fecha</SortTh>
-        <SortTh sorted={table.sortBy === 'process'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('process')} >Proceso</SortTh>
+        <SortTh
+            sorted={table.sortBy === 'createAt'}
+            reversed={table.sortDirection}
+            onSort={() => table.setSorting('createAt')} >
+            Fecha
+        </SortTh>
+        <SortTh
+            sorted={table.sortBy === 'process'}
+            reversed={table.sortDirection}
+            onSort={() => table.setSorting('process')} >
+            Proceso
+        </SortTh>
     </>
 
     return (
         <>
             <PatientResultDrawer
-                opened={resultDisclosure[0]}
-                onClose={resultDisclosure[1].close}
+                opened={openResultForm}
+                onClose={ResultFormDisclosure.close}
                 patientResults={results}
-                morbidities={morbidities} />
+                diseaseOptions={morbidities} />
 
             <Group justify="space-between">
                 <Title component="span" variant="text" c='omegaColors'>
@@ -96,11 +112,11 @@ const PatientOrder: React.FC<PatientOrderProps> = ({ params }) => {
                 onChange={table.onSeach}
             />
             <OmegaTable
-                loading={tableLoader[0]}
+                loading={tableLoading}
                 header={header}
                 rows={rows}
                 total={table.total}
-                page={table.activePage}
+                page={table.page}
                 onPageChange={table.setPage} />
         </>
     )

@@ -1,12 +1,13 @@
 import { ICreateService, IDeleteService, IFindService, IUpdateService, UserAPI } from "@/services";
 import { AbstractService } from "../abstract.service";
-import { CreateUserRQ, FindUserAndDeleteRQ, FindUserAndUpdateRQ, FindUsersRS, User } from "./dtos";
+import { CreateUserRQ, CreateUserRS, FindUserAndDeleteRQ, FindUserAndUpdateRQ, FindUsersRS } from "./dtos";
 import { OmegaFetch } from "@/services/config";
+import { User } from "@/lib";
 
 export class UserService
     extends AbstractService<UserAPI>
     implements IFindService<any, User>,
-    ICreateService<CreateUserRQ, void>,
+    ICreateService<CreateUserRQ, number>,
     IUpdateService<FindUserAndUpdateRQ, void>,
     IDeleteService<FindUserAndDeleteRQ, void>{
 
@@ -25,12 +26,13 @@ export class UserService
         throw new Error("Method not implemented.");
     }
 
-    async create(params: CreateUserRQ): Promise<void> {
+    async create(params: CreateUserRQ): Promise<number> {
         try {
-            await OmegaFetch.post({
+            const { user }: CreateUserRS = await OmegaFetch.post({
                 url: this.endpoints.CREATE,
                 body: params
-            })
+            });
+            return user;
         } catch (error) {
             throw error;
         }

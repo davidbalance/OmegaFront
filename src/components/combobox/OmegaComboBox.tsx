@@ -1,25 +1,33 @@
-import { Combobox, ComboboxProps, TextInput, useCombobox } from '@mantine/core';
+import { SelectorOption } from '@/lib';
+import { Combobox, TextInput, useCombobox } from '@mantine/core';
 import React, { useState } from 'react'
 
 type OmegaComboBoxProps = {
-    options: string[];
-    onChange?: (value: number) => void;
+    options: SelectorOption<any>[];
+    onChange?: (value: SelectorOption<any>) => void;
     label?: string;
 };
 
 const OmegaComboBox: React.FC<OmegaComboBoxProps> = ({ options, label, onChange }) => {
 
     const combobox = useCombobox();
-    const [value, setValue] = useState<string>('');
+    const [currentIndex, setCurrentIndex] = useState<number | undefined>(undefined);
+    const [value, setValue] = useState<SelectorOption<any> | undefined>(undefined);
 
-    const shouldFilterOptions = !options.some((item) => item === value);
+    const shouldFilterOptions = !options.some((item) => item.label === value?.label);
     const filteredOptions = shouldFilterOptions
-        ? options.filter((item) => item.toLowerCase().includes(value.toLowerCase().trim()))
+        ? options
+            .filter((item) =>
+                item
+                    .label
+                    .toLowerCase()
+                    .includes(value?.label.toLowerCase().trim() || '')
+            )
         : options;
 
     const comboOptions = filteredOptions.map((item, index) => (
         <Combobox.Option value={`${index}`} key={index}>
-            {item}
+            {item.label}
         </Combobox.Option>
     ));
 
@@ -28,8 +36,9 @@ const OmegaComboBox: React.FC<OmegaComboBoxProps> = ({ options, label, onChange 
             <Combobox
                 onOptionSubmit={(optionValue) => {
                     const index = parseInt(optionValue);
-                    setValue(options[index]);
-                    onChange?.(index);
+                    const value = options[index];
+                    setValue(value);
+                    onChange?.(value);
                     combobox.closeDropdown();
                 }}
                 store={combobox}
@@ -38,9 +47,12 @@ const OmegaComboBox: React.FC<OmegaComboBoxProps> = ({ options, label, onChange 
                     <TextInput
                         label={label}
                         placeholder="Seleccione un valor"
-                        value={value}
+                        value={currentIndex}
                         onChange={(event) => {
-                            setValue(event.currentTarget.value);
+                            const index = parseInt(event.currentTarget.value);
+                            setCurrentIndex(index);
+                            const value = options[index];
+                            setValue(value);
                             combobox.openDropdown();
                             combobox.updateSelectedOptionIndex();
                         }}

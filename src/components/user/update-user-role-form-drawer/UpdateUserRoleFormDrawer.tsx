@@ -1,23 +1,34 @@
 import { Button, Drawer, DrawerProps, Group, rem } from '@mantine/core';
 import React, { useRef } from 'react'
-import UserRoleForm, { Role } from '../user-role-form/UserRoleForm';
+import UserRoleForm from '../user-role-form/UserRoleForm';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import { UserModel, UserViewService } from '@/services';
+import { AccessControlService } from '@/services';
+import endpoints from '@/services/endpoints/endpoints';
+import { notifications } from '@mantine/notifications';
+import { Role } from '@/lib';
 
-type UpdateUserRoleFormDrawerProps = {
+const accessControlService = new AccessControlService(endpoints.ACCESS_CONTROL.V1);
+
+type UpdateUserRoleFormDrawerProps = DrawerProps & {
     user: number;
-    roles: Role[];
-    onComplete: (roles: any[]) => void;
-} & DrawerProps
-const UpdateUserRoleFormDrawer: React.FC<UpdateUserRoleFormDrawerProps> = ({ user, roles, onComplete, ...props }) => {
-
-    const userViewService: UserViewService = new UserViewService();
+    roles: Role[]
+}
+const UpdateUserRoleFormDrawer: React.FC<UpdateUserRoleFormDrawerProps> = ({ user, roles, ...props }) => {
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const handleSubmit = async (roles: any) => {
-        await userViewService.findOneAndUpdateRoles(user, roles);
-        onComplete(roles);
+        try {
+            const newData = { user, ...roles };
+            await accessControlService.findOneAndUpdateRoles(newData);
+            props.onClose();
+        } catch (error) {
+            notifications.show({
+                title: 'Error',
+                message: 'Al actualizar los roles han ocurrio un error',
+                color: 'red'
+            });
+        }
     }
 
     return (

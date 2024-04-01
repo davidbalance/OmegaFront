@@ -1,6 +1,14 @@
-import { Drawer, Stepper, rem, Flex, Group, Button, Text } from '@mantine/core';
+import { AccessControlService, CreateCredentialRQ, CreateUserRQ, ICreateService, UserCrendentialService, UserService } from '@/services';
+import endpoints from '@/services/endpoints/endpoints';
+import { Drawer, Stepper, rem, Flex, Group, Button, Text, DrawerProps, LoadingOverlay } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { IconCircleCheck, IconDeviceFloppy } from '@tabler/icons-react';
 import React, { RefObject, useEffect, useRef, useState } from 'react'
+
+const userService: ICreateService<CreateUserRQ, number> = new UserService(endpoints.USER.V1);
+const credentialService: ICreateService<CreateCredentialRQ, void> = new UserCrendentialService(endpoints.CREDENTIAL.V1);
+const accessControlService = new AccessControlService(endpoints.ACCESS_CONTROL.V1);
 
 export type UserStepProps = {
     description: string; icon: React.ReactNode; step: {
@@ -8,26 +16,29 @@ export type UserStepProps = {
         props: any
     }
 }
-type CreateUserFormDrawerProps = { opened: boolean; close: () => void; steps: UserStepProps[] }
-const CreateUserFormDrawer: React.FC<CreateUserFormDrawerProps> = ({ opened, close, steps }) => {
+type CreateUserFormDrawerProps = DrawerProps & {
+    steps: UserStepProps[];
+    onComplete?: () => void;
+}
+const CreateUserFormDrawer: React.FC<CreateUserFormDrawerProps> = ({ steps, onComplete, ...props }) => {
+
+    const [visible, LoadDisclosure] = useDisclosure(false);
 
     const [active, setActive] = useState(0);
     const [formData, setFormData] = useState<any>({});
 
-    const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
-    const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
+    const formReferences = useRef<RefObject<HTMLButtonElement>[]>([]);
+    if (formReferences.current.length < steps.length) {
+        formReferences.current = steps.map(() => React.createRef<HTMLButtonElement>());
+    }
 
     useEffect(() => {
         setActive(0);
         return () => { }
-    }, [opened])
+    }, [props.opened]);
 
-
-    const formReferences = useRef<RefObject<HTMLButtonElement>[]>([]);
-
-    if (formReferences.current.length < steps.length) {
-        formReferences.current = steps.map(() => React.createRef<HTMLButtonElement>());
-    }
+    const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
+    const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
     const handleNextChange = () => {
         if (active < steps.length) {
@@ -38,20 +49,45 @@ const CreateUserFormDrawer: React.FC<CreateUserFormDrawerProps> = ({ opened, clo
         }
     }
 
-    const handleSubmit = (data: any) => {
-        console.log({ ...formData, ...data });
-        setFormData({ ...formData, ...data });
-        nextStep();
+    const createUser = async (data: any) => {
+        LoadDisclosure.open();
+        try {
+            const user = await userService.create(data);
+            const newData = { ...data, user };
+            console.log(1, newData)
+            await credentialService.create(newData);
+            console.log(2, newData)
+            await accessControlService.findOneAndUpdateRoles(newData);
+            nextStep();
+            onComplete?.();
+        } catch (error) {
+            console.error(error);
+            notifications.show({
+                title: 'Error',
+                message: 'Ha ocurrido un error al crear el usuario',
+                color: 'red'
+            })
+        } finally {
+            LoadDisclosure.close();
+        }
+    }
+
+    const handleSubmit = async (data: any) => {
+        const newData = { ...formData, ...data };
+        setFormData(newData);
+        if (active === steps.length - 1) createUser(newData) 
+        else nextStep();
     }
 
     return (
         <Drawer
-            opened={opened}
-            onClose={close}
             position='right'
             title="Formulario de usuario"
             overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
-            size='lg'>
+            size='lg'
+            {...props}>
+            <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+
             <Stepper
                 active={active}
                 size='xs'
@@ -104,7 +140,7 @@ const CreateUserFormDrawer: React.FC<CreateUserFormDrawerProps> = ({ opened, clo
                                     </Button>
                             }
                         </>
-                        : <Button onClick={close}>Finalizar</Button>
+                        : <Button onClick={props.onClose}>Finalizar</Button>
                 }
             </Group>
         </Drawer>

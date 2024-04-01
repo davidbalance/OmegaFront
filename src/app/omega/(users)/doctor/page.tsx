@@ -1,38 +1,50 @@
 'use client'
 
+import DoctorSettingsMenu from '@/components/doctor/doctor-settings-menu/DoctorSettingsMenu'
 import OmegaTable from '@/components/table/omega-table/OmegaTable'
 import SortTh from '@/components/table/sort-th/SortTh'
+import AssignCredentialDrawer from '@/components/user/assign-credential-drawer/AssignCredentialDrawer'
 import { useTable } from '@/hooks/useTable'
-import { DoctorFullModel } from '@/services'
-import { DoctorViewService } from '@/services/view/doctor-view.service'
+import { DoctorService, Doctor as DoctorType, IFindService } from '@/services'
+import endpoints from '@/services/endpoints/endpoints'
 import { Group, Title, Text, Table, TextInput, rem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
+import { notifications } from '@mantine/notifications'
 import { IconSearch } from '@tabler/icons-react'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 
-type DoctorData = DoctorFullModel;
+const doctorService: IFindService<any, DoctorType> = new DoctorService(endpoints.DOCTOR.V1)
+type DoctorData = DoctorType;
 
 const Doctor: React.FC = () => {
 
-    const doctorViewService = new DoctorViewService();
+    const [selected, setSelected] = useState<DoctorData | undefined>(undefined);
+
     const table = useTable<DoctorData>([], 50);
 
-    const tableLoader = useDisclosure(true);
+    const [tableLoading, TableDisclosure] = useDisclosure(true);
+    const [openAssignCredentialForm, AssignCredentialDisclosure] = useDisclosure(false);
 
     useLayoutEffect(() => {
-        loadConfiguration();
+        load();
         return () => { }
     }, [])
 
-    const loadConfiguration = async () => {
+    const load = async () => {
         try {
-            tableLoader[1].open()
-            const { doctors } = await doctorViewService.initialConfiguration();
+            TableDisclosure.open()
+            const doctors = await doctorService.find();
+            console.log(doctors);
             table.setData(doctors);
         } catch (error) {
-
+            console.error(error);
+            notifications.show({
+                title: 'Error',
+                message: 'Se ha producido un error al cargar medicos',
+                color: 'red'
+            });
         } finally {
-            tableLoader[1].close();
+            TableDisclosure.close();
         }
     }
 
@@ -42,18 +54,49 @@ const Doctor: React.FC = () => {
             <Table.Td>{row.name}</Table.Td>
             <Table.Td>{row.lastname}</Table.Td>
             <Table.Td>{row.email}</Table.Td>
+            <Table.Td>
+                <DoctorSettingsMenu
+                    onAssignCredential={() => { setSelected(row); AssignCredentialDisclosure.open() }} />
+            </Table.Td>
         </Table.Tr>
     );
 
     const header = <>
-        <SortTh sorted={table.sortBy === 'dni'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('dni')}>CI</SortTh>
-        <SortTh sorted={table.sortBy === 'email'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('email')}>Correo Electronico</SortTh>
-        <SortTh sorted={table.sortBy === 'name'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('name')}>Nombre</SortTh>
-        <SortTh sorted={table.sortBy === 'lastname'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('lastname')}>Apellido</SortTh>
+        <SortTh
+            sorted={table.sortBy === 'dni'}
+            reversed={table.sortDirection}
+            onSort={() => table.setSorting('dni')}>
+            CI
+        </SortTh>
+        <SortTh
+            sorted={table.sortBy === 'email'}
+            reversed={table.sortDirection}
+            onSort={() => table.setSorting('email')}>
+            Correo Electronico
+        </SortTh>
+        <SortTh
+            sorted={table.sortBy === 'name'}
+            reversed={table.sortDirection}
+            onSort={() => table.setSorting('name')}>
+            Nombre
+        </SortTh>
+        <SortTh
+            sorted={table.sortBy === 'lastname'}
+            reversed={table.sortDirection}
+            onSort={() => table.setSorting('lastname')}>
+            Apellido
+        </SortTh>
+        <Table.Th>Acciones</Table.Th>
     </>
 
     return (
         <>
+            <AssignCredentialDrawer
+                opened={openAssignCredentialForm} 
+                onClose={AssignCredentialDisclosure.close} 
+                email={selected?.email || ''} 
+                user={selected?.user || 0} />
+
             <Group justify="space-between">
                 <Text fw={500} fz="sm">
                     <Title component="span" variant="text" c='omegaColors'>
@@ -72,10 +115,10 @@ const Doctor: React.FC = () => {
             />
             <OmegaTable
                 header={header}
-                loading={tableLoader[0]}
+                loading={tableLoading}
                 rows={rows}
                 total={table.total}
-                page={table.activePage}
+                page={table.page}
                 onPageChange={table.setPage} />
         </>
     )

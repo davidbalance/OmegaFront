@@ -1,1 +1,1 @@
-export * from './UpdateMorbidityDrawer'
+export * from './UpdateDiseaseDrawer'

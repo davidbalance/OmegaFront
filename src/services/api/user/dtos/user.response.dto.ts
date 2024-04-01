@@ -1,11 +1,9 @@
-export type User = {
-    id: number;
-    dni: string;
-    email: string;
-    name: string;
-    lastname: string;
-}
+import { User } from "@/lib";
 
 export type FindUsersRS = {
     users: User[];
+}
+
+export type CreateUserRS = {
+    user: number;
 }

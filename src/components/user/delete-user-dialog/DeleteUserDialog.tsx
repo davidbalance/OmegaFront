@@ -1,20 +1,31 @@
 import AgreementDialog from '@/components/dialog/agreement-dialog/AgreementDialog';
-import { ICrudService, UserModel, UserViewService } from '@/services';
+import { FindUserAndDeleteRQ, IDeleteService, UserService } from '@/services';
+import endpoints from '@/services/endpoints/endpoints';
 import { DialogProps } from '@mantine/core'
+import { notifications } from '@mantine/notifications';
 import React from 'react'
+
+const userService: IDeleteService<FindUserAndDeleteRQ, void> = new UserService(endpoints.USER.V1);
 
 type DeleteUserDialogProps = DialogProps & {
     user: number;
-    onComplete: (id: number) => void;
+    onComplete?: () => void;
 };
 const DeleteUserDialog: React.FC<DeleteUserDialogProps> = ({ user, onComplete, ...props }) => {
 
-    const userViewService: ICrudService<UserModel, number> = new UserViewService();
-
     const handleAgree = async () => {
         if (user <= 0) return;
-        await userViewService.findOneAndDelete(user);
-        onComplete(user);
+        try {
+            await userService.findOneAndDelete({ id: user });
+            onComplete?.();
+            props.onClose?.();
+        } catch (error) {
+            notifications.show({
+                title: 'Error',
+                message: 'Se ha producido un error al eliminar el usuario',
+                color: 'red'
+            });
+        }
     }
 
     return (

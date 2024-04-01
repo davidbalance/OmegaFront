@@ -1,10 +1,10 @@
 import { Button, Drawer, DrawerProps, Group, rem } from '@mantine/core'
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useRef } from 'react'
-import MorbidityForm from '../morbidity-form/MorbidityForm';
-import { MorbidityGroupModel } from '@/services';
+import MorbidityForm from '../disease-form/DiseaseForm';
+import { SelectorOption } from '@/lib';
 
-type CreateMorbidityDrawerProps = DrawerProps & { groups: MorbidityGroupModel[]; };
+type CreateMorbidityDrawerProps = DrawerProps & { groups: SelectorOption<number>[]; };
 const CreateMorbidityDrawer: React.FC<CreateMorbidityDrawerProps> = ({ groups, ...props }) => {
 
     const buttonRef = useRef<HTMLButtonElement>(null);

@@ -4,6 +4,7 @@ export type Doctor = {
     email: string;
     name: string;
     lastname: string;
+    user: number;
     signature?: string;
 }
 

@@ -1,11 +1,13 @@
 import { Menu, MenuTarget, ActionIcon, rem } from '@mantine/core'
-import { IconDotsVertical, IconPencil, IconSettings, IconKey, IconTrash } from '@tabler/icons-react'
+import { IconDotsVertical, IconPencil, IconPdf } from '@tabler/icons-react'
 import React from 'react'
 
 type ResultSettingsMenuProps = {
+    useFile: boolean;
     onCreateClick: () => void;
+    onDownloadReportPDF: () => void;
 }
-const ResultSettingsMenu: React.FC<ResultSettingsMenuProps> = ({ onCreateClick }) => {
+const ResultSettingsMenu: React.FC<ResultSettingsMenuProps> = ({ useFile, onCreateClick, onDownloadReportPDF }) => {
     return (
         <Menu>
             <MenuTarget>
@@ -20,6 +22,12 @@ const ResultSettingsMenu: React.FC<ResultSettingsMenuProps> = ({ onCreateClick }
                     onClick={onCreateClick}>
                     Elaborar reporte
                 </Menu.Item>
+                {
+                    useFile && <Menu.Item
+                        leftSection={<IconPdf style={{ width: rem(14), height: rem(14) }} />}
+                        onClick={onDownloadReportPDF}>
+                        Descargar reporte
+                    </Menu.Item>}
             </Menu.Dropdown>
         </Menu>
     )

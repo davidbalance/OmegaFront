@@ -1,15 +1,22 @@
+import { LinkProp, LogoProp } from ".";
+
 const CONFIGURATION_KEY = process.env.NEXT_PUBLIC_CONFIGURATION_KEY || 'CONFIGURATION-KEY'
 
-export const setConfiguration = (configuration: any): void => {
-    sessionStorage.setItem(CONFIGURATION_KEY, JSON.stringify(configuration));
+export type Configuration = {
+    logo: LogoProp;
+    resources: LinkProp[];
 }
 
-export const getConfiguration = (): any => {
-    const configuration: string | null = sessionStorage.getItem(CONFIGURATION_KEY);
-    if (!configuration) throw new Error("Configuration not found");
-    return JSON.parse(configuration);
+export const setConfiguration = (configuration: Configuration): void => {
+    localStorage.setItem(CONFIGURATION_KEY, JSON.stringify(configuration));
+}
+
+export const getConfiguration = (): Configuration | undefined => {
+    const configStr: string | null = localStorage.getItem(CONFIGURATION_KEY);
+    if (!configStr) return undefined;
+    return JSON.parse(configStr);
 }
 
 export const removeConfiguration = (): void => {
-    sessionStorage.removeItem(CONFIGURATION_KEY);
+    localStorage.removeItem(CONFIGURATION_KEY);
 }

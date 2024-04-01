@@ -1,14 +1,4 @@
-import { ClaimEnum } from "@/lib";
-
-export type Role = {
-    id: number;
-    name: string;
-    resources: {
-        id: number;
-        name: string;
-        claim: ClaimEnum
-    }
-}
+import { Role } from "@/lib"
 
 export type FindRolesRS = {
     roles: Role[]

@@ -4,37 +4,40 @@ import PatientSettingsMenu from '@/components/patient/patient-settings-menu/Pati
 import OmegaTable from '@/components/table/omega-table/OmegaTable';
 import SortTh from '@/components/table/sort-th/SortTh';
 import { useTable } from '@/hooks/useTable'
-import { PatientFullModel } from '@/services/models/patient.model';
-import { PatientViewService } from '@/services/view/patient-view.service';
-import { Group, Table, Title, Text, TextInput, rem, ActionIcon } from '@mantine/core';
+import { IFindService, Patient as PatientType, PatientService } from '@/services';
+import endpoints from '@/services/endpoints/endpoints';
+import { Group, Table, Title, TextInput, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconDotsVertical, IconSearch } from '@tabler/icons-react';
-import Link from 'next/link';
+import { notifications } from '@mantine/notifications';
+import { IconSearch } from '@tabler/icons-react';
 import React, { useLayoutEffect } from 'react'
 
-type PatientData = PatientFullModel;
+const patientService: IFindService<any, PatientType> = new PatientService(endpoints.PATIENT.V1);
+
+type PatientData = PatientType;
 
 const Patient: React.FC = () => {
-
-    const patientViewService = new PatientViewService();
     const table = useTable<PatientData>([], 50);
 
-    const tableLoader = useDisclosure(true);
+    const [tableLoading, TableDisclosure] = useDisclosure(true);
 
     useLayoutEffect(() => {
-        loadConfiguration();
+        load();
         return () => { }
     }, [])
 
-    const loadConfiguration = async () => {
+    const load = async () => {
         try {
-            tableLoader[1].open()
-            const { patients } = await patientViewService.initialConfiguration();
+            TableDisclosure.open()
+            const patients = await patientService.find();
             table.setData(patients);
         } catch (error) {
-
+            console.error(error);
+            notifications.show({
+                message: 'Se ha producido un error al cargar los pacientes'
+            });
         } finally {
-            tableLoader[1].close();
+            TableDisclosure.close();
         }
     }
 
@@ -51,10 +54,30 @@ const Patient: React.FC = () => {
     );
 
     const header = <>
-        <SortTh sorted={table.sortBy === 'dni'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('dni')}>CI</SortTh>
-        <SortTh sorted={table.sortBy === 'name'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('name')}>Nombre</SortTh>
-        <SortTh sorted={table.sortBy === 'lastname'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('lastname')}>Apellido</SortTh>
-        <SortTh sorted={table.sortBy === 'email'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('email')}>Correo Electronico</SortTh>
+        <SortTh
+            sorted={table.sortBy === 'dni'}
+            reversed={table.sortDirection}
+            onSort={() => table.setSorting('dni')}>
+            CI
+        </SortTh>
+        <SortTh
+            sorted={table.sortBy === 'name'}
+            reversed={table.sortDirection}
+            onSort={() => table.setSorting('name')}>
+            Nombre
+        </SortTh>
+        <SortTh
+            sorted={table.sortBy === 'lastname'}
+            reversed={table.sortDirection}
+            onSort={() => table.setSorting('lastname')}>
+            Apellido
+        </SortTh>
+        <SortTh
+            sorted={table.sortBy === 'email'}
+            reversed={table.sortDirection}
+            onSort={() => table.setSorting('email')}>
+            Correo Electronico
+        </SortTh>
         <Table.Td>Acciones</Table.Td>
     </>
 
@@ -76,10 +99,10 @@ const Patient: React.FC = () => {
             />
             <OmegaTable
                 header={header}
-                loading={tableLoader[0]}
+                loading={tableLoading}
                 rows={rows}
                 total={table.total}
-                page={table.activePage}
+                page={table.page}
                 onPageChange={table.setPage} />
         </>
     )
