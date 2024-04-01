@@ -5,6 +5,10 @@ export type DiseaseGroup = {
     name: string;
 }
 
+export type CreateDiseaseGroupRS = {
+    disease: DiseaseGroup;
+}
+
 export type FindDiseaseGroupSelectorOptionsRS = FindSelectorOptions<number>;
 
 export type FindDiseaseGroupsRS = {

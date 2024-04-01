@@ -11,6 +11,7 @@ import { DiseaseGroupService, DiseaseGroup as DiseaseGroupType, IFindService } f
 import endpoints from '@/services/endpoints/endpoints'
 import { Group, Title, Center, ActionIcon, rem, Table, TextInput } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
+import { notifications } from '@mantine/notifications'
 import { IconCirclePlus, IconSearch } from '@tabler/icons-react'
 import React, { useLayoutEffect, useState } from 'react'
 
@@ -39,7 +40,11 @@ const DiseaseGroup: React.FC = () => {
             const groups = await diseaseService.find();
             table.setData(groups);
         } catch (error) {
-
+            notifications.show({
+                title: 'Error',
+                message: 'Se ha producido un error al cargar los datos',
+                color: 'red'
+            })
         } finally {
             TableDisclosure.close();
         }
@@ -61,27 +66,42 @@ const DiseaseGroup: React.FC = () => {
             <Table.Td>
                 <UserSettingsMenu
                     onModification={() => { setSelected(row); ModifyFormDisclosure.open(); }}
-                    // onDelete={() => { setSelected(row); DeleteFormDisclosure.open(); }}
+                    onDelete={() => { setSelected(row); DeleteFormDisclosure.open(); }}
                 />
             </Table.Td>
         </Table.Tr>
     ));
 
+    const handleCreateFormSubmitted = (data: DiseaseGroupType) => {
+        table.addRow(data);
+    }
+
+    const handleUpdateFormSubmitted = (data: DiseaseGroupType) => {
+        table.replaceRow('id', data.id, data);
+    }
+
+    const handleDeleteComplete = (id: number) => {
+        table.removeRow('id', id);
+    }
+
     return (
         <>
             <CreateDiseaseGroupDrawer
                 opened={openCreateForm}
-                onClose={CreateFormDisclosure.close} />
+                onClose={CreateFormDisclosure.close}
+                onFormSubmitted={handleCreateFormSubmitted} />
 
             <UpdateDiseaseGroupDrawer
                 opened={openModifyForm}
                 onClose={ModifyFormDisclosure.close}
-                disease={selected!} />
+                formData={selected!}
+                onFormSubmitted={handleUpdateFormSubmitted} />
 
             <DeleteDiseaseGroupDialog
                 opened={openDeleteForm}
                 onClose={DeleteFormDisclosure.close}
-                onComplete={(id: number) => { }} />
+                onComplete={handleDeleteComplete}
+                target={selected ? selected.id : -1} />
 
             <Group justify="space-between">
                 <Title component="span" variant="text" c='omegaColors'>

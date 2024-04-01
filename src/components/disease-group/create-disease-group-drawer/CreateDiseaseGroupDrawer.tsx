@@ -1,16 +1,31 @@
-import { Button, Drawer, DrawerProps, Group, LoadingOverlay, rem } from '@mantine/core'
+import {
+    Button,
+    Drawer,
+    DrawerProps,
+    Group,
+    LoadingOverlay,
+    rem
+} from '@mantine/core'
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import React, { useRef } from 'react'
-import { CreateDiseaseGroupRQ, DiseaseGroupService, ICreateService } from '@/services';
+import React,
+{ useRef } from 'react'
+import {
+    CreateDiseaseGroupRQ,
+    DiseaseGroup as DiseaseType,
+    DiseaseGroupService,
+    ICreateService
+} from '@/services';
 import endpoints from '@/services/endpoints/endpoints';
 import { notifications } from '@mantine/notifications';
 import { useDisclosure } from '@mantine/hooks';
-import DiseaseGroupForm from '../disease-group-form/DiseaseGroupForm';
+import DiseaseGroupForm, { DiseaseGroupFormProps } from '../disease-group-form/DiseaseGroupForm';
+import { BaseFormProps } from '@/lib/types/base-form-prop';
 
-const diseaseGroupService: ICreateService<CreateDiseaseGroupRQ, void> = new DiseaseGroupService(endpoints.DISEASE_GROUP.V1);
+const diseaseGroupService: ICreateService<CreateDiseaseGroupRQ, DiseaseType> =
+    new DiseaseGroupService(endpoints.DISEASE_GROUP.V1);
 
-type CreateDiseaseGroupDrawerProps = DrawerProps;
-const CreateDiseaseGroupDrawer: React.FC<CreateDiseaseGroupDrawerProps> = ({ ...props }) => {
+type CreateDiseaseGroupDrawerProps = DrawerProps & BaseFormProps<DiseaseType>;
+const CreateDiseaseGroupDrawer: React.FC<CreateDiseaseGroupDrawerProps> = ({ onFormSubmitted, ...props }) => {
 
     const [visible, LoadDisclosure] = useDisclosure(false);
 
@@ -19,7 +34,8 @@ const CreateDiseaseGroupDrawer: React.FC<CreateDiseaseGroupDrawerProps> = ({ ...
     const handleSubmit = async (data: CreateDiseaseGroupRQ) => {
         LoadDisclosure.open();
         try {
-            await diseaseGroupService.create(data);
+            const disease = await diseaseGroupService.create(data);
+            onFormSubmitted(disease);
             props.onClose();
         } catch (error) {
             notifications.show({
@@ -43,7 +59,7 @@ const CreateDiseaseGroupDrawer: React.FC<CreateDiseaseGroupDrawerProps> = ({ ...
             <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
             <DiseaseGroupForm
-                onSubmit={handleSubmit}
+                onFormSubmitted={handleSubmit}
                 ref={buttonRef} />
 
             <Group justify="center" mt="xl">

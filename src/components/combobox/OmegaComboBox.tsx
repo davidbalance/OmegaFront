@@ -1,70 +1,87 @@
-import { SelectorOption } from '@/lib';
-import { Combobox, TextInput, useCombobox } from '@mantine/core';
-import React, { useState } from 'react'
+import { Combobox, Input, InputBase, InputBaseProps, useCombobox } from '@mantine/core';
+import React, { useEffect, useState } from 'react'
 
 type OmegaComboBoxProps = {
-    options: SelectorOption<any>[];
-    onChange?: (value: SelectorOption<any>) => void;
-    label?: string;
+    options: string[];
+    value?: number;
+    placeholder?: string;
+    emptyLabel?: string;
+    notFoundLabel?: string;
+    onChange?: (value: number) => void;
+    inputProps?: InputBaseProps
 };
 
-const OmegaComboBox: React.FC<OmegaComboBoxProps> = ({ options, label, onChange }) => {
+const OmegaComboBox: React.FC<OmegaComboBoxProps> = ({
+    options,
+    value = null,
+    placeholder = 'Escoge un valor',
+    emptyLabel = 'Escoge un valor',
+    notFoundLabel = 'No encontrado',
+    onChange,
+    inputProps
+}) => {
 
-    const combobox = useCombobox();
-    const [currentIndex, setCurrentIndex] = useState<number | undefined>(undefined);
-    const [value, setValue] = useState<SelectorOption<any> | undefined>(undefined);
+    const [search, setSearch] = useState<string>('');
+    const [index, setIndex] = useState<number | null>(value);
 
-    const shouldFilterOptions = !options.some((item) => item.label === value?.label);
-    const filteredOptions = shouldFilterOptions
-        ? options
-            .filter((item) =>
-                item
-                    .label
-                    .toLowerCase()
-                    .includes(value?.label.toLowerCase().trim() || '')
-            )
-        : options;
 
-    const comboOptions = filteredOptions.map((item, index) => (
-        <Combobox.Option value={`${index}`} key={index}>
-            {item.label}
-        </Combobox.Option>
-    ));
+    const combobox = useCombobox({
+        onDropdownOpen: () => {
+            combobox.resetSelectedOption();
+            combobox.focusTarget();
+            setSearch('');
+        },
+        onDropdownClose: () => {
+            combobox.focusSearchInput();
+        }
+    });
+
+    const selectorOption = options
+        .filter((item) => item.toLowerCase().includes(search.toLowerCase().trim()))
+        .map((item, i) => (
+            <Combobox.Option value={`${i}`} key={i}>
+                {item}
+            </Combobox.Option>
+        ));
 
     return (
         <>
             <Combobox
-                onOptionSubmit={(optionValue) => {
-                    const index = parseInt(optionValue);
-                    const value = options[index];
-                    setValue(value);
-                    onChange?.(value);
+                store={combobox}
+                withinPortal={false}
+                onOptionSubmit={(val) => {
+                    const newIndex = parseInt(val);
+                    setIndex(newIndex);
                     combobox.closeDropdown();
                 }}
-                store={combobox}
             >
                 <Combobox.Target>
-                    <TextInput
-                        label={label}
-                        placeholder="Seleccione un valor"
-                        value={currentIndex}
-                        onChange={(event) => {
-                            const index = parseInt(event.currentTarget.value);
-                            setCurrentIndex(index);
-                            const value = options[index];
-                            setValue(value);
-                            combobox.openDropdown();
-                            combobox.updateSelectedOptionIndex();
-                        }}
-                        onClick={() => combobox.openDropdown()}
-                        onFocus={() => combobox.openDropdown()}
-                        onBlur={() => combobox.closeDropdown()}
-                    />
+                    <InputBase
+                        component="button"
+                        type="button"
+                        pointer
+                        rightSection={<Combobox.Chevron />}
+                        onClick={() => combobox.toggleDropdown()}
+                        rightSectionPointerEvents="none"
+                        {...inputProps}
+                    >
+                        {
+                            (index !== null ? options[index] : undefined) || <Input.Placeholder>{emptyLabel}</Input.Placeholder>
+                        }
+                    </InputBase>
                 </Combobox.Target>
 
-                <Combobox.Dropdown mah={200} style={{ overflowY: 'auto' }}>
+                <Combobox.Dropdown>
+                    <Combobox.Search
+                        value={search}
+                        onChange={(event) => setSearch(event.currentTarget.value)}
+                        placeholder={placeholder}
+                    />
                     <Combobox.Options>
-                        {comboOptions.length === 0 ? <Combobox.Empty>No existe</Combobox.Empty> : comboOptions}
+                        {
+                            selectorOption.length > 0
+                                ? selectorOption
+                                : <Combobox.Empty>{notFoundLabel}</Combobox.Empty>}
                     </Combobox.Options>
                 </Combobox.Dropdown>
             </Combobox>

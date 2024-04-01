@@ -1,6 +1,6 @@
-import { DiseaseGroupAPI, ICreateService, IFindService, ISelectorService, IUpdateService } from "@/services";
+import { DiseaseGroupAPI, ICreateService, IDeleteService, IFindService, ISelectorService, IUpdateService } from "@/services";
 import { AbstractService } from "../abstract.service";
-import { CreateDiseaseGroupRQ, DiseaseGroup, FindDiseaseGroupAndUpdateRQ, FindDiseaseGroupsRS } from "./dtos";
+import { CreateDiseaseGroupRQ, CreateDiseaseGroupRS, DiseaseGroup, FindDiseaseGroupAndDeleteRQ, FindDiseaseGroupAndUpdateRQ, FindDiseaseGroupsRS } from "./dtos";
 import { SelectorOption } from "@/lib";
 import { OmegaFetch } from "@/services/config";
 import { FindDiseaseSelectorOptionRS } from "../disease";
@@ -9,8 +9,9 @@ export class DiseaseGroupService
     extends AbstractService<DiseaseGroupAPI>
     implements IFindService<any, DiseaseGroup>,
     ISelectorService<any, number>,
-    ICreateService<CreateDiseaseGroupRQ, void>,
-    IUpdateService<FindDiseaseGroupAndUpdateRQ, void> {
+    ICreateService<CreateDiseaseGroupRQ, DiseaseGroup>,
+    IUpdateService<FindDiseaseGroupAndUpdateRQ, void>,
+    IDeleteService<FindDiseaseGroupAndDeleteRQ, void> {
 
     async find(): Promise<DiseaseGroup[]> {
         try {
@@ -34,9 +35,10 @@ export class DiseaseGroupService
         }
     }
 
-    async create(params: CreateDiseaseGroupRQ): Promise<void> {
+    async create(params: CreateDiseaseGroupRQ): Promise<DiseaseGroup> {
         try {
-            await OmegaFetch.post({ url: this.endpoints.CREATE, body: params });
+            const { disease }: CreateDiseaseGroupRS = await OmegaFetch.post({ url: this.endpoints.CREATE, body: params });
+            return disease;
         } catch (error) {
             throw error;
         }
@@ -52,6 +54,19 @@ export class DiseaseGroupService
                 url: this.endpoints.FIND_ONE_AND_UPDATE(`${id}`),
                 body: params
             })
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    findAndDelete(params: FindDiseaseGroupAndDeleteRQ): void | Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+
+
+    async findOneAndDelete({ id }: FindDiseaseGroupAndDeleteRQ): Promise<void> {
+        try {
+            await OmegaFetch.delete({ url: this.endpoints.FIND_ONE_AND_DELETE(`${id}`) })
         } catch (error) {
             throw error;
         }

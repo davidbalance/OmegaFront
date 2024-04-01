@@ -55,6 +55,7 @@ export type TableHook<T extends object> = {
     setSorting: (field: keyof T) => void,
     onSeach: (event: React.ChangeEvent<HTMLInputElement>) => void,
     setPage: (page: number) => void,
+    addRow: (row: T) => void;
     removeRow: <K>(field: keyof T, value: K) => void,
     replaceRow: <K>(field: keyof T, key: K, value: T) => void,
     setData: (newData: T[]) => void,
@@ -91,7 +92,7 @@ export const useTable = <T extends object>(initialData: T[], initialPerPage: num
     }
 
     const replaceRow = <K>(field: keyof T, key: K, value: T) => {
-        const currentIndex = sortedData.findIndex((row) => typeof row[field] === typeof key && row[field] !== key);
+        const currentIndex = sortedData.findIndex((row) => typeof row[field] === typeof key && row[field] === key);
         if (currentIndex < 0) return;
         const newData = data;
         newData[currentIndex] = value;
@@ -109,6 +110,11 @@ export const useTable = <T extends object>(initialData: T[], initialPerPage: num
         setTotal(data.length / newAmount);
     }
 
+    const addRow = (row: T) => {
+        setData([...data, row]);
+        setSortedData([...sortedData, row]);
+    }
+
     return {
         rows: chunk(sortedData, perPage)[activePage - 1] || [],
         total: total,
@@ -116,6 +122,7 @@ export const useTable = <T extends object>(initialData: T[], initialPerPage: num
         page: activePage,
         search: search,
         sortBy: sortBy,
+        addRow: addRow,
         setSorting: setSorting,
         onSeach: onSeach,
         setPage: setPage,

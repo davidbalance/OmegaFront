@@ -6,4 +6,5 @@ export const DiseaseGroupEndpoint: DiseaseGroupAPI = {
     CREATE: `${root}/disease-groups`,
     FIND_SELECTOR: `${root}/disease-groups/selector`,
     FIND_ONE_AND_UPDATE: (key: string) => `${root}/disease-groups/${key}`,
+    FIND_ONE_AND_DELETE: (key: string) => `${root}/disease-groups/${key}`,
 }

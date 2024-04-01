@@ -1,13 +1,13 @@
 import OmegaComboBox from '@/components/combobox/OmegaComboBox';
 import { SelectorOption } from '@/lib';
-import { Disease } from '@/services';
+import { Disease as DiseaseType } from '@/services';
 import { Box, Button, TextInput, useCombobox } from '@mantine/core';
 import { joiResolver, useForm } from '@mantine/form';
 import { IconSignature } from '@tabler/icons-react';
 import Joi from 'joi';
 import React, { useState } from 'react'
 
-type IDiseaseForm = Omit<Disease, 'id'>;
+type IDiseaseForm = Omit<DiseaseType, 'id'>;
 
 const diseaseSchema = Joi.object<IDiseaseForm>({
     name: Joi
@@ -19,7 +19,7 @@ const diseaseSchema = Joi.object<IDiseaseForm>({
         }),
 });
 type DiseaseFormProps = {
-    data?: any;
+    data?: DiseaseType;
     groups: SelectorOption<number>[];
     onSubmit: (values: IDiseaseForm & { option: SelectorOption<number> }) => void;
 }
@@ -46,8 +46,9 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ dat
         <Box component='form' onSubmit={form.onSubmit(handleForm)}>
 
             <OmegaComboBox
-                options={groups}
-                onChange={setValue} />
+                value={groups.findIndex(e => e.key === data?.group.id)}
+                options={groups.map((e) => e.label)}
+                onChange={(i) => setValue(groups[i])} />
 
             <TextInput
                 label="Nombre del grupo de morbilidades"

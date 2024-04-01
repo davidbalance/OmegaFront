@@ -6,21 +6,23 @@ import endpoints from '@/services/endpoints/endpoints';
 import { useDisclosure } from '@mantine/hooks';
 import DiseaseGroupForm from '../disease-group-form/DiseaseGroupForm';
 import { notifications } from '@mantine/notifications';
+import { BaseFormProps } from '@/lib/types/base-form-prop';
 
 const diseaseGroupService: IUpdateService<FindDiseaseGroupAndUpdateRQ, void> = new DiseaseGroupService(endpoints.DISEASE_GROUP.V1);
 
-type UpdateDiseaseGroupDrawerProps = DrawerProps & {
-    disease: DiseaseGroupType
-};
-const UpdateDiseaseGroupDrawer: React.FC<UpdateDiseaseGroupDrawerProps> = ({ disease, ...props }) => {
+type UpdateDiseaseGroupDrawerProps = DrawerProps & Omit<BaseFormProps<DiseaseGroupType>, 'formData'> & {
+    formData: DiseaseGroupType
+}
+const UpdateDiseaseGroupDrawer: React.FC<UpdateDiseaseGroupDrawerProps> = ({ onFormSubmitted, formData, ...props }) => {
 
     const [visible, LoadDisclosure] = useDisclosure(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const handleSubmit = async (data: any) => {
+    const handleFormSubmit = async (data: any) => {
         LoadDisclosure.open();
         try {
-            await diseaseGroupService.findOneAndUpdate({ id: disease.id, ...data });
+            await diseaseGroupService.findOneAndUpdate({ id: formData.id, ...data });
+            onFormSubmitted({ ...formData, ...data });
             props.onClose();
         } catch (error) {
             notifications.show({
@@ -44,8 +46,8 @@ const UpdateDiseaseGroupDrawer: React.FC<UpdateDiseaseGroupDrawerProps> = ({ dis
             <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
             <DiseaseGroupForm
-                data={disease}
-                onSubmit={handleSubmit}
+                onFormSubmitted={handleFormSubmit}
+                formData={formData}
                 ref={buttonRef} />
 
             <Group justify="center" mt="xl">

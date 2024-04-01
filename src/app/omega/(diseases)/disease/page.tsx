@@ -33,11 +33,11 @@ const Disease: React.FC = () => {
     const deleteDisclosure = useDisclosure(false);
 
     useLayoutEffect(() => {
-        loadConfiguration();
+        load();
         return () => { }
     }, [])
 
-    const loadConfiguration = async () => {
+    const load = async () => {
         try {
             tableLoader[1].open();
             const diseases = await diseaseService.find();

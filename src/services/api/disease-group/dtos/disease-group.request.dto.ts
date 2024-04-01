@@ -5,3 +5,7 @@ export type CreateDiseaseGroupRQ = {
 export type FindDiseaseGroupAndUpdateRQ = Partial<CreateDiseaseGroupRQ> & {
     id: number;
 }
+
+export type FindDiseaseGroupAndDeleteRQ = {
+    id: number;
+}

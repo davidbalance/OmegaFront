@@ -1,4 +1,5 @@
-import { DiseaseGroup as DiseaseGroupType} from '@/services';
+import { BaseFormProps } from '@/lib/types/base-form-prop';
+import { DiseaseGroup as DiseaseGroupType } from '@/services';
 import { Box, Button, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconSignature } from '@tabler/icons-react';
@@ -18,21 +19,22 @@ const diseaseSchema = Joi.object<IDiseaseGroupForm>({
     })
 });
 
-type DiseaseGroupFormProps = {
-  onSubmit: (values: IDiseaseGroupForm) => void;
-  data?: IDiseaseGroupForm;
-}
-const DiseaseGroupForm = React.forwardRef<HTMLButtonElement, DiseaseGroupFormProps>(({ onSubmit, data }, ref) => {
+export type DiseaseGroupFormProps = BaseFormProps<IDiseaseGroupForm>;
+const DiseaseGroupForm = React.forwardRef<HTMLButtonElement, DiseaseGroupFormProps>(({ formData, onFormSubmitted }, ref) => {
 
   const form = useForm({
     initialValues: {
-      name: data?.name || '',
+      name: formData?.name || '',
     },
     validate: joiResolver(diseaseSchema)
   });
 
+  const handleFormSubmit = (submittedData: IDiseaseGroupForm) => {
+    onFormSubmitted?.(submittedData);
+  }
+
   return (
-    <Box component='form' onSubmit={form.onSubmit(onSubmit)}>
+    <Box component='form' onSubmit={form.onSubmit(handleFormSubmit)}>
       <TextInput
         label="Nombre del grupo de morbilidades"
         placeholder="Grupo de morbilidades"
