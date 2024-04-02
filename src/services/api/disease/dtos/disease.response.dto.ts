@@ -1,7 +1,7 @@
 import { FindSelectorOptions } from "@/lib";
 
 export type Disease = {
-    id: string;
+    id: number;
     name: string;
     group: {
         id: number;
@@ -9,7 +9,15 @@ export type Disease = {
     };
 }
 
+export type CreateDiseaseRS = {
+    disease: Disease;
+}
+
 export type FindDiseaseSelectorOptionRS = FindSelectorOptions<number>;
+
+export type FindDiseaseAndUpdateRS = {
+    disease: Disease;
+}
 
 export type FindDiseasesRS = {
     diseases: Disease[];

@@ -1,20 +1,43 @@
 'use client'
 
-import CreateMorbidityDrawer from '@/components/morbidity/create-morbidity-drawer/CreateMorbidityDrawer';
-import DeleteMorbidityDialog from '@/components/morbidity/delete-morbidity-dialog/DeleteMorbidityDialog';
-import UpdateMorbidityDrawer from '@/components/morbidity/update-morbidity-drawer/UpdateDiseaseDrawer';
+import CreateDiseaseDrawer from '@/components/morbidity/create-disease-drawer/CreateDiseaseDrawer';
+import CreateMorbidityDrawer from '@/components/morbidity/create-disease-drawer/CreateDiseaseDrawer';
+import DeleteDiseaseDialog from '@/components/morbidity/delete-disease-dialog/DeleteDiseaseDialog';
+import UpdateDiseaseDrawer from '@/components/morbidity/update-disease-drawer/UpdateDiseaseDrawer';
+import UpdateMorbidityDrawer from '@/components/morbidity/update-disease-drawer/UpdateDiseaseDrawer';
 import OmegaTable from '@/components/table/omega-table/OmegaTable';
 import SortTh from '@/components/table/sort-th/SortTh';
 import UserSettingsMenu from '@/components/user/user-settings-menu/UserSettingsMenu';
 import { useTable } from '@/hooks/useTable';
 import { SelectorOption } from '@/lib';
-import { DiseaseGroup, DiseaseGroupService, DiseaseService, Disease as DiseaseType, IFindService, ISelectorService } from '@/services';
+import {
+    DiseaseGroupService,
+    DiseaseService,
+    Disease as DiseaseType,
+    IFindService,
+    ISelectorService
+} from '@/services';
 import endpoints from '@/services/endpoints/endpoints';
-import { Group, Title, Center, ActionIcon, rem, Table, TextInput } from '@mantine/core'
+import {
+    Group,
+    Title,
+    Center,
+    ActionIcon,
+    rem,
+    Table,
+    TextInput
+} from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconCirclePlus, IconSearch } from '@tabler/icons-react'
-import React, { useLayoutEffect, useState } from 'react'
+import {
+    IconCirclePlus,
+    IconSearch
+} from '@tabler/icons-react'
+import React,
+{
+    useLayoutEffect,
+    useState
+} from 'react'
 
 const diseaseService: IFindService<any, DiseaseType> = new DiseaseService(endpoints.DISEASE.V1);
 const diseaseGroupService: ISelectorService<any, number> = new DiseaseGroupService(endpoints.DISEASE_GROUP.V1);
@@ -28,9 +51,9 @@ const Disease: React.FC = () => {
     const table = useTable<DiseaseData>([], 50);
 
     const tableLoader = useDisclosure(true);
-    const createDisclosure = useDisclosure(false);
-    const modifyDisclosure = useDisclosure(false);
-    const deleteDisclosure = useDisclosure(false);
+    const [openCreateFormDisclosure, CreateFormDisclosure] = useDisclosure(false);
+    const [openModifyFormDisclosure, ModifyFormDisclosure] = useDisclosure(false);
+    const [openDeleteFormDisclosure, DeleteFormDisclosure] = useDisclosure(false);
 
     useLayoutEffect(() => {
         load();
@@ -75,34 +98,49 @@ const Disease: React.FC = () => {
                 <UserSettingsMenu
                     onModification={() => {
                         setSelected(row);
-                        modifyDisclosure[1].open();
+                        ModifyFormDisclosure.open();
                     }}
                     onDelete={() => {
                         setSelected(row);
-                        deleteDisclosure[1].open();
+                        DeleteFormDisclosure.open();
                     }}
                 />
             </Table.Td>
         </Table.Tr>
     ));
 
+    const handleCreateFormSubmittion = (data: DiseaseType) => {
+        table.addRow(data);
+    }
+
+    const handleUpdateFormSubmittion = (data: DiseaseType) => {
+        table.replaceRow('id', data.id, data);
+    }
+
+    const handleDeleteFormSubmittion = (id: number) => {
+        table.removeRow('id', id);
+    }
+
     return (
         <>
-            <CreateMorbidityDrawer
-                groups={groups}
-                opened={createDisclosure[0]}
-                onClose={createDisclosure[1].close} />
+            <CreateDiseaseDrawer
+                options={groups}
+                opened={openCreateFormDisclosure}
+                onClose={CreateFormDisclosure.close}
+                onFormSubmitted={handleCreateFormSubmittion} />
 
-            <UpdateMorbidityDrawer
-                groups={groups}
-                opened={modifyDisclosure[0]}
-                onClose={modifyDisclosure[1].close}
-                data={selected} />
+            <UpdateDiseaseDrawer
+                options={groups}
+                opened={openModifyFormDisclosure}
+                onClose={ModifyFormDisclosure.close}
+                formData={selected || { group: { id: 0, name: 'placeholder' }, id: -1, name: 'placeholder' }}
+                onFormSubmitted={handleUpdateFormSubmittion} />
 
-            <DeleteMorbidityDialog
-                opened={deleteDisclosure[0]}
-                onClose={deleteDisclosure[1].close}
-                onComplete={(id: number) => { }} />
+            <DeleteDiseaseDialog
+                opened={openDeleteFormDisclosure}
+                onClose={DeleteFormDisclosure.close}
+                onComplete={handleDeleteFormSubmittion}
+                target={selected?.id || -1} />
 
             <Group justify="space-between">
                 <Title component="span" variant="text" c='omegaColors'>
@@ -111,7 +149,7 @@ const Disease: React.FC = () => {
                 <Center>
                     <ActionIcon
                         variant="transparent"
-                        onClick={createDisclosure[1].open}>
+                        onClick={CreateFormDisclosure.open}>
                         <IconCirclePlus
                             style={{ width: rem(64), height: rem(64) }}
                             stroke={1.5} />

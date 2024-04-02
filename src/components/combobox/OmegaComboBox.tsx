@@ -52,6 +52,7 @@ const OmegaComboBox: React.FC<OmegaComboBoxProps> = ({
                 onOptionSubmit={(val) => {
                     const newIndex = parseInt(val);
                     setIndex(newIndex);
+                    onChange?.(newIndex);
                     combobox.closeDropdown();
                 }}
             >

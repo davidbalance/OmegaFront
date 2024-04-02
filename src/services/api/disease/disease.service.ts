@@ -1,6 +1,9 @@
 import {
+    CreateDiseaseGroupRS,
+    Disease,
     DiseaseAPI,
     ICreateService,
+    IDeleteService,
     IFindService,
     ISelectorService,
     IUpdateService
@@ -8,8 +11,10 @@ import {
 import { AbstractService } from "../abstract.service";
 import {
     CreateDiseaseRQ,
-    Disease,
+    CreateDiseaseRS,
+    FindDiseaseAndDeleteQR,
     FindDiseaseAndUpdateRQ,
+    FindDiseaseAndUpdateRS,
     FindDiseaseSelectorOptionRS,
     FindDiseasesRS
 } from "./dtos";
@@ -19,8 +24,9 @@ import { SelectorOption } from "@/lib";
 export class DiseaseService
     extends AbstractService<DiseaseAPI>
     implements IFindService<any, Disease>,
-    ICreateService<CreateDiseaseRQ, void>,
-    IUpdateService<FindDiseaseAndUpdateRQ, void>,
+    ICreateService<CreateDiseaseRQ, Disease>,
+    IUpdateService<FindDiseaseAndUpdateRQ, Disease>,
+    IDeleteService<FindDiseaseAndDeleteQR, void>,
     ISelectorService<any, number> {
 
     async find(): Promise<Disease[]> {
@@ -45,27 +51,41 @@ export class DiseaseService
         }
     }
 
-    async create(params: CreateDiseaseRQ): Promise<void> {
+    async create(params: CreateDiseaseRQ): Promise<Disease> {
         try {
-            await OmegaFetch.post({
+            const { disease }: CreateDiseaseRS = await OmegaFetch.post({
                 url: this.endpoints.CREATE,
                 body: params
-            })
+            });
+            return disease;
         } catch (error) {
             throw error;
         }
     }
 
-    findAndUpdate(params: FindDiseaseAndUpdateRQ): void | Promise<void> {
+    findAndUpdate(params: FindDiseaseAndUpdateRQ): Disease | Promise<Disease> {
         throw new Error("Method not implemented.");
     }
 
-    async findOneAndUpdate({ id, ...params }: FindDiseaseAndUpdateRQ): Promise<void> {
+    async findOneAndUpdate({ id, ...params }: FindDiseaseAndUpdateRQ): Promise<Disease> {
         try {
-            await OmegaFetch.patch({
+            const { disease }: FindDiseaseAndUpdateRS = await OmegaFetch.patch({
                 url: this.endpoints.FIND_ONE_AND_UPDATE(`${id}`),
                 body: params
-            })
+            });
+            return disease;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    findAndDelete(params: FindDiseaseAndDeleteQR): void | Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+
+    async findOneAndDelete({ id }: FindDiseaseAndDeleteQR): Promise<void> {
+        try {
+            await OmegaFetch.delete({ url: this.endpoints.FIND_ONE_AND_DELETE(`${id}`), });
         } catch (error) {
             throw error;
         }
