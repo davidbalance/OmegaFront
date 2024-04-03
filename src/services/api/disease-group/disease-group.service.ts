@@ -1,22 +1,20 @@
-import { DiseaseGroupAPI, ICreateService, IDeleteService, IFindService, ISelectorService, IUpdateService } from "@/services";
+import { CreateDiseaseGroupRQ, CreateDiseaseGroupRS, DeleteDiseaseGroupRQ, DeleteDiseaseRQ, DiseaseGroup, DiseaseGroupAPI, FindDiseaseGroupsRS, FindSelectorOptionsDisease, ICreateService, IDeleteService, IFindService, ISelectorService, IUpdateService, UpdateDiseaseGroupRQ, UpdateDiseaseGroupRS } from "@/services";
 import { AbstractService } from "../abstract.service";
-import { CreateDiseaseGroupRQ, CreateDiseaseGroupRS, DiseaseGroup, FindDiseaseGroupAndDeleteRQ, FindDiseaseGroupAndUpdateRQ, FindDiseaseGroupsRS } from "./dtos";
 import { SelectorOption } from "@/lib";
 import { OmegaFetch } from "@/services/config";
-import { FindDiseaseSelectorOptionRS } from "../disease";
 
 export class DiseaseGroupService
     extends AbstractService<DiseaseGroupAPI>
     implements IFindService<any, DiseaseGroup>,
     ISelectorService<any, number>,
     ICreateService<CreateDiseaseGroupRQ, DiseaseGroup>,
-    IUpdateService<FindDiseaseGroupAndUpdateRQ, void>,
-    IDeleteService<FindDiseaseGroupAndDeleteRQ, void> {
+    IUpdateService<UpdateDiseaseGroupRQ, DiseaseGroup>,
+    IDeleteService<DeleteDiseaseGroupRQ, void> {
 
     async find(): Promise<DiseaseGroup[]> {
         try {
-            const { diseaseGroups }: FindDiseaseGroupsRS = await OmegaFetch.get({ url: this.endpoints.FIND });
-            return diseaseGroups;
+            const { groups }: FindDiseaseGroupsRS = await OmegaFetch.get({ url: this.endpoints.FIND });
+            return groups;
         } catch (error) {
             throw error;
         }
@@ -28,7 +26,7 @@ export class DiseaseGroupService
 
     async findSelectorOptions(params?: any): Promise<SelectorOption<number>[]> {
         try {
-            const { options }: FindDiseaseSelectorOptionRS = await OmegaFetch.get({ url: this.endpoints.FIND_SELECTOR });
+            const { options }: FindSelectorOptionsDisease = await OmegaFetch.get({ url: this.endpoints.FIND_SELECTOR });
             return options;
         } catch (error) {
             throw error;
@@ -37,36 +35,37 @@ export class DiseaseGroupService
 
     async create(params: CreateDiseaseGroupRQ): Promise<DiseaseGroup> {
         try {
-            const { disease }: CreateDiseaseGroupRS = await OmegaFetch.post({ url: this.endpoints.CREATE, body: params });
+            const disease: CreateDiseaseGroupRS = await OmegaFetch.post({ url: this.endpoints.CREATE, body: params });
             return disease;
         } catch (error) {
             throw error;
         }
     }
 
-    findAndUpdate(params: FindDiseaseGroupAndUpdateRQ): void | Promise<void> {
+    findAndUpdate(params: UpdateDiseaseGroupRQ): DiseaseGroup | Promise<DiseaseGroup> {
         throw new Error("Method not implemented.");
     }
 
-    async findOneAndUpdate({ id, ...params }: FindDiseaseGroupAndUpdateRQ): Promise<void> {
+    async findOneAndUpdate({ id, ...params }: UpdateDiseaseGroupRQ): Promise<DiseaseGroup> {
         try {
-            await OmegaFetch.patch({
+            const disease: UpdateDiseaseGroupRS = await OmegaFetch.patch({
                 url: this.endpoints.FIND_ONE_AND_UPDATE(`${id}`),
                 body: params
-            })
+            });
+            return disease;
         } catch (error) {
             throw error;
         }
     }
 
-    findAndDelete(params: FindDiseaseGroupAndDeleteRQ): void | Promise<void> {
+    findAndDelete(params: DeleteDiseaseRQ): void | Promise<void> {
         throw new Error("Method not implemented.");
     }
 
 
-    async findOneAndDelete({ id }: FindDiseaseGroupAndDeleteRQ): Promise<void> {
+    async findOneAndDelete({ id }: DeleteDiseaseRQ): Promise<void> {
         try {
-            await OmegaFetch.delete({ url: this.endpoints.FIND_ONE_AND_DELETE(`${id}`) })
+            await OmegaFetch.delete({ url: this.endpoints.FIND_ONE_AND_DELETE(`${id}`) });
         } catch (error) {
             throw error;
         }

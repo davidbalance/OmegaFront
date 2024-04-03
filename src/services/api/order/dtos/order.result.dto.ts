@@ -1,9 +1,16 @@
+export type OrderResult = {
+    id: number;
+    examName: string;
+    disease?: number;
+}
+
 export type Order = {
     id: number;
-    createAt: Date;
-    patient: string;
+    patientDni: string;
+    patientFullname: string;
     process: string;
-    results: { id: number; examName: string; }[];
+    createAt: Date;
+    results: OrderResult[];
 }
 
 export type FindOrdersRS = {

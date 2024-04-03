@@ -1,21 +1,21 @@
-import { IFindService, OmegaWebClientAPI } from "@/services";
+import { FindOmegaWebClient, IFindService, OmegaWebClientAPI } from "@/services";
 import { AbstractService } from "../abstract.service";
-import { FindOmegaWebClient, OmegaWebClient } from "./dtos";
 import { OmegaFetch } from "@/services/config";
+import { Configuration } from "@/lib";
 
 export class OmegaWebClientService
     extends AbstractService<OmegaWebClientAPI>
-    implements IFindService<any, OmegaWebClient>{
+    implements IFindService<any, Configuration>{
 
-    find(): OmegaWebClient[] | Promise<OmegaWebClient[]>;
-    find(params: any): OmegaWebClient[] | Promise<OmegaWebClient[]>;
-    find(params?: unknown): OmegaWebClient[] | Promise<OmegaWebClient[]> {
+    find(): FindOmegaWebClient[] | Promise<FindOmegaWebClient[]>;
+    find(params: any): FindOmegaWebClient[] | Promise<FindOmegaWebClient[]>;
+    find(params?: unknown): FindOmegaWebClient[] | Promise<FindOmegaWebClient[]> {
         throw new Error("Method not implemented.");
     }
 
-    async findOne(params: any): Promise<OmegaWebClient> {
+    async findOne(params: any): Promise<FindOmegaWebClient> {
         try {
-            const { client }: FindOmegaWebClient = await OmegaFetch.get({ url: this.endpoints.FIND_ONE });
+            const client: FindOmegaWebClient = await OmegaFetch.get({ url: this.endpoints.FIND_ONE });
             return client;
         } catch (error) {
             throw error;

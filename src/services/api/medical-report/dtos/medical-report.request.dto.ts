@@ -1,4 +1,4 @@
-export type FindMedicalReportPDF = {
+export type FindMedicalReportPDFRQ = {
     id: number;
     name: string;
 }

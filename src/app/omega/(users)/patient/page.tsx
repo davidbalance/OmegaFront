@@ -4,7 +4,9 @@ import PatientSettingsMenu from '@/components/patient/patient-settings-menu/Pati
 import OmegaTable from '@/components/table/omega-table/OmegaTable';
 import SortTh from '@/components/table/sort-th/SortTh';
 import { useTable } from '@/hooks/useTable'
-import { IFindService, Patient as PatientType, PatientService } from '@/services';
+import { IFindService, PatientService } from '@/services';
+import { Patient as PatientType } from '@/services/api/patient/dtos';
+import { User as UserType } from '@/services/api/user/dtos';
 import endpoints from '@/services/endpoints/endpoints';
 import { Group, Table, Title, TextInput, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -14,7 +16,7 @@ import React, { useLayoutEffect } from 'react'
 
 const patientService: IFindService<any, PatientType> = new PatientService(endpoints.PATIENT.V1);
 
-type PatientData = PatientType;
+type PatientData = Omit<PatientType, 'user'> & Omit<UserType, 'id'>;
 
 const Patient: React.FC = () => {
     const table = useTable<PatientData>([], 50);
@@ -30,7 +32,8 @@ const Patient: React.FC = () => {
         try {
             TableDisclosure.open()
             const patients = await patientService.find();
-            table.setData(patients);
+            const patientsData: PatientData[] = patients.reduce((prev: PatientData[], curr) => [...prev, { ...curr, ...curr.user }], []);
+            table.setData(patientsData);
         } catch (error) {
             console.error(error);
             notifications.show({

@@ -1,18 +1,20 @@
 import React from 'react'
 import ReportForm from '../report-form/ReportForm'
 import { Drawer, DrawerProps, LoadingOverlay } from '@mantine/core'
-import { MedicalReport, MedicalResultService } from '@/services';
 import endpoints from '@/services/endpoints/endpoints';
 import { notifications } from '@mantine/notifications';
 import { useDisclosure } from '@mantine/hooks';
+import { MedicalResultService } from '@/services';
+import { MedicalResult as MedicalResultType, MedicalResultReport as MedicalResultReportType } from '@/services/api/medical-result/dtos';
 
 const resultService = new MedicalResultService(endpoints.RESULT.V1);
 
 type ReportFormDrawerProps = DrawerProps & {
   result: number;
-  report?: MedicalReport;
+  report?: MedicalResultReportType;
+  onFormSubmit: (data: MedicalResultType) => void;
 };
-const ReportFormDrawer: React.FC<ReportFormDrawerProps> = ({ result, report, ...props }) => {
+const ReportFormDrawer: React.FC<ReportFormDrawerProps> = ({ result, report, onFormSubmit, ...props }) => {
 
   const [visible, LoadDisclosure] = useDisclosure(false);
 
@@ -25,8 +27,10 @@ const ReportFormDrawer: React.FC<ReportFormDrawerProps> = ({ result, report, ...
       });
       return;
     }
+    LoadDisclosure.open();
     try {
-      await resultService.findOneAndInsertReport({ id: result, content });
+      const newResult = await resultService.findOneAndInsertReport({ id: result, content });
+      onFormSubmit(newResult);
       props.onClose();
     } catch (error) {
       notifications.show({
@@ -34,6 +38,8 @@ const ReportFormDrawer: React.FC<ReportFormDrawerProps> = ({ result, report, ...
         message: 'Se ha producido un error al guardar el reporte',
         color: 'red'
       });
+    } finally {
+      LoadDisclosure.close();
     }
   }
 

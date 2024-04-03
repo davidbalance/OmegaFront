@@ -5,7 +5,9 @@ import OmegaTable from '@/components/table/omega-table/OmegaTable'
 import SortTh from '@/components/table/sort-th/SortTh'
 import AssignCredentialDrawer from '@/components/user/assign-credential-drawer/AssignCredentialDrawer'
 import { useTable } from '@/hooks/useTable'
-import { DoctorService, Doctor as DoctorType, IFindService } from '@/services'
+import { DoctorService, IFindService } from '@/services'
+import { Doctor as DoctorType } from '@/services/api/doctor/dtos'
+import { User as UserType } from '@/services/api/user/dtos'
 import endpoints from '@/services/endpoints/endpoints'
 import { Group, Title, Text, Table, TextInput, rem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
@@ -14,7 +16,9 @@ import { IconSearch } from '@tabler/icons-react'
 import React, { useLayoutEffect, useState } from 'react'
 
 const doctorService: IFindService<any, DoctorType> = new DoctorService(endpoints.DOCTOR.V1)
-type DoctorData = DoctorType;
+type DoctorData = Omit<DoctorType, 'user'> & Omit<UserType, 'id'> & { user: number };
+
+const parseDoctor = (data: DoctorType): DoctorData => ({ ...data, ...data.user, user: data.user.id });
 
 const Doctor: React.FC = () => {
 
@@ -28,14 +32,14 @@ const Doctor: React.FC = () => {
     useLayoutEffect(() => {
         load();
         return () => { }
-    }, [])
+    }, []);
 
     const load = async () => {
         try {
             TableDisclosure.open()
             const doctors = await doctorService.find();
-            console.log(doctors);
-            table.setData(doctors);
+            const doctorData = doctors.reduce((prev: DoctorData[], curr) => [...prev, parseDoctor(curr)], []);
+            table.setData(doctorData);
         } catch (error) {
             console.error(error);
             notifications.show({
@@ -92,9 +96,9 @@ const Doctor: React.FC = () => {
     return (
         <>
             <AssignCredentialDrawer
-                opened={openAssignCredentialForm} 
-                onClose={AssignCredentialDisclosure.close} 
-                email={selected?.email || ''} 
+                opened={openAssignCredentialForm}
+                onClose={AssignCredentialDisclosure.close}
+                email={selected?.email || ''}
                 user={selected?.user || 0} />
 
             <Group justify="space-between">

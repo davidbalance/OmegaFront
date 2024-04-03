@@ -16,7 +16,7 @@
   background: var(--mantine-color-omegaColors-filled);
   border-radius: 50px;
 
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -27,4 +27,23 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+}
+
+/* In your CSS file */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
 }

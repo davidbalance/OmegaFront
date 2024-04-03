@@ -2,6 +2,7 @@ import { Flex, Loader, Pagination, ScrollArea, Table, Text } from '@mantine/core
 import React, { useState } from 'react'
 import cx from 'clsx';
 import classes from './OmegaTable.module.css';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 type OmegaTableProps = {
     header: React.ReactNode;
@@ -18,7 +19,7 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
     return (
         <>
             <ScrollArea h={height} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
-                <Table horizontalSpacing="md" verticalSpacing="xs" layout='auto' highlightOnHover>
+                <Table horizontalSpacing="md" verticalSpacing="xs" layout='auto'>
                     <Table.Thead className={cx(classes.sticky, { [classes.scrolled]: scrolled })} c='omegaColors'>
                         <Table.Tr>
                             {header}

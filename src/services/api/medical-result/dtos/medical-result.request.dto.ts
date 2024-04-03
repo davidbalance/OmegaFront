@@ -3,7 +3,7 @@ export type InsertMedicalReportRQ = {
     content: string;
 }
 
-export type FindMedicalResultAndUpdateRQ = {
+export type UpdateMedicalResultRQ = {
     id: number;
     disease: number;
 }

@@ -30,7 +30,7 @@ const withAuth = (
         } catch (error) {
             if (error instanceof RestError) {
                 const token = await getBearerRefresh();
-                if (error.response.status === 401 && refresh && token) {
+                if (error.response.status === 403 && refresh && token) {
                     const refresh: any = await post({
                         url: endpoints.AUTHENTICATION.V1.REFRESH,
                         headers: {

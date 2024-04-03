@@ -5,7 +5,11 @@ import ResultSettingsMenu from '@/components/report/result-settings-menu/ResultS
 import OmegaTable from '@/components/table/omega-table/OmegaTable'
 import SortTh from '@/components/table/sort-th/SortTh'
 import { useTable } from '@/hooks/useTable'
-import { FindMedicalResultAndUpdateRQ, IFindService, MedicalReportService, MedicalResultService, MedicalResult as MedicalResultType } from '@/services'
+import { IFindService, MedicalReportService, MedicalResultService } from '@/services'
+import {
+    MedicalResultOrder,
+    MedicalResult as MedicalResultType
+} from '@/services/api/medical-result/dtos'
 import endpoints from '@/services/endpoints/endpoints'
 import { Group, Table, TextInput, Title, rem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
@@ -16,12 +20,18 @@ import React, { useLayoutEffect, useState } from 'react'
 const resultService: IFindService<any, MedicalResultType> = new MedicalResultService(endpoints.RESULT.V1);
 const reportService = new MedicalReportService(endpoints.MEDICAL_REPORT.V1);
 
-type ResultData = MedicalResultType;
+type MedicalResultData = Omit<MedicalResultType, 'disease'>
+    & MedicalResultOrder;
+
+const parse = (data: MedicalResultType): MedicalResultData => ({
+    ...data,
+    ...data.order
+});
 
 const MedicalReport: React.FC = () => {
 
-    const table = useTable<ResultData>([], 50);
-    const [selected, setSelected] = useState<ResultData>();
+    const table = useTable<MedicalResultData>([], 50);
+    const [selected, setSelected] = useState<MedicalResultData>();
 
     const [tableLoading, TableDisclosure] = useDisclosure(true);
     const [openReportDisclosure, ReportDisclosure] = useDisclosure(false);
@@ -35,8 +45,9 @@ const MedicalReport: React.FC = () => {
         TableDisclosure.open();
         try {
             const results = await resultService.find();
+            const data = results.map(parse);
             console.log(results);
-            table.setData(results);
+            table.setData(data);
         } catch (error) {
             console.error(error);
             notifications.show({
@@ -52,6 +63,7 @@ const MedicalReport: React.FC = () => {
     const rows = table.rows.map((row) => (
         <Table.Tr key={row.id}>
             <Table.Td>{row.examName}</Table.Td>
+            <Table.Td>{row.patientFullname}</Table.Td>
             <Table.Td>
                 <ResultSettingsMenu
                     useFile={!!row.report && row.report.hasFile}
@@ -73,8 +85,19 @@ const MedicalReport: React.FC = () => {
             onSort={() => table.setSorting('examName')} >
             Examen
         </SortTh>
+        <SortTh
+            sorted={table.sortBy === 'examName'}
+            reversed={table.sortDirection}
+            onSort={() => table.setSorting('examName')} >
+            Paciente
+        </SortTh>
         <Table.Th>Acciones</Table.Th>
     </>
+
+    const handleFormSubmit = (data: MedicalResultType) => {
+        const parsed = parse(data);
+        table.replaceRow('id', parsed.id, parsed);
+    }
 
     return (
         <>
@@ -82,7 +105,8 @@ const MedicalReport: React.FC = () => {
                 opened={openReportDisclosure}
                 onClose={ReportDisclosure.close}
                 result={selected?.id || -1}
-                report={selected?.report} />
+                report={selected?.report}
+                onFormSubmit={handleFormSubmit} />
 
             <Group justify="space-between">
                 <Title component="span" variant="text" c='omegaColors'>

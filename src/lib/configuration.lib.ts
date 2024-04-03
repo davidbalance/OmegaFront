@@ -1,6 +1,10 @@
-import { LinkProp, LogoProp } from ".";
+import { LinkProp } from ".";
 
 const CONFIGURATION_KEY = process.env.NEXT_PUBLIC_CONFIGURATION_KEY || 'CONFIGURATION-KEY'
+
+type LogoProp = {
+    name: string;
+}
 
 export type Configuration = {
     logo: LogoProp;

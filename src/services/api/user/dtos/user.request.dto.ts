@@ -5,10 +5,10 @@ export type CreateUserRQ = {
     email: string;
 }
 
-export type FindUserAndUpdateRQ = Partial<Omit<CreateUserRQ, 'dni'>> & {
+export type UpdateUserRQ = Partial<Omit<CreateUserRQ, 'dni'>> & {
     id: number;
 }
 
-export type FindUserAndDeleteRQ = {
+export type DeleteUserRQ = {
     id: number;
 }

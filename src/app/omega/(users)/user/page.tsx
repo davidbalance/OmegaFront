@@ -1,8 +1,26 @@
 'use client'
 
-import { Group, Table, Center, rem, TextInput, ActionIcon, Title } from '@mantine/core';
-import React, { useLayoutEffect, useState } from 'react'
-import { IconCirclePlus, IconLicense, IconLock, IconSearch, IconUserCheck } from '@tabler/icons-react';
+import {
+    Group,
+    Table,
+    Center,
+    rem,
+    TextInput,
+    ActionIcon,
+    Title
+} from '@mantine/core';
+import React,
+{
+    useLayoutEffect,
+    useState
+} from 'react'
+import {
+    IconCirclePlus,
+    IconLicense,
+    IconLock,
+    IconSearch,
+    IconUserCheck
+} from '@tabler/icons-react';
 import { useTable } from '@/hooks/useTable';
 import { useDisclosure } from '@mantine/hooks';
 import UserDataForm from '@/components/user/user-data-form/UserDataForm';
@@ -17,8 +35,13 @@ import OmegaTable from '@/components/table/omega-table/OmegaTable';
 import UpdateUserRoleFormDrawer from '@/components/user/update-user-role-form-drawer/UpdateUserRoleFormDrawer';
 import ChangePasswordDrawer from '@/components/user/change-password-drawer/ChangePasswordDrawer';
 import DeleteUserDialog from '@/components/user/delete-user-dialog/DeleteUserDialog';
-import { Role, User, User as UserType } from '@/lib';
-import { IFindService, RoleService, UserService } from '@/services';
+import {
+    IFindService,
+    RoleService,
+    UserService,
+    Role as RoleType,
+    User as UserType,
+} from '@/services';
 import endpoints from '@/services/endpoints/endpoints';
 import { notifications } from '@mantine/notifications';
 
@@ -32,7 +55,7 @@ const stepPasswordForm: UserStepProps = {
     icon: <IconLock style={{ width: rem(18), height: rem(18) }} />,
     step: { form: UserPasswordForm, props: {} }
 };
-const stepRoleForm = (roles: Role[]): UserStepProps => ({
+const stepRoleForm = (roles: RoleType[]): UserStepProps => ({
     description: 'Asignacion de roles',
     icon: <IconLicense style={{ width: rem(18), height: rem(18) }} />,
     step: {
@@ -45,14 +68,14 @@ const stepRoleForm = (roles: Role[]): UserStepProps => ({
 
 const User: React.FC = () => {
 
-    const userService: IFindService<any, User> = new UserService(endpoints.USER.V1);
-    const roleService: IFindService<any, Role> = new RoleService(endpoints.ROLE.V1);
+    const userService: IFindService<any, UserType> = new UserService(endpoints.USER.V1);
+    const roleService: IFindService<any, RoleType> = new RoleService(endpoints.ROLE.V1);
 
     const table = useTable<UserType>([], 50);
 
     const [steps, setSteps] = useState<UserStepProps[]>([]);
     const [selected, setSelected] = useState<UserType>();
-    const [roles, setRoles] = useState<Role[]>([]);
+    const [roles, setRoles] = useState<RoleType[]>([]);
 
     const [tableLoading, tableDisclosure] = useDisclosure(true);
 
@@ -88,10 +111,10 @@ const User: React.FC = () => {
         }
     }
 
-    const onModification = (user: User) => { setSelected(user); modifyFormDisclosure.open() };
-    const onConfiguration = (user: User) => { setSelected(user); roleFormDisclosure.open() };
-    const onChangePassword = (user: User) => { setSelected(user); passwordFormDisclosure.open() };
-    const onDelete = (user: User) => { setSelected(user); deleteFormDisclosure.open() };
+    const onModification = (user: UserType) => { setSelected(user); modifyFormDisclosure.open() };
+    const onConfiguration = (user: UserType) => { setSelected(user); roleFormDisclosure.open() };
+    const onChangePassword = (user: UserType) => { setSelected(user); passwordFormDisclosure.open() };
+    const onDelete = (user: UserType) => { setSelected(user); deleteFormDisclosure.open() };
 
     const rows = table.rows.map((row) => (
         <Table.Tr key={row.id}>
@@ -124,7 +147,7 @@ const User: React.FC = () => {
             <UpdateUserFormDrawer opened={openModifyForm} onClose={modifyFormDisclosure.close} user={selected!} />
             <UpdateUserRoleFormDrawer opened={openRoleForm} onClose={roleFormDisclosure.close} roles={roles} user={selected?.id || -1} />
             <ChangePasswordDrawer opened={openPasswordForm} onClose={passwordFormDisclosure.close} email={selected ? selected.email : ''} />
-            <DeleteUserDialog opened={openDeleteForm} onClose={deleteFormDisclosure.close} user={selected?.id || -1} onComplete={() => load()}/>
+            <DeleteUserDialog opened={openDeleteForm} onClose={deleteFormDisclosure.close} user={selected?.id || -1} onComplete={() => load()} />
 
             <Group justify="space-between">
                 <Title component="span" variant="text" c='omegaColors'>

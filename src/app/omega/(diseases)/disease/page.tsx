@@ -1,10 +1,8 @@
 'use client'
 
 import CreateDiseaseDrawer from '@/components/morbidity/create-disease-drawer/CreateDiseaseDrawer';
-import CreateMorbidityDrawer from '@/components/morbidity/create-disease-drawer/CreateDiseaseDrawer';
 import DeleteDiseaseDialog from '@/components/morbidity/delete-disease-dialog/DeleteDiseaseDialog';
 import UpdateDiseaseDrawer from '@/components/morbidity/update-disease-drawer/UpdateDiseaseDrawer';
-import UpdateMorbidityDrawer from '@/components/morbidity/update-disease-drawer/UpdateDiseaseDrawer';
 import OmegaTable from '@/components/table/omega-table/OmegaTable';
 import SortTh from '@/components/table/sort-th/SortTh';
 import UserSettingsMenu from '@/components/user/user-settings-menu/UserSettingsMenu';

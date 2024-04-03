@@ -1,4 +1,4 @@
-import { FindSelectorOptions } from "@/lib";
+import { SelectorOption } from "@/lib";
 
 export type Disease = {
     id: number;
@@ -9,16 +9,16 @@ export type Disease = {
     };
 }
 
-export type CreateDiseaseRS = {
-    disease: Disease;
-}
-
-export type FindDiseaseSelectorOptionRS = FindSelectorOptions<number>;
-
-export type FindDiseaseAndUpdateRS = {
-    disease: Disease;
-}
+export type FindDiseaseRS = Disease;
 
 export type FindDiseasesRS = {
     diseases: Disease[];
+}
+
+export type CreateDiseaseRS = Disease;
+
+export type UpdateDiseaseRS = Disease;
+
+export type FindSelectorOptionsDisease = {
+    options: SelectorOption<number>[];
 }

@@ -1,16 +1,18 @@
-import { FindSelectorOptions } from "@/lib";
+import { FindSelectorOptions, SelectorOption } from "@/lib";
 
 export type DiseaseGroup = {
     id: number;
     name: string;
 }
 
-export type CreateDiseaseGroupRS = {
-    disease: DiseaseGroup;
-}
+export type CreateDiseaseGroupRS = DiseaseGroup;
 
-export type FindDiseaseGroupSelectorOptionsRS = FindSelectorOptions<number>;
+export type FindDiseaseGroupRS = DiseaseGroup;
 
 export type FindDiseaseGroupsRS = {
-    diseaseGroups: DiseaseGroup[];
-}
+    groups: DiseaseGroup[];
+};
+
+export type UpdateDiseaseGroupRS = DiseaseGroup;
+
+export type FindSelectorDiseaseGroupRS = FindSelectorOptions<number>;

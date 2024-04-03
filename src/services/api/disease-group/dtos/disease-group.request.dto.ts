@@ -2,10 +2,10 @@ export type CreateDiseaseGroupRQ = {
     name: string;
 }
 
-export type FindDiseaseGroupAndUpdateRQ = Partial<CreateDiseaseGroupRQ> & {
+export type UpdateDiseaseGroupRQ = Partial<CreateDiseaseGroupRQ> & {
     id: number;
 }
 
-export type FindDiseaseGroupAndDeleteRQ = {
+export type DeleteDiseaseGroupRQ = {
     id: number;
 }
