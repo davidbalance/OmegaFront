@@ -1,3 +1,5 @@
+export type FindUserRQ = {}
+
 export type CreateUserRQ = {
     dni: string;
     name: string;

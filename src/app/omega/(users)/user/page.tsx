@@ -1,49 +1,28 @@
 'use client'
 
-import {
-    Group,
-    Table,
-    Center,
-    rem,
-    TextInput,
-    ActionIcon,
-    Title
-} from '@mantine/core';
-import React,
-{
-    useLayoutEffect,
-    useState
-} from 'react'
-import {
-    IconCirclePlus,
-    IconLicense,
-    IconLock,
-    IconSearch,
-    IconUserCheck
-} from '@tabler/icons-react';
+import { Group, Table, Center, rem, TextInput, ActionIcon, Text, Tooltip } from '@mantine/core';
+import React, { useLayoutEffect, useState } from 'react'
+import { IconCirclePlus, IconLicense, IconLock, IconSearch, IconUserCheck } from '@tabler/icons-react';
 import { useTable } from '@/hooks/useTable';
 import { useDisclosure } from '@mantine/hooks';
 import UserDataForm from '@/components/user/user-data-form/UserDataForm';
-import UserPasswordForm from '@/components/user/user-password-form/UserPasswordForm';
-import UserRoleForm from '@/components/user/user-role-form/UserRoleForm';
-import { UserStepProps } from '@/components/user';
-import CreateUserFormDrawer from '@/components/user/create-user-form-drawer/CreateUserFormDrawer';
-import UpdateUserFormDrawer from '@/components/user/update-user-form-drawer/UpdateUserFormDrawer';
 import UserSettingsMenu from '@/components/user/user-settings-menu/UserSettingsMenu';
 import SortTh from '@/components/table/sort-th/SortTh';
-import OmegaTable from '@/components/table/omega-table/OmegaTable';
+import { OmegaTable } from '@/components/table/omega-table/OmegaTable';
 import UpdateUserRoleFormDrawer from '@/components/user/update-user-role-form-drawer/UpdateUserRoleFormDrawer';
 import ChangePasswordDrawer from '@/components/user/change-password-drawer/ChangePasswordDrawer';
 import DeleteUserDialog from '@/components/user/delete-user-dialog/DeleteUserDialog';
-import {
-    IFindService,
-    RoleService,
-    UserService,
-    Role as RoleType,
-    User as UserType,
-} from '@/services';
 import endpoints from '@/services/endpoints/endpoints';
 import { notifications } from '@mantine/notifications';
+import { IFindService } from '@/services/interfaces';
+import { User as UserType } from '@/services/api/user/dtos';
+import { Role as RoleType } from '@/services/api/role/dtos';
+import { RoleService, UserService } from '@/services/api';
+import OmegaTh from '@/components/table/omega-th/OmegaTh';
+import { CreateUserForm, UserStepProps } from '@/components/user/create-user-form';
+import { AuthenticationPasswordForm } from '@/components/authentication/authentication-password';
+import { AssignRoleForm } from '@/components/role/assign-role';
+import { UpdateUserForm } from '@/components/user/update-user-form/UpdateUserForm';
 
 const stepDataForm: UserStepProps = {
     description: 'Datos del usuario',
@@ -53,13 +32,13 @@ const stepDataForm: UserStepProps = {
 const stepPasswordForm: UserStepProps = {
     description: 'Creacion de contraseña',
     icon: <IconLock style={{ width: rem(18), height: rem(18) }} />,
-    step: { form: UserPasswordForm, props: {} }
+    step: { form: AuthenticationPasswordForm, props: {} }
 };
 const stepRoleForm = (roles: RoleType[]): UserStepProps => ({
     description: 'Asignacion de roles',
     icon: <IconLicense style={{ width: rem(18), height: rem(18) }} />,
     step: {
-        form: UserRoleForm,
+        form: AssignRoleForm,
         props: {
             roles: roles
         }
@@ -80,7 +59,7 @@ const User: React.FC = () => {
     const [tableLoading, tableDisclosure] = useDisclosure(true);
 
     const [openCreateForm, createFormDisclosure] = useDisclosure(false);
-    const [openModifyForm, modifyFormDisclosure] = useDisclosure(false);
+    const [openUpdateForm, updateFormDisclusure] = useDisclosure(false);
     const [openDeleteForm, deleteFormDisclosure] = useDisclosure(false);
 
     const [openRoleForm, roleFormDisclosure] = useDisclosure(false);
@@ -111,7 +90,7 @@ const User: React.FC = () => {
         }
     }
 
-    const onModification = (user: UserType) => { setSelected(user); modifyFormDisclosure.open() };
+    const onModification = (user: UserType) => { setSelected(user); updateFormDisclusure.open() };
     const onConfiguration = (user: UserType) => { setSelected(user); roleFormDisclosure.open() };
     const onChangePassword = (user: UserType) => { setSelected(user); passwordFormDisclosure.open() };
     const onDelete = (user: UserType) => { setSelected(user); deleteFormDisclosure.open() };
@@ -134,48 +113,58 @@ const User: React.FC = () => {
     ));
 
     const header = <>
-        <SortTh sorted={table.sortBy === 'dni'} reversed={table.sortDirection} onSort={() => table.setSorting('dni')} >CI</SortTh>
-        <SortTh sorted={table.sortBy === 'name'} reversed={table.sortDirection} onSort={() => table.setSorting('name')}>Nombre</SortTh>
-        <SortTh sorted={table.sortBy === 'lastname'} reversed={table.sortDirection} onSort={() => table.setSorting('lastname')}>Apellido</SortTh>
-        <SortTh sorted={table.sortBy === 'email'} reversed={table.sortDirection} onSort={() => table.setSorting('email')}>Correo Electronico</SortTh>
-        <Table.Th>Acciones</Table.Th>
+        <OmegaTh sort={{ onSort: () => table.setSorting('dni'), sorted: table.sortBy === 'dni' }} >CI</OmegaTh>
+        <OmegaTh sort={{ onSort: () => table.setSorting('name'), sorted: table.sortBy === 'name' }} >Nombre</OmegaTh>
+        <OmegaTh sort={{ onSort: () => table.setSorting('lastname'), sorted: table.sortBy === 'lastname' }} >Apellido</OmegaTh>
+        <OmegaTh sort={{ onSort: () => table.setSorting('email'), sorted: table.sortBy === 'email' }} >Correo Electronico</OmegaTh>
+        <OmegaTh>Acciones</OmegaTh>
     </>
 
-    return (
-        <>
-            <CreateUserFormDrawer opened={openCreateForm} onClose={createFormDisclosure.close} steps={steps} onComplete={() => load()} />
-            <UpdateUserFormDrawer opened={openModifyForm} onClose={modifyFormDisclosure.close} user={selected!} />
-            <UpdateUserRoleFormDrawer opened={openRoleForm} onClose={roleFormDisclosure.close} roles={roles} user={selected?.id || -1} />
-            <ChangePasswordDrawer opened={openPasswordForm} onClose={passwordFormDisclosure.close} email={selected ? selected.email : ''} />
-            <DeleteUserDialog opened={openDeleteForm} onClose={deleteFormDisclosure.close} user={selected?.id || -1} onComplete={() => load()} />
-
-            <Group justify="space-between">
-                <Title component="span" variant="text" c='omegaColors'>
-                    Usuarios
-                </Title>
+    const userGroups = () => {
+        if (openCreateForm) return <CreateUserForm onClose={createFormDisclosure.close} steps={steps} />;
+        if (openUpdateForm) return <UpdateUserForm onClose={updateFormDisclusure.close} user={selected!} />;
+        if (openRoleForm) return 'openRoleForm';
+        if (openPasswordForm) return 'openPasswordForm';
+        return <>
+            <DeleteUserDialog opened={openDeleteForm} user={selected?.id || -1} onClose={deleteFormDisclosure.close} />
+            <Group justify="space-between" mb={rem(16)}>
+                <Text
+                    tt="uppercase"
+                    fw={700}
+                    component='span'
+                    variant='text'
+                    c="omegaColors"
+                    size='lg'>
+                    Usuarios registrados en el sistema
+                </Text>
                 {
                     steps.length &&
                     <Center>
-                        <ActionIcon
-                            variant="transparent"
-                            onClick={createFormDisclosure.open}>
-                            <IconCirclePlus
-                                style={{ width: rem(64), height: rem(64) }}
-                                stroke={1.5} />
-                        </ActionIcon>
+                        <Tooltip label={'Crear usuario'}>
+                            <ActionIcon
+                                size='lg'
+                                variant="transparent"
+                                onClick={createFormDisclosure.open}>
+                                <IconCirclePlus
+                                    style={{ width: rem(64), height: rem(64) }}
+                                    stroke={1.5} />
+                            </ActionIcon>
+                        </Tooltip>
                     </Center>
                 }
             </Group>
 
-            <br />
-
             <TextInput
-                placeholder="Busca cualquier campo"
-                mb="md"
-                leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+                placeholder="Buscar"
+                size="xs"
+                leftSection={<IconSearch style={{ width: rem(12), height: rem(12) }} stroke={1.5} />}
+                rightSectionWidth={70}
+                styles={{ section: { pointerEvents: 'none' } }}
+                mb="sm"
                 value={table.search}
                 onChange={table.onSeach}
             />
+
             <OmegaTable
                 loading={tableLoading}
                 header={header}
@@ -184,7 +173,9 @@ const User: React.FC = () => {
                 page={table.page}
                 onPageChange={table.setPage} />
         </>
-    );
+    }
+
+    return (userGroups());
 }
 
 export default User

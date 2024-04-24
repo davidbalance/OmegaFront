@@ -1,5 +1,5 @@
-import { Table, Checkbox, Box, Button, TextInput, Alert } from '@mantine/core';
-import React, { ChangeEvent, ChangeEventHandler, FormEvent, ForwardedRef, useEffect, useState } from 'react'
+import { Box, Table, TextInput, Checkbox, Button } from '@mantine/core';
+import React, { ChangeEvent, FormEvent, ForwardedRef, useState } from 'react'
 
 export type Role = { name: string; id: number }
 type UserRoleFormProps = {
@@ -7,7 +7,7 @@ type UserRoleFormProps = {
     roles: Role[];
     data?: { roles: number[] };
 };
-const UserRoleForm = React.forwardRef<HTMLButtonElement, UserRoleFormProps>(({ onSubmit, roles, data }, ref: ForwardedRef<HTMLButtonElement>) => {
+const AssignRoleForm = React.forwardRef<HTMLButtonElement, UserRoleFormProps>(({ onSubmit, roles, data }, ref: ForwardedRef<HTMLButtonElement>) => {
 
     const [selected, setSelected] = useState<number[]>(data?.roles || []);
     const [error, setError] = useState<string | undefined>(undefined);
@@ -63,5 +63,4 @@ const UserRoleForm = React.forwardRef<HTMLButtonElement, UserRoleFormProps>(({ o
         </Box>
     );
 })
-
-export default UserRoleForm
+export { AssignRoleForm }

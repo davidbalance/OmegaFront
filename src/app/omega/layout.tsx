@@ -1,10 +1,10 @@
 'use client'
 
-import Navbar from "@/components/navbar/Navbar"
 import styles from './layout.module.css'
 import { Paper } from "@mantine/core"
 import { useConfiguration } from "@/hooks"
 import Footer from "@/components/footer/Footer"
+import { Navbar } from '@/components/navbar'
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
@@ -13,11 +13,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <main className={styles.wrapper}>
             <Navbar links={routes} />
-            <div className={styles.outer}>
-                <Paper className={styles.inner} shadow="xs" p="lg" radius={"lg"}>
-                    {children}
-                </Paper>
-            </div>
+            <Paper className={styles.inner} shadow="xs" p="lg" radius={"lg"}>
+                {children}
+            </Paper>
             <Footer />
         </main>
     )

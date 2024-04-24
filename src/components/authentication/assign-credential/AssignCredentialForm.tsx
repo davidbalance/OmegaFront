@@ -1,19 +1,22 @@
-import { Button, Drawer, DrawerProps, Group, LoadingOverlay, Text, rem } from '@mantine/core'
+import { UserCrendentialService } from '@/services/api';
+import { CreateCredentialRQ } from '@/services/api/user-credential/dtos';
+import endpoints from '@/services/endpoints/endpoints';
+import { ICreateService } from '@/services/interfaces';
+import { LoadingOverlay, Group, Button, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import React, { useRef } from 'react'
-import UserPasswordForm from '../user-password-form/UserPasswordForm';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import { CreateCredentialRQ, ICreateService, UserCrendentialService } from '@/services';
-import endpoints from '@/services/endpoints/endpoints';
+import React, { useRef } from 'react'
+import { AuthenticationPasswordForm } from '../authentication-password';
 
 const credentialService: ICreateService<CreateCredentialRQ, void> = new UserCrendentialService(endpoints.CREDENTIAL.V1);
 
-type AssignCredentialDrawerProps = DrawerProps & {
+type AssignCredentialProps = {
+    onClose: () => void;
     email: string;
     user: number;
 }
-const AssignCredentialDrawer: React.FC<AssignCredentialDrawerProps> = ({ email, user, ...props }) => {
+const AssignCredentialForm: React.FC<AssignCredentialProps> = ({ email, user, ...props }) => {
 
     const [visible, LoadDisclosure] = useDisclosure(false);
 
@@ -36,15 +39,10 @@ const AssignCredentialDrawer: React.FC<AssignCredentialDrawerProps> = ({ email, 
     }
 
     return (
-        <Drawer
-            {...props}
-            position='right'
-            title="Formulario de asignacion de credenciales"
-            overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
-            size='lg'>
+        <>
             <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
-            <UserPasswordForm
+            <AuthenticationPasswordForm
                 onSubmit={handleSubmit}
                 ref={buttonRef} />
 
@@ -57,8 +55,8 @@ const AssignCredentialDrawer: React.FC<AssignCredentialDrawerProps> = ({ email, 
                             stroke={1.5} />}>Guardar
                 </Button>
             </Group>
-        </Drawer>
+        </>
     )
 }
 
-export default AssignCredentialDrawer
+export { AssignCredentialForm }

@@ -4,8 +4,8 @@ import { Drawer, DrawerProps, LoadingOverlay } from '@mantine/core'
 import endpoints from '@/services/endpoints/endpoints';
 import { notifications } from '@mantine/notifications';
 import { useDisclosure } from '@mantine/hooks';
-import { MedicalResultService } from '@/services';
 import { MedicalResult as MedicalResultType, MedicalResultReport as MedicalResultReportType } from '@/services/api/medical-result/dtos';
+import { MedicalResultService } from '@/services/api';
 
 const resultService = new MedicalResultService(endpoints.RESULT.V1);
 

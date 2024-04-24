@@ -1,12 +1,15 @@
-import { AccessControlService, CreateCredentialRQ, CreateUserRQ, ICreateService, UserCrendentialService, UserService } from '@/services';
+import { UserService, UserCrendentialService, AccessControlService } from '@/services/api';
+import { CreateCredentialRQ } from '@/services/api/user-credential/dtos';
+import { CreateUserRQ, User as UserType } from '@/services/api/user/dtos';
 import endpoints from '@/services/endpoints/endpoints';
-import { Drawer, Stepper, rem, Flex, Group, Button, Text, DrawerProps, LoadingOverlay } from '@mantine/core';
+import { ICreateService } from '@/services/interfaces';
+import { Stepper, rem, Flex, Group, Button, Text, LoadingOverlay, Box, ActionIcon } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconCircleCheck, IconDeviceFloppy } from '@tabler/icons-react';
-import React, { RefObject, useEffect, useRef, useState } from 'react'
+import { IconCircleCheck, IconDeviceFloppy, IconX } from '@tabler/icons-react';
+import React, { RefObject, useRef, useState } from 'react'
 
-const userService: ICreateService<CreateUserRQ, number> = new UserService(endpoints.USER.V1);
+const userService: ICreateService<CreateUserRQ, UserType> = new UserService(endpoints.USER.V1);
 const credentialService: ICreateService<CreateCredentialRQ, void> = new UserCrendentialService(endpoints.CREDENTIAL.V1);
 const accessControlService = new AccessControlService(endpoints.ACCESS_CONTROL.V1);
 
@@ -16,11 +19,12 @@ export type UserStepProps = {
         props: any
     }
 }
-type CreateUserFormDrawerProps = DrawerProps & {
+type CreateUserFormProps = {
+    onClose: () => void;
     steps: UserStepProps[];
     onComplete?: () => void;
 }
-const CreateUserFormDrawer: React.FC<CreateUserFormDrawerProps> = ({ steps, onComplete, ...props }) => {
+const CreateUserForm: React.FC<CreateUserFormProps> = ({ steps, onComplete, ...props }) => {
 
     const [visible, LoadDisclosure] = useDisclosure(false);
 
@@ -31,11 +35,6 @@ const CreateUserFormDrawer: React.FC<CreateUserFormDrawerProps> = ({ steps, onCo
     if (formReferences.current.length < steps.length) {
         formReferences.current = steps.map(() => React.createRef<HTMLButtonElement>());
     }
-
-    useEffect(() => {
-        setActive(0);
-        return () => { }
-    }, [props.opened]);
 
     const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
@@ -75,35 +74,43 @@ const CreateUserFormDrawer: React.FC<CreateUserFormDrawerProps> = ({ steps, onCo
     const handleSubmit = async (data: any) => {
         const newData = { ...formData, ...data };
         setFormData(newData);
-        if (active === steps.length - 1) createUser(newData) 
+        if (active === steps.length - 1) createUser(newData)
         else nextStep();
     }
 
     return (
-        <Drawer
-            position='right'
-            title="Formulario de usuario"
-            overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
-            size='lg'
-            {...props}>
+        <>
             <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+            <Group w='100%' justify='flex-end' mb={rem(12)}>
+                <ActionIcon variant='transparent' onClick={props.onClose}>
+                    <IconX />
+                </ActionIcon>
+            </Group>
 
             <Stepper
                 active={active}
                 size='xs'
                 onStepClick={setActive}
                 allowNextStepsSelect={false}
+                px={rem(64)}
                 completedIcon={<IconCircleCheck style={{ width: rem(18), height: rem(18) }} />}
-                style={{ height: rem(480) }}
-            >
+                style={{ height: rem(480) }}>
                 {
                     steps.map((step, index) => (
-                        <Stepper.Step key={index} label={`Paso ${index + 1}`} description={step.description} icon={step.icon}>
-                            <step.step.form
-                                data={{ ...formData }}
-                                ref={formReferences.current[index]}
-                                onSubmit={handleSubmit}
-                                {...step.step.props} />
+                        <Stepper.Step
+                            key={index}
+                            label={`Paso ${index + 1}`}
+                            description={step.description}
+                            icon={step.icon}>
+                            <Group justify='center'>
+                                <Box miw={rem(800)} pt={rem(32)} px='lg'>
+                                    <step.step.form
+                                        data={{ ...formData }}
+                                        ref={formReferences.current[index]}
+                                        onSubmit={handleSubmit}
+                                        {...step.step.props} />
+                                </Box>
+                            </Group>
                         </Stepper.Step>
                     ))
                 }
@@ -123,11 +130,13 @@ const CreateUserFormDrawer: React.FC<CreateUserFormDrawerProps> = ({ steps, onCo
                 </Stepper.Completed>
             </Stepper>
 
-            <Group justify="center" mt="xl">
+            <Group justify="center" mt="lg">
                 {
                     active < steps.length ?
                         <>
-                            <Button variant="default" onClick={prevStep}>Atras</Button>
+                            {
+                                active !== 0 && <Button variant="default" onClick={prevStep}>Atras</Button>
+                            }
                             {
                                 active < steps.length - 1
                                     ? <Button onClick={handleNextChange}>Siguiente</Button>
@@ -143,8 +152,8 @@ const CreateUserFormDrawer: React.FC<CreateUserFormDrawerProps> = ({ steps, onCo
                         : <Button onClick={props.onClose}>Finalizar</Button>
                 }
             </Group>
-        </Drawer>
+        </>
     );
 }
 
-export default CreateUserFormDrawer
+export { CreateUserForm };

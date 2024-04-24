@@ -1,16 +1,11 @@
 'use client'
 
 import PatientResultDrawer from '@/components/patient/patient-result-drawer/PatientResultDrawer';
-import OmegaTable from '@/components/table/omega-table/OmegaTable';
+import { OmegaTable } from '@/components/table/omega-table/OmegaTable';
 import SortTh from '@/components/table/sort-th/SortTh';
 import { useTable } from '@/hooks/useTable';
 import { SelectorOption } from '@/lib';
-import {
-    DiseaseService,
-    IFindService,
-    ISelectorService,
-    OrderService,
-} from '@/services';
+import { OrderService, DiseaseService } from '@/services/api';
 import { MedicalResult as MedicalResultType } from '@/services/api/medical-result/dtos';
 import {
     FindOrdersRQ,
@@ -18,6 +13,7 @@ import {
     Order as OrderType
 } from '@/services/api/order/dtos';
 import endpoints from '@/services/endpoints/endpoints';
+import { IFindService, ISelectorService } from '@/services/interfaces';
 import {
     Group,
     Table,

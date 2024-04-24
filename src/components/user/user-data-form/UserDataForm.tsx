@@ -1,11 +1,11 @@
-import React, { ForwardedRef } from 'react'
-import { SimpleGrid, rem, TextInput, Container, Box, Button } from '@mantine/core';
+import React from 'react'
+import { SimpleGrid, rem, TextInput, Box, Button } from '@mantine/core';
 import { IconId, IconAt } from '@tabler/icons-react';
 import { joiResolver, useForm } from '@mantine/form';
 import Joi from 'joi';
-import { User } from '@/lib';
+import { User as UserType } from '@/services/api/user/dtos';
 
-type IUserForm = Omit<User, 'id'>;
+type IUserForm = Omit<UserType, 'id'>;
 
 const userSchema = Joi.object<IUserForm>({
     name: Joi
@@ -71,7 +71,7 @@ const UserDataForm = React.forwardRef<HTMLButtonElement, UserDataFormProps>(({ d
                     {...form.getInputProps('lastname')} />
             </SimpleGrid>
 
-            <SimpleGrid cols={{ base: 1, sm: 2 }} style={{ marginBottom: rem(16) }}>
+            <SimpleGrid cols={{ base: 1, sm: 1 }} style={{ marginBottom: rem(16) }}>
                 <TextInput
                     label="Cedula"
                     placeholder="17*******0"

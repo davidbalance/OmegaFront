@@ -2,15 +2,16 @@
 
 import ReportFormDrawer from '@/components/report/report-form-drawer/ReportFormDrawer'
 import ResultSettingsMenu from '@/components/report/result-settings-menu/ResultSettingsMenu'
-import OmegaTable from '@/components/table/omega-table/OmegaTable'
+import { OmegaTable } from '@/components/table/omega-table/OmegaTable'
 import SortTh from '@/components/table/sort-th/SortTh'
 import { useTable } from '@/hooks/useTable'
-import { IFindService, MedicalReportService, MedicalResultService } from '@/services'
+import { MedicalResultService, MedicalReportService } from '@/services/api'
 import {
     MedicalResultOrder,
     MedicalResult as MedicalResultType
 } from '@/services/api/medical-result/dtos'
 import endpoints from '@/services/endpoints/endpoints'
+import { IFindService } from '@/services/interfaces'
 import { Group, Table, TextInput, Title, rem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'

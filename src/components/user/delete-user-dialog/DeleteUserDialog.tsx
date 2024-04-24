@@ -1,11 +1,13 @@
 import AgreementDialog from '@/components/dialog/agreement-dialog/AgreementDialog';
-import { FindUserAndDeleteRQ, IDeleteService, UserService } from '@/services';
+import { UserService } from '@/services/api';
+import { DeleteUserRQ } from '@/services/api/user/dtos';
 import endpoints from '@/services/endpoints/endpoints';
+import { IDeleteService } from '@/services/interfaces';
 import { DialogProps } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
 import React from 'react'
 
-const userService: IDeleteService<FindUserAndDeleteRQ, void> = new UserService(endpoints.USER.V1);
+const userService: IDeleteService<DeleteUserRQ, void> = new UserService(endpoints.USER.V1);
 
 type DeleteUserDialogProps = DialogProps & {
     user: number;

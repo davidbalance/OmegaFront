@@ -1,7 +1,8 @@
-import { Box, Button, PasswordInput, rem } from '@mantine/core'
-import { joiResolver, useForm } from '@mantine/form';
-import { IconLock } from '@tabler/icons-react'
+import { Box, PasswordInput, rem, Button } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { IconLock } from '@tabler/icons-react';
 import Joi from 'joi';
+import { joiResolver } from 'mantine-form-joi-resolver';
 import React, { ForwardedRef } from 'react'
 
 type IPasswordForm = {
@@ -32,11 +33,11 @@ const passwordSchema = Joi.object<IPasswordForm>({
         })
 });
 
-type UserPasswordFormProps = {
+type AuthenticationPasswordFormProps = {
     onSubmit: (values: Omit<IPasswordForm, 'confirmPassword'>) => void;
     data?: { password: string };
 }
-const UserPasswordForm = React.forwardRef<HTMLButtonElement, UserPasswordFormProps>(({ data, onSubmit }, ref: ForwardedRef<HTMLButtonElement>) => {
+const AuthenticationPasswordForm = React.forwardRef<HTMLButtonElement, AuthenticationPasswordFormProps>(({ data, onSubmit }, ref: ForwardedRef<HTMLButtonElement>) => {
 
     const form = useForm({
         initialValues: {
@@ -69,4 +70,4 @@ const UserPasswordForm = React.forwardRef<HTMLButtonElement, UserPasswordFormPro
     )
 });
 
-export default UserPasswordForm
+export { AuthenticationPasswordForm }

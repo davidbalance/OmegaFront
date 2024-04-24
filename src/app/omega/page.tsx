@@ -10,11 +10,13 @@ const Landing: React.FC = () => {
           <Text component="span" variant="gradient" gradient={{ from: 'orangered', to: 'coral' }} inherit>
             OMEGA
           </Text>{' '}
-          Repository system
+          Sistema de reporteria medica
         </h1>
 
-        <Text className={classes.description} c="dimmed">
-          System focused in the report management <br />– Includes an access to files stored in our servers
+        <Text className={classes.description} c="dimmed" size='md'>
+          Sistema enfocado en la gestion de reportes
+          <br />– Acceso a los archivos almacenados en nuestros servidores.
+          <br />– Elaboracion de reportes.
         </Text>
       </Container>
     </div>

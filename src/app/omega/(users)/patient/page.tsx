@@ -4,10 +4,11 @@ import PatientSettingsMenu from '@/components/patient/patient-settings-menu/Pati
 import OmegaTable from '@/components/table/omega-table/OmegaTable';
 import SortTh from '@/components/table/sort-th/SortTh';
 import { useTable } from '@/hooks/useTable'
-import { IFindService, PatientService } from '@/services';
+import { PatientService } from '@/services/api';
 import { Patient as PatientType } from '@/services/api/patient/dtos';
 import { User as UserType } from '@/services/api/user/dtos';
 import endpoints from '@/services/endpoints/endpoints';
+import { IFindService } from '@/services/interfaces';
 import { Group, Table, Title, TextInput, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';

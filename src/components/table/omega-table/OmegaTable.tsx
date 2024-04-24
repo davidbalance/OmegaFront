@@ -1,8 +1,7 @@
-import { Flex, Loader, Pagination, ScrollArea, Table, Text } from '@mantine/core'
+import { Box, Flex, Loader, Pagination, ScrollArea, Table, Text, rem } from '@mantine/core'
 import React, { useState } from 'react'
 import cx from 'clsx';
 import classes from './OmegaTable.module.css';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 type OmegaTableProps = {
     header: React.ReactNode;
@@ -17,7 +16,7 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
     const [scrolled, setScrolled] = useState<boolean>(false);
 
     return (
-        <>
+        <Box className={classes.outer}>
             <ScrollArea h={height} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
                 <Table horizontalSpacing="md" verticalSpacing="xs" layout='auto'>
                     <Table.Thead className={cx(classes.sticky, { [classes.scrolled]: scrolled })} c='omegaColors'>
@@ -37,8 +36,10 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
                                                     <Loader size='sm' m='md' />
                                                     <Text size='xs'>Cargando recursos...</Text>
                                                 </Flex>
-                                                : <Text fw={500} ta="center">
-                                                    Nothing found
+                                                : <Text
+                                                    ta="center"
+                                                    size='xs'>
+                                                    Datos no encontrados
                                                 </Text>
                                         }
                                     </Table.Td>
@@ -59,8 +60,8 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
                         withEdges />
                 </div>
             }
-        </>
+        </Box>
     )
 }
 
-export default OmegaTable
+export { OmegaTable };

@@ -1,26 +1,15 @@
-import {
-    CreateUserRQ,
-    CreateUserRS,
-    DeleteUserRQ,
-    FindUsersRS,
-    ICreateService,
-    IDeleteService,
-    IFindService,
-    IUpdateService,
-    UpdateUserRQ,
-    UpdateUserRS,
-    User,
-    UserAPI
-} from "@/services";
+import { UserAPI } from "@/services/endpoints";
+import { IFindService, ICreateService, IUpdateService, IDeleteService } from "@/services/interfaces";
 import { AbstractService } from "../abstract.service";
 import { OmegaFetch } from "@/services/config";
+import { User, CreateUserRQ, UpdateUserRQ, DeleteUserRQ, FindUsersRS, CreateUserRS, UpdateUserRS, FindUserRS } from "./dtos";
 
 export class UserService
     extends AbstractService<UserAPI>
     implements IFindService<any, User>,
     ICreateService<CreateUserRQ, User>,
     IUpdateService<UpdateUserRQ, User>,
-    IDeleteService<DeleteUserRQ, void>{
+    IDeleteService<DeleteUserRQ, void> {
 
     find(): User[] | Promise<User[]>;
     find(params: any): User[] | Promise<User[]>;
@@ -33,8 +22,13 @@ export class UserService
         }
     }
 
-    findOne(params: any): User | Promise<User> {
-        throw new Error("Method not implemented.");
+    async findOne(params: any): Promise<User> {
+        try {
+            const user: FindUserRS = await OmegaFetch.get({ url: this.endpoints.FIND_ONE });
+            return user;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async create(params: CreateUserRQ): Promise<User> {

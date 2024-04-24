@@ -1,28 +1,22 @@
 'use client'
 
-import DoctorSettingsMenu from '@/components/doctor/doctor-settings-menu/DoctorSettingsMenu'
-import OmegaTable from '@/components/table/omega-table/OmegaTable'
-import SortTh from '@/components/table/sort-th/SortTh'
-import AssignCredentialDrawer from '@/components/user/assign-credential-drawer/AssignCredentialDrawer'
-import { useTable } from '@/hooks/useTable'
-import { DoctorService, IFindService } from '@/services'
+// import OmegaTable from '@/components/table/omega-table/OmegaTable'
+// import AssignCredentialDrawer from '@/components/user/assign-credential-drawer/AssignCredentialDrawer'
+// import { DoctorService, IFindService } from '@/services'
 import { Doctor as DoctorType } from '@/services/api/doctor/dtos'
 import { User as UserType } from '@/services/api/user/dtos'
-import endpoints from '@/services/endpoints/endpoints'
-import { Group, Title, Text, Table, TextInput, rem } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
-import { notifications } from '@mantine/notifications'
-import { IconSearch } from '@tabler/icons-react'
-import React, { useLayoutEffect, useState } from 'react'
+// import { Group, Title, Text, Table, TextInput, rem } from '@mantine/core'
+// import { IconSearch } from '@tabler/icons-react'
+import React, {  } from 'react'
 
-const doctorService: IFindService<any, DoctorType> = new DoctorService(endpoints.DOCTOR.V1)
+// const doctorService: IFindService<any, DoctorType> = new DoctorService(endpoints.DOCTOR.V1)
 type DoctorData = Omit<DoctorType, 'user'> & Omit<UserType, 'id'> & { user: number };
 
 const parseDoctor = (data: DoctorType): DoctorData => ({ ...data, ...data.user, user: data.user.id });
 
 const Doctor: React.FC = () => {
 
-    const [selected, setSelected] = useState<DoctorData | undefined>(undefined);
+    /* const [selected, setSelected] = useState<DoctorData | undefined>(undefined);
 
     const table = useTable<DoctorData>([], 50);
 
@@ -91,11 +85,11 @@ const Doctor: React.FC = () => {
             Apellido
         </SortTh>
         <Table.Th>Acciones</Table.Th>
-    </>
+    </> */
 
     return (
         <>
-            <AssignCredentialDrawer
+            {/* <AssignCredentialDrawer
                 opened={openAssignCredentialForm}
                 onClose={AssignCredentialDisclosure.close}
                 email={selected?.email || ''}
@@ -123,7 +117,7 @@ const Doctor: React.FC = () => {
                 rows={rows}
                 total={table.total}
                 page={table.page}
-                onPageChange={table.setPage} />
+                onPageChange={table.setPage} /> */}
         </>
     )
 }

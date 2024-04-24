@@ -1,92 +1,76 @@
 'use client'
 
-import {
-    Group,
-    Code,
-    Loader
-} from '@mantine/core';
-import {
-    IconLogout,
-    IconProps,
-    Icon,
-    IconUsers,
-    IconStethoscope,
-    IconWheelchair,
-    IconLicense,
-    IconFolder,
-    IconFolders,
-    IconReportMedical
-} from '@tabler/icons-react';
-import React,
-{
-    ForwardRefExoticComponent,
-    RefAttributes,
-    useState
-} from 'react'
-import styles from './Navbar.module.css';
-import { MantineLogo } from '@mantinex/mantine-logo';
-import { useAuth } from '@/hooks';
-import { LinkProp } from '@/lib/type.lib';
-import Link from 'next/link';
+import { TextInput, rem, ScrollArea } from '@mantine/core';
+import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconFolder, IconFolders, IconReportMedical, IconSettings, IconSearch } from '@tabler/icons-react';
+import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react'
+import classes from './Navbar.module.css';
+import { NavLink } from './navlink/NavLink';
+import { NavFooter } from './navfooter/NavFooter';
+import { NavLogo } from './navlogo/NavLogo';
+import { useSearch } from '@/hooks/useSearch';
+import { NavLinkProp } from '@/lib/types/nav-link.type';
 
-const LinkIcon: Record<string, { icon: ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>> }> = {
-    "user": { icon: IconUsers },
-    "patient": { icon: IconWheelchair },
-    "doctor": { icon: IconStethoscope },
-    "role": { icon: IconLicense },
-    "morbidity": { icon: IconFolder },
-    "morbidity-group": { icon: IconFolders },
-    "report": { icon: IconReportMedical },
+const LinkIcon: Record<string, ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>>> = {
+    "user": IconUsers,
+    "patient": IconWheelchair,
+    "doctor": IconStethoscope,
+    "role": IconLicense,
+    "morbidity": IconFolder,
+    "morbidity-group": IconFolders,
+    "report": IconReportMedical,
+    "configuration": IconSettings
 }
 
 interface NavbarProps {
-    links: LinkProp[],
+    links: NavLinkProp[],
     loading?: boolean
 }
 
 const Navbar: React.FC<NavbarProps> = ({ links, loading = false }) => {
-    const [active, setActive] = useState<string>('');
-    const { logout } = useAuth();
 
-    const navLinks = () => links.map((item) => {
-        const icon = item.icon ? LinkIcon[item.icon] : null;
-        return <Link
-            className={styles.link}
-            data-active={item.label === active || undefined}
-            href={item.address}
+    const [active, setActive] = useState<string>('');
+    const search = useSearch(links, ['label']);
+
+    const mainLinks = search.filter.map((item) => {
+        return <NavLink
             key={item.label}
+            href={item.address}
+            active={active === item.label}
+            link={{
+                icon: item.icon ? LinkIcon[item.icon] : IconSettings,
+                label: item.label
+            }}
             onClick={() => {
                 setActive(item.label);
-            }}
-        >
-            {
-                icon && <icon.icon className={styles.linkIcon} stroke={1.5} />
-            }
-            <span>{item.label}</span>
-        </Link>
+            }} />
     });
 
     return (
-        <nav className={styles.navbar}>
-            <div className={styles.navbarMain}>
-                <Group className={styles.header} justify="space-between">
-                    <MantineLogo size={28} inverted style={{ color: 'white' }} />
-                    <Code fw={700}>v3.1.2</Code>
-                </Group>
+        <nav className={classes.navbar}>
+            <div className={classes.header}>
+                <NavLogo />
             </div>
 
-            <div className={styles.linkGroup}>
-                {loading ? <Loader color="blue" /> : navLinks()}
-            </div>
+            <ScrollArea className={classes.links}>
+                <TextInput
+                    onChange={(e) => search.onSearch(e.target.value)}
+                    value={search.search}
+                    placeholder="Buscar"
+                    style={{ position: 'sticky', top: 0 }}
+                    size="xs"
+                    leftSection={<IconSearch style={{ width: rem(12), height: rem(12) }} stroke={1.5} />}
+                    rightSectionWidth={70}
+                    styles={{ section: { pointerEvents: 'none' } }}
+                    mb="sm"
+                />
+                <div className={classes.linksInner}>{mainLinks}</div>
+            </ScrollArea>
 
-            <div className={styles.footer}>
-                <a href="#" className={styles.link} onClick={() => logout()}>
-                    <IconLogout className={styles.linkIcon} stroke={1.5} />
-                    <span>Logout</span>
-                </a>
+            <div className={classes.footer}>
+                <NavFooter />
             </div>
         </nav>
     )
 }
 
-export default Navbar
+export { Navbar }

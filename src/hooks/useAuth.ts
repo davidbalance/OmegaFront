@@ -1,6 +1,7 @@
 
 import { removeConfiguration, removeTokens, setConfiguration, setTokens } from "@/lib";
-import { AuthenticationService, OmegaWebClientService } from "@/services";
+import { getUser, removeUser, setUser } from "@/lib/user.lib";
+import { AuthenticationService, OmegaWebClientService, UserService } from "@/services/api";
 import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
@@ -9,6 +10,7 @@ import { useRouter } from "next/navigation";
 export const useAuth = () => {
     const authenticationService = new AuthenticationService(endpoints.AUTHENTICATION.V1);
     const omegaClientService = new OmegaWebClientService(endpoints.OMEGA_WEB_CLIENT.V1);
+    const userService = new UserService(endpoints.USER.V1);
 
     const router = useRouter();
     const [loading, { open, close }] = useDisclosure();
@@ -20,6 +22,9 @@ export const useAuth = () => {
             setTokens(tokens);
             const configuration = await omegaClientService.findOne({});
             setConfiguration(configuration);
+            const user = await userService.findOne({});
+            delete user.id;
+            setUser(user);
             router.refresh();
         } catch (error) {
             console.error(error);
@@ -35,9 +40,6 @@ export const useAuth = () => {
     const logout = async () => {
         try {
             await authenticationService.logout();
-            removeTokens();
-            removeConfiguration();
-            router.refresh();
         } catch (error) {
             console.error(error);
             notifications.show({
@@ -45,12 +47,18 @@ export const useAuth = () => {
                 message: 'No se ha cerrado la sesion de forma correcta',
                 color: 'red'
             });
+        } finally {
+            removeConfiguration();
+            removeTokens();
+            removeUser();
+            router.refresh();
         }
     }
 
     return {
         loading,
         login,
-        logout
+        logout,
+        user: getUser()
     }
 }

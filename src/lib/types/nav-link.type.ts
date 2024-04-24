@@ -1,4 +1,4 @@
-export type LinkProp = {
+export type NavLinkProp = {
     icon?: string;
     label: string;
     address: string;

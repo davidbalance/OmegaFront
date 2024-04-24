@@ -1,4 +1,4 @@
-import { LinkProp } from ".";
+import { NavLinkProp } from "./types/nav-link.type";
 
 const CONFIGURATION_KEY = process.env.NEXT_PUBLIC_CONFIGURATION_KEY || 'CONFIGURATION-KEY'
 
@@ -8,7 +8,7 @@ type LogoProp = {
 
 export type Configuration = {
     logo: LogoProp;
-    resources: LinkProp[];
+    resources: NavLinkProp[];
 }
 
 export const setConfiguration = (configuration: Configuration): void => {

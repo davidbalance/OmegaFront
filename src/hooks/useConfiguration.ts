@@ -1,11 +1,11 @@
 import { getConfiguration } from "@/lib/configuration.lib";
-import { LinkProp, LogoProp } from "@/lib/type.lib";
+import { NavLinkProp } from "@/lib/types/nav-link.type";
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react"
 
 export const useConfiguration = () => {
-    const [routes, setRoutes] = useState<LinkProp[]>([]);
-    const [logo, setLogo] = useState<LogoProp | undefined>();
+    const [routes, setRoutes] = useState<NavLinkProp[]>([]);
+    // const [logo, setLogo] = useState<LogoProp | undefined>();
 
     useEffect(() => {
         const configuration = getConfiguration();
@@ -18,9 +18,9 @@ export const useConfiguration = () => {
             return;
         };
         setRoutes(configuration.resources || []);
-        setLogo(configuration.logo);
+        // setLogo(configuration.logo);
         return () => { }
     }, [])
 
-    return { routes, logo }
+    return { routes }
 }

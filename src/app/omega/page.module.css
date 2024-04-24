@@ -20,7 +20,7 @@
 
 .title {
   font-family: Greycliff CF, var(--mantine-font-family);
-  font-size: rem(42px);
+  font-size: rem(32);
   font-weight: 900;
   line-height: 1.1;
   margin: 0;
@@ -35,9 +35,4 @@
 
 .description {
   margin-top: var(--mantine-spacing-xl);
-  font-size: rem(24px);
-
-  @media (max-width: $mantine-breakpoint-sm) {
-    font-size: rem(18px);
-  }
 }

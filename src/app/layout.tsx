@@ -5,9 +5,10 @@ import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
 import '@mantine/nprogress/styles.css';
 import '@mantine/tiptap/styles.css';
-import { ColorSchemeScript, MantineColorsTuple, MantineProvider, createTheme } from "@mantine/core";
+import { ColorSchemeScript, MantineColorsTuple, MantineProvider, NavLink, createTheme } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import './globals.css';
+import { root } from "@/services/endpoints/config";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
@@ -29,7 +30,7 @@ const omegaTheme = createTheme({
     omegaColors
   },
   white: '#F9F6EE',
-  primaryColor: 'omegaColors',
+  primaryColor: 'omegaColors'
 });
 
 export const metadata: Metadata = {

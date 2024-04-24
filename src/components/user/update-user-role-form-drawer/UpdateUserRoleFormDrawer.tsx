@@ -1,17 +1,16 @@
 import { Button, Drawer, DrawerProps, Group, rem } from '@mantine/core';
 import React, { useRef } from 'react'
-import UserRoleForm from '../user-role-form/UserRoleForm';
+import UserRoleForm, { Role as RoleType } from '../user-role-form/UserRoleForm';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import { AccessControlService } from '@/services';
 import endpoints from '@/services/endpoints/endpoints';
 import { notifications } from '@mantine/notifications';
-import { Role } from '@/lib';
+import { AccessControlService } from '@/services/api';
 
 const accessControlService = new AccessControlService(endpoints.ACCESS_CONTROL.V1);
 
 type UpdateUserRoleFormDrawerProps = DrawerProps & {
     user: number;
-    roles: Role[]
+    roles: RoleType[]
 }
 const UpdateUserRoleFormDrawer: React.FC<UpdateUserRoleFormDrawerProps> = ({ user, roles, ...props }) => {
 

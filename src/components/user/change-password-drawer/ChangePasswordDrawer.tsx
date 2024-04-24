@@ -3,9 +3,11 @@ import { IconDeviceFloppy } from '@tabler/icons-react'
 import React, { useRef } from 'react'
 import UserPasswordForm from '../user-password-form/UserPasswordForm'
 import { notifications } from '@mantine/notifications'
-import { FindCredentialAndUpdateRQ, IUpdateService, UserCrendentialService } from '@/services'
 import endpoints from '@/services/endpoints/endpoints'
 import { useDisclosure } from '@mantine/hooks'
+import { UserCrendentialService } from '@/services/api'
+import { FindCredentialAndUpdateRQ } from '@/services/api/user-credential/dtos'
+import { IUpdateService } from '@/services/interfaces'
 
 const credentialService: IUpdateService<FindCredentialAndUpdateRQ, void> = new UserCrendentialService(endpoints.CREDENTIAL.V1);
 
