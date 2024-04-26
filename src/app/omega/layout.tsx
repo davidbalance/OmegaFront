@@ -8,11 +8,11 @@ import { Navbar } from '@/components/navbar'
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
-    const { routes } = useConfiguration();
+    const { routes, logo } = useConfiguration();
 
     return (
         <main className={styles.wrapper}>
-            <Navbar links={routes} />
+            <Navbar links={routes} logo={logo} />
             <Paper className={styles.inner} shadow="xs" p="lg" radius={"lg"}>
                 {children}
             </Paper>

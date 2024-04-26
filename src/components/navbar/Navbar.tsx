@@ -9,6 +9,7 @@ import { NavFooter } from './navfooter/NavFooter';
 import { NavLogo } from './navlogo/NavLogo';
 import { useSearch } from '@/hooks/useSearch';
 import { NavLinkProp } from '@/lib/types/nav-link.type';
+import { SystemLogo } from './navlogo/logos';
 
 const LinkIcon: Record<string, ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>>> = {
     "user": IconUsers,
@@ -17,16 +18,16 @@ const LinkIcon: Record<string, ForwardRefExoticComponent<Omit<IconProps, "ref"> 
     "role": IconLicense,
     "morbidity": IconFolder,
     "morbidity-group": IconFolders,
-    "report": IconReportMedical,
-    "configuration": IconSettings
+    "report": IconReportMedical
 }
 
 interface NavbarProps {
     links: NavLinkProp[],
+    logo: string,
     loading?: boolean
 }
 
-const Navbar: React.FC<NavbarProps> = ({ links, loading = false }) => {
+const Navbar: React.FC<NavbarProps> = ({ links, logo, loading = false }) => {
 
     const [active, setActive] = useState<string>('');
     const search = useSearch(links, ['label']);
@@ -48,7 +49,7 @@ const Navbar: React.FC<NavbarProps> = ({ links, loading = false }) => {
     return (
         <nav className={classes.navbar}>
             <div className={classes.header}>
-                <NavLogo />
+                <NavLogo logo={logo} />
             </div>
 
             <ScrollArea className={classes.links}>
