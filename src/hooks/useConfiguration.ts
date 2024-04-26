@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 
 export const useConfiguration = () => {
     const [routes, setRoutes] = useState<NavLinkProp[]>([]);
-    // const [logo, setLogo] = useState<LogoProp | undefined>();
+    const [logo, setLogo] = useState<string>("omega");
 
     useEffect(() => {
         const configuration = getConfiguration();
@@ -18,9 +18,9 @@ export const useConfiguration = () => {
             return;
         };
         setRoutes(configuration.resources || []);
-        // setLogo(configuration.logo);
+         setLogo(configuration.logo.name);
         return () => { }
     }, [])
 
-    return { routes }
+    return { routes, logo }
 }
