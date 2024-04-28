@@ -1,4 +1,5 @@
 import AgreementDialog from '@/components/dialog/agreement-dialog/AgreementDialog';
+import { useUser } from '@/hooks/useUser';
 import { UserService } from '@/services/api';
 import { DeleteUserRQ } from '@/services/api/user/dtos';
 import endpoints from '@/services/endpoints/endpoints';
@@ -18,7 +19,7 @@ const DeleteUserDialog: React.FC<DeleteUserDialogProps> = ({ user, onComplete, .
     const handleAgree = async () => {
         if (user <= 0) return;
         try {
-            await userService.findOneAndDelete({ id: user });
+            await useUser().erase({ id: user });
             onComplete?.();
             props.onClose?.();
         } catch (error) {

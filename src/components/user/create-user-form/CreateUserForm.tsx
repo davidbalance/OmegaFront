@@ -1,3 +1,4 @@
+import { useUser } from '@/hooks/useUser';
 import { UserService, UserCrendentialService, AccessControlService } from '@/services/api';
 import { CreateCredentialRQ } from '@/services/api/user-credential/dtos';
 import { CreateUserRQ, User as UserType } from '@/services/api/user/dtos';
@@ -51,7 +52,7 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ steps, onComplete, ...p
     const createUser = async (data: any) => {
         LoadDisclosure.open();
         try {
-            const user = await userService.create(data);
+            const user = await useUser().create(data);
             const newData = { ...data, user };
             console.log(1, newData)
             await credentialService.create(newData);

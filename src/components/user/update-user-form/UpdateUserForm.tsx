@@ -8,6 +8,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { UserService } from '@/services/api';
 import { UpdateUserRQ, User as UserType } from '@/services/api/user/dtos';
 import { IUpdateService } from '@/services/interfaces';
+import { useUser } from '@/hooks/useUser';
 
 const userService: IUpdateService<UpdateUserRQ, UserType> = new UserService(endpoints.USER.V1);
 
@@ -26,7 +27,7 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ user, ...props }) => {
         delete updatedData.id;
         LoadDisclosure.open();
         try {
-            await userService.findOneAndUpdate({ id: user.id, ...updatedData });
+            await useUser().update({ id: user.id, ...updatedData });
             props.onClose();
         } catch (error) {
             notifications.show({
