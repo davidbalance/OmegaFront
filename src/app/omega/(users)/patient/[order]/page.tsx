@@ -58,7 +58,6 @@ const PatientOrder: React.FC<PatientOrderProps> = ({ params }) => {
             const options = await diseaseService.findSelectorOptions();
             table.setData(orders);
             setOptions(options);
-            console.log(options);
         } catch (error) {
         } finally {
             TableDisclosure.close();

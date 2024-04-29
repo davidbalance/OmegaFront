@@ -1,10 +1,27 @@
 import { AccessControlAPI } from "@/services/endpoints";
 import { AbstractService } from "../abstract.service";
-import { FindAndUpdateResourcesRQ, FindAndUpdateRolesRQ } from "./dtos";
+import { ACClient, FindACClientRQ, FindAndUpdateResourcesRQ, FindAndUpdateRolesRQ, FindOneACClientRS } from "./dtos";
 import { OmegaFetch } from "@/services/config";
+import { IFindService } from "@/services/interfaces";
 
 export class AccessControlService
-    extends AbstractService<AccessControlAPI>{
+    extends AbstractService<AccessControlAPI>
+    implements IFindService<FindACClientRQ, ACClient> {
+
+    find(): ACClient[] | Promise<ACClient[]>;
+    find(params: FindACClientRQ): ACClient[] | Promise<ACClient[]>;
+    find(params?: unknown): ACClient[] | Promise<ACClient[]> {
+        throw new Error("Method not implemented.");
+    }
+
+    async findOne({ user }: FindACClientRQ): Promise<ACClient> {
+        try {
+            const client = await OmegaFetch.get<any, FindOneACClientRS>({ url: this.endpoints.FIND_ONE(user) });
+            return client;
+        } catch (error) {
+            throw error;
+        }
+    }
 
     async findOneAndUpdateRoles({ user, ...params }: FindAndUpdateRolesRQ): Promise<void> {
         try {
@@ -16,7 +33,7 @@ export class AccessControlService
             throw error;
         }
     }
-    
+
     async findOneAndUpdateResources({ user, ...params }: FindAndUpdateResourcesRQ): Promise<void> {
         try {
             await OmegaFetch.patch({

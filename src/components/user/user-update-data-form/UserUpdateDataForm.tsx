@@ -1,50 +1,35 @@
-import { Group, Button, rem, LoadingOverlay, ActionIcon, Text, Box } from '@mantine/core';
-import { IconDeviceFloppy, IconX } from '@tabler/icons-react';
+import { User } from '@/services/api/user/dtos';
+import { LoadingOverlay, Group, rem, ActionIcon, Box, Button, Text } from '@mantine/core';
+import { IconX, IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useRef } from 'react'
 import UserDataForm from '../user-data-form/UserDataForm';
-import endpoints from '@/services/endpoints/endpoints';
-import { notifications } from '@mantine/notifications';
-import { useDisclosure } from '@mantine/hooks';
-import { UserService } from '@/services/api';
-import { UpdateUserRQ, User as UserType } from '@/services/api/user/dtos';
-import { IUpdateService } from '@/services/interfaces';
-import { useUser } from '@/hooks/useUser';
+import { useUser } from '@/hooks';
 
-const userService: IUpdateService<UpdateUserRQ, UserType> = new UserService(endpoints.USER.V1);
-
-type UpdateUserFormProps = {
+type UserUpdateDataFormProps = {
     onClose: () => void;
-    user: Omit<UserType, 'roles'>;
+    user: User
 }
-const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ user, ...props }) => {
 
-    const [visible, LoadDisclosure] = useDisclosure(false);
+const UserUpdateDataForm: React.FC<UserUpdateDataFormProps> = ({ onClose, user }) => {
+
+    const userHook = useUser();
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const handleSubmit = async (data: any) => {
         const updatedData = { ...user, ...data };
         delete updatedData.id;
-        LoadDisclosure.open();
         try {
-            await useUser().update({ id: user.id, ...updatedData });
-            props.onClose();
-        } catch (error) {
-            notifications.show({
-                title: 'Error',
-                message: 'Al actualizar el usuario ha ocurrio un error',
-                color: 'red'
-            });
-        } finally {
-            LoadDisclosure.close();
-        }
+            await userHook.update({ id: user.id, ...updatedData });
+            onClose();
+        } catch (error) { }
     }
 
     return (
         <>
-            <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+            <LoadingOverlay visible={userHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <Group w='100%' justify='flex-end' mb={rem(6)}>
-                <ActionIcon variant='transparent' onClick={props.onClose}>
+                <ActionIcon variant='transparent' onClick={onClose}>
                     <IconX />
                 </ActionIcon>
             </Group>
@@ -85,4 +70,4 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ user, ...props }) => {
     )
 }
 
-export { UpdateUserForm }
+export { UserUpdateDataForm }

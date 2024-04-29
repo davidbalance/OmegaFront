@@ -9,7 +9,7 @@ export type TableHook<T extends object> = {
     search: string,
     sortBy: keyof T | null,
     setSorting: (field: keyof T) => void,
-    onSeach: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void,
     setPage: (page: number) => void,
     addRow: (row: T) => void;
     removeRow: <K>(field: keyof T, value: K) => void,
@@ -42,7 +42,7 @@ export const useTable = <T extends object>(initialData: T[], initialPerPage: num
         setSortedData(sort(data, { sortBy: field, reversed, search }));
     };
 
-    const onSeach = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const onSearch = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const { value } = event.currentTarget;
         setSearch(value);
         setSortedData(sort(data, { sortBy, reversed: reverseSortDirection, search: value }));
@@ -86,7 +86,7 @@ export const useTable = <T extends object>(initialData: T[], initialPerPage: num
         sortBy: sortBy,
         addRow: addRow,
         setSorting: setSorting,
-        onSeach: onSeach,
+        onSearch: onSearch,
         setPage: setPage,
         removeRow: removeRow,
         replaceRow: replaceRow,

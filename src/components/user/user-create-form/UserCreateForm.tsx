@@ -1,38 +1,56 @@
-import { useUser } from '@/hooks/useUser';
-import { UserService, UserCrendentialService, AccessControlService } from '@/services/api';
-import { CreateCredentialRQ } from '@/services/api/user-credential/dtos';
-import { CreateUserRQ, User as UserType } from '@/services/api/user/dtos';
-import endpoints from '@/services/endpoints/endpoints';
-import { ICreateService } from '@/services/interfaces';
-import { Stepper, rem, Flex, Group, Button, Text, LoadingOverlay, Box, ActionIcon } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
-import { IconCircleCheck, IconDeviceFloppy, IconX } from '@tabler/icons-react';
-import React, { RefObject, useRef, useState } from 'react'
+import { useUser } from '@/hooks';
+import { useRole } from '@/hooks/useRole';
+import { LoadingOverlay, Group, rem, ActionIcon, Stepper, Box, Flex, Text, Button } from '@mantine/core';
+import { IconCircleCheck, IconDeviceFloppy, IconLicense, IconLock, IconUserCheck, IconX } from '@tabler/icons-react';
+import React, { useRef, useState } from 'react'
+import UserDataForm from '../user-data-form/UserDataForm';
+import { AuthenticationPasswordForm } from '@/components/authentication/authentication-password';
+import { AssignRoleForm } from '@/components/role/assign-role';
 
-const userService: ICreateService<CreateUserRQ, UserType> = new UserService(endpoints.USER.V1);
-const credentialService: ICreateService<CreateCredentialRQ, void> = new UserCrendentialService(endpoints.CREDENTIAL.V1);
-const accessControlService = new AccessControlService(endpoints.ACCESS_CONTROL.V1);
-
-export type UserStepProps = {
+type UserStepProps = {
     description: string; icon: React.ReactNode; step: {
         form: React.ElementType,
         props: any
     }
 }
-type CreateUserFormProps = {
+
+type UserCreateFormProps = {
     onClose: () => void;
-    steps: UserStepProps[];
     onComplete?: () => void;
 }
-const CreateUserForm: React.FC<CreateUserFormProps> = ({ steps, onComplete, ...props }) => {
 
-    const [visible, LoadDisclosure] = useDisclosure(false);
+const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onComplete }) => {
+
+    const userHook = useUser();
+    const roleHook = useRole(true);
 
     const [active, setActive] = useState(0);
     const [formData, setFormData] = useState<any>({});
 
-    const formReferences = useRef<RefObject<HTMLButtonElement>[]>([]);
+    const steps: UserStepProps[] = [
+        {
+            description: 'Datos del usuario',
+            icon: <IconUserCheck style={{ width: rem(18), height: rem(18) }} />,
+            step: { form: UserDataForm, props: {} }
+        },
+        {
+            description: 'Creacion de contraseña',
+            icon: <IconLock style={{ width: rem(18), height: rem(18) }} />,
+            step: { form: AuthenticationPasswordForm, props: {} }
+        },
+        {
+            description: 'Asignacion de roles',
+            icon: <IconLicense style={{ width: rem(18), height: rem(18) }} />,
+            step: {
+                form: AssignRoleForm,
+                props: {
+                    roles: roleHook.roles
+                }
+            }
+        }
+    ];
+
+    const formReferences = useRef<React.RefObject<HTMLButtonElement>[]>([]);
     if (formReferences.current.length < steps.length) {
         formReferences.current = steps.map(() => React.createRef<HTMLButtonElement>());
     }
@@ -49,45 +67,30 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ steps, onComplete, ...p
         }
     }
 
-    const createUser = async (data: any) => {
-        LoadDisclosure.open();
-        try {
-            const user = await useUser().create(data);
-            const newData = { ...data, user };
-            console.log(1, newData)
-            await credentialService.create(newData);
-            console.log(2, newData)
-            await accessControlService.findOneAndUpdateRoles(newData);
-            nextStep();
-            onComplete?.();
-        } catch (error) {
-            console.error(error);
-            notifications.show({
-                title: 'Error',
-                message: 'Ha ocurrido un error al crear el usuario',
-                color: 'red'
-            })
-        } finally {
-            LoadDisclosure.close();
-        }
-    }
-
     const handleSubmit = async (data: any) => {
         const newData = { ...formData, ...data };
         setFormData(newData);
-        if (active === steps.length - 1) createUser(newData)
-        else nextStep();
+        if (active === steps.length - 1) {
+            try {
+                await userHook.create(formData);
+                nextStep();
+                onComplete?.();
+            } catch (error) { }
+        }
+        else {
+            nextStep();
+        }
     }
+
 
     return (
         <>
-            <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+            <LoadingOverlay visible={userHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <Group w='100%' justify='flex-end' mb={rem(12)}>
-                <ActionIcon variant='transparent' onClick={props.onClose}>
+                <ActionIcon variant='transparent' onClick={onClose}>
                     <IconX />
                 </ActionIcon>
             </Group>
-
             <Stepper
                 active={active}
                 size='xs'
@@ -130,7 +133,6 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ steps, onComplete, ...p
                     </Flex>
                 </Stepper.Completed>
             </Stepper>
-
             <Group justify="center" mt="lg">
                 {
                     active < steps.length ?
@@ -150,11 +152,11 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ steps, onComplete, ...p
                                     </Button>
                             }
                         </>
-                        : <Button onClick={props.onClose}>Finalizar</Button>
+                        : <Button onClick={onClose}>Finalizar</Button>
                 }
             </Group>
         </>
     );
 }
 
-export { CreateUserForm };
+export { UserCreateForm };

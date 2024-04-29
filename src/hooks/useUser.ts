@@ -5,31 +5,22 @@ import { CreateUserRQ, DeleteUserRQ, UpdateUserRQ, User } from "@/services/api/u
 import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useCredential } from "./useCredential";
 import { useAccessControl } from "./useAccessControl";
 
-interface UseUserHook {
-    loading: boolean;
-    users: User[];
-    create: (dto: CreateUserRQ & Omit<CreateCredentialRQ, 'user'> & Omit<FindAndUpdateRolesRQ, 'user'>) => User | Promise<User>;
-    find: () => User[] | Promise<User[]>;
-    update: (dto: UpdateUserRQ) => User | Promise<User>;
-    remove: (dto: DeleteUserRQ) => void;
-
-}
-
-export const useUser = (loadOnStart: boolean = false): UseUserHook => {
+export const useUser = (loadOnStart: boolean = false) => {
 
     const [loading, Disclosure] = useDisclosure();
     const [users, setUsers] = useState<User[]>([]);
+    const [index, setIndex] = useState<number | undefined>(undefined);
 
     const userCredential = useCredential();
     const accessControl = useAccessControl();
 
     const userService = new UserService(endpoints.USER.V1);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (loadOnStart) {
             find();
         }
@@ -62,10 +53,10 @@ export const useUser = (loadOnStart: boolean = false): UseUserHook => {
     const find = async () => {
         Disclosure.open();
         try {
-            const user = await userService.find();
-            setUsers(user);
+            const foundUsers = await userService.find();
+            setUsers(foundUsers);
             Disclosure.close();
-            return user;
+            return foundUsers;
         } catch (error) {
             notifications.show({
                 title: 'Error al obtener los usuarios',
@@ -120,12 +111,18 @@ export const useUser = (loadOnStart: boolean = false): UseUserHook => {
         }
     }
 
+    const selectItem = (index: number) => setIndex(index);
+    const clearSelection = () => setIndex(undefined);
+
     return {
         loading,
+        user: index !== undefined ? users[index] : undefined,
         users,
         create,
         find,
         update,
         remove,
+        selectItem,
+        clearSelection
     }
 };
