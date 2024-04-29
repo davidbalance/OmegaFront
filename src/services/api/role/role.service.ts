@@ -1,4 +1,5 @@
-import { ICreateService, IDeleteService, IFindService, IUpdateService, RoleAPI } from "@/services";
+import { RoleAPI } from "@/services/endpoints";
+import { IFindService, ICreateService, IUpdateService, IDeleteService } from "@/services/interfaces";
 import { AbstractService } from "../abstract.service";
 import { CreateRoleRQ, FindRoleAndDeleteRQ, FindRoleAndUpdateRQ, FindRolesRS, Role } from "./dtos";
 import { OmegaFetch } from "@/services/config";

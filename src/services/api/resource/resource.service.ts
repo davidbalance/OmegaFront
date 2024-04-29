@@ -1,7 +1,8 @@
-import { IFindService, ResourceAPI } from "@/services";
+import { ResourceAPI } from "@/services/endpoints";
 import { AbstractService } from "../abstract.service";
 import { FindResourcesRS, Resource } from "./dtos";
 import { OmegaFetch } from "@/services/config";
+import { IFindService } from "@/services/interfaces";
 
 export class ResourceService
     extends AbstractService<ResourceAPI>

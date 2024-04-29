@@ -9,12 +9,10 @@ import {
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import React,
 { useRef } from 'react'
-import {
-    CreateDiseaseGroupRQ,
-    DiseaseGroup as DiseaseType,
-    DiseaseGroupService,
-    ICreateService
-} from '@/services';
+import { CreateDiseaseGroupRQ, DiseaseGroup as DiseaseType } from '@/services/api/disease-group/dtos';
+import { DiseaseGroupService } from '@/services/api'
+import { ICreateService } from '@/services/interfaces';
+
 import endpoints from '@/services/endpoints/endpoints';
 import { notifications } from '@mantine/notifications';
 import { useDisclosure } from '@mantine/hooks';

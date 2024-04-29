@@ -1,7 +1,7 @@
 'use client'
 
 import PatientSettingsMenu from '@/components/patient/patient-settings-menu/PatientSettingsMenu';
-import OmegaTable from '@/components/table/omega-table/OmegaTable';
+import { OmegaTable } from '@/components/table/omega-table/OmegaTable';
 import SortTh from '@/components/table/sort-th/SortTh';
 import { useTable } from '@/hooks/useTable'
 import { PatientService } from '@/services/api';

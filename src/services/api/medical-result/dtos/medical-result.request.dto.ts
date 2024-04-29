@@ -5,5 +5,6 @@ export type InsertMedicalReportRQ = {
 
 export type UpdateMedicalResultRQ = {
     id: number;
-    disease: number;
+    diseaseId: number;
+    diseaseName: string;
 }

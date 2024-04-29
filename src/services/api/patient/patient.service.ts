@@ -1,4 +1,5 @@
-import { IFindService, PatientAPI } from "@/services";
+import { IFindService } from "@/services/interfaces";
+import { PatientAPI } from '@/services/endpoints'
 import { AbstractService } from "../abstract.service";
 import { FindPatientsRS, Patient } from "./dtos";
 import { OmegaFetch } from "@/services/config";
@@ -21,5 +22,4 @@ export class PatientService
     findOne(params: any): Patient | Promise<Patient> {
         throw new Error("Method not implemented.");
     }
-
 }

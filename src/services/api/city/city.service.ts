@@ -1,8 +1,9 @@
-import { CityAPI, ISelectorService } from "@/services";
 import { AbstractService } from "../abstract.service";
 import { FindCitySelectorOptionsRS } from "./dtos";
 import { OmegaFetch } from "@/services/config";
 import { SelectorOption } from "@/lib";
+import { CityAPI } from "@/services/endpoints";
+import { ISelectorService } from "@/services/interfaces";
 
 export class CityService
     extends AbstractService<CityAPI>

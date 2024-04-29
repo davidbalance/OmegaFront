@@ -69,7 +69,7 @@ export default Object.freeze({
     RESOURCE: {
         V1: ResourceEndpoint
     },
-    RESULT: {
+    MEDICAL_RESULT: {
         V1: ResultEndpoint
     },
     ROLE: {

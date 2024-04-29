@@ -5,25 +5,24 @@ import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
 import '@mantine/nprogress/styles.css';
 import '@mantine/tiptap/styles.css';
-import { ColorSchemeScript, MantineColorsTuple, MantineProvider, NavLink, createTheme } from "@mantine/core";
+import { ColorSchemeScript, MantineColorsTuple, MantineProvider, createTheme } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import './globals.css';
-import { root } from "@/services/endpoints/config";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
 const omegaColors: MantineColorsTuple = [
-  '#fff0e4',
-  '#ffe0cf',
-  '#fac0a1',
-  '#f69e6e',
-  '#f28043',
-  '#f06d27',
-  '#f06418',
-  '#d6530c',
-  '#bf4906',
-  '#a73c00'
-];
+  "#fff6e1",
+  "#ffeccc",
+  "#ffd79b",
+  "#ffc164",
+  "#ffae38",
+  "#ffa31b",
+  "#ff9d09",
+  "#e38800",
+  "#ca7800",
+  "#b06700"
+]
 
 const omegaTheme = createTheme({
   colors: {

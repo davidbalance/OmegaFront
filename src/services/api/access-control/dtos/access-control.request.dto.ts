@@ -7,3 +7,7 @@ export type FindAndUpdateResourcesRQ = {
     user: number;
     resources: number[];
 }
+
+export type FindACClientRQ = {
+    user: number
+}

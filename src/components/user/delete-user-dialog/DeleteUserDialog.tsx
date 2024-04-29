@@ -1,40 +1,30 @@
 import AgreementDialog from '@/components/dialog/agreement-dialog/AgreementDialog';
-import { UserService } from '@/services/api';
-import { DeleteUserRQ } from '@/services/api/user/dtos';
-import endpoints from '@/services/endpoints/endpoints';
-import { IDeleteService } from '@/services/interfaces';
-import { DialogProps } from '@mantine/core'
-import { notifications } from '@mantine/notifications';
+import { useUser } from '@/hooks/useUser';
+import { DialogProps, LoadingOverlay } from '@mantine/core'
 import React from 'react'
-
-const userService: IDeleteService<DeleteUserRQ, void> = new UserService(endpoints.USER.V1);
 
 type DeleteUserDialogProps = DialogProps & {
     user: number;
-    onComplete?: () => void;
 };
-const DeleteUserDialog: React.FC<DeleteUserDialogProps> = ({ user, onComplete, ...props }) => {
+const DeleteUserDialog: React.FC<DeleteUserDialogProps> = ({ user, ...props }) => {
 
-    const handleAgree = async () => {
+    const userHook = useUser();
+
+    const handleAgree = () => {
         if (user <= 0) return;
         try {
-            await userService.findOneAndDelete({ id: user });
-            onComplete?.();
+            userHook.remove({ id: user });
             props.onClose?.();
-        } catch (error) {
-            notifications.show({
-                title: 'Error',
-                message: 'Se ha producido un error al eliminar el usuario',
-                color: 'red'
-            });
-        }
+        } catch (error) { }
     }
 
     return (
         <AgreementDialog
             message={'El usuario sera eliminado, ¿esta seguro?'}
             onAgree={handleAgree}
-            {...props} />
+            {...props}>
+            <LoadingOverlay visible={userHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+        </AgreementDialog>
     )
 }
 

@@ -1,7 +1,8 @@
-import { DoctorAPI, IFindService } from "@/services";
+import { DoctorAPI } from "@/services/endpoints";
 import { AbstractService } from "../abstract.service";
 import { Doctor, FindDoctorsRS, FindOneAndUploadSignature } from "./dtos";
 import { OmegaFetch } from "@/services/config";
+import { IFindService } from "@/services/interfaces/i-find.service";
 
 export class DoctorService
     extends AbstractService<DoctorAPI>

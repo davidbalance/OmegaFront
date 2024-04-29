@@ -3,18 +3,14 @@
 import CreateDiseaseDrawer from '@/components/morbidity/create-disease-drawer/CreateDiseaseDrawer';
 import DeleteDiseaseDialog from '@/components/morbidity/delete-disease-dialog/DeleteDiseaseDialog';
 import UpdateDiseaseDrawer from '@/components/morbidity/update-disease-drawer/UpdateDiseaseDrawer';
-import OmegaTable from '@/components/table/omega-table/OmegaTable';
+import { OmegaTable } from '@/components/table/omega-table/OmegaTable';
 import SortTh from '@/components/table/sort-th/SortTh';
 import UserSettingsMenu from '@/components/user/user-settings-menu/UserSettingsMenu';
 import { useTable } from '@/hooks/useTable';
 import { SelectorOption } from '@/lib';
-import {
-    DiseaseGroupService,
-    DiseaseService,
-    Disease as DiseaseType,
-    IFindService,
-    ISelectorService
-} from '@/services';
+import { DiseaseGroupService, DiseaseService } from '@/services/api';
+import { Disease as DiseaseType } from '@/services/api/disease/dtos';
+import { IFindService, ISelectorService } from '@/services/interfaces';
 import endpoints from '@/services/endpoints/endpoints';
 import {
     Group,

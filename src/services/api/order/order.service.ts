@@ -1,4 +1,5 @@
-import { IFindService, OrderAPI } from "@/services";
+import { OrderAPI } from "@/services/endpoints";
+import { IFindService } from "@/services/interfaces";
 import { AbstractService } from "../abstract.service";
 import { FindOrdersRQ, FindOrdersRS, Order } from "./dtos";
 import { OmegaFetch } from "@/services/config";
@@ -18,7 +19,7 @@ export class OrderService
             throw error;
         }
     }
-    
+
     findOne(params: FindOrdersRQ): Order | Promise<Order> {
         throw new Error("Method not implemented.");
     }

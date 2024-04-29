@@ -47,7 +47,6 @@ const MedicalReport: React.FC = () => {
         try {
             const results = await resultService.find();
             const data = results.map(parse);
-            console.log(results);
             table.setData(data);
         } catch (error) {
             console.error(error);

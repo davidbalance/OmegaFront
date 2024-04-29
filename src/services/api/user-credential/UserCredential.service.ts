@@ -1,7 +1,8 @@
-import { CredentialAPI, ICreateService, IUpdateService } from "@/services";
+import { CredentialAPI } from "@/services/endpoints";
 import { AbstractService } from "../abstract.service";
-import { CreateCredentialRQ, FindCredentialAndUpdateRQ } from ".";
 import { OmegaFetch } from "@/services/config";
+import { ICreateService, IUpdateService } from "@/services/interfaces";
+import { CreateCredentialRQ, FindCredentialAndUpdateRQ } from "./dtos";
 
 export class UserCrendentialService
     extends AbstractService<CredentialAPI>

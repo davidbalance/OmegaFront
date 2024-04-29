@@ -1,8 +1,9 @@
-import { BranchAPI, ISelectorService } from "@/services";
 import { AbstractService } from "../abstract.service";
 import { SelectorOption } from "@/lib";
 import { OmegaFetch } from "@/services/config";
 import { FindBranchSelectorOptions } from "./dtos";
+import { BranchAPI } from "@/services/endpoints";
+import { IFindService, ISelectorService } from "@/services/interfaces";
 
 export class BranchService
     extends AbstractService<BranchAPI>
