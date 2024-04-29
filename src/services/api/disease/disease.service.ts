@@ -1,24 +1,9 @@
-import {
-    Disease,
-    DiseaseAPI,
-    ICreateService,
-    IDeleteService,
-    IFindService,
-    ISelectorService,
-    IUpdateService
-} from "@/services";
+import { IFindService, ICreateService, IUpdateService, IDeleteService, ISelectorService } from "@/services/interfaces";
 import { AbstractService } from "../abstract.service";
-import {
-    CreateDiseaseRQ,
-    CreateDiseaseRS,
-    DeleteDiseaseRQ,
-    FindDiseasesRS,
-    FindSelectorOptionsDisease,
-    UpdateDiseaseRQ,
-    UpdateDiseaseRS
-} from "./dtos";
+import { CreateDiseaseRQ, CreateDiseaseRS, DeleteDiseaseRQ, Disease, FindDiseasesRS, FindSelectorOptionsDisease, UpdateDiseaseRQ, UpdateDiseaseRS } from "./dtos";
 import { OmegaFetch } from "@/services/config";
 import { SelectorOption } from "@/lib";
+import { DiseaseAPI } from "@/services/endpoints";
 
 export class DiseaseService
     extends AbstractService<DiseaseAPI>

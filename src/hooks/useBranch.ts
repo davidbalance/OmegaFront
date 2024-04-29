@@ -5,7 +5,7 @@ import endpoints from "@/services/endpoints/endpoints";
 export const useBranch = () => {
     const branchService = new BranchService(endpoints.BRANCH.V1);
 
-    const find = async (id: FindBranchSelectorOptions) => {
+    const findSelector = async (id: FindBranchSelectorOptions) => {
         try {
             const user = await branchService.findSelectorOptions(id);
             return user;
@@ -15,6 +15,6 @@ export const useBranch = () => {
     }
 
     return {
-        find
+        findSelector
     }
 }

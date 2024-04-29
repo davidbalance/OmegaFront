@@ -1,8 +1,9 @@
-import { CompanyAPI, ISelectorService } from "@/services";
+import { CompanyAPI } from "@/services/endpoints";
 import { AbstractService } from "../abstract.service";
 import { FindCompanySelectorOptions } from "./dtos";
 import { SelectorOption } from "@/lib";
 import { OmegaFetch } from "@/services/config";
+import { ISelectorService } from "@/services/interfaces";
 
 export class CompanyService
     extends AbstractService<CompanyAPI>

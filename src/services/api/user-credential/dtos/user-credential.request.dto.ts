@@ -1,7 +1,7 @@
 export type CreateCredentialRQ = {
     email: string;
     password: string;
-    user: string;
+    user: number;
 }
 
 export type FindCredentialAndUpdateRQ = {

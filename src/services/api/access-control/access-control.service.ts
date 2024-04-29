@@ -1,4 +1,4 @@
-import { AccessControlAPI, IUpdateService } from "@/services";
+import { AccessControlAPI } from "@/services/endpoints";
 import { AbstractService } from "../abstract.service";
 import { FindAndUpdateResourcesRQ, FindAndUpdateRolesRQ } from "./dtos";
 import { OmegaFetch } from "@/services/config";

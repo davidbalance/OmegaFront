@@ -1,22 +1,13 @@
-import {
-    IFindService,
-    IUpdateService,
-    ResultAPI
-} from "@/services";
+import { ResultAPI } from "@/services/endpoints";
+import { IFindService, IUpdateService } from "@/services/interfaces";
 import { AbstractService } from "../abstract.service";
-import {
-    FindResultsRS,
-    InsertMedicalReportRQ,
-    InsertMedicalReportRS,
-    MedicalResult,
-    UpdateMedicalResultRQ
-} from "./dtos";
+import { FindResultsRS, InsertMedicalReportRQ, InsertMedicalReportRS, MedicalResult, UpdateMedicalResultRQ } from "./dtos";
 import { OmegaFetch } from "@/services/config";
 
 export class MedicalResultService
     extends AbstractService<ResultAPI>
     implements IFindService<any, MedicalResult>,
-    IUpdateService<UpdateMedicalResultRQ, void>{
+    IUpdateService<UpdateMedicalResultRQ, void> {
 
     async find(): Promise<MedicalResult[]> {
         try {

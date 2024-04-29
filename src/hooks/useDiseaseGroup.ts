@@ -1,52 +1,132 @@
+import { SelectorOption } from "@/lib";
 import { DiseaseGroupService } from "@/services/api";
-import { CreateDiseaseGroupRQ, DeleteDiseaseGroupRQ, FindDiseaseGroupRS, UpdateDiseaseGroupRQ } from "@/services/api/disease-group/dtos";
+import { CreateDiseaseGroupRQ, DeleteDiseaseGroupRQ, DiseaseGroup, UpdateDiseaseGroupRQ } from "@/services/api/disease-group/dtos";
 import endpoints from "@/services/endpoints/endpoints";
+import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
+import { useEffect, useState } from "react";
 
-export const useDiseaseGroup = () => {
+export const useDiseaseGroup = (loadOnStart: boolean = false) => {
     const diseaseGroupService = new DiseaseGroupService(endpoints.DISEASE_GROUP.V1);
 
-    const create = async (diseaseDTO: CreateDiseaseGroupRQ) => {
+    const [loading, Disclosure] = useDisclosure();
+    const [diseaseGroups, setDiseaseGroups] = useState<DiseaseGroup[]>([]);
+    const [options, setOptions] = useState<SelectorOption<number>[]>([]);
+
+    useEffect(() => {
+        if (loadOnStart) {
+            find();
+        }
+        return () => { }
+    }, []);
+
+
+    const create = async (dto: CreateDiseaseGroupRQ) => {
+        Disclosure.open();
         try {
-            const user = await diseaseGroupService.create(diseaseDTO);
-            return user;
+            const group = await diseaseGroupService.create(dto);
+            setDiseaseGroups([...diseaseGroups, group]);
+            Disclosure.close();
+            return group;
         } catch (error) {
+            notifications.show({
+                title: 'Error al obtener los usuarios',
+                message: 'Se produjo un error al actualizar la contraseña 😔',
+                color: 'red'
+            });
+            console.error(error);
+            Disclosure.close();
             throw error;
         }
     }
 
-    const find = async (id: FindDiseaseGroupRS) => {
+    const find = async () => {
+        Disclosure.open();
         try {
-            const user = await diseaseGroupService.find();
-            return user;
+            const groups = await diseaseGroupService.find();
+            setDiseaseGroups(groups);
+            Disclosure.close();
+            return groups;
         } catch (error) {
+            notifications.show({
+                title: 'Error al obtener los usuarios',
+                message: 'Se produjo un error al actualizar la contraseña 😔',
+                color: 'red'
+            });
+            console.error(error);
+            Disclosure.close();
             throw error;
         }
     }
 
-    const erase = async (id: DeleteDiseaseGroupRQ) => {
+    const update = async ({ id, ...params }: UpdateDiseaseGroupRQ) => {
+        Disclosure.open();
         try {
-            const user = await diseaseGroupService.findOneAndDelete(id);
-            return user;
+            const group = await diseaseGroupService.findOneAndUpdate({ id, ...params });
+            const index = diseaseGroups.findIndex(e => e.id === id);
+            const newGroups = diseaseGroups;
+            newGroups[index] = group;
+            setDiseaseGroups(newGroups);
+            Disclosure.close();
+            return group;
         } catch (error) {
+            notifications.show({
+                title: 'Error al obtener los usuarios',
+                message: 'Se produjo un error al actualizar la contraseña 😔',
+                color: 'red'
+            });
+            console.error(error);
+            Disclosure.close();
             throw error;
         }
     }
 
-    const update = async (diseaseDTO: UpdateDiseaseGroupRQ) => {
+    const remove = async ({ id, ...params }: DeleteDiseaseGroupRQ) => {
+        Disclosure.open();
         try {
-            const user = await diseaseGroupService.findOneAndUpdate(diseaseDTO);
-            return user;
+            await diseaseGroupService.findOneAndDelete({ id, ...params });
+            const newGroups = diseaseGroups.filter(e => e.id !== id);
+            setDiseaseGroups(newGroups);
+            Disclosure.close();
         } catch (error) {
+            notifications.show({
+                title: 'Error al obtener los usuarios',
+                message: 'Se produjo un error al actualizar la contraseña 😔',
+                color: 'red'
+            });
+            console.error(error);
+            Disclosure.close();
+            throw error;
+        }
+    }
+
+    const loadOptions = async () => {
+        Disclosure.open();
+        try {
+            const options = await diseaseGroupService.findSelectorOptions();
+            setOptions(options);
+            Disclosure.close();
+        } catch (error) {
+            notifications.show({
+                title: 'Error al obtener los usuarios',
+                message: 'Se produjo un error al actualizar la contraseña 😔',
+                color: 'red'
+            });
+            console.error(error);
+            Disclosure.close();
             throw error;
         }
     }
 
     return {
+        loading,
+        diseaseGroups,
+        options,
         create,
         find,
-        erase,
-        update
-        
+        update,
+        remove,
+        loadOptions
     }
 
 }

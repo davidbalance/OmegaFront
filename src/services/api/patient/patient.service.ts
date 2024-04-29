@@ -6,7 +6,7 @@ import { OmegaFetch } from "@/services/config";
 
 export class PatientService
     extends AbstractService<PatientAPI>
-    implements IFindService<any, Patient>{
+    implements IFindService<any, Patient> {
 
     find(): Patient[] | Promise<Patient[]>;
     find(params: any): Patient[] | Promise<Patient[]>;
@@ -19,13 +19,7 @@ export class PatientService
         }
     }
 
-    async findOne(params: any): Promise<Patient> {
-        try {
-            const patient: Patient = await OmegaFetch.get({ url: this.endpoints.FIND_ONE });
-            return patient;
-        } catch (error) {
-            throw error;
-        }
+    findOne(params: any): Patient | Promise<Patient> {
+        throw new Error("Method not implemented.");
     }
-
 }

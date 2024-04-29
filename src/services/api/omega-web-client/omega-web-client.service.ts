@@ -1,11 +1,13 @@
-import { FindOmegaWebClient, IFindService, OmegaWebClientAPI } from "@/services";
 import { AbstractService } from "../abstract.service";
 import { OmegaFetch } from "@/services/config";
 import { Configuration } from "@/lib";
+import { OmegaWebClientAPI } from "@/services/endpoints";
+import { IFindService } from "@/services/interfaces";
+import { FindOmegaWebClient } from "./dtos";
 
 export class OmegaWebClientService
     extends AbstractService<OmegaWebClientAPI>
-    implements IFindService<any, Configuration>{
+    implements IFindService<any, Configuration> {
 
     find(): FindOmegaWebClient[] | Promise<FindOmegaWebClient[]>;
     find(params: any): FindOmegaWebClient[] | Promise<FindOmegaWebClient[]>;

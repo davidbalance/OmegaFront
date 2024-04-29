@@ -11,7 +11,8 @@ export type MedicalResultOrder = {
 export type MedicalResult = {
     id: number;
     examName: string;
-    disease?: number;
+    diseaseId: number;
+    diseaseName: string;
     order: MedicalResultOrder;
     report?: MedicalResultReport;
 }
