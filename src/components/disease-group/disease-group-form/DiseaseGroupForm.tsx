@@ -1,5 +1,5 @@
 import { BaseFormProps } from '@/lib/types/base-form-prop';
-import { DiseaseGroup as DiseaseGroupType } from '@/services';
+import { DiseaseGroup } from '@/services/api/disease-group/dtos';
 import { Box, Button, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconSignature } from '@tabler/icons-react';
@@ -7,9 +7,9 @@ import Joi from 'joi';
 import { joiResolver } from 'mantine-form-joi-resolver';
 import React from 'react'
 
-type IDiseaseGroupForm = Omit<DiseaseGroupType, 'id'>;
+type DiseaseGroupForm = Omit<DiseaseGroup, 'id'>;
 
-const diseaseSchema = Joi.object<IDiseaseGroupForm>({
+const diseaseSchema = Joi.object<DiseaseGroupForm>({
   name: Joi
     .string()
     .empty()
@@ -19,7 +19,7 @@ const diseaseSchema = Joi.object<IDiseaseGroupForm>({
     })
 });
 
-export type DiseaseGroupFormProps = BaseFormProps<IDiseaseGroupForm>;
+export type DiseaseGroupFormProps = BaseFormProps<DiseaseGroupForm>;
 const DiseaseGroupForm = React.forwardRef<HTMLButtonElement, DiseaseGroupFormProps>(({ formData, onFormSubmitted }, ref) => {
 
   const form = useForm({
@@ -29,7 +29,7 @@ const DiseaseGroupForm = React.forwardRef<HTMLButtonElement, DiseaseGroupFormPro
     validate: joiResolver(diseaseSchema)
   });
 
-  const handleFormSubmit = (submittedData: IDiseaseGroupForm) => {
+  const handleFormSubmit = (submittedData: DiseaseGroupForm) => {
     onFormSubmitted?.(submittedData);
   }
 
