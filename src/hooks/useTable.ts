@@ -29,12 +29,6 @@ export const useTable = <T extends object>(initialData: T[], initialPerPage: num
     const [activePage, setPage] = useState<number>(1);
     const [reverseSortDirection, setReverseSortDirection] = useState(false);
 
-    useEffect(() => {
-        updateData(initialData);
-        return () => { }
-    }, [initialData]);
-
-
     const setSorting = (field: keyof T): void => {
         const reversed = field === sortBy ? !reverseSortDirection : false;
         setReverseSortDirection(reversed);

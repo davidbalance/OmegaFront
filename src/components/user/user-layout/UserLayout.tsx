@@ -5,7 +5,7 @@ import { useTable } from '@/hooks';
 import { User } from '@/services/api/user/dtos';
 import { Table, TextInput, rem } from '@mantine/core';
 import { IconCirclePlus, IconSearch } from '@tabler/icons-react';
-import React from 'react'
+import React, { useEffect } from 'react'
 import UserSettingsMenu from '../user-settings-menu/UserSettingsMenu';
 
 type UserLayoutProps = {
@@ -21,7 +21,12 @@ type UserLayoutProps = {
 }
 
 const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) => {
-    const tableHook = useTable(users, 500);
+    const tableHook = useTable(users, 50);
+
+    useEffect(() => {
+        tableHook.setData(users);
+        return () => { }
+    }, [users]);
 
     const header = <>
         <OmegaTh sort={{ onSort: () => tableHook.setSorting('dni'), sorted: tableHook.sortBy === 'dni' }} >CI</OmegaTh>

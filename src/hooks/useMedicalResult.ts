@@ -9,8 +9,8 @@ export const useMedicalResult = (loadOnStart: boolean = false) => {
     const medicalResultService = new MedicalResultService(endpoints.MEDICAL_RESULT.V1);
 
     const [loading, Disclosure] = useDisclosure();
-
     const [medicalResults, setMedicalResults] = useState<MedicalResult[]>([]);
+    const [index, setIndex] = useState<number | undefined>(undefined);
 
     useEffect(() => {
         if (loadOnStart) {
@@ -24,6 +24,7 @@ export const useMedicalResult = (loadOnStart: boolean = false) => {
         try {
             const results = await medicalResultService.find();
             setMedicalResults(results);
+            console.log(results);
             Disclosure.close();
             return results;
         } catch (error) {
@@ -88,11 +89,17 @@ export const useMedicalResult = (loadOnStart: boolean = false) => {
         }
     }
 
+    const selectItem = (index: number) => setIndex(index);
+    const clearSelection = () => setIndex(undefined);
+
     return {
         loading,
         medicalResults,
+        medicalResult: index !== undefined ? medicalResults[index] : undefined,
         find,
         updateDisease,
-        insertMedicalReport
+        insertMedicalReport,
+        selectItem,
+        clearSelection
     }
 }
