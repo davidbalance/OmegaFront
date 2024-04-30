@@ -117,7 +117,7 @@ const Disease: React.FC = () => {
 
     return (
         <>
-            <CreateDiseaseDrawer
+            {/* <CreateDiseaseDrawer
                 options={groups}
                 opened={openCreateFormDisclosure}
                 onClose={CreateFormDisclosure.close}
@@ -164,7 +164,7 @@ const Disease: React.FC = () => {
                 rows={rows}
                 total={table.total}
                 page={table.page}
-                onPageChange={table.setPage} />
+                onPageChange={table.setPage} /> */}
         </>
     )
 }

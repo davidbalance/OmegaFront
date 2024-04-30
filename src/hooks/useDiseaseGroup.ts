@@ -11,6 +11,7 @@ export const useDiseaseGroup = (loadOnStart: boolean = false) => {
 
     const [loading, Disclosure] = useDisclosure();
     const [diseaseGroups, setDiseaseGroups] = useState<DiseaseGroup[]>([]);
+    const [index, setIndex] = useState<number | undefined>(undefined);
     const [options, setOptions] = useState<SelectorOption<number>[]>([]);
 
     useEffect(() => {
@@ -118,15 +119,21 @@ export const useDiseaseGroup = (loadOnStart: boolean = false) => {
         }
     }
 
+    const selectItem = (index: number) => setIndex(index);
+    const clearSelection = () => setIndex(undefined);
+
     return {
         loading,
         diseaseGroups,
+        diseaseGroup: index !== undefined ? diseaseGroups[index] : undefined,
         options,
         create,
         find,
         update,
         remove,
-        loadOptions
+        loadOptions,
+        selectItem,
+        clearSelection
     }
 
 }
