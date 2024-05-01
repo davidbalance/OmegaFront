@@ -1,12 +1,14 @@
 import { SelectorOption } from "@/lib";
 
+export type DiseaseDiseaseGroup = {
+    id: number;
+    name: string;
+}
+
 export type Disease = {
     id: number;
     name: string;
-    group: {
-        id: number;
-        name: string;
-    };
+    group: DiseaseDiseaseGroup;
 }
 
 export type FindDiseaseRS = Disease;

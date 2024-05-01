@@ -1,14 +1,14 @@
 import OmegaComboBox from '@/components/combobox/OmegaComboBox';
 import { SelectorOption } from '@/lib';
 import { BaseFormProps } from '@/lib/types/base-form-prop';
-import { Disease as DiseaseType } from '@/services';
-import { Box, Button, TextInput, useCombobox } from '@mantine/core';
+import { Disease } from '@/services/api/disease/dtos';
+import { Box, Button, TextInput, rem, useCombobox } from '@mantine/core';
 import { joiResolver, useForm } from '@mantine/form';
 import { IconSignature } from '@tabler/icons-react';
 import Joi from 'joi';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-export type IDiseaseForm = Omit<DiseaseType, 'id' | 'group'> & {
+export type DiseaseForm = Omit<Disease, 'id' | 'group'> & {
     group: number
 };
 
@@ -21,7 +21,7 @@ const diseaseSchema = Joi.object({
             "string.empty": 'Especifique un nombre'
         }),
 });
-type DiseaseFormProps = BaseFormProps<IDiseaseForm> & {
+type DiseaseFormProps = BaseFormProps<DiseaseForm> & {
     options: SelectorOption<number>[];
 }
 const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ formData, options, onFormSubmitted }, ref) => {
@@ -39,6 +39,14 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ for
         },
         validate: joiResolver(diseaseSchema)
     });
+
+    useEffect(() => {
+        if (formData) {
+            const index = options.findIndex(e => e.key === formData?.group);
+            handleComboBoxChange(index);
+        }
+        return () => { }
+    }, [formData])
 
     const handleForm = (data: any) => {
         if (!value) {
@@ -60,7 +68,7 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ for
                 value={options.findIndex(e => e.key === formData?.group)}
                 options={options.map((e) => e.label)}
                 onChange={handleComboBoxChange}
-                inputProps={{ error: error }} />
+                inputProps={{ error: error, label: "Escoge un grupo de morbilidades", mb: rem(16) }} />
 
             <TextInput
                 label="Nombre del grupo de morbilidades"

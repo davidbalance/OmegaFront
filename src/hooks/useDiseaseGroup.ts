@@ -6,7 +6,29 @@ import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
 
-export const useDiseaseGroup = (loadOnStart: boolean = false) => {
+export enum ELoadDiseaseOnStart {
+    FIND_ALL,
+    LOAD_OPTIONS
+}
+
+type DiseaseGroupHook = {
+    loading: boolean;
+    diseaseGroups: DiseaseGroup[];
+    diseaseGroup: DiseaseGroup | undefined;
+    options: SelectorOption<number>[];
+    create: (dto: CreateDiseaseGroupRQ) => DiseaseGroup | Promise<DiseaseGroup>;
+    find: () => DiseaseGroup[] | Promise<DiseaseGroup[]>;
+    update: ({ id, ...params }: UpdateDiseaseGroupRQ) => DiseaseGroup | Promise<DiseaseGroup>;
+    remove: ({ id, ...params }: DeleteDiseaseGroupRQ) => void | Promise<void>;
+    loadOptions: () => SelectorOption<number>[] | Promise<SelectorOption<number>[]>;
+    selectItem: (index: number) => void;
+    clearSelection: () => void;
+}
+
+export function useDiseaseGroup(): DiseaseGroupHook;
+export function useDiseaseGroup(loadOnStart: ELoadDiseaseOnStart): DiseaseGroupHook;
+export function useDiseaseGroup(loadOnStart: ELoadDiseaseOnStart[]): DiseaseGroupHook;
+export function useDiseaseGroup(loadOption?: ELoadDiseaseOnStart | ELoadDiseaseOnStart[]): DiseaseGroupHook {
     const diseaseGroupService = new DiseaseGroupService(endpoints.DISEASE_GROUP.V1);
 
     const [loading, Disclosure] = useDisclosure();
@@ -15,11 +37,32 @@ export const useDiseaseGroup = (loadOnStart: boolean = false) => {
     const [options, setOptions] = useState<SelectorOption<number>[]>([]);
 
     useEffect(() => {
-        if (loadOnStart) {
-            find();
+        if (loadOption === undefined) return;
+        let optionArray: ELoadDiseaseOnStart[];
+        if (Array.isArray(loadOption)) {
+            optionArray = loadOption;
+        } else {
+            optionArray = [loadOption];
         }
+        loadOnStart(optionArray);
+
         return () => { }
     }, []);
+
+    const loadOnStart = (loadOnStartOptions: ELoadDiseaseOnStart[]) => {
+        for (const option of loadOnStartOptions) {
+            switch (option) {
+                case ELoadDiseaseOnStart.FIND_ALL:
+                    find();
+                    break;
+                case ELoadDiseaseOnStart.LOAD_OPTIONS:
+                    loadOptions();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
 
     const create = async (dto: CreateDiseaseGroupRQ) => {
@@ -107,6 +150,7 @@ export const useDiseaseGroup = (loadOnStart: boolean = false) => {
             const options = await diseaseGroupService.findSelectorOptions();
             setOptions(options);
             Disclosure.close();
+            return options;
         } catch (error) {
             notifications.show({
                 title: 'Error al obtener los usuarios',

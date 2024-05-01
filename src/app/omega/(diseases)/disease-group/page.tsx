@@ -4,7 +4,7 @@ import { DiseaseGroupCreate } from '@/components/disease-group/disease-group-cre
 import DiseaseGroupDelete from '@/components/disease-group/disease-group-delete/DiseaseGroupDelete';
 import { DiseaseGroupLayout } from '@/components/disease-group/disease-group-layout/DiseaseGroupLayout';
 import { DiseaseGroupUpdate } from '@/components/disease-group/disease-group-update/DiseaseGroupUpdate';
-import { useDiseaseGroup } from '@/hooks';
+import { ELoadDiseaseOnStart, useDiseaseGroup } from '@/hooks';
 import { useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react'
 
@@ -15,7 +15,7 @@ enum LayoutState {
 }
 const DiseaseGroup: React.FC = () => {
 
-    const diseaseGroupHook = useDiseaseGroup(true);
+    const diseaseGroupHook = useDiseaseGroup(ELoadDiseaseOnStart.FIND_ALL);
 
     const [currentState, setCurrentState] = useState<LayoutState>(LayoutState.DEFAULT);
 

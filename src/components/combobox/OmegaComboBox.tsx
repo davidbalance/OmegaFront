@@ -24,6 +24,11 @@ const OmegaComboBox: React.FC<OmegaComboBoxProps> = ({
     const [search, setSearch] = useState<string>('');
     const [index, setIndex] = useState<number | null>(value);
 
+    useEffect(() => {
+        setIndex(value);
+        return () => { }
+    }, [value])
+
 
     const combobox = useCombobox({
         onDropdownOpen: () => {
