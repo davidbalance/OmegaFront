@@ -1,12 +1,18 @@
 .wrapper {
   position: relative;
-  margin-bottom: rem(30px);
+  margin-bottom: calc(1.875rem * var(--mantine-scale));
+  border: rem(2px) solid var(--mantine-color-omegaColors-3);
+  border-style: dashed;
+  border-radius: var(--mantine-radius-lg);
+  padding: 2rem 1rem;
+  max-width: 300px;
+  color: var(--mantine-color-anchor);
 }
 
 .dropzone {
   border-width: rem(1px);
   padding-bottom: rem(50px);
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .icon {

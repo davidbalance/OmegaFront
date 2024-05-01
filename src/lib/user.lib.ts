@@ -1,7 +1,7 @@
 import { User } from "@/services/api/user/dtos";
 
 const USER_KEY = process.env.NEXT_PUBLIC_USER_KEY || 'USER-KEY'
-type ConfigurationUser = Omit<User, 'id'>;
+export type ConfigurationUser = Omit<User, 'id'>;
 
 export const setUser = (user: ConfigurationUser): void => {
     localStorage.setItem(USER_KEY, JSON.stringify(user));

@@ -4,11 +4,8 @@ export * from './useCompany';
 export * from './useCorporativeGroup';
 export * from './useDisease';
 export * from './useDiseaseGroup';
+export * from './useDoctor';
 export * from './useConfiguration';
 export * from './usePatient';
 export * from './useTable';
 export * from './useUser';
-
-
-
-

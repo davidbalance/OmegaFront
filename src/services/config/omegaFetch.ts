@@ -56,13 +56,15 @@ const initConfig = (
         'Content-Type': 'application/json',
         ...headers
     },
-    body: body ? JSON.stringify(body) : undefined,
+    body,
     ...customInit
-}
-)
+})
 
-async function get<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
-    const initConfigObject: RequestInit = initConfig("GET", { ...customInit });
+async function get<T, R>({ url, body, ...customInit }: RestClientRequest<T>): Promise<R> {
+    const initConfigObject: RequestInit = initConfig("GET", {
+        body: body ? JSON.stringify(body) : undefined,
+        ...customInit
+    });
     const response = await fetch(url, initConfigObject);
     const data = await response.json();
     if (!response.ok) {
@@ -72,8 +74,11 @@ async function get<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<
     return data;
 }
 
-async function post<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
-    const initConfigObject: RequestInit = initConfig("POST", { ...customInit });
+async function post<T, R>({ url, body, ...customInit }: RestClientRequest<T>): Promise<R> {
+    const initConfigObject: RequestInit = initConfig("POST", {
+        body: body ? JSON.stringify(body) : undefined,
+        ...customInit
+    });
     const response = await fetch(url, initConfigObject);
     const data = await response.json();
     if (!response.ok) {
@@ -83,8 +88,11 @@ async function post<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise
     return data;
 }
 
-async function put<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
-    const initConfigObject: RequestInit = initConfig("PUT", { ...customInit });
+async function put<T, R>({ url, body, ...customInit }: RestClientRequest<T>): Promise<R> {
+    const initConfigObject: RequestInit = initConfig("PUT", {
+        body: body ? JSON.stringify(body) : undefined,
+        ...customInit
+    });
     const response = await fetch(url, initConfigObject);
     const data = await response.json();
     if (!response.ok) {
@@ -94,8 +102,11 @@ async function put<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<
     return data;
 }
 
-async function patch<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
-    const initConfigObject: RequestInit = initConfig("PATCH", { ...customInit });
+async function patch<T, R>({ url, body, ...customInit }: RestClientRequest<T>): Promise<R> {
+    const initConfigObject: RequestInit = initConfig("PATCH", {
+        body: body ? JSON.stringify(body) : undefined,
+        ...customInit
+    });
     const response = await fetch(url, initConfigObject);
     const data = await response.json();
     if (!response.ok) {
@@ -105,8 +116,11 @@ async function patch<T, R>({ url, ...customInit }: RestClientRequest<T>): Promis
     return data;
 }
 
-async function del<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
-    const initConfigObject: RequestInit = initConfig("DELETE", { ...customInit });
+async function del<T, R>({ url, body, ...customInit }: RestClientRequest<T>): Promise<R> {
+    const initConfigObject: RequestInit = initConfig("DELETE", {
+        body: body ? JSON.stringify(body) : undefined,
+        ...customInit
+    });
     const response = await fetch(url, initConfigObject);
     const data = await response.json();
     if (!response.ok) {
@@ -120,23 +134,26 @@ async function getfile<T, R>({ url, ...customInit }: RestClientRequest<T>): Prom
     const initConfigObject: RequestInit = initConfig("GET", { ...customInit });
     const response = await fetch(url, initConfigObject);
     if (!response.ok) {
-        throw new RestError(response, `Failed to delete ${response.url}`, 'File error');
+        throw new RestError(response, `Failed to get file ${response.url}`, 'File error');
     }
 
     return response.blob() as R;
 }
 
 async function postfile<T, R>({ url, ...customInit }: RestClientRequest<T>): Promise<R> {
-    const { body } = customInit;
-    customInit.body = undefined;
     const initConfigObject: RequestInit = initConfig("POST", {
         ...customInit,
-        body: body
+        headers: {
+            ...customInit.headers
+        }
     });
+    const headers: any = initConfigObject.headers;
+    delete headers['Content-Type'];
+    initConfigObject.headers = headers;
     const response = await fetch(url, initConfigObject);
     const data = await response.json();
     if (!response.ok) {
-        throw new RestError(response, `Failed to delete ${response.url}`, data);
+        throw new RestError(response, `Failed to post file ${response.url}`, data);
     }
 
     return data;

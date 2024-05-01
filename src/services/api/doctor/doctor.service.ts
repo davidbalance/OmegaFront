@@ -6,7 +6,7 @@ import { IFindService } from "@/services/interfaces/i-find.service";
 
 export class DoctorService
     extends AbstractService<DoctorAPI>
-    implements IFindService<any, Doctor>{
+    implements IFindService<any, Doctor> {
     find(): Doctor[] | Promise<Doctor[]>;
     find(params: any): Doctor[] | Promise<Doctor[]>;
     async find(params?: any): Promise<Doctor[]> {
@@ -23,14 +23,14 @@ export class DoctorService
         throw new Error("Method not implemented.");
     }
 
-    async findOneAndUploadFile({ file, id }: FindOneAndUploadSignature) {
+    async findOneAndUploadFile({ id, file }: FindOneAndUploadSignature) {
         try {
-            const form = new FormData();
+            let form = new FormData();
             form.append('signature', file);
             await OmegaFetch.sendFile({
                 url: this.endpoints.FIND_ONE_AND_UPDATE_SIGNATURE(`${id}`),
                 body: form
-            })
+            });
         } catch (error) {
             throw error;
         }

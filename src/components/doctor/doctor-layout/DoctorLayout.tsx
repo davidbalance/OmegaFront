@@ -1,0 +1,90 @@
+import OmegaTh from '@/components/table/omega-th/OmegaTh';
+import { useTable } from '@/hooks';
+import { Doctor } from '@/services/api/doctor/dtos'
+import { User } from '@/services/api/user/dtos';
+import { Table, TextInput, rem } from '@mantine/core';
+import React, { useEffect } from 'react'
+import { DoctorSettings } from '../doctor-settings/DoctorSettingsMenu';
+import { Header } from '@/components/header/Header';
+import { OmegaTable } from '@/components/table';
+import { IconSearch } from '@tabler/icons-react';
+
+type DoctorLayoutDataType = Omit<Doctor, 'user'> & Omit<User, 'id'> & { hasCredential: boolean }
+const parseResult = (medicalResults: Doctor[]): DoctorLayoutDataType[] => medicalResults.map<DoctorLayoutDataType>((e) => ({
+    id: e.id,
+    dni: e.user.dni,
+    email: e.user.email,
+    lastname: e.user.lastname,
+    name: e.user.name,
+    hasCredential: e.user.hasCredential
+}));
+
+
+type DoctorLayoutProps = {
+    load: boolean;
+    doctors: Doctor[];
+    events: {
+        onCreateCredential: (index: number) => void;
+        onUploadSignature: (index: number) => void;
+    }
+}
+const DoctorLayout: React.FC<DoctorLayoutProps> = ({ doctors, events, load }) => {
+
+    const tableHook = useTable(parseResult(doctors), 50);
+
+    useEffect(() => {
+        tableHook.setData(parseResult(doctors));
+        return () => { }
+    }, [doctors]);
+
+    const header = <>
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('dni'), sorted: tableHook.sortBy === 'dni' }} >CI</OmegaTh>
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre</OmegaTh>
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('lastname'), sorted: tableHook.sortBy === 'lastname' }} >Apellido</OmegaTh>
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('email'), sorted: tableHook.sortBy === 'email' }} >Correo Electronico</OmegaTh>
+        <OmegaTh>Acciones</OmegaTh>
+    </>
+
+    const rows = tableHook.rows.map((row, index) => (
+        <Table.Tr key={row.id}>
+            <Table.Td>{row.dni}</Table.Td>
+            <Table.Td>{row.name}</Table.Td>
+            <Table.Td>{row.lastname}</Table.Td>
+            <Table.Td>{row.email}</Table.Td>
+            <Table.Td>
+                <DoctorSettings
+                    onCreateCredential={!row.hasCredential ? () => events.onCreateCredential(index) : undefined}
+                    onUploadSignature={() => events.onUploadSignature(index)} />
+            </Table.Td>
+        </Table.Tr>
+    ));
+
+    return (
+        <>
+            <Header>
+                Doctores registrados en el sistema
+            </Header>
+
+            <TextInput
+                placeholder="Buscar"
+                size="xs"
+                leftSection={<IconSearch style={{ width: rem(12), height: rem(12) }} stroke={1.5} />}
+                rightSectionWidth={70}
+                styles={{ section: { pointerEvents: 'none' } }}
+                mb="sm"
+                value={tableHook.search}
+                onChange={tableHook.onSearch}
+            />
+
+            <OmegaTable
+                loading={load}
+                header={header}
+                rows={rows}
+                total={tableHook.total}
+                page={tableHook.page}
+                onPageChange={tableHook.setPage} />
+        </>
+    )
+}
+
+export { DoctorLayout }
