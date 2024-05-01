@@ -1,28 +1,31 @@
-import { ELoadDiseaseOnStart, useDiseaseGroup } from '@/hooks';
-import { LoadingOverlay, Group, rem, ActionIcon, Box, Button, Text } from '@mantine/core';
-import { IconDeviceFloppy, IconX } from '@tabler/icons-react';
-import React, { useRef } from 'react'
-import DiseaseGroupForm from '../disease-group-form/DiseaseGroupForm';
+import { ELoadDiseaseOnStart, useDisease, useDiseaseGroup } from '@/hooks';
 import { DiseaseGroup } from '@/services/api/disease-group/dtos';
+import { LoadingOverlay, Group, rem, ActionIcon, Box, Button, Text } from '@mantine/core';
+import { IconX, IconDeviceFloppy } from '@tabler/icons-react';
+import React, { useRef } from 'react'
+import DiseaseForm from '../disease-form/DiseaseForm';
+import { Disease } from '@/services/api/disease/dtos';
 
-type DiseaseGroupCreateProps = {
+type DiseaseCreateProps = {
     onClose: () => void;
 }
-const DiseaseGroupCreate: React.FC<DiseaseGroupCreateProps> = ({ onClose }) => {
+
+const DiseaseCreate: React.FC<DiseaseCreateProps> = ({ onClose }) => {
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const diseaseGroupHook = useDiseaseGroup(ELoadDiseaseOnStart.FIND_ALL);
+    const diseaseGroupHook = useDiseaseGroup(ELoadDiseaseOnStart.LOAD_OPTIONS);
+    const diseaseHook = useDisease();
 
-    const handleSubmit = (data: Omit<DiseaseGroup, 'id'>) => {
+    const handleSubmit = (data: Omit<Disease, 'id' | 'group'> & { group: number }) => {
         try {
-            diseaseGroupHook.create(data);
+            diseaseHook.create({ ...data });
             onClose();
         } catch (error) { }
     }
 
     return <>
-        <LoadingOverlay visible={diseaseGroupHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+        <LoadingOverlay visible={diseaseGroupHook.loading || diseaseHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
         <Group w='100%' justify='flex-end' mb={rem(6)}>
             <ActionIcon variant='transparent' onClick={onClose}>
                 <IconX />
@@ -38,13 +41,14 @@ const DiseaseGroupCreate: React.FC<DiseaseGroupCreateProps> = ({ onClose }) => {
                         variant='text'
                         c="omegaColors"
                         size='md'>
-                        Formulario de creacion de groupos de morbilidades
+                        Formulario de creacion de morbilidades
                     </Text>
                 </Box>
 
-                <DiseaseGroupForm
+                <DiseaseForm
                     ref={buttonRef}
-                    onFormSubmitted={handleSubmit} />
+                    onFormSubmitted={handleSubmit}
+                    options={diseaseGroupHook.options} />
 
                 <Group justify="center" mt="xl">
                     <Button
@@ -61,4 +65,4 @@ const DiseaseGroupCreate: React.FC<DiseaseGroupCreateProps> = ({ onClose }) => {
     </>;
 }
 
-export { DiseaseGroupCreate }
+export { DiseaseCreate }

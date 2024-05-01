@@ -22,7 +22,6 @@ type MedicalResultLayoutProps = {
 
 const MedicalResultLayout: React.FC<MedicalResultLayoutProps> = ({ load, medicalResults, events }) => {
 
-    // const tableHook = useTable(medicalResults, 50);
     const tableHook = useTable<MedicalResultLayoutDataType>(parseResult(medicalResults), 50);
     const medicalReportHook = useMedicalReport();
 

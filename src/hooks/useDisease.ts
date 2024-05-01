@@ -4,14 +4,23 @@ import { CreateDiseaseRQ, DeleteDiseaseRQ, Disease, UpdateDiseaseRQ } from "@/se
 import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const useDisease = () => {
+export const useDisease = (loadOnStart: boolean = false) => {
     const diseaseService = new DiseaseService(endpoints.DISEASE.V1);
 
     const [loading, Disclosure] = useDisclosure();
+    const [index, setIndex] = useState<number | undefined>(undefined);
     const [diseases, setDiseases] = useState<Disease[]>([]);
     const [options, setOptions] = useState<SelectorOption<number>[]>([]);
+
+    useEffect(() => {
+        if (loadOnStart) {
+            find();
+        }
+        return () => { }
+    }, [])
+
 
     const create = async (dto: CreateDiseaseRQ) => {
         Disclosure.open();
@@ -110,15 +119,21 @@ export const useDisease = () => {
         }
     }
 
+    const selectItem = (index: number) => setIndex(index);
+    const clearSelected = () => setIndex(undefined);
+
     return {
         loading,
         diseases,
+        disease: index !== undefined ? diseases[index] : undefined,
         options,
         create,
         find,
         update,
         remove,
-        loadOptions
+        loadOptions,
+        selectItem,
+        clearSelected
     }
 
 }
