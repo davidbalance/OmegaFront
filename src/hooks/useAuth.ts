@@ -1,11 +1,12 @@
 
 import { removeConfiguration, removeTokens, setConfiguration, setTokens } from "@/lib";
-import { getUser, removeUser, setUser } from "@/lib/user.lib";
+import { ConfigurationUser, getUser, removeUser, setUser } from "@/lib/user.lib";
 import { AuthenticationService, OmegaWebClientService, UserService } from "@/services/api";
 import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 export const useAuth = () => {
     const authenticationService = new AuthenticationService(endpoints.AUTHENTICATION.V1);
@@ -14,6 +15,13 @@ export const useAuth = () => {
 
     const router = useRouter();
     const [loading, { open, close }] = useDisclosure();
+
+    const [user, setUser] = useState<ConfigurationUser | undefined>(undefined)
+
+    useLayoutEffect(() => {
+        setUser(getUser());
+        return () => { }
+    }, []);
 
     const login = async (values: { username: string, password: string, keepmeLogged?: boolean }) => {
         try {
@@ -59,6 +67,6 @@ export const useAuth = () => {
         loading,
         login,
         logout,
-        user: getUser()
+        user: user
     }
 }

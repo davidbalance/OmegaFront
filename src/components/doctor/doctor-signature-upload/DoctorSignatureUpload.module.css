@@ -1,0 +1,13 @@
+.file-record {
+  min-width: rem(400px);
+  max-width: rem(400px);
+  border: 1px solid var(--mantine-color-omegaColors-3);
+  padding: rem(4px) rem(16px);
+  border-radius: var(--mantine-radius-md);
+}
+
+.record-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

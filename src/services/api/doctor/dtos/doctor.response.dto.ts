@@ -9,7 +9,7 @@ type User = {
 export type Doctor = {
     id: number;
     signature?: string;
-    user: User;
+    user: User & { hasCredential: boolean };
 }
 
 export type FindDoctorsRS = {
