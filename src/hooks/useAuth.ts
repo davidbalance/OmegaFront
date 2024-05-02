@@ -16,10 +16,10 @@ export const useAuth = () => {
     const router = useRouter();
     const [loading, { open, close }] = useDisclosure();
 
-    const [user, setUser] = useState<ConfigurationUser | undefined>(undefined)
+    const [configurationUser, setConfigurationUser] = useState<ConfigurationUser | undefined>(undefined)
 
     useLayoutEffect(() => {
-        setUser(getUser());
+        setConfigurationUser(getUser());
         return () => { }
     }, []);
 
@@ -67,6 +67,6 @@ export const useAuth = () => {
         loading,
         login,
         logout,
-        user: user
+        user: configurationUser
     }
 }

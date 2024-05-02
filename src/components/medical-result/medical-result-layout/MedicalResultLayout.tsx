@@ -8,6 +8,7 @@ import { IconSearch } from '@tabler/icons-react'
 import React, { useEffect } from 'react'
 import { MedicalResultSettings } from '../medical-result-settings/MedicalResultSettings'
 import { useMedicalReport } from '@/hooks/useMedicalReport'
+import { SearchInputText } from '@/components/input/SearchInputText'
 
 type MedicalResultLayoutDataType = Omit<MedicalResult, 'order'> & MedicalResultOrder;
 const parseResult = (medicalResults: MedicalResult[]): MedicalResultLayoutDataType[] => medicalResults.map<MedicalResultLayoutDataType>((e) => ({ ...e, ...e.order }));
@@ -61,16 +62,13 @@ const MedicalResultLayout: React.FC<MedicalResultLayoutProps> = ({ load, medical
             <Header>
                 Listado de resultados medicos
             </Header>
-            <TextInput
+
+            <SearchInputText
                 placeholder="Buscar"
-                size="xs"
-                leftSection={<IconSearch style={{ width: rem(12), height: rem(12) }} stroke={1.5} />}
-                rightSectionWidth={70}
-                styles={{ section: { pointerEvents: 'none' } }}
-                mb="sm"
                 value={tableHook.search}
                 onChange={tableHook.onSearch}
             />
+
             <OmegaTable
                 loading={load}
                 header={header}

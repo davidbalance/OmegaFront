@@ -8,6 +8,7 @@ import { Table, TextInput, rem } from '@mantine/core';
 import { IconCirclePlus, IconSearch } from '@tabler/icons-react';
 import React, { useEffect } from 'react'
 import { DiseaseSettings } from '../disease-settings/DiseaseSettings';
+import { SearchInputText } from '@/components/input/SearchInputText';
 
 type DiseaseLayoutDataType = Omit<Disease, 'group'> & { group: string };
 const parseResult = (medicalResults: Disease[]): DiseaseLayoutDataType[] => medicalResults.map<DiseaseLayoutDataType>((e) => ({ ...e, group: e.group.name }));
@@ -57,13 +58,8 @@ const DiseaseLayout: React.FC<DiseaseLayoutProps> = ({ diseases, events, load })
             Morbilidades registradas en el sistema
         </Header>
 
-        <TextInput
+        <SearchInputText
             placeholder="Buscar"
-            size="xs"
-            leftSection={<IconSearch style={{ width: rem(12), height: rem(12) }} stroke={1.5} />}
-            rightSectionWidth={70}
-            styles={{ section: { pointerEvents: 'none' } }}
-            mb="sm"
             value={tableHook.search}
             onChange={tableHook.onSearch}
         />

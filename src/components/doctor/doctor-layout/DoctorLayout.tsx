@@ -8,6 +8,7 @@ import { DoctorSettings } from '../doctor-settings/DoctorSettingsMenu';
 import { Header } from '@/components/header/Header';
 import { OmegaTable } from '@/components/table';
 import { IconSearch } from '@tabler/icons-react';
+import { SearchInputText } from '@/components/input/SearchInputText';
 
 type DoctorLayoutDataType = Omit<Doctor, 'user'> & Omit<User, 'id'> & { hasCredential: boolean }
 const parseResult = (medicalResults: Doctor[]): DoctorLayoutDataType[] => medicalResults.map<DoctorLayoutDataType>((e) => ({
@@ -65,13 +66,8 @@ const DoctorLayout: React.FC<DoctorLayoutProps> = ({ doctors, events, load }) =>
                 Doctores registrados en el sistema
             </Header>
 
-            <TextInput
+            <SearchInputText
                 placeholder="Buscar"
-                size="xs"
-                leftSection={<IconSearch style={{ width: rem(12), height: rem(12) }} stroke={1.5} />}
-                rightSectionWidth={70}
-                styles={{ section: { pointerEvents: 'none' } }}
-                mb="sm"
                 value={tableHook.search}
                 onChange={tableHook.onSearch}
             />
