@@ -99,7 +99,7 @@ const Patient: React.FC = () => {
                 mb="md"
                 leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
                 value={table.search}
-                onChange={table.onSeach}
+                onChange={table.onSearch}
             />
             <OmegaTable
                 header={header}
