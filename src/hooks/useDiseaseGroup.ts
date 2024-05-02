@@ -6,7 +6,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
 
-export enum ELoadDiseaseOnStart {
+export enum ELoadDiseaseGroupOnStart {
     FIND_ALL,
     LOAD_OPTIONS
 }
@@ -26,9 +26,9 @@ type DiseaseGroupHook = {
 }
 
 export function useDiseaseGroup(): DiseaseGroupHook;
-export function useDiseaseGroup(loadOnStart: ELoadDiseaseOnStart): DiseaseGroupHook;
-export function useDiseaseGroup(loadOnStart: ELoadDiseaseOnStart[]): DiseaseGroupHook;
-export function useDiseaseGroup(loadOption?: ELoadDiseaseOnStart | ELoadDiseaseOnStart[]): DiseaseGroupHook {
+export function useDiseaseGroup(loadOnStart: ELoadDiseaseGroupOnStart): DiseaseGroupHook;
+export function useDiseaseGroup(loadOnStart: ELoadDiseaseGroupOnStart[]): DiseaseGroupHook;
+export function useDiseaseGroup(loadOption?: ELoadDiseaseGroupOnStart | ELoadDiseaseGroupOnStart[]): DiseaseGroupHook {
     const diseaseGroupService = new DiseaseGroupService(endpoints.DISEASE_GROUP.V1);
 
     const [loading, Disclosure] = useDisclosure();
@@ -38,7 +38,7 @@ export function useDiseaseGroup(loadOption?: ELoadDiseaseOnStart | ELoadDiseaseO
 
     useEffect(() => {
         if (loadOption === undefined) return;
-        let optionArray: ELoadDiseaseOnStart[];
+        let optionArray: ELoadDiseaseGroupOnStart[];
         if (Array.isArray(loadOption)) {
             optionArray = loadOption;
         } else {
@@ -49,13 +49,13 @@ export function useDiseaseGroup(loadOption?: ELoadDiseaseOnStart | ELoadDiseaseO
         return () => { }
     }, []);
 
-    const loadOnStart = (loadOnStartOptions: ELoadDiseaseOnStart[]) => {
+    const loadOnStart = (loadOnStartOptions: ELoadDiseaseGroupOnStart[]) => {
         for (const option of loadOnStartOptions) {
             switch (option) {
-                case ELoadDiseaseOnStart.FIND_ALL:
+                case ELoadDiseaseGroupOnStart.FIND_ALL:
                     find();
                     break;
-                case ELoadDiseaseOnStart.LOAD_OPTIONS:
+                case ELoadDiseaseGroupOnStart.LOAD_OPTIONS:
                     loadOptions();
                     break;
                 default:
@@ -63,7 +63,6 @@ export function useDiseaseGroup(loadOption?: ELoadDiseaseOnStart | ELoadDiseaseO
             }
         }
     }
-
 
     const create = async (dto: CreateDiseaseGroupRQ) => {
         Disclosure.open();

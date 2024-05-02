@@ -10,3 +10,7 @@ export type UpdateDiseaseRQ = Partial<CreateDiseaseRQ> & {
 export type DeleteDiseaseRQ = {
     id: number;
 }
+
+export type DiseaseSelectorRQ = {
+    group: number
+}

@@ -14,9 +14,15 @@ const Patient: React.FC = () => {
 
     const [currentState, setCurrentState] = useState<LayoutState>(LayoutState.DEFAULT);
 
+    const handleClose = () => {
+        setCurrentState(LayoutState.DEFAULT);
+    }
+
     const view: Record<LayoutState, React.ReactNode> = {
         [LayoutState.DEFAULT]: <>
-            <PatientLayout load={patientHook.loading} patients={patientHook.patients} />
+            <PatientLayout
+                load={patientHook.loading}
+                patients={patientHook.patients} />
         </>
     }
 

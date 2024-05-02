@@ -1,6 +1,6 @@
 import { IFindService, ICreateService, IUpdateService, IDeleteService, ISelectorService } from "@/services/interfaces";
 import { AbstractService } from "../abstract.service";
-import { CreateDiseaseRQ, CreateDiseaseRS, DeleteDiseaseRQ, Disease, FindDiseasesRS, FindSelectorOptionsDisease, UpdateDiseaseRQ, UpdateDiseaseRS } from "./dtos";
+import { CreateDiseaseRQ, CreateDiseaseRS, DeleteDiseaseRQ, Disease, DiseaseSelectorRQ, FindDiseasesRS, FindSelectorOptionsDisease, UpdateDiseaseRQ, UpdateDiseaseRS } from "./dtos";
 import { OmegaFetch } from "@/services/config";
 import { SelectorOption } from "@/lib";
 import { DiseaseAPI } from "@/services/endpoints";
@@ -11,7 +11,7 @@ export class DiseaseService
     ICreateService<CreateDiseaseRQ, Disease>,
     IUpdateService<UpdateDiseaseRQ, Disease>,
     IDeleteService<DeleteDiseaseRQ, void>,
-    ISelectorService<any, number> {
+    ISelectorService<DiseaseSelectorRQ, number> {
 
     async find(): Promise<Disease[]> {
         try {
@@ -26,9 +26,9 @@ export class DiseaseService
         throw new Error("Method not implemented.");
     }
 
-    async findSelectorOptions(params?: any): Promise<SelectorOption<number>[]> {
+    async findSelectorOptions({ group }: DiseaseSelectorRQ): Promise<SelectorOption<number>[]> {
         try {
-            const { options }: FindSelectorOptionsDisease = await OmegaFetch.get({ url: this.endpoints.FIND_SELECTOR });
+            const { options }: FindSelectorOptionsDisease = await OmegaFetch.get({ url: this.endpoints.FIND_SELECTOR(`${group}`) });
             return options;
         } catch (error) {
             throw error;

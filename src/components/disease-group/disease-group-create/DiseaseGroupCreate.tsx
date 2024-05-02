@@ -1,4 +1,4 @@
-import { ELoadDiseaseOnStart, useDiseaseGroup } from '@/hooks';
+import { ELoadDiseaseGroupOnStart, useDiseaseGroup } from '@/hooks';
 import { LoadingOverlay, Group, rem, ActionIcon, Box, Button, Text } from '@mantine/core';
 import { IconDeviceFloppy, IconX } from '@tabler/icons-react';
 import React, { useRef } from 'react'
@@ -12,7 +12,7 @@ const DiseaseGroupCreate: React.FC<DiseaseGroupCreateProps> = ({ onClose }) => {
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const diseaseGroupHook = useDiseaseGroup(ELoadDiseaseOnStart.FIND_ALL);
+    const diseaseGroupHook = useDiseaseGroup(ELoadDiseaseGroupOnStart.FIND_ALL);
 
     const handleSubmit = (data: Omit<DiseaseGroup, 'id'>) => {
         try {
