@@ -7,6 +7,7 @@ import { Table, TextInput, rem } from '@mantine/core';
 import { IconCirclePlus, IconSearch } from '@tabler/icons-react';
 import React, { useEffect } from 'react'
 import { DiseaseGroupSettings } from '../disease-group-settings/DiseaseGroupSettings';
+import { SearchInputText } from '@/components/input/SearchInputText';
 
 type DiseaseGroupLayoutProps = {
     load: boolean;
@@ -43,7 +44,6 @@ const DiseaseGroupLayout: React.FC<DiseaseGroupLayoutProps> = ({ diseaseGroups, 
         </Table.Tr>
     ));
 
-
     return <>
         <Header
             button={{
@@ -54,13 +54,8 @@ const DiseaseGroupLayout: React.FC<DiseaseGroupLayoutProps> = ({ diseaseGroups, 
             Grupos de morbilidades registrados en el sistema
         </Header>
 
-        <TextInput
+        <SearchInputText
             placeholder="Buscar"
-            size="xs"
-            leftSection={<IconSearch style={{ width: rem(12), height: rem(12) }} stroke={1.5} />}
-            rightSectionWidth={70}
-            styles={{ section: { pointerEvents: 'none' } }}
-            mb="sm"
             value={tableHook.search}
             onChange={tableHook.onSearch}
         />

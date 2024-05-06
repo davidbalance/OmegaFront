@@ -4,7 +4,7 @@ import { DiseaseCreate } from '@/components/disease/disease-create/DiseaseCreate
 import { DiseaseDeleteDialog } from '@/components/disease/disease-delete-dialog/DiseaseDeleteDialog';
 import { DiseaseLayout } from '@/components/disease/disease-layout/DiseaseLayout';
 import { DiseaseUpdate } from '@/components/disease/disease-update/DiseaseUpdate';
-import { useDisease } from '@/hooks'
+import { ELoadDiseaseOnStart, useDisease } from '@/hooks'
 import { useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react'
 
@@ -16,7 +16,7 @@ enum LayoutState {
 
 const Disease: React.FC = () => {
 
-    const diseaseHook = useDisease(true);
+    const diseaseHook = useDisease(ELoadDiseaseOnStart.FIND_ALL);
     const [currentState, setCurrentState] = useState<LayoutState>(LayoutState.DEFAULT);
 
     const [deleteState, DeleteDisclosure] = useDisclosure(false);

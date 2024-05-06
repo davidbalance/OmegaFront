@@ -6,7 +6,29 @@ import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
 
-export const useDisease = (loadOnStart: boolean = false) => {
+export enum ELoadDiseaseOnStart {
+    FIND_ALL,
+    LOAD_OPTIONS
+}
+
+type DiseaseHook = {
+    loading: boolean;
+    diseases: Disease[];
+    disease: Disease | undefined;
+    options: SelectorOption<number>[];
+    create: (dto: CreateDiseaseRQ) => Disease | Promise<Disease>;
+    find: () => Disease[] | Promise<Disease[]>;
+    update: (dto: UpdateDiseaseRQ) => Disease | Promise<Disease>;
+    remove: (dto: DeleteDiseaseRQ) => void | Promise<void>;
+    loadOptions: (group: number) => void | Promise<void>;
+    selectItem: (index: number) => void;
+    clearSelected: () => void;
+}
+
+export function useDisease(): DiseaseHook;
+export function useDisease(loadOnStart: ELoadDiseaseOnStart): DiseaseHook;
+export function useDisease(loadOnStart: ELoadDiseaseOnStart[]): DiseaseHook;
+export function useDisease(loadOption?: ELoadDiseaseOnStart | ELoadDiseaseOnStart[]): DiseaseHook {
     const diseaseService = new DiseaseService(endpoints.DISEASE.V1);
 
     const [loading, Disclosure] = useDisclosure();
@@ -15,12 +37,31 @@ export const useDisease = (loadOnStart: boolean = false) => {
     const [options, setOptions] = useState<SelectorOption<number>[]>([]);
 
     useEffect(() => {
-        if (loadOnStart) {
-            find();
+        if (loadOption === undefined) return;
+        let optionArray: ELoadDiseaseOnStart[];
+        if (Array.isArray(loadOption)) {
+            optionArray = loadOption;
+        } else {
+            optionArray = [loadOption];
         }
+        loadOnStart(optionArray);
         return () => { }
-    }, [])
+    }, []);
 
+    const loadOnStart = (loadOnStartOptions: ELoadDiseaseOnStart[]) => {
+        for (const option of loadOnStartOptions) {
+            switch (option) {
+                case ELoadDiseaseOnStart.FIND_ALL:
+                    find();
+                    break;
+                case ELoadDiseaseOnStart.LOAD_OPTIONS:
+                    loadOptions(0);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     const create = async (dto: CreateDiseaseRQ) => {
         Disclosure.open();
@@ -101,10 +142,10 @@ export const useDisease = (loadOnStart: boolean = false) => {
         }
     }
 
-    const loadOptions = async () => {
+    const loadOptions = async (group: number) => {
         Disclosure.open();
         try {
-            const options = await diseaseService.findSelectorOptions();
+            const options = await diseaseService.findSelectorOptions({ group });
             setOptions(options);
             Disclosure.close();
         } catch (error) {

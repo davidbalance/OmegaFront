@@ -7,4 +7,6 @@ export type UpdateMedicalResultRQ = {
     id: number;
     diseaseId: number;
     diseaseName: string;
+    diseaseGroupId: number;
+    diseaseGroupName: string;
 }

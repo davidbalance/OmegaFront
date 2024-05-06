@@ -9,8 +9,8 @@ export const useMedicalOrder = (dni?: string, loadOnStart: boolean = false) => {
     const orderService = new OrderService(endpoints.ORDER.V1);
 
     const [loading, Disclosure] = useDisclosure();
-
-    const [orders, setOrders] = useState<Order[]>([]);
+    const [orders, setOrders] = useState<Order[] | undefined>(undefined);
+    const [index, setIndex] = useState<number | undefined>(undefined);
 
     useEffect(() => {
         if (dni && loadOnStart) {
@@ -39,9 +39,15 @@ export const useMedicalOrder = (dni?: string, loadOnStart: boolean = false) => {
         }
     }
 
+    const selectItem = (index: number) => setIndex(index);
+    const clearItem = () => setIndex(undefined);
+
     return {
         loading,
         orders,
-        find
+        order: (index !== undefined && orders) ? orders[index] : undefined,
+        find,
+        selectItem,
+        clearItem
     }
 }

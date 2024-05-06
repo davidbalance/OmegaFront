@@ -1,19 +1,17 @@
-import { Center, Group, Table, UnstyledButton, rem, Text } from '@mantine/core';
-import React from 'react'
-import { IconChevronUp, IconChevronDown, IconSelector } from '@tabler/icons-react';
+import { UnstyledButton, Group, Center, rem, Box, Text, Flex } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import classes from './OmegaTh.module.css'
+import { IconChevronUp, IconChevronDown, IconSelector } from '@tabler/icons-react';
+import React from 'react'
+import classes from './PatientTh.module.css'
 
-type OmegaTh = {
+type PatientThProps = {
     children: React.ReactNode;
     sort?: {
         sorted: boolean;
         onSort: () => void;
     }
 }
-
-const OmegaTh: React.FC<OmegaTh> = ({ children, sort }) => {
-
+const PatientTh: React.FC<PatientThProps> = ({ children, sort }) => {
     const [reversed, { toggle }] = useDisclosure(false);
     const Icon = sort?.sorted ? (reversed ? IconChevronUp : IconChevronDown) : IconSelector;
 
@@ -23,7 +21,7 @@ const OmegaTh: React.FC<OmegaTh> = ({ children, sort }) => {
     }
 
     return (
-        <Table.Th className={classes.th}>
+        <Box className={classes.th}>
             {sort
                 ? <UnstyledButton onClick={handleSortClick} className={classes.control}>
                     <Group justify="space-between">
@@ -35,12 +33,14 @@ const OmegaTh: React.FC<OmegaTh> = ({ children, sort }) => {
                         </Center>
                     </Group>
                 </UnstyledButton>
-                : <Text size='sm' fw={500} fz="sm">
+                : <Flex align='center'>
+                    <Text size='sm' fw={500} fz="sm">
                     {children}
                 </Text>
+                </Flex>
             }
-        </Table.Th>
+        </Box>
     )
 }
 
-export default OmegaTh
+export default PatientTh
