@@ -1,11 +1,12 @@
 import OmegaDropzone from '@/components/dropzone/omega-dropzone/OmegaDropzone'
 import { useDoctor } from '@/hooks'
-import { LoadingOverlay, Group, rem, ActionIcon, Box, Text, SimpleGrid, Modal, Button } from '@mantine/core'
+import { LoadingOverlay, Group, rem, Box, Text, SimpleGrid, Modal, Button } from '@mantine/core'
 import { MIME_TYPES } from '@mantine/dropzone'
-import { IconDeviceFloppy, IconForbid, IconX } from '@tabler/icons-react'
+import { IconDeviceFloppy, IconForbid } from '@tabler/icons-react'
 import React, { useState } from 'react'
 import { useDisclosure } from '@mantine/hooks'
 import { Doctor } from '@/services/api/doctor/dtos'
+import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle'
 
 type DoctorSignatureUploadProps = {
     doctor: Doctor;
@@ -38,24 +39,13 @@ const DoctorSignatureUpload: React.FC<DoctorSignatureUploadProps> = ({ doctor, o
     return (
         <>
             <LoadingOverlay visible={doctorHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-            <Group w='100%' justify='flex-end' mb={rem(6)}>
-                <ActionIcon variant='transparent' onClick={onClose}>
-                    <IconX />
-                </ActionIcon>
-            </Group>
+
+            <SubLayoutFormTitle
+                title={'Carga de firma'}
+                onClose={onClose} />
+
             <Group justify='center' style={{ overflow: 'hidden' }}>
-                <Box miw={rem(800)} pt={rem(32)} px='lg'>
-                    <Box mb={rem(12)}>
-                        <Text
-                            tt="uppercase"
-                            fw={500}
-                            component='span'
-                            variant='text'
-                            c="omegaColors"
-                            size='md'>
-                            Carga de firma
-                        </Text>
-                    </Box>
+                <Box pt={rem(32)} px='lg'>
                     <SimpleGrid cols={1}>
                         <Group justify='center'>
                             <OmegaDropzone
@@ -72,20 +62,6 @@ const DoctorSignatureUpload: React.FC<DoctorSignatureUploadProps> = ({ doctor, o
                                 accept={[MIME_TYPES.png]}
                                 onDrop={handleFileUpload} />
                         </Group>
-                        {/* {(file || filename) && <Group justify='center'>
-                            <Grid gutter='xl' className={classes["file-record"]}>
-                                <Grid.Col span={2} className={classes["record-box"]}>
-                                </Grid.Col>
-                                <Grid.Col span={8} className={classes["record-box"]}>
-                                    <Text ta='center' size='sm' truncate="start">{filename}</Text>
-                                </Grid.Col>
-                                <Grid.Col span={2} className={classes["record-box"]}>
-                                    <ActionIcon variant='transparent' onClick={clearFile}>
-                                        <IconX />
-                                    </ActionIcon>
-                                </Grid.Col>
-                            </Grid>
-                        </Group>} */}
                     </SimpleGrid>
                 </Box>
             </Group>

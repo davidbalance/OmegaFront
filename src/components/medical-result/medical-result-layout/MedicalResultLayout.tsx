@@ -9,6 +9,7 @@ import React, { useEffect } from 'react'
 import { MedicalResultSettings } from '../medical-result-settings/MedicalResultSettings'
 import { useMedicalReport } from '@/hooks/useMedicalReport'
 import { SearchInputText } from '@/components/input/SearchInputText'
+import { OmegaTd } from '@/components/table/omega-td/OmegaTd'
 
 type MedicalResultLayoutDataType = Omit<MedicalResult, 'order'> & MedicalResultOrder;
 const parseResult = (medicalResults: MedicalResult[]): MedicalResultLayoutDataType[] => medicalResults.map<MedicalResultLayoutDataType>((e) => ({ ...e, ...e.order }));
@@ -39,9 +40,9 @@ const MedicalResultLayout: React.FC<MedicalResultLayoutProps> = ({ load, medical
 
     const rows = tableHook.rows.map((row, index) => (
         <Table.Tr key={row.id}>
-            <Table.Td>{row.examName}</Table.Td>
-            <Table.Td>{row.patientFullname}</Table.Td>
-            <Table.Td>
+            <OmegaTd>{row.examName}</OmegaTd>
+            <OmegaTd>{row.patientFullname}</OmegaTd>
+            <OmegaTd>
                 <MedicalResultSettings
                     onCreate={() => events.onCreate(index)}
                     onDownload={!!row.report ? () => {
@@ -53,7 +54,7 @@ const MedicalResultLayout: React.FC<MedicalResultLayoutProps> = ({ load, medical
                         }
                     } : undefined}
                 />
-            </Table.Td>
+            </OmegaTd>
         </Table.Tr>
     ));
 

@@ -8,6 +8,7 @@ import { IconCirclePlus, IconSearch } from '@tabler/icons-react';
 import React, { useEffect } from 'react'
 import { DiseaseGroupSettings } from '../disease-group-settings/DiseaseGroupSettings';
 import { SearchInputText } from '@/components/input/SearchInputText';
+import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 
 type DiseaseGroupLayoutProps = {
     load: boolean;
@@ -35,12 +36,12 @@ const DiseaseGroupLayout: React.FC<DiseaseGroupLayoutProps> = ({ diseaseGroups, 
 
     const rows = tableHook.rows.map((row, index) => (
         <Table.Tr key={row.id}>
-            <Table.Td>{row.name}</Table.Td>
-            <Table.Td>
+            <OmegaTd>{row.name}</OmegaTd>
+            <OmegaTd>
                 <DiseaseGroupSettings
                     onModification={() => events.onModification(index)}
                     onDelete={() => events.onDelete(index)} />
-            </Table.Td>
+            </OmegaTd>
         </Table.Tr>
     ));
 

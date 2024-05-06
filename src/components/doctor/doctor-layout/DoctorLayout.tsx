@@ -9,6 +9,7 @@ import { Header } from '@/components/header/Header';
 import { OmegaTable } from '@/components/table';
 import { IconSearch } from '@tabler/icons-react';
 import { SearchInputText } from '@/components/input/SearchInputText';
+import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 
 type DoctorLayoutDataType = Omit<Doctor, 'user'> & Omit<User, 'id'> & { hasCredential: boolean }
 const parseResult = (medicalResults: Doctor[]): DoctorLayoutDataType[] => medicalResults.map<DoctorLayoutDataType>((e) => ({
@@ -48,15 +49,15 @@ const DoctorLayout: React.FC<DoctorLayoutProps> = ({ doctors, events, load }) =>
 
     const rows = tableHook.rows.map((row, index) => (
         <Table.Tr key={row.id}>
-            <Table.Td>{row.dni}</Table.Td>
-            <Table.Td>{row.name}</Table.Td>
-            <Table.Td>{row.lastname}</Table.Td>
-            <Table.Td>{row.email}</Table.Td>
-            <Table.Td>
+            <OmegaTd>{row.dni}</OmegaTd>
+            <OmegaTd>{row.name}</OmegaTd>
+            <OmegaTd>{row.lastname}</OmegaTd>
+            <OmegaTd>{row.email}</OmegaTd>
+            <OmegaTd>
                 <DoctorSettings
                     onCreateCredential={!row.hasCredential ? () => events.onCreateCredential(index) : undefined}
                     onUploadSignature={() => events.onUploadSignature(index)} />
-            </Table.Td>
+            </OmegaTd>
         </Table.Tr>
     ));
 

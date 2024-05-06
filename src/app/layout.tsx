@@ -29,7 +29,7 @@ const omegaTheme = createTheme({
     omegaColors
   },
   white: '#F9F6EE',
-  primaryColor: 'omegaColors'
+  primaryColor: 'omegaColors',
 });
 
 export const metadata: Metadata = {

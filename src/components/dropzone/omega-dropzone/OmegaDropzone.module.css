@@ -1,5 +1,8 @@
 .wrapper {
   position: relative;
+}
+
+.dropzoneContainer {
   margin-bottom: calc(1.875rem * var(--mantine-scale));
   border: rem(2px) solid var(--mantine-color-omegaColors-3);
   border-style: dashed;
@@ -21,7 +24,6 @@
 
 .control {
   position: absolute;
-  width: rem(250px);
-  left: calc(50% - rem(125px));
-  bottom: rem(-20px);
+  width: 100%;
+  bottom: rem(15px);
 }

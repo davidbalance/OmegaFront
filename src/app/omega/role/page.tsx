@@ -5,6 +5,7 @@ import DeleteRoleDialog from '@/components/role/delete-role-dialog/DeleteRoleDia
 import RoleSettingsMenu from '@/components/role/role-settings-menu/RoleSettingsMenu'
 import UpdateRoleFormDrawer from '@/components/role/update-role-form-drawer/UpdateRoleFormDrawer'
 import OmegaTable from '@/components/table/omega-table/OmegaTable'
+import { OmegaTd } from '@/components/table/omega-td/OmegaTd'
 import SortTh from '@/components/table/sort-th/SortTh'
 import { useTable } from '@/hooks/useTable'
 import { PermissionModel, RoleModel } from '@/services'
@@ -49,8 +50,8 @@ const Role: React.FC = () => {
 
     const rows = table.rows.map((row) => (
         <Table.Tr key={row.id}>
-            <Table.Td>{row.name}</Table.Td>
-            <Table.Tr>
+            <OmegaTd>{row.name}</OmegaTd>
+            <OmegaTd>
                 <RoleSettingsMenu
                     onModification={() => {
                         setSelected(row);
@@ -61,7 +62,7 @@ const Role: React.FC = () => {
                         deleteRoleDisclosure[1].open();
                     }}
                 />
-            </Table.Tr>
+            </OmegaTd>
         </Table.Tr>
     ));
 
