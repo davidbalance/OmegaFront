@@ -7,6 +7,7 @@ import { Table, TextInput, rem } from '@mantine/core';
 import { IconCirclePlus, IconSearch } from '@tabler/icons-react';
 import React, { useEffect } from 'react'
 import UserSettingsMenu from '../user-settings-menu/UserSettingsMenu';
+import { SearchInputText } from '@/components/input/SearchInputText';
 
 type UserLayoutProps = {
     users: User[];
@@ -64,13 +65,8 @@ const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) 
                 Usuarios registrados en el sistema
             </Header>
 
-            <TextInput
+            <SearchInputText
                 placeholder="Buscar"
-                size="xs"
-                leftSection={<IconSearch style={{ width: rem(12), height: rem(12) }} stroke={1.5} />}
-                rightSectionWidth={70}
-                styles={{ section: { pointerEvents: 'none' } }}
-                mb="sm"
                 value={tableHook.search}
                 onChange={tableHook.onSearch}
             />

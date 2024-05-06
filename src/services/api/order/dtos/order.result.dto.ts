@@ -1,7 +1,10 @@
 export type OrderResult = {
     id: number;
     examName: string;
-    disease?: number;
+    diseaseId?: number;
+    diseaseName?: string;
+    diseaseGroupId?: number;
+    diseaseGroupName?: string;
 }
 
 export type Order = {
