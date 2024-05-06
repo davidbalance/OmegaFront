@@ -1,7 +1,5 @@
 import { AbstractService } from "../abstract.service";
 import { OmegaFetch } from "@/services/config";
-import { pipeline } from "stream";
-import { createWriteStream, write } from "fs";
 import { blobFile } from "@/lib/utils/blob-to-file";
 import { MedicalReportAPI } from "@/services/endpoints";
 import { IFindFile } from "@/services/interfaces";

@@ -1,5 +1,5 @@
 import { MedicalResultService } from "@/services/api";
-import { InsertMedicalReportRQ, MedicalResult, UpdateMedicalResultRQ } from "@/services/api/medical-result/dtos";
+import { FindMedicalResultFileRQ, InsertMedicalReportRQ, MedicalResult, UpdateMedicalResultRQ } from "@/services/api/medical-result/dtos";
 import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications";
@@ -31,6 +31,23 @@ export const useMedicalResult = (loadOnStart: boolean = false) => {
             notifications.show({
                 title: 'Error al obtener resultados medicos',
                 message: 'Ha ocurrido un error al obtener los resultados medicos 😔',
+                color: 'red'
+            });
+            console.error(error);
+            Disclosure.close();
+            throw error;
+        }
+    }
+
+    const findFile = async ({ id, ...params }: FindMedicalResultFileRQ) => {
+        Disclosure.open();
+        try {
+            await medicalResultService.findFile({ id, ...params });
+            Disclosure.close();
+        } catch (error) {
+            notifications.show({
+                title: 'Error al actualizar un resultado',
+                message: 'Ha ocurrido un error al actualizar el resultado 😔',
                 color: 'red'
             });
             console.error(error);
@@ -97,6 +114,7 @@ export const useMedicalResult = (loadOnStart: boolean = false) => {
         medicalResults,
         medicalResult: index !== undefined ? medicalResults[index] : undefined,
         find,
+        findFile,
         updateDisease,
         insertMedicalReport,
         selectItem,

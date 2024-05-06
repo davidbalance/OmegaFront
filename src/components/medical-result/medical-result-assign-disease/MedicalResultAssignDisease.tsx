@@ -4,7 +4,7 @@ import { useMedicalResult } from '@/hooks/useMedicalResult'
 import { SelectorOption } from '@/lib'
 import { OrderResult } from '@/services/api/order/dtos'
 import { Box, Button, LoadingOverlay, rem } from '@mantine/core'
-import { IconDeviceFloppy } from '@tabler/icons-react'
+import { IconDeviceFloppy, IconFile, IconPdf } from '@tabler/icons-react'
 import React, { FormEvent, useEffect, useState } from 'react'
 
 type MedicalResultAssignDisease = {
@@ -74,7 +74,13 @@ const MedicalResultAssignDisease: React.FC<MedicalResultAssignDisease> = ({ orde
         } catch (error) { }
     }
 
-    return (
+    const handleFindFileClick = () => {
+        try {
+            medicalResultHook.findFile({ id: orderResult.id, name: `${orderResult.examName}` })
+        } catch (error) { }
+    }
+
+    return <>
         <Box
             component='form'
             mih={300}
@@ -82,6 +88,20 @@ const MedicalResultAssignDisease: React.FC<MedicalResultAssignDisease> = ({ orde
             onSubmit={handleSubmit}>
             <LoadingOverlay visible={medicalResultHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <LoadingOverlay visible={diseaseHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+
+            <Button
+                mb={rem(16)}
+                loading={medicalResultHook.loading}
+                onClick={handleFindFileClick}
+                type='button'
+                fullWidth
+                size='compact-xs'
+                leftSection={
+                    <IconPdf stroke={1.5} />
+                }>
+                Descargar archivo
+            </Button>
+
             <OmegaComboBox
                 inputProps={{
                     label: 'Grupo de morbilidades',
@@ -111,7 +131,7 @@ const MedicalResultAssignDisease: React.FC<MedicalResultAssignDisease> = ({ orde
                 Guardar
             </Button>
         </Box>
-    )
+    </>
 }
 
 export default MedicalResultAssignDisease
