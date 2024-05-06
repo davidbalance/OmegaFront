@@ -1,5 +1,5 @@
 import { useMedicalResult } from '@/hooks/useMedicalResult'
-import { LoadingOverlay, Group, rem, ActionIcon, Box, Button, Text } from '@mantine/core'
+import { LoadingOverlay, Group, rem, ActionIcon, Box, Button, Text, Title } from '@mantine/core'
 import { IconX, IconDeviceFloppy } from '@tabler/icons-react'
 import { useEditor } from '@tiptap/react'
 import { RichTextEditor, Link } from '@mantine/tiptap';
@@ -37,7 +37,7 @@ const MedicalResultReportForm: React.FC<MedicalResultReportFormProps> = ({ resul
     });
 
     const handleSubmit = () => {
-        if(editor?.getText().trim() === '') {
+        if (editor?.getText().trim() === '') {
             notifications.show({
                 message: 'Debe escribirse un reporte medico',
                 color: 'red'
@@ -62,21 +62,19 @@ const MedicalResultReportForm: React.FC<MedicalResultReportFormProps> = ({ resul
                 </ActionIcon>
             </Group>
             <Group justify='center'>
-                <Box miw={rem(800)} pt={rem(8)} px='lg'>
+                <Box pt={rem(8)} px='lg'>
                     <Box mb={rem(12)}>
-                        <Text
+                        <Title
+                            order={6}
                             tt="uppercase"
-                            fw={500}
                             component='span'
-                            variant='text'
-                            c="omegaColors"
-                            size='md'>
+                            c="omegaColors">
                             Formulario de reporte medico
-                        </Text>
+                        </Title>
                     </Box>
 
                     <RichTextEditor editor={editor}>
-                        <RichTextEditor.Toolbar sticky stickyOffset={60}>
+                        <RichTextEditor.Toolbar sticky stickyOffset={0}>
                             <RichTextEditor.ControlsGroup>
                                 <RichTextEditor.Bold />
                                 <RichTextEditor.Italic />

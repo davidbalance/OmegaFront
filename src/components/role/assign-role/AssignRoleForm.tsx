@@ -1,3 +1,4 @@
+import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 import { Box, Table, TextInput, Checkbox, Button } from '@mantine/core';
 import React, { ChangeEvent, FormEvent, ForwardedRef, useState } from 'react'
 
@@ -39,20 +40,20 @@ const AssignRoleForm = React.forwardRef<HTMLButtonElement, UserRoleFormProps>(({
                 </Table.Thead>
                 <Table.Tbody>
                     <Table.Tr>
-                        <Table.Td colSpan={2}>
+                        <OmegaTd colSpan={2}>
                             <TextInput value='Seleccion roles del sistema' type='hidden' error={error} />
-                        </Table.Td>
+                        </OmegaTd>
                     </Table.Tr>
                     {
                         roles.map((role) => (
                             <Table.Tr key={role.id}>
-                                <Table.Td>{role.name}</Table.Td>
-                                <Table.Td align='center'>
+                                <OmegaTd>{role.name}</OmegaTd>
+                                <OmegaTd align='center'>
                                     <Checkbox
                                         defaultChecked={selected.includes(role.id)}
                                         onChange={(e) => handleChange(e, role.id)}
                                     />
-                                </Table.Td>
+                                </OmegaTd>
                             </Table.Tr>
                         ))
                     }

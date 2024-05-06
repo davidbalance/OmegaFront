@@ -1,9 +1,10 @@
-import { LoadingOverlay, Group, rem, ActionIcon, Box, Text, Button } from '@mantine/core';
+import { LoadingOverlay, Group, rem, ActionIcon, Box, Text, Button, Title } from '@mantine/core';
 import { useAccessControl } from '@/hooks/useAccessControl';
 import { IconDeviceFloppy, IconX } from '@tabler/icons-react';
 import React, { useEffect, useRef } from 'react'
 import { useRole } from '@/hooks/useRole';
 import { AssignRoleForm } from '@/components/role/assign-role';
+import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 
 type UserRoleAssignProps = {
     onClose: () => void;
@@ -33,25 +34,13 @@ const UserRoleAssign: React.FC<UserRoleAssignProps> = ({ user, onClose }) => {
     return (
         <>
             <LoadingOverlay visible={accessControlHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-            <Group w='100%' justify='flex-end' mb={rem(12)}>
-                <ActionIcon variant='transparent' onClick={onClose}>
-                    <IconX />
-                </ActionIcon>
-            </Group>
+
+            <SubLayoutFormTitle
+                title={'Formulario de asignacion de roles'}
+                onClose={onClose} />
 
             <Group justify='center'>
-                <Box miw={rem(800)} pt={rem(32)} px='lg'>
-                    <Box mb={rem(12)}>
-                        <Text
-                            tt="uppercase"
-                            fw={500}
-                            component='span'
-                            variant='text'
-                            c="omegaColors"
-                            size='md'>
-                            Formulario de asignacion de roles
-                        </Text>
-                    </Box>
+                <Box pt={rem(32)} px='lg'>
 
                     {
                         accessControlHook.client ? <AssignRoleForm

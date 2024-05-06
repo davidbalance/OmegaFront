@@ -2,6 +2,7 @@
 
 import PatientResultDrawer from '@/components/patient/patient-result-drawer/PatientResultDrawer';
 import { OmegaTable } from '@/components/table/omega-table/OmegaTable';
+import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 import SortTh from '@/components/table/sort-th/SortTh';
 import { useTable } from '@/hooks/useTable';
 import { SelectorOption } from '@/lib';
@@ -74,8 +75,8 @@ const PatientOrder: React.FC<PatientOrderProps> = ({ params }) => {
             key={row.id}
             style={{ cursor: 'pointer' }}
             onClick={() => handleRowClick(row)}>
-            <Table.Td>{dayjs(row.createAt).format("YYYY-MM-DD")}</Table.Td>
-            <Table.Td>{row.process}</Table.Td>
+            <OmegaTd>{dayjs(row.createAt).format("YYYY-MM-DD")}</OmegaTd>
+            <OmegaTd>{row.process}</OmegaTd>
         </Table.Tr>
     ));
 
@@ -125,7 +126,7 @@ const PatientOrder: React.FC<PatientOrderProps> = ({ params }) => {
                 mb="md"
                 leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
                 value={table.search}
-                onChange={table.onSeach}
+                onChange={table.onSearch}
             />
             <OmegaTable
                 loading={tableLoading}

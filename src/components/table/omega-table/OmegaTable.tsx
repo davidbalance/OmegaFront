@@ -1,7 +1,9 @@
-import { Box, Flex, Loader, Pagination, ScrollArea, Table, Text, rem } from '@mantine/core'
+import { Box, Flex, Loader, Pagination, ScrollArea, Table, Text } from '@mantine/core'
 import React, { useState } from 'react'
 import cx from 'clsx';
 import classes from './OmegaTable.module.css';
+import { OmegaTd } from '../omega-td/OmegaTd';
+import { useMediaQuery } from '@mantine/hooks';
 
 type OmegaTableProps = {
     header: React.ReactNode;
@@ -10,14 +12,15 @@ type OmegaTableProps = {
     page: number;
     onPageChange: (value: number) => void;
     loading?: boolean;
-    height?: number;
 }
-const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPageChange, height = 400, loading = false }) => {
+const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPageChange, loading = false }) => {
     const [scrolled, setScrolled] = useState<boolean>(false);
+
+    const matches = useMediaQuery("(min-width: 700px)");
 
     return (
         <Box className={classes.outer}>
-            <ScrollArea h={height} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+            <ScrollArea h={matches ? 400 : 300} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
                 <Table horizontalSpacing="md" verticalSpacing="xs" layout='auto'>
                     <Table.Thead className={cx(classes.sticky, { [classes.scrolled]: scrolled })} c='omegaColors'>
                         <Table.Tr>
@@ -29,7 +32,7 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
                             ? (rows)
                             : (
                                 <Table.Tr>
-                                    <Table.Td colSpan={4}>
+                                    <OmegaTd colSpan={4}>
                                         {
                                             loading ?
                                                 <Flex justify='center' align='center' c='omegaColors'>
@@ -42,7 +45,7 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
                                                     Datos no encontrados
                                                 </Text>
                                         }
-                                    </Table.Td>
+                                    </OmegaTd>
                                 </Table.Tr>
                             )}
                     </Table.Tbody>

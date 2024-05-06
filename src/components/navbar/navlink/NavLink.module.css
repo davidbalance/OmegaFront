@@ -6,7 +6,7 @@
   font-size: var(--mantine-font-size-xs);
   padding: rem(8px) var(--mantine-spacing-xs);
   border-radius: var(--mantine-radius-sm);
-  font-weight: 500;
+  font-weight: 400;
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
 
   margin-top: 0.25rem;
@@ -33,6 +33,7 @@
   &[data-active] {
     &,
     &:hover {
+      font-weight: 600;
       background-color: var(--mantine-color-omegaColors-light);
       color: var(--mantine-color-omegaColors-light-color);
 

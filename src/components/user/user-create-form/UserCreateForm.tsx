@@ -6,6 +6,8 @@ import React, { useRef, useState } from 'react'
 import UserDataForm from '../user-data-form/UserDataForm';
 import { AuthenticationPasswordForm } from '@/components/authentication/authentication-password';
 import { AssignRoleForm } from '@/components/role/assign-role';
+import { useMediaQuery } from '@mantine/hooks';
+import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 
 type UserStepProps = {
     description: string; icon: React.ReactNode; step: {
@@ -26,6 +28,8 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onComplete }) 
 
     const [active, setActive] = useState(0);
     const [formData, setFormData] = useState<any>({});
+
+    const matches = useMediaQuery("(min-width: 700px)");
 
     const steps: UserStepProps[] = [
         {
@@ -82,15 +86,14 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onComplete }) 
         }
     }
 
-
     return (
         <>
             <LoadingOverlay visible={userHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-            <Group w='100%' justify='flex-end' mb={rem(12)}>
-                <ActionIcon variant='transparent' onClick={onClose}>
-                    <IconX />
-                </ActionIcon>
-            </Group>
+
+            <SubLayoutFormTitle
+                title={'Formulario de creacion de usuario'}
+                onClose={onClose} />
+
             <Stepper
                 active={active}
                 size='xs'
@@ -98,7 +101,7 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onComplete }) 
                 allowNextStepsSelect={false}
                 px={rem(64)}
                 completedIcon={<IconCircleCheck style={{ width: rem(18), height: rem(18) }} />}
-                style={{ height: rem(480) }}>
+                style={{ height: rem(480), paddingLeft: rem(16), paddingRight: rem(16) }}>
                 {
                     steps.map((step, index) => (
                         <Stepper.Step
@@ -107,13 +110,11 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onComplete }) 
                             description={step.description}
                             icon={step.icon}>
                             <Group justify='center'>
-                                <Box miw={rem(800)} pt={rem(32)} px='lg'>
-                                    <step.step.form
-                                        data={{ ...formData }}
-                                        ref={formReferences.current[index]}
-                                        onSubmit={handleSubmit}
-                                        {...step.step.props} />
-                                </Box>
+                                <step.step.form
+                                    data={{ ...formData }}
+                                    ref={formReferences.current[index]}
+                                    onSubmit={handleSubmit}
+                                    {...step.step.props} />
                             </Group>
                         </Stepper.Step>
                     ))

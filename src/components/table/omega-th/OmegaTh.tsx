@@ -1,4 +1,4 @@
-import { Center, Group, Table, UnstyledButton, rem, Text } from '@mantine/core';
+import { Center, Group, Table, UnstyledButton, rem, Text, Flex } from '@mantine/core';
 import React from 'react'
 import { IconChevronUp, IconChevronDown, IconSelector } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
@@ -26,16 +26,16 @@ const OmegaTh: React.FC<OmegaTh> = ({ children, sort }) => {
         <Table.Th className={classes.th}>
             {sort
                 ? <UnstyledButton onClick={handleSortClick} className={classes.control}>
-                    <Group justify="space-between">
-                        <Text size='sm' fw={500} fz="sm">
+                    <Flex justify="space-between" align='center'>
+                        <Text size='xs' fw={500}>
                             {children}
                         </Text>
                         <Center className={classes.icon}>
                             <Icon style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
                         </Center>
-                    </Group>
+                    </Flex>
                 </UnstyledButton>
-                : <Text size='sm' fw={500} fz="sm">
+                : <Text size='xs' fw={500}>
                     {children}
                 </Text>
             }

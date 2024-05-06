@@ -1,6 +1,7 @@
 import { AuthenticationPasswordForm } from '@/components/authentication/authentication-password';
+import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 import { useCredential } from '@/hooks/useCredential';
-import { ActionIcon, Box, Button, Group, LoadingOverlay, rem, Text } from '@mantine/core';
+import { ActionIcon, Box, Button, Group, LoadingOverlay, rem, Text, Title } from '@mantine/core';
 import { IconDeviceFloppy, IconX } from '@tabler/icons-react';
 import React, { useRef } from 'react'
 
@@ -23,25 +24,13 @@ const UserChangePassword: React.FC<UserChangePasswordProps> = ({ email, onClose 
     return (
         <>
             <LoadingOverlay visible={credentialHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-            <Group w='100%' justify='flex-end' mb={rem(6)}>
-                <ActionIcon variant='transparent' onClick={onClose}>
-                    <IconX />
-                </ActionIcon>
-            </Group>
-            <Group justify='center'>
-                <Box miw={rem(800)} pt={rem(32)} px='lg'>
-                    <Box mb={rem(12)}>
-                        <Text
-                            tt="uppercase"
-                            fw={500}
-                            component='span'
-                            variant='text'
-                            c="omegaColors"
-                            size='md'>
-                            Formulario de modificacion de contraseña
-                        </Text>
-                    </Box>
 
+            <SubLayoutFormTitle
+                title={'Formulario de modificacion de contraseña'}
+                onClose={onClose} />
+
+            <Group justify='center'>
+                <Box pt={rem(32)} px='lg'>
                     <AuthenticationPasswordForm
                         onSubmit={({ password }) => handleSubmit(password)}
                         ref={buttonRef} />

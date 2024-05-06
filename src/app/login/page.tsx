@@ -1,13 +1,6 @@
 'use client'
 
-import {
-    Box,
-    Button,
-    Paper,
-    PasswordInput,
-    TextInput,
-    Title
-} from '@mantine/core'
+import { Box, Button, Paper, PasswordInput, TextInput, Title } from '@mantine/core'
 import React from 'react'
 import classes from './Authentication.module.css'
 import { useForm } from '@mantine/form'
@@ -19,8 +12,6 @@ interface ILoginForm {
     username: string;
     password: string;
 }
-
-const strongPasswordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
 const loginSchema = Joi.object<ILoginForm>({
     username: Joi

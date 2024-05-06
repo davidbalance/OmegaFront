@@ -1,7 +1,7 @@
 'use client'
 
-import { TextInput, rem, ScrollArea } from '@mantine/core';
-import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconFolder, IconFolders, IconReportMedical, IconSettings, IconSearch } from '@tabler/icons-react';
+import { Box, Burger, Drawer, Flex, Grid, ScrollArea, rem, useMantineTheme } from '@mantine/core';
+import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconFolder, IconFolders, IconReportMedical, IconSettings } from '@tabler/icons-react';
 import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react'
 import classes from './Navbar.module.css';
 import { NavLink } from './navlink/NavLink';
@@ -9,7 +9,8 @@ import { NavFooter } from './navfooter/NavFooter';
 import { NavLogo } from './navlogo/NavLogo';
 import { useSearch } from '@/hooks/useSearch';
 import { NavLinkProp } from '@/lib/types/nav-link.type';
-import { SystemLogo } from './navlogo/logos';
+import { SearchInputText } from '../input/SearchInputText';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 
 const LinkIcon: Record<string, ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>>> = {
     "user": IconUsers,
@@ -27,10 +28,14 @@ interface NavbarProps {
     loading?: boolean
 }
 
-const Navbar: React.FC<NavbarProps> = ({ links, logo, loading = false }) => {
+const Navbar: React.FC<NavbarProps> = ({ links, logo }) => {
 
     const [active, setActive] = useState<string>('');
     const search = useSearch(links, ['label']);
+
+    const matches = useMediaQuery('(min-width: 700px)');
+
+    const [burgerState, BurgerDisclosure] = useDisclosure(false);
 
     const mainLinks = search.filter.map((item) => {
         return <NavLink
@@ -43,35 +48,73 @@ const Navbar: React.FC<NavbarProps> = ({ links, logo, loading = false }) => {
             }}
             onClick={() => {
                 setActive(item.label);
+                BurgerDisclosure.close();
             }} />
     });
 
-    return (
+    return <>
         <nav className={classes.navbar}>
             <div className={classes.header}>
-                <NavLogo logo={logo} />
+                <Grid py={rem(4)} px={rem(8)}>
+                    <Grid.Col span={!matches ? 3 : 1}>
+                        {
+                            !matches &&
+                            <Flex justify='flex-start' align='center' style={{ width: '100%' }}>
+                                <Burger
+                                    size="xs"
+                                    opened={burgerState}
+                                    onClick={BurgerDisclosure.toggle}
+                                    aria-label="Toggle navigation" />
+                            </Flex>
+                        }
+                    </Grid.Col>
+                    <Grid.Col span={!matches ? 6 : 10}>
+                        <Flex justify='center' align='center' style={{ width: '100%' }}>
+                            <NavLogo logo={logo} />
+                        </Flex>
+                    </Grid.Col>
+                    <Grid.Col span={!matches ? 3 : 1}></Grid.Col>
+                </Grid>
             </div>
 
-            <ScrollArea className={classes.links}>
-                <TextInput
-                    onChange={(e) => search.onSearch(e.target.value)}
-                    value={search.search}
-                    placeholder="Buscar"
-                    style={{ position: 'sticky', top: 0 }}
-                    size="xs"
-                    leftSection={<IconSearch style={{ width: rem(12), height: rem(12) }} stroke={1.5} />}
-                    rightSectionWidth={70}
-                    styles={{ section: { pointerEvents: 'none' } }}
-                    mb="sm"
-                />
-                <div className={classes.linksInner}>{mainLinks}</div>
-            </ScrollArea>
-
-            <div className={classes.footer}>
-                <NavFooter />
-            </div>
+            {
+                matches && <>
+                    <ScrollArea className={classes.links}>
+                        <SearchInputText
+                            className={classes.search}
+                            onChange={(e) => search.onSearch(e.target.value)}
+                            placeholder="Buscar"
+                            style={{ position: 'sticky', top: 0 }} />
+                        <div className={classes.linksInner}>{mainLinks}</div>
+                    </ScrollArea>
+                    <div className={classes.footer}>
+                        <NavFooter />
+                    </div>
+                </>
+            }
         </nav>
-    )
+        {
+            !matches &&
+            <Drawer
+                opened={burgerState}
+                onClose={BurgerDisclosure.close}
+                overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
+                size='100%'
+            >
+                <ScrollArea className={classes.links} h={400}>
+                    <SearchInputText
+                        className={classes.search}
+                        onChange={(e) => search.onSearch(e.target.value)}
+                        placeholder="Buscar"
+                        style={{ position: 'sticky', top: 0 }} />
+                    <div className={classes.linksInner}>{mainLinks}</div>
+                </ScrollArea>
+                <div className={classes.footer}>
+                    <NavFooter />
+                </div>
+            </Drawer>
+        }
+    </>
 }
 
 export { Navbar }
