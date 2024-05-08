@@ -9,3 +9,4 @@ export * from './useConfiguration';
 export * from './usePatient';
 export * from './useTable';
 export * from './useUser';
+export * from './useRole'

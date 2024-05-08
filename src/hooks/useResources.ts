@@ -1,28 +1,35 @@
 import { SelectorOption } from "@/lib";
-import { BranchService } from "@/services/api";
-import { Branch } from "@/services/api/branch/dtos";
-import { FindBranchSelectorOptions } from "@/services/api/branch/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import { ResourceService } from "@/services/api";
+import { Resource } from "@/services/api/resource/dtos";import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const useBranch = () => {
-    const branchService = new BranchService(endpoints.BRANCH.V1);
+
+export const useResource = (loadOnStart: boolean = false) => {
+    const resourceService = new ResourceService(endpoints.RESOURCE.V1);
 
     const [loading, Disclosure] = useDisclosure();
     const [index, setIndex] = useState<number | undefined>(undefined);
-    const [branches, setBranches] = useState<Branch[]>([]);
+    const [resources, setResources] = useState<Resource[]>([]);
     const [options, setOptions] = useState<SelectorOption<number>[]>([]);
 
-    const find = async (company: string) => {
+    useEffect(() => {
+        if (loadOnStart) {
+            find();
+        }
+        return () => { }
+    }, [])
+
+
+    const find = async () => {
         Disclosure.open();
         try {
-            const branches = await branchService.find(company);
-            console.log(branches)
-            setBranches(branches);
+            const resources = await resourceService.find();
+            console.log(resources)
+            setResources(resources);
             Disclosure.close();
-            return branches;
+            return resources;
         } catch (error) {
             notifications.show({
                 title: 'Error al obtener los datos',
@@ -38,9 +45,10 @@ export const useBranch = () => {
     const loadOptions = async () => {
         Disclosure.open();
         try {
-            const options = await branchService.findSelectorOptions();
-            setOptions(options);
+            const resources = await resourceService.find();
+            setResources(resources)
             Disclosure.close();
+            return resources;
         } catch (error) {
             notifications.show({
                 title: 'Error al obtener los datos',
@@ -55,23 +63,16 @@ export const useBranch = () => {
 
     const selectItem = (index: number) => setIndex(index);
     const clearSelected = () => setIndex(undefined);
-    const findSelector = async (id: FindBranchSelectorOptions) => {
-        try {
-            const user = await branchService.findSelectorOptions(id);
-            return user;
-        } catch (error) {
-            throw error;
-        }
-    }
 
     return {
         loading,
-        branches,
-        branch: index !==undefined ? branches[index] : undefined,
+        resources,
+        resource: index !==undefined ? resources[index] : undefined,
         options,
         find,
         loadOptions,
         selectItem,
         clearSelected
     }
+
 }

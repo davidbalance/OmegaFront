@@ -2,44 +2,43 @@ import { Header } from '@/components/header/Header';
 import { OmegaTable } from '@/components/table';
 import OmegaTh from '@/components/table/omega-th/OmegaTh';
 import { useTable } from '@/hooks';
-import { CorporativeGroup } from '@/services/api/corporative-group/dtos';
+import { Company } from '@/services/api/company/dtos';
 import { Table, TextInput, rem } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
-import React, { use, useEffect } from 'react'
-import { useRouter } from 'next/router';
+import React, { useEffect } from 'react'
 
-type CorporativeGroupLayoutProps = {
+type CompayLayoutProps = {
     load: boolean;
-    corporativeGroups: CorporativeGroup[];
+    companies: Company[];
 }
 
-const CorporativeGroupLayout: React.FC<CorporativeGroupLayoutProps> = ({ corporativeGroups, load }) => {
-    const tableHook = useTable(corporativeGroups, 50);
-
-    const handleRowClick = (groupId: number) => {
-        // const router = useRouter();
-        // router.push(`/omega/locations/companies/${groupId}`);
-        window.location.href = `/omega/locations/companies/${groupId}`;
-    };
+const CompanyLayout: React.FC<CompayLayoutProps> = ({ companies, load}) => {
+    const tableHook = useTable(companies, 50);
 
     useEffect(() => {
-        tableHook.setData(corporativeGroups);
+        tableHook.setData(companies);
         return () => { }
-    }, [corporativeGroups]);
+    }, [companies]);
 
     const header = <>
-        <OmegaTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre del Grupo Corporativo</OmegaTh>
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre de la Compañia</OmegaTh>,
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('ruc'), sorted: tableHook.sortBy === 'ruc' }} >RUC</OmegaTh>,
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('address'), sorted: tableHook.sortBy === 'address' }} >Dirección</OmegaTh>,
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('phone'), sorted: tableHook.sortBy === 'phone' }} >Teléfono</OmegaTh>
     </>
 
     const rows = tableHook.rows.map((row) => (
-        <Table.Tr key={row.id} onClick={() => handleRowClick(row.id)}>
+        <Table.Tr key={row.id}>
             <Table.Td>{row.name}</Table.Td>
+            <Table.Td>{row.ruc}</Table.Td>
+            <Table.Td>{row.address}</Table.Td>
+            <Table.Td>{row.phone}</Table.Td>
         </Table.Tr>
     ));
 
     return <>
         <Header>
-            Grupos corporativos registradas en el sistema
+            Compañias registradas en el sistema
         </Header>
 
         <TextInput
@@ -64,4 +63,4 @@ const CorporativeGroupLayout: React.FC<CorporativeGroupLayoutProps> = ({ corpora
 
 }
 
-export { CorporativeGroupLayout }
+export { CompanyLayout }

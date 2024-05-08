@@ -2,44 +2,37 @@ import { Header } from '@/components/header/Header';
 import { OmegaTable } from '@/components/table';
 import OmegaTh from '@/components/table/omega-th/OmegaTh';
 import { useTable } from '@/hooks';
-import { CorporativeGroup } from '@/services/api/corporative-group/dtos';
+import { Branch } from '@/services/api/branch/dtos';
 import { Table, TextInput, rem } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
-import React, { use, useEffect } from 'react'
-import { useRouter } from 'next/router';
+import React, { useEffect } from 'react'
 
-type CorporativeGroupLayoutProps = {
+type BranchLayoutProps = {
     load: boolean;
-    corporativeGroups: CorporativeGroup[];
+    branches: Branch[];
 }
 
-const CorporativeGroupLayout: React.FC<CorporativeGroupLayoutProps> = ({ corporativeGroups, load }) => {
-    const tableHook = useTable(corporativeGroups, 50);
-
-    const handleRowClick = (groupId: number) => {
-        // const router = useRouter();
-        // router.push(`/omega/locations/companies/${groupId}`);
-        window.location.href = `/omega/locations/companies/${groupId}`;
-    };
+const BranchLayout: React.FC<BranchLayoutProps> = ({ branches, load}) => {
+    const tableHook = useTable(branches, 50);
 
     useEffect(() => {
-        tableHook.setData(corporativeGroups);
+        tableHook.setData(branches);
         return () => { }
-    }, [corporativeGroups]);
+    }, [branches]);
 
     const header = <>
-        <OmegaTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre del Grupo Corporativo</OmegaTh>
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre de la Compañia</OmegaTh>
     </>
 
     const rows = tableHook.rows.map((row) => (
-        <Table.Tr key={row.id} onClick={() => handleRowClick(row.id)}>
+        <Table.Tr key={row.id}>
             <Table.Td>{row.name}</Table.Td>
         </Table.Tr>
     ));
 
     return <>
         <Header>
-            Grupos corporativos registradas en el sistema
+            Sucursales registradas en el sistema
         </Header>
 
         <TextInput
@@ -64,4 +57,4 @@ const CorporativeGroupLayout: React.FC<CorporativeGroupLayoutProps> = ({ corpora
 
 }
 
-export { CorporativeGroupLayout }
+export { BranchLayout }

@@ -1,128 +1,62 @@
 'use client'
 
-import CreateRoleFormDrawer from '@/components/role/create-role-form-drawer/CreateRoleFormDrawer'
-import DeleteRoleDialog from '@/components/role/delete-role-dialog/DeleteRoleDialog'
-import RoleSettingsMenu from '@/components/role/role-settings-menu/RoleSettingsMenu'
-import UpdateRoleFormDrawer from '@/components/role/update-role-form-drawer/UpdateRoleFormDrawer'
-import OmegaTable from '@/components/table/omega-table/OmegaTable'
-import SortTh from '@/components/table/sort-th/SortTh'
-import { useTable } from '@/hooks/useTable'
-import { PermissionModel, RoleModel } from '@/services'
-import { RoleViewService } from '@/services/view/role-view.service'
-import { Group, Title, rem, TextInput, Table, ActionIcon, Center } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
-import { IconCirclePlus, IconSearch } from '@tabler/icons-react'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useState } from "react"
+import { useDisclosure } from '@mantine/hooks';
+import DeleteRoleDialog from "@/components/role/delete-role-dialog/DeleteRoleDialog";
+import { RoleLayout } from "@/components/role/role-layout/RoleLayout"
+import { useRole } from "@/hooks"
+import CreateRoleFormDrawer from "@/components/role/create-role-form-drawer/CreateRoleFormDrawer";
+import { useResource } from "@/hooks/useResources";
 
-type RoleData = RoleModel;
+enum LayoutStates {
+    DEFAULT,
+    CREATE
+}
+
 const Role: React.FC = () => {
 
-    const roleViewService = new RoleViewService();
+    const roleHook = useRole(true);
+    const resourceHook = useResource(true);
 
-    const [selected, setSelected] = useState<RoleData | undefined>(undefined);
-    const [permissions, setPermissions] = useState<PermissionModel[]>([]);
+    const [currentState, setCurrentState] = useState<LayoutStates>(LayoutStates.DEFAULT);
 
-    const table = useTable<RoleData>([], 50);
+    const [deleteState, DeleteDisclosure] = useDisclosure();
 
-    const tableLoader = useDisclosure(true);
-    const createRoleDisclosure = useDisclosure(false);
-    const deleteRoleDisclosure = useDisclosure(false);
-    const modifyRoleDisclosure = useDisclosure(false);
+    const handleCreateEvent = () => { setCurrentState(LayoutStates.CREATE); }
 
-    useLayoutEffect(() => {
-        loadConfiguration();
-        return () => { }
-    }, [])
+    const handleClose = () => {
+        resourceHook.clearSelected();
 
-    const loadConfiguration = async () => {
-        try {
-            tableLoader[1].open();
-            const { roles, permissions } = await roleViewService.initialConfiguration();
-            table.setData(roles);
-            setPermissions(permissions);
-        } catch (error) {
-
-        } finally {
-            tableLoader[1].close();
-        }
+        resourceHook.find();
+        setCurrentState(LayoutStates.DEFAULT);
     }
 
-    const rows = table.rows.map((row) => (
-        <Table.Tr key={row.id}>
-            <Table.Td>{row.name}</Table.Td>
-            <Table.Tr>
-                <RoleSettingsMenu
-                    onModification={() => {
-                        setSelected(row);
-                        modifyRoleDisclosure[1].open();
-                    }}
-                    onDelete={() => {
-                        setSelected(row);
-                        deleteRoleDisclosure[1].open();
-                    }}
-                />
-            </Table.Tr>
-        </Table.Tr>
-    ));
+    const handleDeleteEvent = (index: number) => {
+        roleHook.selectItem(index);
+        DeleteDisclosure.open();
+    }
 
-    const header = <>
-        <SortTh sorted={table.sortBy === 'name'} reversed={table.reverseSortDirection} onSort={() => table.setSorting('name')} >Rol</SortTh>
-        <Table.Th>Acciones</Table.Th>
-    </>
-
-    return (
+    const view: Record<LayoutStates, React.ReactNode> = {
+        [LayoutStates.CREATE]: <CreateRoleFormDrawer onClose={handleClose} />,
+        [LayoutStates.DEFAULT]:
         <>
-            <CreateRoleFormDrawer
-                opened={createRoleDisclosure[0]}
-                onClose={createRoleDisclosure[1].close}
-                permssions={permissions || []}
-                onComplete={(data: RoleModel) => { }} />
-
-            <UpdateRoleFormDrawer
-                opened={modifyRoleDisclosure[0]}
-                onClose={modifyRoleDisclosure[1].close}
-                permssions={permissions || []}
-                onComplete={(data: RoleModel) => { }} />
-
-            <DeleteRoleDialog
-                opened={deleteRoleDisclosure[0]}
-                onClose={deleteRoleDisclosure[1].close}
-                roleIdentify={(selected) ? selected.id : -1}
-                onComplete={(id: number) => { }} />
-
-            <Group justify="space-between">
-                <Title component="span" variant="text" c='omegaColors'>
-                    Roles y Permisos
-                </Title>
-                <Center>
-                    <ActionIcon
-                        variant="transparent"
-                        onClick={createRoleDisclosure[1].open}>
-                        <IconCirclePlus
-                            style={{ width: rem(64), height: rem(64) }}
-                            stroke={1.5} />
-                    </ActionIcon>
-                </Center>
-            </Group>
-
-            <br />
-
-            <TextInput
-                placeholder="Busca cualquier campo"
-                mb="md"
-                leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                value={table.search}
-                onChange={table.onSeach}
-            />
-            <OmegaTable
-                loading={tableLoader[0]}
-                header={header}
-                rows={rows}
-                total={table.total}
-                page={table.activePage}
-                onPageChange={table.setPage} />
+            <DeleteRoleDialog opened={deleteState} roleIdentify={roleHook.roleUser?.id || -1} onClose={handleClose} />
+                <RoleLayout
+                    load={roleHook.loading}
+                    roles={roleHook.roles}
+                    events={{
+                        onCreate: handleCreateEvent,
+                        onDelete: handleDeleteEvent
+                    }} />
         </>
-    )
+        
+    }
+
+    return <>
+        {
+            view[currentState]
+        }
+    </>
 }
 
 export default Role
