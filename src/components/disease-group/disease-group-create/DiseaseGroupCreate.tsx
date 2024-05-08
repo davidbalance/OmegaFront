@@ -1,9 +1,10 @@
 import { ELoadDiseaseGroupOnStart, useDiseaseGroup } from '@/hooks';
-import { LoadingOverlay, Group, rem, ActionIcon, Box, Button, Text } from '@mantine/core';
-import { IconDeviceFloppy, IconX } from '@tabler/icons-react';
+import { LoadingOverlay, Group, rem, Box, Button } from '@mantine/core';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useRef } from 'react'
 import DiseaseGroupForm from '../disease-group-form/DiseaseGroupForm';
 import { DiseaseGroup } from '@/services/api/disease-group/dtos';
+import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 
 type DiseaseGroupCreateProps = {
     onClose: () => void;
@@ -23,25 +24,13 @@ const DiseaseGroupCreate: React.FC<DiseaseGroupCreateProps> = ({ onClose }) => {
 
     return <>
         <LoadingOverlay visible={diseaseGroupHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-        <Group w='100%' justify='flex-end' mb={rem(6)}>
-            <ActionIcon variant='transparent' onClick={onClose}>
-                <IconX />
-            </ActionIcon>
-        </Group>
-        <Group justify='center'>
-            <Box miw={rem(800)} pt={rem(32)} px='lg'>
-                <Box mb={rem(12)}>
-                    <Text
-                        tt="uppercase"
-                        fw={500}
-                        component='span'
-                        variant='text'
-                        c="omegaColors"
-                        size='md'>
-                        Formulario de creacion de groupos de morbilidades
-                    </Text>
-                </Box>
 
+        <SubLayoutFormTitle
+            title={'Formulario de creacion de groupos de morbilidades'}
+            onClose={onClose} />
+
+        <Group justify='center'>
+            <Box pt={rem(32)} px='lg'>
                 <DiseaseGroupForm
                     ref={buttonRef}
                     onFormSubmitted={handleSubmit} />

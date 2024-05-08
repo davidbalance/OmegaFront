@@ -8,6 +8,7 @@ import { IconCirclePlus, IconSearch } from '@tabler/icons-react';
 import React, { useEffect } from 'react'
 import UserSettingsMenu from '../user-settings-menu/UserSettingsMenu';
 import { SearchInputText } from '@/components/input/SearchInputText';
+import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 
 type UserLayoutProps = {
     users: User[];
@@ -39,18 +40,18 @@ const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) 
 
     const rows = tableHook.rows.map((row, index) => (
         <Table.Tr key={row.id}>
-            <Table.Td>{row.dni}</Table.Td>
-            <Table.Td>{row.name}</Table.Td>
-            <Table.Td>{row.lastname}</Table.Td>
-            <Table.Td>{row.email}</Table.Td>
-            <Table.Td>
+            <OmegaTd>{row.dni}</OmegaTd>
+            <OmegaTd>{row.name}</OmegaTd>
+            <OmegaTd>{row.lastname}</OmegaTd>
+            <OmegaTd>{row.email}</OmegaTd>
+            <OmegaTd>
                 <UserSettingsMenu
                     onModification={() => events.onModification(index)}
                     onConfiguration={() => events.onConfiguration(index)}
                     onChangePassword={() => events.onChangePassword(index)}
                     onDelete={() => events.onDelete(index)}
                 />
-            </Table.Td>
+            </OmegaTd>
         </Table.Tr>
     ));
 

@@ -1,8 +1,8 @@
 import { Badge } from '@mantine/core';
 import Link, { LinkProps } from 'next/link'
 import React, { ForwardRefExoticComponent, RefAttributes } from 'react'
-import classes from './NavLink.module.css'
 import { IconProps, Icon } from '@tabler/icons-react';
+import classes from './NavLink.module.css'
 
 type NavIcon = ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>>;
 

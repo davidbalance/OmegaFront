@@ -9,6 +9,7 @@ import { IconCirclePlus, IconSearch } from '@tabler/icons-react';
 import React, { useEffect } from 'react'
 import { DiseaseSettings } from '../disease-settings/DiseaseSettings';
 import { SearchInputText } from '@/components/input/SearchInputText';
+import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 
 type DiseaseLayoutDataType = Omit<Disease, 'group'> & { group: string };
 const parseResult = (medicalResults: Disease[]): DiseaseLayoutDataType[] => medicalResults.map<DiseaseLayoutDataType>((e) => ({ ...e, group: e.group.name }));
@@ -38,13 +39,13 @@ const DiseaseLayout: React.FC<DiseaseLayoutProps> = ({ diseases, events, load })
 
     const rows = tableHook.rows.map((row, index) => (
         <Table.Tr key={row.id}>
-            <Table.Td>{row.group}</Table.Td>
-            <Table.Td>{row.name}</Table.Td>
-            <Table.Td>
+            <OmegaTd>{row.group}</OmegaTd>
+            <OmegaTd>{row.name}</OmegaTd>
+            <OmegaTd>
                 <DiseaseSettings
                     onModification={() => events.onModification(index)}
                     onDelete={() => events.onDelete(index)} />
-            </Table.Td>
+            </OmegaTd>
         </Table.Tr>
     ));
 

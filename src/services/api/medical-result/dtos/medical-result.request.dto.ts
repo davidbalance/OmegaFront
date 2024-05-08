@@ -10,3 +10,8 @@ export type UpdateMedicalResultRQ = {
     diseaseGroupId: number;
     diseaseGroupName: string;
 }
+
+export type FindMedicalResultFileRQ = {
+    id: number;
+    name: string;
+}

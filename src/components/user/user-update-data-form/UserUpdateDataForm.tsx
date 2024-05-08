@@ -1,9 +1,10 @@
 import { User } from '@/services/api/user/dtos';
-import { LoadingOverlay, Group, rem, ActionIcon, Box, Button, Text } from '@mantine/core';
+import { LoadingOverlay, Group, rem, ActionIcon, Box, Button, Text, Title, SimpleGrid, Grid } from '@mantine/core';
 import { IconX, IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useRef } from 'react'
 import UserDataForm from '../user-data-form/UserDataForm';
 import { useUser } from '@/hooks';
+import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 
 type UserUpdateDataFormProps = {
     onClose: () => void;
@@ -28,25 +29,13 @@ const UserUpdateDataForm: React.FC<UserUpdateDataFormProps> = ({ onClose, user }
     return (
         <>
             <LoadingOverlay visible={userHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-            <Group w='100%' justify='flex-end' mb={rem(6)}>
-                <ActionIcon variant='transparent' onClick={onClose}>
-                    <IconX />
-                </ActionIcon>
-            </Group>
+
+            <SubLayoutFormTitle
+                title={'Formulario de modificacion de usuario'}
+                onClose={onClose} />
 
             <Group justify='center'>
-                <Box miw={rem(800)} pt={rem(32)} px='lg'>
-                    <Box mb={rem(12)}>
-                        <Text
-                            tt="uppercase"
-                            fw={500}
-                            component='span'
-                            variant='text'
-                            c="omegaColors"
-                            size='md'>
-                            Formulario de modificacion de usuario
-                        </Text>
-                    </Box>
+                <Box pt={rem(32)} px='lg'>
 
                     <UserDataForm
                         onSubmit={handleSubmit}

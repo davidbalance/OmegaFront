@@ -1,4 +1,4 @@
-import { Group, rem, Center, Tooltip, ActionIcon, Text } from '@mantine/core'
+import { Group, rem, Center, Tooltip, ActionIcon, Title } from '@mantine/core'
 import React from 'react'
 
 type HeaderProps = {
@@ -13,21 +13,19 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ children, button }) => {
     return (
         <Group justify="space-between" mb={rem(16)}>
-            <Text
+            <Title
+                order={6}
                 tt="uppercase"
-                fw={700}
                 component='span'
-                variant='text'
-                c="omegaColors"
-                size='lg'>
+                c="omegaColors">
                 {children}
-            </Text>
+            </Title>
             {
                 button &&
                 button.show && <Center>
                     <Tooltip label={'Crear usuario'}>
                         <ActionIcon
-                            size='lg'
+                            size='sm'
                             variant="transparent"
                             onClick={button.onClick}>
                             <button.icon
