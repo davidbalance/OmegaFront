@@ -16,7 +16,6 @@ export const useApiKey = () => {
         try {
             const group = await apiKeyService.create(dto);
             Disclosure.close();
-            console.log(group)
             return group;
         } catch (error) {
             notifications.show({
