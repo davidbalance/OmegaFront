@@ -1,5 +1,6 @@
 import {
     AccessControlEndpoint,
+    ApiKeyEndpoint,
     AuthenticationEndpoint,
     BranchEndpoint,
     CityEndpoint,
@@ -23,6 +24,9 @@ import {
 export default Object.freeze({
     ACCESS_CONTROL: {
         V1: AccessControlEndpoint
+    },
+    API_KEY: {
+        V1: ApiKeyEndpoint
     },
     AUTHENTICATION: {
         V1: AuthenticationEndpoint

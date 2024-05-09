@@ -24,7 +24,6 @@ export const useMedicalResult = (loadOnStart: boolean = false) => {
         try {
             const results = await medicalResultService.find();
             setMedicalResults(results);
-            console.log(results);
             Disclosure.close();
             return results;
         } catch (error) {

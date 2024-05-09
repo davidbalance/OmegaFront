@@ -9,13 +9,17 @@ export class BranchService
     extends AbstractService<BranchAPI>
     implements ISelectorService<any, number> {
 
-    async find({ company }:any): Promise<Branch[]> {
+    async find(company :string): Promise<Branch[]> {
         try {
             const { branches }: FindBranchesRS = await OmegaFetch.get({ url: this.endpoints.FIND(`${company}`) });
             return branches;
         } catch (error) {
             throw error;
         }
+    }
+
+    findOne(params: FindBranchesRS): Branch | Promise<Branch> {
+        throw new Error("Method not implemented.");
     }
 
     async findSelectorOptions(params?: any): Promise<SelectorOption<number>[]> {

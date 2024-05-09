@@ -1,47 +1,35 @@
 import { ActionIcon, Box, Button, Flex, Group, LoadingOverlay, Stepper, rem } from '@mantine/core'
 import React, { useRef, useState } from 'react'
-import { RoleFormProps } from '../role-form'
-import { IconCircleCheck, IconDeviceFloppy, IconLicense, IconUserCheck, IconX } from '@tabler/icons-react'
-import RoleForm from '../role-form/RoleForm'
-import { Role } from '../assign-role'
-import { useRole } from '@/hooks'
-import { AssignResourceForm } from '@/components/resources/assign-resource'
-import { useResource } from '@/hooks/useResources'
+import { IconCircleCheck, IconDeviceFloppy, IconUserCheck, IconX } from '@tabler/icons-react'
+import ApiKeyForm from '../api-key-form/ApiKeyForm'
+import { useApiKey } from '@/hooks'
 
-type RoleStepProps = {
+type ApiKeyStepProps = {
     description: string; icon: React.ReactNode; step: {
         form: React.ElementType,
         props: any
     }
 }
 
-type CreateRoleFormDrawerProps =  {
+type CreateApiKeyFormProps =  {
     onClose: () => void;
     onComplete?: () => void;
 }
-const CreateRoleFormDrawer: React.FC<CreateRoleFormDrawerProps> = ({ onClose, onComplete }) => {
 
-    const roleHook = useRole(true);
-    const resourceHook = useResource(true);
 
+const CreateApiKeyForm: React.FC<CreateApiKeyFormProps> = ({ onClose, onComplete }) => {
+
+    const apiKeyHook = useApiKey();
+
+    const [apiKeyResponse, setApiKeyResponse] = useState<string>("");
     const [active, setActive] = useState(0);
     const [formData, setFormData] = useState<any>({});
 
-    const steps: RoleStepProps[] = [
+    const steps: ApiKeyStepProps[] = [
         {
-            description: 'Nombre del Rol',
+            description: 'Nombre de la ApiKey',
             icon: <IconUserCheck style={{ width: rem(18), height: rem(18) }} />,
-            step: { form: RoleForm, props: {} }
-        },
-        {
-            description: 'Asignacion de roles',
-            icon: <IconLicense style={{ width: rem(18), height: rem(18) }} />,
-            step: {
-                form: AssignResourceForm,
-                props: {
-                    resources: resourceHook.resources
-                }
-            }
+            step: { form: ApiKeyForm, props: {} }
         }
     ];
 
@@ -68,7 +56,8 @@ const CreateRoleFormDrawer: React.FC<CreateRoleFormDrawerProps> = ({ onClose, on
 
         if (active === steps.length - 1) {
             try {
-                await roleHook.create(newData);
+                const apiKeyResponse = await apiKeyHook.create(newData);
+                setApiKeyResponse(apiKeyResponse.apikey);
                 nextStep();
                 onComplete?.();
             } catch (error) { }
@@ -80,7 +69,7 @@ const CreateRoleFormDrawer: React.FC<CreateRoleFormDrawerProps> = ({ onClose, on
 
     return (
         <>
-            <LoadingOverlay visible={roleHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+            <LoadingOverlay visible={apiKeyHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <Group w='100%' justify='flex-end' mb={rem(12)}>
                 <ActionIcon variant='transparent' onClick={onClose}>
                     <IconX />
@@ -121,8 +110,13 @@ const CreateRoleFormDrawer: React.FC<CreateRoleFormDrawerProps> = ({ onClose, on
                         wrap="wrap"
                         c='green'
                     >
+
                         <IconCircleCheck style={{ width: rem(128), height: rem(128) }} />
-                        Rol creado
+                        ApiKey creado 
+                        {
+                            apiKeyResponse
+                        }
+
                     </Flex>
                 </Stepper.Completed>
             </Stepper>
@@ -130,10 +124,12 @@ const CreateRoleFormDrawer: React.FC<CreateRoleFormDrawerProps> = ({ onClose, on
                 {
                     active < steps.length ?
                         <>
+
                             {
                                 active !== 0 && <Button variant="default" onClick={prevStep}>Atras</Button>
                             }
                             {
+
                                 active < steps.length - 1
                                     ? <Button onClick={handleNextChange}>Siguiente</Button>
                                     : <Button
@@ -152,4 +148,5 @@ const CreateRoleFormDrawer: React.FC<CreateRoleFormDrawerProps> = ({ onClose, on
     );
 }
 
-export default CreateRoleFormDrawer
+
+export default CreateApiKeyForm

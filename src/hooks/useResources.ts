@@ -26,7 +26,6 @@ export const useResource = (loadOnStart: boolean = false) => {
         Disclosure.open();
         try {
             const resources = await resourceService.find();
-            console.log(resources)
             setResources(resources);
             Disclosure.close();
             return resources;

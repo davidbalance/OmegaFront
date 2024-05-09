@@ -15,6 +15,7 @@ type RoleLayoutProps = {
     events: {
         onCreate: () => void;
         onDelete: (index: number) => void;
+        onModification: (index: number) => void;
     }
 }
 
@@ -36,6 +37,7 @@ const RoleLayout: React.FC<RoleLayoutProps> = ({ roles, events, load }) => {
             <Table.Td>{row.name}</Table.Td>
             <Table.Td>
                 <RoleSettingsMenu
+                    onModification={() => events.onModification(index)}
                     onDelete={() => events.onDelete(index)}
                 />
             </Table.Td>

@@ -6,7 +6,6 @@ import { CorporativeGroup } from '@/services/api/corporative-group/dtos';
 import { Table, TextInput, rem } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import React, { use, useEffect } from 'react'
-import { useRouter } from 'next/router';
 
 type CorporativeGroupLayoutProps = {
     load: boolean;
@@ -17,8 +16,6 @@ const CorporativeGroupLayout: React.FC<CorporativeGroupLayoutProps> = ({ corpora
     const tableHook = useTable(corporativeGroups, 50);
 
     const handleRowClick = (groupId: number) => {
-        // const router = useRouter();
-        // router.push(`/omega/locations/companies/${groupId}`);
         window.location.href = `/omega/locations/companies/${groupId}`;
     };
 

@@ -19,7 +19,6 @@ export const useBranch = () => {
         Disclosure.open();
         try {
             const branches = await branchService.find(company);
-            console.log(branches)
             setBranches(branches);
             Disclosure.close();
             return branches;
@@ -55,14 +54,6 @@ export const useBranch = () => {
 
     const selectItem = (index: number) => setIndex(index);
     const clearSelected = () => setIndex(undefined);
-    const findSelector = async (id: FindBranchSelectorOptions) => {
-        try {
-            const user = await branchService.findSelectorOptions(id);
-            return user;
-        } catch (error) {
-            throw error;
-        }
-    }
 
     return {
         loading,

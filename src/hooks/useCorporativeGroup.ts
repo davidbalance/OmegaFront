@@ -27,7 +27,6 @@ export const useCorporativeGroup = (loadOnStart: boolean = false) => {
         Disclosure.open();
         try {
             const corporativeGroups = await corporativeGroupService.find();
-            console.log(corporativeGroups)
             setCorporativeGroups(corporativeGroups);
             Disclosure.close();
             return corporativeGroups;

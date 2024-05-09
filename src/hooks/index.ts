@@ -1,4 +1,5 @@
 export * from './useAuth';
+export * from './useApiKey'
 export * from './useBranch';
 export * from './useCompany';
 export * from './useCorporativeGroup';

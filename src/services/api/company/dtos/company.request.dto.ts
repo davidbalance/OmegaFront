@@ -1,1 +1,3 @@
-export default () => { }
+export type FindCompaniesRQ = {
+    id: string
+}

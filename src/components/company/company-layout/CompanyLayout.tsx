@@ -20,15 +20,19 @@ const CompanyLayout: React.FC<CompayLayoutProps> = ({ companies, load}) => {
         return () => { }
     }, [companies]);
 
+    const handleRowClick = (companyId: number) => {
+        window.location.href = `/omega/locations/branches/${companyId}`;
+    };
+
     const header = <>
-        <OmegaTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre de la Compañia</OmegaTh>,
-        <OmegaTh sort={{ onSort: () => tableHook.setSorting('ruc'), sorted: tableHook.sortBy === 'ruc' }} >RUC</OmegaTh>,
-        <OmegaTh sort={{ onSort: () => tableHook.setSorting('address'), sorted: tableHook.sortBy === 'address' }} >Dirección</OmegaTh>,
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre de la Compañia</OmegaTh>
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('ruc'), sorted: tableHook.sortBy === 'ruc' }} >RUC</OmegaTh>
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('address'), sorted: tableHook.sortBy === 'address' }} >Dirección</OmegaTh>
         <OmegaTh sort={{ onSort: () => tableHook.setSorting('phone'), sorted: tableHook.sortBy === 'phone' }} >Teléfono</OmegaTh>
     </>
 
     const rows = tableHook.rows.map((row) => (
-        <Table.Tr key={row.id}>
+        <Table.Tr key={row.id} onClick={() => handleRowClick(row.id)}>
             <Table.Td>{row.name}</Table.Td>
             <Table.Td>{row.ruc}</Table.Td>
             <Table.Td>{row.address}</Table.Td>

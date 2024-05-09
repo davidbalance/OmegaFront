@@ -9,13 +9,17 @@ export class CompanyService
     extends AbstractService<CompanyAPI>
     implements ISelectorService<any, number> {
 
-    async find({ group }:any): Promise<Company[]> {
+    async find( group :string): Promise<Company[]> {
         try {
             const { companies }: FindCompaniesRS = await OmegaFetch.get({ url: this.endpoints.FIND(`${group}`) });
             return companies;
         } catch (error) {
             throw error;
         }
+    }
+
+    findOne(params: FindCompaniesRS): Company | Promise<Company> {
+        throw new Error("Method not implemented.");
     }
 
     async findSelectorOptions(params?: any): Promise<SelectorOption<number>[]> {

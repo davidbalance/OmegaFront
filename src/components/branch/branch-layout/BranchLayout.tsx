@@ -21,7 +21,7 @@ const BranchLayout: React.FC<BranchLayoutProps> = ({ branches, load}) => {
     }, [branches]);
 
     const header = <>
-        <OmegaTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre de la Compañia</OmegaTh>
+        <OmegaTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre de la Sucursal</OmegaTh>
     </>
 
     const rows = tableHook.rows.map((row) => (

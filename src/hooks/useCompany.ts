@@ -19,7 +19,6 @@ export const useCompany = () => {
         Disclosure.open();
         try {
             const companies = await companyService.find(group);
-            console.log(companies)
             setCompanies(companies);
             Disclosure.close();
             return companies;

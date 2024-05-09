@@ -1,8 +1,8 @@
 import { Resource } from '@/services/api/resource/dtos';
 import { Box, Table, TextInput, Checkbox, Button } from '@mantine/core';
-import React, { ChangeEvent, FormEvent, ForwardedRef, useState } from 'react'
+import React, { ChangeEvent, FormEvent, ForwardedRef, useState } from 'react';
 
-type ResourceFormProps = {
+type UpdateResourceFormProps = {
     onSubmit: (values: { resources: number[] }) => void;
     resources: Resource[];
     data?: { resources: number[] };
@@ -13,8 +13,9 @@ type ResourceClaims = {
     update: boolean;
     delete: boolean;
 };
-const AssignResourceForm = React.forwardRef<HTMLButtonElement, ResourceFormProps>(({ onSubmit, resources, data }, ref: ForwardedRef<HTMLButtonElement>) => {
 
+const UpdateResourceForm = React.forwardRef<HTMLButtonElement, UpdateResourceFormProps>(({ onSubmit, resources, data }, ref: ForwardedRef<HTMLButtonElement>) => {
+    
     const [selected, setSelected] = useState<number[]>(data?.resources || []);
     const [error, setError] = useState<string | undefined>(undefined);
 
@@ -88,4 +89,5 @@ const AssignResourceForm = React.forwardRef<HTMLButtonElement, ResourceFormProps
         </Box>
     );
 })
-export { AssignResourceForm }
+
+export default UpdateResourceForm
