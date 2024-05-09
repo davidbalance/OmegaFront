@@ -94,4 +94,7 @@ const UserDataForm = React.forwardRef<HTMLButtonElement, UserDataFormProps>(({ d
         </Box>
     );
 });
+
+UserDataForm.displayName = 'UserDataForm';
+
 export default UserDataForm

@@ -47,6 +47,7 @@ export function useDiseaseGroup(loadOption?: ELoadDiseaseGroupOnStart | ELoadDis
         loadOnStart(optionArray);
 
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const loadOnStart = (loadOnStartOptions: ELoadDiseaseGroupOnStart[]) => {

@@ -33,24 +33,25 @@ const PatientLayout: React.FC<PatientLayoutProps> = ({ patients, load }) => {
     useEffect(() => {
         tableHook.setData(parsePatient(patients));
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [patients]);
 
     const header: React.ReactElement[] = [
-        <PatientTh sort={{ onSort: () => tableHook.setSorting('dni'), sorted: tableHook.sortBy === 'dni' }}>CI</PatientTh>,
-        <PatientTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }}>Nombre</PatientTh>,
-        <PatientTh sort={{ onSort: () => tableHook.setSorting('lastname'), sorted: tableHook.sortBy === 'lastname' }}>Apellido</PatientTh>,
-        <PatientTh sort={{ onSort: () => tableHook.setSorting('email'), sorted: tableHook.sortBy === 'email' }}>Correo Electronico</PatientTh>,
-        <PatientTh><></></PatientTh>
+        <PatientTh key={1} sort={{ onSort: () => tableHook.setSorting('dni'), sorted: tableHook.sortBy === 'dni' }}>CI</PatientTh>,
+        <PatientTh key={2} sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }}>Nombre</PatientTh>,
+        <PatientTh key={3} sort={{ onSort: () => tableHook.setSorting('lastname'), sorted: tableHook.sortBy === 'lastname' }}>Apellido</PatientTh>,
+        <PatientTh key={4} sort={{ onSort: () => tableHook.setSorting('email'), sorted: tableHook.sortBy === 'email' }}>Correo Electronico</PatientTh>,
+        <PatientTh key={5}><></></PatientTh>
     ];
 
     const rows = tableHook.rows.map((row) => (
         <PatientCollapsableRow
             key={row.id}
             entries={[
-                <Text size='sm' fw={500}>{row.dni}</Text>,
-                <Text size='sm' fw={500}>{row.name}</Text>,
-                <Text size='sm' fw={500}>{row.lastname}</Text>,
-                <Text size='sm' fw={500}>{row.email}</Text>
+                <Text key={1} size='sm' fw={500}>{row.dni}</Text>,
+                <Text key={2} size='sm' fw={500}>{row.name}</Text>,
+                <Text key={3} size='sm' fw={500}>{row.lastname}</Text>,
+                <Text key={4} size='sm' fw={500}>{row.email}</Text>
             ]}
             dni={row.dni}>
         </PatientCollapsableRow>

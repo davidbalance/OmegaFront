@@ -30,6 +30,7 @@ const MedicalResultLayout: React.FC<MedicalResultLayoutProps> = ({ load, medical
     useEffect(() => {
         tableHook.setData(parseResult(medicalResults));
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [medicalResults]);
 
     const header = <>

@@ -1,1 +1,1 @@
-export default () => { }
+export type PlaceholderResourceRequestDTO = {}

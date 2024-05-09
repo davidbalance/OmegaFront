@@ -28,6 +28,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) 
     useEffect(() => {
         tableHook.setData(users);
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [users]);
 
     const header = <>

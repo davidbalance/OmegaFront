@@ -17,6 +17,7 @@ export const useMedicalOrder = (dni?: string, loadOnStart: boolean = false) => {
             find({ dni });
         }
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 

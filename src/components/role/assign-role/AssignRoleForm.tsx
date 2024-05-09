@@ -64,4 +64,7 @@ const AssignRoleForm = React.forwardRef<HTMLButtonElement, UserRoleFormProps>(({
         </Box>
     );
 })
+
+AssignRoleForm.displayName = 'AssignRoleForm';
+
 export { AssignRoleForm }

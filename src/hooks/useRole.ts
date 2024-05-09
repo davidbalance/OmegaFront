@@ -3,7 +3,7 @@ import { Role } from "@/services/api/role/dtos";
 import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 export const useRole = (loadOnStart: boolean = false) => {
     const roleService = new RoleService(endpoints.ROLE.V1);
@@ -16,6 +16,7 @@ export const useRole = (loadOnStart: boolean = false) => {
             find();
         }
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 

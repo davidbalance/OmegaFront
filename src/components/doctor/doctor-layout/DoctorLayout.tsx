@@ -37,6 +37,7 @@ const DoctorLayout: React.FC<DoctorLayoutProps> = ({ doctors, events, load }) =>
     useEffect(() => {
         tableHook.setData(parseResult(doctors));
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [doctors]);
 
     const header = <>

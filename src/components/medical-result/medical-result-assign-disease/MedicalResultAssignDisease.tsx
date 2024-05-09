@@ -36,6 +36,7 @@ const MedicalResultAssignDisease: React.FC<MedicalResultAssignDisease> = ({ orde
             diseaseHook.loadOptions(diseaseGroupHook.options[0].key);
         }
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [orderResult]);
 
     const handleDiseaseGroupChange = (index: number) => {

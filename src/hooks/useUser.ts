@@ -5,7 +5,7 @@ import { CreateUserRQ, DeleteUserRQ, UpdateUserRQ, User } from "@/services/api/u
 import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useCredential } from "./useCredential";
 import { useAccessControl } from "./useAccessControl";
 
@@ -25,8 +25,8 @@ export const useUser = (loadOnStart: boolean = false) => {
             find();
         }
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
 
     const create = async ({ dni, email, lastname, name, password, roles }: CreateUserRQ & Omit<CreateCredentialRQ, 'user'> & Omit<FindAndUpdateRolesRQ, 'user'>) => {
         Disclosure.open();

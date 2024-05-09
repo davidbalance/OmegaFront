@@ -47,4 +47,6 @@ const DiseaseGroupForm = React.forwardRef<HTMLButtonElement, DiseaseGroupFormPro
   )
 })
 
+DiseaseGroupForm.displayName = 'DiseaseGroupForm';
+
 export default DiseaseGroupForm

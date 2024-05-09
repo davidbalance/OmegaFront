@@ -46,6 +46,7 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ for
             handleComboBoxChange(index);
         }
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formData])
 
     const handleForm = (data: any) => {
@@ -81,5 +82,7 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ for
         </Box>
     )
 })
+
+DiseaseForm.displayName = 'DiseaseForm';
 
 export default DiseaseForm

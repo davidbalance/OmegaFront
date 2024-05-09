@@ -70,4 +70,6 @@ const AuthenticationPasswordForm = React.forwardRef<HTMLButtonElement, Authentic
     )
 });
 
+AuthenticationPasswordForm.displayName = 'AuthenticationPasswordForm';
+
 export { AuthenticationPasswordForm }
