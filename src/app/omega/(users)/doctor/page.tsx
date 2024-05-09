@@ -29,8 +29,10 @@ const Doctor: React.FC = () => {
     }
 
     const handleClose = () => {
-        doctorHook.find();
-        setCurrentState(LayoutState.DEFAULT);
+        setTimeout(() => {
+            doctorHook.find();
+            setCurrentState(LayoutState.DEFAULT);
+        }, 500);
     }
 
     const view: Record<LayoutState, React.ReactNode> = {

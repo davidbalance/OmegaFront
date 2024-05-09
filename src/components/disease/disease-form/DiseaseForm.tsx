@@ -63,7 +63,7 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ for
     }
 
     return (
-        <Box component='form' onSubmit={form.onSubmit(handleForm)}>
+        <Box component='form' onSubmit={form.onSubmit(handleForm)} miw={400}>
 
             <OmegaComboBox
                 value={options.findIndex(e => e.key === formData?.group)}
@@ -73,6 +73,7 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ for
 
             <TextInput
                 label="Nombre del grupo de morbilidades"
+                size='xs'
                 placeholder="Grupo de morbilidades"
                 leftSection={<IconSignature stroke={1.5} />}
                 {...form.getInputProps('name')}
