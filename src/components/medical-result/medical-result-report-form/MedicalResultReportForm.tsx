@@ -32,7 +32,9 @@ const MedicalResultReportForm: React.FC<MedicalResultReportFormProps> = ({ resul
             SubScript,
             Highlight,
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
-            Placeholder.configure({ placeholder: 'Escribe tu reporte medico aqui' })
+            Placeholder.configure({
+                placeholder: 'Escribe tu reporte medico aqui'
+            })
         ],
         content: result.report ? result.report?.content : ''
     });
