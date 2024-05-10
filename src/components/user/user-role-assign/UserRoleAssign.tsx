@@ -21,6 +21,7 @@ const UserRoleAssign: React.FC<UserRoleAssignProps> = ({ user, onClose }) => {
     useEffect(() => {
         accessControlHook.findOne(user);
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
 

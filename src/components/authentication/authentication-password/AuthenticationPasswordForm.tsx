@@ -1,4 +1,4 @@
-import { Box, PasswordInput, rem, Button } from '@mantine/core';
+import { Box, PasswordInput, rem, Button, SimpleGrid } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconLock } from '@tabler/icons-react';
 import Joi from 'joi';
@@ -48,26 +48,29 @@ const AuthenticationPasswordForm = React.forwardRef<HTMLButtonElement, Authentic
     });
 
     return (
-        <Box component='form' onSubmit={form.onSubmit(onSubmit)}>
+        <Box component='form' onSubmit={form.onSubmit(onSubmit)} miw={400}>
             <PasswordInput
                 label='Contraseña'
                 placeholder='Contraseña'
-                leftSection={<IconLock stroke={1.5} />}
+                leftSection={<IconLock stroke={1.5} size={15} />}
                 style={{ marginBottom: rem(16) }}
+                size='xs'
                 {...form.getInputProps('password')}
             />
 
             <PasswordInput
                 label='Confirmar Contraseña'
                 placeholder='Confirmar Contraseña'
-                leftSection={<IconLock stroke={1.5} />}
+                leftSection={<IconLock stroke={1.5} size={15} />}
+                size='xs'
                 style={{ marginBottom: rem(16) }}
                 {...form.getInputProps('confirmPassword')}
             />
-
             <Button type='submit' ref={ref} style={{ display: 'none' }}></Button>
         </Box>
     )
 });
+
+AuthenticationPasswordForm.displayName = 'AuthenticationPasswordForm';
 
 export { AuthenticationPasswordForm }

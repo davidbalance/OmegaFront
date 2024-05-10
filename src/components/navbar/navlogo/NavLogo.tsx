@@ -15,6 +15,7 @@ const NavLogo: React.FC<NavLogoProps> = ({ logo }) => {
         const newLogo = getLogo();
         setCurrentLogo(newLogo);
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [logo])
 
 
