@@ -10,6 +10,7 @@ import { OmegaTable } from '@/components/table';
 import { IconSearch } from '@tabler/icons-react';
 import { SearchInputText } from '@/components/input/SearchInputText';
 import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
+import dayjs from 'dayjs';
 
 type DoctorLayoutDataType = Omit<Doctor, 'user'> & Omit<User, 'id'> & { hasCredential: boolean }
 const parseResult = (medicalResults: Doctor[]): DoctorLayoutDataType[] => medicalResults.map<DoctorLayoutDataType>((e) => ({
@@ -49,7 +50,7 @@ const DoctorLayout: React.FC<DoctorLayoutProps> = ({ doctors, events, load }) =>
     </>
 
     const rows = tableHook.rows.map((row, index) => (
-        <Table.Tr key={row.id}>
+        <Table.Tr key={`${row.id}-${dayjs().format("YYYY-MM-DDTHH:mm:ss")}`}>
             <OmegaTd>{row.dni}</OmegaTd>
             <OmegaTd>{row.name}</OmegaTd>
             <OmegaTd>{row.lastname}</OmegaTd>

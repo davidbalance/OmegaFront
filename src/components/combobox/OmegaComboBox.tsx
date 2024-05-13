@@ -66,6 +66,7 @@ const OmegaComboBox: React.FC<OmegaComboBoxProps> = ({
                         component="button"
                         type="button"
                         pointer
+                        size='xs'
                         rightSection={<Combobox.Chevron />}
                         onClick={() => combobox.toggleDropdown()}
                         rightSectionPointerEvents="none"

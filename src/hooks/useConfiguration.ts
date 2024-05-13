@@ -18,7 +18,9 @@ export const useConfiguration = () => {
             return;
         };
         setRoutes(configuration.resources || []);
-         setLogo(configuration.logo.name);
+        if (configuration.logo) {
+            setLogo(configuration.logo.name);
+        }
         return () => { }
     }, [])
 
