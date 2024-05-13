@@ -1,11 +1,13 @@
 import { Header } from '@/components/header/Header';
-import { OmegaTable } from '@/components/table';
 import OmegaTh from '@/components/table/omega-th/OmegaTh';
 import { useTable } from '@/hooks';
 import { CorporativeGroup } from '@/services/api/corporative-group/dtos';
-import { Table, TextInput, rem } from '@mantine/core';
+import { TextInput, rem, Text} from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import React, { use, useEffect } from 'react'
+import { CorporativeGroupCollapsableRow } from '../corporative-group-table/CorporativeGroupCollapsableRow';
+import { CorporativeGroupTable } from '../corporative-group-table/CorporatievGroupTable';
+import CorporativeGroupTh from '../corporative-group-table/CorporativeGroupTh';
 
 type CorporativeGroupLayoutProps = {
     load: boolean;
@@ -13,26 +15,31 @@ type CorporativeGroupLayoutProps = {
 }
 
 const CorporativeGroupLayout: React.FC<CorporativeGroupLayoutProps> = ({ corporativeGroups, load }) => {
+    
+
     const tableHook = useTable(corporativeGroups, 50);
-
-    const handleRowClick = (groupId: number) => {
-        window.location.href = `/omega/locations/companies/${groupId}`;
-    };
-
     useEffect(() => {
         tableHook.setData(corporativeGroups);
         return () => { }
     }, [corporativeGroups]);
 
-    const header = <>
-        <OmegaTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre del Grupo Corporativo</OmegaTh>
-    </>
+    const header: React.ReactElement[] = [
+        <CorporativeGroupTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre del Grupo Corporativo</CorporativeGroupTh>,
+        <CorporativeGroupTh><></></CorporativeGroupTh>
+    ];
 
     const rows = tableHook.rows.map((row) => (
-        <Table.Tr key={row.id} onClick={() => handleRowClick(row.id)}>
-            <Table.Td>{row.name}</Table.Td>
-        </Table.Tr>
+        <CorporativeGroupCollapsableRow 
+        id = {row.id.toString()}
+        name = {row.name}
+        key={row.id} 
+        entries = {[
+            <Text size='sm' fw={500}>{row.name}</Text>
+        ]}>
+        </CorporativeGroupCollapsableRow>
     ));
+
+    
 
     return <>
         <Header>
@@ -50,7 +57,7 @@ const CorporativeGroupLayout: React.FC<CorporativeGroupLayoutProps> = ({ corpora
             onChange={tableHook.onSearch}
         />
 
-        <OmegaTable
+        <CorporativeGroupTable
             loading={load}
             header={header}
             rows={rows}
@@ -58,7 +65,6 @@ const CorporativeGroupLayout: React.FC<CorporativeGroupLayoutProps> = ({ corpora
             page={tableHook.page}
             onPageChange={tableHook.setPage} />
     </>;
-
 }
 
 export { CorporativeGroupLayout }
