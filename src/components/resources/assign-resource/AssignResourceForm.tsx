@@ -28,7 +28,7 @@ const AssignResourceForm = React.forwardRef<HTMLButtonElement, ResourceFormProps
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!selected.length) {
-            setError('Se debe seleccionar al menos un rol');
+            setError('Se debe seleccionar al menos un permiso');
             return;
         }
         onSubmit({ resources: selected });
@@ -65,7 +65,7 @@ const AssignResourceForm = React.forwardRef<HTMLButtonElement, ResourceFormProps
                 <Table.Tbody>
                     <Table.Tr>
                         <Table.Td colSpan={5}>
-                            <TextInput value='Seleccion roles del sistema' type='hidden' error={error} />
+                            <TextInput value='Seleccion recursos del sistema' type='hidden' error={error} />
                         </Table.Td>
                     </Table.Tr>
                     {Object.entries(getResourceClaims()).map(([resource, claims]) => (
