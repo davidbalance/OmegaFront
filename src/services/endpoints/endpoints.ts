@@ -19,8 +19,12 @@ import {
     RoleEndpoint,
     UserEndpoint
 } from "./v1";
+import { ApiKeyEndpoint } from "./v1/api-key.endpoint";
 
 export default Object.freeze({
+    API_KEY: {
+        V1: ApiKeyEndpoint
+    },
     ACCESS_CONTROL: {
         V1: AccessControlEndpoint
     },
