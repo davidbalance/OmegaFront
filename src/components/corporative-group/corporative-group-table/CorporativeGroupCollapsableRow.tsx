@@ -1,8 +1,9 @@
-import { Box, Collapse, LoadingOverlay, Paper, ScrollArea, rem, Text, Flex, Grid, UnstyledButton, Modal, Tabs, Table, List } from '@mantine/core'
+import { Collapse, LoadingOverlay, Paper, ScrollArea, rem, Text, Flex, Grid, UnstyledButton, Modal, List } from '@mantine/core'
 import React, { useState } from 'react'
 import { useDisclosure } from '@mantine/hooks';
 import { CorporativeGroupCollapseButton } from '../corporative-group-collapse-button/CorporativeGroupCollapseButton';
 import { useBranch, useCompany } from '@/hooks';
+import classes from './CorporativeGroupModal.module.css'
 
 type CorporativeGroupCollapsableRowProps = {
   id: string;
@@ -106,18 +107,23 @@ const CorporativeGroupCollapsableRow: React.FC<CorporativeGroupCollapsableRowPro
       onClose={handleClose}
       title={`Sucursales asociadas a ${name}`}
       closeOnEscape={false}
-      centered
-      size="lg">
+      centered={false}
+      size="lg"
+      classNames={{
+        header: classes.header,
+        content: classes.modal,
+        body: classes.body
+      }}
+    >
       {
         branchHook.branches === undefined || branchHook.branches.length <= 0
           ? <Text size='sm'>No hay resultados asociados</Text>
           : 
             <List>
               {
-
                 branchHook.branches.map((e) => (
-                  <List.Item key={`${e.name}-${e.id}`}  >
-                    <Text size='xs'>{e.name}</Text>
+                  <List.Item key={`${e.name}-${e.id}`} >
+                    <Text size='sm'>{e.name}</Text>
                   </List.Item>
                 ))
               }
