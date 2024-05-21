@@ -1,6 +1,8 @@
 import { AuthenticationPasswordForm } from '@/components/authentication/authentication-password';
+import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 import { useCredential } from '@/hooks/useCredential'
 import { LoadingOverlay, Group, rem, ActionIcon, Box, Button, Text } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { IconX, IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useRef } from 'react'
 
@@ -17,6 +19,10 @@ const DoctorCreateCredential: React.FC<DoctorCreateCredentialProps> = ({ user, o
     const handleSubmit = (password: string) => {
         try {
             credentialHook.create({ user: user.id, password: password, ...user });
+            notifications.show({
+                message: `Credenciales creadas para ${user.email}`,
+                color: 'green'
+            })
             onClose();
         } catch (error) { }
     }
@@ -24,31 +30,20 @@ const DoctorCreateCredential: React.FC<DoctorCreateCredentialProps> = ({ user, o
     return (
         <>
             <LoadingOverlay visible={credentialHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-            <Group w='100%' justify='flex-end' mb={rem(6)}>
-                <ActionIcon variant='transparent' onClick={onClose}>
-                    <IconX />
-                </ActionIcon>
-            </Group>
+
+            <SubLayoutFormTitle
+                title={'Formulario de asignacion de credenciales'}
+                onClose={onClose} />
+
             <Group justify='center'>
-                <Box miw={rem(800)} pt={rem(32)} px='lg'>
-                    <Box mb={rem(12)}>
-                        <Text
-                            tt="uppercase"
-                            fw={500}
-                            component='span'
-                            variant='text'
-                            c="omegaColors"
-                            size='md'>
-                            Formulario de asignacion de credenciales
-                        </Text>
-                    </Box>
+                <Box pt={rem(32)} px='lg'>
                     <Group justify='center'>
                         <Text
-                            fw={600}
+                            fw={500}
                             ta="center"
                             component='span'
                             variant='text'
-                            size='md'>{user.email}</Text>
+                            size='sm'>{user.email}</Text>
                     </Group>
 
                     <AuthenticationPasswordForm

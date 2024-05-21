@@ -20,6 +20,7 @@ export const useCorporativeGroup = (loadOnStart: boolean = false) => {
             find();
         }
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 

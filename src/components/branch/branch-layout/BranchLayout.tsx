@@ -18,6 +18,7 @@ const BranchLayout: React.FC<BranchLayoutProps> = ({ branches, load}) => {
     useEffect(() => {
         tableHook.setData(branches);
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [branches]);
 
     const header = <>

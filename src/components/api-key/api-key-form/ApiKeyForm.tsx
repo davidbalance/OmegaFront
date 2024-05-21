@@ -1,4 +1,4 @@
-import { Box, Button, Table, TextInput, rem } from '@mantine/core';
+import { Box, Button, TextInput, rem } from '@mantine/core';
 import { joiResolver, useForm } from '@mantine/form';
 import { IconSignature } from '@tabler/icons-react';
 import Joi from 'joi';
@@ -47,4 +47,6 @@ const ApiKeyForm = React.forwardRef<HTMLButtonElement, ApiKeyFormProps>(({ data,
     )
 });
 
-export default ApiKeyForm
+ApiKeyForm.displayName = 'ApiKeyForm';
+
+export { ApiKeyForm }

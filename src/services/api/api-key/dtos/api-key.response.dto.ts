@@ -1,15 +1,15 @@
-import { SelectorOption } from "@/lib";
-
-export type ApiKey ={
+export type ApiKey = {
+    id?: number;
     name: string;
 }
 
-export type FindApiKeysRS = ApiKey;
-
-export type FindCorporativeGroupsRS = {
-    apikeys: ApiKey[];
+export type FindApiKeyRS = ApiKey;
+export type FindApiKeysRS = {
+    apiKeys: ApiKey[];
 }
 
-export type FindSelectorOptionsApiKey = {
-    options: SelectorOption<number>[];
+export type CreateApiKeyRS = {
+    apikey: string;
 }
+
+export type UpdateApiKeyRS = {}

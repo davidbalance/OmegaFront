@@ -13,6 +13,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import React from 'react'
 import { MedicalResult } from '@/services/api/medical-result/dtos'
 import { notifications } from '@mantine/notifications';
+import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 
 type MedicalResultReportFormProps = {
     result: MedicalResult;
@@ -31,7 +32,9 @@ const MedicalResultReportForm: React.FC<MedicalResultReportFormProps> = ({ resul
             SubScript,
             Highlight,
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
-            Placeholder.configure({ placeholder: 'Escribe tu reporte medico aqui' })
+            Placeholder.configure({
+                placeholder: 'Escribe tu reporte medico aqui'
+            })
         ],
         content: result.report ? result.report?.content : ''
     });
@@ -56,23 +59,13 @@ const MedicalResultReportForm: React.FC<MedicalResultReportFormProps> = ({ resul
     return (
         <>
             <LoadingOverlay visible={medicalResultHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-            <Group w='100%' justify='flex-end'>
-                <ActionIcon variant='transparent' onClick={onClose}>
-                    <IconX />
-                </ActionIcon>
-            </Group>
+
+            <SubLayoutFormTitle
+                title={'Formulario de reporte medico'}
+                onClose={onClose} />
+
             <Group justify='center'>
                 <Box pt={rem(8)} px='lg'>
-                    <Box mb={rem(12)}>
-                        <Title
-                            order={6}
-                            tt="uppercase"
-                            component='span'
-                            c="omegaColors">
-                            Formulario de reporte medico
-                        </Title>
-                    </Box>
-
                     <RichTextEditor editor={editor}>
                         <RichTextEditor.Toolbar sticky stickyOffset={0}>
                             <RichTextEditor.ControlsGroup>

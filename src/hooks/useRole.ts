@@ -1,10 +1,9 @@
 import { RoleService } from "@/services/api";
-import { DeleteRoleRQ, FindAndUpdateRolesRQ } from "@/services/api/access-control/dtos";
-import { CreateRoleRQ, Role } from "@/services/api/role/dtos";
+import { CreateRoleRQ, FindRoleAndDeleteRQ, FindRoleAndUpdateRQ, Role } from "@/services/api/role/dtos";
 import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 export const useRole = (loadOnStart: boolean = false) => {
     const roleService = new RoleService(endpoints.ROLE.V1);
@@ -18,6 +17,7 @@ export const useRole = (loadOnStart: boolean = false) => {
             find();
         }
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const create = async (dto: CreateRoleRQ) => {
@@ -38,10 +38,10 @@ export const useRole = (loadOnStart: boolean = false) => {
         }
     }
 
-    const update = async ({ id, ...params }: FindAndUpdateRolesRQ) => {
+    const update = async ({ id, ...params }: FindRoleAndUpdateRQ) => {
         Disclosure.open();
         try {
-            const group = await roleService.findOneAndUpdate({ id, ...params });
+            const group = await roleService.findOneAndUpdate({ id: id, ...params });
             Disclosure.close();
             return group;
         } catch (error) {
@@ -56,7 +56,7 @@ export const useRole = (loadOnStart: boolean = false) => {
         }
     }
 
-    const remove = async ({ id, ...params }: DeleteRoleRQ) => {
+    const remove = async ({ id, ...params }: FindRoleAndDeleteRQ) => {
         Disclosure.open();
         try {
             await roleService.findOneAndDelete({ id, ...params });

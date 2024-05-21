@@ -7,7 +7,6 @@ import { RoleLayout } from "@/components/role/role-layout/RoleLayout"
 import { useRole } from "@/hooks"
 import CreateRoleFormDrawer from "@/components/role/create-role-form-drawer/CreateRoleFormDrawer";
 import { useResource } from "@/hooks/useResources";
-import UserRoleAssign from "@/components/user/user-role-assign/UserRoleAssign";
 import UpdateRoleFormDrawer from "@/components/role/update-role-form-drawer/UpdateRoleFormDrawer";
 
 enum LayoutStates {
@@ -59,7 +58,6 @@ const Role: React.FC = () => {
                         onModification: handleModificationEvent,
                     }} />
         </>
-
     }
 
     return <>

@@ -1,49 +1,59 @@
 'use client'
 
-import React, { useState } from "react"
+import ApiKeyDeleteDialog from '@/components/api-key/api-key-delete-dialog/ApiKeyDeleteDialog';
+import ApiKeyLayout from '@/components/api-key/api-key-layout/ApiKeyLayout';
+import { useApiKey } from '@/hooks/useApiKey';
 import { useDisclosure } from '@mantine/hooks';
-import { useApiKey } from "@/hooks/useApiKey";
-import { ApiKeyLayout } from "@/components/api-key/api-key-layout/ApiKeyLayout";
-import CreateApiKeyForm from "@/components/api-key/create-api-key/CreateApiKeyForm";
+import React, { useState } from 'react'
 
 enum LayoutStates {
-    DEFAULT,
-    CREATE
+  DEFAULT,
+  UPDATE_KEY,
 }
+const ApiKeyPage = () => {
 
-const ApiKey: React.FC = () => {
+  const [currentState, setCurrentState] = useState<LayoutStates>(LayoutStates.DEFAULT);
 
-    const apiKeyHook = useApiKey();
+  const [deleteState, DeleteDisclosure] = useDisclosure();
 
-    const [currentState, setCurrentState] = useState<LayoutStates>(LayoutStates.DEFAULT);
+  const apiKeyHook = useApiKey(true);
 
-    const [deleteState, DeleteDisclosure] = useDisclosure();
+  const handleDeleteEvent = (index: number) => {
+    apiKeyHook.selectItem(index);
+    DeleteDisclosure.open();
+  }
 
-    const handleCreateEvent = () => { setCurrentState(LayoutStates.CREATE); }
+  const handleClose = () => {
+    apiKeyHook.find();
+    DeleteDisclosure.close();
+    setCurrentState(LayoutStates.DEFAULT);
+  }
 
-    const handleClose = () => {
-        apiKeyHook.clearSelected();
-        setCurrentState(LayoutStates.DEFAULT);
-    }
+  const view: Record<LayoutStates, React.ReactNode> = {
+    [LayoutStates.UPDATE_KEY]: undefined,
+    [LayoutStates.DEFAULT]: <>
+      <ApiKeyDeleteDialog
+        api={apiKeyHook.apiKey?.id || -1}
+        opened={deleteState}
+        onClose={handleClose} />
 
-    const view: Record<LayoutStates, React.ReactNode> = {
-        [LayoutStates.CREATE]: <CreateApiKeyForm onClose={handleClose} />,
-        [LayoutStates.DEFAULT]:
-        <>
-                <ApiKeyLayout
-                    load={apiKeyHook.loading}
-                    events={{
-                        onCreate: handleCreateEvent,
-                    }} />
-        </>
+      <ApiKeyLayout
+        load={apiKeyHook.loading}
+        apiKeys={apiKeyHook.apiKeys}
+        events={{
+          onCreate: handleClose,
+          onDelete: handleDeleteEvent
+        }} />
+    </>,
+  }
 
-    }
-
-    return <>
-        {
-            view[currentState]
-        }
+  return (
+    <>
+      {
+        view[currentState]
+      }
     </>
+  )
 }
 
-export default ApiKey
+export default ApiKeyPage

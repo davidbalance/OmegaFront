@@ -46,6 +46,7 @@ export function useDisease(loadOption?: ELoadDiseaseOnStart | ELoadDiseaseOnStar
         }
         loadOnStart(optionArray);
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const loadOnStart = (loadOnStartOptions: ELoadDiseaseOnStart[]) => {

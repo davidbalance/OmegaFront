@@ -1,14 +1,11 @@
-import { Box, Button, Table, TextInput, rem } from '@mantine/core';
+import { Role } from '@/lib/types/role';
+import { Box, Button, TextInput, rem } from '@mantine/core';
 import { joiResolver, useForm } from '@mantine/form';
 import { IconSignature } from '@tabler/icons-react';
 import Joi from 'joi';
 import React from 'react'
 
-type IRoleForm = {
-    name: string;
-}
-
-const roleSchema = Joi.object<IRoleForm>({
+const roleSchema = Joi.object<Role>({
     name: Joi
         .string()
         .empty()
@@ -20,7 +17,7 @@ const roleSchema = Joi.object<IRoleForm>({
 
 export type RoleFormProps = {
     onSubmit: (data: any) => void;
-    data?: IRoleForm;
+    data?: Role;
 }
 const RoleForm = React.forwardRef<HTMLButtonElement, RoleFormProps>(({ data, onSubmit }, ref) => {
 
@@ -46,4 +43,6 @@ const RoleForm = React.forwardRef<HTMLButtonElement, RoleFormProps>(({ data, onS
     )
 });
 
-export default RoleForm
+RoleForm.displayName = 'RoleForm';
+
+export { RoleForm }

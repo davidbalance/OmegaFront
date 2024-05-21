@@ -1,6 +1,6 @@
 import { AccessControlAPI } from "@/services/endpoints";
 import { AbstractService } from "../abstract.service";
-import { ACClient, FindACClientRQ, FindAndUpdateResourcesRQ, FindAndUpdateRolesRQ, FindOneACClientRS } from "./dtos";
+import { ACClient, FindACClientRQ, FindAndUpdateACResourcesRQ, FindAndUpdateACRolesRQ, FindOneACClientRS } from "./dtos";
 import { OmegaFetch } from "@/services/config";
 import { IFindService } from "@/services/interfaces";
 
@@ -23,7 +23,7 @@ export class AccessControlService
         }
     }
 
-    async findOneAndUpdateRoles({ user, ...params }: FindAndUpdateRolesRQ): Promise<void> {
+    async findOneAndUpdateRoles({ user, ...params }: FindAndUpdateACRolesRQ): Promise<void> {
         try {
             await OmegaFetch.patch({
                 url: this.endpoints.FIND_ONE_AND_UPDATE_ROLES(`${user}`),
@@ -34,7 +34,7 @@ export class AccessControlService
         }
     }
 
-    async findOneAndUpdateResources({ user, ...params }: FindAndUpdateResourcesRQ): Promise<void> {
+    async findOneAndUpdateResources({ user, ...params }: FindAndUpdateACResourcesRQ): Promise<void> {
         try {
             await OmegaFetch.patch({
                 url: this.endpoints.FIND_ONE_AND_UPDATE_RESOURCES(`${user}`),

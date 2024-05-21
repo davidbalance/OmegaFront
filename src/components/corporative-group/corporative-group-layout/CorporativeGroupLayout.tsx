@@ -15,17 +15,16 @@ type CorporativeGroupLayoutProps = {
 }
 
 const CorporativeGroupLayout: React.FC<CorporativeGroupLayoutProps> = ({ corporativeGroups, load }) => {
-    
-
     const tableHook = useTable(corporativeGroups, 50);
     useEffect(() => {
         tableHook.setData(corporativeGroups);
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [corporativeGroups]);
 
     const header: React.ReactElement[] = [
-        <CorporativeGroupTh sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre del Grupo Corporativo</CorporativeGroupTh>,
-        <CorporativeGroupTh><></></CorporativeGroupTh>
+        <CorporativeGroupTh key='CorporativeName' sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }} >Nombre del Grupo Corporativo</CorporativeGroupTh>,
+        <CorporativeGroupTh key='CorporativePlaceholder'><></></CorporativeGroupTh>
     ];
 
     const rows = tableHook.rows.map((row) => (
@@ -34,12 +33,10 @@ const CorporativeGroupLayout: React.FC<CorporativeGroupLayoutProps> = ({ corpora
         name = {row.name}
         key={row.id} 
         entries = {[
-            <Text size='sm' fw={500}>{row.name}</Text>
+            <Text key='text-collapsable' size='sm' fw={500}>{row.name}</Text>
         ]}>
         </CorporativeGroupCollapsableRow>
     ));
-
-    
 
     return <>
         <Header>
@@ -66,5 +63,7 @@ const CorporativeGroupLayout: React.FC<CorporativeGroupLayoutProps> = ({ corpora
             onPageChange={tableHook.setPage} />
     </>;
 }
+
+CorporativeGroupLayout.displayName = 'CorporativeGroupLayout';
 
 export { CorporativeGroupLayout }

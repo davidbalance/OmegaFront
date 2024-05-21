@@ -18,6 +18,7 @@ const CompanyLayout: React.FC<CompayLayoutProps> = ({ companies, load}) => {
     useEffect(() => {
         tableHook.setData(companies);
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [companies]);
 
     const handleRowClick = (companyId: number) => {

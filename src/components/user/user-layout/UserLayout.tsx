@@ -3,8 +3,8 @@ import { OmegaTable } from '@/components/table';
 import OmegaTh from '@/components/table/omega-th/OmegaTh';
 import { useTable } from '@/hooks';
 import { User } from '@/services/api/user/dtos';
-import { Table, TextInput, rem } from '@mantine/core';
-import { IconCirclePlus, IconSearch } from '@tabler/icons-react';
+import { Table } from '@mantine/core';
+import { IconCirclePlus } from '@tabler/icons-react';
 import React, { useEffect } from 'react'
 import UserSettingsMenu from '../user-settings-menu/UserSettingsMenu';
 import { SearchInputText } from '@/components/input/SearchInputText';
@@ -28,6 +28,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) 
     useEffect(() => {
         tableHook.setData(users);
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [users]);
 
     const header = <>

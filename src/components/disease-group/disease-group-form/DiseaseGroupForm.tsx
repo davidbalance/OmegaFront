@@ -34,10 +34,11 @@ const DiseaseGroupForm = React.forwardRef<HTMLButtonElement, DiseaseGroupFormPro
   }
 
   return (
-    <Box component='form' onSubmit={form.onSubmit(handleFormSubmit)}>
+    <Box component='form' onSubmit={form.onSubmit(handleFormSubmit)} miw={400}>
       <TextInput
         label="Nombre del grupo de morbilidades"
         placeholder="Grupo de morbilidades"
+        size='xs'
         leftSection={<IconSignature stroke={1.5} />}
         {...form.getInputProps('name')}
       />
@@ -46,5 +47,7 @@ const DiseaseGroupForm = React.forwardRef<HTMLButtonElement, DiseaseGroupFormPro
     </Box>
   )
 })
+
+DiseaseGroupForm.displayName = 'DiseaseGroupForm';
 
 export default DiseaseGroupForm

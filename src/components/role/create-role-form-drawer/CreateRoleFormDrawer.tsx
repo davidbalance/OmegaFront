@@ -1,9 +1,7 @@
 import { ActionIcon, Box, Button, Flex, Group, LoadingOverlay, Stepper, rem } from '@mantine/core'
 import React, { useRef, useState } from 'react'
-import { RoleFormProps } from '../role-form'
+import { RoleForm } from '../role-form'
 import { IconCircleCheck, IconDeviceFloppy, IconLicense, IconUserCheck, IconX } from '@tabler/icons-react'
-import RoleForm from '../role-form/RoleForm'
-import { Role } from '../assign-role'
 import { useRole } from '@/hooks'
 import { AssignResourceForm } from '@/components/resources/assign-resource'
 import { useResource } from '@/hooks/useResources'
@@ -15,7 +13,7 @@ type RoleStepProps = {
     }
 }
 
-type CreateRoleFormDrawerProps =  {
+type CreateRoleFormDrawerProps = {
     onClose: () => void;
     onComplete?: () => void;
 }
@@ -85,7 +83,7 @@ const CreateRoleFormDrawer: React.FC<CreateRoleFormDrawerProps> = ({ onClose, on
                 <ActionIcon variant='transparent' onClick={onClose}>
                     <IconX />
                 </ActionIcon>
-            </Group> 
+            </Group>
             <Stepper
                 active={active}
                 size='xs'

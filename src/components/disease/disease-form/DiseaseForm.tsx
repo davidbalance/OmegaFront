@@ -46,6 +46,7 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ for
             handleComboBoxChange(index);
         }
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formData])
 
     const handleForm = (data: any) => {
@@ -62,7 +63,7 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ for
     }
 
     return (
-        <Box component='form' onSubmit={form.onSubmit(handleForm)}>
+        <Box component='form' onSubmit={form.onSubmit(handleForm)} miw={400}>
 
             <OmegaComboBox
                 value={options.findIndex(e => e.key === formData?.group)}
@@ -72,6 +73,7 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ for
 
             <TextInput
                 label="Nombre del grupo de morbilidades"
+                size='xs'
                 placeholder="Grupo de morbilidades"
                 leftSection={<IconSignature stroke={1.5} />}
                 {...form.getInputProps('name')}
@@ -81,5 +83,7 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ for
         </Box>
     )
 })
+
+DiseaseForm.displayName = 'DiseaseForm';
 
 export default DiseaseForm

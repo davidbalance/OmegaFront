@@ -1,26 +1,95 @@
-import { ApiKey, CreateApiKeyRQ } from "@/services/api/api-key/dtos";
-import { ApiKeyService } from "@/services/api/api-key";
+import { ApiKey, ApiKeyService, CreateApiKeyRQ, DeleteApiKeyRQ, UpdateApiKeyRQ } from "@/services/api/api-key";
 import endpoints from "@/services/endpoints/endpoints";
-import { useDisclosure } from "@mantine/hooks"
+import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react"
 
-export const useApiKey = () => {
-    const apiKeyService = new ApiKeyService(endpoints.API_KEY.V1)
+const useApiKey = (loadOnStart: boolean = false) => {
 
     const [loading, Disclosure] = useDisclosure();
+
+    const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
     const [index, setIndex] = useState<number | undefined>(undefined);
 
-    const create = async (dto: CreateApiKeyRQ) => {
+    const apiKeyService = new ApiKeyService(endpoints.API_KEY.V1);
+
+    useLayoutEffect(() => {
+        if (loadOnStart) {
+            find();
+        }
+        return () => { };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const create = async ({ ...params }: CreateApiKeyRQ): Promise<string> => {
         Disclosure.open();
         try {
-            const group = await apiKeyService.create(dto);
+            const key = await apiKeyService.create(params);
             Disclosure.close();
-            return group;
+            return key;
         } catch (error) {
             notifications.show({
-                title: 'Error al crear',
-                message: 'Se produjo un error al crear 😔',
+                title: 'Error al obtener los usuarios',
+                message: 'Se produjo un error al obtener los usuarios del servidor 😔',
+                color: 'red'
+            });
+            console.error(error);
+            Disclosure.close();
+            throw error;
+        }
+    }
+
+    const find = async () => {
+        Disclosure.open();
+        try {
+            const foundKeys = await apiKeyService.find();
+            setApiKeys(foundKeys || []);
+            Disclosure.close();
+            return foundKeys;
+        } catch (error) {
+            notifications.show({
+                title: 'Error al obtener los usuarios',
+                message: 'Se produjo un error al obtener los usuarios del servidor 😔',
+                color: 'red'
+            });
+            console.error(error);
+            Disclosure.close();
+            throw error;
+        }
+    }
+
+    const update = async ({ id, ...params }: UpdateApiKeyRQ) => {
+        Disclosure.open();
+        try {
+            await apiKeyService.findOneAndUpdate({ id, ...params });
+            const index = apiKeys.findIndex((u) => u.id === id);
+            const newKeys = apiKeys;
+            newKeys[index] = { ...newKeys[index], ...params };
+            setApiKeys(newKeys);
+            Disclosure.close();
+        } catch (error) {
+            notifications.show({
+                title: 'Error al obtener los usuarios',
+                message: 'Se produjo un error al obtener los usuarios del servidor 😔',
+                color: 'red'
+            });
+            console.error(error);
+            Disclosure.close();
+            throw error;
+        }
+    }
+
+    const remove = async ({ id }: DeleteApiKeyRQ) => {
+        Disclosure.open();
+        try {
+            await apiKeyService.findOneAndDelete({ id });
+            const newKeys = apiKeys.filter(e => e.id !== id);
+            setApiKeys(newKeys);
+            Disclosure.close();
+        } catch (error) {
+            notifications.show({
+                title: 'Error al obtener los usuarios',
+                message: 'Se produjo un error al obtener los usuarios del servidor 😔',
                 color: 'red'
             });
             console.error(error);
@@ -30,12 +99,19 @@ export const useApiKey = () => {
     }
 
     const selectItem = (index: number) => setIndex(index);
-    const clearSelected = () => setIndex(undefined);
+    const clearSelection = () => setIndex(undefined);
 
     return {
         loading,
+        apiKeys,
+        apiKey: index !== undefined ? apiKeys[index] : undefined,
+        find,
         create,
+        update,
+        remove,
         selectItem,
-        clearSelected
+        clearSelection
     }
 }
+
+export { useApiKey };

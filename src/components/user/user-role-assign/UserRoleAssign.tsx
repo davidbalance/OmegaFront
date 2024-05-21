@@ -21,12 +21,13 @@ const UserRoleAssign: React.FC<UserRoleAssignProps> = ({ user, onClose }) => {
     useEffect(() => {
         accessControlHook.findOne(user);
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
 
     const handleSubmit = async ({ roles }: { roles: number[] }) => {
         try {
-            await accessControlHook.updateRoles({ user, roles });
+            await accessControlHook.updateRoles({ roles, user });
             onClose();
         } catch (error) { }
     }

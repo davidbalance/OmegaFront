@@ -1,50 +1,87 @@
-import { Header } from '@/components/header/Header';
-import { OmegaTable } from '@/components/table';
-import OmegaTh from '@/components/table/omega-th/OmegaTh';
+import { Header } from '@/components/header/Header'
+import { SearchInputText } from '@/components/input/SearchInputText';
 import { useTable } from '@/hooks';
-import { Role } from '@/services/api/role/dtos';
-import { Table, TextInput, rem } from '@mantine/core';
-import { IconCirclePlus } from '@tabler/icons-react';
-import { IconSearch } from '@tabler/icons-react';
-import React, { use, useEffect } from 'react'
+import { ApiKey } from '@/services/api/api-key';
+import { Flex, Loader, Pagination, ScrollArea, Text, rem } from '@mantine/core';
+import React, { useEffect } from 'react'
+import ApiKeyCreate from '../api-key-create/ApiKeyCreate';
+import ApiKeyItem from '../api-key-item/ApiKeyItem';
 
-type RoleLayoutProps = {
-    load: boolean;
+type ApiKeyLayoutProps = {
+    load?: boolean;
+    apiKeys: ApiKey[]
     events: {
         onCreate: () => void;
+        onDelete: (index: number) => void;
     }
 }
+const ApiKeyLayout: React.FC<ApiKeyLayoutProps> = ({ load, apiKeys, events }) => {
 
-const ApiKeyLayout: React.FC<RoleLayoutProps> = ({ events, load }) => {
+    const tableHook = useTable(apiKeys, 50);
 
-    const header = <>
-        <OmegaTh> Nombre de la ApiKey </OmegaTh>
-        <OmegaTh>Acciones</OmegaTh>
-    </>
+    useEffect(() => {
+        tableHook.setData(apiKeys);
+        return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [apiKeys]);
+
+
+    const rows = tableHook.rows.map((row, index) => (
+        <ApiKeyItem
+            key={row.id}
+            index={index}
+            name={row.name}
+            onDelete={() => events.onDelete(index)} />
+    ));
 
     return (
-    <>
-        <Header
-            button={{
-                icon: IconCirclePlus,
-                onClick: events.onCreate,
-                show: true
-            }}>
-            Apikeys registradas
-        </Header>
+        <>
+            <Header>
+                Mis api keys
+            </Header>
 
-        <TextInput
-            placeholder="Buscar"
-            size="xs"
-            leftSection={<IconSearch style={{ width: rem(12), height: rem(12) }} stroke={1.5} />}
-            rightSectionWidth={70}
-            styles={{ section: { pointerEvents: 'none' } }}
-            mb="sm"
-        />
+            <ApiKeyCreate
+                onCreate={events.onCreate} />
 
-    </>
-    );
+            <SearchInputText
+                placeholder="Buscar"
+                value={tableHook.search}
+                onChange={tableHook.onSearch}
+            />
 
+            <ScrollArea h={300}>
+                {
+                    load ?
+                        <Flex justify='center' align='center'>
+                            <Loader size='sm' m='md' />
+                            <Text size='xs'>Cargando recursos...</Text>
+                        </Flex>
+                        : rows.length ? rows : <Text
+                            ta="center"
+                            size='xs'>
+                            Datos no encontrados
+                        </Text>
+                }
+            </ScrollArea>
+            {
+                Math.floor(tableHook.total) !== 0 && <div style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginTop: rem(16)
+                }}>
+                    <Pagination
+                        total={tableHook.total}
+                        color="omegaColors"
+                        size="sm"
+                        value={tableHook.page}
+                        radius='xl'
+                        onChange={tableHook.setPage}
+                        withEdges />
+                </div>
+            }
+        </>
+    )
 }
 
-export { ApiKeyLayout }
+export default ApiKeyLayout

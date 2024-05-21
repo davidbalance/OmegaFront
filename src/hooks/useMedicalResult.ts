@@ -17,6 +17,7 @@ export const useMedicalResult = (loadOnStart: boolean = false) => {
             find();
         }
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const find = async () => {

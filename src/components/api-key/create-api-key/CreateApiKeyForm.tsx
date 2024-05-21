@@ -1,8 +1,8 @@
 import { ActionIcon, Box, Button, Flex, Group, LoadingOverlay, Stepper, rem } from '@mantine/core'
 import React, { useRef, useState } from 'react'
 import { IconCircleCheck, IconDeviceFloppy, IconUserCheck, IconX } from '@tabler/icons-react'
-import ApiKeyForm from '../api-key-form/ApiKeyForm'
 import { useApiKey } from '@/hooks'
+import { ApiKeyForm } from '../api-key-form/ApiKeyForm'
 
 type ApiKeyStepProps = {
     description: string; icon: React.ReactNode; step: {
@@ -57,7 +57,7 @@ const CreateApiKeyForm: React.FC<CreateApiKeyFormProps> = ({ onClose, onComplete
         if (active === steps.length - 1) {
             try {
                 const apiKeyResponse = await apiKeyHook.create(newData);
-                setApiKeyResponse(apiKeyResponse.apikey);
+                setApiKeyResponse(apiKeyResponse);
                 nextStep();
                 onComplete?.();
             } catch (error) { }

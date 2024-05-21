@@ -27,6 +27,7 @@ const DiseaseGroupLayout: React.FC<DiseaseGroupLayoutProps> = ({ diseaseGroups, 
     useEffect(() => {
         tableHook.setData(diseaseGroups);
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [diseaseGroups]);
 
     const header = <>

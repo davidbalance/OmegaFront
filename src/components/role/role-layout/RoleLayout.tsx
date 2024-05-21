@@ -25,6 +25,7 @@ const RoleLayout: React.FC<RoleLayoutProps> = ({ roles, events, load }) => {
     useEffect(() => {
         tableHook.setData(roles);
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [roles]);
 
     const header = <>

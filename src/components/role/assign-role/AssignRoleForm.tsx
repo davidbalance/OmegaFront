@@ -30,7 +30,7 @@ const AssignRoleForm = React.forwardRef<HTMLButtonElement, UserRoleFormProps>(({
     }
 
     return (
-        <Box component='form' onSubmit={handleSubmit}>
+        <Box component='form' onSubmit={handleSubmit} miw={400}>
             <Table>
                 <Table.Thead>
                     <Table.Tr>
@@ -64,4 +64,7 @@ const AssignRoleForm = React.forwardRef<HTMLButtonElement, UserRoleFormProps>(({
         </Box>
     );
 })
+
+AssignRoleForm.displayName = 'AssignRoleForm';
+
 export { AssignRoleForm }

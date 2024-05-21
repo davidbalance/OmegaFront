@@ -87,5 +87,8 @@ const AssignResourceForm = React.forwardRef<HTMLButtonElement, ResourceFormProps
             <Button type='submit' ref={ref} style={{ display: 'none' }}></Button>
         </Box>
     );
-})
+});
+
+AssignResourceForm.displayName = 'AssignResourceForm';
+
 export { AssignResourceForm }

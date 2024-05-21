@@ -88,6 +88,8 @@ const UpdateResourceForm = React.forwardRef<HTMLButtonElement, UpdateResourceFor
             <Button type='submit' ref={ref} style={{ display: 'none' }}></Button>
         </Box>
     );
-})
+});
+
+UpdateResourceForm.displayName = 'UpdateResourceForm';
 
 export default UpdateResourceForm

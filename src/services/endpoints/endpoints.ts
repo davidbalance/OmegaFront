@@ -22,11 +22,11 @@ import {
 } from "./v1";
 
 export default Object.freeze({
-    ACCESS_CONTROL: {
-        V1: AccessControlEndpoint
-    },
     API_KEY: {
         V1: ApiKeyEndpoint
+    },
+    ACCESS_CONTROL: {
+        V1: AccessControlEndpoint
     },
     AUTHENTICATION: {
         V1: AuthenticationEndpoint

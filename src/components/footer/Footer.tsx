@@ -5,7 +5,7 @@ import { Image } from '@mantine/core'
 const Footer: React.FC = () => {
     return (
         <div className={classes.wrapper}>
-            <Image className={classes.img} src="/assets/images/balance.png" />
+            <Image className={classes.img} src="/assets/images/balance.png" alt='nav logo' />
         </div>
     )
 }
