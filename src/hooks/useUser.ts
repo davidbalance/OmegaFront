@@ -5,7 +5,7 @@ import { CreateUserRQ, DeleteUserRQ, UpdateUserRQ, User } from "@/services/api/u
 import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useCredential } from "./useCredential";
 import { useAccessControl } from "./useAccessControl";
 
