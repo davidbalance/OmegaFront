@@ -1,5 +1,5 @@
 import { RoleService } from "@/services/api";
-import { Role } from "@/services/api/role/dtos";
+import { CreateRoleRQ, FindRoleAndDeleteRQ, FindRoleAndUpdateRQ, Role } from "@/services/api/role/dtos";
 import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications";
@@ -10,6 +10,7 @@ export const useRole = (loadOnStart: boolean = false) => {
 
     const [loading, Disclosure] = useDisclosure();
     const [roles, setRoles] = useState<Role[]>([]);
+    const [index, setIndex] = useState<number | undefined>(undefined);
 
     useLayoutEffect(() => {
         if (loadOnStart) {
@@ -19,6 +20,58 @@ export const useRole = (loadOnStart: boolean = false) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const create = async (dto: CreateRoleRQ) => {
+        Disclosure.open();
+        try {
+            const group = await roleService.create(dto);
+            Disclosure.close();
+            return group;
+        } catch (error) {
+            notifications.show({
+                title: 'Error al obtener los usuarios',
+                message: 'Se produjo un error al crear el rol 😔',
+                color: 'red'
+            });
+            console.error(error);
+            Disclosure.close();
+            throw error;
+        }
+    }
+
+    const update = async ({ id, ...params }: FindRoleAndUpdateRQ) => {
+        Disclosure.open();
+        try {
+            const group = await roleService.findOneAndUpdate({ id: id, ...params });
+            Disclosure.close();
+            return group;
+        } catch (error) {
+            notifications.show({
+                title: 'Error al obtener los usuarios',
+                message: 'Se produjo un error al actualizar el rol 😔',
+                color: 'red'
+            });
+            console.error(error);
+            Disclosure.close();
+            throw error;
+        }
+    }
+
+    const remove = async ({ id, ...params }: FindRoleAndDeleteRQ) => {
+        Disclosure.open();
+        try {
+            await roleService.findOneAndDelete({ id, ...params });
+            Disclosure.close();
+        } catch (error) {
+            notifications.show({
+                title: 'Error al obtener los usuarios',
+                message: 'Se produjo un error al eliminar el rol 😔',
+                color: 'red'
+            });
+            console.error(error);
+            Disclosure.close();
+            throw error;
+        }
+    }
 
     const find = async () => {
         Disclosure.open();
@@ -39,9 +92,19 @@ export const useRole = (loadOnStart: boolean = false) => {
         }
     }
 
+
+    const selectItem = (index: number) => setIndex(index);
+    const clearSelected = () => setIndex(undefined);
+
     return {
         loading,
         roles,
-        find
+        roleUser: index !==undefined ? roles[index] : undefined,
+        create,
+        update,
+        remove,
+        find,
+        selectItem,
+        clearSelected
     }
 }

@@ -1,3 +1,16 @@
-import { FindSelectorOptions } from "@/lib";
+import { SelectorOption } from "@/lib";
 
-export type FindCorporativeGroupSelectorOptions = FindSelectorOptions<number>;
+export type CorporativeGroup ={
+    id: number;
+    name: string;
+}
+
+export type FindCorporativeGroupRS = CorporativeGroup;
+
+export type FindCorporativeGroupsRS = {
+    groups: CorporativeGroup[];
+}
+
+export type FindSelectorOptionsCorporativeGroup = {
+    options: SelectorOption<number>[];
+}

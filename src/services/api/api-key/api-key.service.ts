@@ -1,7 +1,7 @@
 import { ApiKeyAPI } from "@/services/endpoints/types/api-key-api.type";
 import { AbstractService } from "../abstract.service";
 import { ICreateService, IDeleteService, IFindService, IUpdateService } from "@/services/interfaces";
-import { ApiKey, CreateApiKeyRQ, CreateApiKeyRS, DeleteApiKeyRQ, FindApiKeysRS, UpdateApiKeyRQ, UpdateApiKeyRS } from "./dtos";
+import { ApiKey, CreateApiKeyRQ, CreateApiKeyRS, DeleteApiKeyRQ, FindApiKeysRS, UpdateApiKeyRQ } from "./dtos";
 import { OmegaFetch } from "@/services/config";
 
 export class ApiKeyService

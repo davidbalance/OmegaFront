@@ -1,0 +1,24 @@
+.th {
+    padding: 0;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    /* background-color: var(--mantine-color-omegaColors-5); */
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
+    display: flex;
+    align-items: center;
+  }
+  
+  .control {
+    width: 100%;
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+  }
+  
+  .icon {
+    width: rem(21px);
+    height: rem(21px);
+    border-radius: rem(21px);
+  }
+  
