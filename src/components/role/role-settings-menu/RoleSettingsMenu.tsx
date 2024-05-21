@@ -5,6 +5,7 @@ import React from 'react'
 type RoleSettingsMenuProps = {
     onModification?: () => void;
     onDelete?: () => void;
+    onConfiguration?: () => void;
 }
 const RoleSettingsMenu: React.FC<RoleSettingsMenuProps> = ({ onModification, onDelete }) => {
     return (

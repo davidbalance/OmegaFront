@@ -2,11 +2,8 @@ import { Header } from '@/components/header/Header'
 import { SearchInputText } from '@/components/input/SearchInputText';
 import { useTable } from '@/hooks';
 import { ApiKey } from '@/services/api/api-key';
-import { ActionIcon, Box, Flex, Grid, Loader, Modal, Pagination, ScrollArea, Text, TextInput, rem } from '@mantine/core';
-import { IconCirclePlus, IconDeviceFloppy, IconKey, IconMenu } from '@tabler/icons-react';
+import { Flex, Loader, Pagination, ScrollArea, Text, rem } from '@mantine/core';
 import React, { useEffect } from 'react'
-import { ApiKeySettings } from '../api-key-settings/ApiKeySettings';
-import { useDisclosure } from '@mantine/hooks';
 import ApiKeyCreate from '../api-key-create/ApiKeyCreate';
 import ApiKeyItem from '../api-key-item/ApiKeyItem';
 

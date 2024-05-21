@@ -27,7 +27,7 @@ const UserRoleAssign: React.FC<UserRoleAssignProps> = ({ user, onClose }) => {
 
     const handleSubmit = async ({ roles }: { roles: number[] }) => {
         try {
-            await accessControlHook.updateRoles({ user, roles });
+            await accessControlHook.updateRoles({ roles, user });
             onClose();
         } catch (error) { }
     }
