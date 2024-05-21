@@ -4,10 +4,7 @@ FROM node:22-alpine AS development
 RUN apk add --no-cache libc6-compat
 WORKDIR /usr/src/app
 
-# RUN addgroup --system --gid 1001 node
-# RUN adduser --system --uid 1001 node
-
-COPY ./package*.json .
+COPY ./package*.json ./
 
 RUN npm install
 
@@ -20,14 +17,11 @@ FROM node:22-alpine AS build
 RUN apk add --no-cache libc6-compat
 WORKDIR /usr/src/app
 
-# RUN addgroup --system --gid 1001 node
-# RUN adduser --system --uid 1001 node
-
-COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
+COPY --from=development /usr/src/app/node_modules ./node_modules
 
 COPY --chown=node:node . .
 
-COPY --chown=node:node .env.production .env.local
+COPY --chown=node:node .env .env.local
 
 RUN npm run build
 RUN npm install --production
@@ -40,9 +34,6 @@ FROM node:22-alpine AS production
 RUN apk add --no-cache libc6-compat
 WORKDIR /usr/src/app
 
-# RUN addgroup --system --gid 1001 node
-# RUN adduser --system --uid 1001 node
-
 COPY --chown=node:node --from=build /usr/src/app/public ./public
 
 COPY --chown=node:node --from=build /usr/src/app/.next/standalone ./
@@ -52,6 +43,7 @@ USER node
 
 EXPOSE 3000
 
-ENV HOSTNAME "0.0.0.0"
+# Consider environment variable injection for .env files
+# ENV HOSTNAME "0.0.0.0"  # Optional, depending on your needs
 
 CMD ["node", "server.js"]
