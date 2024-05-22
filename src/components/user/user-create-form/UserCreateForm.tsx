@@ -76,7 +76,7 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onComplete }) 
         setFormData(newData);
         if (active === steps.length - 1) {
             try {
-                await userHook.create(formData);
+                await userHook.create(newData);
                 nextStep();
                 onComplete?.();
             } catch (error) { }
