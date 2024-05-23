@@ -99,7 +99,7 @@ export const useRole = (loadOnStart: boolean = false) => {
     return {
         loading,
         roles,
-        roleUser: index !==undefined ? roles[index] : undefined,
+        role: index !==undefined ? roles[index] : undefined,
         create,
         update,
         remove,

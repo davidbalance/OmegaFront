@@ -1,4 +1,4 @@
-import { Collapse, LoadingOverlay, Paper, ScrollArea, rem, Text, Flex, Grid, UnstyledButton, Modal, List } from '@mantine/core'
+import { Collapse, LoadingOverlay, Paper, ScrollArea, rem, Text, Flex, Grid, UnstyledButton, Modal, List, Drawer } from '@mantine/core'
 import React, { useState } from 'react'
 import { useDisclosure } from '@mantine/hooks';
 import { CorporativeGroupCollapseButton } from '../corporative-group-collapse-button/CorporativeGroupCollapseButton';
@@ -11,7 +11,7 @@ type CorporativeGroupCollapsableRowProps = {
   entries: React.ReactElement[],
 }
 
-const CorporativeGroupCollapsableRow: React.FC<CorporativeGroupCollapsableRowProps> = ({ entries, id, name}) => {
+const CorporativeGroupCollapsableRow: React.FC<CorporativeGroupCollapsableRowProps> = ({ entries, id, name }) => {
   const companyHook = useCompany();
   const branchHook = useBranch();
 
@@ -20,13 +20,13 @@ const CorporativeGroupCollapsableRow: React.FC<CorporativeGroupCollapsableRowPro
 
   const handleOpen = () => {
     if (!opened && companyHook.companies.length == 0) {
-        companyHook.find( id );
+      companyHook.find(id);
     }
     OpenDisclosure.toggle();
   }
 
   const handleClose = () => {
-    companyHook.find( id );
+    companyHook.find(id);
     ModalDisclosure.close();
   }
 
@@ -75,8 +75,8 @@ const CorporativeGroupCollapsableRow: React.FC<CorporativeGroupCollapsableRowPro
                       borderWidth: rem(1),
                       borderStyle: "solid"
                     }} onClick={() => {
-                        companyHook.selectItem(index);
-                        branchHook.find(e.id.toString());
+                      companyHook.selectItem(index);
+                      branchHook.find(e.id.toString());
                       ModalDisclosure.open();
                     }}>
                     <Grid>
@@ -102,34 +102,27 @@ const CorporativeGroupCollapsableRow: React.FC<CorporativeGroupCollapsableRowPro
       </Collapse>
     </Paper>
 
-    <Modal
+    <Drawer
       opened={modalStatus}
       onClose={handleClose}
       title={`Sucursales asociadas a ${name}`}
-      closeOnEscape={false}
-      centered={false}
-      size="lg"
-      classNames={{
-        header: classes.header,
-        content: classes.modal,
-        body: classes.body
-      }}
-    >
+      size='lg'
+      position='right'>
       {
         branchHook.branches === undefined || branchHook.branches.length <= 0
           ? <Text size='sm'>No hay resultados asociados</Text>
-          : 
-            <List>
-              {
-                branchHook.branches.map((e) => (
-                  <List.Item key={`${e.name}-${e.id}`} >
-                    <Text size='sm'>{e.name}</Text>
-                  </List.Item>
-                ))
-              }
-            </List>
+          :
+          <List>
+            {
+              branchHook.branches.map((e) => (
+                <List.Item key={`${e.name}-${e.id}`} >
+                  <Text size='sm'>{e.name}</Text>
+                </List.Item>
+              ))
+            }
+          </List>
       }
-    </Modal>
+    </Drawer>
   </>
 }
 
