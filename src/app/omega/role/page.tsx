@@ -18,8 +18,7 @@ enum LayoutStates {
 const Role: React.FC = () => {
 
     const roleHook = useRole(true);
-    const resourceHook = useResource(true);
-
+    
     const [currentState, setCurrentState] = useState<LayoutStates>(LayoutStates.DEFAULT);
 
     const [deleteState, DeleteDisclosure] = useDisclosure();
@@ -27,9 +26,8 @@ const Role: React.FC = () => {
     const handleCreateEvent = () => { setCurrentState(LayoutStates.CREATE); }
 
     const handleClose = () => {
-        resourceHook.clearSelected();
-
-        resourceHook.find();
+        roleHook.clearSelected();
+        roleHook.find();
         setCurrentState(LayoutStates.DEFAULT);
     }
 
@@ -45,10 +43,10 @@ const Role: React.FC = () => {
 
     const view: Record<LayoutStates, React.ReactNode> = {
         [LayoutStates.CREATE]: <CreateRoleFormDrawer onClose={handleClose} />,
-        [LayoutStates.UPDATE]: <UpdateRoleFormDrawer onClose={handleClose} />,
+        [LayoutStates.UPDATE]: <UpdateRoleFormDrawer onClose={handleClose} role={roleHook.role!} />,
         [LayoutStates.DEFAULT]:
         <>
-            <DeleteRoleDialog opened={deleteState} roleIdentify={roleHook.roleUser?.id || -1} onClose={handleClose} />
+            <DeleteRoleDialog opened={deleteState} roleIdentify={roleHook.role?.id || -1} onClose={handleClose} />
                 <RoleLayout
                     load={roleHook.loading}
                     roles={roleHook.roles}

@@ -5,6 +5,7 @@ import { RoleForm } from '../role-form/RoleForm'
 import { useRole } from '@/hooks'
 import { AssignResourceForm } from '@/components/resources/assign-resource'
 import { useResource } from '@/hooks/useResources'
+import { Role } from '@/lib/types/role'
 
 type RoleStepProps = {
     description: string; icon: React.ReactNode; step: {
@@ -14,10 +15,11 @@ type RoleStepProps = {
 }
 
 type UpdateRoleFormDrawerProps = {
+    role: Role,
     onClose: () => void;
     onComplete?: () => void;
 }
-const UpdateRoleFormDrawer: React.FC<UpdateRoleFormDrawerProps> = ({ onClose, onComplete }) => {
+const UpdateRoleFormDrawer: React.FC<UpdateRoleFormDrawerProps> = ({ role, onClose, onComplete }) => {
 
     const roleHook = useRole(true);
     const resourceHook = useResource(true);
@@ -29,7 +31,7 @@ const UpdateRoleFormDrawer: React.FC<UpdateRoleFormDrawerProps> = ({ onClose, on
         {
             description: 'Nombre del Rol',
             icon: <IconUserCheck style={{ width: rem(18), height: rem(18) }} />,
-            step: { form: RoleForm, props: {} }
+            step: { form: RoleForm, props: { data: role } }
         },
         {
             description: 'Asignacion de roles',
@@ -37,7 +39,8 @@ const UpdateRoleFormDrawer: React.FC<UpdateRoleFormDrawerProps> = ({ onClose, on
             step: {
                 form: AssignResourceForm,
                 props: {
-                    resources: resourceHook.resources
+                    resources: resourceHook.resources,
+                    data: { resources: role.resources }
                 }
             }
         }
@@ -91,7 +94,7 @@ const UpdateRoleFormDrawer: React.FC<UpdateRoleFormDrawerProps> = ({ onClose, on
                 allowNextStepsSelect={false}
                 px={rem(64)}
                 completedIcon={<IconCircleCheck style={{ width: rem(18), height: rem(18) }} />}
-                style={{ height: rem(750) }}>
+                style={{ height: rem(450) }}>
                 {
                     steps.map((step, index) => (
                         <Stepper.Step

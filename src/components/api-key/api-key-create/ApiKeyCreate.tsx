@@ -1,7 +1,8 @@
 import { useApiKey } from '@/hooks/useApiKey'
 import { ActionIcon, Box, Button, LoadingOverlay, Modal, SimpleGrid, Text, TextInput, rem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconKey, IconDeviceFloppy } from '@tabler/icons-react'
+import { notifications } from '@mantine/notifications'
+import { IconKey, IconDeviceFloppy, IconClipboard } from '@tabler/icons-react'
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 
 type ApiKeyCreateProps = {
@@ -12,16 +13,18 @@ const ApiKeyCreate: React.FC<ApiKeyCreateProps> = ({ onCreate }) => {
     const apiKeyHook = useApiKey();
 
     const [agreeState, AgreeDisclosure] = useDisclosure(false);
-    const [inputState, setInputState] = useState<string | undefined>(undefined);
+    const [inputState, setInputState] = useState<string>("");
+
+    const [keyState, setKeyState] = useState<string>("");
 
     const [error, setError] = useState<string | undefined>(undefined);
 
-    const handleAgreement = () => {
+    const handleAgreement = async () => {
         if (inputState === undefined) return;
         try {
-            apiKeyHook.create({ name: inputState });
+            const key = await apiKeyHook.create({ name: inputState });
             setInputState("");
-            onCreate();
+            setKeyState(key);
         } catch (error) { }
         finally {
             AgreeDisclosure.close();
@@ -47,6 +50,19 @@ const ApiKeyCreate: React.FC<ApiKeyCreateProps> = ({ onCreate }) => {
         AgreeDisclosure.open();
     }
 
+    const handleCloseCopyToClipboardModal = () => {
+        setKeyState("");
+        onCreate();
+    }
+
+    const handleCopyToClipboard = () => {
+        navigator.clipboard.writeText(keyState);
+        notifications.show({
+            message: 'Api key copiado con exito',
+            color: 'green'
+        });
+    }
+
     return (
         <>
             <Modal
@@ -60,6 +76,22 @@ const ApiKeyCreate: React.FC<ApiKeyCreateProps> = ({ onCreate }) => {
                     <Button variant='transparent' onClick={handleDisagree}>Cancelar</Button>
                     <Button onClick={handleAgreement}>Aceptar</Button>
                 </SimpleGrid>
+            </Modal>
+
+            <Modal
+                opened={keyState.trim() !== ""}
+                onClose={handleCloseCopyToClipboardModal}
+                title={<Text size='xs'>El apikey solo sera mostrada una vez</Text>}
+            >
+                <Text>{keyState}</Text>
+                <SimpleGrid cols={3} my={rem(8)}>
+                    <Box></Box>
+                    <Button
+                        variant='transparent'
+                        onClick={handleCopyToClipboard}
+                        leftSection={<IconClipboard />}>Copiar</Button>
+                </SimpleGrid>
+                <Box></Box>
             </Modal>
 
             <Box
