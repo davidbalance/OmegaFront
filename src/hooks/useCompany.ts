@@ -25,7 +25,7 @@ export const useCompany = () => {
         } catch (error) {
             notifications.show({
                 title: 'Error al obtener los datos',
-                message: 'Se produjo un error al obtener los datos 😔',
+                message: 'Se produjo un error al obtener las compañias 😔',
                 color: 'red'
             });
             console.error(error);

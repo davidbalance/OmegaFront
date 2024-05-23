@@ -34,7 +34,7 @@ export const useCorporativeGroup = (loadOnStart: boolean = false) => {
         } catch (error) {
             notifications.show({
                 title: 'Error al obtener los datos',
-                message: 'Se produjo un error al obtener los datos 😔',
+                message: 'Se produjo un error al obtener los grupos corporativos 😔',
                 color: 'red'
             });
             console.error(error);

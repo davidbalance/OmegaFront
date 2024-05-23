@@ -28,7 +28,7 @@ export const useRole = (loadOnStart: boolean = false) => {
             return group;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
+                title: 'Error al crear un rol',
                 message: 'Se produjo un error al crear el rol 😔',
                 color: 'red'
             });
@@ -46,7 +46,7 @@ export const useRole = (loadOnStart: boolean = false) => {
             return group;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
+                title: 'Error al actualizar el rol',
                 message: 'Se produjo un error al actualizar el rol 😔',
                 color: 'red'
             });
@@ -63,7 +63,7 @@ export const useRole = (loadOnStart: boolean = false) => {
             Disclosure.close();
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
+                title: 'Error al eliminar el rol',
                 message: 'Se produjo un error al eliminar el rol 😔',
                 color: 'red'
             });
@@ -82,8 +82,8 @@ export const useRole = (loadOnStart: boolean = false) => {
             return roles;
         } catch (error) {
             notifications.show({
-                title: 'Error al crear un usuario',
-                message: 'Ha ocurrido un error al asignar los roles al usuario 😔',
+                title: 'Error al obtener roles',
+                message: 'Ha ocurrido un error al obtener roles 😔',
                 color: 'red'
             });
             console.error(error);

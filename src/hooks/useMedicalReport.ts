@@ -17,8 +17,8 @@ export const useMedicalReport = () => {
             Disclosure.close();
         } catch (error) {
             notifications.show({
-                title: 'Error al actualizar un resultado',
-                message: 'Ha ocurrido un error al actualizar el resultado 😔',
+                title: 'Error al obtener reportes médicos',
+                message: 'Ha ocurrido un error al obtener los resportes médicos 😔',
                 color: 'red'
             });
             console.error(error);

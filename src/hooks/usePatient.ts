@@ -29,8 +29,8 @@ export const usePatient = (loadOnStart: boolean = false) => {
             return patients;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al actualizar la contraseña 😔',
+                title: 'Error al obtener los pacientes',
+                message: 'Se produjo un error al obtener los pacientes 😔',
                 color: 'red'
             });
             console.error(error);

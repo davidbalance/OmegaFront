@@ -33,7 +33,7 @@ export const useDoctor = (loadOnStart: boolean = false) => {
         } catch (error) {
             notifications.show({
                 title: 'Error al obtener medicos',
-                message: 'Se produjo un error al obtener medicos del servidor 😔',
+                message: 'Se produjo un error al obtener medicos 😔',
                 color: 'red'
             });
             console.error(error);
@@ -49,8 +49,8 @@ export const useDoctor = (loadOnStart: boolean = false) => {
             LoadDisclosure.close();
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener medicos',
-                message: 'Se produjo un error al obtener medicos del servidor 😔',
+                title: 'Error al subir la firma',
+                message: 'Se produjo un error al subir la firma al sistema 😔',
                 color: 'red'
             });
             console.error(error);

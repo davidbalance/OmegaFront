@@ -21,8 +21,8 @@ export const useAccessControl = () => {
             Disclosure.close();
         } catch (error) {
             notifications.show({
-                title: 'Error al crear un usuario',
-                message: 'Ha ocurrido un error al asignar los roles al usuario 😔',
+                title: 'Error al buscar el rol',
+                message: 'Ha ocurrido un error al buscar los roles del usuario 😔',
                 color: 'red'
             });
             console.error(error);
@@ -38,8 +38,8 @@ export const useAccessControl = () => {
             Disclosure.close();
         } catch (error) {
             notifications.show({
-                title: 'Error al crear un usuario',
-                message: 'Ha ocurrido un error al asignar los roles al usuario 😔',
+                title: 'Error al actualizar el rol',
+                message: 'Ha ocurrido un error al actualizar los roles al usuario 😔',
                 color: 'red'
             });
             console.error(error);
