@@ -46,8 +46,8 @@ export const useMedicalResult = (loadOnStart: boolean = false) => {
             Disclosure.close();
         } catch (error) {
             notifications.show({
-                title: 'Error al actualizar un resultado',
-                message: 'Ha ocurrido un error al actualizar el resultado 😔',
+                title: 'Error al buscar el archivo',
+                message: 'Ha ocurrido un error al buscar el archivo 😔',
                 color: 'red'
             });
             console.error(error);
@@ -96,8 +96,8 @@ export const useMedicalResult = (loadOnStart: boolean = false) => {
             return medicalResult;
         } catch (error) {
             notifications.show({
-                title: 'Error al actualizar un resultado',
-                message: 'Ha ocurrido un error al actualizar el resultado 😔',
+                title: 'Error al agregar un resultado',
+                message: 'Ha ocurrido un error al agregar el resultado 😔',
                 color: 'red'
             });
             console.error(error);

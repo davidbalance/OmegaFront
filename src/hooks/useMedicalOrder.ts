@@ -30,8 +30,8 @@ export const useMedicalOrder = (dni?: string, loadOnStart: boolean = false) => {
             return orders;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al actualizar la contraseña 😔',
+                title: 'Error al obtener las órdenes médicas',
+                message: 'Se produjo un error al obtener las órdenes médicas 😔',
                 color: 'red'
             });
             console.error(error);

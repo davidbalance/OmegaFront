@@ -73,8 +73,8 @@ export function useDisease(loadOption?: ELoadDiseaseOnStart | ELoadDiseaseOnStar
             return disease;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al actualizar la contraseña 😔',
+                title: 'Error al agregar la morbilidad',
+                message: 'Se produjo un error al agregar la morbilidad 😔',
                 color: 'red'
             });
             console.error(error);
@@ -92,8 +92,8 @@ export function useDisease(loadOption?: ELoadDiseaseOnStart | ELoadDiseaseOnStar
             return diseases;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al actualizar la contraseña 😔',
+                title: 'Error al obtener las morbilidades',
+                message: 'Se produjo un error al obtener las morbilidades 😔',
                 color: 'red'
             });
             console.error(error);
@@ -114,8 +114,8 @@ export function useDisease(loadOption?: ELoadDiseaseOnStart | ELoadDiseaseOnStar
             return disease;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al actualizar la contraseña 😔',
+                title: 'Error al actualizar la morbilidad',
+                message: 'Se produjo un error al actualizar la morbilidad 😔',
                 color: 'red'
             });
             console.error(error);

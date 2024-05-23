@@ -74,8 +74,8 @@ export function useDiseaseGroup(loadOption?: ELoadDiseaseGroupOnStart | ELoadDis
             return group;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al actualizar la contraseña 😔',
+                title: 'Error al crear un grupo de morbilidades',
+                message: 'Se produjo un error al crear un grupo de morbilidad 😔',
                 color: 'red'
             });
             console.error(error);
@@ -93,8 +93,8 @@ export function useDiseaseGroup(loadOption?: ELoadDiseaseGroupOnStart | ELoadDis
             return groups;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al actualizar la contraseña 😔',
+                title: 'Error al obtener el grupo de morbilidades',
+                message: 'Se produjo un error al obtener el grupo de morbilidades 😔',
                 color: 'red'
             });
             console.error(error);
@@ -115,8 +115,8 @@ export function useDiseaseGroup(loadOption?: ELoadDiseaseGroupOnStart | ELoadDis
             return group;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al actualizar la contraseña 😔',
+                title: 'Error al actualizar el grupo de morbilidades',
+                message: 'Se produjo un error al actualizar el grupo de morbilidades 😔',
                 color: 'red'
             });
             console.error(error);
@@ -134,8 +134,8 @@ export function useDiseaseGroup(loadOption?: ELoadDiseaseGroupOnStart | ELoadDis
             Disclosure.close();
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al actualizar la contraseña 😔',
+                title: 'Error al eliminar el grupo de morbilidades',
+                message: 'Se produjo un error al eliminar el grupo de morbilidades 😔',
                 color: 'red'
             });
             console.error(error);
@@ -153,8 +153,8 @@ export function useDiseaseGroup(loadOption?: ELoadDiseaseGroupOnStart | ELoadDis
             return options;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al actualizar la contraseña 😔',
+                title: 'Error al obtener los datos',
+                message: 'Se produjo un error al obtener los datos 😔',
                 color: 'red'
             });
             console.error(error);

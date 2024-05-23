@@ -32,8 +32,8 @@ export const useResource = (loadOnStart: boolean = false) => {
             return resources;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los datos',
-                message: 'Se produjo un error al obtener los datos 😔',
+                title: 'Error al obtener los permisos',
+                message: 'Se produjo un error al obtener los permisos 😔',
                 color: 'red'
             });
             console.error(error);

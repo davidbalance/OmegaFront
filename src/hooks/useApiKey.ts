@@ -29,8 +29,8 @@ const useApiKey = (loadOnStart: boolean = false) => {
             return key;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al obtener los usuarios del servidor 😔',
+                title: 'Error al crear la ApiKey',
+                message: 'Se produjo un error al crear la ApiKey 😔',
                 color: 'red'
             });
             console.error(error);
@@ -48,8 +48,8 @@ const useApiKey = (loadOnStart: boolean = false) => {
             return foundKeys;
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al obtener los usuarios del servidor 😔',
+                title: 'Error al obtener la ApiKey',
+                message: 'Se produjo un error al buscar la ApiKey 😔',
                 color: 'red'
             });
             console.error(error);
@@ -69,8 +69,8 @@ const useApiKey = (loadOnStart: boolean = false) => {
             Disclosure.close();
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al obtener los usuarios del servidor 😔',
+                title: 'Error al actualizar la ApiKey',
+                message: 'Se produjo un error al actualizar la ApiKey 😔',
                 color: 'red'
             });
             console.error(error);
@@ -88,8 +88,8 @@ const useApiKey = (loadOnStart: boolean = false) => {
             Disclosure.close();
         } catch (error) {
             notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al obtener los usuarios del servidor 😔',
+                title: 'Error al eliminar la ApiKey',
+                message: 'Se produjo un error al eliminar la ApiKey 😔',
                 color: 'red'
             });
             console.error(error);

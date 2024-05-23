@@ -25,7 +25,7 @@ export const useBranch = () => {
         } catch (error) {
             notifications.show({
                 title: 'Error al obtener los datos',
-                message: 'Se produjo un error al obtener los datos 😔',
+                message: 'Se produjo un error al obtener las sucursales 😔',
                 color: 'red'
             });
             console.error(error);
