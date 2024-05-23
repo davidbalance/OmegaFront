@@ -1,7 +1,7 @@
 'use client'
 
 import { Box, Burger, Drawer, Flex, Grid, ScrollArea, rem, useMantineTheme } from '@mantine/core';
-import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconFolder, IconFolders, IconReportMedical, IconSettings } from '@tabler/icons-react';
+import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconFolder, IconFolders, IconReportMedical, IconSettings, IconMapPin, IconKey } from '@tabler/icons-react';
 import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react'
 import classes from './Navbar.module.css';
 import { NavLink } from './navlink/NavLink';
@@ -19,7 +19,9 @@ const LinkIcon: Record<string, ForwardRefExoticComponent<Omit<IconProps, "ref"> 
     "role": IconLicense,
     "morbidity": IconFolder,
     "morbidity-group": IconFolders,
-    "report": IconReportMedical
+    "report": IconReportMedical,
+    "location": IconMapPin,
+    "key": IconKey,
 }
 
 interface NavbarProps {
