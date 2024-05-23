@@ -1,5 +1,6 @@
 export * from './access-control-api.type'
 export * from './authentication-api.type'
+export * from './api-key.type'
 export * from './branch-api.type'
 export * from './city-api.type'
 export * from './company-api.type'

@@ -1,5 +1,6 @@
 export * from './access-control.endpoint'
 export * from './authentication.endpoint'
+export * from './api-key.endpoint'
 export * from './branch.endpoint'
 export * from './city.endpoint'
 export * from './company.endpoint'

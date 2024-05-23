@@ -1,6 +1,6 @@
 import { CompanyAPI } from "@/services/endpoints";
 import { AbstractService } from "../abstract.service";
-import { FindCompanySelectorOptions } from "./dtos";
+import { Company, FindCompaniesRS, FindSelectorOptionsCompany } from "./dtos";
 import { SelectorOption } from "@/lib";
 import { OmegaFetch } from "@/services/config";
 import { ISelectorService } from "@/services/interfaces";
@@ -9,9 +9,22 @@ export class CompanyService
     extends AbstractService<CompanyAPI>
     implements ISelectorService<any, number> {
 
+    async find( group :string): Promise<Company[]> {
+        try {
+            const { companies }: FindCompaniesRS = await OmegaFetch.get({ url: this.endpoints.FIND(`${group}`) });
+            return companies;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    findOne(params: FindCompaniesRS): Company | Promise<Company> {
+        throw new Error("Method not implemented.");
+    }
+
     async findSelectorOptions(params?: any): Promise<SelectorOption<number>[]> {
         try {
-            const { options }: FindCompanySelectorOptions = await OmegaFetch.get({ url: this.endpoints.FIND_SELECTOR });
+            const { options }: FindSelectorOptionsCompany = await OmegaFetch.get({ url: this.endpoints.FIND_SELECTOR });
             return options;
         } catch (error) {
             throw error;

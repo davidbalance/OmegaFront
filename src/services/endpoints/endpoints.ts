@@ -1,5 +1,6 @@
 import {
     AccessControlEndpoint,
+    ApiKeyEndpoint,
     AuthenticationEndpoint,
     BranchEndpoint,
     CityEndpoint,
@@ -19,7 +20,6 @@ import {
     RoleEndpoint,
     UserEndpoint
 } from "./v1";
-import { ApiKeyEndpoint } from "./v1/api-key.endpoint";
 
 export default Object.freeze({
     API_KEY: {

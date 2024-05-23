@@ -1,16 +1,21 @@
 import AgreementDialog from '@/components/dialog/agreement-dialog/AgreementDialog';
+import { useRole } from '@/hooks';
 import { DialogProps } from '@mantine/core';
 import React from 'react'
 
 type DeleteRoleDialogProps = DialogProps & {
     roleIdentify: number;
-    onComplete: (id: number) => void;
 };
-const DeleteRoleDialog: React.FC<DeleteRoleDialogProps> = ({ roleIdentify, onComplete, ...props }) => {
+const DeleteRoleDialog: React.FC<DeleteRoleDialogProps> = ({ roleIdentify, ...props }) => {
+
+    const roleHook = useRole();
 
     const handleAgree = async () => {
         if (roleIdentify <= 0) return;
-        onComplete(roleIdentify);
+        try {
+            roleHook.remove({ id: roleIdentify });
+            props.onClose?.();
+        } catch (error) { }
     }
 
     return (

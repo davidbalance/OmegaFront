@@ -13,7 +13,6 @@ export class MedicalResultService
 
     async find(): Promise<MedicalResult[]> {
         try {
-            console.log(this.endpoints.FIND);
             const { results }: FindResultsRS = await OmegaFetch.get({ url: this.endpoints.FIND });
             return results;
         } catch (error) {

@@ -1,5 +1,5 @@
 import { AccessControlService } from "@/services/api";
-import { ACClient, FindAndUpdateRolesRQ } from "@/services/api/access-control/dtos";
+import { ACClient, FindAndUpdateACRolesRQ } from "@/services/api/access-control/dtos";
 import endpoints from "@/services/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
@@ -31,7 +31,7 @@ export const useAccessControl = () => {
         }
     }
 
-    const updateRoles = async (accessControl: FindAndUpdateRolesRQ) => {
+    const updateRoles = async (accessControl: FindAndUpdateACRolesRQ) => {
         Disclosure.open();
         try {
             await accessControlService.findOneAndUpdateRoles(accessControl);
