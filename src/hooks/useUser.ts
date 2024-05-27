@@ -1,4 +1,4 @@
-import { UserService } from "@/services/api";
+import { OmegaWebClientService, UserService } from "@/services/api";
 import { FindAndUpdateACRolesRQ } from "@/services/api/access-control/dtos";
 import { CreateCredentialRQ } from "@/services/api/user-credential/dtos";
 import { CreateUserRQ, DeleteUserRQ, UpdateUserRQ, User } from "@/services/api/user/dtos";
@@ -8,6 +8,7 @@ import { notifications } from "@mantine/notifications";
 import { useLayoutEffect, useState } from "react";
 import { useCredential } from "./useCredential";
 import { useAccessControl } from "./useAccessControl";
+import { useWebClient } from "./useWebClient";
 
 export const useUser = (loadOnStart: boolean = false) => {
 
@@ -17,6 +18,7 @@ export const useUser = (loadOnStart: boolean = false) => {
 
     const userCredential = useCredential();
     const accessControl = useAccessControl();
+    const omegaClientHook = useWebClient();
 
     const userService = new UserService(endpoints.USER.V1);
 
@@ -28,13 +30,14 @@ export const useUser = (loadOnStart: boolean = false) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const create = async ({ dni, email, lastname, name, password, roles }: CreateUserRQ & Omit<CreateCredentialRQ, 'user'> & Omit<FindAndUpdateACRolesRQ, 'user'>) => {
+    const create = async ({ dni, email, lastname, name, password, roles, logo }: CreateUserRQ & Omit<CreateCredentialRQ, 'user'> & Omit<FindAndUpdateACRolesRQ, 'user'> & { logo: number }) => {
         Disclosure.open();
         try {
             const createdUser = await userService.create({ dni, email, lastname, name });
             const { id } = createdUser;
             await userCredential.create({ email, password, user: id! });
             await accessControl.updateRoles({ roles, user: id! });
+            await omegaClientHook.updateWebClientLogo({ user: id!, logo });
             setUsers([...users, createdUser]);
             Disclosure.close();
             return createdUser;

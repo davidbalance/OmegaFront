@@ -3,7 +3,7 @@ import { OmegaFetch } from "@/services/config";
 import { Configuration } from "@/lib";
 import { OmegaWebClientAPI } from "@/services/endpoints";
 import { IFindService } from "@/services/interfaces";
-import { FindOmegaWebClient } from "./dtos";
+import { FindOmegaWebClient, UpdateWebClientLogoRequestDTO } from "./dtos";
 
 export class OmegaWebClientService
     extends AbstractService<OmegaWebClientAPI>
@@ -19,6 +19,17 @@ export class OmegaWebClientService
         try {
             const client: FindOmegaWebClient = await OmegaFetch.get({ url: this.endpoints.FIND_ONE });
             return client;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async assignLogo({ logo, user }: UpdateWebClientLogoRequestDTO): Promise<void> {
+        try {
+            await OmegaFetch.patch({
+                url: this.endpoints.UPDATE_ONE_LOGO(`${user}`),
+                body: { logo }
+            });
         } catch (error) {
             throw error;
         }
