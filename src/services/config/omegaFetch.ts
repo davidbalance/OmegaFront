@@ -112,7 +112,6 @@ async function patch<T, R>({ url, body, ...customInit }: RestClientRequest<T>): 
     if (!response.ok) {
         throw new RestError(response, `Failed to patch ${response.url}`, data);
     }
-
     return data;
 }
 

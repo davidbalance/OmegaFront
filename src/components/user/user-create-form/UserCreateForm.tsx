@@ -1,13 +1,14 @@
 import { useUser } from '@/hooks';
 import { useRole } from '@/hooks/useRole';
 import { LoadingOverlay, Group, rem, ActionIcon, Stepper, Box, Flex, Text, Button } from '@mantine/core';
-import { IconCircleCheck, IconDeviceFloppy, IconLicense, IconLock, IconUserCheck, IconX } from '@tabler/icons-react';
+import { IconBuilding, IconCircleCheck, IconDeviceFloppy, IconLicense, IconLock, IconUserCheck, IconX } from '@tabler/icons-react';
 import React, { useRef, useState } from 'react'
 import UserDataForm from '../user-data-form/UserDataForm';
 import { AuthenticationPasswordForm } from '@/components/authentication/authentication-password';
 import { AssignRoleForm } from '@/components/role/assign-role';
 import { useMediaQuery } from '@mantine/hooks';
 import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
+import { UserLogoForm } from '../user-logo-form/UserLogoForm';
 
 type UserStepProps = {
     description: string; icon: React.ReactNode; step: {
@@ -51,6 +52,14 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onComplete }) 
                     roles: roleHook.roles
                 }
             }
+        },
+        {
+            description: 'Asignacion de empresa',
+            icon: <IconBuilding style={{ width: rem(18), height: rem(18) }} />,
+            step: {
+                form: UserLogoForm,
+                props: {}
+            }
         }
     ];
 
@@ -59,7 +68,7 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onComplete }) 
         formReferences.current = steps.map(() => React.createRef<HTMLButtonElement>());
     }
 
-    const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
+    const nextStep = () => setActive((current) => (current < steps.length ? current + 1 : current));
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
     const handleNextChange = () => {

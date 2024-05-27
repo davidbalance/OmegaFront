@@ -24,4 +24,15 @@ export class OmegaWebClientService
         }
     }
 
+    async assignLogo({ logo, user }: { user: number, logo: number }): Promise<void> {
+        try {
+            await OmegaFetch.patch({
+                url: this.endpoints.UPDATE_ONE_LOGO(`${user}`),
+                body: { logo }
+            });
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
