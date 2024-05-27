@@ -58,6 +58,8 @@ const UserLogoForm = React.forwardRef<HTMLButtonElement, UserLogoFormProps>(({ o
             </Flex>
         </Box>
     );
-})
+});
+
+UserLogoForm.displayName = 'UserLogoForm';
 
 export { UserLogoForm };
