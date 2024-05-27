@@ -8,6 +8,7 @@ import { notifications } from "@mantine/notifications";
 import { useLayoutEffect, useState } from "react";
 import { useCredential } from "./useCredential";
 import { useAccessControl } from "./useAccessControl";
+import { useWebClient } from "./useWebClient";
 
 export const useUser = (loadOnStart: boolean = false) => {
 
@@ -17,7 +18,7 @@ export const useUser = (loadOnStart: boolean = false) => {
 
     const userCredential = useCredential();
     const accessControl = useAccessControl();
-    const omegaClientService = new OmegaWebClientService(endpoints.OMEGA_WEB_CLIENT.V1);
+    const omegaClientHook = useWebClient();
 
     const userService = new UserService(endpoints.USER.V1);
 
@@ -36,7 +37,7 @@ export const useUser = (loadOnStart: boolean = false) => {
             const { id } = createdUser;
             await userCredential.create({ email, password, user: id! });
             await accessControl.updateRoles({ roles, user: id! });
-            await omegaClientService.assignLogo({ user: id!, logo });
+            await omegaClientHook.updateWebClientLogo({ user: id!, logo });
             setUsers([...users, createdUser]);
             Disclosure.close();
             return createdUser;
