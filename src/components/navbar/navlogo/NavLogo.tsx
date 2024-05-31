@@ -2,13 +2,12 @@ import { Group, rem } from '@mantine/core'
 import React, { useCallback, useEffect, useState } from 'react'
 import classes from './NavLogo.module.css'
 import { SystemLogo } from './logos'
+import { useConfiguration } from '@/hooks'
 
-type NavLogoProps = {
-    logo: string;
-}
 
-const NavLogo: React.FC<NavLogoProps> = ({ logo }) => {
+const NavLogo: React.FC = () => {
 
+    const { logo } = useConfiguration();
     const [CurrentLogo, setCurrentLogo] = useState<React.ReactElement | undefined>(undefined);
 
     useEffect(() => {
@@ -26,7 +25,7 @@ const NavLogo: React.FC<NavLogoProps> = ({ logo }) => {
             Logo = SystemLogo[key];
         }
         // directly use Logo component with styles
-        return <Logo style={{ width: rem(80) }} />;
+        return <Logo style={{ width: rem(48), color: 'white' }} />;
     };
 
     return (

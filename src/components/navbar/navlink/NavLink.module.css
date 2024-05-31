@@ -1,45 +1,39 @@
 .mainLink {
   display: flex;
   align-items: center;
-  text-decoration: none;
-  width: 100%;
   font-size: var(--mantine-font-size-xs);
   padding: rem(8px) var(--mantine-spacing-xs);
   border-radius: var(--mantine-radius-sm);
-  font-weight: 400;
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+  text-decoration: none;
 
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
+  width: rem(40px);
+  height: rem(40px);
+  overflow: hidden;
 
-  &:hover {
-    background-color: light-dark(
-      var(--mantine-color-omegaColors-0),
-      var(--mantine-color-omegaColors-6)
-    );
-    color: light-dark(
-      var(--mantine-color-omegaColors-7),
-      var(--mantine-color-omegaColors-0)
-    );
+  transition: background-color 0.1s ease-in, width 0.2s ease-in;
 
-    .mainLinkIcon {
-      color: light-dark(
-        var(--mantine-color-omegaColors-7),
-        var(--mantine-color-omegaColors-0)
-      );
-    }
+  &.open {
+    width: rem(210px);
   }
 
   &[data-active] {
     &,
     &:hover {
-      font-weight: 600;
+      background-color: var(--mantine-color-white);
+      color: var(--mantine-color-omegaColors-light-color);
+      font-weight: 500;
+    }
+
+    &.open,
+    &.open:hover {
       background-color: var(--mantine-color-omegaColors-light);
       color: var(--mantine-color-omegaColors-light-color);
+    }
 
-      .mainLinkIcon {
-        color: var(--mantine-color-omegaColors-light-color);
-      }
+    & .mainLinkIcon,
+    &:hover .mainLinkIcon {
+      color: var(--mantine-color-omegaColors-light-color);
     }
   }
 }
@@ -55,9 +49,7 @@
   color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-2));
 }
 
-.mainLinkBadge {
-  padding: 0;
-  width: rem(20px);
-  height: rem(20px);
-  pointer-events: none;
+.mainLinkText { 
+  width: 100%;
+  text-align: left;
 }

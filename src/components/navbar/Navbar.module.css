@@ -1,59 +1,31 @@
 .navbar {
-  background-color: light-dark(
-    var(--mantine-color-white),
-    var(--mantine-color-dark-6)
-  );
-  width: 100%;
-  padding: var(--mantine-spacing-md);
-  padding-bottom: 0;
+  background-color: var(--mantine-color-grayBlue-1);
+  width: auto;
   display: flex;
   flex-direction: column;
-  border-right: rem(1px) solid
-    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  border-radius: var(--mantine-radius-md);
+  padding: var(--mantine-spacing-sm) 0;
+  transition: background, padding 0.2s ease-in;
 }
 
-.header {
-  margin-left: calc(var(--mantine-spacing-md) * -1);
-  margin-right: calc(var(--mantine-spacing-md) * -1);
-  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
-  border-bottom: rem(1px) solid
-    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
-}
-
-.searchCode {
-  font-weight: 700;
-  font-size: rem(10px);
-  background-color: light-dark(
-    var(--mantine-color-gray-0),
-    var(--mantine-color-dark-7)
-  );
-  border: rem(1px) solid
-    light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
+.navbar.open {
+  background-color: var(--mantine-color-white);
+  padding: var(--mantine-spacing-sm);
 }
 
 .links {
-  flex: 0.75;
-  padding: rem(8px) var(--mantine-spacing-xs);
-  margin-left: calc(var(--mantine-spacing-md) * -1);
-  margin-right: calc(var(--mantine-spacing-md) * -1);
+  flex: 1;
 }
 
-.linksInner {
-  padding-top: var(--mantine-spacing-sm);
-  padding-bottom: var(--mantine-spacing-sm);
+.lock {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+
+  transition: justify-content .3s ease-in;
 }
 
-.footer {
-  margin-left: calc(var(--mantine-spacing-md) * -1);
-  margin-right: calc(var(--mantine-spacing-md) * -1);
-  border-top: rem(1px) solid
-    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
-}
-
-@media (min-width: 700px) {
-  .navbar {
-    height: rem(815px);
-    width: rem(300px);
-    padding: var(--mantine-spacing-md);
-  }
+.lock.open {
+  justify-content: flex-end;
 }

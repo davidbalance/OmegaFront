@@ -1,16 +1,14 @@
 'use client'
 
-import { Box, Burger, Drawer, Flex, Grid, ScrollArea, rem, useMantineTheme } from '@mantine/core';
-import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconFolder, IconFolders, IconReportMedical, IconSettings, IconMapPin, IconKey } from '@tabler/icons-react';
+import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconFolder, IconFolders, IconReportMedical, IconSettings, IconMapPin, IconKey, IconLock } from '@tabler/icons-react';
 import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react'
 import classes from './Navbar.module.css';
 import { NavLink } from './navlink/NavLink';
-import { NavFooter } from './navfooter/NavFooter';
-import { NavLogo } from './navlogo/NavLogo';
 import { useSearch } from '@/hooks/useSearch';
 import { NavLinkProp } from '@/lib/types/nav-link.type';
-import { SearchInputText } from '../input/SearchInputText';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import cx from 'clsx';
+import { ActionIcon, Box, ScrollArea } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 const LinkIcon: Record<string, ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>>> = {
     "user": IconUsers,
@@ -25,37 +23,61 @@ const LinkIcon: Record<string, ForwardRefExoticComponent<Omit<IconProps, "ref"> 
 }
 
 interface NavbarProps {
+    opened: boolean;
+    onClose: () => void;
     links: NavLinkProp[],
     logo: string,
     loading?: boolean
 }
 
-const Navbar: React.FC<NavbarProps> = ({ links, logo }) => {
+const Navbar: React.FC<NavbarProps> = ({ opened, onClose, links }) => {
 
     const [active, setActive] = useState<string>('');
     const search = useSearch(links, ['label']);
 
-    const matches = useMediaQuery('(min-width: 700px)');
-
-    const [burgerState, BurgerDisclosure] = useDisclosure(false);
+    const [locked, { toggle }] = useDisclosure(false);
 
     const mainLinks = search.filter.map((item) => {
         return <NavLink
+            opened={opened || locked}
             key={item.label}
             href={item.address}
-            active={active === item.label}
+            active={active}
             link={{
                 icon: item.icon ? LinkIcon[item.icon] : IconSettings,
                 label: item.label
             }}
             onClick={() => {
                 setActive(item.label);
-                BurgerDisclosure.close();
+                onClose();
             }} />
     });
 
     return <>
-        <nav className={classes.navbar}>
+        {/* <Drawer
+            opened={opened}
+            onClose={onClose}
+            overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
+            size='100%'
+            closeButtonProps={{
+                size: 'sm'
+            }}
+        >
+            <ScrollArea className={classes.links} h={450} scrollbarSize={2}>
+                <div className={classes.linksInner}>{mainLinks}</div>
+            </ScrollArea>
+        </Drawer> */}
+        <nav className={(cx(classes.navbar, { [classes.open]: opened || locked }))}>
+            <ScrollArea className={classes.links} h={450} scrollbarSize={2}>
+                <div className={classes.linksInner}>{mainLinks}</div>
+            </ScrollArea>
+            <Box className={cx(classes.lock, { [classes.open]: opened || locked })}>
+                <ActionIcon variant={locked ? 'filled' : 'transparent'} onClick={toggle}>
+                    <IconLock />
+                </ActionIcon>
+            </Box>
+        </nav>
+        {/* <nav className={classes.navbar}>
             <div className={classes.header}>
                 <Grid py={rem(4)} px={rem(8)}>
                     <Grid.Col span={!matches ? 3 : 1}>
@@ -94,8 +116,8 @@ const Navbar: React.FC<NavbarProps> = ({ links, logo }) => {
                     </div>
                 </>
             }
-        </nav>
-        {
+        </nav> */}
+        {/*  {
             !matches &&
             <Drawer
                 opened={burgerState}
@@ -115,7 +137,7 @@ const Navbar: React.FC<NavbarProps> = ({ links, logo }) => {
                     <NavFooter />
                 </div>
             </Drawer>
-        }
+        } */}
     </>
 }
 
