@@ -66,14 +66,12 @@ const Authentication: React.FC = () => {
                     <TextInput
                         label='Correo Electronico'
                         placeholder='omega@gmail.com'
-                        size='sm'
                         {...form.getInputProps('username')}
                     />
                     <PasswordInput
                         label='Contraseña'
                         placeholder='Escribe tu contraseña'
                         mt='md'
-                        size='sm'
                         {...form.getInputProps('password')}
                     />
                     <Button
