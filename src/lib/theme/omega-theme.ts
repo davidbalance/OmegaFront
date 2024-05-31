@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Input, PasswordInput, TextInput, createTheme } from "@mantine/core";
+import { Button, Input, PasswordInput, ScrollArea, TextInput, createTheme } from "@mantine/core";
 import { orange, red, green, neutral, grayBlue, purple, blue, white, black } from "./color";
 import { radiusValues } from "./radius";
 
@@ -41,6 +41,11 @@ export const omegaTheme = createTheme({
         TextInput: TextInput.extend({
             defaultProps: {
                 size: "xs"
+            }
+        }),
+        ScrollArea: ScrollArea.extend({
+            defaultProps: {
+                scrollbarSize: 2
             }
         })
     },
