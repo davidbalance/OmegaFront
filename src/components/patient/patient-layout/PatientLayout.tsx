@@ -1,15 +1,15 @@
 import { useTable } from '@/hooks';
-import { TextInput, rem, Text } from '@mantine/core';
+import { rem, Text, Flex, Space, Box, Pagination, ScrollArea, Title, ActionIcon } from '@mantine/core';
 import React, { useEffect } from 'react'
 import { Patient } from '@/services/api/patient/dtos';
 import { User } from '@/services/api/user/dtos';
 import { Header } from '@/components/header/Header';
-import { IconSearch } from '@tabler/icons-react';
-import { PatientTable } from '../patient-table/PatientTable';
 import { PatientCollapsableRow } from '../patient-table/PatientCollapsableRow';
-import OmegaTh from '@/components/table/omega-th/OmegaTh';
 import PatientTh from '../patient-table/patient-th/PatientTh';
 import { SearchInputText } from '@/components/input/SearchInputText';
+import { ModularBox } from '@/components/modular-box/ModularBox';
+import { IconDotsVertical, IconFolder, IconFolderOpen, IconGridDots, IconMenu2 } from '@tabler/icons-react';
+import { MultipleLayerItem } from '@/components/list/multiple-layer-item/MultipleLayerItem';
 
 type PatientLayoutDataType = Omit<Patient, 'user'> & Omit<User, 'id'>;
 const parsePatient = (medicalResults: Patient[]): PatientLayoutDataType[] => medicalResults.map<PatientLayoutDataType>((e) => ({
@@ -59,23 +59,56 @@ const PatientLayout: React.FC<PatientLayoutProps> = ({ patients, load }) => {
 
     return (
         <>
-            <Header>
-                Pacientes registrados en el sistema
-            </Header>
-
-            <SearchInputText
-                placeholder="Buscar"
-                value={tableHook.search}
-                onChange={tableHook.onSearch}
-            />
-
-            <PatientTable
-                header={header}
-                loading={load}
-                rows={rows}
-                total={tableHook.total}
-                page={tableHook.page}
-                onPageChange={tableHook.setPage} />
+            <Flex h='100%' gap={rem(8)}>
+                <ModularBox>
+                    <Header text={'Pacientes'} />
+                    <SearchInputText
+                        placeholder="Buscar"
+                        value={tableHook.search}
+                        onChange={tableHook.onSearch}
+                    />
+                    <ScrollArea.Autosize mah='75%' style={{ flex: 1 }}>
+                        <MultipleLayerItem
+                            leftSection={<IconFolder style={{ width: rem(28), height: rem(28) }} />}
+                            rightSection={
+                                <ActionIcon variant='transparent' size='sm'>
+                                    <IconDotsVertical style={{ width: rem(28), height: rem(28) }} />
+                                </ActionIcon>
+                            }
+                            onClick={() => { }} label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
+                    </ScrollArea.Autosize>
+                    <Pagination total={4} size='xs' style={{ alignSelf: 'center' }} />
+                </ModularBox>
+                <ModularBox>
+                    <Header text={'Ordenes'} />
+                </ModularBox>
+                <ModularBox>
+                    <Header text={'Examenes'} />
+                </ModularBox>
+            </Flex>
         </>
     )
 }

@@ -17,8 +17,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     return (
         <main className={classes.wrapper}>
-            <Topbar burger={{ opened: opened, onClick: toggle }} />
-            <Box className={classes.outer}>
+            <Box mah='10vh'>
+                <Topbar burger={{ opened: opened, onClick: toggle }} />
+            </Box>
+            <Box className={classes.outer} mah='90vh'>
                 <Navbar links={routes} logo={logo} opened={opened} onClose={close} />
                 <Box h='100%' w='100%'>
                     {children}

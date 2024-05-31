@@ -8,7 +8,7 @@ import React, { useEffect } from 'react'
 import UserSettingsMenu from '../user-settings-menu/UserSettingsMenu';
 import { SearchInputText } from '@/components/input/SearchInputText';
 import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
-import ModularBox from '@/components/modular-box/ModularBox';
+import { ModularBox } from '@/components/modular-box/ModularBox';
 import { IconPlus } from '@tabler/icons-react';
 
 type UserLayoutProps = {
@@ -60,15 +60,17 @@ const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) 
     return (
         <>
             <Flex direction='column' gap={rem(8)}>
-                <Header text={'Usuarios'}>
-                    <Tooltip
-                        label={'Crear usuario'}
-                        withArrow>
-                        <ActionIcon radius='xl' size='sm' onClick={events.onCreate}>
-                            <IconPlus style={{ width: rem(16), height: rem(16) }} />
-                        </ActionIcon>
-                    </Tooltip>
-                </Header>
+                <ModularBox>
+                    <Header text={'Usuarios'}>
+                        <Tooltip
+                            label={'Crear usuario'}
+                            withArrow>
+                            <ActionIcon radius='xl' size='sm' onClick={events.onCreate}>
+                                <IconPlus style={{ width: rem(16), height: rem(16) }} />
+                            </ActionIcon>
+                        </Tooltip>
+                    </Header>
+                </ModularBox>
 
                 <ModularBox>
                     <SearchInputText

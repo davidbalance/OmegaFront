@@ -4,4 +4,5 @@
   background-color: var(--mantine-color-white);
   border-radius: var(--mantine-radius-md);
   padding: rem(8px);
+  gap: rem(4px);
 }
