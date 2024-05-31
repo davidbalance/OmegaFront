@@ -53,3 +53,9 @@
   width: 100%;
   text-align: left;
 }
+
+@media screen and (max-width: 700px) {
+  .mainLink {
+    width: 100%!important;
+  }
+}

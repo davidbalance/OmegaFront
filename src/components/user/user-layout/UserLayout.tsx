@@ -3,12 +3,13 @@ import { OmegaTable } from '@/components/table';
 import OmegaTh from '@/components/table/omega-th/OmegaTh';
 import { useTable } from '@/hooks';
 import { User } from '@/services/api/user/dtos';
-import { Table } from '@mantine/core';
-import { IconCirclePlus } from '@tabler/icons-react';
+import { ActionIcon, Flex, Table, Tooltip, rem } from '@mantine/core';
 import React, { useEffect } from 'react'
 import UserSettingsMenu from '../user-settings-menu/UserSettingsMenu';
 import { SearchInputText } from '@/components/input/SearchInputText';
 import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
+import ModularBox from '@/components/modular-box/ModularBox';
+import { IconPlus } from '@tabler/icons-react';
 
 type UserLayoutProps = {
     users: User[];
@@ -58,28 +59,33 @@ const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) 
 
     return (
         <>
-            <Header
-                button={{
-                    icon: IconCirclePlus,
-                    onClick: events.onCreate,
-                    show: true
-                }}>
-                Usuarios registrados en el sistema
-            </Header>
+            <Flex direction='column' gap={rem(8)}>
+                <Header text={'Usuarios'}>
+                    <Tooltip
+                        label={'Crear usuario'}
+                        withArrow>
+                        <ActionIcon radius='xl' size='sm' onClick={events.onCreate}>
+                            <IconPlus style={{ width: rem(16), height: rem(16) }} />
+                        </ActionIcon>
+                    </Tooltip>
+                </Header>
 
-            <SearchInputText
-                placeholder="Buscar"
-                value={tableHook.search}
-                onChange={tableHook.onSearch}
-            />
+                <ModularBox>
+                    <SearchInputText
+                        placeholder="Buscar"
+                        value={tableHook.search}
+                        onChange={tableHook.onSearch}
+                    />
 
-            <OmegaTable
-                loading={load}
-                header={header}
-                rows={rows}
-                total={tableHook.total}
-                page={tableHook.page}
-                onPageChange={tableHook.setPage} />
+                    <OmegaTable
+                        loading={load}
+                        header={header}
+                        rows={rows}
+                        total={tableHook.total}
+                        page={tableHook.page}
+                        onPageChange={tableHook.setPage} />
+                </ModularBox>
+            </Flex>
         </>
     );
 }
