@@ -7,6 +7,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
 import { useEffect, useLayoutEffect, useState } from "react";
+import { useLogo } from "./useLogo";
 
 export const useAuth = () => {
     const authenticationService = new AuthenticationService(endpoints.AUTHENTICATION.V1);
@@ -16,7 +17,8 @@ export const useAuth = () => {
     const router = useRouter();
     const [loading, { open, close }] = useDisclosure();
 
-    const [configurationUser, setConfigurationUser] = useState<ConfigurationUser | undefined>(undefined)
+    const [configurationUser, setConfigurationUser] = useState<ConfigurationUser | undefined>(undefined);
+    const [logo, setLogo] = useLogo();
 
     useLayoutEffect(() => {
         setConfigurationUser(getUser());
@@ -29,6 +31,7 @@ export const useAuth = () => {
             const tokens = await authenticationService.login(values);
             setTokens(tokens);
             const configuration = await omegaClientService.findOne({});
+            setLogo(configuration.logo.name);
             setConfiguration(configuration);
             const user = await userService.findOne({});
             delete user.id;
