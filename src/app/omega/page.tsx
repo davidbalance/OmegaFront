@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { Container, Text, useMantineTheme } from '@mantine/core';
-
+import { ModularBox } from '@/components/modular-box/ModularBox';
 import classes from './page.module.css';
 
 const Landing: React.FC = () => {
   const theme = useMantineTheme();
 
   return (
-    <div className={classes.wrapper}>
+    <ModularBox>
       <Container size={700} className={classes.inner}>
         <h1 className={classes.title}>
           <Text
@@ -29,7 +29,7 @@ const Landing: React.FC = () => {
           <br />- Elaboracion de reportes.
         </Text>
       </Container>
-    </div>
+    </ModularBox>
   )
 }
 
