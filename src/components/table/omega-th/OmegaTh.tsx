@@ -25,9 +25,11 @@ const OmegaTh: React.FC<OmegaTh> = ({ children, sort }) => {
     return (
         <Table.Th className={classes.th}>
             {sort
-                ? <UnstyledButton onClick={handleSortClick} className={classes.control}>
+                ? <UnstyledButton
+                    onClick={handleSortClick}
+                    className={classes.control}>
                     <Flex justify="space-between" align='center'>
-                        <Text size='xs' fw={500}>
+                        <Text fw={500}>
                             {children}
                         </Text>
                         <Center className={classes.icon}>
@@ -35,7 +37,7 @@ const OmegaTh: React.FC<OmegaTh> = ({ children, sort }) => {
                         </Center>
                     </Flex>
                 </UnstyledButton>
-                : <Text size='xs' fw={500}>
+                : <Text fw={500}>
                     {children}
                 </Text>
             }

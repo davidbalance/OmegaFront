@@ -1,14 +1,14 @@
-import { Box, Flex } from '@mantine/core'
+import { Flex, FlexProps } from '@mantine/core'
 import React from 'react'
 import classes from './ModularBox.module.css'
 
-const ModularBox: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+type ModularBoxProps = FlexProps;
+
+const ModularBox: React.FC<ModularBoxProps> = ({ children, ...props }) => {
     return (
-        <Box h='100%'>
-            <Flex className={classes.box} direction='column'>
-                {children}
-            </Flex>
-        </Box>
+        <Flex className={classes.box} direction='column' {...props}>
+            {children}
+        </Flex>
     )
 }
 

@@ -3,13 +3,14 @@ import { OmegaTable } from '@/components/table';
 import OmegaTh from '@/components/table/omega-th/OmegaTh';
 import { useTable } from '@/hooks';
 import { User } from '@/services/api/user/dtos';
-import { ActionIcon, Flex, Table, Tooltip, rem } from '@mantine/core';
+import { ActionIcon, Button, Flex, Grid, GridCol, SimpleGrid, Table, Tooltip, rem } from '@mantine/core';
 import React, { useEffect } from 'react'
 import UserSettingsMenu from '../user-settings-menu/UserSettingsMenu';
 import { SearchInputText } from '@/components/input/SearchInputText';
 import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 import { ModularBox } from '@/components/modular-box/ModularBox';
-import { IconPlus } from '@tabler/icons-react';
+import { IconCirclePlus, IconPlus } from '@tabler/icons-react';
+import { useMediaQuery } from '@mantine/hooks';
 
 type UserLayoutProps = {
     users: User[];
@@ -24,6 +25,9 @@ type UserLayoutProps = {
 }
 
 const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) => {
+
+    const match = useMediaQuery('(max-width: 700px)')
+
     const tableHook = useTable(users, 50);
 
     useEffect(() => {
@@ -58,37 +62,54 @@ const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) 
     ));
 
     return (
-        <>
-            <Flex direction='column' gap={rem(8)}>
-                <ModularBox>
-                    <Header text={'Usuarios'}>
-                        <Tooltip
-                            label={'Crear usuario'}
-                            withArrow>
-                            <ActionIcon radius='xl' size='sm' onClick={events.onCreate}>
-                                <IconPlus style={{ width: rem(16), height: rem(16) }} />
-                            </ActionIcon>
-                        </Tooltip>
-                    </Header>
-                </ModularBox>
+        <Flex h='100%' direction='column' gap={rem(8)}>
+            <ModularBox>
+                <Grid>
+                    <Grid.Col span={match ? 11 : 8}  >
+                        <SearchInputText
+                            placeholder="Buscar"
+                            value={tableHook.search}
+                            onChange={tableHook.onSearch}
+                        />
+                    </Grid.Col>
+                    <Grid.Col span={match ? 1 : 4}>
+                        <Flex direction='row' justify='flex-end' align='center' h='100%'>
+                            {
+                                match ?
+                                    <Tooltip
+                                        label={'Crear Usuario'}
+                                        withArrow>
+                                        <ActionIcon size='sm' onClick={events.onCreate} variant='transparent'>
+                                            <IconCirclePlus style={{ width: rem(24), height: rem(24) }} />
+                                        </ActionIcon>
+                                    </Tooltip> :
+                                    <Button
+                                        leftSection={
+                                            <IconPlus style={{ width: rem(12), height: rem(12) }} />
+                                        }
+                                        radius='xl'
+                                        size='xs'>
+                                        Nuevo usuario
+                                    </Button>
 
-                <ModularBox>
-                    <SearchInputText
-                        placeholder="Buscar"
-                        value={tableHook.search}
-                        onChange={tableHook.onSearch}
-                    />
+                            }
+                        </Flex>
+                    </Grid.Col>
+                </Grid>
+            </ModularBox>
 
-                    <OmegaTable
-                        loading={load}
-                        header={header}
-                        rows={rows}
-                        total={tableHook.total}
-                        page={tableHook.page}
-                        onPageChange={tableHook.setPage} />
-                </ModularBox>
-            </Flex>
-        </>
+            <ModularBox h='100%'>
+                <Header text={'Usuarios'} />
+
+                <OmegaTable
+                    loading={load}
+                    header={header}
+                    rows={rows}
+                    total={tableHook.total}
+                    page={tableHook.page}
+                    onPageChange={tableHook.setPage} />
+            </ModularBox>
+        </Flex>
     );
 }
 

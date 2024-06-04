@@ -1,5 +1,5 @@
 import { useAuth } from '@/hooks';
-import { ActionIcon, Avatar, Divider, Group, Menu, Text, rem } from '@mantine/core'
+import { ActionIcon, Avatar, Box, Divider, Group, Menu, Text, rem } from '@mantine/core'
 import { IconLogout } from '@tabler/icons-react'
 import React from 'react'
 
@@ -15,16 +15,15 @@ const TopbarMenu: React.FC = () => {
             <Menu.Dropdown>
                 <Menu.Item>
                     <Group>
-                        <Avatar
-                            variant='transparent'
-                            color='omegaColors' />
-
-                        <div>
+                        <Box>
                             <Text fw={500}>{`${user?.lastname} ${user?.name}`}</Text>
                             <Text size="xs" c="dimmed">
                                 {user?.email}
                             </Text>
-                        </div>
+                        </Box>
+                        <Avatar
+                            variant='transparent'
+                            color='omegaColors' />
                     </Group>
                 </Menu.Item>
                 <Divider />

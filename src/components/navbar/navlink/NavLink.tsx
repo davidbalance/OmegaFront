@@ -1,4 +1,4 @@
-import { Tooltip, rem } from '@mantine/core';
+import { Text, Tooltip, rem } from '@mantine/core';
 import Link, { LinkProps } from 'next/link'
 import React, { ForwardRefExoticComponent, RefAttributes } from 'react'
 import { IconProps, Icon } from '@tabler/icons-react';
@@ -34,7 +34,7 @@ const NavLink: React.FC<NavLinkProps> = ({ opened, link, active, ...props }) => 
                 <div className={classes.mainLinkInner}>
                     <link.icon size={20} className={classes.mainLinkIcon} stroke={1.5} />
                 </div>
-                <span className={(cx(classes.mainLinkText, { [classes.open]: opened }))}>{link.label}</span>
+                <Text component='span' className={(cx(classes.mainLinkText, { [classes.open]: opened }))}>{link.label}</Text>
             </Link>
         </Tooltip>
     )

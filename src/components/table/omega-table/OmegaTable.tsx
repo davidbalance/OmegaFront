@@ -37,11 +37,9 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
                                             loading ?
                                                 <Flex justify='center' align='center' c='omegaColors'>
                                                     <Loader size='sm' m='md' />
-                                                    <Text size='xs'>Cargando recursos...</Text>
+                                                    <Text>Cargando recursos...</Text>
                                                 </Flex>
-                                                : <Text
-                                                    ta="center"
-                                                    size='xs'>
+                                                : <Text ta="center">
                                                     Datos no encontrados
                                                 </Text>
                                         }
@@ -63,7 +61,7 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
                         withEdges />
                 </div>
             }
-        </Box>
+        </Box >
     )
 }
 

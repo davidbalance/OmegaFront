@@ -1,7 +1,7 @@
 .th {
     padding: 0;
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
+    border-top-left-radius: var(--mantine-radius-md);
+    border-top-right-radius: var(--mantine-radius-md);
     /* background-color: var(--mantine-color-omegaColors-5); */
     -webkit-user-select: none;
     -ms-user-select: none;

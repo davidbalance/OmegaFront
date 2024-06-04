@@ -35,6 +35,10 @@
     &:hover .mainLinkIcon {
       color: var(--mantine-color-omegaColors-light-color);
     }
+
+    & .mainLinkText{
+      font-weight: 500;
+    }
   }
 }
 
