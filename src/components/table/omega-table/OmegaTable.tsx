@@ -18,9 +18,13 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
 
     const matches = useMediaQuery("(min-width: 700px)");
 
+    const scrollAreaHeight = matches
+        ? (Math.floor(total) !== 0) ? 400 : 475
+        : (Math.floor(total) !== 0) ? 300 : 375
+
     return (
         <Box className={classes.outer}>
-            <ScrollArea h={matches ? 400 : 300} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+            <ScrollArea h={scrollAreaHeight} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
                 <Table horizontalSpacing="md" verticalSpacing="xs" layout='auto'>
                     <Table.Thead className={cx(classes.sticky, { [classes.scrolled]: scrolled })} c='omegaColors'>
                         <Table.Tr>
@@ -35,7 +39,7 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
                                     <OmegaTd colSpan={4}>
                                         {
                                             loading ?
-                                                <Flex justify='center' align='center' c='omegaColors'>
+                                                <Flex justify='center' align='center'>
                                                     <Loader size='sm' m='md' />
                                                     <Text>Cargando recursos...</Text>
                                                 </Flex>

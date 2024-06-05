@@ -20,7 +20,7 @@ enum LayoutStates {
 
 const User: React.FC = () => {
 
-    const userHook = useUser(true);
+    // const userHook = useUser(true);
 
     const [currentState, setCurrentState] = useState<LayoutStates>(LayoutStates.DEFAULT);
 
@@ -29,43 +29,43 @@ const User: React.FC = () => {
     const handleCreateEvent = () => { setCurrentState(LayoutStates.CREATE); }
 
     const handleModificationEvent = (index: number) => {
-        userHook.selectItem(index);
+        // userHook.selectItem(index);
         setCurrentState(LayoutStates.UPDATE_USER);
     }
 
     const handleConfigurationEvent = (index: number) => {
-        userHook.selectItem(index);
+        // userHook.selectItem(index);
         setCurrentState(LayoutStates.UPDATE_ROLES);
     }
 
     const handleChangePasswordEvent = (index: number) => {
-        userHook.selectItem(index);
+        // userHook.selectItem(index);
         setCurrentState(LayoutStates.UPDATE_PASSWORD);
     }
 
     const handleDeleteEvent = (index: number) => {
-        userHook.selectItem(index);
+        // userHook.selectItem(index);
         DeleteDisclosure.open();
     }
 
     const handleClose = () => {
-        userHook.clearSelection();
-        userHook.find();
+        // userHook.clearSelection();
+        // userHook.find();
         DeleteDisclosure.close();
         setCurrentState(LayoutStates.DEFAULT);
     }
 
     const view: Record<LayoutStates, React.ReactNode> = {
         [LayoutStates.CREATE]: <UserCreateForm onClose={handleClose} />,
-        [LayoutStates.UPDATE_USER]: <UserUpdateDataForm onClose={handleClose} user={userHook.user!} />,
-        [LayoutStates.UPDATE_PASSWORD]: <UserChangePassword email={userHook.user?.email!} onClose={handleClose} />,
-        [LayoutStates.UPDATE_ROLES]: <UserRoleAssign user={userHook.user?.id!} onClose={handleClose} />,
+        [LayoutStates.UPDATE_USER]: <>{/* <UserUpdateDataForm onClose={handleClose} user={} /> */}</>,
+        [LayoutStates.UPDATE_PASSWORD]: <UserChangePassword email={''} onClose={handleClose} />,
+        [LayoutStates.UPDATE_ROLES]: <UserRoleAssign user={0} onClose={handleClose} />,
         [LayoutStates.DEFAULT]:
             <>
-                <DeleteUserDialog opened={deleteState} user={userHook.user?.id || -1} onClose={handleClose} />
+                <DeleteUserDialog opened={deleteState} user={0} onClose={handleClose} />
                 <UserLayout
-                    load={userHook.loading}
-                    users={userHook.users}
+                    load={false}
+                    users={[]}
                     events={{
                         onCreate: handleCreateEvent,
                         onModification: handleModificationEvent,

@@ -1,9 +1,7 @@
 'use server'
 import dayjs from "dayjs";
 import { cookies } from "next/headers";
-
-const AUTH_TOKEN_COOKIE = process.env.NEXT_PUBLIC_AUTH_TOKEN_KEY || 'AUTH-TOKEN';
-const REFRESH_TOKEN_COOKIE = process.env.NEXT_PUBLIC_REFRESH_TOKEN_KEY || 'REFRESH-TOKEN';
+import { AUTH_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "./constants";
 
 export const getBearer = async (): Promise<string | undefined> => {
     const cookieStore = cookies();

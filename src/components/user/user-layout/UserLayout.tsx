@@ -3,7 +3,7 @@ import { OmegaTable } from '@/components/table';
 import OmegaTh from '@/components/table/omega-th/OmegaTh';
 import { useTable } from '@/hooks';
 import { User } from '@/services/api/user/dtos';
-import { ActionIcon, Button, Flex, Grid, GridCol, SimpleGrid, Table, Tooltip, rem } from '@mantine/core';
+import { ActionIcon, Button, Flex, Grid, Table, Tooltip, rem } from '@mantine/core';
 import React, { useEffect } from 'react'
 import UserSettingsMenu from '../user-settings-menu/UserSettingsMenu';
 import { SearchInputText } from '@/components/input/SearchInputText';
@@ -11,6 +11,9 @@ import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 import { ModularBox } from '@/components/modular-box/ModularBox';
 import { IconCirclePlus, IconPlus } from '@tabler/icons-react';
 import { useMediaQuery } from '@mantine/hooks';
+import { useFetch } from '@/hooks/useFetch';
+import endpoints from '@/services/endpoints/endpoints';
+import { notifications } from '@mantine/notifications';
 
 type UserLayoutProps = {
     users: User[];
@@ -26,15 +29,29 @@ type UserLayoutProps = {
 
 const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) => {
 
-    const match = useMediaQuery('(max-width: 700px)')
+    const match = useMediaQuery('(max-width: 700px)');
 
-    const tableHook = useTable(users, 50);
+    const { data, error, isLoading } = useFetch<{ users: User[] }>(endpoints.USER.V1.FIND, { cacheKey: 'find-many-user', auth: endpoints.AUTHENTICATION.V1 });
+
+    const tableHook = useTable<User>([], 50);
 
     useEffect(() => {
-        tableHook.setData(users);
+        if (data) {
+            tableHook.setData(data.users);
+        }
         return () => { }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [users]);
+    }, [data]);
+
+    useEffect(() => {
+        if (error) {
+            notifications.show({
+                message: error.message,
+                color: 'red'
+            });
+        }
+        return () => { }
+    }, [error]);
 
     const header = <>
         <OmegaTh sort={{ onSort: () => tableHook.setSorting('dni'), sorted: tableHook.sortBy === 'dni' }} >CI</OmegaTh>
@@ -87,6 +104,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) 
                                         leftSection={
                                             <IconPlus style={{ width: rem(12), height: rem(12) }} />
                                         }
+                                        onClick={events.onCreate}
                                         radius='xl'
                                         size='xs'>
                                         Nuevo usuario
@@ -102,7 +120,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) 
                 <Header text={'Usuarios'} />
 
                 <OmegaTable
-                    loading={load}
+                    loading={isLoading}
                     header={header}
                     rows={rows}
                     total={tableHook.total}

@@ -45,17 +45,20 @@ export const omegaTheme = createTheme({
         }),
         Input: Input.extend({
             defaultProps: {
-                size: "xs"
+                size: "sm",
+                radius: 'md'
             }
         }),
         PasswordInput: PasswordInput.extend({
             defaultProps: {
-                size: "xs"
+                size: "sm",
+                radius: 'md'
             }
         }),
         TextInput: TextInput.extend({
             defaultProps: {
-                size: "xs"
+                size: "sm",
+                radius: 'md'
             }
         }),
         ScrollArea: ScrollArea.extend({

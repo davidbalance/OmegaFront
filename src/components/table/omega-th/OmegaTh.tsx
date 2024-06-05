@@ -29,7 +29,7 @@ const OmegaTh: React.FC<OmegaTh> = ({ children, sort }) => {
                     onClick={handleSortClick}
                     className={classes.control}>
                     <Flex justify="space-between" align='center'>
-                        <Text fw={500}>
+                        <Text className={classes.text} fw={500}>
                             {children}
                         </Text>
                         <Center className={classes.icon}>
@@ -37,7 +37,7 @@ const OmegaTh: React.FC<OmegaTh> = ({ children, sort }) => {
                         </Center>
                     </Flex>
                 </UnstyledButton>
-                : <Text fw={500}>
+                : <Text className={classes.text} fw={500}>
                     {children}
                 </Text>
             }
