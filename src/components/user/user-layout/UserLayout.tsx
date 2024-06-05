@@ -11,9 +11,8 @@ import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 import { ModularBox } from '@/components/modular-box/ModularBox';
 import { IconCirclePlus, IconPlus } from '@tabler/icons-react';
 import { useMediaQuery } from '@mantine/hooks';
-import { useFetch } from '@/hooks/useFetch';
 import endpoints from '@/services/endpoints/endpoints';
-import { notifications } from '@mantine/notifications';
+import { CrudOptions } from '@/hooks/useCrud';
 
 type UserLayoutProps = {
     users: User[];
@@ -27,31 +26,21 @@ type UserLayoutProps = {
     load?: boolean
 }
 
+const getOptions: CrudOptions = { auth: { refresh: endpoints.AUTHENTICATION.V1.REFRESH } }
+
 const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) => {
 
     const match = useMediaQuery('(max-width: 700px)');
 
-    const { data, error, isLoading } = useFetch<{ users: User[] }>(endpoints.USER.V1.FIND, { cacheKey: 'find-many-user', auth: endpoints.AUTHENTICATION.V1 });
-
     const tableHook = useTable<User>([], 50);
 
     useEffect(() => {
-        if (data) {
-            tableHook.setData(data.users);
+        if (users) {
+            tableHook.setData(users);
         }
         return () => { }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
-
-    useEffect(() => {
-        if (error) {
-            notifications.show({
-                message: error.message,
-                color: 'red'
-            });
-        }
-        return () => { }
-    }, [error]);
+    }, [users]);
 
     const header = <>
         <OmegaTh sort={{ onSort: () => tableHook.setSorting('dni'), sorted: tableHook.sortBy === 'dni' }} >CI</OmegaTh>
@@ -120,7 +109,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) 
                 <Header text={'Usuarios'} />
 
                 <OmegaTable
-                    loading={isLoading}
+                    loading={load}
                     header={header}
                     rows={rows}
                     total={tableHook.total}
