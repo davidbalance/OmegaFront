@@ -4,10 +4,15 @@ type ListHandler<T> = {
     append: (data: T) => void;
     remove: (index: number) => void;
     update: (index: number, value: T) => void;
+    override: (data: T[]) => void;
 }
 
 const useList = <T extends object>(initialValues: T[]): [data: T[], handlers: ListHandler<T>] => {
     const [values, setValues] = useState<T[]>(initialValues);
+
+    const override = (data: T[]) => {
+        setValues(data);
+    }
 
     const append = useCallback((data: T) => {
         setValues([...values, data]);
@@ -19,11 +24,13 @@ const useList = <T extends object>(initialValues: T[]): [data: T[], handlers: Li
     }, [values]);
 
     const update = useCallback((index: number, newValue: T) => {
-        const copied = [...values];
-        copied[index] = newValue;
-        setValues(copied);
+        setValues(prevValues => {
+            const updatedValues = [...prevValues];
+            updatedValues[index] = newValue;
+            return updatedValues;
+        })
     }, [values]);
-    return [values, { append, remove, update }]
+    return [values, { append, remove, update, override }]
 }
 
 export { useList }

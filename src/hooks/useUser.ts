@@ -106,7 +106,7 @@ export const useUser = () => {
     const updateUser = usePatch<User>(endpoints.USER.V1.FIND_ONE_AND_UPDATE(user?.id ? `${user.id}` : ''), { fetchOnMount: false, auth: { refresh: endpoints.AUTHENTICATION.V1.REFRESH } });
     const deleteUser = useDelete<any>(endpoints.USER.V1.FIND_ONE_AND_DELETE(user?.id ? `${user.id}` : ''), { fetchOnMount: false, auth: { refresh: endpoints.AUTHENTICATION.V1.REFRESH } });
 
-    const [users, ListHandlers] = useList<User>(readUser.data?.users ?? []);
+    const [users, ListHandlers] = useList<User>([]);
 
     const handleUserSelection = (value: User | null) => setUser(value);
     const handleUserCreate = createUser.create;
@@ -116,6 +116,14 @@ export const useUser = () => {
             deleteUser.refresh();
         }
     }
+
+    useEffect(() => {
+        if (readUser.data) {
+            ListHandlers.override([...readUser.data.users]);
+        }
+        return () => { }
+    }, [readUser.data])
+
 
     useEffect(() => {
         if (createUser.user) {

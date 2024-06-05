@@ -67,7 +67,7 @@ const TableLayout: <T extends object, >(props: TableLayoutProps<T>) => React.Rea
                 <Table.Tr key={index}>
                     {
                         columns.map((e) =>
-                            <OmegaTd>{JSON.stringify(row[e.key])}</OmegaTd>
+                            <OmegaTd>{typeof row[e.key] === 'object' ? JSON.stringify(row[e.key]) : `${row[e.key]}`}</OmegaTd>
                         )
                     }
                     {
