@@ -2,13 +2,14 @@
 
 import React, { useEffect, useState } from 'react'
 import { useDisclosure } from '@mantine/hooks';
-import { useUser } from '@/hooks';
 import DeleteUserDialog from '@/components/user/delete-user-dialog/DeleteUserDialog';
-import UserLayout from '@/components/user/user-layout/UserLayout';
 import { UserCreateForm } from '@/components/user/user-create-form/UserCreateForm';
-import { UserUpdateDataForm } from '@/components/user/user-update-data-form/UserUpdateDataForm';
 import { UserChangePassword } from '@/components/user/user-change-password/UserChangePassword';
 import UserRoleAssign from '@/components/user/user-role-assign/UserRoleAssign';
+import { User as UserType } from '@/services/api/user/dtos';
+import { ColumnOptions, TableLayout } from '@/components/layout/table-layout/TableLayout';
+import { useUser } from '@/hooks/useUser';
+import { notifications } from '@mantine/notifications';
 
 enum LayoutStates {
     DEFAULT,
@@ -20,40 +21,54 @@ enum LayoutStates {
 
 const User: React.FC = () => {
 
-    // const userHook = useUser(true);
+    const { users, isLoading, error, create, update, remove, select } = useUser();
 
     const [currentState, setCurrentState] = useState<LayoutStates>(LayoutStates.DEFAULT);
 
     const [deleteState, DeleteDisclosure] = useDisclosure();
 
-    const handleCreateEvent = () => { setCurrentState(LayoutStates.CREATE); }
+    const handleCreateEvent = () => {
+        setCurrentState(LayoutStates.CREATE);
+    }
 
     const handleModificationEvent = (index: number) => {
-        // userHook.selectItem(index);
         setCurrentState(LayoutStates.UPDATE_USER);
     }
 
     const handleConfigurationEvent = (index: number) => {
-        // userHook.selectItem(index);
         setCurrentState(LayoutStates.UPDATE_ROLES);
     }
 
     const handleChangePasswordEvent = (index: number) => {
-        // userHook.selectItem(index);
         setCurrentState(LayoutStates.UPDATE_PASSWORD);
     }
 
     const handleDeleteEvent = (index: number) => {
-        // userHook.selectItem(index);
         DeleteDisclosure.open();
     }
 
     const handleClose = () => {
-        // userHook.clearSelection();
-        // userHook.find();
         DeleteDisclosure.close();
         setCurrentState(LayoutStates.DEFAULT);
     }
+
+    const columns: ColumnOptions<UserType>[] = [
+        { name: 'CI', key: 'dni' },
+        { name: 'Nombre', key: 'name' },
+        { name: 'Apellido', key: 'lastname' },
+        { name: 'Correo Electronico', key: 'email' },
+    ]
+
+    useEffect(() => {
+        if (error) {
+            notifications.show({
+                message: error.message,
+                color: 'red'
+            })
+        }
+        return () => { }
+    }, [error]);
+
 
     const view: Record<LayoutStates, React.ReactNode> = {
         [LayoutStates.CREATE]: <UserCreateForm onClose={handleClose} />,
@@ -63,16 +78,11 @@ const User: React.FC = () => {
         [LayoutStates.DEFAULT]:
             <>
                 <DeleteUserDialog opened={deleteState} user={0} onClose={handleClose} />
-                <UserLayout
-                    load={false}
-                    users={[]}
-                    events={{
-                        onCreate: handleCreateEvent,
-                        onModification: handleModificationEvent,
-                        onConfiguration: handleConfigurationEvent,
-                        onChangePassword: handleChangePasswordEvent,
-                        onDelete: handleDeleteEvent
-                    }} />
+                <TableLayout<UserType>
+                    title={'Usuarios'}
+                    columns={columns}
+                    data={users}
+                    isLoading={isLoading} />
             </>
     }
 

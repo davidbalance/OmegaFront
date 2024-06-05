@@ -1,131 +1,154 @@
-import { OmegaWebClientService, UserService } from "@/services/api";
+import endpoints from "@/services/endpoints/endpoints";
+import { useDelete, useGet, usePatch, usePost } from "./useCrud";
+import { useList } from "./useList";
+import { CreateUserRQ, UpdateUserRQ, User } from "@/services/api/user/dtos";
 import { FindAndUpdateACRolesRQ } from "@/services/api/access-control/dtos";
 import { CreateCredentialRQ } from "@/services/api/user-credential/dtos";
-import { CreateUserRQ, DeleteUserRQ, UpdateUserRQ, User } from "@/services/api/user/dtos";
-import endpoints from "@/services/endpoints/endpoints";
-import { useDisclosure } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
-import { useLayoutEffect, useState } from "react";
-import { useCredential } from "./useCredential";
-import { useAccessControl } from "./useAccessControl";
-import { useWebClient } from "./useWebClient";
+import { useEffect, useState } from "react";
+import { error } from "console";
 
-export const useUser = (loadOnStart: boolean = false) => {
+type CreateCredentialWithoutUser = Omit<CreateCredentialRQ, 'user'>;
+type UpdateACRoles = Omit<FindAndUpdateACRolesRQ, 'user'>;
+type UpdateLogo = { logo: number };
+type CreateUserParam = CreateUserRQ & CreateCredentialWithoutUser & UpdateACRoles & UpdateLogo;
 
-    const [loading, Disclosure] = useDisclosure();
-    const [users, setUsers] = useState<User[]>([]);
-    const [index, setIndex] = useState<number | undefined>(undefined);
+const useCreateUser = () => {
+    const postUser = usePost<User>(endpoints.USER.V1.CREATE, { fetchOnMount: false, auth: { refresh: endpoints.AUTHENTICATION.V1.REFRESH } });
+    const postCredential = usePost(endpoints.CREDENTIAL.V1.CREATE, { fetchOnMount: false, auth: { refresh: endpoints.AUTHENTICATION.V1.REFRESH } });
+    const patchAccessControl = usePatch(endpoints.ACCESS_CONTROL.V1.FIND_ONE_AND_UPDATE_ROLES(postUser.data?.id ? `${postUser.data?.id}` : ''), { fetchOnMount: false, auth: { refresh: endpoints.AUTHENTICATION.V1.REFRESH } });
+    const patchWebClient = usePatch(endpoints.OMEGA_WEB_CLIENT.V1.UPDATE_ONE_LOGO(postUser.data?.id ? `${postUser.data?.id}` : ''), { fetchOnMount: false, auth: { refresh: endpoints.AUTHENTICATION.V1.REFRESH } });
 
-    const userCredential = useCredential();
-    const accessControl = useAccessControl();
-    const omegaClientHook = useWebClient();
+    const [requestBody, setRequestBody] = useState<CreateUserParam | null>(null);
+    const [error, setError] = useState<Error | null>(null);
 
-    const userService = new UserService(endpoints.USER.V1);
+    const handleRequestBody = (body: CreateUserParam) => setRequestBody(body);
 
-    useLayoutEffect(() => {
-        if (loadOnStart) {
-            find();
+    const createUser = () => {
+        if (!requestBody) {
+            setError(new Error('Request body not added'));
+            return;
+        }
+        const { ...body }: CreateUserRQ = requestBody;
+        postUser.send(body);
+    }
+
+    const createCredential = () => {
+        if (!requestBody) {
+            setError(new Error('Request body not added'));
+            return;
+        }
+
+        if (postUser.data === null) {
+            setError(new Error('User not found'));
+            return;
+        }
+        const { ...data }: CreateCredentialWithoutUser = requestBody
+        const body: CreateCredentialRQ = { ...data, user: postUser.data.id! };
+        postCredential.send(body);
+    }
+
+    const updateRoles = () => {
+        if (!requestBody) {
+            setError(new Error('Request body not added'));
+            return;
+        }
+        if (postUser.data === null) {
+            setError(new Error('User not found'));
+            return;
+        }
+        const { ...body }: UpdateACRoles = requestBody
+        patchAccessControl.send(body);
+    }
+
+    const updateLogo = () => {
+        if (!requestBody) {
+            setError(new Error('Request body not added'));
+            return;
+        }
+        if (postUser.data === null) {
+            setError(new Error('User not found'));
+            return;
+        }
+        const { ...body }: UpdateLogo = requestBody
+        patchWebClient.send(body);
+    }
+
+    useEffect(() => {
+        if (requestBody) {
+            createUser();
         }
         return () => { }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [requestBody]);
 
-    const create = async ({ dni, email, lastname, name, password, roles, logo }: CreateUserRQ & Omit<CreateCredentialRQ, 'user'> & Omit<FindAndUpdateACRolesRQ, 'user'> & { logo: number }) => {
-        Disclosure.open();
-        try {
-            const createdUser = await userService.create({ dni, email, lastname, name });
-            const { id } = createdUser;
-            await userCredential.create({ email, password, user: id! });
-            await accessControl.updateRoles({ roles, user: id! });
-            await omegaClientHook.updateWebClientLogo({ user: id!, logo });
-            setUsers([...users, createdUser]);
-            Disclosure.close();
-            return createdUser;
-        } catch (error) {
-            notifications.show({
-                title: 'Error al crear un usuario',
-                message: 'Ha ocurrido un error al crear el usuario 😔',
-                color: 'red'
-            });
-            console.error(error);
-            Disclosure.close();
-            throw error;
+    useEffect(() => {
+        if (postUser.data) {
+            createCredential();
+            updateRoles();
+            updateLogo();
         }
-    }
-
-    const find = async () => {
-        Disclosure.open();
-        try {
-            const foundUsers = await userService.find();
-            setUsers(foundUsers);
-            Disclosure.close();
-            return foundUsers;
-        } catch (error) {
-            notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al obtener los usuarios del servidor 😔',
-                color: 'red'
-            });
-            console.error(error);
-            Disclosure.close();
-            throw error;
-        }
-    }
-
-    const update = async ({ id, ...params }: UpdateUserRQ) => {
-        Disclosure.open();
-        try {
-            const user = await userService.findOneAndUpdate({ id, ...params });
-            const index = users.findIndex((u) => u.id === id);
-            const newUsers = users;
-            user.id = id;
-            newUsers[index] = user;
-            setUsers(newUsers);
-            Disclosure.close();
-            return user;
-        } catch (error) {
-            notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al actualizar el usuario 😔',
-                color: 'red'
-            });
-            console.error(error);
-            Disclosure.close();
-            throw error;
-        }
-    }
-
-    const remove = async ({ id, ...params }: DeleteUserRQ) => {
-        Disclosure.open();
-        try {
-            await userService.findOneAndDelete({ id, ...params });
-            const newUsers = users.filter(e => e.id !== id);
-            setUsers(newUsers);
-            Disclosure.close();
-        } catch (error) {
-            notifications.show({
-                title: 'Error al obtener los usuarios',
-                message: 'Se produjo un error al eliminar un usuario 😔',
-                color: 'red'
-            });
-            console.error(error);
-            Disclosure.close();
-            throw error;
-        }
-    }
-
-    const selectItem = (index: number) => setIndex(index);
-    const clearSelection = () => setIndex(undefined);
+        return () => { }
+    }, [postUser.data]);
 
     return {
-        loading,
-        user: index !== undefined ? users[index] : undefined,
-        users,
-        create,
-        find,
-        update,
-        remove,
-        selectItem,
-        clearSelection
+        create: handleRequestBody,
+        user: postUser.data,
+        error: postUser.error || postCredential.error || patchAccessControl.error || patchWebClient.error || error,
+        isLoading: postUser.isLoading || postCredential.isLoading || patchAccessControl.isLoading || patchWebClient.isLoading
+    }
+}
+
+export const useUser = () => {
+
+    const [user, setUser] = useState<User | null>(null);
+
+    const createUser = useCreateUser();
+    const readUser = useGet<{ users: User[] }>(endpoints.USER.V1.FIND, { auth: { refresh: endpoints.AUTHENTICATION.V1.REFRESH } });
+    const updateUser = usePatch<User>(endpoints.USER.V1.FIND_ONE_AND_UPDATE(user?.id ? `${user.id}` : ''), { fetchOnMount: false, auth: { refresh: endpoints.AUTHENTICATION.V1.REFRESH } });
+    const deleteUser = useDelete<any>(endpoints.USER.V1.FIND_ONE_AND_DELETE(user?.id ? `${user.id}` : ''), { fetchOnMount: false, auth: { refresh: endpoints.AUTHENTICATION.V1.REFRESH } });
+
+    const [users, ListHandlers] = useList<User>(readUser.data?.users ?? []);
+
+    const handleUserSelection = (value: User | null) => setUser(value);
+    const handleUserCreate = createUser.create;
+    const handleUserUpdate = (params: UpdateUserRQ) => updateUser.send(params);
+    const handleUserDelete = () => {
+        if (user) {
+            deleteUser.refresh();
+        }
+    }
+
+    useEffect(() => {
+        if (createUser.user) {
+            ListHandlers.append(createUser.user);
+        }
+        return () => { }
+    }, [createUser.user]);
+
+    useEffect(() => {
+        if (updateUser.data) {
+            const index: number = [...users].findIndex((e) => e.id === updateUser.data?.id);
+            ListHandlers.update(index, updateUser.data);
+            setUser(null);
+        }
+        return () => { }
+    }, [updateUser.data]);
+
+    useEffect(() => {
+        if (deleteUser.data) {
+            const index: number = [...users].findIndex((e) => user?.id === e.id);
+            ListHandlers.remove(index);
+            setUser(null);
+        }
+        return () => { }
+    }, [deleteUser.data]);
+
+    return {
+        error: createUser.error || readUser.error || updateUser.error || deleteUser.error,
+        isLoading: createUser.isLoading || readUser.isLoading || updateUser.isLoading || deleteUser.isLoading,
+        users: users,
+        create: handleUserCreate,
+        update: handleUserUpdate,
+        remove: handleUserDelete,
+        select: handleUserSelection,
     }
 };

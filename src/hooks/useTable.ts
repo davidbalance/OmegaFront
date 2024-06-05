@@ -1,5 +1,5 @@
 import { chunk, sort } from "@/lib/utils/search";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export type TableHook<T extends object> = {
     rows: T[],

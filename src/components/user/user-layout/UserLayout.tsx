@@ -26,8 +26,6 @@ type UserLayoutProps = {
     load?: boolean
 }
 
-const getOptions: CrudOptions = { auth: { refresh: endpoints.AUTHENTICATION.V1.REFRESH } }
-
 const UserLayout: React.FC<UserLayoutProps> = ({ users, events, load = false }) => {
 
     const match = useMediaQuery('(max-width: 700px)');
