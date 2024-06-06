@@ -20,7 +20,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <Box mah='10vh'>
                 <Topbar burger={{ opened: opened, onClick: toggle }} />
             </Box>
-            <Box className={classes.outer} mah='90vh'>
+            <Box className={classes.outer} mah='90vh' pos='relative'>
                 <Navbar links={routes} logo={logo} opened={opened} onClose={close} />
                 <Box h='100%' w='100%'>
                     {children}

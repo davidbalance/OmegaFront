@@ -19,8 +19,8 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
     const matches = useMediaQuery("(min-width: 700px)");
 
     const scrollAreaHeight = matches
-        ? (Math.floor(total) !== 0) ? 400 : 475
-        : (Math.floor(total) !== 0) ? 300 : 375
+        ? 400
+        : 300
 
     return (
         <Box className={classes.outer}>

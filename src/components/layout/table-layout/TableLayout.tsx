@@ -33,7 +33,7 @@ type TableLayoutProps<T extends object> = {
     data: T[];
     isLoading: boolean;
     action?: ActionColumnOptions<T>;
-    dock?: React.ReactNode
+    dock?: React.ReactElement | React.ReactElement[]
 }
 
 const TableLayout: <T extends object, >(props: TableLayoutProps<T>) => React.ReactElement | null = ({ title, columns, data, action, dock, isLoading }) => {
@@ -65,20 +65,16 @@ const TableLayout: <T extends object, >(props: TableLayoutProps<T>) => React.Rea
         if (chunkData[page - 1]) {
             return chunkData[page - 1].map((row, index) => (
                 <Table.Tr key={index}>
-                    {
-                        columns.map((e) =>
-                            <OmegaTd>{typeof row[e.key] === 'object' ? JSON.stringify(row[e.key]) : `${row[e.key]}`}</OmegaTd>
-                        )
-                    }
-                    {
-                        action && <OmegaTd>{action.child}</OmegaTd>
-                    }
+                    {columns.map((e) =>
+                        <OmegaTd key={e.key as string}>{typeof row[e.key] === 'object' ? JSON.stringify(row[e.key]) : `${row[e.key]}`}</OmegaTd>
+                    )}
+                    {action && <OmegaTd key='action'>{React.cloneElement(action.child, { value: row })}</OmegaTd>}
                 </Table.Tr>
             ));
         } else {
-            return []
+            return [];
         }
-    }, [chunkData, page, columns, action])
+    }, [chunkData, page, columns, action]);
 
     const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
         FilterHandlers.setFilterText(event.target.value);
@@ -109,7 +105,6 @@ const TableLayout: <T extends object, >(props: TableLayoutProps<T>) => React.Rea
 
             <ModularBox h='100%'>
                 <Header text={title} />
-
                 <OmegaTable
                     loading={isLoading}
                     header={header}

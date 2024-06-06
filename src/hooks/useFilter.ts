@@ -1,37 +1,54 @@
 import { keys } from "@mantine/core";
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export type FilterHandlers<T> = {
     setFilterText: (value: string | null) => void;
 }
 
 export type FilterValues<T> = {
-    text: string | undefined
+    text: string | undefined;
 }
 
 const useFilter = <T extends object>(initialValues: T[], filterKeys: (keyof T)[] | null = null): [data: T[], handlers: FilterHandlers<T>, values: FilterValues<T>] => {
     const [data, setData] = useState<T[]>(initialValues);
     const [search, setSearch] = useState<string | null>(null);
+    const initialValuesRef = useRef<T[]>(initialValues);
+    const filterKeysRef = useRef<(keyof T)[] | null>(filterKeys);
 
     const filter = useCallback(() => {
         if (search === null) {
-            setData(initialValues);
+            setData(initialValuesRef.current);
             return;
         }
-        const query: string = search.toLocaleLowerCase().trim();
-        const filtered = initialValues.filter((item) =>
-            (filterKeys ?? keys(initialValues[0])).some((key) =>
-                `${item[key]}`.toLocaleLowerCase().includes(query)));
+        const query = search.toLowerCase().trim();
+        const keysToFilter = filterKeysRef.current ?? (keys(initialValuesRef.current[0]) as (keyof T)[]);
+
+        const filtered = initialValuesRef.current.filter(item =>
+            keysToFilter.some(key => `${item[key]}`.toLowerCase().includes(query))
+        );
+
         setData(filtered);
-    }, [initialValues, search, filterKeys]);
+    }, [search]);
+
+
+    useEffect(() => {
+        if (initialValuesRef.current !== initialValues) {
+            initialValuesRef.current = initialValues;
+            setData(initialValues);
+        }
+    }, [initialValues]);
+
+    useEffect(() => {
+        if (filterKeysRef.current !== filterKeys) {
+            filterKeysRef.current = filterKeys;
+        }
+    }, [filterKeys]);
 
     useEffect(() => {
         filter();
-        return () => { }
-    }, [filter])
+    }, [filter]);
 
     return [data, { setFilterText: setSearch }, { text: search || undefined }];
-
 }
 
-export { useFilter }
+export { useFilter };

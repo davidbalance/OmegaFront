@@ -154,6 +154,7 @@ export const useUser = () => {
         error: createUser.error || readUser.error || updateUser.error || deleteUser.error,
         isLoading: createUser.isLoading || readUser.isLoading || updateUser.isLoading || deleteUser.isLoading,
         users: users,
+        user: user,
         create: handleUserCreate,
         update: handleUserUpdate,
         remove: handleUserDelete,

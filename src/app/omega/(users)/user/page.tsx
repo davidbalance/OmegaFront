@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import DeleteUserDialog from '@/components/user/delete-user-dialog/DeleteUserDialog';
 import { UserCreateForm } from '@/components/user/user-create-form/UserCreateForm';
 import { UserChangePassword } from '@/components/user/user-change-password/UserChangePassword';
@@ -10,6 +10,9 @@ import { User as UserType } from '@/services/api/user/dtos';
 import { ColumnOptions, TableLayout } from '@/components/layout/table-layout/TableLayout';
 import { useUser } from '@/hooks/useUser';
 import { notifications } from '@mantine/notifications';
+import { ActionIcon, Button, Tooltip, rem } from '@mantine/core';
+import { IconCirclePlus, IconPlus } from '@tabler/icons-react';
+import events from 'events';
 
 enum LayoutStates {
     DEFAULT,
@@ -19,11 +22,36 @@ enum LayoutStates {
     UPDATE_ROLES,
 }
 
+const CreateUserButton: React.FC<{ match: boolean | undefined, onCreate: () => void }> = ({ match, onCreate }) => {
+    return <>
+        {
+            match ?
+                <Tooltip
+                    label={'Crear Usuario'}
+                    withArrow>
+                    <ActionIcon size='sm' onClick={onCreate} variant='transparent'>
+                        <IconCirclePlus style={{ width: rem(24), height: rem(24) }} />
+                    </ActionIcon>
+                </Tooltip> :
+                <Button
+                    leftSection={
+                        <IconPlus style={{ width: rem(12), height: rem(12) }} />
+                    }
+                    onClick={onCreate}
+                    radius='xl'
+                    size='xs'>
+                    Nuevo usuario
+                </Button>
+        }
+    </>
+}
+
 const User: React.FC = () => {
 
-    const { users, isLoading, error, create, update, remove, select } = useUser();
+    const { user, users, isLoading, error, create, update, remove, select } = useUser();
 
     const [currentState, setCurrentState] = useState<LayoutStates>(LayoutStates.DEFAULT);
+    const match = useMediaQuery('(max-width: 700px)');
 
     const [deleteState, DeleteDisclosure] = useDisclosure();
 
@@ -69,6 +97,9 @@ const User: React.FC = () => {
         return () => { }
     }, [error]);
 
+    const createUserDockButton = (
+        <CreateUserButton match={match} onCreate={handleCreateEvent} />
+    );
 
     const view: Record<LayoutStates, React.ReactNode> = {
         [LayoutStates.CREATE]: <UserCreateForm onClose={handleClose} />,
@@ -82,15 +113,16 @@ const User: React.FC = () => {
                     title={'Usuarios'}
                     columns={columns}
                     data={users}
-                    isLoading={isLoading} />
+                    isLoading={isLoading}
+                    action={{
+                        name: 'Acciones',
+                        child: <></>
+                    }}
+                    dock={[createUserDockButton]} />
             </>
     }
 
-    return <>
-        {
-            view[currentState]
-        }
-    </>
+    return <>{view[currentState]}</>
 }
 
 export default User
