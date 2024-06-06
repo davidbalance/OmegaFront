@@ -1,4 +1,5 @@
 .inner {
+  height: 100%;
   position: relative;
   padding-top: rem(200px);
   padding-bottom: rem(120px);
