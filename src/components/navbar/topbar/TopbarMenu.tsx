@@ -1,10 +1,14 @@
-import { useAuth } from '@/hooks';
+import { useAuth } from '@/hooks/useAuth/useAuth';
+import { useLocalStorage } from '@/hooks/useLocalStorage/useLocalStorage';
+import { USER_KEY } from '@/lib/constants';
+import { UserPreferenceData } from '@/lib/types/user-preferences.type';
 import { ActionIcon, Avatar, Box, Divider, Group, Menu, Text, rem } from '@mantine/core'
 import { IconLogout } from '@tabler/icons-react'
 import React from 'react'
 
 const TopbarMenu: React.FC = () => {
-    const { logout, user } = useAuth();
+    const [user] = useLocalStorage<UserPreferenceData | null>(USER_KEY, null);
+    const { logout } = useAuth();
     return (
         <Menu withArrow>
             <Menu.Target>

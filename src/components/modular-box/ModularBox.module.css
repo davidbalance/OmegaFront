@@ -1,4 +1,5 @@
 .box {
+  position: relative;
   width: 100%;
   background-color: var(--mantine-color-white);
   border-radius: var(--mantine-radius-md);

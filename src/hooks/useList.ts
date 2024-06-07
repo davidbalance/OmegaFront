@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-type ListHandler<T> = {
+export type ListHandler<T> = {
     append: (data: T) => void;
     remove: (index: number) => void;
     update: (index: number, value: T) => void;

@@ -6,7 +6,7 @@ import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
 
 
-export const useResource = (loadOnStart: boolean = false) => {
+export const useResources = (loadOnStart: boolean = false) => {
     const resourceService = new ResourceService(endpoints.RESOURCE.V1);
 
     const [loading, Disclosure] = useDisclosure();

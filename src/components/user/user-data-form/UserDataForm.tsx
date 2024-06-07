@@ -75,6 +75,7 @@ const UserDataForm = React.forwardRef<HTMLButtonElement, UserDataFormProps>(({ d
                 <TextInput
                     label="Cedula"
                     placeholder="17*******0"
+                    max={10}
                     leftSection={<IconId stroke={1.5} />}
                     disabled={disabledDni}
                     {...form.getInputProps('dni')}

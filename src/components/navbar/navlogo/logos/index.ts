@@ -6,7 +6,7 @@ export * from './EeqLogo'
 export * from './IpegesLogo'
 export * from './OmegaLogo'
 
-export const SystemLogo: Record<string, React.ElementType> = {
+export const SystemLogo = {
     omega: OmegaLogo,
     eeq: EeqLogo,
     ipeges: IpegesLogo
