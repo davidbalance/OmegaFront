@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 export type ListHandler<T> = {
     append: (data: T) => void;
-    remove: (index: number) => void;
+    remove: (key: keyof T, value: any) => void;
     update: (key: keyof T, value: any, newValue: T) => void;
     override: (data: T[]) => void;
 }
@@ -18,9 +18,13 @@ const useList = <T extends object>(initialValues: T[]): [data: T[], handlers: Li
         setValues([...values, data]);
     }, [values]);
 
-    const remove = useCallback((index: number) => {
-        const filtered: T[] = [...values.slice(0, index), ...values.slice(index + 1)];
-        setValues(filtered);
+    const remove = useCallback((key: keyof T, value: any) => {
+        setValues(prev => {
+            const updatedValues = [...prev];
+            const index = updatedValues.findIndex((e) => e[key] === value);
+            const filtered: T[] = [...values.slice(0, index), ...values.slice(index + 1)];
+            return filtered;
+        });
     }, [values]);
 
     const update = useCallback((key: keyof T, value: any, newValue: T) => {

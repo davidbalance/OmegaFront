@@ -9,6 +9,7 @@ import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import './globals.css';
 import { omegaTheme } from "@/lib/theme/omega-theme";
+import { Confirmation } from "@/contexts/confirmation/confirmation.context";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
@@ -32,7 +33,9 @@ export default function RootLayout({
         {/* <MantineProvider theme={{ white: "#F9F6EE" }}> */}
         <MantineProvider theme={omegaTheme}>
           <Notifications />
-          {children}
+          <Confirmation>
+            {children}
+          </Confirmation>
         </MantineProvider>
       </body>
     </html >

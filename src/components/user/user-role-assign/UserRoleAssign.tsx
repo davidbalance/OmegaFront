@@ -85,4 +85,4 @@ const UserRoleAssign: React.FC<UserRoleAssignProps> = ({ user, onClose }) => {
     )
 }
 
-export default UserRoleAssign
+export { UserRoleAssign }

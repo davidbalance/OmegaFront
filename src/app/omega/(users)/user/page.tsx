@@ -5,17 +5,16 @@ import { useMediaQuery } from '@mantine/hooks';
 import { User } from '@/services/api/user/dtos';
 import { ColumnOptions, TableLayout } from '@/components/layout/table-layout/TableLayout';
 import { notifications } from '@mantine/notifications';
-import { ActionIcon, Button, Tooltip, rem } from '@mantine/core';
+import { ActionIcon, Button, LoadingOverlay, Tooltip, rem } from '@mantine/core';
 import { IconCirclePlus, IconPlus } from '@tabler/icons-react';
-import { useGet } from '@/hooks/useCrud';
-import endpoints from '@/services/endpoints/endpoints';
 import { useList } from '@/hooks/useList';
 import { UserCreateForm } from '@/components/user/user-create-form/UserCreateForm';
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { UserActionColumn } from '@/components/user/user-action-column/UserActionColumn';
 import { UserUpdateDataForm } from '@/components/user/user-update-data-form/UserUpdateDataForm';
 import { UserChangePassword } from '@/components/user/user-change-password/UserChangePassword';
-import UserRoleAssign from '@/components/user/user-role-assign/UserRoleAssign';
+import { UserRoleAssign } from '@/components/user/user-role-assign/UserRoleAssign';
+import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 
 enum LayoutStates {
     DEFAULT,
@@ -57,7 +56,11 @@ const UserPage: React.FC = () => {
     const [currentState, setCurrentState] = useState<LayoutStates>(LayoutStates.DEFAULT);
     const [selected, setSelected] = useState<User | null>(null);
 
+    const deleteUserFetchHook = useFetch<any>(`/api/users/${selected?.id!}`, 'DELETE', { loadOnMount: false });
+
+    const deleteConfirmation = useConfirmation();
     const match = useMediaQuery('(max-width: 700px)');
+    const [shouldDeleteUser, setShouldDeleteUser] = useState<boolean>(false);
 
     const handleClickEventCreate = () => {
         setCurrentState(LayoutStates.CREATE);
@@ -76,6 +79,16 @@ const UserPage: React.FC = () => {
     const handleClickEventUpdateRole = (user: User) => {
         setSelected(user);
         setCurrentState(LayoutStates.UPDATE_ROLES);
+    }
+
+    const handleClickEventDeleteUser = async (user: User) => {
+        setSelected(user);
+        const confirmed = await deleteConfirmation.show("Eliminacion del usuario", `El usuario ${user.name} ${user.lastname} sera eliminado. ¿Está de acuerdo?`);
+        if (confirmed) {
+            setShouldDeleteUser(true);
+        } else {
+            setSelected(null);
+        }
     }
 
     const handleClickEventClose = () => {
@@ -100,16 +113,29 @@ const UserPage: React.FC = () => {
 
     useEffect(() => {
         if (error) {
-            notifications.show({
-                message: error.message,
-                color: 'red'
-            })
+            notifications.show({ message: error.message, color: 'red' });
+        } else if (deleteUserFetchHook.error) {
+            notifications.show({ message: deleteUserFetchHook.error.message, color: 'red' });
         }
-    }, [error]);
+    }, [error, deleteUserFetchHook.error]);
 
     useEffect(() => {
         if (data) { ListHandlers.override([...data]); }
     }, [data]);
+
+    useEffect(() => {
+        if (selected && shouldDeleteUser) {
+            deleteUserFetchHook.reload();
+            setShouldDeleteUser(false);
+        }
+    }, [selected, shouldDeleteUser]);
+
+    useEffect(() => {
+        if (deleteUserFetchHook.data) {
+            ListHandlers.remove('id', selected?.id!);
+            setSelected(null);
+        }
+    }, [deleteUserFetchHook.data]);
 
     const createUserDockButton = (
         <CreateUserButton key='create-user-dock' match={match} onCreate={handleClickEventCreate} />
@@ -121,27 +147,27 @@ const UserPage: React.FC = () => {
         [LayoutStates.UPDATE_PASSWORD]: <UserChangePassword onClose={handleClickEventClose} email={selected?.email!} />,
         [LayoutStates.UPDATE_ROLES]: <UserRoleAssign user={selected!} onClose={handleClickEventClose} />,
         [LayoutStates.DEFAULT]:
-            <>
-                {/* <DeleteUserDialog opened={deleteState} user={0} onClose={handleClose} /> */}
-                <TableLayout<User>
-                    title={'Usuarios'}
-                    columns={columns}
-                    data={users}
-                    isLoading={loading}
-                    action={{
-                        name: 'Acciones',
-                        child: (props) => <UserActionColumn
-                            onModification={() => handleClickEventUpdateUser(props.value)}
-                            onChangePassword={() => handleClickEventUpdatePassword(props.value)}
-                            onConfiguration={() => handleClickEventUpdateRole(props.value)}
-                            onDelete={() => { }}
-                            {...props} />
-                    }}
-                    dock={[createUserDockButton]} />
-            </>
+            <TableLayout<User>
+                title={'Usuarios'}
+                columns={columns}
+                data={users}
+                isLoading={loading}
+                action={{
+                    name: 'Acciones',
+                    child: (props) => <UserActionColumn
+                        onModification={() => handleClickEventUpdateUser(props.value)}
+                        onChangePassword={() => handleClickEventUpdatePassword(props.value)}
+                        onConfiguration={() => handleClickEventUpdateRole(props.value)}
+                        onDelete={() => handleClickEventDeleteUser(props.value)}
+                        {...props} />
+                }}
+                dock={[createUserDockButton]} />
     }
 
-    return <>{view[currentState]}</>
+    return <>
+        <LoadingOverlay visible={deleteUserFetchHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+        {view[currentState]}
+    </>
 }
 
 export default UserPage
