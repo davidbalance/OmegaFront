@@ -5,8 +5,8 @@ import { useMediaQuery } from '@mantine/hooks';
 import { User } from '@/services/api/user/dtos';
 import { ColumnOptions, TableLayout } from '@/components/layout/table-layout/TableLayout';
 import { notifications } from '@mantine/notifications';
-import { ActionIcon, Button, LoadingOverlay, Tooltip, rem } from '@mantine/core';
-import { IconCirclePlus, IconPlus } from '@tabler/icons-react';
+import { LoadingOverlay } from '@mantine/core';
+import { IconPlus } from '@tabler/icons-react';
 import { useList } from '@/hooks/useList';
 import { UserCreateForm } from '@/components/user/user-create-form/UserCreateForm';
 import { useFetch } from '@/hooks/useFetch/useFetch';
@@ -15,6 +15,7 @@ import { UserUpdateDataForm } from '@/components/user/user-update-data-form/User
 import { UserChangePassword } from '@/components/user/user-change-password/UserChangePassword';
 import { UserRoleAssign } from '@/components/user/user-role-assign/UserRoleAssign';
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
+import { ResponsiveButton } from '@/components/buttons/responsive-button/ResponsiveButton';
 
 enum LayoutStates {
     DEFAULT,
@@ -22,30 +23,6 @@ enum LayoutStates {
     UPDATE_USER,
     UPDATE_PASSWORD,
     UPDATE_ROLES,
-}
-
-const CreateUserButton: React.FC<{ match: boolean | undefined, onCreate: () => void }> = ({ match, onCreate }) => {
-    return <>
-        {
-            match ?
-                <Tooltip
-                    label={'Crear Usuario'}
-                    withArrow>
-                    <ActionIcon size='sm' onClick={onCreate} variant='transparent'>
-                        <IconCirclePlus style={{ width: rem(24), height: rem(24) }} />
-                    </ActionIcon>
-                </Tooltip> :
-                <Button
-                    leftSection={
-                        <IconPlus style={{ width: rem(12), height: rem(12) }} />
-                    }
-                    onClick={onCreate}
-                    radius='xl'
-                    size='xs'>
-                    Nuevo usuario
-                </Button>
-        }
-    </>
 }
 
 const UserPage: React.FC = () => {
@@ -138,7 +115,7 @@ const UserPage: React.FC = () => {
     }, [deleteUserFetchHook.data]);
 
     const createUserDockButton = (
-        <CreateUserButton key='create-user-dock' match={match} onCreate={handleClickEventCreate} />
+        <ResponsiveButton key='create-user-dock' onClick={handleClickEventCreate} label={'Nuevo usuario'} icon={<IconPlus />} />
     );
 
     const view: Record<LayoutStates, React.ReactNode> = {

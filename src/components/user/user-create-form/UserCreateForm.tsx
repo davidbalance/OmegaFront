@@ -1,5 +1,3 @@
-import { useUserCreate } from '@/hooks';
-import { useRole } from '@/hooks/useRole';
 import { LoadingOverlay, rem, Stepper, Flex, Text, Button, Container } from '@mantine/core';
 import { IconBuilding, IconChevronLeft, IconChevronRight, IconCircleCheck, IconDeviceFloppy, IconLicense, IconLock, IconUserCheck } from '@tabler/icons-react';
 import React, { useEffect, useRef, useState } from 'react'
@@ -12,8 +10,7 @@ import { ModularBox } from '@/components/modular-box/ModularBox';
 import { User } from '@/services/api/user/dtos';
 import { notifications } from '@mantine/notifications';
 import { useFetch } from '@/hooks/useFetch/useFetch';
-import endpoints from '@/services/endpoints/endpoints';
-import { clearTimeout } from 'timers';
+import { Role } from '@/services/api/role/dtos';
 
 type UserStepProps = {
     description: string; icon: React.ReactNode; step: {
@@ -31,7 +28,7 @@ type UserCreateFormProps = {
 const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onFormSubmit, matches }) => {
 
     const { data, error, loading, request, reload } = useFetch<User>('/api/users', 'POST', { loadOnMount: false });
-    const roleHook = useRole(true);
+    const getRoleFetchHook = useFetch<Role[]>('/api/roles', 'GET');
 
     const [active, setActive] = useState<number>(0);
     const [formData, setFormData] = useState<any>({});
@@ -54,7 +51,7 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onFormSubmit, 
             step: {
                 form: AssignRoleForm,
                 props: {
-                    roles: roleHook.roles
+                    roles: getRoleFetchHook.data
                 }
             }
         },

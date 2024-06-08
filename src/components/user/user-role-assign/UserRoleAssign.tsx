@@ -1,6 +1,6 @@
 import { LoadingOverlay, rem, Box, Button, Flex, Text } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import React, { Suspense, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 import { User } from '@/services/api/user/dtos';
 import { useFetch } from '@/hooks/useFetch/useFetch';
@@ -17,7 +17,7 @@ type UserRoleAssignProps = {
 
 const UserRoleAssign: React.FC<UserRoleAssignProps> = ({ user, onClose }) => {
 
-    const roleFetchHook = useFetch<Role[]>('/api/roles', 'GET');
+    const getRoleFetchHook = useFetch<Role[]>('/api/roles', 'GET');
     const getAccessControlHook = useFetch<FindOneACClientRS>(`/api/access-control/${user.id}`, 'GET');
     const patchAccessControlHook = useFetch<any>(`/api/access-control/${user.id}`, 'PATCH', { loadOnMount: false });
 
@@ -33,12 +33,12 @@ const UserRoleAssign: React.FC<UserRoleAssignProps> = ({ user, onClose }) => {
     useEffect(() => {
         if (getAccessControlHook.error) {
             notifications.show({ message: getAccessControlHook.error.message, color: 'red' });
-        } else if (roleFetchHook.error) {
-            notifications.show({ message: roleFetchHook.error.message, color: 'red' });
+        } else if (getRoleFetchHook.error) {
+            notifications.show({ message: getRoleFetchHook.error.message, color: 'red' });
         } else if (patchAccessControlHook.error) {
             notifications.show({ message: patchAccessControlHook.error.message, color: 'red' });
         }
-    }, [getAccessControlHook.error, roleFetchHook.error, patchAccessControlHook.error]);
+    }, [getAccessControlHook.error, getRoleFetchHook.error, patchAccessControlHook.error]);
 
     useEffect(() => {
         if (shouldSendRequest) {
@@ -55,7 +55,7 @@ const UserRoleAssign: React.FC<UserRoleAssignProps> = ({ user, onClose }) => {
 
     return (
         <>
-            <LoadingOverlay visible={getAccessControlHook.loading || roleFetchHook.loading || patchAccessControlHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+            <LoadingOverlay visible={getAccessControlHook.loading || getRoleFetchHook.loading || patchAccessControlHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <Flex h='100%' direction='column' gap={rem(8)}>
                 <SubLayoutFormTitle
                     title={'Formulario de asignacion de roles'}
@@ -68,7 +68,7 @@ const UserRoleAssign: React.FC<UserRoleAssignProps> = ({ user, onClose }) => {
                                 ? <AssignRoleForm
                                     ref={buttonRef}
                                     onSubmit={handleSubmit}
-                                    roles={roleFetchHook.data || []}
+                                    roles={getRoleFetchHook.data || []}
                                     data={{ roles: getAccessControlHook.data.roles.map(e => e.id) }} />
                                 : <Text>No se han encontrado roles</Text>
                         }

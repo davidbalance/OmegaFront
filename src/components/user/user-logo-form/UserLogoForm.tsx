@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Group, Radio, rem } from '@mantine/core'
 import { SystemLogo } from '@/components/navbar/navlogo/logos'
-import React, { ChangeEvent, FormEvent, ForwardedRef, useState } from 'react'
+import React, { FormEvent, ForwardedRef, useState } from 'react'
 
 type UserLogoFormProps = {
     onSubmit: (values: { logo: number }) => void;

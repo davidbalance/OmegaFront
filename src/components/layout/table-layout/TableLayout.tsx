@@ -9,7 +9,7 @@ import { useFilter } from '@/hooks/useFilter';
 import { useSort } from '@/hooks/useSort';
 import { Flex, Grid, Table, rem } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import React, { ChangeEvent, ReactElement, useMemo, useState } from 'react'
+import React, { ChangeEvent, useMemo, useState } from 'react'
 
 export type ColumnOptions<T extends object> = {
     name: string;
@@ -40,7 +40,7 @@ const TableLayout: <T extends object, >(props: TableLayoutProps<T>) => React.Rea
 
     const [filteredData, FilterHandlers, FilterValues] = useFilter(data, columns.map(e => e.key));
     const [sortedData, SortedHandlers, SortValues] = useSort(filteredData);
-    const [chunkData, ChunkHandlers, ChunkValues] = useChunk(sortedData);
+    const [chunkData, , ChunkValues] = useChunk(sortedData);
     const [page, setPage] = useState<number>(1);
 
     const sort = (key: any) => () => SortedHandlers.sortBy(key);

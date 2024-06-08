@@ -1,5 +1,5 @@
 import { User } from '@/services/api/user/dtos';
-import { LoadingOverlay, Group, rem, Box, Button, Flex, Container } from '@mantine/core';
+import { LoadingOverlay, rem, Box, Button, Flex } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useEffect, useRef, useState } from 'react'
 import UserDataForm from '../user-data-form/UserDataForm';
