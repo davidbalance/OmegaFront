@@ -11,6 +11,9 @@ import { UserLogoForm } from '../user-logo-form/UserLogoForm';
 import { ModularBox } from '@/components/modular-box/ModularBox';
 import { User } from '@/services/api/user/dtos';
 import { notifications } from '@mantine/notifications';
+import { useFetch } from '@/hooks/useFetch/useFetch';
+import endpoints from '@/services/endpoints/endpoints';
+import { clearTimeout } from 'timers';
 
 type UserStepProps = {
     description: string; icon: React.ReactNode; step: {
@@ -20,19 +23,19 @@ type UserStepProps = {
 }
 
 type UserCreateFormProps = {
-    matches: boolean | undefined,
-    loading: boolean;
+    matches: boolean | undefined;
     onClose: () => void;
     onFormSubmit: (user: User) => void;
 }
 
-const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onFormSubmit, loading, matches }) => {
+const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onFormSubmit, matches }) => {
 
-    const { user, error, isLoading, isComplete, create, clean } = useUserCreate();
+    const { data, error, loading, request, reload } = useFetch<User>('/api/users', 'POST', { loadOnMount: false });
     const roleHook = useRole(true);
 
     const [active, setActive] = useState<number>(0);
     const [formData, setFormData] = useState<any>({});
+    const [shouldSend, setShouldSend] = useState<boolean>(false);
 
     const steps: UserStepProps[] = [
         {
@@ -67,7 +70,7 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onFormSubmit, 
 
     const formReferences = useRef<React.RefObject<HTMLButtonElement>[]>(steps.map(() => React.createRef<HTMLButtonElement>()));
 
-    const nextStep = () => setActive((current) => (current < steps.length - 1 ? current + 1 : current));
+    const nextStep = () => setActive((current) => (current < steps.length ? current + 1 : current));
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
     const handleNextChange = () => {
@@ -81,16 +84,16 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onFormSubmit, 
         const newData = { ...formData, ...data };
         setFormData(newData);
         if (active === steps.length - 1) {
-            create(newData);
+            request(newData);
+            setTimeout(() => {
+                setShouldSend(true);
+            }, 500);
         } else {
             nextStep();
         }
     };
 
-    const handleClose = () => {
-        onClose();
-        clean();
-    }
+    const handleClose = () => onClose();
 
     useEffect(() => {
         if (error) {
@@ -99,19 +102,25 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onFormSubmit, 
                 color: 'red'
             });
         }
-    }, [error])
+    }, [error]);
 
     useEffect(() => {
-        if (isComplete && user) {
-            onFormSubmit(user);
+        if (shouldSend) {
+            reload();
+            setShouldSend(false);
+        }
+    }, [shouldSend, reload]);
+
+    useEffect(() => {
+        if (data) {
+            onFormSubmit(data);
             nextStep();
         }
-    }, [isComplete, user]);
-
+    }, [data])
 
     return (
         <>
-            <LoadingOverlay visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+            <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <Flex h='100%' direction='column' gap={rem(8)}>
                 <SubLayoutFormTitle
                     title={'Formulario de creacion de usuarios'}

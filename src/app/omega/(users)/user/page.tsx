@@ -11,6 +11,8 @@ import { useGet } from '@/hooks/useCrud';
 import endpoints from '@/services/endpoints/endpoints';
 import { useList } from '@/hooks/useList';
 import { UserCreateForm } from '@/components/user/user-create-form/UserCreateForm';
+import { useFetch } from '@/hooks/useFetch/useFetch';
+import { UserActionColumn } from '@/components/user/user-action-column/UserActionColumn';
 
 enum LayoutStates {
     DEFAULT,
@@ -46,23 +48,40 @@ const CreateUserButton: React.FC<{ match: boolean | undefined, onCreate: () => v
 
 const UserPage: React.FC = () => {
 
-    const { data, error, isLoading } = useGet<{ users: User[] }>(endpoints.USER.V1.FIND, {
-        auth: true, refreshURL: endpoints.AUTHENTICATION.V1.REFRESH
-    });
+    const { data, error, loading } = useFetch<User[]>('/api/users', 'GET');
     const [users, ListHandlers] = useList<User>([]);
 
     const [currentState, setCurrentState] = useState<LayoutStates>(LayoutStates.DEFAULT);
+    const [selected, setSelected] = useState<User | null>(null);
+
     const match = useMediaQuery('(max-width: 700px)');
 
     const handleClickEventCreate = () => {
         setCurrentState(LayoutStates.CREATE);
     }
 
-    const handleClose = () => {
+    const handleClickEventUpdateUser = (user: User) => {
+        setSelected(user);
+        setCurrentState(LayoutStates.UPDATE_USER);
+    }
+
+    const handleClickEventUpdatePassword = (user: User) => {
+        setSelected(user);
+        setCurrentState(LayoutStates.UPDATE_PASSWORD);
+    }
+
+    const handleClickEventUpdateRole = (user: User) => {
+        setSelected(user);
+        setCurrentState(LayoutStates.UPDATE_ROLES);
+    }
+
+    const handleClickEventClose = () => {
+        setSelected(null);
         setCurrentState(LayoutStates.DEFAULT);
     }
 
     const handleFormSubmittionEventCreate = (user: User) => {
+        console.log(user);
         ListHandlers.append(user);
     }
 
@@ -83,9 +102,7 @@ const UserPage: React.FC = () => {
     }, [error]);
 
     useEffect(() => {
-        if (data) {
-            ListHandlers.override([...data.users]);
-        }
+        if (data) { ListHandlers.override([...data]); }
     }, [data]);
 
     const createUserDockButton = (
@@ -93,7 +110,7 @@ const UserPage: React.FC = () => {
     );
 
     const view: Record<LayoutStates, React.ReactNode> = {
-        [LayoutStates.CREATE]: <UserCreateForm onClose={handleClose} matches={match} loading={isLoading} onFormSubmit={handleFormSubmittionEventCreate} />,
+        [LayoutStates.CREATE]: <UserCreateForm onClose={handleClickEventClose} matches={match} onFormSubmit={handleFormSubmittionEventCreate} />,
         [LayoutStates.UPDATE_USER]: <>{/* <UserUpdateDataForm onClose={handleClose} user={} /> */}</>,
         [LayoutStates.UPDATE_PASSWORD]: <>{/* <UserChangePassword email={''} onClose={handleClose} /> */}</>,
         [LayoutStates.UPDATE_ROLES]: <>{/* <UserRoleAssign user={0} onClose={handleClose} /> */}</>,
@@ -104,10 +121,15 @@ const UserPage: React.FC = () => {
                     title={'Usuarios'}
                     columns={columns}
                     data={users}
-                    isLoading={isLoading}
+                    isLoading={loading}
                     action={{
                         name: 'Acciones',
-                        child: <></>
+                        child: (props) => <UserActionColumn
+                            onChangePassword={() => { }}
+                            onDelete={() => { }}
+                            onConfiguration={() => { }}
+                            onModification={() => { }}
+                            {...props} />
                     }}
                     dock={[createUserDockButton]} />
             </>

@@ -30,16 +30,16 @@ export const red: MantineColorsTuple = [
 ]
 
 export const green: MantineColorsTuple = [
-    "#e5ffe4",
-    "#cfffcc",
-    "#a2ff9a",
-    "#70ff63",
-    "#46ff36",
-    "#2bff18",
-    "#16ff02",
-    "#00e300",
-    "#00ca00",
-    "#00ae00"
+    "#e8ffe7",
+    "#d5fad2",
+    "#acf3a6",
+    "#80ed76",
+    "#5be84e",
+    "#43e435",
+    "#35e226",
+    "#25c817",
+    "#1ab20f",
+    "#019a00"
 ]
 
 export const neutral: MantineColorsTuple = [

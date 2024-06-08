@@ -24,7 +24,7 @@ const fetchConfiguration = ({ method, body, headers, ...customInit }: Omit<Fetch
 
 const cache = new NodeCache();
 
-export const fetcher = async <T, R>(url: string, { method, body, cached = true, cachedExpirationSeconds = 60, type = 'json', ...request }: FetcherConfigurationOptions<T>): Promise<R> => {
+export const fetcher = async <T, R>(url: string, { method, body, cached = true, cachedExpirationSeconds = 60, type = 'json', headers, ...request }: FetcherConfigurationOptions<T>): Promise<R> => {
     const cacheKey = `${method}:${url}:${JSON.stringify(body)}`;
     const cacheData = cache.get<R>(cacheKey);
 
@@ -33,25 +33,29 @@ export const fetcher = async <T, R>(url: string, { method, body, cached = true, 
     }
 
     const configurationObject: RequestInit = fetchConfiguration({
-        headers: { 'Content-Type': 'application/json', ...request.headers },
+        headers: { 'Content-Type': 'application/json', ...headers },
         method,
         body: body ? JSON.stringify(body) : undefined,
         ...request
     });
 
-    const response = await fetch(url, configurationObject);
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new FetchError(response, `Failed to ${method}: ${response.url}`, errorData);
+    try {
+        const response = await fetch(url, configurationObject);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new FetchError(response, `Failed to ${method}: ${response.url}`, errorData);
+        }
+
+        const data = await response[type]();
+
+        if (cached) {
+            cache.set(cacheKey, data, cachedExpirationSeconds);
+        }
+
+        return data;
+    } catch (error) {
+        throw error;
     }
-
-    const data = await response[type]();
-
-    if (cached) {
-        cache.set(cacheKey, data, cachedExpirationSeconds);
-    }
-
-    return data;
 }
 
 export interface GetFetcherConfigurationOptions extends Omit<FetcherConfigurationOptions<any>, 'method' | 'body'> { }

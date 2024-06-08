@@ -16,15 +16,13 @@ export type ColumnOptions<T extends object> = {
     key: keyof T;
 }
 
-type ActionColumnProps<T extends object> = {
+export type ActionColumnProps<T extends object> = {
     value: T
 }
 
-type ActionColumnChildElement<T extends object> = ReactElement<ActionColumnProps<T>>
-
 type ActionColumnOptions<T extends object> = {
     name: string;
-    child: ActionColumnChildElement<T>
+    child: (props: ActionColumnProps<T>) => React.ReactElement<ActionColumnProps<T>>
 }
 
 type TableLayoutProps<T extends object> = {
@@ -68,7 +66,7 @@ const TableLayout: <T extends object, >(props: TableLayoutProps<T>) => React.Rea
                     {columns.map((e) =>
                         <OmegaTd key={e.key as string}>{typeof row[e.key] === 'object' ? JSON.stringify(row[e.key]) : `${row[e.key]}`}</OmegaTd>
                     )}
-                    {action && <OmegaTd key='action'>{React.cloneElement(action.child, { value: row })}</OmegaTd>}
+                    {action && <OmegaTd key='action'>{action.child({ value: row })}</OmegaTd>}
                 </Table.Tr>
             ));
         } else {

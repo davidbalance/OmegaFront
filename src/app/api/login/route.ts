@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
         const preferences = await getPreferences(endpoints.OMEGA_WEB_CLIENT.V1.FIND_ONE, {});
         
         const getUser = withAuth<any, UserPreferenceData>(get, DEFAULT_WITH_LOGIN_OPTIONS);
-        const user = await getUser(endpoints.USER.V1.FIND_ONE, {});
+        const user = await getUser(endpoints.USER.V1.FIND_ONE, { cached: false });
 
         return NextResponse.json({ ...preferences, user }, { status: 200 });
     } catch (error) {

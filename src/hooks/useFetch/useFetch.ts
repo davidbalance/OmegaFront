@@ -56,7 +56,7 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
         if (loadOnMount) {
             handleFetch();
         }
-    }, [loadOnMount, handleFetch]);
+    }, [loadOnMount]);
 
     const request = (body: any | null) => {
         setBody(body);
