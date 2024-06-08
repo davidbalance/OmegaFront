@@ -42,6 +42,7 @@ const UserUpdateDataForm: React.FC<UserUpdateDataFormProps> = ({ onClose, user, 
     useEffect(() => {
         if (data) {
             onFormSubmittion(data);
+            onClose();
         }
     }, [data])
 
@@ -55,7 +56,7 @@ const UserUpdateDataForm: React.FC<UserUpdateDataFormProps> = ({ onClose, user, 
                     onClose={onClose} />
 
                 <ModularBox flex={1} align='center'>
-                    <Box pt={rem(16)} px='lg' w='100%' maw={rem(700)}>
+                    <Box pt={rem(16)} w='100%' maw={rem(700)}>
                         <UserDataForm
                             onSubmit={handleSubmit}
                             data={user}

@@ -48,21 +48,19 @@ const AuthenticationPasswordForm = React.forwardRef<HTMLButtonElement, Authentic
     });
 
     return (
-        <Box component='form' onSubmit={form.onSubmit(onSubmit)} miw={400}>
+        <Box component='form' onSubmit={form.onSubmit(onSubmit)}>
             <PasswordInput
                 label='Contraseña'
                 placeholder='Contraseña'
-                leftSection={<IconLock stroke={1.5} size={15} />}
+                leftSection={<IconLock stroke={1.5} size={16} />}
                 style={{ marginBottom: rem(16) }}
-                size='xs'
                 {...form.getInputProps('password')}
             />
 
             <PasswordInput
                 label='Confirmar Contraseña'
                 placeholder='Confirmar Contraseña'
-                leftSection={<IconLock stroke={1.5} size={15} />}
-                size='xs'
+                leftSection={<IconLock stroke={1.5} size={16} />}
                 style={{ marginBottom: rem(16) }}
                 {...form.getInputProps('confirmPassword')}
             />

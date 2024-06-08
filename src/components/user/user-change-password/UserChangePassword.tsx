@@ -1,9 +1,13 @@
 import { AuthenticationPasswordForm } from '@/components/authentication/authentication-password';
+import { ModularBox } from '@/components/modular-box/ModularBox';
 import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 import { useCredential } from '@/hooks/useCredential';
-import { ActionIcon, Box, Button, Group, LoadingOverlay, rem, Text, Title } from '@mantine/core';
-import { IconDeviceFloppy, IconX } from '@tabler/icons-react';
-import React, { useRef } from 'react'
+import { useFetch } from '@/hooks/useFetch/useFetch';
+import endpoints from '@/services/endpoints/endpoints';
+import { Box, Button, Flex, Group, LoadingOverlay, rem } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconDeviceFloppy } from '@tabler/icons-react';
+import React, { useEffect, useRef, useState } from 'react'
 
 type UserChangePasswordProps = {
     email: string;
@@ -11,41 +15,58 @@ type UserChangePasswordProps = {
 }
 const UserChangePassword: React.FC<UserChangePasswordProps> = ({ email, onClose }) => {
 
-    const credentialHook = useCredential();
+    const { data, error, loading, request, reload } = useFetch('/api/credential', 'PATCH', { loadOnMount: false });
     const buttonRef = useRef<HTMLButtonElement>(null);
+    const [shouldSendRequest, setShouldSendRequest] = useState<boolean>(false);
 
     const handleSubmit = async (password: string) => {
-        try {
-            await credentialHook.update({ email, password });
-            onClose();
-        } catch (error) { }
+        request({ email, password });
+        setTimeout(() => {
+            setShouldSendRequest(true);
+        }, 500);
     }
+
+    useEffect(() => {
+        if (shouldSendRequest) {
+            reload();
+            setShouldSendRequest(false);
+        }
+    }, [shouldSendRequest]);
+
+    useEffect(() => {
+        if (error) {
+            notifications.show({ message: error.message, color: 'red' });
+        }
+    }, [error])
+
+
+    useEffect(() => {
+        if (data) {
+            onClose();
+        }
+    }, [data])
 
     return (
         <>
-            <LoadingOverlay visible={credentialHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+            <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+            <Flex h='100%' direction='column' gap={rem(8)}>
+                <SubLayoutFormTitle
+                    title={'Formulario de modificacion de contraseña'}
+                    onClose={onClose} />
 
-            <SubLayoutFormTitle
-                title={'Formulario de modificacion de contraseña'}
-                onClose={onClose} />
-
-            <Group justify='center'>
-                <Box pt={rem(32)} px='lg'>
-                    <AuthenticationPasswordForm
-                        onSubmit={({ password }) => handleSubmit(password)}
-                        ref={buttonRef} />
-                    <Group justify="center" mt="xl">
-                        <Button
-                            onClick={() => buttonRef.current?.click()}
-                            leftSection={
-                                <IconDeviceFloppy
-                                    style={{ width: rem(18), height: rem(18) }}
-                                    stroke={1.5} />}>Guardar
-                        </Button>
-                    </Group>
-
-                </Box>
-            </Group>
+                <ModularBox flex={1} align='center'>
+                    <Box maw={700} w='100%' pt={rem(16)} >
+                        <AuthenticationPasswordForm
+                            onSubmit={({ password }) => handleSubmit(password)}
+                            ref={buttonRef} />
+                    </Box>
+                </ModularBox>
+                <ModularBox direction='row'>
+                    <Button flex={1} size='xs' onClick={() => buttonRef.current?.click()} leftSection={
+                        <IconDeviceFloppy style={{ width: rem(18), height: rem(18) }} stroke={1.5} />}>Guardar
+                    </Button>
+                </ModularBox>
+            </Flex>
         </>
     )
 }

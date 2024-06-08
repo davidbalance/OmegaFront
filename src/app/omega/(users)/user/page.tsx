@@ -14,6 +14,7 @@ import { UserCreateForm } from '@/components/user/user-create-form/UserCreateFor
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { UserActionColumn } from '@/components/user/user-action-column/UserActionColumn';
 import { UserUpdateDataForm } from '@/components/user/user-update-data-form/UserUpdateDataForm';
+import { UserChangePassword } from '@/components/user/user-change-password/UserChangePassword';
 
 enum LayoutStates {
     DEFAULT,
@@ -116,7 +117,7 @@ const UserPage: React.FC = () => {
     const view: Record<LayoutStates, React.ReactNode> = {
         [LayoutStates.CREATE]: <UserCreateForm onClose={handleClickEventClose} matches={match} onFormSubmit={handleFormSubmittionEventCreate} />,
         [LayoutStates.UPDATE_USER]: <UserUpdateDataForm onClose={handleClickEventClose} user={selected!} onFormSubmittion={handleFormSubmittionEventUpdateUser} />,
-        [LayoutStates.UPDATE_PASSWORD]: <>{/* <UserChangePassword email={''} onClose={handleClose} /> */}</>,
+        [LayoutStates.UPDATE_PASSWORD]: <UserChangePassword onClose={handleClickEventClose} email={selected?.email!} />,
         [LayoutStates.UPDATE_ROLES]: <>{/* <UserRoleAssign user={0} onClose={handleClose} /> */}</>,
         [LayoutStates.DEFAULT]:
             <>
@@ -130,7 +131,7 @@ const UserPage: React.FC = () => {
                         name: 'Acciones',
                         child: (props) => <UserActionColumn
                             onModification={() => handleClickEventUpdateUser(props.value)}
-                            onChangePassword={() => { }}
+                            onChangePassword={() => handleClickEventUpdatePassword(props.value)}
                             onDelete={() => { }}
                             onConfiguration={() => { }}
                             {...props} />
