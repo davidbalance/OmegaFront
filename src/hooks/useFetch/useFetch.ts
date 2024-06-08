@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type FetchResult<T> = FetchHookResult<T> & {
     status: number | null;
-    request: (body: any) => void;
+    request: <R>(body: R) => void;
     reload: () => void;
 }
 
@@ -39,7 +39,7 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
             const json = await response.json();
             setStatus(response.status);
             if (!response.ok) {
-                setError(new Error(json.message || 'Something went wrong'));
+                setError(new Error(json.message || 'Algo salió mal!'));
             } else {
                 setData(json);
             }
@@ -58,7 +58,7 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
         }
     }, [loadOnMount]);
 
-    const request = (body: any | null) => {
+    const request = <R>(body: R | null) => {
         setBody(body);
     }
 

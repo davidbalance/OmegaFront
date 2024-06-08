@@ -63,7 +63,7 @@ const UserChangePassword: React.FC<UserChangePasswordProps> = ({ email, onClose 
                 </ModularBox>
                 <ModularBox direction='row'>
                     <Button flex={1} size='xs' onClick={() => buttonRef.current?.click()} leftSection={
-                        <IconDeviceFloppy style={{ width: rem(18), height: rem(18) }} stroke={1.5} />}>Guardar
+                        <IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>Guardar
                     </Button>
                 </ModularBox>
             </Flex>

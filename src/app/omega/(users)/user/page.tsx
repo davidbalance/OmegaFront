@@ -15,6 +15,7 @@ import { useFetch } from '@/hooks/useFetch/useFetch';
 import { UserActionColumn } from '@/components/user/user-action-column/UserActionColumn';
 import { UserUpdateDataForm } from '@/components/user/user-update-data-form/UserUpdateDataForm';
 import { UserChangePassword } from '@/components/user/user-change-password/UserChangePassword';
+import UserRoleAssign from '@/components/user/user-role-assign/UserRoleAssign';
 
 enum LayoutStates {
     DEFAULT,
@@ -118,7 +119,7 @@ const UserPage: React.FC = () => {
         [LayoutStates.CREATE]: <UserCreateForm onClose={handleClickEventClose} matches={match} onFormSubmit={handleFormSubmittionEventCreate} />,
         [LayoutStates.UPDATE_USER]: <UserUpdateDataForm onClose={handleClickEventClose} user={selected!} onFormSubmittion={handleFormSubmittionEventUpdateUser} />,
         [LayoutStates.UPDATE_PASSWORD]: <UserChangePassword onClose={handleClickEventClose} email={selected?.email!} />,
-        [LayoutStates.UPDATE_ROLES]: <>{/* <UserRoleAssign user={0} onClose={handleClose} /> */}</>,
+        [LayoutStates.UPDATE_ROLES]: <UserRoleAssign user={selected!} onClose={handleClickEventClose} />,
         [LayoutStates.DEFAULT]:
             <>
                 {/* <DeleteUserDialog opened={deleteState} user={0} onClose={handleClose} /> */}
@@ -132,8 +133,8 @@ const UserPage: React.FC = () => {
                         child: (props) => <UserActionColumn
                             onModification={() => handleClickEventUpdateUser(props.value)}
                             onChangePassword={() => handleClickEventUpdatePassword(props.value)}
+                            onConfiguration={() => handleClickEventUpdateRole(props.value)}
                             onDelete={() => { }}
-                            onConfiguration={() => { }}
                             {...props} />
                     }}
                     dock={[createUserDockButton]} />

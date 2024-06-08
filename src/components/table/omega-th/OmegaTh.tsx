@@ -1,8 +1,9 @@
-import { Center, Group, Table, UnstyledButton, rem, Text, Flex } from '@mantine/core';
+import { Center, Table, UnstyledButton, rem, Text, Flex } from '@mantine/core';
 import React from 'react'
 import { IconChevronUp, IconChevronDown, IconSelector } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './OmegaTh.module.css'
+import cx from 'clsx';
 
 type OmegaTh = {
     children: React.ReactNode;
@@ -37,7 +38,7 @@ const OmegaTh: React.FC<OmegaTh> = ({ children, sort }) => {
                         </Center>
                     </Flex>
                 </UnstyledButton>
-                : <Text className={classes.text} fw={500}>
+                : <Text className={cx(classes.text, classes.control)} fw={500}>
                     {children}
                 </Text>
             }

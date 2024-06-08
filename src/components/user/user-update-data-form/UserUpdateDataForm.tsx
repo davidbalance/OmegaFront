@@ -10,7 +10,7 @@ import { ModularBox } from '@/components/modular-box/ModularBox';
 
 type UserUpdateDataFormProps = {
     user: User;
-    onFormSubmittion: (user: User) => void;
+    onFormSubmittion?: (user: User) => void;
     onClose: () => void;
 }
 
@@ -41,7 +41,7 @@ const UserUpdateDataForm: React.FC<UserUpdateDataFormProps> = ({ onClose, user, 
 
     useEffect(() => {
         if (data) {
-            onFormSubmittion(data);
+            onFormSubmittion?.(data);
             onClose();
         }
     }, [data])
@@ -68,7 +68,7 @@ const UserUpdateDataForm: React.FC<UserUpdateDataFormProps> = ({ onClose, user, 
 
                 <ModularBox direction='row'>
                     <Button flex={1} size='xs' onClick={() => buttonRef.current?.click()} leftSection={
-                        <IconDeviceFloppy style={{ width: rem(18), height: rem(18) }} stroke={1.5} />}>Guardar
+                        <IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>Guardar
                     </Button>
                 </ModularBox>
 

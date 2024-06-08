@@ -28,12 +28,12 @@ const CreateRoleFormDrawer: React.FC<CreateRoleFormDrawerProps> = ({ onClose, on
     const steps: RoleStepProps[] = [
         {
             description: 'Nombre del Rol',
-            icon: <IconUserCheck style={{ width: rem(18), height: rem(18) }} />,
+            icon: <IconUserCheck style={{ width: rem(16), height: rem(16) }} />,
             step: { form: RoleForm, props: {} }
         },
         {
             description: 'Asignacion de roles',
-            icon: <IconLicense style={{ width: rem(18), height: rem(18) }} />,
+            icon: <IconLicense style={{ width: rem(16), height: rem(16) }} />,
             step: {
                 form: AssignResourceForm,
                 props: {
@@ -90,7 +90,7 @@ const CreateRoleFormDrawer: React.FC<CreateRoleFormDrawerProps> = ({ onClose, on
                 onStepClick={setActive}
                 allowNextStepsSelect={false}
                 px={rem(64)}
-                completedIcon={<IconCircleCheck style={{ width: rem(18), height: rem(18) }} />}
+                completedIcon={<IconCircleCheck style={{ width: rem(16), height: rem(16) }} />}
                 style={{ height: rem(750) }}>
                 {
                     steps.map((step, index) => (
@@ -138,7 +138,7 @@ const CreateRoleFormDrawer: React.FC<CreateRoleFormDrawerProps> = ({ onClose, on
                                         onClick={handleNextChange}
                                         leftSection={
                                             <IconDeviceFloppy
-                                                style={{ width: rem(18), height: rem(18) }}
+                                                style={{ width: rem(16), height: rem(16) }}
                                                 stroke={1.5} />}>Guardar
                                     </Button>
                             }

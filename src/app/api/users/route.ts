@@ -3,9 +3,8 @@ import { get, patch, post } from "@/lib/fetcher/fetcher";
 import { DEFAULT_WITH_AUTH_OPTIONS, withAuth } from "@/lib/fetcher/with-fetch.utils";
 import { FindAndUpdateACRolesRQ } from "@/services/api/access-control/dtos";
 import { CreateCredentialRQ } from "@/services/api/user-credential/dtos";
-import { CreateUserRQ, UpdateUserRS, User } from "@/services/api/user/dtos";
+import { CreateUserRQ, User } from "@/services/api/user/dtos";
 import endpoints from "@/services/endpoints/endpoints";
-import { NextApiRequest } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {

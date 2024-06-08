@@ -25,7 +25,7 @@ type UserStepProps = {
 type UserCreateFormProps = {
     matches: boolean | undefined;
     onClose: () => void;
-    onFormSubmit: (user: User) => void;
+    onFormSubmit?: (user: User) => void;
 }
 
 const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onFormSubmit, matches }) => {
@@ -113,7 +113,7 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onFormSubmit, 
 
     useEffect(() => {
         if (data) {
-            onFormSubmit(data);
+            onFormSubmit?.(data);
             nextStep();
         }
     }, [data])

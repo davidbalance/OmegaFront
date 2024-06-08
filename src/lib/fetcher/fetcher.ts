@@ -54,6 +54,7 @@ export const fetcher = async <T, R>(url: string, { method, body, cached = true, 
 
         return data;
     } catch (error) {
+        console.log(error);
         throw error;
     }
 }

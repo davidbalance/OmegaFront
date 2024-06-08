@@ -81,13 +81,13 @@ const DoctorSignatureUpload: React.FC<DoctorSignatureUploadProps> = ({ doctor, o
                         variant='outline'
                         leftSection={
                             <IconForbid
-                                style={{ width: rem(18), height: rem(18) }}
+                                style={{ width: rem(16), height: rem(16) }}
                                 stroke={1.5} />}>Cancelar</Button>
                     <Button
                         onClick={handleUpload}
                         leftSection={
                             <IconDeviceFloppy
-                                style={{ width: rem(18), height: rem(18) }}
+                                style={{ width: rem(16), height: rem(16) }}
                                 stroke={2} />}>Aceptar</Button>
                 </Group>
             </Modal>

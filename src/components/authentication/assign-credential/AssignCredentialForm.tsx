@@ -51,7 +51,7 @@ const AssignCredentialForm: React.FC<AssignCredentialProps> = ({ email, user, ..
                     onClick={() => buttonRef.current?.click()}
                     leftSection={
                         <IconDeviceFloppy
-                            style={{ width: rem(18), height: rem(18) }}
+                            style={{ width: rem(16), height: rem(16) }}
                             stroke={1.5} />}>Guardar
                 </Button>
             </Group>
