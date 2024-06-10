@@ -1,15 +1,10 @@
-import { useTable } from '@/hooks';
-import { rem, Text, Flex, Space, Box, Pagination, ScrollArea, Title, ActionIcon } from '@mantine/core';
-import React, { useEffect } from 'react'
+import { Text, Box, Button, Flex, rem, ActionIcon, Title, SimpleGrid } from '@mantine/core';
+import React, { useMemo, useState } from 'react'
 import { Patient } from '@/services/api/patient/dtos';
 import { User } from '@/services/api/user/dtos';
-import { Header } from '@/components/header/Header';
-import { PatientCollapsableRow } from '../patient-table/PatientCollapsableRow';
-import PatientTh from '../patient-table/patient-th/PatientTh';
-import { SearchInputText } from '@/components/input/SearchInputText';
-import { ModularBox } from '@/components/modular-box/ModularBox';
-import { IconDotsVertical, IconFolder, IconFolderOpen, IconGridDots, IconMenu2 } from '@tabler/icons-react';
-import { MultipleLayerItem } from '@/components/list/multiple-layer-item/MultipleLayerItem';
+import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
+import ListLayout, { ListRowElement } from '@/components/layout/list-layout/ListLayout';
+import { IconDotsVertical, IconFolder, IconSettings } from '@tabler/icons-react';
 
 type PatientLayoutDataType = Omit<Patient, 'user'> & Omit<User, 'id'>;
 const parsePatient = (medicalResults: Patient[]): PatientLayoutDataType[] => medicalResults.map<PatientLayoutDataType>((e) => ({
@@ -22,93 +17,70 @@ const parsePatient = (medicalResults: Patient[]): PatientLayoutDataType[] => med
     gender: e.gender
 }));
 
-type PatientLayoutProps = {
-    load: boolean;
-    patients: Patient[];
+interface ListElement<T> {
+    key: keyof T;
+    name: string;
 }
-const PatientLayout: React.FC<PatientLayoutProps> = ({ patients, load }) => {
 
-    const tableHook = useTable(parsePatient(patients), 50);
+interface PatientLayoutProps {
+    data: any[];
+}
 
-    useEffect(() => {
-        tableHook.setData(parsePatient(patients));
-        return () => { }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [patients]);
+type TestType = { sample: string, sample2: string, sample3: string };
 
-    const header: React.ReactElement[] = [
-        <PatientTh key={1} sort={{ onSort: () => tableHook.setSorting('dni'), sorted: tableHook.sortBy === 'dni' }}>CI</PatientTh>,
-        <PatientTh key={2} sort={{ onSort: () => tableHook.setSorting('name'), sorted: tableHook.sortBy === 'name' }}>Nombre</PatientTh>,
-        <PatientTh key={3} sort={{ onSort: () => tableHook.setSorting('lastname'), sorted: tableHook.sortBy === 'lastname' }}>Apellido</PatientTh>,
-        <PatientTh key={4} sort={{ onSort: () => tableHook.setSorting('email'), sorted: tableHook.sortBy === 'email' }}>Correo Electronico</PatientTh>,
-        <PatientTh key={5}><></></PatientTh>
-    ];
+const PatientLayout: React.FC<PatientLayoutProps> = ({ data }) => {
 
-    const rows = tableHook.rows.map((row) => (
-        <PatientCollapsableRow
-            key={row.id}
-            entries={[
-                <Text key={1} size='sm' fw={500}>{row.dni}</Text>,
-                <Text key={2} size='sm' fw={500}>{row.name}</Text>,
-                <Text key={3} size='sm' fw={500}>{row.lastname}</Text>,
-                <Text key={4} size='sm' fw={500}>{row.email}</Text>
-            ]}
-            dni={row.dni}>
-        </PatientCollapsableRow>
-    ));
+    const [active, setActive] = useState(0);
+    const columns = useMemo((): ListElement<TestType>[] => [{ key: 'sample', name: 'Col 1' }, { key: 'sample2', name: 'Col 2' }, { key: 'sample3', name: 'Col 3' }], []);
+
+    const handleRows = (row: TestType) => <ListRowElement<TestType>
+        key={row.sample}
+        leftSection={<IconFolder style={{ width: rem(20), height: rem(20) }} />}
+        rightSection={<ActionIcon variant='transparent'><IconDotsVertical style={{ width: rem(20), height: rem(20) }} /></ActionIcon>}
+        onClick={() => { }}>
+
+        <Title order={6}>{row.sample}</Title>
+        <Flex direction='row' justify='space-between'>
+            <Text>{row.sample2}</Text>
+            <Text>{row.sample3}</Text>
+        </Flex>
+    </ListRowElement >
+
+    const handleNextTier = () => {
+        setActive(prev => prev + 1);
+    }
+
+    const multipleLayer = useMemo((): TierElement[] => [
+        {
+            title: 'Pacientes',
+            element: <ListLayout<TestType>
+                data={[{ sample: '1', sample2: '2', sample3: '5' }, { sample: '2', sample2: '2', sample3: '3' }, { sample: '7', sample2: '2', sample3: '3' }, { sample: '4', sample2: '2', sample3: '3' }, { sample: '5', sample2: '2', sample3: '3' }, { sample: '6', sample2: '2', sample3: '3' }]}
+                columns={columns}
+                leftSection={true}
+                rightSection={true}
+                rows={handleRows} />
+        },
+        {
+            title: 'Ordenes',
+            element: <Box key={2}><Text>Tier 2</Text><Button onClick={handleNextTier}>NextTier</Button></Box>,
+        },
+        {
+            title: 'Resultados',
+            element: <Box key={3}><Text>Tier 3</Text></Box>
+        },
+
+    ], []);
+
+    const handleCloseTier = () => {
+        setActive(prev => prev - 1);
+    }
 
     return (
         <>
-            <Flex h='100%' gap={rem(8)}>
-                <ModularBox>
-                    <Header text={'Pacientes'} />
-                    <SearchInputText
-                        placeholder="Buscar"
-                        value={tableHook.search}
-                        onChange={tableHook.onSearch}
-                    />
-                    <ScrollArea.Autosize mah='75%' style={{ flex: 1 }}>
-                        <MultipleLayerItem
-                            leftSection={<IconFolder style={{ width: rem(28), height: rem(28) }} />}
-                            rightSection={
-                                <ActionIcon variant='transparent' size='sm'>
-                                    <IconDotsVertical style={{ width: rem(28), height: rem(28) }} />
-                                </ActionIcon>
-                            }
-                            onClick={() => { }} label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                        <MultipleLayerItem label={{ title: 'Label title', description: 'Label description' }} />
-                    </ScrollArea.Autosize>
-                    <Pagination total={4} size='xs' style={{ alignSelf: 'center' }} />
-                </ModularBox>
-                <ModularBox>
-                    <Header text={'Ordenes'} />
-                </ModularBox>
-                <ModularBox>
-                    <Header text={'Examenes'} />
-                </ModularBox>
-            </Flex>
+            <MultipleTierLayout
+                elements={multipleLayer}
+                tier={active}
+                onClose={handleCloseTier} />
         </>
     )
 }

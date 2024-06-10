@@ -20,9 +20,7 @@ const Patient: React.FC = () => {
 
     const view: Record<LayoutState, React.ReactNode> = {
         [LayoutState.DEFAULT]: <>
-            <PatientLayout
-                load={patientHook.loading}
-                patients={patientHook.patients} />
+            <PatientLayout data={[]} />
         </>
     }
 
