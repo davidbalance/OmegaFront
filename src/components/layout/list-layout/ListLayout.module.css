@@ -1,7 +1,6 @@
 .header > .control:last-child {
   border-start-end-radius: 1000px;
   border-end-end-radius: 1000px;
-  border-right: 1px solid transparent;
 }
 
 .header > .control:first-child {
@@ -23,7 +22,6 @@
 }
 
 .control {
-  border-radius: var(--mantine-radius-sm);
   background-color: var(--mantine-color-neutral-light);
   color: var(--mantine-color-neutral-filled);
 

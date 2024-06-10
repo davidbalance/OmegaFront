@@ -100,7 +100,7 @@ const ListLayout: <T extends object, >(props: ListLayoutProps<T>) => React.React
             </ModularBox>
 
             <ModularBox flex={1}>
-                <Flex className={classes.header} w='100%' gap={rem(4)}>
+                <Flex className={classes.header} w='100%'>
                     <UnstyledButton className={classes.control} data-active={true} onClick={() => SortedHandlers.sortBy(null)} h='100%'>
                         <Center className={classes.icon}>
                             <IconX style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
