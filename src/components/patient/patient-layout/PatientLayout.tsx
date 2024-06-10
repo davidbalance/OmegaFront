@@ -1,10 +1,11 @@
-import { Text, Box, Button, Flex, rem, ActionIcon, Title, SimpleGrid } from '@mantine/core';
+import { Text, Box, Button, Flex, rem, ActionIcon, Title } from '@mantine/core';
 import React, { useMemo, useState } from 'react'
 import { Patient } from '@/services/api/patient/dtos';
 import { User } from '@/services/api/user/dtos';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
-import ListLayout, { ListRowElement } from '@/components/layout/list-layout/ListLayout';
-import { IconDotsVertical, IconFolder, IconSettings } from '@tabler/icons-react';
+import { IconDotsVertical, IconFolder } from '@tabler/icons-react';
+import { ListLayout } from '@/components/layout/list-layout/ListLayout';
+import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 
 type PatientLayoutDataType = Omit<Patient, 'user'> & Omit<User, 'id'>;
 const parsePatient = (medicalResults: Patient[]): PatientLayoutDataType[] => medicalResults.map<PatientLayoutDataType>((e) => ({
@@ -44,7 +45,7 @@ const PatientLayout: React.FC<PatientLayoutProps> = ({ data }) => {
             <Text>{row.sample2}</Text>
             <Text>{row.sample3}</Text>
         </Flex>
-    </ListRowElement >
+    </ListRowElement>
 
     const handleNextTier = () => {
         setActive(prev => prev + 1);
