@@ -8,16 +8,16 @@ export type ChunkValues<T> = {
     size: number
 }
 
-const useChunk = <T>(initialValues: T[]): [data: T[][], handlers: ChunkHandlers<T>, values: ChunkValues<T>] => {
+const useChunk = <T>(initialValues: T[], initialSize: number = 10): [data: T[][], handlers: ChunkHandlers<T>, values: ChunkValues<T>] => {
     const [data, setData] = useState<T[][]>([]);
-    const [size, setSize] = useState<number>(10);
+    const [size, setSize] = useState<number>(initialSize);
 
-    const chunkRecursive = (array: T[]): T[][] => {
+    const chunkRecursive = useCallback((array: T[]): T[][] => {
         if (!array.length) return [];
         const head = array.slice(0, size);
         const tail = array.slice(size);
         return [head, ...chunkRecursive(tail)];
-    }
+    }, [size]);
 
     const chunk = useCallback(() => {
         const chunks = chunkRecursive(initialValues);

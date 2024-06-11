@@ -49,7 +49,7 @@ const MultipleTierLayout: React.FC<MultipleTierLayoutProps> = ({ elements, tier,
             </ModularBox>
             {e.element}
         </Flex>
-    )), []);
+    )), [elements]);
 
     return (
         <Flex direction='row' h='100%' gap={8}>

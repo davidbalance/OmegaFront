@@ -1,8 +1,8 @@
 import { useChunk } from '@/hooks/useChunk';
 import { useFilter } from '@/hooks/useFilter';
 import { useSort } from '@/hooks/useSort';
-import { Center, Flex, Pagination, ScrollArea, UnstyledButton, rem } from '@mantine/core';
-import React, { ChangeEvent, useMemo, useState } from 'react'
+import { Center, Flex, Loader, Pagination, ScrollArea, Text, UnstyledButton, rem } from '@mantine/core';
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import classes from './ListLayout.module.css'
 import { IconX } from '@tabler/icons-react';
 import { ModularBox } from '@/components/modular-box/ModularBox';
@@ -18,31 +18,31 @@ export interface ListElement<T> {
 
 interface ListLayoutProps<T> {
     data: T[];
+    loading: boolean;
     columns: ListElement<T>[];
-    leftSection: boolean;
-    rightSection: boolean;
+    size?: number;
     rows: (row: T) => React.ReactElement<ListRowElementProps<T>>;
 }
 
-const ListLayout: <T extends object, >(props: ListLayoutProps<T>) => React.ReactElement | null = ({ data, columns, rows }) => {
-
+const ListLayout: <T extends object, >(props: ListLayoutProps<T>) => React.ReactElement | null = ({ data, loading, columns, size, rows }) => {
     const [filteredData, FilterHandlers, FilterValues] = useFilter(data, columns.map(e => e.key));
     const [sortedData, SortedHandlers, SortValues] = useSort(filteredData);
-    const [chunkData, , ChunkValues] = useChunk(sortedData);
+    const [chunkData, , ChunkValues] = useChunk(sortedData, size);
     const [page, setPage] = useState<number>(1);
 
     const sort = (key: any) => () => SortedHandlers.sortBy(key);
 
-    const total = useMemo(() => Math.ceil(data.length / ChunkValues.size), [data.length, ChunkValues.size]);
+    const total = useMemo(() => Math.ceil(filteredData.length / ChunkValues.size), [filteredData.length, ChunkValues.size]);
+
     const header = useMemo(() => columns.map((e, index) => (
         <ListHeaderButton
             key={index}
             label={e.name}
             sort={{ onSort: sort(e.key), sorted: SortValues.sortBy === e.key }}
         />
-    )), [columns, SortValues.sortBy]);
+    )), [columns, SortValues]);
 
-    const memoizeRows = useMemo(() => chunkData[page - 1]?.map((row) => rows(row)) || [], [rows, chunkData, page]);
+    const memoizedRows = useMemo(() => chunkData[page - 1]?.map((row) => rows(row)) || [], [rows, chunkData, page]);
 
     const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => FilterHandlers.setFilterText(event.target.value);
     const handlePageChange = (value: number) => setPage(value);
@@ -64,11 +64,20 @@ const ListLayout: <T extends object, >(props: ListLayoutProps<T>) => React.React
                     )}
                     {header}
                 </Flex>
-                <ScrollArea mah={325}>
-                    <Flex gap={rem(8)} direction='column'>
-                        {memoizeRows}
-                    </Flex>
-                </ScrollArea>
+                {
+                    loading
+                        ? <Flex justify='center' align='center'>
+                            <Loader size='sm' m='md' />
+                            <Text>Cargando recursos...</Text>
+                        </Flex>
+                        : memoizedRows.length === 0
+                            ? <Text ta='center'>No hay datos agregados</Text>
+                            : <ScrollArea mah={325}>
+                                <Flex gap={rem(8)} direction='column'>
+                                    {memoizedRows}
+                                </Flex>
+                            </ScrollArea>
+                }
             </ModularBox>
 
             {total > 1 && (
