@@ -1,15 +1,35 @@
 import { FetchHookResult } from "@/lib/types/fetch-hook.interface";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type FetchResult<T> = FetchHookResult<T> & {
+    /**
+     * Will give you the http status of the request
+     */
     status: number | null;
-    request: <R>(body: R) => void;
+    /**
+     * Set the body for the request body
+     * @template R Type of the request body
+     * @param body Request body
+     */
+    request: <R>(body: R | null) => void;
+    /**
+     * Triggers the request
+     */
     reload: () => void;
+    /**
+     * Resets the data, error and request body;
+     */
     reset: () => void;
 }
 
 type FetchOptions<T> = Omit<RequestInit, ' body' | 'method'> & {
+    /**
+     * Will indicates the system to fetch when the component is mounted
+     */
     loadOnMount?: boolean;
+    /**
+     * Decides if you are getting a json or blob
+     */
     type?: 'json' | 'blob'
 }
 
@@ -71,6 +91,7 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
 
     const reset = useCallback(() => {
         setData(null);
+        setBody(null);
         setError(null);
     }, []);
 

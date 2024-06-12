@@ -36,7 +36,7 @@ export const Confirmation: React.FC<{ children: React.ReactNode }> = ({ children
             {children}
             <ModalConfirmation
                 opened={opened}
-                onClose={close}
+                onClose={() => handleResponse(false)}
                 title={title}
                 message={message}
                 onConfirm={() => handleResponse(true)} />
