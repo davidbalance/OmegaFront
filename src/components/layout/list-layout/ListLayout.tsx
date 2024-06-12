@@ -72,7 +72,7 @@ const ListLayout: <T extends object, >(props: ListLayoutProps<T>) => React.React
                         </Flex>
                         : memoizedRows.length === 0
                             ? <Text ta='center'>No hay datos agregados</Text>
-                            : <ScrollArea mah={325} px={rem(4)}>
+                            : <ScrollArea mah={325} px={rem(4)} className={classes['item-container']}>
                                 <Flex gap={rem(8)} direction='column'>
                                     {memoizedRows}
                                 </Flex>

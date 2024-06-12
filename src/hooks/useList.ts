@@ -10,31 +10,32 @@ export type ListHandler<T> = {
 const useList = <T extends object>(initialValues: T[]): [data: T[], handlers: ListHandler<T>] => {
     const [values, setValues] = useState<T[]>(initialValues);
 
-    const override = (data: T[]) => {
+    const override = useCallback((data: T[]) => {
         setValues(data);
-    }
+    }, []);
 
     const append = useCallback((data: T) => {
-        setValues([...values, data]);
-    }, [values]);
+        setValues(prevValues => [...prevValues, data]);
+    }, []);
 
     const remove = useCallback((key: keyof T, value: any) => {
-        setValues(prev => {
-            const updatedValues = [...prev];
-            const index = updatedValues.findIndex((e) => e[key] === value);
-            const filtered: T[] = [...values.slice(0, index), ...values.slice(index + 1)];
-            return filtered;
+        setValues(prevValues => {
+            const updatedValues = prevValues.filter(e => e[key] !== value);
+            return updatedValues;
         });
-    }, [values]);
+    }, []);
+
 
     const update = useCallback((key: keyof T, value: any, newValue: T) => {
         setValues(prevValues => {
+            const index = prevValues.findIndex(e => e[key] === value);
+            if (index === -1) return prevValues;
+
             const updatedValues = [...prevValues];
-            const index = updatedValues.findIndex((e) => e[key] === value);
             updatedValues[index] = newValue;
             return updatedValues;
-        })
-    }, [values]);
+        });
+    }, []);
     return [values, { append, remove, update, override }]
 }
 

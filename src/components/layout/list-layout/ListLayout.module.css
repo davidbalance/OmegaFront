@@ -49,3 +49,7 @@
 .list-element:has(.list-content[data-active="true"]) {
   border: 1px solid var(--mantine-color-orange-filled);
 }
+
+.item-container .list-element:last-child {
+  border-color: transparent;
+}

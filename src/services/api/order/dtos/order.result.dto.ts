@@ -13,6 +13,7 @@ export type Order = {
     patientFullname: string;
     process: string;
     createAt: Date;
+    mailStatus: boolean;
     results: OrderResult[];
 }
 
