@@ -40,7 +40,7 @@ const MultipleTierLayout: React.FC<MultipleTierLayoutProps> = ({ elements, tier,
             </Flex>
         </ModularBox>
         {elements[tier].element}
-    </Flex>, [tier]);
+    </Flex>, [tier, elements]);
 
     const multipleChildrenTier = useMemo(() => elements.map((e, index) => (
         <Flex direction='column' gap={8} key={index} w='100%'>

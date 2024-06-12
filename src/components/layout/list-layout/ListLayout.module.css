@@ -26,16 +26,26 @@
   color: var(--mantine-color-neutral-filled);
 
   transition: background-color 0.3s ease, color 0.3s ease;
+
   &[data-active] {
-    background-color: var(--mantine-color-neutral-4);
+    background-color: var(--mantine-color-neutral-filled);
     color: var(--mantine-color-white);
   }
 }
 
 .list-element {
-    border-radius: var(--mantine-radius-md);
+  /* border-radius: var(--mantine-radius-md); */
+  padding: rem(4px) auto;
+  border-bottom: 1px solid var(--mantine-color-neutral-2);
 }
 
+.list-element:has(.list-content[data-active="true"]),
 .list-element:has(.list-content.clickable.hoverable:hover) {
+  border-radius: var(--mantine-radius-md);
   background-color: var(--mantine-color-orange-light);
+  border-color: transparent;
+}
+
+.list-element:has(.list-content[data-active="true"]) {
+  border: 1px solid var(--mantine-color-orange-filled);
 }

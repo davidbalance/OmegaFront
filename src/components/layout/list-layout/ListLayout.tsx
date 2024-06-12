@@ -55,6 +55,7 @@ const ListLayout: <T extends object, >(props: ListLayoutProps<T>) => React.React
 
             <ModularBox flex={1}>
                 <Flex className={classes.header} w='100%'>
+                    {header}
                     {SortValues.sortBy && (
                         <UnstyledButton className={classes.control} data-active={true} onClick={() => SortedHandlers.sortBy(null)} h='100%'>
                             <Center className={classes.icon}>
@@ -62,7 +63,6 @@ const ListLayout: <T extends object, >(props: ListLayoutProps<T>) => React.React
                             </Center>
                         </UnstyledButton>
                     )}
-                    {header}
                 </Flex>
                 {
                     loading
@@ -72,7 +72,7 @@ const ListLayout: <T extends object, >(props: ListLayoutProps<T>) => React.React
                         </Flex>
                         : memoizedRows.length === 0
                             ? <Text ta='center'>No hay datos agregados</Text>
-                            : <ScrollArea mah={325}>
+                            : <ScrollArea mah={325} px={rem(4)}>
                                 <Flex gap={rem(8)} direction='column'>
                                     {memoizedRows}
                                 </Flex>

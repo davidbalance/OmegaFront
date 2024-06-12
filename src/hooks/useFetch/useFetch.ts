@@ -5,14 +5,16 @@ type FetchResult<T> = FetchHookResult<T> & {
     status: number | null;
     request: <R>(body: R) => void;
     reload: () => void;
+    reset: () => void;
 }
 
 type FetchOptions<T> = Omit<RequestInit, ' body' | 'method'> & {
-    loadOnMount?: boolean
+    loadOnMount?: boolean;
+    type?: 'json' | 'blob'
 }
 
 const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE", options?: FetchOptions<T>): FetchResult<T> => {
-    const { loadOnMount = true, ...other } = options || {};
+    const { loadOnMount = true, type = 'json', ...other } = options || {};
 
     const [data, setData] = useState<T | null>(null);
     const [error, setError] = useState<Error | null>(null);
@@ -36,12 +38,13 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
         setStatus(null);
         try {
             const response = await fetch(url, requestOptions);
-            const json = await response.json();
             setStatus(response.status);
             if (!response.ok) {
+                const json = await response.json();
                 setError(new Error(json.message || 'Algo salió mal!'));
             } else {
-                setData(json);
+                const retrived = await response[type]();
+                setData(retrived);
             }
         } catch (error: any) {
             console.error('Fetch error:', error);
@@ -66,7 +69,12 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
         handleFetch();
     }, [handleFetch]);
 
-    return { data, error, loading, status, request, reload };
+    const reset = useCallback(() => {
+        setData(null);
+        setError(null);
+    }, []);
+
+    return { data, error, loading, status, request, reload, reset };
 }
 
 export { useFetch };

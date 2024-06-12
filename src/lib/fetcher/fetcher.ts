@@ -42,7 +42,10 @@ export const fetcher = async <T, R>(url: string, { method, body, cached = true, 
     try {
         const response = await fetch(url, configurationObject);
         if (!response.ok) {
-            const errorData = await response.json();
+            let errorData = 'File error';
+            if (type === 'json') {
+                errorData = await response.json();
+            }
             throw new FetchError(response, `Failed to ${method}: ${response.url}`, errorData);
         }
 
@@ -54,7 +57,6 @@ export const fetcher = async <T, R>(url: string, { method, body, cached = true, 
 
         return data;
     } catch (error) {
-        console.log(error);
         throw error;
     }
 }
