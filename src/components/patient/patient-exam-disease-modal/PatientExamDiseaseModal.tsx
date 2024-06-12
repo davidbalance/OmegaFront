@@ -12,63 +12,56 @@ interface PatientExamDiseaseModalProps extends Omit<ModalProps, 'title'> {
     onFormSubmitted: (value: OrderResult) => void;
 }
 const PatientExamDiseaseModal: React.FC<PatientExamDiseaseModalProps> = ({ medicalOrderExam, onFormSubmitted, ...props }) => {
-
     const { loading: groupLoading, data: groups, error: groupError } = useFetch<SelectorOption<number>[]>('/api/selector/disease-group', 'GET');
     const {
         data: patchServerResponse,
         loading: patchLoading,
         error: patchError,
-        reload: patchReload,
         request: patchRequest,
-        reset: patchReset } = useFetch<SelectorOption<number>[]>(`/api/patients/exam/${medicalOrderExam ? medicalOrderExam.id : 0}`, 'PATCH', { loadOnMount: false });
+        reset: patchReset
+    } = useFetch<SelectorOption<number>[]>(`/api/patients/exam/${medicalOrderExam ? medicalOrderExam.id : ''}`, 'PATCH', { loadOnMount: false });
 
     const [selectedDiseaseGroup, setSelectedDiseaseGroup] = useState<SelectorOption<number> | null>(null);
     const [selectedDisease, setSelectedDisease] = useState<SelectorOption<number> | null>(null);
 
     const { loading: diseaseLoading, data: diseases, error: diseaseError, reload: diseaseReload } = useFetch<SelectorOption<number>[]>(`/api/selector/disease/${selectedDiseaseGroup?.key}`, 'GET', { loadOnMount: false });
 
-    const [shouldFetchDiseaseOptions, setShouldFetchDiseaseOptions] = useState<boolean>(false);
-    const [shouldPatchExamResult, setShouldPatchExamResult] = useState(false);
-
     const isMobile = useMediaQuery('(max-width: 50em)');
 
-    const diseaseGroupsOptions = useMemo(() => groups?.map((e) => ({ value: `${e.key}`, label: e.label })) || [], [groups]);
-    const diseaseOptions = useMemo(() => diseases?.map((e) => ({ value: `${e.key}`, label: e.label })) || [], [diseases]);
+    const diseaseGroupsOptions = useMemo(() => groups?.map(e => ({ value: `${e.key}`, label: e.label })) || [], [groups]);
+    const diseaseOptions = useMemo(() => diseases?.map(e => ({ value: `${e.key}`, label: e.label })) || [], [diseases]);
 
     const handleGroupChangeEvent = (_: string | null, option: ComboboxItem) => {
         setSelectedDisease(null);
         setSelectedDiseaseGroup({ key: parseInt(option.value), label: option.label });
-        setTimeout(() => setShouldFetchDiseaseOptions(true), 500);
-    }
+    };
 
     const handleDiseaseChangeEvent = (_: string | null, option: ComboboxItem) => {
         setSelectedDisease({ key: parseInt(option.value), label: option.label });
-    }
+    };
 
     const handleCloseEvent = () => {
         setSelectedDiseaseGroup(null);
         setSelectedDisease(null);
         props.onClose();
-    }
+    };
 
     const handleSubmit = (event: FormEvent<HTMLDivElement>) => {
         event.preventDefault();
         if (selectedDiseaseGroup && selectedDisease) {
-            patchRequest<{ diseaseId: number, diseaseName: string, diseaseGroupId: number, diseaseGroupName: string }>({
+            patchRequest({
                 diseaseGroupId: selectedDiseaseGroup.key,
                 diseaseGroupName: selectedDiseaseGroup.label,
                 diseaseId: selectedDisease.key,
                 diseaseName: selectedDisease.label
             });
-            setTimeout(() => setShouldPatchExamResult(true), 500);
         }
-    }
+    };
 
     useEffect(() => {
         if (medicalOrderExam) {
             if (medicalOrderExam.diseaseGroupId && medicalOrderExam.diseaseGroupName) {
                 setSelectedDiseaseGroup({ key: medicalOrderExam.diseaseGroupId, label: medicalOrderExam.diseaseGroupName });
-                setTimeout(() => setShouldFetchDiseaseOptions(true), 500);
             }
             if (medicalOrderExam.diseaseId && medicalOrderExam.diseaseName) {
                 setSelectedDisease({ key: medicalOrderExam.diseaseId, label: medicalOrderExam.diseaseName });
@@ -77,29 +70,20 @@ const PatientExamDiseaseModal: React.FC<PatientExamDiseaseModalProps> = ({ medic
     }, [medicalOrderExam]);
 
     useEffect(() => {
-        if (shouldFetchDiseaseOptions) {
+        if (selectedDiseaseGroup) {
             diseaseReload();
-            setShouldFetchDiseaseOptions(false);
         }
-    }, [shouldFetchDiseaseOptions]);
+    }, [selectedDiseaseGroup]);
 
     useEffect(() => {
         if (groupError) {
-            notifications.show({ message: groupError.message, color: 'red' })
+            notifications.show({ message: groupError.message, color: 'red' });
         } else if (diseaseError) {
-            notifications.show({ message: diseaseError.message, color: 'red' })
+            notifications.show({ message: diseaseError.message, color: 'red' });
         } else if (patchError) {
-            notifications.show({ message: patchError.message, color: 'red' })
+            notifications.show({ message: patchError.message, color: 'red' });
         }
     }, [groupError, diseaseError, patchError]);
-
-    useEffect(() => {
-        if (shouldPatchExamResult) {
-            patchReload();
-            setShouldPatchExamResult(false);
-        }
-    }, [shouldPatchExamResult, patchReload])
-
 
     useEffect(() => {
         if (patchServerResponse) {
@@ -109,11 +93,11 @@ const PatientExamDiseaseModal: React.FC<PatientExamDiseaseModalProps> = ({ medic
                 diseaseGroupName: selectedDiseaseGroup?.label,
                 diseaseId: selectedDisease?.key,
                 diseaseName: selectedDisease?.label
-            }
+            };
             onFormSubmitted(newExam);
             patchReset();
         }
-    }, [patchServerResponse, onFormSubmitted, patchReset, medicalOrderExam])
+    }, [patchServerResponse, onFormSubmitted, patchReset, medicalOrderExam, selectedDiseaseGroup, selectedDisease]);
 
     return (
         <Modal.Root
@@ -126,14 +110,14 @@ const PatientExamDiseaseModal: React.FC<PatientExamDiseaseModalProps> = ({ medic
             <Modal.Content>
                 <Flex direction='column' h='100%'>
                     <Modal.Header>
-                        <Modal.Title>Formulario de asignacion de morbilidades</Modal.Title>
+                        <Modal.Title>Formulario de asignación de morbilidades</Modal.Title>
                     </Modal.Header>
                     <Modal.Body flex={1} pos='relative'>
-                        <LoadingOverlay visible={groupLoading || diseaseLoading || patchLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+                        <LoadingOverlay visible={groupLoading || diseaseLoading || patchLoading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
                         <Flex component='form' direction='column' gap={rem(12)} h='100%' onSubmit={handleSubmit}>
                             <Box flex={1}>
                                 <Select
-                                    value={`${selectedDiseaseGroup?.key}`}
+                                    value={`${selectedDiseaseGroup?.key || ''}`}
                                     data={diseaseGroupsOptions}
                                     checkIconPosition="left"
                                     onChange={handleGroupChangeEvent}
@@ -141,21 +125,26 @@ const PatientExamDiseaseModal: React.FC<PatientExamDiseaseModalProps> = ({ medic
                                     pb={rem(16)}
                                     placeholder="Escoge un grupo de morbilidades"
                                     searchable
+                                    defaultDropdownOpened={false}
+                                    clearable
                                     nothingFoundMessage="Grupo de morbilidades no encontrado..."
                                     allowDeselect={false}
+                                    maxDropdownHeight={200}
                                 />
-
                                 <Select
-                                    pb={rem(16)}
+                                    value={`${selectedDisease?.key || ''}`}
+                                    data={diseaseOptions}
                                     checkIconPosition="left"
                                     onChange={handleDiseaseChangeEvent}
-                                    value={selectedDisease ? `${selectedDisease.key}` : ''}
-                                    data={diseaseOptions}
                                     label="Morbilidades"
+                                    pb={rem(16)}
                                     placeholder="Escoge una morbilidad"
                                     searchable
+                                    defaultDropdownOpened={false}
+                                    clearable
                                     nothingFoundMessage="Morbilidad no encontrada..."
                                     allowDeselect={false}
+                                    maxDropdownHeight={200}
                                 />
                             </Box>
                             <ButtonGroup>
@@ -170,4 +159,4 @@ const PatientExamDiseaseModal: React.FC<PatientExamDiseaseModalProps> = ({ medic
     )
 }
 
-export { PatientExamDiseaseModal }
+export { PatientExamDiseaseModal };

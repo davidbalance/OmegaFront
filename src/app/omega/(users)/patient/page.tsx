@@ -75,7 +75,7 @@ const PatientPage: React.FC = () => {
     }, [orderUpdate]);
 
     const handlePatientRow = useCallback((row: PatientDataType) => (
-        <ListRowElement<PatientDataType>
+        <ListRowElement
             key={row.id}
             active={row.id === patientSelected?.id}
             onClick={() => handlePatientSelection(row)}>
@@ -88,7 +88,7 @@ const PatientPage: React.FC = () => {
     ), [patientSelected, handlePatientSelection]);
 
     const handleOrderRow = useCallback((row: Order) => (
-        <ListRowElement<Order>
+        <ListRowElement
             key={row.id}
             active={row.id === orderSelected?.id}
             onClick={() => handleOrderSelection(row)}
@@ -110,7 +110,7 @@ const PatientPage: React.FC = () => {
     ), [orderSelected, handleOrderSelection, handleEventMailSend]);
 
     const handleExamRow = useCallback((row: OrderResult) => (
-        <ListRowElement<OrderResult>
+        <ListRowElement
             key={row.id}
             rightSection={<PatientOrderExamMenu onModification={() => setOrderExamSelected(row)} data={row} />}>
             <Title order={6}>{row.examName}</Title>
