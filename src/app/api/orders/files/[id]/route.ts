@@ -1,6 +1,6 @@
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get } from "@/lib/fetcher/fetcher";
-import { Order } from "@/services/api/order/dtos";
+import { FindOrderFilesResponseDTO } from "@/services/api/order/dtos";
 import endpoints from "@/services/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,7 +9,7 @@ export async function GET(
     { params }: { params: { id: number } }
 ) {
     try {
-        const order: Order = await get(endpoints.ORDER.V1.FIND_BY_ID(params.id), {});
+        const order: FindOrderFilesResponseDTO = await get<FindOrderFilesResponseDTO>(endpoints.ORDER.V1.FIND_FILES_BY_ID(params.id));
         return NextResponse.json(order, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

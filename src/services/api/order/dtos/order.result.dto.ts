@@ -20,3 +20,17 @@ export type Order = {
 export type FindOrdersRS = {
     orders: Order[];
 }
+
+export interface OrderFileDto {
+    id: number;
+    examName: string;
+    type: 'result' | 'report';
+}
+
+export interface FindOrderFilesResponseDTO {
+    dni: string;
+    fullname: string;
+    email: string;
+    fileResults: OrderFileDto[];
+    fileReports: OrderFileDto[];
+}

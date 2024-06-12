@@ -19,11 +19,12 @@ interface ListLayoutProps<T> {
     data: T[];
     loading: boolean;
     columns: ListElement<T>[];
+    height?: number;
     size?: number;
     rows: (row: T) => React.ReactElement<ListRowElementProps>;
 }
 
-const ListLayout = <T extends object>({ data, loading, columns, size = 10, rows }: ListLayoutProps<T>): React.ReactElement | null => {
+const ListLayout = <T extends object>({ data, loading, columns, height = 350, size = 10, rows }: ListLayoutProps<T>): React.ReactElement | null => {
 
     const [filteredData, FilterHandlers, FilterValues] = useFilter(data, columns.map((e) => e.key));
     const [sortedData, SortedHandlers, SortValues] = useSort(filteredData);
@@ -52,7 +53,7 @@ const ListLayout = <T extends object>({ data, loading, columns, size = 10, rows 
     const handlePageChange = (value: number) => setPage(value);
 
     return (
-        <>
+        <Flex direction='column' gap={rem(8)} h='100%'>
             <ModularBox>
                 <SearchInputText placeholder="Buscar" value={FilterValues.text} onChange={handleSearchInput} />
             </ModularBox>
@@ -81,7 +82,7 @@ const ListLayout = <T extends object>({ data, loading, columns, size = 10, rows 
                 ) : memoizedRows.length === 0 ? (
                     <Text ta="center">No hay datos agregados</Text>
                 ) : (
-                    <ScrollArea mah={325} px={rem(4)} className={classes['item-container']}>
+                    <ScrollArea h={height} px={rem(4)} className={classes['item-container']}>
                         <Flex gap={rem(2)} direction="column">
                             {memoizedRows}
                         </Flex>
@@ -89,20 +90,22 @@ const ListLayout = <T extends object>({ data, loading, columns, size = 10, rows 
                 )}
             </ModularBox>
 
-            {total > 1 && (
-                <ModularBox justify="center" align="center">
-                    <Pagination
-                        total={total}
-                        color="orange"
-                        size="sm"
-                        value={page}
-                        radius="xl"
-                        onChange={handlePageChange}
-                        withEdges
-                    />
-                </ModularBox>
-            )}
-        </>
+            {
+                total > 1 && (
+                    <ModularBox justify="center" align="center">
+                        <Pagination
+                            total={total}
+                            color="orange"
+                            size="sm"
+                            value={page}
+                            radius="xl"
+                            onChange={handlePageChange}
+                            withEdges
+                        />
+                    </ModularBox>
+                )
+            }
+        </Flex>
     );
 };
 
