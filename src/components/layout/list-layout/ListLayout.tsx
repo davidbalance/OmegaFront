@@ -2,7 +2,7 @@ import { useChunk } from '@/hooks/useChunk';
 import { useFilter } from '@/hooks/useFilter';
 import { useSort } from '@/hooks/useSort';
 import { Center, Flex, Loader, Pagination, ScrollArea, Text, UnstyledButton, rem } from '@mantine/core';
-import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import React, { ChangeEvent, useMemo, useState } from 'react'
 import classes from './ListLayout.module.css'
 import { IconX } from '@tabler/icons-react';
 import { ModularBox } from '@/components/modular-box/ModularBox';
@@ -82,7 +82,7 @@ const ListLayout = <T extends object>({ data, loading, columns, size = 10, rows 
                     <Text ta="center">No hay datos agregados</Text>
                 ) : (
                     <ScrollArea mah={325} px={rem(4)} className={classes['item-container']}>
-                        <Flex gap={rem(8)} direction="column">
+                        <Flex gap={rem(2)} direction="column">
                             {memoizedRows}
                         </Flex>
                     </ScrollArea>

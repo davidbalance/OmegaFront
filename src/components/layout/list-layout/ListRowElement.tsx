@@ -20,7 +20,12 @@ const ListRowElement: React.FC<ListRowElementProps> = ({
     onClick
 }) => {
     return (
-        <Flex w='100%' gap={rem(20)} className={classes['list-element']}>
+        <Flex
+            px={rem(4)}
+            py={rem(8)}
+            w='100%'
+            gap={rem(20)}
+            className={classes['list-element']}>
             {leftSection && (
                 <Flex align='center' className={classes['list-content']}>
                     {leftSection}

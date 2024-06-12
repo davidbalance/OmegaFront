@@ -34,9 +34,8 @@
 }
 
 .list-element {
-  /* border-radius: var(--mantine-radius-md); */
-  padding: rem(4px) auto;
-  border-bottom: 1px solid var(--mantine-color-neutral-2);
+  border: 1px solid transparent;
+  border-bottom-color: var(--mantine-color-neutral-2);
 }
 
 .list-element:has(.list-content[data-active="true"]),
@@ -44,10 +43,6 @@
   border-radius: var(--mantine-radius-md);
   background-color: var(--mantine-color-orange-light);
   border-color: transparent;
-}
-
-.list-element:has(.list-content[data-active="true"]) {
-  border: 1px solid var(--mantine-color-orange-filled);
 }
 
 .item-container .list-element:last-child {
