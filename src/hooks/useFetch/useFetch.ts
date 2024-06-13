@@ -85,9 +85,9 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
         }
     }, [loadOnMount]);
 
-    const request = <R>(body: R | null) => {
+    const request = useCallback(<R>(body: R | null) => {
         setBody(body);
-    }
+    }, []);
 
     const reload = useCallback(() => {
         handleFetch();

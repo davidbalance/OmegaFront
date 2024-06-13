@@ -1,7 +1,7 @@
 import { useChunk } from '@/hooks/useChunk';
 import { useFilter } from '@/hooks/useFilter';
 import { useSort } from '@/hooks/useSort';
-import { Center, Flex, Loader, Pagination, ScrollArea, Text, UnstyledButton, rem } from '@mantine/core';
+import { Center, Flex, Grid, Loader, Pagination, ScrollArea, Text, UnstyledButton, rem } from '@mantine/core';
 import React, { ChangeEvent, useMemo, useState } from 'react'
 import classes from './ListLayout.module.css'
 import { IconX } from '@tabler/icons-react';
@@ -9,6 +9,7 @@ import { ModularBox } from '@/components/modular-box/ModularBox';
 import { SearchInputText } from '@/components/input/SearchInputText';
 import { ListRowElementProps } from './ListRowElement';
 import { ListHeaderButton } from './ListHeaderButton';
+import { useMediaQuery } from '@mantine/hooks';
 
 export interface ListElement<T> {
     key: keyof T;
@@ -21,15 +22,18 @@ interface ListLayoutProps<T> {
     columns: ListElement<T>[];
     height?: number;
     size?: number;
+    dock?: React.ReactElement | React.ReactElement[]
     rows: (row: T) => React.ReactElement<ListRowElementProps>;
 }
 
-const ListLayout = <T extends object>({ data, loading, columns, height = 350, size = 10, rows }: ListLayoutProps<T>): React.ReactElement | null => {
+const ListLayout = <T extends object>({ data, loading, columns, height = 350, size = 10, dock, rows }: ListLayoutProps<T>): React.ReactElement | null => {
 
     const [filteredData, FilterHandlers, FilterValues] = useFilter(data, columns.map((e) => e.key));
     const [sortedData, SortedHandlers, SortValues] = useSort(filteredData);
     const [chunkData, , ChunkValues] = useChunk(sortedData, size);
     const [page, setPage] = useState<number>(1);
+
+    const isMobile = useMediaQuery('(max-width: 50em)');
 
     const sort = (key: keyof T) => () => SortedHandlers.sortBy(key);
 
@@ -55,7 +59,20 @@ const ListLayout = <T extends object>({ data, loading, columns, height = 350, si
     return (
         <Flex direction='column' gap={rem(8)} h='100%'>
             <ModularBox>
-                <SearchInputText placeholder="Buscar" value={FilterValues.text} onChange={handleSearchInput} />
+                <Grid>
+                    <Grid.Col span={dock ? (isMobile ? 11 : 8) : 12}  >
+                        <SearchInputText
+                            placeholder="Buscar"
+                            value={FilterValues.text}
+                            onChange={handleSearchInput}
+                        />
+                    </Grid.Col>
+                    {
+                        dock && <Grid.Col span={isMobile ? 1 : 4}>
+                            <Flex direction='row' justify='flex-end' align='center' h='100%'>{dock}</Flex>
+                        </Grid.Col>
+                    }
+                </Grid>
             </ModularBox>
 
             <ModularBox flex={1}>

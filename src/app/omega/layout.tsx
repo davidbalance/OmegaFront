@@ -18,7 +18,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </Box>
             <Box className={classes.outer} mah='100%' pos='relative'>
                 <Navbar opened={opened} onClose={close} />
-                <Box h='100%' w='100%'>
+                <Box h='100%' w='100%' pos='relative'>
                     {children}
                 </Box>
             </Box>
