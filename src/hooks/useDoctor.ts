@@ -1,6 +1,6 @@
 import { DoctorService } from "@/services/api";
 import { Doctor, FindOneAndUploadSignature } from "@/services/api/doctor/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";

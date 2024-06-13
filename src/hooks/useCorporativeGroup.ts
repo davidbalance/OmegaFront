@@ -1,7 +1,7 @@
 import { SelectorOption } from "@/lib";
 import { CorporativeGroupService } from "@/services/api";
 import { CorporativeGroup } from "@/services/api/corporative-group/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { CorporativeGroupEndpoint } from "@/services/endpoints/v1";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";

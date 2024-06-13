@@ -1,6 +1,6 @@
 import { OrderService } from "@/services/api";
 import { FindOrdersRQ, Order } from "@/services/api/order/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";

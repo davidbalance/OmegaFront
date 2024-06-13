@@ -1,7 +1,7 @@
 import { AbstractService } from "../abstract.service";
 import { SelectorOption } from "@/lib";
 import { OmegaFetch } from "@/services/config";
-import { DiseaseGroupAPI } from "@/services/endpoints";
+import { DiseaseGroupAPI } from "@/lib/endpoints";
 import { IFindService, ISelectorService, ICreateService, IUpdateService, IDeleteService } from "@/services/interfaces";
 import { FindSelectorOptionsDisease, DeleteDiseaseRQ } from "../disease/dtos";
 import { DiseaseGroup, CreateDiseaseGroupRQ, UpdateDiseaseGroupRQ, DeleteDiseaseGroupRQ, FindDiseaseGroupsRS, CreateDiseaseGroupRS, UpdateDiseaseGroupRS } from "./dtos";

@@ -1,4 +1,4 @@
-import { RoleAPI } from "@/services/endpoints";
+import { RoleAPI } from "@/lib/endpoints";
 import { IFindService, ICreateService, IUpdateService, IDeleteService } from "@/services/interfaces";
 import { AbstractService } from "../abstract.service";
 import { CreateRoleRQ, FindRoleAndDeleteRQ, FindRoleAndUpdateRQ, FindRolesRS, Role } from "./dtos";

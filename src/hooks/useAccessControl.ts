@@ -1,6 +1,6 @@
 import { AccessControlService } from "@/services/api";
 import { ACClient, FindAndUpdateACRolesRQ } from "@/services/api/access-control/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";

@@ -1,7 +1,7 @@
 import { MedicalReportService, MedicalResultService } from "@/services/api";
 import { FindMedicalReportPDFRQ } from "@/services/api/medical-report/dtos";
 import { InsertMedicalReportRQ } from "@/services/api/medical-result/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 

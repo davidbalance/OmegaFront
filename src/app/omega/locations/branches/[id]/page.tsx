@@ -5,7 +5,7 @@ import { BranchLayout } from "@/components/branch/branch-layout/BranchLayout"
 import { useBranch } from "@/hooks"
 import { BranchService } from "@/services/api"
 import { Branch as BranchType } from "@/services/api/branch/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { SelectorOption } from "@/lib";
 
 const branchService = new BranchService(endpoints.BRANCH.V1);

@@ -1,4 +1,4 @@
-import { OrderAPI } from "@/services/endpoints";
+import { OrderAPI } from "@/lib/endpoints";
 import { IFindService } from "@/services/interfaces";
 import { AbstractService } from "../abstract.service";
 import { FindOrdersRQ, FindOrdersRS, Order } from "./dtos";

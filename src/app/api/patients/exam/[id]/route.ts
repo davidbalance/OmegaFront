@@ -3,7 +3,7 @@ import { patch } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import { FindAndUpdateACRolesRQ } from "@/services/api/access-control/dtos";
 import { UpdateMedicalResultRQ } from "@/services/api/medical-result/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(

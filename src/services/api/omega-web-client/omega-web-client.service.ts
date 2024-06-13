@@ -1,7 +1,7 @@
 import { AbstractService } from "../abstract.service";
 import { OmegaFetch } from "@/services/config";
 import { Configuration } from "@/lib";
-import { OmegaWebClientAPI } from "@/services/endpoints";
+import { OmegaWebClientAPI } from "@/lib/endpoints";
 import { IFindService } from "@/services/interfaces";
 import { FindOmegaWebClient, UpdateWebClientLogoRequestDTO } from "./dtos";
 

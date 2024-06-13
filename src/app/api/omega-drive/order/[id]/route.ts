@@ -1,7 +1,7 @@
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get } from "@/lib/fetcher/fetcher";
 import { FindOrderFilesResponseDTO } from "@/services/api/order/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

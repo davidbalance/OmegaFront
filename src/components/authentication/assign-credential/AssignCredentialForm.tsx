@@ -1,6 +1,6 @@
 import { UserCrendentialService } from '@/services/api';
 import { CreateCredentialRQ } from '@/services/api/user-credential/dtos';
-import endpoints from '@/services/endpoints/endpoints';
+import endpoints from '@/lib/endpoints/endpoints';
 import { ICreateService } from '@/services/interfaces';
 import { LoadingOverlay, Group, Button, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';

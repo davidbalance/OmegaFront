@@ -1,4 +1,4 @@
-import { CorporativeGroupAPI } from "@/services/endpoints";
+import { CorporativeGroupAPI } from "@/lib/endpoints";
 import { ISelectorService } from "@/services/interfaces";
 import { AbstractService } from "../abstract.service";
 import { CorporativeGroup, FindCorporativeGroupsRS, FindSelectorOptionsCorporativeGroup} from "./dtos";

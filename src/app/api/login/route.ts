@@ -6,7 +6,7 @@ import { get, post } from "@/lib/fetcher/fetcher";
 import { DEFAULT_WITH_AUTH_OPTIONS, DEFAULT_WITH_LOGIN_OPTIONS, withAuth, withLogin } from "@/lib/fetcher/with-fetch.utils";
 import { UserPreferenceData, UserPreferences } from "@/lib/types/user-preferences.type";
 import { AuthCredentials } from "@/services/api/authentication/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

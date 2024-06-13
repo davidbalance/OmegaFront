@@ -3,7 +3,7 @@ import { ModularBox } from '@/components/modular-box/ModularBox';
 import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 import { useCredential } from '@/hooks/useCredential';
 import { useFetch } from '@/hooks/useFetch/useFetch';
-import endpoints from '@/services/endpoints/endpoints';
+import endpoints from '@/lib/endpoints/endpoints';
 import { Box, Button, Flex, Group, LoadingOverlay, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';

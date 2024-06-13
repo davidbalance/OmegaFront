@@ -11,7 +11,7 @@ import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 import { ModularBox } from '@/components/modular-box/ModularBox';
 import { IconCirclePlus, IconPlus } from '@tabler/icons-react';
 import { useMediaQuery } from '@mantine/hooks';
-import endpoints from '@/services/endpoints/endpoints';
+import endpoints from '@/lib/endpoints/endpoints';
 import { CrudOptions } from '@/hooks/useCrud';
 
 type UserLayoutProps = {

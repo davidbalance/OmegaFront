@@ -5,7 +5,7 @@ import { FetchError } from "@/lib/errors/fetch.error";
 import { post } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import { UserPreferences } from "@/lib/types/user-preferences.type";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 

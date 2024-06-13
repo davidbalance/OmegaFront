@@ -3,7 +3,7 @@ import { AbstractService } from "../abstract.service";
 import { CreateDiseaseRQ, CreateDiseaseRS, DeleteDiseaseRQ, Disease, DiseaseSelectorRQ, FindDiseasesRS, FindSelectorOptionsDisease, UpdateDiseaseRQ, UpdateDiseaseRS } from "./dtos";
 import { OmegaFetch } from "@/services/config";
 import { SelectorOption } from "@/lib";
-import { DiseaseAPI } from "@/services/endpoints";
+import { DiseaseAPI } from "@/lib/endpoints";
 
 export class DiseaseService
     extends AbstractService<DiseaseAPI>

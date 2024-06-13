@@ -1,7 +1,7 @@
 import { AbstractService } from "../abstract.service";
 import { OmegaFetch } from "@/services/config";
 import { blobFile } from "@/lib/utils/blob-to-file";
-import { MedicalReportAPI } from "@/services/endpoints";
+import { MedicalReportAPI } from "@/lib/endpoints";
 import { IFindFile } from "@/services/interfaces";
 import { FindMedicalReportPDFRQ } from "./dtos";
 

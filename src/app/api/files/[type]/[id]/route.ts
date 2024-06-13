@@ -1,6 +1,6 @@
 import { FetchError } from "@/lib/errors/fetch.error";
 import { post } from "@/lib/fetcher/fetcher";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

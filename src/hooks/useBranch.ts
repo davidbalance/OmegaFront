@@ -2,7 +2,7 @@ import { SelectorOption } from "@/lib";
 import { BranchService } from "@/services/api";
 import { Branch } from "@/services/api/branch/dtos";
 import { FindBranchSelectorOptions } from "@/services/api/branch/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";

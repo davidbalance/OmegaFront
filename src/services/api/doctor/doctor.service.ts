@@ -1,4 +1,4 @@
-import { DoctorAPI } from "@/services/endpoints";
+import { DoctorAPI } from "@/lib/endpoints";
 import { AbstractService } from "../abstract.service";
 import { Doctor, FindDoctorsRS, FindOneAndUploadSignature } from "./dtos";
 import { OmegaFetch } from "@/services/config";

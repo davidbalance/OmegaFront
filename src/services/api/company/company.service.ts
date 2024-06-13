@@ -1,4 +1,4 @@
-import { CompanyAPI } from "@/services/endpoints";
+import { CompanyAPI } from "@/lib/endpoints";
 import { AbstractService } from "../abstract.service";
 import { Company, FindCompaniesRS, FindSelectorOptionsCompany } from "./dtos";
 import { SelectorOption } from "@/lib";

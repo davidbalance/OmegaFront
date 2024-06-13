@@ -1,5 +1,5 @@
 import { ApiKey, ApiKeyService, CreateApiKeyRQ, DeleteApiKeyRQ, UpdateApiKeyRQ } from "@/services/api/api-key";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useLayoutEffect, useState } from "react"

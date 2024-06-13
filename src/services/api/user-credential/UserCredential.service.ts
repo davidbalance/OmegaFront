@@ -1,4 +1,4 @@
-import { CredentialAPI } from "@/services/endpoints";
+import { CredentialAPI } from "@/lib/endpoints";
 import { AbstractService } from "../abstract.service";
 import { OmegaFetch } from "@/services/config";
 import { ICreateService, IUpdateService } from "@/services/interfaces";

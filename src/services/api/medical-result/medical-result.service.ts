@@ -1,4 +1,4 @@
-import { ResultAPI } from "@/services/endpoints";
+import { ResultAPI } from "@/lib/endpoints";
 import { IFindFile, IFindService, IUpdateService } from "@/services/interfaces";
 import { AbstractService } from "../abstract.service";
 import { FindMedicalResultFileRQ, FindResultsRS, InsertMedicalReportRQ, InsertMedicalReportRS, MedicalResult, UpdateMedicalResultRQ } from "./dtos";

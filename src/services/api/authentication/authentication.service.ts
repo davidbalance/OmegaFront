@@ -1,4 +1,4 @@
-import { AuthenticationAPI } from "@/services/endpoints";
+import { AuthenticationAPI } from "@/lib/endpoints";
 import { AbstractService } from "../abstract.service";
 import { AuthenticationLoginRQ, AuthenticationLoginRS } from "./dtos";
 import { OmegaFetch } from "@/services/config";

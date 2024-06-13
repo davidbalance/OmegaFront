@@ -1,5 +1,5 @@
 import { IFindService } from "@/services/interfaces";
-import { PatientAPI } from '@/services/endpoints'
+import { PatientAPI } from '@/lib/endpoints'
 import { AbstractService } from "../abstract.service";
 import { FindPatientsRS, Patient } from "./dtos";
 import { OmegaFetch } from "@/services/config";

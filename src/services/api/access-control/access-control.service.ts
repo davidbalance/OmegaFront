@@ -1,4 +1,4 @@
-import { AccessControlAPI } from "@/services/endpoints";
+import { AccessControlAPI } from "@/lib/endpoints";
 import { AbstractService } from "../abstract.service";
 import { ACClient, FindACClientRQ, FindAndUpdateACResourcesRQ, FindAndUpdateACRolesRQ, FindOneACClientRS } from "./dtos";
 import { OmegaFetch } from "@/services/config";

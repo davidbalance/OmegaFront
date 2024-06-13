@@ -2,7 +2,7 @@ import { FetchError } from "@/lib/errors/fetch.error";
 import { get } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import { FindSelectorOptionsDisease } from "@/services/api/disease/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

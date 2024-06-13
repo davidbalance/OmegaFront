@@ -1,4 +1,4 @@
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { usePatch, usePost } from "./useCrud";
 import { CreateUserRQ, User } from "@/services/api/user/dtos";
 import { FindAndUpdateACRolesRQ } from "@/services/api/access-control/dtos";

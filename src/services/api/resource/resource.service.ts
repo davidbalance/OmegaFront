@@ -1,4 +1,4 @@
-import { ResourceAPI } from "@/services/endpoints";
+import { ResourceAPI } from "@/lib/endpoints";
 import { AbstractService } from "../abstract.service";
 import { FindResourcesRS, Resource } from "./dtos";
 import { OmegaFetch } from "@/services/config";

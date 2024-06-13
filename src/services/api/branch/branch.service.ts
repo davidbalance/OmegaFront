@@ -1,4 +1,4 @@
-import { BranchAPI } from "@/services/endpoints";
+import { BranchAPI } from "@/lib/endpoints";
 import { AbstractService } from "../abstract.service";
 import { SelectorOption } from "@/lib";
 import { OmegaFetch } from "@/services/config";

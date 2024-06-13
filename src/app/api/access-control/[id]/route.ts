@@ -2,7 +2,7 @@ import { FetchError } from "@/lib/errors/fetch.error";
 import { get, patch } from "@/lib/fetcher/fetcher";
 import { DEFAULT_WITH_AUTH_OPTIONS, withAuth } from "@/lib/fetcher/with-fetch.utils";
 import { FindAndUpdateACRolesRQ, FindOneACClientRS } from "@/services/api/access-control/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

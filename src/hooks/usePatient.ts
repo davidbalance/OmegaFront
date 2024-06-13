@@ -1,6 +1,6 @@
 import { PatientService } from "@/services/api";
 import { Patient } from "@/services/api/patient/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";

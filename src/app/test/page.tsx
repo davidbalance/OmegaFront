@@ -4,7 +4,7 @@ import { useCookie } from '@/hooks/useCookie/useCookie';
 import { useGet } from '@/hooks/useCrud';
 import { AUTH_TOKEN_COOKIE } from '@/lib/constants';
 import { User } from '@/services/api/user/dtos';
-import endpoints from '@/services/endpoints/endpoints';
+import endpoints from '@/lib/endpoints/endpoints';
 import { Button } from '@mantine/core';
 import React from 'react'
 

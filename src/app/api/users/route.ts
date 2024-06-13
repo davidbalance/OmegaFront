@@ -4,7 +4,7 @@ import { DEFAULT_WITH_AUTH_OPTIONS, withAuth } from "@/lib/fetcher/with-fetch.ut
 import { FindAndUpdateACRolesRQ } from "@/services/api/access-control/dtos";
 import { CreateCredentialRQ } from "@/services/api/user-credential/dtos";
 import { CreateUserRQ, User } from "@/services/api/user/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {

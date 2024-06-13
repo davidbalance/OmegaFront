@@ -1,6 +1,6 @@
 import { UserCrendentialService } from "@/services/api";
 import { CreateCredentialRQ, FindCredentialAndUpdateRQ } from "@/services/api/user-credential/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 

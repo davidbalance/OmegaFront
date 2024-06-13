@@ -1,7 +1,7 @@
 import { SelectorOption } from "@/lib";
 import { DiseaseGroupService } from "@/services/api";
 import { CreateDiseaseGroupRQ, DeleteDiseaseGroupRQ, DiseaseGroup, UpdateDiseaseGroupRQ } from "@/services/api/disease-group/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";

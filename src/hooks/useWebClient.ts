@@ -1,6 +1,6 @@
 import { OmegaWebClientService } from "@/services/api";
 import { UpdateWebClientLogoRequestDTO } from "@/services/api/omega-web-client/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { notifications } from "@mantine/notifications";
 
 export const useWebClient = () => {

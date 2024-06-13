@@ -1,6 +1,6 @@
 import { SelectorOption } from "@/lib";
 import { ResourceService } from "@/services/api";
-import { Resource } from "@/services/api/resource/dtos";import endpoints from "@/services/endpoints/endpoints";
+import { Resource } from "@/services/api/resource/dtos";import endpoints from "@/lib/endpoints/endpoints";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";

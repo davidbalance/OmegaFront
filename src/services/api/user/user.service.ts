@@ -1,4 +1,4 @@
-import { UserAPI } from "@/services/endpoints";
+import { UserAPI } from "@/lib/endpoints";
 import { IFindService, ICreateService, IUpdateService, IDeleteService } from "@/services/interfaces";
 import { AbstractService } from "../abstract.service";
 import { OmegaFetch } from "@/services/config";

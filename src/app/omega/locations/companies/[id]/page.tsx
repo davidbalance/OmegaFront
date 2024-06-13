@@ -5,7 +5,7 @@ import { CompanyLayout } from "@/components/company/company-layout/CompanyLayout
 import { useCompany } from "@/hooks"
 import { CompanyService } from "@/services/api";
 import { Company as CompanyType} from "@/services/api/company/dtos";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { SelectorOption } from "@/lib";
 
 

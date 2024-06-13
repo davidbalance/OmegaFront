@@ -2,7 +2,7 @@ import { GETWebResourcesResponseDto } from "@/lib/dtos/web/resources.response.dt
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import { NextResponse } from "next/server";
 
 export async function GET() {

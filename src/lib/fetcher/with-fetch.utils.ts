@@ -1,6 +1,6 @@
 import { fetcher, PostFetcherConfigurationOptions, GetFetcherConfigurationOptions, PatchFetcherConfigurationOptions, DeleteFetcherConfigurationOptions, PutFetcherConfigurationOptions } from "./fetcher";
 import { AUTH_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "../constants";
-import endpoints from "@/services/endpoints/endpoints";
+import endpoints from "@/lib/endpoints/endpoints";
 import dayjs from "dayjs";
 import { cookies } from "next/headers"
 import { FetchError } from "../errors/fetch.error";
