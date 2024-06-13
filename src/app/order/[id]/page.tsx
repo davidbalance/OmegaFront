@@ -1,11 +1,13 @@
 'use client'
+import { DownloadActionButton } from '@/components/download/action-button/DownloadActionButton'
 import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout'
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement'
 import { ModularBox } from '@/components/modular-box/ModularBox'
 import { useFetch } from '@/hooks/useFetch/useFetch'
 import { useList } from '@/hooks/useList'
-import { FindOrderFilesResponseDTO, Order, OrderFileDto, OrderResult } from '@/services/api/order/dtos'
-import { ActionIcon, Avatar, Box, Button, ButtonGroup, Checkbox, Flex, Grid, Loader, Text, Title, Tooltip, rem } from '@mantine/core'
+import { blobFile } from '@/lib/utils/blob-to-file'
+import { FindOrderFilesResponseDTO, OrderFileDto } from '@/services/api/order/dtos'
+import { Avatar, Box, Button, ButtonGroup, Checkbox, Flex, Loader, Text, Title, rem } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 import { IconDownload, IconSelectAll, IconUser } from '@tabler/icons-react'
@@ -35,13 +37,31 @@ const HeadUp: React.FC<HeadUpProps> = ({ dni, fullname }) => {
 }
 
 const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
-    const { data, error, loading } = useFetch<FindOrderFilesResponseDTO>(`/api/orders/files/${params.id}`, 'GET');
+
+    const { data, error, loading } = useFetch<FindOrderFilesResponseDTO>(`/api/omega-drive/order/${params.id}`, 'GET');
+    const {
+        data: fileBlob,
+        error: fileError,
+        loading: fileLoading,
+        body: fileBody,
+        reload: fileReload,
+        request: fileRequest,
+        reset: fileReset } = useFetch<Blob>(`/api/files/multiple`, 'POST', { loadOnMount: false, type: 'blob' });
     const [orderResults, { override: medicalResultOverride }] = useList<OrderFileDto>([]);
 
     const [selected, setSelected] = useState<OrderFileDto[]>([]);
 
     const isMobile = useMediaQuery('(max-width: 50em)');
 
+    const handleClickEventDownloadAll = useCallback(() => {
+        const files = orderResults.map(e => ({ id: e.id, type: e.type }));
+        fileRequest({ files });
+    }, [orderResults]);
+
+    const handleClickEventDownloadSelected = useCallback(() => {
+        const files = selected.map(e => ({ id: e.id, type: e.type }));
+        fileRequest({ files });
+    }, [selected]);
 
     const handleSelection = useCallback((selection: OrderFileDto) => {
         setSelected(prev => {
@@ -54,6 +74,29 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
         })
     }, []);
 
+    useEffect(() => {
+        if (fileBody) {
+            fileReload();
+        }
+    }, [fileBody]);
+
+    useEffect(() => {
+        if (error) {
+            notifications.show({ message: error.message, color: 'red' });
+        } else if (fileError) {
+            notifications.show({ message: fileError.message, color: 'red' });
+        }
+    }, [error, fileError]);
+
+    useEffect(() => {
+        if (fileBlob && data) {
+            blobFile(fileBlob, `${data.fullname.toLocaleLowerCase().split(' ').join('_')}.zip`);
+            fileReset();
+        }
+    }, [fileBlob, data, fileReset])
+
+
+
     const handleOrderRows = useCallback((row: OrderFileDto) => (
         <ListRowElement
             key={`medical-${row.type}-${row.id}`}
@@ -61,13 +104,8 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
                 checked={!!selected.find(e => e.id === row.id && e.type === row.type)}
                 onChange={() => handleSelection(row)}
             />}
-            rightSection={<Tooltip
-                label='Descargar'
-                withArrow>
-                <ActionIcon size='sm' p={rem(2)} variant='light'>
-                    <IconDownload style={{ width: rem(16), height: rem(16) }} />
-                </ActionIcon>
-            </Tooltip>}
+            rightSection={<DownloadActionButton
+                url={`/api/files/${row.type}/${row.id}`} filename={`${row.examName.toLocaleLowerCase().split(' ').join('_')}.pdf`} />}
             onClick={() => handleSelection(row)}>
             <Title order={6}>{row.examName}</Title>
             <Text>{row.type === 'report' ? 'Reporte Medico' : 'Resultado Medico'}</Text>
@@ -79,8 +117,15 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
         { key: 'type', name: 'Tipo de archivo' },
     ], []);
 
-    const downloadSelectedButton = useMemo(() => selected.length > 0 && <Button variant='light' fullWidth radius='xl' size='compact-sm' leftSection={<IconSelectAll style={{ width: rem(16), height: rem(16) }} />}>Descargar seleccionados</Button>,
-        [selected]);
+    const downloadSelectedButton = useMemo(() => selected.length > 0 && <Button
+        loading={fileLoading}
+        variant='light'
+        fullWidth
+        size='compact-sm'
+        onClick={handleClickEventDownloadSelected}
+        leftSection={<IconSelectAll style={{ width: rem(16), height: rem(16) }} />}
+    >Descargar seleccionados</Button>,
+        [selected, fileLoading, handleClickEventDownloadSelected]);
 
     useEffect(() => {
         if (data) {
@@ -110,18 +155,26 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
                                     fullname={data.fullname}
                                     dni={data.dni} />
                                 <Flex flex={1} gap={rem(8)} direction='column'>
-                                    <ModularBox>
-                                        <ButtonGroup>
-                                            <Button variant='light' fullWidth radius='xl' size='compact-sm' leftSection={<IconDownload style={{ width: rem(16), height: rem(16) }} />}>Descargar todo</Button>
-                                            {downloadSelectedButton}
-                                        </ButtonGroup>
-                                    </ModularBox>
                                     <ListLayout<OrderFileDto>
                                         data={orderResults}
                                         loading={false}
                                         columns={medicalResultColumns}
                                         rows={handleOrderRows}
                                         size={50} />
+                                    <ModularBox>
+                                        <ButtonGroup>
+                                            <Button
+                                                onClick={handleClickEventDownloadAll}
+                                                variant='filled'
+                                                loading={fileLoading}
+                                                fullWidth
+                                                size='compact-sm'
+                                                leftSection={<IconDownload
+                                                    style={{ width: rem(16), height: rem(16) }} />}
+                                            >Descargar todo</Button>
+                                            {downloadSelectedButton}
+                                        </ButtonGroup>
+                                    </ModularBox>
                                 </Flex>
                             </Flex>
                         </Box>

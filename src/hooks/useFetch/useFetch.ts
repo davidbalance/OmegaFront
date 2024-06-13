@@ -7,6 +7,10 @@ type FetchResult<T> = FetchHookResult<T> & {
      */
     status: number | null;
     /**
+     * Will give you the body request object
+     */
+    body: any | null;
+    /**
      * Set the body for the request body
      * @template R Type of the request body
      * @param body Request body
@@ -50,7 +54,7 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
             'Content-Type': 'application/json',
             ...other.headers
         }
-    }), [method, other]);
+    }), [method, body, other]);
 
     const handleFetch = useCallback(async () => {
         setLoading(true);
@@ -95,7 +99,7 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
         setError(null);
     }, []);
 
-    return { data, error, loading, status, request, reload, reset };
+    return { data, error, loading, status, body, request, reload, reset };
 }
 
 export { useFetch };
