@@ -23,29 +23,27 @@ const DownloadActionButton: React.FC<DownloadActionButtonProps> = ({ url, filena
             blobFile(data, filename)
             reset();
         }
-    }, [data, filename]);
+    }, [data, filename, reset]);
 
     useEffect(() => {
         if (error) {
             notifications.show({ message: error.message, color: 'red' });
         }
-    }, [error])
-
+    }, [error]);
 
     return (
-        <>
-            {
-                loading
-                    ? <Loader size='xs' />
-                    : <Tooltip
-                        label='Descargar'
-                        withArrow>
-                        <ActionIcon size='sm' p={rem(2)} variant='transparent' onClick={handleClickEventDownloadFile}>
-                            <IconDownload style={{ width: rem(16), height: rem(16) }} />
-                        </ActionIcon>
-                    </Tooltip>
-            }
-        </>
+        loading
+            ? (
+                <Loader size='xs' />
+            ) : (
+                <Tooltip
+                    label='Descargar'
+                    withArrow>
+                    <ActionIcon size='sm' p={rem(2)} variant='transparent' onClick={handleClickEventDownloadFile}>
+                        <IconDownload style={{ width: rem(16), height: rem(16) }} />
+                    </ActionIcon>
+                </Tooltip>
+            )
     )
 }
 

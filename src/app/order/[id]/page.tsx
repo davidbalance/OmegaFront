@@ -36,6 +36,11 @@ const HeadUp: React.FC<HeadUpProps> = ({ dni, fullname }) => {
     );
 }
 
+const medicalResultColumns: ListElement<OrderFileDto>[] = [
+    { key: 'examName', name: 'Nombre del archivo' },
+    { key: 'type', name: 'Tipo de archivo' },
+];
+
 const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
 
     const { data, error, loading } = useFetch<FindOrderFilesResponseDTO>(`/api/omega-drive/order/${params.id}`, 'GET');
@@ -46,9 +51,10 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
         body: fileBody,
         reload: fileReload,
         request: fileRequest,
-        reset: fileReset } = useFetch<Blob>(`/api/files/multiple`, 'POST', { loadOnMount: false, type: 'blob' });
-    const [orderResults, { override: medicalResultOverride }] = useList<OrderFileDto>([]);
+        reset: fileReset
+    } = useFetch<Blob>(`/api/files/multiple`, 'POST', { loadOnMount: false, type: 'blob' });
 
+    const [orderResults, { override: medicalResultOverride }] = useList<OrderFileDto>([]);
     const [selected, setSelected] = useState<OrderFileDto[]>([]);
 
     const isMobile = useMediaQuery('(max-width: 50em)');
@@ -56,37 +62,33 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
     const handleClickEventDownloadAll = useCallback(() => {
         const files = orderResults.map(e => ({ id: e.id, type: e.type }));
         fileRequest({ files });
-    }, [orderResults]);
+    }, [orderResults, fileRequest]);
 
     const handleClickEventDownloadSelected = useCallback(() => {
         const files = selected.map(e => ({ id: e.id, type: e.type }));
         fileRequest({ files });
-    }, [selected]);
+    }, [selected, fileRequest]);
 
     const handleSelection = useCallback((selection: OrderFileDto) => {
         setSelected(prev => {
             const index = prev.findIndex(e => e.id === selection.id && e.type === selection.type);
-            if (index === -1) {
-                return [...prev, selection];
-            }
-            const newArray = prev.filter(e => !(e.id === selection.id && e.type === selection.type));
-            return newArray;
+            if (index === -1) return [...prev, selection];
+            return prev.filter(e => !(e.id === selection.id && e.type === selection.type));
         })
     }, []);
 
     useEffect(() => {
-        if (fileBody) {
-            fileReload();
-        }
+        if (fileBody) fileReload();
     }, [fileBody]);
 
     useEffect(() => {
-        if (error) {
-            notifications.show({ message: error.message, color: 'red' });
-        } else if (fileError) {
-            notifications.show({ message: fileError.message, color: 'red' });
-        }
+        if (error) notifications.show({ message: error.message, color: 'red' });
+        else if (fileError) notifications.show({ message: fileError.message, color: 'red' });
     }, [error, fileError]);
+
+    useEffect(() => {
+        if (data) medicalResultOverride([...data.fileResults, ...data.fileReports]);
+    }, [data])
 
     useEffect(() => {
         if (fileBlob && data) {
@@ -94,8 +96,6 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
             fileReset();
         }
     }, [fileBlob, data, fileReset])
-
-
 
     const handleOrderRows = useCallback((row: OrderFileDto) => (
         <ListRowElement
@@ -105,40 +105,26 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
                 onChange={() => handleSelection(row)}
             />}
             rightSection={<DownloadActionButton
-                url={`/api/files/${row.type}/${row.id}`} filename={`${row.examName.toLocaleLowerCase().split(' ').join('_')}.pdf`} />}
+                url={`/api/files/${row.type}/${row.id}`}
+                filename={`${row.examName.toLocaleLowerCase().split(' ').join('_')}.pdf`}
+            />}
             onClick={() => handleSelection(row)}>
             <Title order={6}>{row.examName}</Title>
             <Text>{row.type === 'report' ? 'Reporte Medico' : 'Resultado Medico'}</Text>
         </ListRowElement>)
         , [selected, handleSelection]);
 
-    const medicalResultColumns = useMemo((): ListElement<OrderFileDto>[] => [
-        { key: 'examName', name: 'Nombre del archivo' },
-        { key: 'type', name: 'Tipo de archivo' },
-    ], []);
-
-    const downloadSelectedButton = useMemo(() => selected.length > 0 && <Button
-        loading={fileLoading}
-        variant='light'
-        fullWidth
-        size='compact-sm'
-        onClick={handleClickEventDownloadSelected}
-        leftSection={<IconSelectAll style={{ width: rem(16), height: rem(16) }} />}
-    >Descargar seleccionados</Button>,
+    const downloadSelectedButton = useMemo(() => selected.length > 0 &&
+        <Button
+            loading={fileLoading}
+            variant='light'
+            fullWidth
+            size='compact-sm'
+            onClick={handleClickEventDownloadSelected}
+            leftSection={<IconSelectAll style={{ width: rem(16), height: rem(16) }} />}
+        >
+            Descargar seleccionados</Button>,
         [selected, fileLoading, handleClickEventDownloadSelected]);
-
-    useEffect(() => {
-        if (data) {
-            medicalResultOverride([...data.fileResults, ...data.fileReports]);
-        }
-    }, [data])
-
-
-    useEffect(() => {
-        if (error) {
-            notifications.show({ message: error.message, color: 'red' });
-        }
-    }, [error]);
 
     return (
         <>
