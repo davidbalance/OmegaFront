@@ -1,15 +1,15 @@
+import { DiseaseGroup } from "@/lib/dtos/disease/group/response.dto";
 import { BaseFormProps } from "@/lib/types/base-form-prop";
-import { DiseaseGroup } from "@/services/api/disease-group/dtos";
 import { Box, TextInput, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconSignature } from "@tabler/icons-react";
 import Joi from "joi";
 import { joiResolver } from "mantine-form-joi-resolver";
-import React from "react";
+import React, { useCallback } from "react";
 
-type DiseaseGroupForm = Omit<DiseaseGroup, 'id'>;
+type DiseaseGroupWithOmittedIdAndDiseases = Omit<DiseaseGroup, 'id' | 'diseases'>;
 
-const diseaseSchema = Joi.object<DiseaseGroupForm>({
+const diseaseSchema = Joi.object<DiseaseGroupWithOmittedIdAndDiseases>({
     name: Joi
         .string()
         .empty()
@@ -19,8 +19,8 @@ const diseaseSchema = Joi.object<DiseaseGroupForm>({
         })
 });
 
-export type DiseaseGroupFormProps = BaseFormProps<DiseaseGroupForm>;
-const DiseaseGroupForm = React.forwardRef<HTMLButtonElement, DiseaseGroupFormProps>(({ formData, onFormSubmitted }, ref) => {
+export type DiseseGroupFormProps = BaseFormProps<DiseaseGroupWithOmittedIdAndDiseases>;
+const DiseseGroupForm = React.forwardRef<HTMLButtonElement, DiseseGroupFormProps>(({ formData, onFormSubmitted }, ref) => {
 
     const form = useForm({
         initialValues: {
@@ -29,14 +29,14 @@ const DiseaseGroupForm = React.forwardRef<HTMLButtonElement, DiseaseGroupFormPro
         validate: joiResolver(diseaseSchema)
     });
 
-    const handleFormSubmit = (submittedData: DiseaseGroupForm) => {
+    const handleFormSubmittedEvent = useCallback((submittedData: DiseaseGroupWithOmittedIdAndDiseases) => {
         onFormSubmitted?.(submittedData);
-    }
+    }, [onFormSubmitted]);
 
     return (
         <Box
             component='form'
-            onSubmit={form.onSubmit(handleFormSubmit)}
+            onSubmit={form.onSubmit(handleFormSubmittedEvent)}
             w='100%'
             maw={750}
         >
@@ -53,6 +53,6 @@ const DiseaseGroupForm = React.forwardRef<HTMLButtonElement, DiseaseGroupFormPro
     )
 })
 
-DiseaseGroupForm.displayName = 'DiseaseGroupForm';
+DiseseGroupForm.displayName = 'DiseseGroupForm';
 
-export default DiseaseGroupForm
+export default DiseseGroupForm

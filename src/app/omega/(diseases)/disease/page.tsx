@@ -1,12 +1,11 @@
 'use client'
 
 import { ResponsiveButton } from '@/components/buttons/responsive-button/ResponsiveButton';
-import DiseaseActionMenu from '@/components/disease/action/menu/DiseaseActionMenu';
-import { DiseaseUpdate } from '@/components/disease/disease-update/DiseaseUpdate';
+import DiseaseActionMenu from '@/components/disease/action/DiseaseActionMenu';
 import { DiseaseFormCreate } from '@/components/disease/form/DiseaseFormCreate';
 import { DiseaseFormUpdate } from '@/components/disease/form/DiseaseFormUpdate';
 import { DiseaseFormUpdateGroup } from '@/components/disease/form/DiseaseFormUpdateGroup';
-import DiseaseGroupActionMenu from '@/components/disease/group/action-menu/DiseaseGroupActionMenu';
+import DiseaseGroupActionMenu from '@/components/disease/group/action/DiseaseGroupActionMenu';
 import { DiseaseGroupFormCreate } from '@/components/disease/group/form/DiseaseGroupFormCreate';
 import { DiseaseGroupFormUpdate } from '@/components/disease/group/form/DiseaseGroupFormUpdate';
 import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
@@ -15,8 +14,8 @@ import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-ti
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { useList } from '@/hooks/useList';
-import { DiseaseGroup } from '@/services/api/disease-group/dtos';
-import { Disease, DiseaseDiseaseGroup } from '@/services/api/disease/dtos';
+import { DiseaseGroup } from '@/lib/dtos/disease/group/response.dto';
+import { Disease } from '@/lib/dtos/disease/response.dto';
 import { LoadingOverlay, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -30,7 +29,7 @@ enum LayoutState {
     UPDATE_DISEASE_GROUP,
 }
 
-type DiseaseGroupType = Omit<DiseaseDiseaseGroup, 'diseases'>;
+type DiseaseGroupType = Omit<DiseaseGroup, 'diseases'>;
 
 const columnDiseaseGroup: ListElement<DiseaseGroupType>[] = [
     { key: 'name', name: 'Grupo' }
@@ -50,17 +49,19 @@ const DiseasePage: React.FC = () => {
         override: groupOverride,
         append: groupAppend,
         update: groupUpdate,
-        remove: groupRemove }] = useList<DiseaseDiseaseGroup>([]);
+        remove: groupRemove
+    }] = useList<DiseaseGroup>([]);
 
     const [diseases, {
         override: diseaseOverride,
         append: diseaseAppend,
         update: diseaseUpdate,
-        remove: diseaseRemove }] = useList<Disease>([]);
+        remove: diseaseRemove
+    }] = useList<Disease>([]);
 
     const confirmation = useConfirmation();
 
-    const [selectedGroup, setSelectedGroup] = useState<DiseaseDiseaseGroup | null>(null);
+    const [selectedGroup, setSelectedGroup] = useState<DiseaseGroup | null>(null);
     const [selectedDisease, setSelectedDisease] = useState<Disease | null>(null);
 
     const [shouldDeleteGroup, setShouldDeleteGroup] = useState<boolean>(false);
@@ -70,7 +71,7 @@ const DiseasePage: React.FC = () => {
         data: fetchGroups,
         error: groupError,
         loading: groupLoading
-    } = useFetch<DiseaseDiseaseGroup[]>('/api/diseases/groups', 'GET');
+    } = useFetch<DiseaseGroup[]>('/api/diseases/groups', 'GET');
 
     const {
         data: deleteGroup,
@@ -112,8 +113,8 @@ const DiseasePage: React.FC = () => {
             setShouldDeleteGroup(false);
         }
     }, [shouldDeleteGroup, selectedGroup, deleteGroupReload]);
-    
-    
+
+
     useEffect(() => {
         if (shouldDeleteDisease && selectedDisease) {
             deleteDiseaseReload();
@@ -144,7 +145,7 @@ const DiseasePage: React.FC = () => {
         }
     }, [deleteDisease, selectedDisease, deleteDiseaseReset]);
 
-    const handleClickEventSelectGroup = (data: DiseaseDiseaseGroup) => {
+    const handleClickEventSelectGroup = (data: DiseaseGroup) => {
         setSelectedGroup(data);
         setActive(1);
     }
@@ -153,12 +154,12 @@ const DiseasePage: React.FC = () => {
         setCurrentState(LayoutState.CREATE_GROUP);
     }
 
-    const handleClickEventUpdateGroup = (data: DiseaseDiseaseGroup) => {
+    const handleClickEventUpdateGroup = (data: DiseaseGroup) => {
         setSelectedGroup(data);
         setCurrentState(LayoutState.UPDATE_GROUP);
     }
 
-    const handleClickEventDeleteGroup = useCallback(async (data: DiseaseDiseaseGroup) => {
+    const handleClickEventDeleteGroup = useCallback(async (data: DiseaseGroup) => {
         setSelectedGroup(data);
         const state = await confirmation.show('Eliminacion de morbilidades', `La morbilidad ${data.name} va a ser eliminada. ¿Esta seguro?`);
         if (state) {
@@ -192,7 +193,7 @@ const DiseasePage: React.FC = () => {
         }
     }, [confirmation]);
 
-    const handleGroupRow = useCallback((row: DiseaseDiseaseGroup) => (
+    const handleGroupRow = useCallback((row: DiseaseGroup) => (
         <ListRowElement
             key={row.id}
             active={row.id === selectedGroup?.id}
@@ -231,7 +232,7 @@ const DiseasePage: React.FC = () => {
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {
             title: 'Grupo de morbilidades',
-            element: <ListLayout<DiseaseDiseaseGroup>
+            element: <ListLayout<DiseaseGroup>
                 key='group-list-layout'
                 loading={groupLoading}
                 data={groups}
@@ -252,9 +253,17 @@ const DiseasePage: React.FC = () => {
                 dock={createDiseaseButton}
             />,
         }
-    ], [groupLoading, groups, handleGroupRow, createDiseaseGroupButton, diseases, handleDiseaseRow, createDiseaseButton]);
+    ], [
+        groupLoading,
+        groups,
+        handleGroupRow,
+        createDiseaseGroupButton,
+        diseases,
+        handleDiseaseRow,
+        createDiseaseButton
+    ]);
 
-    const handleCloseTier = useCallback(() => {
+    const handleCloseTierEvent = useCallback(() => {
         setActive((prev) => {
             const newValue = prev - 1;
             if (newValue === 0) {
@@ -306,7 +315,7 @@ const DiseasePage: React.FC = () => {
             <MultipleTierLayout
                 elements={multipleLayerComponents}
                 tier={active}
-                onClose={handleCloseTier} />
+                onClose={handleCloseTierEvent} />
         ),
         [LayoutState.CREATE_GROUP]: <DiseaseGroupFormCreate
             onClose={handleCloseStateEvent}
@@ -333,7 +342,7 @@ const DiseasePage: React.FC = () => {
     }), [
         multipleLayerComponents,
         active,
-        handleCloseTier,
+        handleCloseTierEvent,
         handleCloseStateEvent,
         handleFormSubmittedEventCreateGroup,
         selectedGroup,

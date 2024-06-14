@@ -1,27 +1,28 @@
 import { useFetch } from '@/hooks/useFetch/useFetch';
+import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { blobFile } from '@/lib/utils/blob-to-file';
-import { OrderResult } from '@/services/api/order/dtos';
-import { Menu, MenuTarget, ActionIcon, rem, Loader } from '@mantine/core';
+import { Menu, MenuTarget, Loader, ActionIcon, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconDotsVertical, IconDownload, IconEdit, IconX } from '@tabler/icons-react';
+import { IconX, IconDotsVertical, IconEdit, IconDownload } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useState } from 'react'
 
-interface PatientOrderExamMenuProps {
-    data: OrderResult;
+type MedicalResultWithoutOrder = Omit<MedicalResult, 'order'>;
+interface MedicalResultActionMenuProps {
+    data: MedicalResultWithoutOrder;
     onModification: () => void;
 }
-const PatientOrderExamMenu: React.FC<PatientOrderExamMenuProps> = ({ data, onModification }) => {
+const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({ data, onModification }) => {
 
-    const [disclosure, { close, open, toggle }] = useDisclosure(false)
+    const [disclosure, { close, open }] = useDisclosure(false)
     const { data: fileBlob, loading: fileLoading, error: fileError, reload: fileReload, request: fileRequest } = useFetch<Blob>(`/api/exams/file`, 'POST', { loadOnMount: false, type: 'blob' });
     const [shouldDownloadFile, setShouldDownloadFile] = useState<boolean>(false);
 
-    const handleClick = () => open();
+    const handleClick = useCallback(() => open(), []);
 
-    const handleClickEventModification = () => {
+    const handleClickEventModification = useCallback(() => {
         onModification();
-    }
+    }, []);
 
     const handleClickEventDownload = useCallback(() => {
         fileRequest<{ type: 'report' | 'result', id: number }>({ type: 'result', id: data.id });
@@ -48,7 +49,6 @@ const PatientOrderExamMenu: React.FC<PatientOrderExamMenuProps> = ({ data, onMod
         }
     }, [shouldDownloadFile])
 
-
     return (
         <Menu onClose={close} disabled={fileLoading}>
             <MenuTarget>
@@ -72,4 +72,4 @@ const PatientOrderExamMenu: React.FC<PatientOrderExamMenuProps> = ({ data, onMod
     )
 }
 
-export { PatientOrderExamMenu }
+export { MedicalResultActionMenu };

@@ -1,14 +1,13 @@
 import { ModularBox } from "@/components/modular-box/ModularBox";
 import { SubLayoutFormTitle } from "@/components/sub-layout-form/SubLayoutTitle";
 import { useFetch } from "@/hooks/useFetch/useFetch";
-import { DiseaseGroup } from "@/services/api/disease-group/dtos";
-import { Disease } from "@/services/api/disease/dtos";
 import { LoadingOverlay, Flex, rem, Button } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useRef, useCallback, useEffect } from "react";
-import DiseaseForm from "./DiseaseForm";
 import DiseaseFormGroup from "./DiseaseFormGroup";
+import { DiseaseGroup } from "@/lib/dtos/disease/group/response.dto";
+import { Disease } from "@/lib/dtos/disease/response.dto";
 
 type DiseaseFormUpdateGroupProps = {
     disease: Disease;

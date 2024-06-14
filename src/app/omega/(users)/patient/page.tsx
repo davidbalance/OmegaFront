@@ -4,8 +4,8 @@ import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLay
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import MedicalOrderActionMenu from '@/components/medical/order/action/MedicalOrderActionMenu';
+import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { MedicalResultFormDisease } from '@/components/medical/result/form/MedicalResultFormDisease';
-import { PatientOrderExamMenu } from '@/components/patient/patient-order-exam-menu/PatientOrderExamMenu';
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { useList } from '@/hooks/useList';
 import { MedicalOrder } from '@/lib/dtos/medical/order/response.dto';
@@ -144,7 +144,7 @@ const PatientPage: React.FC = () => {
     const handleMedicalResultRow = useCallback((row: MedicalResultWithOrderOmitted) => (
         <ListRowElement
             key={row.id}
-            rightSection={<PatientOrderExamMenu
+            rightSection={<MedicalResultActionMenu
                 onModification={() => setMedicalResultSelected(row)}
                 data={row} />}
         >

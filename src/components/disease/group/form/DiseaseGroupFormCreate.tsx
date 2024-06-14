@@ -1,5 +1,4 @@
 import { SubLayoutFormTitle } from "@/components/sub-layout-form/SubLayoutTitle";
-import { DiseaseGroup } from "@/services/api/disease-group/dtos";
 import { LoadingOverlay, rem, Button, Flex } from "@mantine/core";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useCallback, useEffect, useRef } from "react";
@@ -7,6 +6,7 @@ import DiseaseGroupForm from "./DiseaseGroupForm";
 import { useFetch } from "@/hooks/useFetch/useFetch";
 import { ModularBox } from "@/components/modular-box/ModularBox";
 import { notifications } from "@mantine/notifications";
+import { DiseaseGroup } from "@/lib/dtos/disease/group/response.dto";
 
 type DiseaseGroupFormCreateProps = {
     onClose: () => void;
@@ -17,7 +17,7 @@ const DiseaseGroupFormCreate: React.FC<DiseaseGroupFormCreateProps> = ({ onClose
     const { body, data, error, loading, reload, request, reset } = useFetch<DiseaseGroup>('/api/diseases/groups', 'POST', { loadOnMount: false });
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const handleFormSubmittedEvent = useCallback((data: Omit<DiseaseGroup, 'id'>) => {
+    const handleFormSubmittedEvent = useCallback((data: Omit<DiseaseGroup, 'id' | 'diseases'>) => {
         request(data);
     }, [request]);
 

@@ -1,7 +1,5 @@
 import { BaseFormProps } from "@/lib/types/base-form-prop";
 import { Box, Button, ComboboxItem, Select } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { joiResolver } from "mantine-form-joi-resolver";
 import React, { FormEvent, useEffect, useState } from "react";
 
 type DiseaseFormGroup = { group: number };

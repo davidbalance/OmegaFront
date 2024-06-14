@@ -1,5 +1,5 @@
+import { Disease } from "@/lib/dtos/disease/response.dto";
 import { BaseFormProps } from "@/lib/types/base-form-prop";
-import { Disease } from "@/services/api/disease/dtos";
 import { Box, TextInput, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconSignature } from "@tabler/icons-react";
@@ -7,9 +7,9 @@ import Joi from "joi";
 import { joiResolver } from "mantine-form-joi-resolver";
 import React from "react";
 
-type DiseaseForm = Omit<Disease, 'id'>;
+type DiseaseWithOmittedId = Omit<Disease, 'id'>;
 
-const diseaseSchema = Joi.object<DiseaseForm>({
+const diseaseSchema = Joi.object<DiseaseWithOmittedId>({
     name: Joi
         .string()
         .empty()
@@ -19,7 +19,7 @@ const diseaseSchema = Joi.object<DiseaseForm>({
         })
 });
 
-export type DiseaseFormProps = BaseFormProps<DiseaseForm>;
+export type DiseaseFormProps = BaseFormProps<DiseaseWithOmittedId>;
 const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ formData, onFormSubmitted }, ref) => {
 
     const form = useForm({
@@ -29,7 +29,7 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ for
         validate: joiResolver(diseaseSchema)
     });
 
-    const handleFormSubmit = (submittedData: DiseaseForm) => {
+    const handleFormSubmit = (submittedData: DiseaseWithOmittedId) => {
         onFormSubmitted?.(submittedData);
     }
 
@@ -55,4 +55,4 @@ const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ for
 
 DiseaseForm.displayName = 'DiseaseForm';
 
-export default DiseaseForm
+export { DiseaseForm }

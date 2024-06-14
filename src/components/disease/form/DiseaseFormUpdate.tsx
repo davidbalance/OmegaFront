@@ -1,13 +1,12 @@
 import { ModularBox } from "@/components/modular-box/ModularBox";
 import { SubLayoutFormTitle } from "@/components/sub-layout-form/SubLayoutTitle";
 import { useFetch } from "@/hooks/useFetch/useFetch";
-import { DiseaseGroup } from "@/services/api/disease-group/dtos";
-import { Disease } from "@/services/api/disease/dtos";
+import { Disease } from "@/lib/dtos/disease/response.dto";
 import { LoadingOverlay, Flex, rem, Button } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useRef, useCallback, useEffect } from "react";
-import DiseaseForm from "./DiseaseForm";
+import { DiseaseForm } from "./DiseaseForm";
 
 type DiseaseFormUpdateProps = {
     disease: Disease;
@@ -16,10 +15,10 @@ type DiseaseFormUpdateProps = {
     onClose: () => void;
 }
 const DiseaseFormUpdate: React.FC<DiseaseFormUpdateProps> = ({ onClose, onFormSubmitted, disease, group }) => {
-    const { body, data, error, loading, reload, request, reset } = useFetch<DiseaseGroup>(`/api/diseases/${disease ? disease.id : ''}`, 'PATCH', { loadOnMount: false });
+    const { body, data, error, loading, reload, request, reset } = useFetch<Disease>(`/api/diseases/${disease ? disease.id : ''}`, 'PATCH', { loadOnMount: false });
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const handleFormSubmittedEvent = useCallback((data: Omit<DiseaseGroup, 'id'>) => {
+    const handleFormSubmittedEvent = useCallback((data: Omit<Disease, 'id'>) => {
         request({ ...disease, ...data, group });
     }, [request]);
 
