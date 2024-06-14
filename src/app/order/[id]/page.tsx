@@ -5,8 +5,8 @@ import { ListRowElement } from '@/components/layout/list-layout/ListRowElement'
 import { ModularBox } from '@/components/modular-box/ModularBox'
 import { useFetch } from '@/hooks/useFetch/useFetch'
 import { useList } from '@/hooks/useList'
+import { GETMedicalOrderFilesResponseDto, OrderFile } from '@/lib/dtos/medical/order/response.dto'
 import { blobFile } from '@/lib/utils/blob-to-file'
-import { FindOrderFilesResponseDTO, OrderFileDto } from '@/services/api/order/dtos'
 import { Avatar, Box, Button, ButtonGroup, Checkbox, Flex, Loader, Text, Title, rem } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
@@ -36,14 +36,14 @@ const HeadUp: React.FC<HeadUpProps> = ({ dni, fullname }) => {
     );
 }
 
-const medicalResultColumns: ListElement<OrderFileDto>[] = [
+const medicalResultColumns: ListElement<OrderFile>[] = [
     { key: 'examName', name: 'Nombre del archivo' },
     { key: 'type', name: 'Tipo de archivo' },
 ];
 
 const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
 
-    const { data, error, loading } = useFetch<FindOrderFilesResponseDTO>(`/api/omega-drive/order/${params.id}`, 'GET');
+    const { data, error, loading } = useFetch<GETMedicalOrderFilesResponseDto>(`/api/medical/orders/files/${params.id}`, 'GET');
     const {
         data: fileBlob,
         error: fileError,
@@ -52,10 +52,10 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
         reload: fileReload,
         request: fileRequest,
         reset: fileReset
-    } = useFetch<Blob>(`/api/files/multiple`, 'POST', { loadOnMount: false, type: 'blob' });
+    } = useFetch<Blob>(`/api/medical/results/file/downloader/multiple`, 'POST', { loadOnMount: false, type: 'blob' });
 
-    const [orderResults, { override: medicalResultOverride }] = useList<OrderFileDto>([]);
-    const [selected, setSelected] = useState<OrderFileDto[]>([]);
+    const [orderResults, { override: medicalResultOverride }] = useList<OrderFile>([]);
+    const [selected, setSelected] = useState<OrderFile[]>([]);
 
     const isMobile = useMediaQuery('(max-width: 50em)');
 
@@ -69,7 +69,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
         fileRequest({ files });
     }, [selected, fileRequest]);
 
-    const handleSelection = useCallback((selection: OrderFileDto) => {
+    const handleSelection = useCallback((selection: OrderFile) => {
         setSelected(prev => {
             const index = prev.findIndex(e => e.id === selection.id && e.type === selection.type);
             if (index === -1) return [...prev, selection];
@@ -97,7 +97,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
         }
     }, [fileBlob, data, fileReset])
 
-    const handleOrderRows = useCallback((row: OrderFileDto) => (
+    const handleOrderRows = useCallback((row: OrderFile) => (
         <ListRowElement
             key={`medical-${row.type}-${row.id}`}
             leftSection={<Checkbox
@@ -105,7 +105,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
                 onChange={() => handleSelection(row)}
             />}
             rightSection={<DownloadActionButton
-                url={`/api/files/${row.type}/${row.id}`}
+                url={`/api/medical/results/file/downloader/${row.type}/${row.id}`}
                 filename={`${row.examName.toLocaleLowerCase().split(' ').join('_')}.pdf`}
             />}
             onClick={() => handleSelection(row)}>
@@ -141,7 +141,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
                                     fullname={data.fullname}
                                     dni={data.dni} />
                                 <Flex flex={1} gap={rem(8)} direction='column'>
-                                    <ListLayout<OrderFileDto>
+                                    <ListLayout<OrderFile>
                                         data={orderResults}
                                         loading={false}
                                         columns={medicalResultColumns}
