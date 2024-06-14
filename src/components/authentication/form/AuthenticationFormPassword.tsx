@@ -1,4 +1,4 @@
-import { Box, PasswordInput, rem, Button, SimpleGrid } from '@mantine/core';
+import { Box, PasswordInput, rem, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconLock } from '@tabler/icons-react';
 import Joi from 'joi';
@@ -33,11 +33,11 @@ const passwordSchema = Joi.object<IPasswordForm>({
         })
 });
 
-type AuthenticationPasswordFormProps = {
+type AuthenticationFormPasswordProps = {
     onSubmit: (values: Omit<IPasswordForm, 'confirmPassword'>) => void;
     data?: { password: string };
 }
-const AuthenticationPasswordForm = React.forwardRef<HTMLButtonElement, AuthenticationPasswordFormProps>(({ data, onSubmit }, ref: ForwardedRef<HTMLButtonElement>) => {
+const AuthenticationFormPassword = React.forwardRef<HTMLButtonElement, AuthenticationFormPasswordProps>(({ data, onSubmit }, ref: ForwardedRef<HTMLButtonElement>) => {
 
     const form = useForm({
         initialValues: {
@@ -69,6 +69,6 @@ const AuthenticationPasswordForm = React.forwardRef<HTMLButtonElement, Authentic
     )
 });
 
-AuthenticationPasswordForm.displayName = 'AuthenticationPasswordForm';
+AuthenticationFormPassword.displayName = 'AuthenticationFormPassword';
 
-export { AuthenticationPasswordForm }
+export { AuthenticationFormPassword }

@@ -1,16 +1,17 @@
 import { LoadingOverlay, rem, Stepper, Flex, Text, Button, Container } from '@mantine/core';
 import { IconBuilding, IconChevronLeft, IconChevronRight, IconCircleCheck, IconDeviceFloppy, IconLicense, IconLock, IconUserCheck } from '@tabler/icons-react';
-import React, { useEffect, useRef, useState } from 'react'
-import UserDataForm from '../user-data-form/UserDataForm';
-import { AuthenticationPasswordForm } from '@/components/authentication/authentication-password';
-import { AssignRoleForm } from '@/components/role/assign-role';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
-import { UserLogoForm } from '../user-logo-form/UserLogoForm';
+import { UserFormLogo } from './UserFormLogo';
 import { ModularBox } from '@/components/modular-box/ModularBox';
-import { User } from '@/services/api/user/dtos';
 import { notifications } from '@mantine/notifications';
 import { useFetch } from '@/hooks/useFetch/useFetch';
-import { Role } from '@/services/api/role/dtos';
+import { User } from '@/lib/dtos/user/user.response.dto';
+import { WebResource } from '@/lib/dtos/web/resources.response.dto';
+import WebResourceFormAssign from '@/components/web/resource/form/WebResourceFormAssign';
+import { UserForm } from './UserForm';
+import { useMediaQuery } from '@mantine/hooks';
+import { AuthenticationFormPassword } from '@/components/authentication/form/AuthenticationFormPassword';
 
 type UserStepProps = {
     description: string; icon: React.ReactNode; step: {
@@ -19,105 +20,106 @@ type UserStepProps = {
     }
 }
 
-type UserCreateFormProps = {
-    matches: boolean | undefined;
+type UserFormCreateProps = {
     onClose: () => void;
     onFormSubmit?: (user: User) => void;
 }
 
-const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onFormSubmit, matches }) => {
+const UserFormCreate: React.FC<UserFormCreateProps> = ({ onClose, onFormSubmit }) => {
 
-    const { data, error, loading, request, reload } = useFetch<User>('/api/users', 'POST', { loadOnMount: false });
-    const getRoleFetchHook = useFetch<Role[]>('/api/roles', 'GET');
+    const {
+        data: createData,
+        error: createError,
+        loading: createLoading,
+        body: createBody,
+        request: createRequest,
+        reload: createReload,
+        reset: createReset
+    } = useFetch<User>('/api/users', 'POST', { loadOnMount: false });
+
+    const {
+        data: webResources,
+        error: webResourceError,
+        loading: webResourceLoading
+    } = useFetch<WebResource[]>('/api/web/resources', 'GET');
+
+    const isMobile = useMediaQuery('(max-width: 50em)');
 
     const [active, setActive] = useState<number>(0);
     const [formData, setFormData] = useState<any>({});
-    const [shouldSend, setShouldSend] = useState<boolean>(false);
+    const [shouldSendRequest, setShouldSendRequest] = useState<boolean>(false);
 
-    const steps: UserStepProps[] = [
+    const steps = useMemo((): UserStepProps[] => [
         {
             description: 'Datos del usuario',
             icon: <IconUserCheck style={{ width: rem(16), height: rem(16) }} />,
-            step: { form: UserDataForm, props: {} }
+            step: { form: UserForm, props: {} }
         },
         {
             description: 'Creacion de contraseña',
             icon: <IconLock style={{ width: rem(16), height: rem(16) }} />,
-            step: { form: AuthenticationPasswordForm, props: {} }
+            step: { form: AuthenticationFormPassword, props: {} }
         },
         {
             description: 'Asignacion de roles',
             icon: <IconLicense style={{ width: rem(16), height: rem(16) }} />,
-            step: {
-                form: AssignRoleForm,
-                props: {
-                    roles: getRoleFetchHook.data
-                }
-            }
+            step: { form: WebResourceFormAssign, props: { resources: webResources } }
         },
         {
             description: 'Asignacion de empresa',
             icon: <IconBuilding style={{ width: rem(16), height: rem(16) }} />,
-            step: {
-                form: UserLogoForm,
-                props: {}
-            }
+            step: { form: UserFormLogo, props: {} }
         }
-    ];
+    ], []);
 
     const formReferences = useRef<React.RefObject<HTMLButtonElement>[]>(steps.map(() => React.createRef<HTMLButtonElement>()));
 
-    const nextStep = () => setActive((current) => (current < steps.length ? current + 1 : current));
-    const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
+    const nextStep = useCallback(() => setActive((current) => (current < steps.length ? current + 1 : current)), []);
+    const prevStep = useCallback(() => setActive((current) => (current > 0 ? current - 1 : current)), []);
 
-    const handleNextChange = () => {
+    const handleNextChange = useCallback(() => {
         const formRef = formReferences.current[active];
         if (formRef && formRef.current) {
             formRef.current.click();
         }
-    };
+    }, [formReferences, active]);
 
-    const handleSubmit = (data: any) => {
+    const handleSubmit = useCallback((data: any) => {
         const newData = { ...formData, ...data };
         setFormData(newData);
         if (active === steps.length - 1) {
-            request(newData);
-            setTimeout(() => {
-                setShouldSend(true);
-            }, 500);
+            createRequest(newData);
+            setShouldSendRequest(true);
         } else {
             nextStep();
         }
-    };
+    }, [nextStep, createRequest, formData]);
 
-    const handleClose = () => onClose();
+    const handleClose = useCallback(() => onClose(), [onClose]);
 
     useEffect(() => {
-        if (error) {
-            notifications.show({
-                message: error.message,
-                color: 'red'
-            });
+        if (createError) notifications.show({ message: createError.message, color: 'red' });
+        else if (webResourceError) notifications.show({ message: webResourceError.message, color: 'red' });
+    }, [createError, webResourceError]);
+
+    useEffect(() => {
+        if (shouldSendRequest && createBody) {
+            createReload();
+            setShouldSendRequest(false);
         }
-    }, [error]);
+    }, [shouldSendRequest, createBody, createReload]);
 
     useEffect(() => {
-        if (shouldSend) {
-            reload();
-            setShouldSend(false);
-        }
-    }, [shouldSend, reload]);
-
-    useEffect(() => {
-        if (data) {
-            onFormSubmit?.(data);
+        if (createData) {
+            onFormSubmit?.(createData);
             nextStep();
+            createReset();
         }
-    }, [data])
+    }, [createData, onFormSubmit, nextStep, createReset])
 
     return (
         <>
-            <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+            <LoadingOverlay visible={createLoading || webResourceLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <Flex h='100%' direction='column' gap={rem(8)}>
                 <SubLayoutFormTitle
                     title={'Formulario de creacion de usuarios'}
@@ -135,8 +137,8 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onFormSubmit, 
                             steps.map((step, index) => (
                                 <Stepper.Step
                                     key={index}
-                                    label={!matches && `Paso ${index + 1}`}
-                                    description={!matches && step.description}
+                                    label={!isMobile && `Paso ${index + 1}`}
+                                    description={!isMobile && step.description}
                                     icon={step.icon}>
                                     <Container mt={rem(44)}>
                                         <step.step.form
@@ -178,4 +180,4 @@ const UserCreateForm: React.FC<UserCreateFormProps> = ({ onClose, onFormSubmit, 
     );
 }
 
-export { UserCreateForm };
+export { UserFormCreate };

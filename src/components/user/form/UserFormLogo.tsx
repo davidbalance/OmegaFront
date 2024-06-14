@@ -1,41 +1,33 @@
 import { Box, Button, Flex, Group, Radio, rem } from '@mantine/core'
 import { SystemLogo } from '@/components/navbar/navlogo/logos'
-import React, { FormEvent, ForwardedRef, useState } from 'react'
+import React, { FormEvent, ForwardedRef, useCallback, useMemo, useState } from 'react'
 
-type UserLogoFormProps = {
+type UserFormLogoProps = {
     onSubmit: (values: { logo: number }) => void;
 }
-const UserLogoForm = React.forwardRef<HTMLButtonElement, UserLogoFormProps>(({ onSubmit }, ref: ForwardedRef<HTMLButtonElement>) => {
+
+const logoValue: Record<keyof (typeof SystemLogo), number> = {
+    omega: 1,
+    eeq: 2,
+    ipeges: 3
+}
+
+const UserFormLogo = React.forwardRef<HTMLButtonElement, UserFormLogoProps>(({ onSubmit }, ref: ForwardedRef<HTMLButtonElement>) => {
     const [value, setValue] = useState<keyof typeof SystemLogo>('omega');
 
-    const handleRadioChange = (key: string) => {
-        setValue(key as any)
-    }
+    const handleRadioChnageEvent = useCallback((key: string) => setValue(key as any), []);
 
-    const Logo = SystemLogo[value];
+    const Logo = useMemo(() => SystemLogo[value], [value]);
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleFormSubmittionEvent = useCallback((event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        switch (value) {
-            case 'omega':
-                onSubmit({ logo: 1 });
-                break;
-            case 'eeq':
-                onSubmit({ logo: 2 });
-                break;
-            case 'ipeges':
-                onSubmit({ logo: 3 });
-                break;
-            default:
-                onSubmit({ logo: 1 });
-                break;
-        }
-    }
+        onSubmit({ logo: logoValue[value] });
+    }, [onSubmit, value]);
 
     return (
         <Box
             component='form'
-            onSubmit={handleSubmit}>
+            onSubmit={handleFormSubmittionEvent}>
             <Flex
                 direction='column'
                 gap={rem(16)}
@@ -43,7 +35,7 @@ const UserLogoForm = React.forwardRef<HTMLButtonElement, UserLogoFormProps>(({ o
                 align='center'>
                 <Radio.Group
                     value={value}
-                    onChange={handleRadioChange}
+                    onChange={handleRadioChnageEvent}
                     name="logo"
                     withAsterisk
                 >
@@ -60,6 +52,6 @@ const UserLogoForm = React.forwardRef<HTMLButtonElement, UserLogoFormProps>(({ o
     );
 });
 
-UserLogoForm.displayName = 'UserLogoForm';
+UserFormLogo.displayName = 'UserFormLogo';
 
-export { UserLogoForm };
+export { UserFormLogo };

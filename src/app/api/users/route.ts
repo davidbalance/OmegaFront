@@ -1,12 +1,12 @@
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get, patch, post } from "@/lib/fetcher/fetcher";
 import { DEFAULT_WITH_AUTH_OPTIONS, withAuth } from "@/lib/fetcher/with-fetch.utils";
-import { CreateUserRQ, User } from "@/services/api/user/dtos";
 import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
-import { GETUsersResponseDto } from "@/lib/dtos/user/user.response.dto";
+import { GETUsersResponseDto, POSTUserResponseDto } from "@/lib/dtos/user/user.response.dto";
 import { POSTCredentialRequestDto } from "@/lib/dtos/auth/credential/request.dto";
 import { PATCHWebClientLogoRequestDto, PATCHWebClientResourceRequestDto } from "@/lib/dtos/web/clients.request.dto";
+import { POSTUserRequestDto } from "@/lib/dtos/user/user.request.dto";
 
 export async function GET() {
     try {
@@ -25,13 +25,13 @@ export async function GET() {
 type CreateCredentialWithoutUser = Omit<POSTCredentialRequestDto, 'user'>;
 type UpdateWebClientResource = Omit<PATCHWebClientResourceRequestDto, 'user'>;
 type UpdateLogo = PATCHWebClientLogoRequestDto;
-type CreateUserParam = CreateUserRQ & CreateCredentialWithoutUser & UpdateWebClientResource & UpdateLogo;
+type CreateUserParam = POSTUserRequestDto & CreateCredentialWithoutUser & UpdateWebClientResource & UpdateLogo;
 export async function POST(req: NextRequest) {
     try {
         const data: CreateUserParam = await req.json();
 
-        const userBody: CreateUserRQ = data;
-        const postUser = withAuth<CreateUserRQ, User>(post, DEFAULT_WITH_AUTH_OPTIONS);
+        const userBody: POSTUserRequestDto = data;
+        const postUser = withAuth<POSTUserRequestDto, POSTUserResponseDto>(post, DEFAULT_WITH_AUTH_OPTIONS);
         const user = await postUser(endpoints.USER.USER.CREATE, { body: userBody });
 
         const { ...credentialWithoutUser }: CreateCredentialWithoutUser = data;

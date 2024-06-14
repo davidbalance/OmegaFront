@@ -3,7 +3,7 @@ export interface User {
     dni: string;
     email: string;
     name: string;
-    lastaname: string;
+    lastname: string;
 }
 
 export interface GETUsersResponseDto {

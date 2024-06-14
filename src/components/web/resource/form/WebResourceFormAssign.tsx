@@ -1,16 +1,15 @@
 import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
+import { WebResource } from '@/lib/dtos/web/resources.response.dto';
 import { Box, Table, TextInput, Checkbox, Button } from '@mantine/core';
-import React, { ChangeEvent, FormEvent, ForwardedRef, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useState } from 'react'
 
-export type Role = { name: string; id: number }
-type UserRoleFormProps = {
-    onSubmit: (values: { roles: number[] }) => void;
-    roles: Role[];
-    data?: { roles: number[] };
+type WebResourceFormAssignProps = {
+    onSubmit: (values: { resources: number[] }) => void;
+    resources: WebResource[];
+    data?: { resources: number[] };
 };
-const AssignRoleForm = React.forwardRef<HTMLButtonElement, UserRoleFormProps>(({ onSubmit, roles, data }, ref: ForwardedRef<HTMLButtonElement>) => {
-
-    const [selected, setSelected] = useState<number[]>(data?.roles || []);
+const WebResourceFormAssign = React.forwardRef<HTMLButtonElement, WebResourceFormAssignProps>(({ onSubmit, resources, data }, ref) => {
+    const [selected, setSelected] = useState<number[]>(data?.resources || []);
     const [error, setError] = useState<string | undefined>(undefined);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>, role: number) => {
@@ -26,7 +25,7 @@ const AssignRoleForm = React.forwardRef<HTMLButtonElement, UserRoleFormProps>(({
             setError('Se debe seleccionar al menos un rol');
             return;
         }
-        onSubmit({ roles: selected });
+        onSubmit({ resources: selected });
     }
 
     return (
@@ -41,17 +40,17 @@ const AssignRoleForm = React.forwardRef<HTMLButtonElement, UserRoleFormProps>(({
                 <Table.Tbody>
                     <Table.Tr>
                         <OmegaTd colSpan={2}>
-                            <TextInput value='Seleccion roles del sistema' type='hidden' error={error} />
+                            <TextInput value='Acceso a las paginas del sistema' type='hidden' error={error} />
                         </OmegaTd>
                     </Table.Tr>
                     {
-                        roles.map((role) => (
-                            <Table.Tr key={role.id}>
-                                <OmegaTd>{role.name}</OmegaTd>
+                        resources.map((resource) => (
+                            <Table.Tr key={resource.id}>
+                                <OmegaTd>{resource.label}</OmegaTd>
                                 <OmegaTd align='center'>
                                     <Checkbox
-                                        defaultChecked={selected.includes(role.id)}
-                                        onChange={(e) => handleChange(e, role.id)}
+                                        defaultChecked={selected.includes(resource.id)}
+                                        onChange={(e) => handleChange(e, resource.id)}
                                     />
                                 </OmegaTd>
                             </Table.Tr>
@@ -65,6 +64,4 @@ const AssignRoleForm = React.forwardRef<HTMLButtonElement, UserRoleFormProps>(({
     );
 })
 
-AssignRoleForm.displayName = 'AssignRoleForm';
-
-export { AssignRoleForm }
+export default WebResourceFormAssign

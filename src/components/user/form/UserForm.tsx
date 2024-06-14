@@ -3,9 +3,9 @@ import { SimpleGrid, rem, TextInput, Box, Button } from '@mantine/core';
 import { IconId, IconAt } from '@tabler/icons-react';
 import { joiResolver, useForm } from '@mantine/form';
 import Joi from 'joi';
-import { User as UserType } from '@/services/api/user/dtos';
+import { User } from '@/lib/dtos/user/user.response.dto';
 
-type IUserForm = Omit<UserType, 'id'>;
+type IUserForm = Omit<User, 'id'>;
 
 const userSchema = Joi.object<IUserForm>({
     name: Joi
@@ -39,14 +39,14 @@ const userSchema = Joi.object<IUserForm>({
         })
 });
 
-type UserDataFormProps = {
+type UserFormProps = {
     onSubmit: (values: IUserForm) => void;
     disabledDni?: boolean;
     disabledEmail?: boolean;
     data?: IUserForm;
 }
 
-const UserDataForm = React.forwardRef<HTMLButtonElement, UserDataFormProps>(({ data, onSubmit, disabledDni, disabledEmail }, ref) => {
+const UserForm = React.forwardRef<HTMLButtonElement, UserFormProps>(({ data, onSubmit, disabledDni, disabledEmail }, ref) => {
 
     const form = useForm({
         initialValues: {
@@ -96,6 +96,6 @@ const UserDataForm = React.forwardRef<HTMLButtonElement, UserDataFormProps>(({ d
     );
 });
 
-UserDataForm.displayName = 'UserDataForm';
+UserForm.displayName = 'UserForm';
 
-export default UserDataForm
+export { UserForm }

@@ -1,35 +1,39 @@
-import { Menu, MenuTarget, ActionIcon, rem } from '@mantine/core';
-import { IconDotsVertical, IconPencil, IconSettings, IconKey, IconTrash } from '@tabler/icons-react';
+import { ActionColumnProps } from '@/components/layout/table-layout/TableLayout';
+import { User } from '@/lib/dtos/user/user.response.dto';
+import { Menu, MenuTarget, ActionIcon, rem, Flex } from '@mantine/core';
+import { IconDotsVertical, IconKey, IconPencil, IconSettings, IconTrash } from '@tabler/icons-react';
 import React from 'react'
 
-type UserSettingsMenuProps = {
+interface UserActionButtonProps extends ActionColumnProps<User> {
     onChangePassword?: () => void;
     onConfiguration?: () => void;
     onModification?: () => void;
     onDelete?: () => void;
-};
-const UserSettingsMenu: React.FC<UserSettingsMenuProps> = ({ onChangePassword, onConfiguration, onDelete, onModification }) => {
+}
+const UserActionButton: React.FC<UserActionButtonProps> = ({ onChangePassword, onConfiguration, onDelete, onModification }) => {
 
     return (
         <Menu>
             <MenuTarget>
-                <ActionIcon variant="transparent">
-                    <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                </ActionIcon>
+                <Flex justify='center'>
+                    <ActionIcon variant="transparent">
+                        <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                    </ActionIcon>
+                </Flex>
             </MenuTarget>
             <Menu.Dropdown>
                 {onModification || onConfiguration ? <Menu.Label>Aplicacion</Menu.Label> : <></>}
                 {
                     onModification &&
                     <Menu.Item
-                        leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
+                        leftSection={<IconPencil style={{ width: rem(16), height: rem(16) }} />}
                         onClick={onModification}>
                         Modificacion
                     </Menu.Item>
                 }
                 {onConfiguration &&
                     <Menu.Item
-                        leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
+                        leftSection={<IconSettings style={{ width: rem(16), height: rem(16) }} />}
                         onClick={onConfiguration}>
                         Configuracion
                     </Menu.Item>
@@ -37,15 +41,15 @@ const UserSettingsMenu: React.FC<UserSettingsMenuProps> = ({ onChangePassword, o
 
                 {onDelete || onChangePassword
                     ? <>
-                        <Menu.Label>Danger zone</Menu.Label>
                         <Menu.Divider />
+                        <Menu.Label>Danger zone</Menu.Label>
                     </>
                     : <></>
                 }
                 {onChangePassword &&
                     <Menu.Item
                         color="red"
-                        leftSection={<IconKey style={{ width: rem(14), height: rem(14) }} />}
+                        leftSection={<IconKey style={{ width: rem(16), height: rem(16) }} />}
                         onClick={onChangePassword}>
                         Generar contraseña
                     </Menu.Item>
@@ -53,14 +57,14 @@ const UserSettingsMenu: React.FC<UserSettingsMenuProps> = ({ onChangePassword, o
                 {onDelete &&
                     <Menu.Item
                         color="red"
-                        leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+                        leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} />}
                         onClick={onDelete}>
                         Eliminar
                     </Menu.Item>
                 }
             </Menu.Dropdown>
         </Menu>
-    );
+    )
 }
 
-export default UserSettingsMenu
+export { UserActionButton }

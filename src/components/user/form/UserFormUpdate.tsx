@@ -1,31 +1,29 @@
-import { User } from '@/services/api/user/dtos';
 import { LoadingOverlay, rem, Box, Button, Flex } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import React, { useEffect, useRef, useState } from 'react'
-import UserDataForm from '../user-data-form/UserDataForm';
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { notifications } from '@mantine/notifications';
 import { ModularBox } from '@/components/modular-box/ModularBox';
+import { User } from '@/lib/dtos/user/user.response.dto';
+import { UserForm } from './UserForm';
 
-type UserUpdateDataFormProps = {
+type UserFormUpdateProps = {
     user: User;
     onFormSubmittion?: (user: User) => void;
     onClose: () => void;
 }
 
-const UserUpdateDataForm: React.FC<UserUpdateDataFormProps> = ({ onClose, user, onFormSubmittion }) => {
+const UserFormUpdate: React.FC<UserFormUpdateProps> = ({ onClose, user, onFormSubmittion }) => {
 
-    const { data, error, loading, request, reload } = useFetch<User>(`/api/users/${user.id}`, 'PATCH', { loadOnMount: false });
+    const { data, error, loading, body, request, reload, reset } = useFetch<User>(`/api/users/${user.id}`, 'PATCH', { loadOnMount: false });
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [shouldSendRequest, setShouldSendRequest] = useState<boolean>(false);
 
-    const handleSubmit = async (data: any) => {
+    const handleFormSubmittionEvent = useCallback(async (data: any) => {
         request(data);
-        setTimeout(() => {
-            setShouldSendRequest(true);
-        }, 500);
-    }
+        setShouldSendRequest(true);
+    }, [request])
 
     useEffect(() => {
         if (error) {
@@ -34,17 +32,20 @@ const UserUpdateDataForm: React.FC<UserUpdateDataFormProps> = ({ onClose, user, 
     }, [error]);
 
     useEffect(() => {
-        if (shouldSendRequest) {
+        if (shouldSendRequest && body) {
             reload();
+            setShouldSendRequest(false);
         }
-    }, [shouldSendRequest]);
+    }, [shouldSendRequest, body, reload]);
 
     useEffect(() => {
         if (data) {
             onFormSubmittion?.(data);
             onClose();
+            reset();
         }
-    }, [data])
+    }, [data, onFormSubmittion, onClose, reset
+    ])
 
 
     return (
@@ -57,8 +58,8 @@ const UserUpdateDataForm: React.FC<UserUpdateDataFormProps> = ({ onClose, user, 
 
                 <ModularBox flex={1} align='center'>
                     <Box pt={rem(16)} w='100%' maw={rem(700)}>
-                        <UserDataForm
-                            onSubmit={handleSubmit}
+                        <UserForm
+                            onSubmit={handleFormSubmittionEvent}
                             data={user}
                             disabledDni={true}
                             disabledEmail={true}
@@ -77,4 +78,4 @@ const UserUpdateDataForm: React.FC<UserUpdateDataFormProps> = ({ onClose, user, 
     )
 }
 
-export { UserUpdateDataForm }
+export { UserFormUpdate }

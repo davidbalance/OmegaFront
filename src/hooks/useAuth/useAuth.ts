@@ -1,5 +1,4 @@
 import { FetchHookResult } from "@/lib/types/fetch-hook.interface";
-import { AuthCredentials } from "@/services/api/authentication/dtos";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFetch } from "../useFetch/useFetch";
@@ -7,6 +6,7 @@ import { UserPreferenceData, UserPreferences } from "@/lib/types/user-preference
 import { LOGO_KEY, RESOURCE_KEY, USER_KEY } from "@/lib/constants";
 import { NavLinkProp } from "@/lib/types/nav-link.type";
 import { useLocalStorage } from "../useLocalStorage/useLocalStorage";
+import { AuthCredentials } from "@/lib/dtos/auth/request.dto";
 
 export interface AuthOptions { }
 
@@ -21,8 +21,8 @@ export const useAuth = (): AuthResult => {
 
     const router = useRouter();
 
-    const fetchLogin = useFetch<UserPreferences>("/api/login", "POST", { loadOnMount: false });
-    const fetchLogout = useFetch("/api/logout", "POST", { loadOnMount: false });
+    const fetchLogin = useFetch<UserPreferences>("/api/auth/login", "POST", { loadOnMount: false });
+    const fetchLogout = useFetch("/api/auth/logout", "POST", { loadOnMount: false });
 
     const [loginReload, setLoginReload] = useState<boolean>(false);
 

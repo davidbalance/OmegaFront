@@ -1,37 +1,33 @@
-import { AuthenticationPasswordForm } from '@/components/authentication/authentication-password';
+import { AuthenticationFormPassword } from '@/components/authentication/form/AuthenticationFormPassword';
 import { ModularBox } from '@/components/modular-box/ModularBox';
 import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
-import { useCredential } from '@/hooks/useCredential';
 import { useFetch } from '@/hooks/useFetch/useFetch';
-import endpoints from '@/lib/endpoints/endpoints';
-import { Box, Button, Flex, Group, LoadingOverlay, rem } from '@mantine/core';
+import { Box, Button, Flex, LoadingOverlay, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
-type UserChangePasswordProps = {
+type UserFormChangePasswordProps = {
     email: string;
     onClose: () => void;
 }
-const UserChangePassword: React.FC<UserChangePasswordProps> = ({ email, onClose }) => {
+const UserFormChangePassword: React.FC<UserFormChangePasswordProps> = ({ email, onClose }) => {
 
-    const { data, error, loading, request, reload } = useFetch('/api/credential', 'PATCH', { loadOnMount: false });
+    const { data, error, loading, body, request, reload, reset } = useFetch('/api/credentials', 'PATCH', { loadOnMount: false });
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [shouldSendRequest, setShouldSendRequest] = useState<boolean>(false);
 
-    const handleSubmit = async (password: string) => {
+    const handleSubmit = useCallback(async (password: string) => {
         request({ email, password });
-        setTimeout(() => {
-            setShouldSendRequest(true);
-        }, 500);
-    }
+        setShouldSendRequest(true);
+    }, [request]);
 
     useEffect(() => {
-        if (shouldSendRequest) {
+        if (shouldSendRequest && body) {
             reload();
             setShouldSendRequest(false);
         }
-    }, [shouldSendRequest]);
+    }, [shouldSendRequest, body, reload]);
 
     useEffect(() => {
         if (error) {
@@ -43,8 +39,9 @@ const UserChangePassword: React.FC<UserChangePasswordProps> = ({ email, onClose 
     useEffect(() => {
         if (data) {
             onClose();
+            reset();
         }
-    }, [data])
+    }, [data, reset])
 
     return (
         <>
@@ -56,7 +53,7 @@ const UserChangePassword: React.FC<UserChangePasswordProps> = ({ email, onClose 
 
                 <ModularBox flex={1} align='center'>
                     <Box maw={700} w='100%' pt={rem(16)} >
-                        <AuthenticationPasswordForm
+                        <AuthenticationFormPassword
                             onSubmit={({ password }) => handleSubmit(password)}
                             ref={buttonRef} />
                     </Box>
@@ -71,4 +68,4 @@ const UserChangePassword: React.FC<UserChangePasswordProps> = ({ email, onClose 
     )
 }
 
-export { UserChangePassword }
+export { UserFormChangePassword }
