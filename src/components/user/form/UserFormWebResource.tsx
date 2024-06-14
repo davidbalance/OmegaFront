@@ -69,7 +69,7 @@ const UserFormWebResource: React.FC<UserFormWebResourceProps> = ({ user, onClose
             <LoadingOverlay visible={webResourceLoading || clientResourceLoading || patchResourceLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <Flex h='100%' direction='column' gap={rem(8)}>
                 <SubLayoutFormTitle
-                    title={'Formulario de asignacion de roles'}
+                    title={'Formulario de modificacion de paginas'}
                     onClose={onClose} />
 
                 <ModularBox flex={1} align='center'>

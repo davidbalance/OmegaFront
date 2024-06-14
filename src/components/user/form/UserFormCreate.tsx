@@ -61,16 +61,16 @@ const UserFormCreate: React.FC<UserFormCreateProps> = ({ onClose, onFormSubmit }
             step: { form: AuthenticationFormPassword, props: {} }
         },
         {
-            description: 'Asignacion de roles',
+            description: 'Asignacion de paginas',
             icon: <IconLicense style={{ width: rem(16), height: rem(16) }} />,
-            step: { form: WebResourceFormAssign, props: { resources: webResources } }
+            step: { form: WebResourceFormAssign, props: { resources: webResources || [] } }
         },
         {
-            description: 'Asignacion de empresa',
+            description: 'Asignacion de logo',
             icon: <IconBuilding style={{ width: rem(16), height: rem(16) }} />,
             step: { form: UserFormLogo, props: {} }
         }
-    ], []);
+    ], [webResources]);
 
     const formReferences = useRef<React.RefObject<HTMLButtonElement>[]>(steps.map(() => React.createRef<HTMLButtonElement>()));
 
@@ -84,7 +84,7 @@ const UserFormCreate: React.FC<UserFormCreateProps> = ({ onClose, onFormSubmit }
         }
     }, [formReferences, active]);
 
-    const handleSubmit = useCallback((data: any) => {
+    const handleFormSubmittion = useCallback((data: any) => {
         const newData = { ...formData, ...data };
         setFormData(newData);
         if (active === steps.length - 1) {
@@ -93,9 +93,25 @@ const UserFormCreate: React.FC<UserFormCreateProps> = ({ onClose, onFormSubmit }
         } else {
             nextStep();
         }
-    }, [nextStep, createRequest, formData]);
+    }, [nextStep, createRequest, formData, steps]);
 
     const handleClose = useCallback(() => onClose(), [onClose]);
+
+    const stepper = useMemo(() => (steps.map((step, index) => (
+        <Stepper.Step
+            key={index}
+            label={!isMobile && `Paso ${index + 1}`}
+            description={!isMobile && step.description}
+            icon={step.icon}>
+            <Container mt={rem(44)}>
+                <step.step.form
+                    data={{ ...formData }}
+                    ref={formReferences.current[index]}
+                    onSubmit={handleFormSubmittion}
+                    {...step.step.props} />
+            </Container>
+        </Stepper.Step>
+    ))), [isMobile, steps, formData, handleFormSubmittion, formReferences.current]);
 
     useEffect(() => {
         if (createError) notifications.show({ message: createError.message, color: 'red' });
@@ -133,23 +149,7 @@ const UserFormCreate: React.FC<UserFormCreateProps> = ({ onClose, onFormSubmit }
                         allowNextStepsSelect={false}
                         h='100%'
                         completedIcon={<IconCircleCheck style={{ width: rem(16), height: rem(16) }} />}>
-                        {
-                            steps.map((step, index) => (
-                                <Stepper.Step
-                                    key={index}
-                                    label={!isMobile && `Paso ${index + 1}`}
-                                    description={!isMobile && step.description}
-                                    icon={step.icon}>
-                                    <Container mt={rem(44)}>
-                                        <step.step.form
-                                            data={{ ...formData }}
-                                            ref={formReferences.current[index]}
-                                            onSubmit={handleSubmit}
-                                            {...step.step.props} />
-                                    </Container>
-                                </Stepper.Step>
-                            ))
-                        }
+                        {stepper}
                         <Stepper.Completed>
                             <ModularBox>
                                 <Flex justify="center" align="center" direction="column" wrap="wrap" c='green'>

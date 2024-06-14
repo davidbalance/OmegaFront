@@ -34,7 +34,13 @@ export const fetcher = async <T, R>(url: string, { method, body, cache = true, c
     }
 
     const configurationObject: RequestInit = fetchConfiguration({
-        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...headers },
+        headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+            ...headers
+        },
         method,
         body: body ? JSON.stringify(body) : undefined,
         ...request

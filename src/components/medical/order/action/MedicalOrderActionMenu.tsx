@@ -1,7 +1,7 @@
 import { MedicalOrder } from '@/lib/dtos/medical/order/response.dto';
 import { Menu, MenuTarget, Loader, ActionIcon } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconX } from '@tabler/icons-react';
+import { IconDotsVertical, IconX } from '@tabler/icons-react';
 import React, { useCallback } from 'react'
 import { MenuItemSendMail } from '../../../menu/item/MenuItemSendMail';
 
@@ -32,8 +32,8 @@ const MedicalOrderActionMenu: React.FC<MedicalOrderActionMenuProps> = ({ data, o
                 {
                     loading
                         ? <Loader size='xs' />
-                        : <ActionIcon variant="transparent" onClick={handleSendEvent}>
-                            <IconX style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        : <ActionIcon variant="transparent">
+                            <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />
                         </ActionIcon>
                 }
             </MenuTarget>

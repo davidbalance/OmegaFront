@@ -1,7 +1,7 @@
 import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 import { WebResource } from '@/lib/dtos/web/resources.response.dto';
 import { Box, Table, TextInput, Checkbox, Button } from '@mantine/core';
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react'
 
 type WebResourceFormAssignProps = {
     onSubmit: (values: { resources: number[] }) => void;
@@ -12,28 +12,30 @@ const WebResourceFormAssign = React.forwardRef<HTMLButtonElement, WebResourceFor
     const [selected, setSelected] = useState<number[]>(data?.resources || []);
     const [error, setError] = useState<string | undefined>(undefined);
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>, role: number) => {
+    const handleChangeEvent = useCallback((event: ChangeEvent<HTMLInputElement>, resource: number) => {
         setError(undefined);
-        event.target.checked
-            ? setSelected([...selected, role])
-            : setSelected(selected.filter(e => e !== role))
-    }
+        setSelected(prev => event.target.checked
+            ? [...prev, resource]
+            : prev.filter(e => e !== resource)
+        );
+    }, []);
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+
+    const handleFormSubmittedEvent = useCallback((event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!selected.length) {
             setError('Se debe seleccionar al menos un rol');
             return;
         }
         onSubmit({ resources: selected });
-    }
+    }, [selected]);
 
     return (
-        <Box component='form' onSubmit={handleSubmit} miw={400}>
+        <Box component='form' onSubmit={handleFormSubmittedEvent} miw={400}>
             <Table>
                 <Table.Thead>
                     <Table.Tr>
-                        <Table.Th>Roles del Sistema</Table.Th>
+                        <Table.Th>Paginas del Sistema</Table.Th>
                         <Table.Th>Acceso</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
@@ -50,7 +52,7 @@ const WebResourceFormAssign = React.forwardRef<HTMLButtonElement, WebResourceFor
                                 <OmegaTd align='center'>
                                     <Checkbox
                                         defaultChecked={selected.includes(resource.id)}
-                                        onChange={(e) => handleChange(e, resource.id)}
+                                        onChange={(e) => handleChangeEvent(e, resource.id)}
                                     />
                                 </OmegaTd>
                             </Table.Tr>

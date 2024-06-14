@@ -18,64 +18,86 @@ interface AuthResult extends Omit<FetchHookResult<any>, 'data'> {
 export const useAuth = (): AuthResult => {
 
     const [error, setError] = useState<Error | null>(null);
+    const [shouldRequest, setShouldRequest] = useState<boolean>(false);
 
     const router = useRouter();
 
-    const fetchLogin = useFetch<UserPreferences>("/api/auth/login", "POST", { loadOnMount: false });
-    const fetchLogout = useFetch("/api/auth/logout", "POST", { loadOnMount: false });
+    const {
+        data: loginData,
+        body: loginBody,
+        error: loginError,
+        loading: loginLoading,
+        reload: loginReload,
+        request: loginRequest,
+        reset: loginReset
+    } = useFetch<UserPreferences>("/api/auth/login", "POST", { loadOnMount: false });
 
-    const [loginReload, setLoginReload] = useState<boolean>(false);
+    const {
+        data: logoutData,
+        body: logoutBody,
+        error: logoutError,
+        loading: logoutLoading,
+        reload: logoutReload,
+        request: logoutRequest,
+        reset: logoutReset
+    } = useFetch("/api/auth/logout", "POST", { loadOnMount: false });
 
-    const [_logo, handlerLogo] = useLocalStorage<string>(LOGO_KEY, 'omega')
-    const [_resource, handlerResource] = useLocalStorage<NavLinkProp[]>(RESOURCE_KEY, [])
-    const [_user, handlerUser] = useLocalStorage<UserPreferenceData | null>(USER_KEY, null)
+    const [_logo, {
+        remove: logoRemove,
+        save: logoSave
+    }] = useLocalStorage<string>(LOGO_KEY, 'omega');
 
-    const handleLogin = (body: AuthCredentials) => {
-        fetchLogin.request(body);
-        const timeout = setTimeout(() => {
-            setLoginReload(true);
-            clearTimeout(timeout);
-        }, 500);
-    }
+    const [_resource, {
+        remove: resourceRemove,
+        save: resourceSave
+    }] = useLocalStorage<NavLinkProp[]>(RESOURCE_KEY, []);
+
+    const [_user, {
+        remove: preferenceRemove,
+        save: preferenceSave
+    }] = useLocalStorage<UserPreferenceData | null>(USER_KEY, null);
+
+    const handleLogin = useCallback((body: AuthCredentials) => {
+        loginRequest(body);
+        setShouldRequest(true);
+    }, [loginRequest]);
 
     const handleLogout = useCallback(() => {
-        fetchLogout.reload();
-    }, [fetchLogout]);
+        logoutReload();
+    }, [logoutReload]);
 
     useEffect(() => {
-        if (fetchLogin.error) {
-            setError(fetchLogin.error);
-        } else if (fetchLogout.error) {
-            setError(fetchLogout.error);
-        }
-    }, [fetchLogin.error, fetchLogout.error]);
+        if (loginError) setError(loginError);
+        else if (logoutError) setError(logoutError);
+    }, [loginError, logoutError]);
 
     useEffect(() => {
-        if (fetchLogout.data) {
-            handlerLogo.remove();
-            handlerResource.remove();
-            handlerUser.remove();
+        if (logoutData) {
+            logoRemove();
+            resourceRemove();
+            preferenceRemove();
             router.refresh();
         }
-    }, [fetchLogout.data]);
+    }, [logoutData, logoRemove, resourceRemove, preferenceRemove]);
 
     useEffect(() => {
-        if (fetchLogin.data) {
-            handlerLogo.save(fetchLogin.data.logo.name);
-            handlerResource.save(fetchLogin.data.resources);
-            handlerUser.save(fetchLogin.data.user);
+        if (loginData) {
+            logoSave(loginData.logo.name);
+            resourceSave(loginData.resources);
+            preferenceSave(loginData.user);
+            loginReset();
             router.refresh();
         }
-    }, [fetchLogin.data]);
+    }, [loginData, loginReset, logoSave, resourceSave, preferenceSave]);
 
     useEffect(() => {
-        if (loginReload) {
-            fetchLogin.reload();
-            setLoginReload(false);
+        if (shouldRequest && loginBody) {
+            loginReload();
+            setShouldRequest(false);
         }
-    }, [loginReload, fetchLogin.reload])
+    }, [loginReload, loginBody, shouldRequest])
 
 
-    const loading = fetchLogin.loading || fetchLogout.loading;
+    const loading = loginLoading || logoutLoading;
     return { error, loading, login: handleLogin, logout: handleLogout };
 }

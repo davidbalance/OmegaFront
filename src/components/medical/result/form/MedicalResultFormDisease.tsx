@@ -15,6 +15,8 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
 
     const [selectedDiseaseGroup, setSelectedDiseaseGroup] = useState<SelectorOption<number> | null>(null);
     const [selectedDisease, setSelectedDisease] = useState<SelectorOption<number> | null>(null);
+    const [shouldFetchDiseaseSelector, setShouldFetchDiseaseSelector] = useState<boolean>(false);
+    const [shouldPatchDisease, setShouldPatchDisease] = useState<boolean>(false);
 
     const isMobile = useMediaQuery('(max-width: 50em)');
 
@@ -25,20 +27,21 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
     } = useFetch<SelectorOption<number>[]>('/api/selector/disease/group', 'GET');
 
     const {
-        data: patchServerResponse,
-        loading: patchLoading,
-        error: patchError,
-        body: patchBody,
-        request: patchRequest,
-        reset: patchReset
-    } = useFetch<any>(`/api/medical/results/${medicalOrderExam ? medicalOrderExam.id : ''}`, 'PATCH', { loadOnMount: false });
-
-    const {
         loading: diseaseLoading,
         data: diseases,
         error: diseaseError,
         reload: diseaseReload
     } = useFetch<SelectorOption<number>[]>(`/api/selector/disease/${selectedDiseaseGroup?.key}`, 'GET', { loadOnMount: false });
+
+    const {
+        data: patchServerResponse,
+        loading: patchLoading,
+        body: patchBody,
+        error: patchError,
+        reload: patchReload,
+        request: patchRequest,
+        reset: patchReset
+    } = useFetch<any>(`/api/medical/results/${medicalOrderExam ? medicalOrderExam.id : ''}`, 'PATCH', { loadOnMount: false });
 
     const diseaseGroupsOptions = useMemo(() => groups?.map(e => ({ value: `${e.key}`, label: e.label })) || [], [groups]);
     const diseaseOptions = useMemo(() => diseases?.map(e => ({ value: `${e.key}`, label: e.label })) || [], [diseases]);
@@ -46,6 +49,7 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
     const handleGroupChangeEvent = useCallback((_: string | null, option: ComboboxItem) => {
         setSelectedDisease(null);
         setSelectedDiseaseGroup({ key: parseInt(option.value), label: option.label });
+        setShouldFetchDiseaseSelector(true);
     }, []);
 
     const handleDiseaseChangeEvent = useCallback((_: string | null, option: ComboboxItem) => {
@@ -58,7 +62,7 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
         onClose();
     }, [onClose]);
 
-    const handleSubmit = useCallback((event: FormEvent<HTMLDivElement>) => {
+    const handleFormSubmittionEvent = useCallback((event: FormEvent<HTMLDivElement>) => {
         event.preventDefault();
         if (selectedDiseaseGroup && selectedDisease) {
             patchRequest({
@@ -67,6 +71,7 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
                 diseaseId: selectedDisease.key,
                 diseaseName: selectedDisease.label
             });
+            setShouldPatchDisease(true);
         }
     }, [patchRequest, selectedDiseaseGroup, selectedDisease]);
 
@@ -82,16 +87,26 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
     }, [medicalOrderExam]);
 
     useEffect(() => {
-        if (selectedDiseaseGroup && patchBody) {
+        if (selectedDiseaseGroup && shouldFetchDiseaseSelector) {
             diseaseReload();
+            setShouldFetchDiseaseSelector(false);
         }
-    }, [selectedDiseaseGroup, patchBody, diseaseReload]);
+    }, [selectedDiseaseGroup, shouldFetchDiseaseSelector, diseaseReload]);
 
     useEffect(() => {
         if (groupError) notifications.show({ message: groupError.message, color: 'red' });
         else if (diseaseError) notifications.show({ message: diseaseError.message, color: 'red' });
         else if (patchError) notifications.show({ message: patchError.message, color: 'red' });
     }, [groupError, diseaseError, patchError]);
+
+    useEffect(() => {
+        if (shouldPatchDisease && patchBody) {
+            patchReload();
+            setShouldPatchDisease(false);
+            patchReset();
+        }
+    }, [shouldPatchDisease, patchBody, patchReload])
+
 
     useEffect(() => {
         if (patchServerResponse && selectedDiseaseGroup && selectedDiseaseGroup && selectedDisease && selectedDisease) {
@@ -131,7 +146,7 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
                     </Modal.Header>
                     <Modal.Body flex={1} pos='relative'>
                         <LoadingOverlay visible={groupLoading || diseaseLoading || patchLoading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
-                        <Flex component='form' direction='column' gap={rem(12)} h='100%' onSubmit={handleSubmit}>
+                        <Flex component='form' direction='column' gap={rem(12)} h='100%' onSubmit={handleFormSubmittionEvent}>
                             <Box flex={1}>
                                 <Select
                                     value={`${selectedDiseaseGroup?.key || ''}`}

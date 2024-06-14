@@ -9,7 +9,7 @@ export async function GET(
     { params }: { params: { id: number } }
 ) {
     try {
-        const order: GETMedicalOrderFilesResponseDto = await get<GETMedicalOrderFilesResponseDto>(endpoints.MEDICAL.ORDER.FIND_FILES(params.id), { cache: false });
+        const order: GETMedicalOrderFilesResponseDto = await get<GETMedicalOrderFilesResponseDto>(endpoints.MEDICAL.ORDER.FIND_FILES(params.id));
         return NextResponse.json(order, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

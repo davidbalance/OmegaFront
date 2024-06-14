@@ -57,7 +57,7 @@ const PatientPage: React.FC = () => {
     const [patientSelected, setPatientSelected] = useState<PatientDataType | null>(null);
     const [medicalOrderSelected, setMedicalOrderSelected] = useState<MedicalOrder | null>(null);
     const [medicalResultSelected, setMedicalResultSelected] = useState<MedicalResultWithOrderOmitted | null>(null);
-    const [shouldFetchOrder, setShouldFetchOrder] = useState<boolean>(false);
+    const [shouldFetchMedicalOrder, setShouldFetchMedicalOrder] = useState<boolean>(false);
 
     const {
         data: fetchedPatients,
@@ -91,7 +91,7 @@ const PatientPage: React.FC = () => {
     const handlePatientSelection = useCallback((selection: PatientDataType): void => {
         setPatientSelected(selection);
         setMedicalOrderSelected(null);
-        setShouldFetchOrder(true);
+        setShouldFetchMedicalOrder(true);
     }, []);
 
     const handleOrderSelection = useCallback((selection: MedicalOrder): void => {
@@ -121,9 +121,10 @@ const PatientPage: React.FC = () => {
             key={row.id}
             active={row.id === medicalOrderSelected?.id}
             onClick={() => handleOrderSelection(row)}
-            rightSection={<MedicalOrderActionMenu
-                data={row}
-                onMailSend={(event) => handleEventMailSend({ ...row, ...event })} />}
+            rightSection={
+                <MedicalOrderActionMenu
+                    data={row}
+                    onMailSend={(event) => handleEventMailSend({ ...row, ...event })} />}
         >
             <Grid>
                 <Grid.Col span={8}>
@@ -249,13 +250,13 @@ const PatientPage: React.FC = () => {
     }, [patientError, orderError]);
 
     useEffect(() => {
-        if (shouldFetchOrder && medicalOrderSelected) {
+        if (shouldFetchMedicalOrder && patientSelected) {
             orderReload();
             setActive(1);
             medicalResultOverride([]);
-            setShouldFetchOrder(false);
+            setShouldFetchMedicalOrder(false);
         }
-    }, [shouldFetchOrder, medicalOrderSelected, orderReload, medicalResultOverride]);
+    }, [shouldFetchMedicalOrder, patientSelected, orderReload, medicalResultOverride]);
 
     return (
         <>
