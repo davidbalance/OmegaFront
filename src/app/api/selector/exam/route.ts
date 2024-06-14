@@ -1,17 +1,14 @@
+import { GETSelectorOptionResponseDto } from "@/lib/dtos/selector/response.dto";
+import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
-import { FindSelectorOptionsDisease } from "@/services/api/disease/dtos";
-import endpoints from "@/lib/endpoints/endpoints";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(
-    _: NextRequest,
-    { params }: { params: { group: number } }
-) {
+export async function GET() {
     try {
-        const getDiseaseSelector = withAuth<any, FindSelectorOptionsDisease>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { options }: FindSelectorOptionsDisease = await getDiseaseSelector(endpoints.SELECTOR.DISEASE(params.group), {});
+        const getGroupSelector = withAuth<any, GETSelectorOptionResponseDto<number>>(get, DEFAULT_WITH_AUTH_OPTIONS);
+        const { options }: GETSelectorOptionResponseDto<number> = await getGroupSelector(endpoints.SELECTOR.EXAM, {});
         return NextResponse.json(options, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

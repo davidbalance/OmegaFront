@@ -1,18 +1,17 @@
+import { GETMedicalOrderResponseDto } from "@/lib/dtos/medical/order/response.dto";
+import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
-import { FindSelectorOptionsDisease } from "@/services/api/disease/dtos";
-import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
     _: NextRequest,
-    { params }: { params: { group: number } }
-) {
+    { params }: { params: { dni: string } }) {
     try {
-        const getDiseaseSelector = withAuth<any, FindSelectorOptionsDisease>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { options }: FindSelectorOptionsDisease = await getDiseaseSelector(endpoints.SELECTOR.DISEASE(params.group), {});
-        return NextResponse.json(options, { status: 200 });
+        const getOrder = withAuth<any, GETMedicalOrderResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
+        const { orders }: GETMedicalOrderResponseDto = await getOrder(endpoints.MEDICAL.ORDER.FIND_BY_PATIENT(params.dni), {});
+        return NextResponse.json(orders, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });

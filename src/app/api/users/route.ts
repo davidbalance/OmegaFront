@@ -1,17 +1,18 @@
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get, patch, post } from "@/lib/fetcher/fetcher";
 import { DEFAULT_WITH_AUTH_OPTIONS, withAuth } from "@/lib/fetcher/with-fetch.utils";
-import { FindAndUpdateACRolesRQ } from "@/services/api/access-control/dtos";
-import { CreateCredentialRQ } from "@/services/api/user-credential/dtos";
 import { CreateUserRQ, User } from "@/services/api/user/dtos";
 import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
+import { GETUsersResponseDto } from "@/lib/dtos/user/user.response.dto";
+import { POSTCredentialRequestDto } from "@/lib/dtos/auth/credential/request.dto";
+import { PATCHWebClientLogoRequestDto, PATCHWebClientResourceRequestDto } from "@/lib/dtos/web/clients.request.dto";
 
 export async function GET() {
     try {
-        const getUsers = withAuth<any, { users: User[] }>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const users: { users: User[] } = await getUsers(endpoints.USER.V1.FIND, {});
-        return NextResponse.json(users.users, { status: 200 });
+        const getUsers = withAuth<any, GETUsersResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
+        const { users }: GETUsersResponseDto = await getUsers(endpoints.USER.USER.FIND_ALL, {});
+        return NextResponse.json(users, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
@@ -21,30 +22,30 @@ export async function GET() {
     }
 }
 
-type CreateCredentialWithoutUser = Omit<CreateCredentialRQ, 'user'>;
-type UpdateACRoles = Omit<FindAndUpdateACRolesRQ, 'user'>;
-type UpdateLogo = { logo: number };
-type CreateUserParam = CreateUserRQ & CreateCredentialWithoutUser & UpdateACRoles & UpdateLogo;
+type CreateCredentialWithoutUser = Omit<POSTCredentialRequestDto, 'user'>;
+type UpdateWebClientResource = Omit<PATCHWebClientResourceRequestDto, 'user'>;
+type UpdateLogo = PATCHWebClientLogoRequestDto;
+type CreateUserParam = CreateUserRQ & CreateCredentialWithoutUser & UpdateWebClientResource & UpdateLogo;
 export async function POST(req: NextRequest) {
     try {
         const data: CreateUserParam = await req.json();
 
         const userBody: CreateUserRQ = data;
         const postUser = withAuth<CreateUserRQ, User>(post, DEFAULT_WITH_AUTH_OPTIONS);
-        const user = await postUser(endpoints.USER.V1.CREATE, { body: userBody });
+        const user = await postUser(endpoints.USER.USER.CREATE, { body: userBody });
 
         const { ...credentialWithoutUser }: CreateCredentialWithoutUser = data;
-        const credentialBody: CreateCredentialRQ = { ...credentialWithoutUser, user: user.id! }
-        const postCredential = withAuth(post, DEFAULT_WITH_AUTH_OPTIONS);
-        await postCredential(endpoints.CREDENTIAL.V1.CREATE, { body: credentialBody });
+        const credentialBody: POSTCredentialRequestDto = { ...credentialWithoutUser, user: user.id! }
+        const postCredential = withAuth<any, POSTCredentialRequestDto>(post, DEFAULT_WITH_AUTH_OPTIONS);
+        await postCredential(endpoints.AUTHENTICATION.CREDENTIAL.CREATE, { body: credentialBody });
 
-        const { ...acRolesBody }: UpdateACRoles = data;
-        const patchRole = withAuth(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        await patchRole(endpoints.ACCESS_CONTROL.V1.FIND_ONE_AND_UPDATE_ROLES(`${user.id}`), { body: acRolesBody });
+        const { resources }: UpdateWebClientResource = data;
+        const patchRole = withAuth<any, PATCHWebClientResourceRequestDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
+        await patchRole(endpoints.WEB.CLIENT.RESOURCE.FIND_USER_AND_UPDATE_RESOURCES(user.id!), { body: { resources } });
 
-        const { ...logoBody }: UpdateLogo = data;
-        const patchLogo = withAuth(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        await patchLogo(endpoints.OMEGA_WEB_CLIENT.V1.UPDATE_ONE_LOGO(`${user.id}`), { body: logoBody });
+        const { logo }: UpdateLogo = data;
+        const patchLogo = withAuth<any, PATCHWebClientLogoRequestDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
+        await patchLogo(endpoints.WEB.CLIENT.LOGO.FIND_USER_AND_UPDATE_LOGO(user.id!), { body: { logo } });
 
         return NextResponse.json(user, { status: 200 });
     } catch (error) {

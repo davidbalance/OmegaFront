@@ -1,4 +1,3 @@
-import { User } from "@/services/api/user/dtos";
 import { NavLinkProp } from "./nav-link.type";
 
 type Logo = {

@@ -1,12 +1,13 @@
 import { PATCHWebClientResourceRequestDto } from "@/lib/dtos/web/clients.request.dto";
-import { GETWebClientResourceResponseDto, PATCHWebClientResourceResponseDto } from "@/lib/dtos/web/clients.response.dto";
+import { GETWebClientResourceResponseDto } from "@/lib/dtos/web/clients.response.dto";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get, patch } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest,
+export async function GET(
+    _: NextRequest,
     { params }: { params: { user: number } }
 ) {
     try {

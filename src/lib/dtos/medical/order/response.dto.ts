@@ -6,7 +6,7 @@ export interface OrderFile {
     type: string;
 }
 
-export interface GETOrderFilesResponseDto {
+export interface GETMedicalOrderFilesResponseDto {
     dni: string;
     fullname: string;
     email: string;

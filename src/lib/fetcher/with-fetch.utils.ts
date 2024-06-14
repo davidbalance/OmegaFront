@@ -43,7 +43,7 @@ const processToken = ({ authKey, refreshKey, authToken, refreshToken, expires }:
 export const DEFAULT_WITH_AUTH_OPTIONS: WithAuthOptions = {
     authKey: AUTH_TOKEN_COOKIE,
     refreshKey: REFRESH_TOKEN_COOKIE,
-    refreshURL: endpoints.AUTHENTICATION.V1.REFRESH,
+    refreshURL: endpoints.AUTHENTICATION.AUTH.REFRESH,
     refreshProcessing: processToken
 }
 
