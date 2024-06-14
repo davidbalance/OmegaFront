@@ -1,52 +1,64 @@
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { SelectorOption } from '@/lib';
-import { OrderResult } from '@/services/api/order/dtos'
-import { Box, Button, ButtonGroup, ComboboxItem, Flex, LoadingOverlay, Modal, ModalProps, Select, rem } from '@mantine/core'
+import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
+import { ComboboxItem, Modal, Flex, LoadingOverlay, rem, Box, Select, ButtonGroup, Button, ModalProps } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import React, { FormEvent, useEffect, useMemo, useState } from 'react'
+import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
-interface PatientExamDiseaseModalProps extends Omit<ModalProps, 'title'> {
-    medicalOrderExam: OrderResult;
-    onFormSubmitted: (value: OrderResult) => void;
+interface MedicalResultFormDiseaseProps extends Omit<ModalProps, 'title'> {
+    medicalOrderExam: Omit<MedicalResult, 'order'>;
+    onFormSubmitted: (value: MedicalResult) => void;
 }
-const PatientExamDiseaseModal: React.FC<PatientExamDiseaseModalProps> = ({ medicalOrderExam, onFormSubmitted, ...props }) => {
-    const { loading: groupLoading, data: groups, error: groupError } = useFetch<SelectorOption<number>[]>('/api/selector/disease-group', 'GET');
-    const {
-        data: patchServerResponse,
-        loading: patchLoading,
-        error: patchError,
-        request: patchRequest,
-        reset: patchReset
-    } = useFetch<SelectorOption<number>[]>(`/api/patients/exam/${medicalOrderExam ? medicalOrderExam.id : ''}`, 'PATCH', { loadOnMount: false });
+const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ medicalOrderExam, onFormSubmitted, onClose, ...props }) => {
 
     const [selectedDiseaseGroup, setSelectedDiseaseGroup] = useState<SelectorOption<number> | null>(null);
     const [selectedDisease, setSelectedDisease] = useState<SelectorOption<number> | null>(null);
 
-    const { loading: diseaseLoading, data: diseases, error: diseaseError, reload: diseaseReload } = useFetch<SelectorOption<number>[]>(`/api/selector/disease/${selectedDiseaseGroup?.key}`, 'GET', { loadOnMount: false });
-
     const isMobile = useMediaQuery('(max-width: 50em)');
+
+    const {
+        loading: groupLoading,
+        data: groups,
+        error: groupError
+    } = useFetch<SelectorOption<number>[]>('/api/selector/disease/group', 'GET');
+
+    const {
+        data: patchServerResponse,
+        loading: patchLoading,
+        error: patchError,
+        body: patchBody,
+        request: patchRequest,
+        reset: patchReset
+    } = useFetch<any>(`/api/medical/results/${medicalOrderExam ? medicalOrderExam.id : ''}`, 'PATCH', { loadOnMount: false });
+
+    const {
+        loading: diseaseLoading,
+        data: diseases,
+        error: diseaseError,
+        reload: diseaseReload
+    } = useFetch<SelectorOption<number>[]>(`/api/selector/disease/${selectedDiseaseGroup?.key}`, 'GET', { loadOnMount: false });
 
     const diseaseGroupsOptions = useMemo(() => groups?.map(e => ({ value: `${e.key}`, label: e.label })) || [], [groups]);
     const diseaseOptions = useMemo(() => diseases?.map(e => ({ value: `${e.key}`, label: e.label })) || [], [diseases]);
 
-    const handleGroupChangeEvent = (_: string | null, option: ComboboxItem) => {
+    const handleGroupChangeEvent = useCallback((_: string | null, option: ComboboxItem) => {
         setSelectedDisease(null);
         setSelectedDiseaseGroup({ key: parseInt(option.value), label: option.label });
-    };
+    }, []);
 
-    const handleDiseaseChangeEvent = (_: string | null, option: ComboboxItem) => {
+    const handleDiseaseChangeEvent = useCallback((_: string | null, option: ComboboxItem) => {
         setSelectedDisease({ key: parseInt(option.value), label: option.label });
-    };
+    }, []);
 
-    const handleCloseEvent = () => {
+    const handleCloseEvent = useCallback(() => {
         setSelectedDiseaseGroup(null);
         setSelectedDisease(null);
-        props.onClose();
-    };
+        onClose();
+    }, [onClose]);
 
-    const handleSubmit = (event: FormEvent<HTMLDivElement>) => {
+    const handleSubmit = useCallback((event: FormEvent<HTMLDivElement>) => {
         event.preventDefault();
         if (selectedDiseaseGroup && selectedDisease) {
             patchRequest({
@@ -56,7 +68,7 @@ const PatientExamDiseaseModal: React.FC<PatientExamDiseaseModalProps> = ({ medic
                 diseaseName: selectedDisease.label
             });
         }
-    };
+    }, [patchRequest, selectedDiseaseGroup, selectedDisease]);
 
     useEffect(() => {
         if (medicalOrderExam) {
@@ -70,34 +82,38 @@ const PatientExamDiseaseModal: React.FC<PatientExamDiseaseModalProps> = ({ medic
     }, [medicalOrderExam]);
 
     useEffect(() => {
-        if (selectedDiseaseGroup) {
+        if (selectedDiseaseGroup && patchBody) {
             diseaseReload();
         }
-    }, [selectedDiseaseGroup]);
+    }, [selectedDiseaseGroup, patchBody, diseaseReload]);
 
     useEffect(() => {
-        if (groupError) {
-            notifications.show({ message: groupError.message, color: 'red' });
-        } else if (diseaseError) {
-            notifications.show({ message: diseaseError.message, color: 'red' });
-        } else if (patchError) {
-            notifications.show({ message: patchError.message, color: 'red' });
-        }
+        if (groupError) notifications.show({ message: groupError.message, color: 'red' });
+        else if (diseaseError) notifications.show({ message: diseaseError.message, color: 'red' });
+        else if (patchError) notifications.show({ message: patchError.message, color: 'red' });
     }, [groupError, diseaseError, patchError]);
 
     useEffect(() => {
-        if (patchServerResponse) {
-            const newExam: OrderResult = {
+        if (patchServerResponse && selectedDiseaseGroup && selectedDiseaseGroup && selectedDisease && selectedDisease) {
+            const newMedicalResult: Omit<MedicalResult, 'order'> = {
                 ...medicalOrderExam,
-                diseaseGroupId: selectedDiseaseGroup?.key,
-                diseaseGroupName: selectedDiseaseGroup?.label,
-                diseaseId: selectedDisease?.key,
-                diseaseName: selectedDisease?.label
+                diseaseGroupId: selectedDiseaseGroup.key,
+                diseaseGroupName: selectedDiseaseGroup.label,
+                diseaseId: selectedDisease.key,
+                diseaseName: selectedDisease.label
             };
-            onFormSubmitted(newExam);
+            onFormSubmitted(newMedicalResult as any);
             patchReset();
         }
-    }, [patchServerResponse, onFormSubmitted, patchReset, medicalOrderExam, selectedDiseaseGroup, selectedDisease]);
+    }, [
+        patchServerResponse,
+        selectedDiseaseGroup,
+        selectedDisease,
+        selectedDisease,
+        onFormSubmitted,
+        patchReset,
+        medicalOrderExam
+    ]);
 
     return (
         <Modal.Root
@@ -105,6 +121,7 @@ const PatientExamDiseaseModal: React.FC<PatientExamDiseaseModalProps> = ({ medic
             closeOnEscape={false}
             centered
             transitionProps={{ transition: 'fade', duration: 200 }}
+            onClose={onClose}
             {...props}>
             <Modal.Overlay backgroundOpacity={0.55} blur={3} />
             <Modal.Content>
@@ -159,4 +176,4 @@ const PatientExamDiseaseModal: React.FC<PatientExamDiseaseModalProps> = ({ medic
     )
 }
 
-export { PatientExamDiseaseModal };
+export { MedicalResultFormDisease }
