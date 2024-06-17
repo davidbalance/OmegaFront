@@ -5,7 +5,7 @@ import { MIME_TYPES } from '@mantine/dropzone'
 import { IconDeviceFloppy, IconForbid } from '@tabler/icons-react'
 import React, { useState } from 'react'
 import { useDisclosure } from '@mantine/hooks'
-import { Doctor } from '@/services/api/doctor/dtos'
+import { Doctor } from '@/lib/dtos/user/doctor.response.dto'
 import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle'
 
 type DoctorSignatureUploadProps = {

@@ -5,3 +5,7 @@ export interface CorporativeGroup {
     name: string;
     companies: Company[];
 }
+
+export interface GETCorporativeGroupDto {
+    corporativeGroups: CorporativeGroup[];
+}

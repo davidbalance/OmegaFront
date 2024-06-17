@@ -1,4 +1,4 @@
-import { AuthenticationPasswordForm } from '@/components/authentication/authentication-password';
+import { AuthenticationFormPassword } from '@/components/authentication/form/AuthenticationFormPassword';
 import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 import { useCredential } from '@/hooks/useCredential'
 import { LoadingOverlay, Group, rem, ActionIcon, Box, Button, Text } from '@mantine/core';
@@ -46,7 +46,7 @@ const DoctorCreateCredential: React.FC<DoctorCreateCredentialProps> = ({ user, o
                             size='sm'>{user.email}</Text>
                     </Group>
 
-                    <AuthenticationPasswordForm
+                    <AuthenticationFormPassword
                         onSubmit={({ password }) => handleSubmit(password)}
                         ref={buttonRef} />
 
@@ -67,4 +67,4 @@ const DoctorCreateCredential: React.FC<DoctorCreateCredentialProps> = ({ user, o
     )
 }
 
-export default DoctorCreateCredential
+export { DoctorCreateCredential }
