@@ -1,3 +1,4 @@
+import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { Menu, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
@@ -19,10 +20,15 @@ const MenuItemSendMail: React.FC<MenuItemSendMailProps> = ({ url, onSend, onComp
         reset: sendReset
     } = useFetch(url, 'GET', { loadOnMount: false });
 
-    const handleClickEventSendMail = useCallback(() => {
-        sendMail();
-        onSend?.();
-    }, [sendMail]);
+    const { show } = useConfirmation();
+
+    const handleClickEventSendMail = useCallback(async () => {
+        const state = await show('Enviar correo', '¿Se va a enviar un correo esta seguro?');
+        if (state) {
+            sendMail();
+            onSend?.();
+        }
+    }, [sendMail, show]);
 
     useEffect(() => {
         if (mail) {
