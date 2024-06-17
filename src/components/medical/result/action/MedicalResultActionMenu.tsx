@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 type MedicalResultWithoutOrder = Omit<MedicalResult, 'order'>;
 interface MedicalResultActionMenuProps {
     data: MedicalResultWithoutOrder;
-    onModification: () => void;
+    onModification?: () => void;
 }
 const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({ data, onModification }) => {
 
@@ -21,7 +21,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({ data,
     const handleClick = useCallback(() => open(), []);
 
     const handleClickEventModification = useCallback(() => {
-        onModification();
+        onModification?.();
     }, []);
 
     const handleClickEventDownload = useCallback(() => {
@@ -61,9 +61,9 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({ data,
                 }
             </MenuTarget>
             <Menu.Dropdown>
-                <Menu.Item onClick={handleClickEventModification} leftSection={<IconEdit style={{ width: rem(16), height: rem(16) }} />}>
+                {onModification && <Menu.Item onClick={handleClickEventModification} leftSection={<IconEdit style={{ width: rem(16), height: rem(16) }} />}>
                     Modificar
-                </Menu.Item>
+                </Menu.Item>}
                 <Menu.Item onClick={handleClickEventDownload} leftSection={<IconDownload style={{ width: rem(16), height: rem(16) }} />}>
                     Descargar resultado
                 </Menu.Item>

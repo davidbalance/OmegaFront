@@ -63,7 +63,7 @@ const PatientPage: React.FC = () => {
         data: fetchedPatients,
         loading: patientLoading,
         error: patientError,
-    } = useFetch<Patient[]>('/api/patients/look/company', 'GET');
+    } = useFetch<Patient[]>('/api/patients', 'GET');
 
     const {
         data: fetchedOrders,
@@ -121,6 +121,10 @@ const PatientPage: React.FC = () => {
             key={row.id}
             active={row.id === medicalOrderSelected?.id}
             onClick={() => handleOrderSelection(row)}
+            rightSection={
+                <MedicalOrderActionMenu
+                    data={row}
+                    onMailSend={(event) => handleEventMailSend({ ...row, ...event })} />}
         >
             <Grid>
                 <Grid.Col span={8}>
@@ -141,7 +145,9 @@ const PatientPage: React.FC = () => {
     const handleMedicalResultRow = useCallback((row: MedicalResultWithOrderOmitted) => (
         <ListRowElement
             key={row.id}
-            rightSection={<MedicalResultActionMenu data={row} />}
+            rightSection={<MedicalResultActionMenu
+                onModification={() => setMedicalResultSelected(row)}
+                data={row} />}
         >
             <Title order={6}>{row.examName}</Title>
         </ListRowElement>
