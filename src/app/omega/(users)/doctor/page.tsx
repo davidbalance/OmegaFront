@@ -4,14 +4,10 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { ColumnOptions, TableLayout } from '@/components/layout/table-layout/TableLayout';
 import { notifications } from '@mantine/notifications';
 import { LoadingOverlay } from '@mantine/core';
-import { IconPlus } from '@tabler/icons-react';
 import { useList } from '@/hooks/useList';
 import { useFetch } from '@/hooks/useFetch/useFetch';
-import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
-import { ResponsiveButton } from '@/components/buttons/responsive-button/ResponsiveButton';
 import { Doctor } from '@/lib/dtos/user/doctor.response.dto';
 import { User } from '@/lib/dtos/user/user.response.dto';
-import { ListElement } from '@/components/layout/list-layout/ListLayout';
 import { DoctorSignatureUpload } from '@/components/doctor/doctor-signature-upload/DoctorSignatureUpload';
 import { DoctorActionButton } from '@/components/doctor/action/DoctorActionButton';
 import { DoctorCreateCredential } from '@/components/doctor/doctor-create-credential/DoctorCreateCredential';

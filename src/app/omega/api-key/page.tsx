@@ -1,4 +1,4 @@
-// 'use client'
+'use client'
 
 import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
@@ -10,7 +10,7 @@ import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 enum LayoutState {
-  DEFAULT
+    DEFAULT
 }
 
 const apiKeyColumns: ListElement<ApiKey>[] = [
