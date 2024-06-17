@@ -44,7 +44,7 @@ const LocationPage: React.FC = () => {
         data: fetchedGroups,
         loading: groupLoading,
         error: groupError,
-    } = useFetch<CorporativeGroup[]>('/api/corporativeGroups', 'GET');
+    } = useFetch<CorporativeGroup[]>('/api/corporative/groups', 'GET');
 
     const {
         data: fetchedCompanies,

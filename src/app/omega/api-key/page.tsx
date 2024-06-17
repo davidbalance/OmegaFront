@@ -35,7 +35,7 @@ const ApiKeyPage: React.FC = () => {
         data: fetchedApiKeys,
         loading: apiKeyLoading,
         error: apiKeyError,
-    } = useFetch<ApiKey[]>('/api/api-key', 'GET');
+    } = useFetch<ApiKey[]>('/api/key', 'GET');
 
     const [parsedApiKeys, setParsedApiKeys] = useState<ApiKeyDataType[]>([]);
 
