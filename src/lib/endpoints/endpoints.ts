@@ -3,14 +3,11 @@ import { AUTH } from "./v1/authentication/auth";
 import { CREDENTIAL } from "./v1/authentication/credential";
 import { DISEASE } from "./v1/disease";
 import { DISEASE_GROUP } from "./v1/disease/group";
-import { FILE_RESULT } from "./v1/file/result";
 import { HEALTH_CHECK } from "./v1/health/check";
-import { BRANCH } from "./v1/location/branch";
-import { CITY } from "./v1/location/city";
-import { COMPANY } from "./v1/location/company";
 import { CORPORATIVE_GROUP } from "./v1/location/corporative/group";
 import { LOG } from "./v1/log";
 import { MAIL_ORDER } from "./v1/mail/order";
+import { MEDICAL_FILE } from "./v1/medical/file";
 import { MEDICAL_ORDER } from "./v1/medical/order";
 import { MEDICAL_RESULT } from "./v1/medical/result";
 import { BRANCH_SELECTOR } from "./v1/selector/branch";
@@ -33,10 +30,7 @@ export default Object.freeze({
         GROUP: DISEASE_GROUP
     },
     LOCATION: {
-        CITY,
-        COMPANY,
-        CORPORATIVE_GROUP,
-        BRANCH
+        CORPORATIVE_GROUP
     },
     USER: {
         USER,
@@ -61,7 +55,7 @@ export default Object.freeze({
         ORDER: MAIL_ORDER
     },
     FILE: {
-        RESULT: FILE_RESULT
+        RESULT: MEDICAL_FILE
     },
     SELECTOR: {
         DISEASE: DISEASE_SELECTOR,

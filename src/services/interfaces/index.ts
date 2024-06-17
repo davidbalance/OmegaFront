@@ -1,7 +1,0 @@
-export * from './i-configuration.service'
-export * from './i-create.service'
-export * from './i-delete.service'
-export * from './i-find.service'
-export * from './i-update.service'
-export * from './i-selector.service'
-export * from './i-find-file.service'

@@ -1,3 +1,3 @@
 import { root } from "@/lib/endpoints/config";
 
-export const CITY_SELECTOR = `${root}/cities/selector`;
+export const CITY_SELECTOR = `${root}/selector/cities`;
