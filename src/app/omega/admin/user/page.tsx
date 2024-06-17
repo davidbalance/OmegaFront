@@ -15,6 +15,7 @@ import { UserFormUpdate } from '@/components/user/form/UserFormUpdate';
 import { UserFormWebResource } from '@/components/user/form/UserFormWebResource';
 import { UserFormChangePassword } from '@/components/user/form/UserFormChangePassword';
 import { UserActionButton } from '@/components/user/action/UserActionButton';
+import UserFormAssignLookForCompany from '@/components/user/form/UserFormAssignLookForCompany';
 
 enum LayoutStates {
     DEFAULT,
@@ -22,6 +23,7 @@ enum LayoutStates {
     UPDATE_USER,
     UPDATE_PASSWORD,
     UPDATE_WEB_RESOURCES,
+    UPDATE_COMPANY,
 }
 
 const columns: ColumnOptions<User>[] = [
@@ -68,18 +70,20 @@ const UserPage: React.FC = () => {
         setCurrentState(LayoutStates.UPDATE_USER);
     }, []);
 
-
     const handleClickEventUpdatePassword = useCallback((user: User) => {
         setSelected(user);
         setCurrentState(LayoutStates.UPDATE_PASSWORD);
     }, []);
-
 
     const handleClickEventUpdateRole = useCallback((user: User) => {
         setSelected(user);
         setCurrentState(LayoutStates.UPDATE_WEB_RESOURCES);
     }, []);
 
+    const handleClickEventUpdateCompany = useCallback((user: User) => {
+        setSelected(user);
+        setCurrentState(LayoutStates.UPDATE_COMPANY);
+    }, []);
 
     const handleClickEventDeleteUser = useCallback(async (user: User) => {
         setSelected(user);
@@ -146,6 +150,10 @@ const UserPage: React.FC = () => {
             user={selected!}
             onClose={handleClickEventClose}
         />,
+        [LayoutStates.UPDATE_COMPANY]: <UserFormAssignLookForCompany
+            user={selected?.id!}
+            onClose={handleClickEventClose}
+        />,
         [LayoutStates.DEFAULT]:
             <TableLayout<User>
                 title={'Usuarios'}
@@ -157,8 +165,9 @@ const UserPage: React.FC = () => {
                     child: (props) => <UserActionButton
                         onModification={() => handleClickEventUpdateUser(props.value)}
                         onChangePassword={() => handleClickEventUpdatePassword(props.value)}
-                        onConfiguration={() => handleClickEventUpdateRole(props.value)}
+                        onResourceChange={() => handleClickEventUpdateRole(props.value)}
                         onDelete={() => handleClickEventDeleteUser(props.value)}
+                        onLookForCompany={() => handleClickEventUpdateCompany(props.value)}
                         {...props} />
                 }}
                 dock={[createUserDockButton]}

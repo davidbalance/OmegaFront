@@ -6,6 +6,8 @@ import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-ti
 import MedicalOrderActionMenu from '@/components/medical/order/action/MedicalOrderActionMenu';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { MedicalResultFormDisease } from '@/components/medical/result/form/MedicalResultFormDisease';
+import { PatientActionButton } from '@/components/patient/action/PatientActionButton';
+import UserFormAssignEmployeeOf from '@/components/user/form/UserFormAssignEmployeeOf';
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { useList } from '@/hooks/useList';
 import { MedicalOrder } from '@/lib/dtos/medical/order/response.dto';
@@ -17,7 +19,7 @@ import { notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
-type PatientDataType = Omit<Patient, 'user'> & Omit<User, 'id'>;
+type PatientDataType = Omit<Patient, 'user'> & Omit<User, 'id'> & { user: number };
 const parsePatient = (patients: Patient[]): PatientDataType[] => patients.map<PatientDataType>((e) => ({
     id: e.id,
     dni: e.user.dni,
@@ -25,11 +27,13 @@ const parsePatient = (patients: Patient[]): PatientDataType[] => patients.map<Pa
     lastname: e.user.lastname,
     email: e.user.email,
     birthday: e.birthday,
-    gender: e.gender
+    gender: e.gender,
+    user: e.user.id
 }));
 
 enum LayoutState {
-    DEFAULT
+    DEFAULT,
+    UPDATE_EMPLOYEE
 }
 
 type MedicalResultWithOrderOmitted = Omit<MedicalResult, 'order'>;
@@ -53,7 +57,7 @@ const medicalResultColumns: ListElement<MedicalResultWithOrderOmitted>[] = [
 const PatientPage: React.FC = () => {
 
     const [active, setActive] = useState(0);
-    const [currentState] = useState<LayoutState>(LayoutState.DEFAULT);
+    const [currentState, setCurrentState] = useState<LayoutState>(LayoutState.DEFAULT);
     const [patientSelected, setPatientSelected] = useState<PatientDataType | null>(null);
     const [medicalOrderSelected, setMedicalOrderSelected] = useState<MedicalOrder | null>(null);
     const [medicalResultSelected, setMedicalResultSelected] = useState<MedicalResultWithOrderOmitted | null>(null);
@@ -103,11 +107,19 @@ const PatientPage: React.FC = () => {
         medicalOrderUpdate('id', data.id, data);
     }, [medicalOrderUpdate]);
 
+    const handleClickEventAssignModal = useCallback((selection: PatientDataType) => {
+        setPatientSelected(selection);
+        setCurrentState(LayoutState.UPDATE_EMPLOYEE);
+    }, []);
+
     const handlePatientRow = useCallback((row: PatientDataType) => (
         <ListRowElement
             key={row.id}
             active={row.id === patientSelected?.id}
-            onClick={() => handlePatientSelection(row)}>
+            onClick={() => handlePatientSelection(row)}
+            rightSection={<PatientActionButton
+                onAssignCompany={() => handleClickEventAssignModal(row)} />}
+        >
             <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
             <Flex direction='row' justify='space-between'>
                 <Text>{row.dni}</Text>
@@ -207,6 +219,11 @@ const PatientPage: React.FC = () => {
         return newValue;
     }), []);
 
+    const handleClose = useCallback(() => {
+        setPatientSelected(null);
+        setCurrentState(LayoutState.DEFAULT);
+    }, []);
+
     const view = useMemo((): Record<LayoutState, React.ReactNode> => ({
         [LayoutState.DEFAULT]: (
             <MultipleTierLayout
@@ -215,7 +232,12 @@ const PatientPage: React.FC = () => {
                 onClose={handleCloseTierEvent}
             />
         ),
-    }), [multipleLayerComponents, active, handleCloseTierEvent]);
+        [LayoutState.UPDATE_EMPLOYEE]: (
+            <UserFormAssignEmployeeOf
+                user={patientSelected?.user!}
+                onClose={handleClose} />
+        )
+    }), [multipleLayerComponents, active, handleCloseTierEvent, handleClose, patientSelected]);
 
     const handleExamModalCloseEvent = useCallback(() => setMedicalResultSelected(null), []);
 

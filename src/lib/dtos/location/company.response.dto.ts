@@ -1,4 +1,4 @@
-import { Branch } from "@/services/api/branch/dtos";
+import { Branch } from "./branch.response.dto";
 
 export interface Company {
     id: number;

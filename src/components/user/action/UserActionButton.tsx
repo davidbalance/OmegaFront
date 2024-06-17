@@ -1,16 +1,17 @@
 import { ActionColumnProps } from '@/components/layout/table-layout/TableLayout';
 import { User } from '@/lib/dtos/user/user.response.dto';
 import { Menu, MenuTarget, ActionIcon, rem, Flex } from '@mantine/core';
-import { IconDotsVertical, IconKey, IconPencil, IconSettings, IconTrash } from '@tabler/icons-react';
+import { IconBuilding, IconDotsVertical, IconHtml, IconKey, IconPencil, IconSettings, IconSitemap, IconTrash } from '@tabler/icons-react';
 import React from 'react'
 
 interface UserActionButtonProps extends ActionColumnProps<User> {
     onChangePassword?: () => void;
-    onConfiguration?: () => void;
+    onResourceChange?: () => void;
+    onLookForCompany?: () => void;
     onModification?: () => void;
     onDelete?: () => void;
 }
-const UserActionButton: React.FC<UserActionButtonProps> = ({ onChangePassword, onConfiguration, onDelete, onModification }) => {
+const UserActionButton: React.FC<UserActionButtonProps> = ({ onChangePassword, onResourceChange, onDelete, onModification, onLookForCompany }) => {
 
     return (
         <Menu>
@@ -22,7 +23,7 @@ const UserActionButton: React.FC<UserActionButtonProps> = ({ onChangePassword, o
                 </Flex>
             </MenuTarget>
             <Menu.Dropdown>
-                {onModification || onConfiguration ? <Menu.Label>Aplicacion</Menu.Label> : <></>}
+                {(onModification || onResourceChange || onLookForCompany) ? <Menu.Label>Aplicacion</Menu.Label> : <></>}
                 {
                     onModification &&
                     <Menu.Item
@@ -31,11 +32,18 @@ const UserActionButton: React.FC<UserActionButtonProps> = ({ onChangePassword, o
                         Modificacion
                     </Menu.Item>
                 }
-                {onConfiguration &&
+                {onResourceChange &&
                     <Menu.Item
-                        leftSection={<IconSettings style={{ width: rem(16), height: rem(16) }} />}
-                        onClick={onConfiguration}>
-                        Configuracion
+                        leftSection={<IconSitemap style={{ width: rem(16), height: rem(16) }} />}
+                        onClick={onResourceChange}>
+                        Asignar pagina
+                    </Menu.Item>
+                }
+                {onLookForCompany &&
+                    <Menu.Item
+                        leftSection={<IconBuilding style={{ width: rem(16), height: rem(16) }} />}
+                        onClick={onLookForCompany}>
+                        Asignar Empresa
                     </Menu.Item>
                 }
 
@@ -46,6 +54,7 @@ const UserActionButton: React.FC<UserActionButtonProps> = ({ onChangePassword, o
                     </>
                     : <></>
                 }
+
                 {onChangePassword &&
                     <Menu.Item
                         color="red"

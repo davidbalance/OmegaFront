@@ -6,3 +6,7 @@ export interface POSTUserRequestDto {
 }
 
 export interface PATCHUserRequestDto extends POSTUserRequestDto { }
+
+export interface PATCHUserAttributeRequestDto {
+    value: string;
+}

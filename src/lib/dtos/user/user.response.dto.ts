@@ -15,3 +15,9 @@ export interface GETUserResponseDto extends User { }
 export interface POSTUserResponseDto extends User { }
 
 export interface PATCHUserResponseDto extends User { }
+
+export interface GETUserAttributeRequestDto {
+    id: number;
+    name: string;
+    value: string;
+}
