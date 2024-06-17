@@ -1,11 +1,11 @@
 import { Header } from '@/components/header/Header'
-import { SearchInputText } from '@/components/input/SearchInputText';
 import { useTable } from '@/hooks';
 import { ApiKey } from '@/services/api/api-key';
 import { Flex, Loader, Pagination, ScrollArea, Text, rem } from '@mantine/core';
 import React, { useEffect } from 'react'
 import ApiKeyCreate from '../api-key-create/ApiKeyCreate';
 import ApiKeyItem from '../api-key-item/ApiKeyItem';
+import { InputSearch } from '@/components/input/search/InputSearch';
 
 type ApiKeyLayoutProps = {
     load?: boolean;
@@ -43,7 +43,7 @@ const ApiKeyLayout: React.FC<ApiKeyLayoutProps> = ({ load, apiKeys, events }) =>
             <ApiKeyCreate
                 onCreate={events.onCreate} />
 
-            <SearchInputText
+            <InputSearch
                 placeholder="Buscar"
                 value={tableHook.search}
                 onChange={tableHook.onSearch}

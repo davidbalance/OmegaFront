@@ -1,5 +1,5 @@
 import { Header } from '@/components/header/Header';
-import { SearchInputText } from '@/components/input/SearchInputText';
+import { InputSearch } from '@/components/input/search/InputSearch';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { OmegaTable } from '@/components/table';
 import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
@@ -87,7 +87,7 @@ const TableLayout: <T extends object, >(props: TableLayoutProps<T>) => React.Rea
             <ModularBox>
                 <Grid>
                     <Grid.Col span={dock ? (match ? 11 : 8) : 12}  >
-                        <SearchInputText
+                        <InputSearch
                             placeholder="Buscar"
                             value={FilterValues.text}
                             onChange={handleSearchInput}

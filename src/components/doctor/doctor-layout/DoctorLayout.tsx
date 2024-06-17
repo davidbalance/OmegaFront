@@ -2,15 +2,14 @@ import OmegaTh from '@/components/table/omega-th/OmegaTh';
 import { useTable } from '@/hooks';
 import { Doctor } from '@/services/api/doctor/dtos'
 import { User } from '@/services/api/user/dtos';
-import { Table, TextInput, rem } from '@mantine/core';
+import { Table } from '@mantine/core';
 import React, { useEffect } from 'react'
 import { DoctorSettings } from '../doctor-settings/DoctorSettingsMenu';
 import { Header } from '@/components/header/Header';
 import { OmegaTable } from '@/components/table';
-import { IconSearch } from '@tabler/icons-react';
-import { SearchInputText } from '@/components/input/SearchInputText';
 import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 import dayjs from 'dayjs';
+import { InputSearch } from '@/components/input/search/InputSearch';
 
 type DoctorLayoutDataType = Omit<Doctor, 'user'> & Omit<User, 'id'> & { hasCredential: boolean }
 const parseResult = (medicalResults: Doctor[]): DoctorLayoutDataType[] => medicalResults.map<DoctorLayoutDataType>((e) => ({
@@ -69,7 +68,7 @@ const DoctorLayout: React.FC<DoctorLayoutProps> = ({ doctors, events, load }) =>
                 Doctores registrados en el sistema
             </Header>
 
-            <SearchInputText
+            <InputSearch
                 placeholder="Buscar"
                 value={tableHook.search}
                 onChange={tableHook.onSearch}

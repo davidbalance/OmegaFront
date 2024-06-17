@@ -6,7 +6,7 @@ import React, { ChangeEvent, useMemo, useState } from 'react'
 import classes from './ListLayout.module.css'
 import { IconX } from '@tabler/icons-react';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { SearchInputText } from '@/components/input/SearchInputText';
+import { InputSearch } from '@/components/input/InputSearch';
 import { ListRowElementProps } from './ListRowElement';
 import { ListHeaderButton } from './ListHeaderButton';
 import { useMediaQuery } from '@mantine/hooks';
@@ -61,7 +61,7 @@ const ListLayout = <T extends object>({ data, loading, columns, height = 350, si
             <ModularBox>
                 <Grid>
                     <Grid.Col span={dock ? (isMobile ? 11 : 8) : 12}  >
-                        <SearchInputText
+                        <InputSearch
                             placeholder="Buscar"
                             value={FilterValues.text}
                             onChange={handleSearchInput}
