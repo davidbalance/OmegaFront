@@ -6,10 +6,10 @@ import React, { ChangeEvent, useMemo, useState } from 'react'
 import classes from './ListLayout.module.css'
 import { IconX } from '@tabler/icons-react';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { InputSearch } from '@/components/input/InputSearch';
 import { ListRowElementProps } from './ListRowElement';
 import { ListHeaderButton } from './ListHeaderButton';
 import { useMediaQuery } from '@mantine/hooks';
+import { InputSearch } from '@/components/input/search/InputSearch';
 
 export interface ListElement<T> {
     key: keyof T;
