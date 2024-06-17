@@ -1,5 +1,5 @@
-import { ModularBox } from '@/components/modular-box/ModularBox';
-import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
+import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
+import { ModularBox } from '@/components/modular/box/ModularBox';
 import WebResourceFormAssign from '@/components/web/resource/form/WebResourceFormAssign';
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { User } from '@/lib/dtos/user/user.response.dto';
@@ -68,7 +68,7 @@ const UserFormWebResource: React.FC<UserFormWebResourceProps> = ({ user, onClose
         <>
             <LoadingOverlay visible={webResourceLoading || clientResourceLoading || patchResourceLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <Flex h='100%' direction='column' gap={rem(8)}>
-                <SubLayoutFormTitle
+                <LayoutSubFormTitle
                     title={'Formulario de modificacion de paginas'}
                     onClose={onClose} />
 

@@ -1,13 +1,13 @@
-import { Grid, Title, ActionIcon, Flex, Text } from '@mantine/core'
+import { ModularBox } from '@/components/modular/box/ModularBox';
+import { ActionIcon, Flex, Text } from '@mantine/core'
 import { IconX } from '@tabler/icons-react'
 import React from 'react'
-import { ModularBox } from '../modular-box/ModularBox';
 
-type SubLayoutFormTitleProps = {
+type LayoutSubFormTitleProps = {
     title: string;
     onClose: () => void;
 }
-const SubLayoutFormTitle: React.FC<SubLayoutFormTitleProps> = ({ title, onClose }) => {
+const LayoutSubFormTitle: React.FC<LayoutSubFormTitleProps> = ({ title, onClose }) => {
     return <ModularBox direction='row' justify='space-between' align='center'>
         <Text
             p={0}
@@ -25,4 +25,4 @@ const SubLayoutFormTitle: React.FC<SubLayoutFormTitleProps> = ({ title, onClose 
     </ModularBox>
 }
 
-export { SubLayoutFormTitle }
+export { LayoutSubFormTitle }

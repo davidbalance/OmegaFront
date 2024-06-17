@@ -1,9 +1,8 @@
 import { LoadingOverlay, rem, Stepper, Flex, Text, Button, Container } from '@mantine/core';
 import { IconBuilding, IconChevronLeft, IconChevronRight, IconCircleCheck, IconDeviceFloppy, IconLicense, IconLock, IconUserCheck } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 import { UserFormLogo } from './UserFormLogo';
-import { ModularBox } from '@/components/modular-box/ModularBox';
+import { ModularBox } from '@/components/modular/box/ModularBox';
 import { notifications } from '@mantine/notifications';
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { User } from '@/lib/dtos/user/user.response.dto';
@@ -12,6 +11,7 @@ import WebResourceFormAssign from '@/components/web/resource/form/WebResourceFor
 import { UserForm } from './UserForm';
 import { useMediaQuery } from '@mantine/hooks';
 import { AuthenticationFormPassword } from '@/components/authentication/form/AuthenticationFormPassword';
+import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 
 type UserStepProps = {
     description: string; icon: React.ReactNode; step: {
@@ -137,9 +137,10 @@ const UserFormCreate: React.FC<UserFormCreateProps> = ({ onClose, onFormSubmit }
         <>
             <LoadingOverlay visible={createLoading || webResourceLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <Flex h='100%' direction='column' gap={rem(8)}>
-                <SubLayoutFormTitle
+                <LayoutSubFormTitle
                     title={'Formulario de creacion de usuarios'}
-                    onClose={handleClose}></SubLayoutFormTitle>
+                    onClose={handleClose}
+                />
 
                 <ModularBox flex={1}>
                     <Stepper

@@ -5,7 +5,7 @@ import { Center, Flex, Grid, Loader, Pagination, ScrollArea, Text, UnstyledButto
 import React, { ChangeEvent, useMemo, useState } from 'react'
 import classes from './ListLayout.module.css'
 import { IconX } from '@tabler/icons-react';
-import { ModularBox } from '@/components/modular-box/ModularBox';
+import { ModularBox } from '@/components/modular/box/ModularBox';
 import { SearchInputText } from '@/components/input/SearchInputText';
 import { ListRowElementProps } from './ListRowElement';
 import { ListHeaderButton } from './ListHeaderButton';

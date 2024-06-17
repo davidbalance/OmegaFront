@@ -2,10 +2,10 @@
 
 import { Box } from "@mantine/core"
 import Footer from "@/components/footer/Footer"
-import { Navbar } from '@/components/navbar'
 import { Topbar } from "@/components/navbar/topbar/Topbar"
 import { useDisclosure } from "@mantine/hooks"
 import classes from './layout.module.css'
+import { Navbar } from "@/components/navbar/Navbar"
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 

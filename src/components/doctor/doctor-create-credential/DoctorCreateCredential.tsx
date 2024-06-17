@@ -1,5 +1,5 @@
 import { AuthenticationPasswordForm } from '@/components/authentication/authentication-password';
-import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
+import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 import { useCredential } from '@/hooks/useCredential'
 import { LoadingOverlay, Group, rem, ActionIcon, Box, Button, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -31,7 +31,7 @@ const DoctorCreateCredential: React.FC<DoctorCreateCredentialProps> = ({ user, o
         <>
             <LoadingOverlay visible={credentialHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
-            <SubLayoutFormTitle
+            <LayoutSubFormTitle
                 title={'Formulario de asignacion de credenciales'}
                 onClose={onClose} />
 

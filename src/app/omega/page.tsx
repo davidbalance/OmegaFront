@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Text, useMantineTheme } from '@mantine/core';
-import { ModularBox } from '@/components/modular-box/ModularBox';
+import { ModularBox } from '@/components/modular/box/ModularBox';
 import classes from './page.module.css';
 
 const Landing: React.FC = () => {

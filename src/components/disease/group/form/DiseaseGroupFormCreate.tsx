@@ -1,12 +1,12 @@
-import { SubLayoutFormTitle } from "@/components/sub-layout-form/SubLayoutTitle";
 import { LoadingOverlay, rem, Button, Flex } from "@mantine/core";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useCallback, useEffect, useRef } from "react";
 import DiseaseGroupForm from "./DiseaseGroupForm";
 import { useFetch } from "@/hooks/useFetch/useFetch";
-import { ModularBox } from "@/components/modular-box/ModularBox";
+import { ModularBox } from "@/components/modular/box/ModularBox";
 import { notifications } from "@mantine/notifications";
 import { DiseaseGroup } from "@/lib/dtos/disease/group/response.dto";
+import { LayoutSubFormTitle } from "@/components/layout/sub/form/LayoutSubFormTitle";
 
 type DiseaseGroupFormCreateProps = {
     onClose: () => void;
@@ -49,7 +49,7 @@ const DiseaseGroupFormCreate: React.FC<DiseaseGroupFormCreateProps> = ({ onClose
         <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
         <Flex h='100%' direction='column' gap={rem(8)}>
-            <SubLayoutFormTitle
+            <LayoutSubFormTitle
                 title={'Formulario de creacion de groupos de morbilidades'}
                 onClose={onClose} />
 

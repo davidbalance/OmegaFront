@@ -1,6 +1,6 @@
 import { Header } from '@/components/header/Header';
 import { SearchInputText } from '@/components/input/SearchInputText';
-import { ModularBox } from '@/components/modular-box/ModularBox';
+import { ModularBox } from '@/components/modular/box/ModularBox';
 import { OmegaTable } from '@/components/table';
 import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 import OmegaTh from '@/components/table/omega-th/OmegaTh';

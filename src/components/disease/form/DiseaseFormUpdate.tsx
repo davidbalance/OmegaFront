@@ -1,5 +1,4 @@
-import { ModularBox } from "@/components/modular-box/ModularBox";
-import { SubLayoutFormTitle } from "@/components/sub-layout-form/SubLayoutTitle";
+import { ModularBox } from "@/components/modular/box/ModularBox";
 import { useFetch } from "@/hooks/useFetch/useFetch";
 import { Disease } from "@/lib/dtos/disease/response.dto";
 import { LoadingOverlay, Flex, rem, Button } from "@mantine/core";
@@ -7,6 +6,7 @@ import { notifications } from "@mantine/notifications";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useRef, useCallback, useEffect } from "react";
 import { DiseaseForm } from "./DiseaseForm";
+import { LayoutSubFormTitle } from "@/components/layout/sub/form/LayoutSubFormTitle";
 
 type DiseaseFormUpdateProps = {
     disease: Disease;
@@ -50,7 +50,7 @@ const DiseaseFormUpdate: React.FC<DiseaseFormUpdateProps> = ({ onClose, onFormSu
         <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
         <Flex h='100%' direction='column' gap={rem(8)}>
-            <SubLayoutFormTitle
+            <LayoutSubFormTitle
                 title={'Formulario de modificacion de morbilidades'}
                 onClose={onClose} />
 

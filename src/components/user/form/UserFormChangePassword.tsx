@@ -1,6 +1,6 @@
 import { AuthenticationFormPassword } from '@/components/authentication/form/AuthenticationFormPassword';
-import { ModularBox } from '@/components/modular-box/ModularBox';
-import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
+import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
+import { ModularBox } from '@/components/modular/box/ModularBox';
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { Box, Button, Flex, LoadingOverlay, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -47,7 +47,7 @@ const UserFormChangePassword: React.FC<UserFormChangePasswordProps> = ({ email, 
         <>
             <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <Flex h='100%' direction='column' gap={rem(8)}>
-                <SubLayoutFormTitle
+                <LayoutSubFormTitle
                     title={'Formulario de modificacion de contraseña'}
                     onClose={onClose} />
 

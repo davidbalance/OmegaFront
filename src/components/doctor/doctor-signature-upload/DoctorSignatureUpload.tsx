@@ -6,7 +6,7 @@ import { IconDeviceFloppy, IconForbid } from '@tabler/icons-react'
 import React, { useState } from 'react'
 import { useDisclosure } from '@mantine/hooks'
 import { Doctor } from '@/services/api/doctor/dtos'
-import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle'
+import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle'
 
 type DoctorSignatureUploadProps = {
     doctor: Doctor;
@@ -40,7 +40,7 @@ const DoctorSignatureUpload: React.FC<DoctorSignatureUploadProps> = ({ doctor, o
         <>
             <LoadingOverlay visible={doctorHook.loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
-            <SubLayoutFormTitle
+            <LayoutSubFormTitle
                 title={'Carga de firma'}
                 onClose={onClose} />
 

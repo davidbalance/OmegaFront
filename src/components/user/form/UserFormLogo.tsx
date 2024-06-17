@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Group, Radio, rem } from '@mantine/core'
-import { SystemLogo } from '@/components/navbar/navlogo/logos'
+import { SystemLogo } from '@/components/navbar/nav/logo/logos'
 import React, { FormEvent, ForwardedRef, useCallback, useMemo, useState } from 'react'
 
 type UserFormLogoProps = {

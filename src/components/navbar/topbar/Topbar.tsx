@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './Topbar.module.css'
 import { Burger, Flex, Grid } from '@mantine/core';
 import { TopbarMenu } from './TopbarMenu';
-import { NavLogo } from '../navlogo/NavLogo';
+import { NavLogo } from '../nav/logo/NavLogo';
 
 type TopbarProps = {
     burger: {

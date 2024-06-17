@@ -1,12 +1,12 @@
 import { LoadingOverlay, rem, Box, Button, Flex } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { SubLayoutFormTitle } from '@/components/sub-layout-form/SubLayoutTitle';
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { notifications } from '@mantine/notifications';
-import { ModularBox } from '@/components/modular-box/ModularBox';
+import { ModularBox } from '@/components/modular/box/ModularBox';
 import { User } from '@/lib/dtos/user/user.response.dto';
 import { UserForm } from './UserForm';
+import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 
 type UserFormUpdateProps = {
     user: User;
@@ -52,7 +52,7 @@ const UserFormUpdate: React.FC<UserFormUpdateProps> = ({ onClose, user, onFormSu
         <>
             <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <Flex h='100%' direction='column' gap={rem(8)}>
-                <SubLayoutFormTitle
+                <LayoutSubFormTitle
                     title={'Formulario de modificacion de usuario'}
                     onClose={onClose} />
 

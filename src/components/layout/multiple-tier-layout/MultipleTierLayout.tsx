@@ -1,5 +1,5 @@
 import { Header } from '@/components/header/Header';
-import { ModularBox } from '@/components/modular-box/ModularBox';
+import { ModularBox } from '@/components/modular/box/ModularBox';
 import { ActionIcon, Flex, Title, rem } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks';
 import { IconX } from '@tabler/icons-react';

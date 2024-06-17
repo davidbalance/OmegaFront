@@ -1,6 +1,6 @@
 'use client'
 
-import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconFolder, IconFolders, IconReportMedical, IconSettings, IconMapPin, IconKey, IconLock, IconVirus } from '@tabler/icons-react';
+import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconReportMedical, IconSettings, IconMapPin, IconKey, IconLock, IconVirus } from '@tabler/icons-react';
 import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react'
 import classes from './Navbar.module.css';
 import cx from 'clsx';
@@ -9,7 +9,7 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { RESOURCE_KEY } from '@/lib/constants';
 import { useLocalStorage } from '@/hooks/useLocalStorage/useLocalStorage';
 import { NavLinkProp } from '@/lib/types/nav-link.type';
-import { NavLink } from './navlink/NavLink';
+import { NavLink } from './nav/link/NavLink';
 
 const LinkIcon: Record<string, ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>>> = {
     "user": IconUsers,

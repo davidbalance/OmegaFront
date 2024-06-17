@@ -2,7 +2,7 @@
 import { DownloadActionButton } from '@/components/download/action-button/DownloadActionButton'
 import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout'
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement'
-import { ModularBox } from '@/components/modular-box/ModularBox'
+import { ModularBox } from '@/components/modular/box/ModularBox'
 import { useFetch } from '@/hooks/useFetch/useFetch'
 import { useList } from '@/hooks/useList'
 import { GETMedicalOrderFilesResponseDto, OrderFile } from '@/lib/dtos/medical/order/response.dto'
