@@ -3,7 +3,7 @@
 import DoctorCreateCredential from '@/components/doctor/doctor-create-credential/DoctorCreateCredential';
 import { DoctorLayout } from '@/components/doctor/doctor-layout/DoctorLayout';
 import { DoctorSignatureUpload } from '@/components/doctor/doctor-signature-upload/DoctorSignatureUpload';
-import { useDoctor } from '@/hooks';
+// import { useDoctor } from '@/hooks';
 import React, { useState } from 'react'
 
 enum LayoutState {
@@ -14,7 +14,7 @@ enum LayoutState {
 
 const Doctor: React.FC = () => {
 
-    const doctorHook = useDoctor(true);
+    /* const doctorHook = useDoctor(true);
 
     const [currentState, setCurrentState] = useState<LayoutState>(LayoutState.DEFAULT);
 
@@ -33,9 +33,9 @@ const Doctor: React.FC = () => {
             doctorHook.find();
             setCurrentState(LayoutState.DEFAULT);
         }, 500);
-    }
+    } */
 
-    const view: Record<LayoutState, React.ReactNode> = {
+/*     const view: Record<LayoutState, React.ReactNode> = {
         [LayoutState.CREATE_CREDENTIAL]: <DoctorCreateCredential
             user={doctorHook.doctor?.user!}
             onClose={handleClose} />,
@@ -51,11 +51,11 @@ const Doctor: React.FC = () => {
                     onUploadSignature: handleUploadSignatureEvent
                 }} />
         </>,
-    }
+    } */
 
     return (
         <>
-            {view[currentState]}
+            {/* {view[currentState]} */}
         </>
     )
 }
