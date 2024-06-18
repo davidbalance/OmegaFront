@@ -32,15 +32,16 @@ type TableLayoutProps<T extends object> = {
     isLoading: boolean;
     action?: ActionColumnOptions<T>;
     dock?: React.ReactElement | React.ReactElement[]
+    size?: number;
 }
 
-const TableLayout: <T extends object, >(props: TableLayoutProps<T>) => React.ReactElement | null = ({ title, columns, data, action, dock, isLoading }) => {
+const TableLayout: <T extends object, >(props: TableLayoutProps<T>) => React.ReactElement | null = ({ title, columns, data, action, dock, isLoading, size = 50 }) => {
 
     const match = useMediaQuery('(max-width: 700px)');
 
     const [filteredData, FilterHandlers, FilterValues] = useFilter(data, columns.map(e => e.key));
     const [sortedData, SortedHandlers, SortValues] = useSort(filteredData);
-    const [chunkData, , ChunkValues] = useChunk(sortedData);
+    const [chunkData, , ChunkValues] = useChunk(sortedData, size);
     const [page, setPage] = useState<number>(1);
 
     const sort = (key: any) => () => SortedHandlers.sortBy(key);

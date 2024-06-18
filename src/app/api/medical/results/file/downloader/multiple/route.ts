@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     try {
         const data = await req.json();
-        const blob: Blob = await post(endpoints.FILE.RESULT.MULTIPLE, { type: 'blob', body: data, headers: { 'Accept': 'application/*' } });
+        const blob: Blob = await post(endpoints.FILE.RESULT.DONWLOAD_MULTIPLE_FILE, { type: 'blob', body: data, headers: { 'Accept': 'application/*' } });
         const headers = new Headers();
         headers.set("Content-Type", "application/pdf");
         return new NextResponse(blob, { status: 200, headers });

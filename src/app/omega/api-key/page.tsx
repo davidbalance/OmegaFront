@@ -1,58 +1,78 @@
 'use client'
 
-import ApiKeyDeleteDialog from '@/components/api-key/api-key-delete-dialog/ApiKeyDeleteDialog';
-import ApiKeyLayout from '@/components/api-key/api-key-layout/ApiKeyLayout';
-import { useApiKey } from '@/hooks/useApiKey';
-import { useDisclosure } from '@mantine/hooks';
-import React, { useState } from 'react'
+import ApiKeyFormCreate from '@/components/api-key/form/ApiKeyFormCreate';
+import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
+import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
+import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useList } from '@/hooks/useList';
+import { ApiKey } from '@/lib/dtos/api/key/response.dto';
+import { Flex, rem } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 enum LayoutStates {
-  DEFAULT,
-  UPDATE_KEY,
+  DEFAULT
 }
+
+const columnsApiKey: ListElement<ApiKey>[] = [
+  { key: 'name', name: 'Api Keys' }
+];
+
 const ApiKeyPage = () => {
 
   const [currentState, setCurrentState] = useState<LayoutStates>(LayoutStates.DEFAULT);
 
-  const [deleteState, DeleteDisclosure] = useDisclosure();
+  const {
+    data,
+    error,
+    loading
+  } = useFetch<ApiKey[]>('/api/key', 'GET');
 
-  const apiKeyHook = useApiKey(true);
+  const [apiKeys, {
+    append: apiKeyAppend,
+    override: apiKeyOverride
+  }] = useList<ApiKey>([]);
 
-  const handleDeleteEvent = (index: number) => {
-    apiKeyHook.selectItem(index);
-    DeleteDisclosure.open();
-  }
+  const handleFormSubmittion = useCallback((value: ApiKey) => {
+    apiKeyAppend(value);
+  }, [apiKeyAppend]);
 
-  const handleClose = () => {
-    apiKeyHook.find();
-    DeleteDisclosure.close();
-    setCurrentState(LayoutStates.DEFAULT);
-  }
+  const handleDataRows = useCallback((row: ApiKey) => (
+    <ListRowElement key={`${row.id}-${row.name}`}>
+      {row.name}
+    </ListRowElement>
+  ), []);
 
-  const view: Record<LayoutStates, React.ReactNode> = {
-    [LayoutStates.UPDATE_KEY]: undefined,
-    [LayoutStates.DEFAULT]: <>
-      <ApiKeyDeleteDialog
-        api={apiKeyHook.apiKey?.id || -1}
-        opened={deleteState}
-        onClose={handleClose} />
+  useEffect(() => {
+    if (data) apiKeyOverride(data);
+  }, [data, apiKeyOverride]);
 
-      <ApiKeyLayout
-        load={apiKeyHook.loading}
-        apiKeys={apiKeyHook.apiKeys}
-        events={{
-          onCreate: handleClose,
-          onDelete: handleDeleteEvent
-        }} />
-    </>,
-  }
+  useEffect(() => {
+    if (error) notifications.show({ message: error.message, color: 'red' });
+  }, [error]);
+
+  const view = useMemo(() => ({
+    [LayoutStates.DEFAULT]: (
+      <Flex h='100%' direction='column' gap={rem(8)}>
+        <ApiKeyFormCreate
+          onFormSubmittion={handleFormSubmittion} />
+        <ListLayout<ApiKey>
+          loading={loading}
+          columns={columnsApiKey}
+          data={apiKeys}
+          rows={handleDataRows}
+          size={50} />
+      </Flex>
+    )
+  }), [
+    loading,
+    apiKeys,
+    handleDataRows,
+    handleFormSubmittion
+  ]);
 
   return (
-    <>
-      {
-        view[currentState]
-      }
-    </>
+    <>{view[currentState]}</>
   )
 }
 

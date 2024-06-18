@@ -14,7 +14,7 @@ export interface MedicalResult {
     order: {
         patientFullname: string
     }
-    report: MedicalReport;
+    report?: MedicalReport;
 }
 
 export interface GETMedicalResultsResponseDto {

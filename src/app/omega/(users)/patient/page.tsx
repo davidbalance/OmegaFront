@@ -141,7 +141,10 @@ const PatientPage: React.FC = () => {
     const handleMedicalResultRow = useCallback((row: MedicalResultWithOrderOmitted) => (
         <ListRowElement
             key={row.id}
-            rightSection={<MedicalResultActionMenu data={row} />}
+            rightSection={<MedicalResultActionMenu
+                downloadResult
+                downloadReport={!!row.report}
+                data={row} />}
         >
             <Title order={6}>{row.examName}</Title>
         </ListRowElement>

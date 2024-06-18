@@ -158,7 +158,9 @@ const PatientPage: React.FC = () => {
         <ListRowElement
             key={row.id}
             rightSection={<MedicalResultActionMenu
-                onModification={() => setMedicalResultSelected(row)}
+                onDiseaseModification={() => setMedicalResultSelected(row)}
+                downloadReport={!!row.report}
+                downloadResult
                 data={row} />}
         >
             <Title order={6}>{row.examName}</Title>

@@ -7,8 +7,8 @@ export interface GETApiKeyResponseDto {
     apiKeys: ApiKey[];
 }
 
-export interface POSTApiKeyResponseDto {
-    apiKey: string;
+export interface POSTApiKeyResponseDto extends ApiKey {
+    apikey: string;
 }
 
 export interface PATCHApiKeyResponseDto extends ApiKey { }

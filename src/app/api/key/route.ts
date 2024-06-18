@@ -1,9 +1,15 @@
+import { GETApiKeyResponseDto, POSTApiKeyResponseDto } from "@/lib/dtos/api/key/response.dto";
+import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
-import { NextResponse } from "next/server";
+import { get, post } from "@/lib/fetcher/fetcher";
+import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        
+        const getApiKey = withAuth<any, GETApiKeyResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
+        const { apiKeys }: GETApiKeyResponseDto = await getApiKey(endpoints.API_KEY.FIND_ALL, {});
+        return NextResponse.json(apiKeys, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
@@ -13,9 +19,14 @@ export async function GET() {
     }
 }
 
-export async function POST() {
+export async function POST(
+    req: NextRequest
+) {
     try {
-
+        const data = await req.json();
+        const postApiKey = withAuth<any, POSTApiKeyResponseDto>(post, DEFAULT_WITH_AUTH_OPTIONS);
+        const apikey: POSTApiKeyResponseDto = await postApiKey(endpoints.API_KEY.CREATE, { body: data });
+        return NextResponse.json(apikey, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
