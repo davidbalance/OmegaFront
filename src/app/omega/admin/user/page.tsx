@@ -15,7 +15,7 @@ import { UserFormUpdate } from '@/components/user/form/UserFormUpdate';
 import { UserFormWebResource } from '@/components/user/form/UserFormWebResource';
 import { UserFormChangePassword } from '@/components/user/form/UserFormChangePassword';
 import { UserActionButton } from '@/components/user/action/UserActionButton';
-import UserFormAssignLookForCompany from '@/components/user/form/UserFormAssignLookForCompany';
+import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
 
 enum LayoutStates {
     DEFAULT,
@@ -150,8 +150,8 @@ const UserPage: React.FC = () => {
             user={selected!}
             onClose={handleClickEventClose}
         />,
-        [LayoutStates.UPDATE_COMPANY]: <UserFormAssignLookForCompany
-            user={selected?.id!}
+        [LayoutStates.UPDATE_COMPANY]: <UserFormAssignCompanyAttribute
+            url={`/api/users/attribute/look/for/company/${selected?.id}`}
             onClose={handleClickEventClose}
         />,
         [LayoutStates.DEFAULT]:

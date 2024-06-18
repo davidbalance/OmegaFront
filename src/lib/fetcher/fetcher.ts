@@ -8,12 +8,18 @@ export type FetcherHTTPMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 export interface FetcherConfigurationOptions<T> extends Omit<RequestInit, 'method' | 'body' | 'cache'> {
     method: FetcherHTTPMethod;
     body?: T,
+    application?: 'json' | 'form'
     type?: 'json' | 'blob',
     cache?: boolean;
     cacheExpirationSeconds?: number;
 };
 
-const fetchConfiguration = ({ method, body, headers, ...customInit }: Omit<FetcherConfigurationOptions<string | undefined>, 'type' | 'cache' | 'cacheExpirationSeconds'>): RequestInit => ({
+const fetchConfiguration = ({
+    method,
+    body,
+    headers,
+    ...customInit
+}: Omit<FetcherConfigurationOptions<string | undefined>, 'type' | 'cache' | 'cacheExpirationSeconds' | 'body'> & { body: any | undefined }): RequestInit => ({
     method: method,
     headers: {
         ...headers
@@ -24,7 +30,19 @@ const fetchConfiguration = ({ method, body, headers, ...customInit }: Omit<Fetch
 
 const cacheObj = new NodeCache();
 
-export const fetcher = async <T, R>(url: string, { method, body, cache = true, cacheExpirationSeconds = 60, type = 'json', headers, ...request }: FetcherConfigurationOptions<T>): Promise<R> => {
+export const fetcher = async <T, R>(
+    url: string,
+    {
+        method,
+        body,
+        cache = true,
+        cacheExpirationSeconds = 60,
+        type = 'json',
+        headers,
+        application = 'json',
+        ...request
+    }: FetcherConfigurationOptions<T>
+): Promise<R> => {
     const cacheKey = `${method}:${url}:${JSON.stringify(body)}`;
 
     const cacheData = cacheObj.get<R>(cacheKey);
@@ -42,7 +60,13 @@ export const fetcher = async <T, R>(url: string, { method, body, cache = true, c
             ...headers
         },
         method,
-        body: body ? JSON.stringify(body) : undefined,
+        body: body
+            ? (
+                application === 'json'
+                    ? JSON.stringify(body)
+                    : body
+            )
+            : undefined,
         ...request
     });
 

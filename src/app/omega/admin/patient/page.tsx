@@ -7,7 +7,7 @@ import MedicalOrderActionMenu from '@/components/medical/order/action/MedicalOrd
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { MedicalResultFormDisease } from '@/components/medical/result/form/MedicalResultFormDisease';
 import { PatientActionButton } from '@/components/patient/action/PatientActionButton';
-import UserFormAssignEmployeeOf from '@/components/user/form/UserFormAssignEmployeeOf';
+import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { useList } from '@/hooks/useList';
 import { MedicalOrder } from '@/lib/dtos/medical/order/response.dto';
@@ -219,7 +219,7 @@ const PatientPage: React.FC = () => {
         return newValue;
     }), []);
 
-    const handleClose = useCallback(() => {
+    const handleCloseEvent = useCallback(() => {
         setPatientSelected(null);
         setCurrentState(LayoutState.DEFAULT);
     }, []);
@@ -233,11 +233,11 @@ const PatientPage: React.FC = () => {
             />
         ),
         [LayoutState.UPDATE_EMPLOYEE]: (
-            <UserFormAssignEmployeeOf
-                user={patientSelected?.user!}
-                onClose={handleClose} />
+            <UserFormAssignCompanyAttribute
+                url={`/api/users/attribute/employee/${patientSelected?.user}`}
+                onClose={handleCloseEvent} />
         )
-    }), [multipleLayerComponents, active, handleCloseTierEvent, handleClose, patientSelected]);
+    }), [multipleLayerComponents, active, handleCloseTierEvent, handleCloseEvent, patientSelected]);
 
     const handleExamModalCloseEvent = useCallback(() => setMedicalResultSelected(null), []);
 

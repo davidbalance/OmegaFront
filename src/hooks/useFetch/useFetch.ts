@@ -34,11 +34,18 @@ type FetchOptions<T> = Omit<RequestInit, ' body' | 'method'> & {
     /**
      * Decides if you are getting a json or blob
      */
-    type?: 'json' | 'blob'
+    type?: 'json' | 'blob',
+    /**
+     * Will indicates the system to fetch when the component is mounted
+     */
+    application?: 'json' | 'form',
 }
 
 const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE", options?: FetchOptions<T>): FetchResult<T> => {
-    const { loadOnMount = true, type = 'json', ...other } = options || {};
+    const { loadOnMount = true,
+        type = 'json',
+        application = 'json',
+        ...other } = options || {};
 
     const [data, setData] = useState<T | null>(null);
     const [error, setError] = useState<Error | null>(null);
@@ -48,13 +55,17 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
 
     const requestOptions = useMemo((): RequestInit => ({
         method,
-        body: body ? JSON.stringify(body) : undefined,
+        body: body
+            ? (application === 'json'
+                ? JSON.stringify(body)
+                : body)
+            : undefined,
         ...other,
         headers: {
             'Content-Type': 'application/json',
             ...other.headers
         }
-    }), [method, body, other]);
+    }), [method, body, application, other]);
 
     const handleFetch = useCallback(async () => {
         setLoading(true);

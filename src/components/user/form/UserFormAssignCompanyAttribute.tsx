@@ -4,16 +4,16 @@ import { useFetch } from '@/hooks/useFetch/useFetch';
 import { GETUserAttributeRequestDto } from '@/lib/dtos/user/user.response.dto';
 import { LoadingOverlay, Flex, rem, Box, Button, Title } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { UserFormAssignCompany } from './UserFormAssignCompany';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { PATCHUserAttributeRequestDto } from '@/lib/dtos/user/user.request.dto';
 
-interface UserFormAssignLookForCompanyProps {
-    user: number;
+interface UserFormAssignCompanyAttributeProps {
+    url: string;
     onClose: () => void;
 }
-const UserFormAssignLookForCompany: React.FC<UserFormAssignLookForCompanyProps> = ({ user, onClose }) => {
+const UserFormAssignCompanyAttribute: React.FC<UserFormAssignCompanyAttributeProps> = ({ url, onClose }) => {
 
     const [shouldPatch, setShouldPatch] = useState<boolean>(false);
 
@@ -23,7 +23,7 @@ const UserFormAssignLookForCompany: React.FC<UserFormAssignLookForCompanyProps> 
         data: fetchAttribute,
         error: attributeError,
         loading: attributeLoading
-    } = useFetch<GETUserAttributeRequestDto>(`/api/users/attribute/look/for/company/${user}`, 'GET');
+    } = useFetch<GETUserAttributeRequestDto>(url, 'GET');
 
     const {
         data: patchAttribute,
@@ -33,12 +33,13 @@ const UserFormAssignLookForCompany: React.FC<UserFormAssignLookForCompanyProps> 
         reload: patchAttributeReload,
         request: patchAttributeRequest,
         reset: patchAttributeReset,
-    } = useFetch<any>(`/api/users/attribute/look/for/company/${user}`, 'PATCH', { loadOnMount: false });
+    } = useFetch<any>(url, 'PATCH', { loadOnMount: false });
 
-    const handleFormSubmittionEvent = (value: string) => {
+    const handleFormSubmittionEvent = useCallback((value: string) => {
         setShouldPatch(true);
         patchAttributeRequest<PATCHUserAttributeRequestDto>({ value });
-    }
+    }, [patchAttributeRequest],)
+
 
     const handleClickEventSubmit = () => {
         buttonRef.current?.click();
@@ -74,7 +75,7 @@ const UserFormAssignLookForCompany: React.FC<UserFormAssignLookForCompanyProps> 
                 <ModularBox flex={1} align='center'>
                     <Title
                         order={6}
-                        mt={rem(16)}>{fetchAttribute
+                        mt={rem(16)}>{fetchAttribute && fetchAttribute.value
                             ? `Este usuario tiene asignada la empresa: ${fetchAttribute.value}`
                             : 'No tiene asignado ninguna empresa'}
                     </Title>
@@ -105,4 +106,4 @@ const UserFormAssignLookForCompany: React.FC<UserFormAssignLookForCompanyProps> 
     )
 }
 
-export default UserFormAssignLookForCompany
+export { UserFormAssignCompanyAttribute }

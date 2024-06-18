@@ -11,6 +11,10 @@ export const USER = {
             FIND: (id: number) => `${root}/users/look/for/company/${id}`,
             FIND_ONE_AND_UPDATE: (id: number) => `${root}/users/look/for/company/${id}`
         },
+        DOCTOR_OF: {
+            FIND: (id: number) => `${root}/users/doctor/of/${id}`,
+            FIND_ONE_AND_UPDATE: (id: number) => `${root}/users/doctor/of/${id}`
+        },
         EMPLOYEE: {
             FIND: (id: number) => `${root}/users/employee/${id}`,
             FIND_ONE_AND_UPDATE: (id: number) => `${root}/users/employee/${id}`

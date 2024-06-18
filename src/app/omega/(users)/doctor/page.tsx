@@ -2,7 +2,9 @@
 
 import { DoctorActionMenu } from '@/components/doctor/action/DoctorActionMenu';
 import { DoctorFormCreateCredential } from '@/components/doctor/form/DoctorFormCreateCredential';
+import { DoctorFormUploadSignature } from '@/components/doctor/form/DoctorFormUploadSignature';
 import { ActionColumnProps, ColumnOptions, TableLayout } from '@/components/layout/table-layout/TableLayout';
+import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
 import { useFetch } from '@/hooks/useFetch/useFetch'
 import { useList } from '@/hooks/useList';
 import { Doctor } from '@/lib/dtos/user/doctor.response.dto';
@@ -24,7 +26,8 @@ const parseDoctor = (patients: Doctor[]): DoctorDataType[] => patients.map<Docto
 enum LayoutState {
     DEFAULT,
     CREATE_CREDENTIAL,
-    UPLOAD_SIGNATURE
+    UPLOAD_SIGNATURE,
+    UPDATE_COMPANY,
 }
 
 const columnsDoctor: ColumnOptions<DoctorDataType>[] = [
@@ -59,6 +62,11 @@ const DoctorPage: React.FC = () => {
         setCurrentState(LayoutState.CREATE_CREDENTIAL);
     }, []);
 
+    const handleClickEventAssignCompany = useCallback((data: DoctorDataType) => {
+        setSelectedDoctor(data);
+        setCurrentState(LayoutState.UPDATE_COMPANY);
+    }, []);
+
     const handleClickEventSignatureUpdaload = useCallback((data: DoctorDataType) => {
         setCurrentState(LayoutState.UPLOAD_SIGNATURE);
         setSelectedDoctor(data);
@@ -72,6 +80,7 @@ const DoctorPage: React.FC = () => {
     const handleTableAction = useCallback((prop: ActionColumnProps<DoctorDataType>) => (
         <DoctorActionMenu
             onCreateCredential={() => handleClickEventCreateCredential(prop.value)}
+            onAssignCompany={() => handleClickEventAssignCompany(prop.value)}
             createCredential={!prop.value.hasCredential}
             onUploadSignature={() => handleClickEventSignatureUpdaload(prop.value)}
         />
@@ -99,9 +108,16 @@ const DoctorPage: React.FC = () => {
                 onFormSubmittion={handleFormSubmittion}
                 onClose={handleCloseEvent} />
         ),
-        [LayoutState.UPLOAD_SIGNATURE]: <>{/* <DoctorSignatureUpload
-            doctor={doctorHook.doctor!}
-            onClose={handleClose} /> */}</>,
+        [LayoutState.UPLOAD_SIGNATURE]: (
+            <DoctorFormUploadSignature
+                doctor={selectedDoctor?.id!}
+                onClose={handleCloseEvent} />
+        ),
+        [LayoutState.UPDATE_COMPANY]: (
+            <UserFormAssignCompanyAttribute
+                url={`/api/users/attribute/doctor/of/${selectedDoctor?.user}`}
+                onClose={handleCloseEvent} />
+        ),
         [LayoutState.DEFAULT]: (
             <TableLayout<DoctorDataType>
                 title={'Medicos'}
