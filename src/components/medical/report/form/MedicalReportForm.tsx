@@ -18,7 +18,7 @@ import { useFetch } from '@/hooks/useFetch/useFetch';
 import { PATCHMedicalResultReportRequestDto } from '@/lib/dtos/medical/result/request.dto';
 
 type MedicalReportFormProps = {
-    result: MedicalResult;
+    result: Omit<MedicalResult, 'order'>;
     onFormSubmittion?: (data: MedicalResult) => void;
     onClose: () => void;
 }

@@ -9,21 +9,28 @@ import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
+type MedicalResultDataType = Omit<MedicalResult, 'order'> & { patientFullname: string };
+
+const parseMedicalResult = (data: MedicalResult[]): MedicalResultDataType[] => data.map(e => ({
+    ...e,
+    patientFullname: e.order.patientFullname
+}));
+
 enum LayoutStates {
     DEFAULT,
     INSERT_REPORT
 }
 
-const columnsMedicalReport: ColumnOptions<MedicalResult>[] = [
-    { key: 'examName', name: 'Examenes' }
+const columnsMedicalReport: ColumnOptions<MedicalResultDataType>[] = [
+    { key: 'patientFullname', name: 'Paciente' },
+    { key: 'examName', name: 'Examenes' },
 ]
 
 const MedicalReport: React.FC = () => {
 
-
     const [currentState, setCurrentState] = useState<LayoutStates>(LayoutStates.DEFAULT);
 
-    const [selectedMedicalResult, setSelectedMedicalResult] = useState<MedicalResult | null>(null);
+    const [selectedMedicalResult, setSelectedMedicalResult] = useState<MedicalResultDataType | null>(null);
 
     const {
         data: fetchData,
@@ -32,14 +39,13 @@ const MedicalReport: React.FC = () => {
     } = useFetch<MedicalResult[]>('/api/medical/results/doctor', 'GET');
 
     const [medicalResults, {
-        append: medicalResultAppend,
-        remove: medicalResultRemove,
         override: medicalResultOverride,
         update: medicalResultUpdate
-    }] = useList<MedicalResult>([])
+    }] = useList<MedicalResultDataType>([]);
 
+    const parsedMedicalResults = useMemo(() => parseMedicalResult(fetchData || []), [fetchData]);
 
-    const handleCreateEvent = useCallback((data: MedicalResult) => {
+    const handleCreateEvent = useCallback((data: MedicalResultDataType) => {
         setSelectedMedicalResult(data);
         setCurrentState(LayoutStates.INSERT_REPORT);
     }, []);
@@ -49,7 +55,7 @@ const MedicalReport: React.FC = () => {
         setCurrentState(LayoutStates.DEFAULT);
     }, []);
 
-    const handleTableAction = useCallback((props: ActionColumnProps<MedicalResult>) => (
+    const handleTableAction = useCallback((props: ActionColumnProps<MedicalResultDataType>) => (
         <MedicalResultActionMenu
             data={props.value}
             onCreateReport={() => handleCreateEvent(props.value)}
@@ -63,22 +69,23 @@ const MedicalReport: React.FC = () => {
     }, [fetchError]);
 
     useEffect(() => {
-        if (fetchData) medicalResultOverride(fetchData);
-    }, [fetchData, medicalResultOverride]);
+        if (parsedMedicalResults) medicalResultOverride(parsedMedicalResults);
+    }, [parsedMedicalResults, medicalResultOverride]);
 
+    const handleFormSubmittion = useCallback((data: MedicalResult) => {
+        medicalResultUpdate('id', data.id, data);
+    }, [medicalResultUpdate]);
 
     const view = useMemo(() => ({
         [LayoutStates.INSERT_REPORT]: (
             <MedicalReportForm
                 result={selectedMedicalResult!}
                 onClose={handleCloseEvent}
-                onFormSubmittion={function (data: MedicalResult): void {
-                    throw new Error('Function not implemented.');
-                }} />
+                onFormSubmittion={handleFormSubmittion} />
         ),
         [LayoutStates.DEFAULT]: (
-            <TableLayout<MedicalResult>
-                title={'Medicos'}
+            <TableLayout<MedicalResultDataType>
+                title={'Reportes medicos'}
                 columns={columnsMedicalReport}
                 data={medicalResults}
                 isLoading={fetchLoading}
@@ -89,7 +96,7 @@ const MedicalReport: React.FC = () => {
                 size={100}
             />
         ),
-    }), [selectedMedicalResult, medicalResults, fetchLoading, handleTableAction]);
+    }), [selectedMedicalResult, medicalResults, fetchLoading, handleTableAction, handleFormSubmittion]);
 
     return <>{view[currentState]}</>
 }
