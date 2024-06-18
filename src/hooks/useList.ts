@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 export type ListHandler<T> = {
     append: (data: T) => void;
     remove: (key: keyof T, value: any) => void;
-    update: (key: keyof T, value: any, newValue: T) => void;
+    update: (key: keyof T, value: any, newValue: Partial<T>) => void;
     override: (data: T[]) => void;
 }
 
@@ -26,13 +26,13 @@ const useList = <T extends object>(initialValues: T[]): [data: T[], handlers: Li
     }, []);
 
 
-    const update = useCallback((key: keyof T, value: any, newValue: T) => {
+    const update = useCallback((key: keyof T, value: any, newValue: Partial<T>) => {
         setValues(prevValues => {
             const index = prevValues.findIndex(e => e[key] === value);
             if (index === -1) return prevValues;
 
             const updatedValues = [...prevValues];
-            updatedValues[index] = newValue;
+            updatedValues[index] = { ...updatedValues[index], ...newValue };
             return updatedValues;
         });
     }, []);

@@ -1,12 +1,24 @@
-import { PATCHCredentialRequestDto } from "@/lib/dtos/auth/credential/request.dto";
+import { PATCHCredentialRequestDto, POSTCredentialRequestDto } from "@/lib/dtos/auth/credential/request.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
-import { patch } from "@/lib/fetcher/fetcher";
+import { patch, post } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-
+    try {
+        const data: POSTCredentialRequestDto = await req.json()
+        const postCredential = withAuth<POSTCredentialRequestDto, any>(post, DEFAULT_WITH_AUTH_OPTIONS);
+        await postCredential(endpoints.AUTHENTICATION.CREDENTIAL.CREATE, { body: data });
+        return NextResponse.json({}, { status: 200 });
+    } catch (error) {
+        console.log(error);
+        if (error instanceof FetchError) {
+            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
+        } else {
+            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        }
+    }
 }
 
 export async function PATCH(req: NextRequest) {

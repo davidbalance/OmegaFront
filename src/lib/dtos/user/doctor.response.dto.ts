@@ -1,4 +1,4 @@
-import { User } from "@/services/api/user/dtos";
+import { User } from "./user.response.dto";
 
 export interface Doctor {
     id: number;
