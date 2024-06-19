@@ -26,8 +26,7 @@ const DoctorFormUploadSignature: React.FC<DoctorFormUploadSignatureProps> = ({ d
         reset
     } = useFetch(`/api/doctors/signature/${doctor}`, 'POST', {
         loadOnMount: false,
-        application: 'form',
-        headers: { 'Content-Type': 'multipart/form-data' }
+        application: 'form'
     });
 
     const { show } = useConfirmation();

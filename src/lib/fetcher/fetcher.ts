@@ -53,7 +53,7 @@ export const fetcher = async <T, R>(
 
     const configurationObject: RequestInit = fetchConfiguration({
         headers: {
-            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/json',
             'Cache-Control': 'no-cache, no-store, must-revalidate',
             'Pragma': 'no-cache',
             'Expires': '0',
@@ -80,7 +80,16 @@ export const fetcher = async <T, R>(
             throw new FetchError(response, `Failed to ${method}: ${response.url}`, errorData);
         }
 
-        const data = await response[type]();
+        // const data = await response[type]();
+        const contentType = response.headers.get('Content-Type') || '';
+        let data;
+        if (contentType.includes('application/json')) {
+            data = await response.json();
+        } else if (contentType.includes('text')) {
+            data = await response.text();
+        } else {
+            data = await response.blob();
+        }
 
         if (cache) {
             cacheObj.set(cacheKey, data, cacheExpirationSeconds);

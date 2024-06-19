@@ -62,7 +62,7 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
             : undefined,
         ...other,
         headers: {
-            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/json',
             ...other.headers
         }
     }), [method, body, application, other]);
@@ -78,7 +78,15 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
                 const json = await response.json();
                 setError(new Error(json.message || 'Algo salió mal!'));
             } else {
-                const retrived = await response[type]();
+                const contentType = response.headers.get('Content-Type') || '';
+                let retrived;
+                if (contentType.includes('application/json')) {
+                    retrived = await response.json();
+                } else if (contentType.includes('text')) {
+                    retrived = await response.text();
+                } else {
+                    retrived = await response.blob();
+                }
                 setData(retrived);
             }
         } catch (error: any) {
