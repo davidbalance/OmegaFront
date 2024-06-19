@@ -61,7 +61,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
     const isMobile = useMediaQuery('(max-width: 50em)');
 
     const handleClickEventDownloadAll = useCallback(() => {
-        const files = orderResults.map(e => ({ id: e.id, type: e.type }));
+        const files = orderResults.map((e: MedicalOrderFile) => ({ id: e.id, type: e.type }));
         fileRequest({ files });
     }, [orderResults, fileRequest]);
 

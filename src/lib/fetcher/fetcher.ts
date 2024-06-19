@@ -78,7 +78,7 @@ export const fetcher = async <T, R>(
             }
             throw new FetchError(response, `Failed to ${method}: ${response.url}`, errorData);
         }
-        
+
         const contentType = response.headers.get('Content-Type') || '';
         let data;
         if (contentType.includes('application/json')) {
@@ -92,7 +92,7 @@ export const fetcher = async <T, R>(
         if (cache) {
             cacheObj.set(cacheKey, data, cacheExpirationSeconds);
         }
-
+        
         return data;
     } catch (error: any) {
         throw error;

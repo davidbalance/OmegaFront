@@ -4,8 +4,8 @@ import { blobFile } from '@/lib/utils/blob-to-file';
 import { Menu, MenuTarget, Loader, ActionIcon, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconX, IconDotsVertical, IconDownload, IconPdf, IconPencil, IconVirus } from '@tabler/icons-react';
-import React, { useCallback, useEffect, useState } from 'react'
+import { IconX, IconDotsVertical, IconDownload, IconPencil, IconVirus } from '@tabler/icons-react';
+import React, { useCallback, useEffect } from 'react'
 
 type MedicalResultWithoutOrder = Omit<MedicalResult, 'order'>;
 interface MedicalResultActionMenuProps {

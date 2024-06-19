@@ -1,7 +1,6 @@
 export interface MedicalReport {
     id: number;
     content: string;
-    hasFile: boolean;
 }
 
 export interface MedicalResult {

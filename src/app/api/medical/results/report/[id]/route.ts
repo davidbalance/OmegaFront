@@ -20,7 +20,6 @@ export async function PATCH(
         });
         return NextResponse.json(medicalResult, { status: 200 });
     } catch (error) {
-        console.log(error);
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
         } else {
