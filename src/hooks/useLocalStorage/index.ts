@@ -5,11 +5,12 @@ import { LocalStorageHookResult } from "./hook.types";
 
 export const useLocalStorage = <T>(key: string, defaultValue: T): LocalStorageHookResult<T> => {
     const [value, setValue] = useState<T>(defaultValue);
+    const [defaultValueState, setDefaultValueState] = useState<T>(defaultValue)
 
     useEffect(() => {
         const currentValue = localStorage.getItem(key);
-        setValue(currentValue ? JSON.parse(currentValue) : defaultValue);
-    }, [key, defaultValue]);
+        setValue(currentValue ? JSON.parse(currentValue) : defaultValueState);
+    }, [key, defaultValueState]);
 
     const save = useCallback((value: T) => {
         localStorage.setItem(key, JSON.stringify(value));
@@ -18,8 +19,8 @@ export const useLocalStorage = <T>(key: string, defaultValue: T): LocalStorageHo
 
     const remove = useCallback(() => {
         localStorage.removeItem(key);
-        setValue(defaultValue);
-    }, [key, defaultValue]);
+        setValue(defaultValueState);
+    }, [key, defaultValueState]);
 
     return [value, { save, remove }];
 }

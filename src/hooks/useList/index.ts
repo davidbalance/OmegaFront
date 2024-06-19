@@ -9,7 +9,6 @@ const useList = <T extends object>(initialValues: T[]): [data: T[], handlers: Li
     }, []);
 
     const append = useCallback((data: T) => {
-        console.log(data);
         setValues(prevValues => [...prevValues, data]);
     }, []);
 
