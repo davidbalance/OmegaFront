@@ -1,29 +1,31 @@
+import { MedicalClient } from "../client/response.dto";
 import { MedicalResult } from "../result/response.dto";
 
-export interface OrderFile {
+export interface MedicalOrder {
+    id: number;
+    process: string;
+    createAt: Date;
+    mailStatus: boolean;
+    results: Omit<MedicalResult, 'order'>[];
+    client: MedicalClient
+}
+
+export interface GETMedicalOrderResponseDto extends MedicalOrder { }
+
+export interface GETMedicalOrderArrayResponseDto {
+    orders: MedicalOrder[];
+}
+
+export interface MedicalOrderFile {
     id: number;
     examName: string;
     type: string;
 }
 
-export interface GETMedicalOrderFilesResponseDto {
+export interface GETMedicalMedicalOrderFileResponseDto {
     dni: string;
     fullname: string;
     email: string;
-    fileResults: OrderFile[];
-    fileReports: OrderFile[];
-}
-
-export interface MedicalOrder {
-    id: 0;
-    patientDni: string;
-    patientFullname: string;
-    process: string;
-    createAt: Date;
-    mailStatus: boolean;
-    results: Omit<MedicalResult, 'order'>[];
-}
-
-export interface GETMedicalOrderResponseDto {
-    orders: MedicalOrder[];
+    fileResults: MedicalOrderFile[];
+    fileReports: MedicalOrderFile[];
 }

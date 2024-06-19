@@ -18,7 +18,8 @@ interface AuthResult extends Omit<FetchHookResult<any>, 'data'> {
 export const useAuth = (): AuthResult => {
 
     const [error, setError] = useState<Error | null>(null);
-    const [shouldRequest, setShouldRequest] = useState<boolean>(false);
+    const [shouldRequestLogin, setShouldRequestLogin] = useState<boolean>(false);
+    const [shouldRequestLogout, setsShouldRequestLogout] = useState<boolean>(false)
 
     const router = useRouter();
 
@@ -34,12 +35,9 @@ export const useAuth = (): AuthResult => {
 
     const {
         data: logoutData,
-        body: logoutBody,
         error: logoutError,
         loading: logoutLoading,
-        reload: logoutReload,
-        request: logoutRequest,
-        reset: logoutReset
+        reload: logoutReload
     } = useFetch("/api/auth/logout", "POST", { loadOnMount: false });
 
     const [_logo, {
@@ -59,26 +57,17 @@ export const useAuth = (): AuthResult => {
 
     const handleLogin = useCallback((body: AuthCredentials) => {
         loginRequest(body);
-        setShouldRequest(true);
+        setShouldRequestLogin(true);
     }, [loginRequest]);
 
     const handleLogout = useCallback(() => {
-        logoutReload();
-    }, [logoutReload]);
+        setsShouldRequestLogout(true);
+    }, []);
 
     useEffect(() => {
         if (loginError) setError(loginError);
         else if (logoutError) setError(logoutError);
     }, [loginError, logoutError]);
-
-    useEffect(() => {
-        if (logoutData) {
-            logoRemove();
-            resourceRemove();
-            preferenceRemove();
-            router.refresh();
-        }
-    }, [logoutData, logoRemove, resourceRemove, preferenceRemove]);
 
     useEffect(() => {
         if (loginData) {
@@ -91,11 +80,27 @@ export const useAuth = (): AuthResult => {
     }, [loginData, loginReset, logoSave, resourceSave, preferenceSave]);
 
     useEffect(() => {
-        if (shouldRequest && loginBody) {
+        if (shouldRequestLogin && loginBody) {
             loginReload();
-            setShouldRequest(false);
+            setShouldRequestLogin(false);
         }
-    }, [loginReload, loginBody, shouldRequest])
+    }, [loginReload, loginBody, shouldRequestLogin]);
+
+    useEffect(() => {
+        if (shouldRequestLogout) {
+            setsShouldRequestLogout(false);
+            logoutReload();
+        }
+    }, [shouldRequestLogout, logoutReload]);
+
+    useEffect(() => {
+        if (logoutData) {
+            logoRemove();
+            resourceRemove();
+            preferenceRemove();
+            router.replace('login');
+        }
+    }, [logoutData, logoRemove, resourceRemove, preferenceRemove]);
 
 
     const loading = loginLoading || logoutLoading;

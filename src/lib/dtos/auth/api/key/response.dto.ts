@@ -3,7 +3,7 @@ export interface ApiKey {
     name: string;
 }
 
-export interface GETApiKeyResponseDto {
+export interface GETApiKeyArrayResponseDto {
     apiKeys: ApiKey[];
 }
 
@@ -12,3 +12,5 @@ export interface POSTApiKeyResponseDto extends ApiKey {
 }
 
 export interface PATCHApiKeyResponseDto extends ApiKey { }
+
+export interface DELETEApiKeyResponseDto { }

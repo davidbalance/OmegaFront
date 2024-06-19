@@ -5,6 +5,8 @@ export interface Doctor {
     user: User & { hasCredential: boolean }
 }
 
-export interface GETDoctorsResponseDto {
+export interface GETDoctorArrayResponseDto {
     doctors: Doctor[];
 }
+
+export interface PATCHDoctorSignatureResponseDto { }

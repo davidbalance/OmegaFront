@@ -1,4 +1,4 @@
-import { API_KEY } from "./v1/api/key";
+import { API_KEY } from "./v1/authentication/api/key";
 import { AUTH } from "./v1/authentication/auth";
 import { CREDENTIAL } from "./v1/authentication/credential";
 import { DISEASE } from "./v1/disease";
@@ -6,7 +6,6 @@ import { DISEASE_GROUP } from "./v1/disease/group";
 import { HEALTH_CHECK } from "./v1/health/check";
 import { CORPORATIVE_GROUP } from "./v1/location/corporative/group";
 import { LOG } from "./v1/log";
-import { MAIL_ORDER } from "./v1/mail/order";
 import { MEDICAL_FILE } from "./v1/medical/file";
 import { MEDICAL_ORDER } from "./v1/medical/order";
 import { MEDICAL_RESULT } from "./v1/medical/result";
@@ -39,9 +38,9 @@ export default Object.freeze({
     },
     AUTHENTICATION: {
         AUTH,
-        CREDENTIAL
+        CREDENTIAL,
+        API_KEY
     },
-    API_KEY,
     WEB: {
         RESOURCE: WEB_RESOURCE,
         CLIENT: WEB_CLIENT
@@ -52,7 +51,7 @@ export default Object.freeze({
     },
     HEALTH_CHECK,
     MAIL: {
-        ORDER: MAIL_ORDER
+        ORDER: MEDICAL_ORDER.SEND_MAIL
     },
     FILE: {
         RESULT: MEDICAL_FILE

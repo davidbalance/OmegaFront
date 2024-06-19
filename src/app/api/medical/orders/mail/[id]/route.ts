@@ -1,4 +1,4 @@
-import { POSTOrderMail } from "@/lib/dtos/medical/order/request.dto";
+import { POSTMedicalOrderMail } from "@/lib/dtos/medical/order/request.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { post } from "@/lib/fetcher/fetcher";
@@ -11,7 +11,7 @@ export async function GET(
 ) {
     try {
         const body: { id: number } = { id: parseInt(`${params.id}`) };
-        const postMailer = withAuth<POSTOrderMail, any>(post, DEFAULT_WITH_AUTH_OPTIONS);
+        const postMailer = withAuth<POSTMedicalOrderMail, any>(post, DEFAULT_WITH_AUTH_OPTIONS);
         await postMailer(endpoints.MAIL.ORDER, { body });
         return NextResponse.json({}, { status: 200 });
     } catch (error) {

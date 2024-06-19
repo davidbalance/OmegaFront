@@ -2,4 +2,4 @@ export interface POSTDiseaseGroupRequestDto {
     name: string;
 }
 
-export interface PATCHDiseaseGroupRequestDto extends POSTDiseaseGroupRequestDto { }
+export interface PATCHDiseaseGroupRequestDto extends Partial<POSTDiseaseGroupRequestDto> { }

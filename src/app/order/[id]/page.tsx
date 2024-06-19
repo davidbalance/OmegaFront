@@ -5,7 +5,7 @@ import { ListRowElement } from '@/components/layout/list-layout/ListRowElement'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { useFetch } from '@/hooks/useFetch/useFetch'
 import { useList } from '@/hooks/useList'
-import { GETMedicalOrderFilesResponseDto, OrderFile } from '@/lib/dtos/medical/order/response.dto'
+import { GETMedicalMedicalOrderFileResponseDto, MedicalOrderFile } from '@/lib/dtos/medical/order/response.dto'
 import { blobFile } from '@/lib/utils/blob-to-file'
 import { Avatar, Box, Button, ButtonGroup, Checkbox, Flex, Loader, Text, Title, rem } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
@@ -36,14 +36,14 @@ const HeadUp: React.FC<HeadUpProps> = ({ dni, fullname }) => {
     );
 }
 
-const medicalResultColumns: ListElement<OrderFile>[] = [
+const medicalResultColumns: ListElement<MedicalOrderFile>[] = [
     { key: 'examName', name: 'Nombre del archivo' },
     { key: 'type', name: 'Tipo de archivo' },
 ];
 
 const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
 
-    const { data, error, loading } = useFetch<GETMedicalOrderFilesResponseDto>(`/api/medical/orders/files/${params.id}`, 'GET');
+    const { data, error, loading } = useFetch<GETMedicalMedicalOrderFileResponseDto>(`/api/medical/orders/files/${params.id}`, 'GET');
     const {
         data: fileBlob,
         error: fileError,
@@ -54,8 +54,8 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
         reset: fileReset
     } = useFetch<Blob>(`/api/medical/results/file/downloader/multiple`, 'POST', { loadOnMount: false, type: 'blob' });
 
-    const [orderResults, { override: medicalResultOverride }] = useList<OrderFile>([]);
-    const [selected, setSelected] = useState<OrderFile[]>([]);
+    const [orderResults, { override: medicalResultOverride }] = useList<MedicalOrderFile>([]);
+    const [selected, setSelected] = useState<MedicalOrderFile[]>([]);
 
     const isMobile = useMediaQuery('(max-width: 50em)');
 
@@ -69,7 +69,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
         fileRequest({ files });
     }, [selected, fileRequest]);
 
-    const handleSelection = useCallback((selection: OrderFile) => {
+    const handleSelection = useCallback((selection: MedicalOrderFile) => {
         setSelected(prev => {
             const index = prev.findIndex(e => e.id === selection.id && e.type === selection.type);
             if (index === -1) return [...prev, selection];
@@ -97,7 +97,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
         }
     }, [fileBlob, data, fileReset])
 
-    const handleOrderRows = useCallback((row: OrderFile) => (
+    const handleOrderRows = useCallback((row: MedicalOrderFile) => (
         <ListRowElement
             key={`medical-${row.type}-${row.id}`}
             leftSection={<Checkbox
@@ -141,7 +141,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
                                     fullname={data.fullname}
                                     dni={data.dni} />
                                 <Flex flex={1} gap={rem(8)} direction='column'>
-                                    <ListLayout<OrderFile>
+                                    <ListLayout<MedicalOrderFile>
                                         data={orderResults}
                                         loading={false}
                                         columns={medicalResultColumns}

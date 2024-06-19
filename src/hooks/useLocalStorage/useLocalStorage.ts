@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type LocalStorageHookHandler<T> = {
     save: (value: T) => void;
@@ -15,18 +15,17 @@ export const useLocalStorage = <T>(key: string, defaultValue: T): LocalStorageHo
     useEffect(() => {
         const currentValue = localStorage.getItem(key);
         setValue(currentValue ? JSON.parse(currentValue) : defaultValue);
-    }, [key])
+    }, [key]);
 
-
-    const save = (value: T) => {
+    const save = useCallback((value: T) => {
         localStorage.setItem(key, JSON.stringify(value));
         setValue(value);
-    }
+    }, [key]);
 
-    const remove = () => {
+    const remove = useCallback(() => {
         localStorage.removeItem(key);
         setValue(defaultValue);
-    }
+    }, [key]);
 
     return [value, { save, remove }];
 }

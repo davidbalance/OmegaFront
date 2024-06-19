@@ -3,4 +3,4 @@ export interface POSTDiseaseRequestDto {
     group: number;
 }
 
-export interface PATCHDiseaseRequestDto extends POSTDiseaseRequestDto { }
+export interface PATCHDiseaseRequestDto extends Partial<POSTDiseaseRequestDto> { }

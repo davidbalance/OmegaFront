@@ -1,4 +1,4 @@
-import { GETApiKeyResponseDto, POSTApiKeyResponseDto } from "@/lib/dtos/api/key/response.dto";
+import { GETApiKeyArrayResponseDto, POSTApiKeyResponseDto } from "@/lib/dtos/auth/api/key/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get, post } from "@/lib/fetcher/fetcher";
@@ -7,8 +7,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const getApiKey = withAuth<any, GETApiKeyResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { apiKeys }: GETApiKeyResponseDto = await getApiKey(endpoints.API_KEY.FIND_ALL, {});
+        const getApiKey = withAuth<any, GETApiKeyArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
+        const { apiKeys }: GETApiKeyArrayResponseDto = await getApiKey(endpoints.API_KEY.FIND_ALL, {});
         return NextResponse.json(apiKeys, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

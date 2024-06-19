@@ -3,15 +3,15 @@ import { get, patch, post } from "@/lib/fetcher/fetcher";
 import { DEFAULT_WITH_AUTH_OPTIONS, withAuth } from "@/lib/fetcher/with-fetch.utils";
 import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
-import { GETUsersResponseDto, POSTUserResponseDto } from "@/lib/dtos/user/user.response.dto";
+import { GETUserArrayResponseDto, POSTUserResponseDto } from "@/lib/dtos/user/user.response.dto";
 import { POSTCredentialRequestDto } from "@/lib/dtos/auth/credential/request.dto";
 import { PATCHWebClientLogoRequestDto, PATCHWebClientResourceRequestDto } from "@/lib/dtos/web/clients.request.dto";
 import { POSTUserRequestDto } from "@/lib/dtos/user/user.request.dto";
 
 export async function GET() {
     try {
-        const getUsers = withAuth<any, GETUsersResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { users }: GETUsersResponseDto = await getUsers(endpoints.USER.USER.FIND_ALL, {});
+        const getUsers = withAuth<any, GETUserArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
+        const { users }: GETUserArrayResponseDto = await getUsers(endpoints.USER.USER.FIND_ALL, {});
         return NextResponse.json(users, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

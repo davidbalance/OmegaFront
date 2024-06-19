@@ -6,11 +6,11 @@ export interface User {
     lastname: string;
 }
 
-export interface GETUsersResponseDto {
+export interface GETUserResponseDto extends User { }
+
+export interface GETUserArrayResponseDto {
     users: User[];
 }
-
-export interface GETUserResponseDto extends User { }
 
 export interface POSTUserResponseDto extends User { }
 
@@ -21,3 +21,5 @@ export interface GETUserAttributeRequestDto {
     name: string;
     value: string;
 }
+
+export interface PATCHUserExtraAttributeResponseDto { }

@@ -3,12 +3,12 @@ import { get } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import endpoints from "@/lib/endpoints/endpoints";
 import { NextResponse } from "next/server";
-import { GETPatientsResponseDto } from "@/lib/dtos/user/patient.response.dto";
+import { GETPatientArrayResponseDto } from "@/lib/dtos/user/patient.response.dto";
 
 export async function GET() {
     try {
-        const getPatients = withAuth<any, GETPatientsResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { patients }: GETPatientsResponseDto = await getPatients(endpoints.USER.PATIENT.FIND_BY_COMPANY, {});
+        const getPatients = withAuth<any, GETPatientArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
+        const { patients }: GETPatientArrayResponseDto = await getPatients(endpoints.USER.PATIENT.FIND_BY_COMPANY, {});
         return NextResponse.json(patients, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

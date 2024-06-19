@@ -5,7 +5,7 @@ import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLay
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import { useFetch } from '@/hooks/useFetch/useFetch';
 import { useList } from '@/hooks/useList';
-import { ApiKey } from '@/lib/dtos/api/key/response.dto';
+import { ApiKey } from '@/lib/dtos/auth/api/key/response.dto';
 import { Flex, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'

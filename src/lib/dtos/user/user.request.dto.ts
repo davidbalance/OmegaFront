@@ -1,11 +1,14 @@
-export interface POSTUserRequestDto {
-    dni: string;
+interface UserRequestDto {
     name: string;
     lastname: string;
     email: string;
 }
 
-export interface PATCHUserRequestDto extends POSTUserRequestDto { }
+export interface POSTUserRequestDto extends UserRequestDto {
+    dni: string
+}
+
+export interface PATCHUserRequestDto extends Partial<UserRequestDto> { }
 
 export interface PATCHUserAttributeRequestDto {
     value: string;

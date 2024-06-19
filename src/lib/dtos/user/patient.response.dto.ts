@@ -7,6 +7,6 @@ export interface Patient {
     user: User;
 }
 
-export interface GETPatientsResponseDto {
+export interface GETPatientArrayResponseDto {
     patients: Patient[];
 }
