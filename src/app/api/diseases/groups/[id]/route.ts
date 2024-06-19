@@ -4,6 +4,7 @@ import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.ut
 import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 import { PATCHDiseaseGroupRequestDto } from "@/lib/dtos/disease/group/request.dto";
+import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
 
 export async function PATCH(
     req: NextRequest,
@@ -12,7 +13,10 @@ export async function PATCH(
     try {
         const data: PATCHDiseaseGroupRequestDto = await req.json()
         const patchDiseaseGroup = withAuth<PATCHDiseaseGroupRequestDto, any>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        await patchDiseaseGroup(endpoints.DISEASE.GROUP.FIND_ONE_AND_UPDATE(params.id), { body: data });
+        await patchDiseaseGroup(endpoints.DISEASE.GROUP.FIND_ONE_AND_UPDATE(params.id), {
+            body: data,
+            headers: CONTENT_TYPE_APPLICATION_JSON
+        });
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

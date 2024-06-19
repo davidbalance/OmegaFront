@@ -1,7 +1,7 @@
 import { LoadingOverlay, rem, Box, Button, Flex } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { notifications } from '@mantine/notifications';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { User } from '@/lib/dtos/user/user.response.dto';

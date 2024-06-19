@@ -1,4 +1,4 @@
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { blobFile } from '@/lib/utils/blob-to-file';
 import { Menu, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications';

@@ -1,5 +1,5 @@
 import { ModularBox } from "@/components/modular/box/ModularBox";
-import { useFetch } from "@/hooks/useFetch/useFetch";
+import { useFetch } from "@/hooks/useFetch";
 import { Disease } from "@/lib/dtos/disease/response.dto";
 import { LoadingOverlay, Flex, rem, Button } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
@@ -20,19 +20,19 @@ const DiseaseFormUpdate: React.FC<DiseaseFormUpdateProps> = ({ onClose, onFormSu
 
     const handleFormSubmittedEvent = useCallback((data: Omit<Disease, 'id'>) => {
         request({ ...disease, ...data, group });
-    }, [request]);
+    }, [request, disease, group]);
 
     const handleClickEvent = useCallback(() => {
         if (buttonRef.current) {
             buttonRef.current.click();
         }
-    }, [buttonRef.current]);
+    }, []);
 
     useEffect(() => {
         if (body) {
             reload();
         }
-    }, [body]);
+    }, [body, reload]);
 
     useEffect(() => {
         if (data && body) {
@@ -40,7 +40,7 @@ const DiseaseFormUpdate: React.FC<DiseaseFormUpdateProps> = ({ onClose, onFormSu
             onClose();
             reset();
         }
-    }, [data, body, reset, onFormSubmitted]);
+    }, [data, disease, body, reset, onFormSubmitted, onClose]);
 
     useEffect(() => {
         if (error) notifications.show({ message: error.message });

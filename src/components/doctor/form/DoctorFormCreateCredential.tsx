@@ -1,7 +1,7 @@
 import { AuthenticationFormPassword } from '@/components/authentication/form/AuthenticationFormPassword';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { POSTCredentialRequestDto } from '@/lib/dtos/auth/credential/request.dto';
 import { LoadingOverlay, Group, rem, Box, Button, Text, Flex } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -40,7 +40,7 @@ const DoctorFormCreateCredential: React.FC<DoctorFormCreateCredentialProps> = ({
             reload();
             setShouldFetch(false);
         }
-    }, [shouldFetch, body]);
+    }, [shouldFetch, body, reload]);
 
     useEffect(() => {
         if (error) notifications.show({ message: error.message, color: 'red' });
@@ -52,7 +52,7 @@ const DoctorFormCreateCredential: React.FC<DoctorFormCreateCredentialProps> = ({
             onClose();
             reset();
         }
-    }, [onClose, onFormSubmittion, reset, data]);
+    }, [onClose, onFormSubmittion, reset, data, doctor]);
 
     return (
         <>

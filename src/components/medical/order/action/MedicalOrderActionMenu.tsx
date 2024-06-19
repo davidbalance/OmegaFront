@@ -1,7 +1,7 @@
 import { MedicalOrder } from '@/lib/dtos/medical/order/response.dto';
 import { Menu, MenuTarget, Loader, ActionIcon } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconDotsVertical, IconX } from '@tabler/icons-react';
+import { IconDotsVertical } from '@tabler/icons-react';
 import React, { useCallback } from 'react'
 import { MenuItemSendMail } from '../../../menu/item/MenuItemSendMail';
 
@@ -20,7 +20,7 @@ const MedicalOrderActionMenu: React.FC<MedicalOrderActionMenuProps> = ({ data, o
             ...data,
             mailStatus: true
         });
-    }, [data, onMailSend, close]);
+    }, [data, onMailSend]);
 
     const handleErrorEvent = useCallback(() => {
         close();

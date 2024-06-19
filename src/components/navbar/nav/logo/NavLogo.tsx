@@ -3,7 +3,7 @@ import React from 'react'
 import classes from './NavLogo.module.css'
 import { SystemLogo } from './logos'
 import { LOGO_KEY } from '@/lib/constants'
-import { useLocalStorage } from '@/hooks/useLocalStorage/useLocalStorage'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 const NavLogo: React.FC = () => {
     const [logo] = useLocalStorage<keyof (typeof SystemLogo)>(LOGO_KEY, 'omega');

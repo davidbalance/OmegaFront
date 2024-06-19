@@ -8,6 +8,7 @@ type WebResourceFormAssignProps = {
     resources: WebResource[];
     data?: { resources: number[] };
 };
+
 const WebResourceFormAssign = React.forwardRef<HTMLButtonElement, WebResourceFormAssignProps>(({ onSubmit, resources, data }, ref) => {
     const [selected, setSelected] = useState<number[]>(data?.resources || []);
     const [error, setError] = useState<string | undefined>(undefined);
@@ -28,7 +29,7 @@ const WebResourceFormAssign = React.forwardRef<HTMLButtonElement, WebResourceFor
             return;
         }
         onSubmit({ resources: selected });
-    }, [selected]);
+    }, [selected, onSubmit]);
 
     return (
         <Box component='form' onSubmit={handleFormSubmittedEvent} miw={400}>
@@ -64,6 +65,8 @@ const WebResourceFormAssign = React.forwardRef<HTMLButtonElement, WebResourceFor
             <Button type='submit' ref={ref} style={{ display: 'none' }}></Button>
         </Box>
     );
-})
+});
+
+WebResourceFormAssign.displayName = 'WebResourceFormAssign';
 
 export default WebResourceFormAssign

@@ -1,7 +1,7 @@
 import { AuthenticationFormPassword } from '@/components/authentication/form/AuthenticationFormPassword';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { Box, Button, Flex, LoadingOverlay, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
@@ -20,7 +20,7 @@ const UserFormChangePassword: React.FC<UserFormChangePasswordProps> = ({ email, 
     const handleSubmit = useCallback(async (password: string) => {
         request({ email, password });
         setShouldSendRequest(true);
-    }, [request]);
+    }, [email, request]);
 
     useEffect(() => {
         if (shouldSendRequest && body) {
@@ -41,7 +41,7 @@ const UserFormChangePassword: React.FC<UserFormChangePasswordProps> = ({ email, 
             onClose();
             reset();
         }
-    }, [data, reset])
+    }, [data, onClose, reset])
 
     return (
         <>

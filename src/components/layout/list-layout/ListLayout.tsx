@@ -1,8 +1,8 @@
 import { useChunk } from '@/hooks/useChunk';
-import { useFilter } from '@/hooks/useFilter';
+import { useFilter } from '@/hooks/useFilter/useFilter';
 import { useSort } from '@/hooks/useSort';
 import { Center, Flex, Grid, Loader, Pagination, ScrollArea, Text, UnstyledButton, rem } from '@mantine/core';
-import React, { ChangeEvent, useMemo, useState } from 'react'
+import React, { ChangeEvent, useCallback, useMemo, useState } from 'react'
 import classes from './ListLayout.module.css'
 import { IconX } from '@tabler/icons-react';
 import { ModularBox } from '@/components/modular/box/ModularBox';
@@ -29,15 +29,15 @@ interface ListLayoutProps<T> {
 const ListLayout = <T extends object>({ data, loading, columns, height = 350, size = 10, dock, rows }: ListLayoutProps<T>): React.ReactElement | null => {
 
     const [filteredData, FilterHandlers, FilterValues] = useFilter(data, columns.map((e) => e.key));
-    const [sortedData, SortedHandlers, SortValues] = useSort(filteredData);
-    const [chunkData, , ChunkValues] = useChunk(sortedData, size);
+    const [sortedData, { sortBy: sortByHandler }, { sortBy: sortByValue }] = useSort(filteredData);
+    const [chunkData, , { size: chunkSizeValue }] = useChunk(sortedData, size);
     const [page, setPage] = useState<number>(1);
 
     const isMobile = useMediaQuery('(max-width: 50em)');
 
-    const sort = (key: keyof T) => () => SortedHandlers.sortBy(key);
+    const sort = useCallback((key: keyof T) => () => sortByHandler(key), [sortByHandler]);
 
-    const total = useMemo(() => Math.ceil(filteredData.length / ChunkValues.size), [filteredData.length, ChunkValues.size]);
+    const total = useMemo(() => Math.ceil(filteredData.length / chunkSizeValue), [filteredData.length, chunkSizeValue]);
 
     const header = useMemo(
         () =>
@@ -45,10 +45,10 @@ const ListLayout = <T extends object>({ data, loading, columns, height = 350, si
                 <ListHeaderButton
                     key={String(e.key)}
                     label={e.name}
-                    sort={{ onSort: sort(e.key), sorted: SortValues.sortBy === e.key }}
+                    sort={{ onSort: sort(e.key), sorted: sortByValue === e.key }}
                 />
             )),
-        [columns, SortValues]
+        [columns, sortByValue, sort]
     );
 
     const memoizedRows = useMemo(() => chunkData[page - 1]?.map((row) => rows(row)) || [], [rows, chunkData, page]);
@@ -78,11 +78,11 @@ const ListLayout = <T extends object>({ data, loading, columns, height = 350, si
             <ModularBox flex={1}>
                 <Flex className={classes.header} w="100%">
                     {header}
-                    {SortValues.sortBy && (
+                    {sortByValue && (
                         <UnstyledButton
                             className={classes.control}
                             data-active={true}
-                            onClick={() => SortedHandlers.sortBy(null)}
+                            onClick={() => sortByHandler(null)}
                             h="100%"
                         >
                             <Center className={classes.icon}>

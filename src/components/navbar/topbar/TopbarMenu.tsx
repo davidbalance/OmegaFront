@@ -1,5 +1,5 @@
-import { useAuth } from '@/hooks/useAuth/useAuth';
-import { useLocalStorage } from '@/hooks/useLocalStorage/useLocalStorage';
+import { useAuth } from '@/hooks/useAuth';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { USER_KEY } from '@/lib/constants';
 import { UserPreferenceData } from '@/lib/types/user-preferences.type';
 import { ActionIcon, Avatar, Box, Divider, Group, Menu, Text, rem } from '@mantine/core'

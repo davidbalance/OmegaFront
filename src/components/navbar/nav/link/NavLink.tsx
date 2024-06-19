@@ -1,4 +1,4 @@
-import { Text, Tooltip, rem } from '@mantine/core';
+import { Text, Tooltip } from '@mantine/core';
 import Link, { LinkProps } from 'next/link'
 import React, { ForwardRefExoticComponent, RefAttributes } from 'react'
 import { IconProps, Icon } from '@tabler/icons-react';

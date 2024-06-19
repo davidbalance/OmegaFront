@@ -1,5 +1,5 @@
 import { ModularBox } from '@/components/modular/box/ModularBox'
-import { useFetch } from '@/hooks/useFetch/useFetch'
+import { useFetch } from '@/hooks/useFetch'
 import { POSTApiKeyRequestDto } from '@/lib/dtos/auth/api/key/request.dto'
 import { ApiKey, POSTApiKeyResponseDto } from '@/lib/dtos/auth/api/key/response.dto'
 import { ActionIcon, Box, Button, LoadingOverlay, Modal, SimpleGrid, Text, TextInput, rem } from '@mantine/core'
@@ -49,7 +49,7 @@ const ApiKeyFormCreate: React.FC<ApiKeyFormCreateProps> = ({ onFormSubmittion })
             postReload();
             setShouldPatch(false);
         }
-    }, [shouldPatch, postBody]);
+    }, [shouldPatch, postBody, postReload]);
 
     useEffect(() => {
         if (postData) {

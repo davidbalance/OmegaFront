@@ -7,7 +7,7 @@ import cx from 'clsx';
 import { ActionIcon, Box, Drawer, ScrollArea } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { RESOURCE_KEY } from '@/lib/constants';
-import { useLocalStorage } from '@/hooks/useLocalStorage/useLocalStorage';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { NavLinkProp } from '@/lib/types/nav-link.type';
 import { NavLink } from './nav/link/NavLink';
 

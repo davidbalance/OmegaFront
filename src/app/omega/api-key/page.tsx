@@ -3,7 +3,7 @@
 import ApiKeyFormCreate from '@/components/api-key/form/ApiKeyFormCreate';
 import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { ApiKey } from '@/lib/dtos/auth/api/key/response.dto';
 import { Flex, rem } from '@mantine/core';

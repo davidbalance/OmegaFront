@@ -1,4 +1,4 @@
-import { Box, Flex, FlexProps } from '@mantine/core'
+import { Flex, FlexProps } from '@mantine/core'
 import React from 'react'
 import classes from './ModularBox.module.css'
 

@@ -2,7 +2,7 @@ import { LoadingOverlay, rem, Button, Flex } from "@mantine/core";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useCallback, useEffect, useRef } from "react";
 import DiseaseGroupForm from "./DiseaseGroupForm";
-import { useFetch } from "@/hooks/useFetch/useFetch";
+import { useFetch } from "@/hooks/useFetch";
 import { ModularBox } from "@/components/modular/box/ModularBox";
 import { notifications } from "@mantine/notifications";
 import { DiseaseGroup } from "@/lib/dtos/disease/group/response.dto";
@@ -25,13 +25,13 @@ const DiseaseGroupFormCreate: React.FC<DiseaseGroupFormCreateProps> = ({ onClose
         if (buttonRef.current) {
             buttonRef.current.click();
         }
-    }, [buttonRef.current]);
+    }, []);
 
     useEffect(() => {
         if (body) {
             reload();
         }
-    }, [body]);
+    }, [body, reload]);
 
     useEffect(() => {
         if (data) {
@@ -39,7 +39,7 @@ const DiseaseGroupFormCreate: React.FC<DiseaseGroupFormCreateProps> = ({ onClose
             onClose();
             reset();
         }
-    }, [data, reset, onFormSubmitted]);
+    }, [data, reset, onClose, onFormSubmitted]);
 
     useEffect(() => {
         if (error) notifications.show({ message: error.message, color: 'red' });

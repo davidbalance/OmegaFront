@@ -5,6 +5,7 @@ import { get, patch } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
+import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
 
 export async function GET(
     _: NextRequest,
@@ -29,7 +30,10 @@ export async function PATCH(req: NextRequest,
     try {
         const data: PATCHWebClientResourceRequestDto = await req.json();
         const patchWebClientResource = withAuth<PATCHWebClientResourceRequestDto, any>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        await patchWebClientResource(endpoints.WEB.CLIENT.RESOURCE.FIND_USER_AND_UPDATE_RESOURCES(params.user), { body: data });
+        await patchWebClientResource(endpoints.WEB.CLIENT.RESOURCE.FIND_USER_AND_UPDATE_RESOURCES(params.user), {
+            body: data,
+            headers: CONTENT_TYPE_APPLICATION_JSON
+        });
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

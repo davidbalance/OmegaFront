@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useCallback, useMemo, useState } from "react"
-import { CorporativeGroupLayout } from "@/components/corporative-group/corporative-group-layout/CorporativeGroupLayout"
-import { useFetch } from "@/hooks/useFetch/useFetch"
+import { useFetch } from "@/hooks/useFetch"
 import { CorporativeGroup } from "@/lib/dtos/location/corporative/group.response.dto"
 import MultipleTierLayout, { TierElement } from "@/components/layout/multiple-tier-layout/MultipleTierLayout"
 import { ListElement, ListLayout } from "@/components/layout/list-layout/ListLayout"
@@ -111,9 +110,7 @@ const CorporativeGroupPage: React.FC = () => {
         companies,
         branches,
         fetchLoading,
-        handleClickEventSelectGroup,
         handleCorporativeGroupRow,
-        handleClickEventSelectCompany,
         handleCorporativeCompanyRow,
         handleBranchRow,
     ]);

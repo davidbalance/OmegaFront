@@ -1,3 +1,4 @@
+import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
 import { PATCHMedicalResultWithDiseaseRequestDto } from "@/lib/dtos/medical/result/request.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
@@ -12,7 +13,10 @@ export async function PATCH(
     try {
         const data: PATCHMedicalResultWithDiseaseRequestDto = await req.json();
         const patchExamResult = withAuth<PATCHMedicalResultWithDiseaseRequestDto, any>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        await patchExamResult(endpoints.MEDICAL.RESULT.FIND_ONE_AND_UPDATE_DISEASE(params.id), { body: data });
+        await patchExamResult(endpoints.MEDICAL.RESULT.FIND_ONE_AND_UPDATE_DISEASE(params.id), {
+            body: data,
+            headers: CONTENT_TYPE_APPLICATION_JSON
+        });
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

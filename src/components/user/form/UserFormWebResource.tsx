@@ -1,7 +1,7 @@
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import WebResourceFormAssign from '@/components/web/resource/form/WebResourceFormAssign';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { User } from '@/lib/dtos/user/user.response.dto';
 import { WebResource } from '@/lib/dtos/web/resources.response.dto';
 import { LoadingOverlay, Flex, rem, Box, Button, Text } from '@mantine/core';
@@ -62,7 +62,7 @@ const UserFormWebResource: React.FC<UserFormWebResourceProps> = ({ user, onClose
             onClose();
             patchResourceReset();
         }
-    }, [patchResource]);
+    }, [patchResource, onClose, patchResourceReset]);
 
     return (
         <>

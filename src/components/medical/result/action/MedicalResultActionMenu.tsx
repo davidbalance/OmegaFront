@@ -1,4 +1,4 @@
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { blobFile } from '@/lib/utils/blob-to-file';
 import { Menu, MenuTarget, Loader, ActionIcon, rem } from '@mantine/core';
@@ -40,7 +40,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         reset: fileReportReset
     } = useFetch<Blob>(`/api/medical/results/file/downloader/report/${data.report?.id || ''}`, 'GET', { loadOnMount: false, type: 'blob' });
 
-    const handleClick = useCallback(() => open(), []);
+    const handleClick = useCallback(() => open(), [open]);
 
     const handleClickDiseaseModification = useCallback(() => {
         onDiseaseModification?.();

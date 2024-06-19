@@ -1,9 +1,9 @@
 import { Header } from '@/components/header/Header';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { ActionIcon, Flex, Title, rem } from '@mantine/core'
+import { ActionIcon, Flex, rem } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks';
 import { IconX } from '@tabler/icons-react';
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 export interface TierElement {
     title: string;
@@ -26,7 +26,7 @@ const MultipleTierLayout: React.FC<MultipleTierLayoutProps> = ({ elements, tier,
 
     const isMobile = useMediaQuery('(max-width: 50em)');
 
-    const handleCloseTier = () => onClose(tier);
+    const handleCloseTier = useCallback(() => onClose(tier), [onClose, tier]);
 
     const mobileTier = useMemo(() => <Flex direction='column' gap={8} w='100%'>
         <ModularBox>
@@ -40,7 +40,7 @@ const MultipleTierLayout: React.FC<MultipleTierLayoutProps> = ({ elements, tier,
             </Flex>
         </ModularBox>
         {elements[tier].element}
-    </Flex>, [tier, elements]);
+    </Flex>, [tier, elements, handleCloseTier]);
 
     const multipleChildrenTier = useMemo(() => elements.map((e, index) => (
         <Flex direction='column' gap={8} key={index} w='100%'>

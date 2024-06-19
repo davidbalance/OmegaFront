@@ -3,26 +3,18 @@
 import { ActionColumnProps, ColumnOptions, TableLayout } from '@/components/layout/table-layout/TableLayout';
 import { MedicalReportForm } from '@/components/medical/report/form/MedicalReportForm';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-
-type MedicalResultDataType = Omit<MedicalResult, 'order'> & { patientFullname: string };
-
-const parseMedicalResult = (data: MedicalResult[]): MedicalResultDataType[] => data.map(e => ({
-    ...e,
-    patientFullname: e.order.patientFullname
-}));
 
 enum LayoutStates {
     DEFAULT,
     INSERT_REPORT
 }
 
-const columnsMedicalReport: ColumnOptions<MedicalResultDataType>[] = [
-    { key: 'patientFullname', name: 'Paciente' },
+const columnsMedicalReport: ColumnOptions<MedicalResult>[] = [
     { key: 'examName', name: 'Examenes' },
 ]
 
@@ -30,7 +22,7 @@ const MedicalReport: React.FC = () => {
 
     const [currentState, setCurrentState] = useState<LayoutStates>(LayoutStates.DEFAULT);
 
-    const [selectedMedicalResult, setSelectedMedicalResult] = useState<MedicalResultDataType | null>(null);
+    const [selectedMedicalResult, setSelectedMedicalResult] = useState<MedicalResult | null>(null);
 
     const {
         data: fetchData,
@@ -41,11 +33,9 @@ const MedicalReport: React.FC = () => {
     const [medicalResults, {
         override: medicalResultOverride,
         update: medicalResultUpdate
-    }] = useList<MedicalResultDataType>([]);
+    }] = useList<MedicalResult>([]);
 
-    const parsedMedicalResults = useMemo(() => parseMedicalResult(fetchData || []), [fetchData]);
-
-    const handleCreateEvent = useCallback((data: MedicalResultDataType) => {
+    const handleCreateEvent = useCallback((data: MedicalResult) => {
         setSelectedMedicalResult(data);
         setCurrentState(LayoutStates.INSERT_REPORT);
     }, []);
@@ -55,22 +45,22 @@ const MedicalReport: React.FC = () => {
         setCurrentState(LayoutStates.DEFAULT);
     }, []);
 
-    const handleTableAction = useCallback((props: ActionColumnProps<MedicalResultDataType>) => (
+    const handleTableAction = useCallback((props: ActionColumnProps<MedicalResult>) => (
         <MedicalResultActionMenu
             data={props.value}
             onCreateReport={() => handleCreateEvent(props.value)}
             downloadReport={!!props.value.report}
             downloadResult
         />
-    ), []);
+    ), [handleCreateEvent]);
 
     useEffect(() => {
         if (fetchError) notifications.show({ message: fetchError.message, color: 'red' });
     }, [fetchError]);
 
     useEffect(() => {
-        if (parsedMedicalResults) medicalResultOverride(parsedMedicalResults);
-    }, [parsedMedicalResults, medicalResultOverride]);
+        if (fetchData) medicalResultOverride(fetchData);
+    }, [fetchData, medicalResultOverride]);
 
     const handleFormSubmittion = useCallback((data: MedicalResult) => {
         medicalResultUpdate('id', data.id, data);
@@ -84,7 +74,7 @@ const MedicalReport: React.FC = () => {
                 onFormSubmittion={handleFormSubmittion} />
         ),
         [LayoutStates.DEFAULT]: (
-            <TableLayout<MedicalResultDataType>
+            <TableLayout<MedicalResult>
                 title={'Reportes medicos'}
                 columns={columnsMedicalReport}
                 data={medicalResults}
@@ -96,7 +86,7 @@ const MedicalReport: React.FC = () => {
                 size={100}
             />
         ),
-    }), [selectedMedicalResult, medicalResults, fetchLoading, handleTableAction, handleFormSubmittion]);
+    }), [selectedMedicalResult, handleCloseEvent, medicalResults, fetchLoading, handleTableAction, handleFormSubmittion]);
 
     return <>{view[currentState]}</>
 }

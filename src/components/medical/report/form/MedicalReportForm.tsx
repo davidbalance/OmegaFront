@@ -14,7 +14,7 @@ import { notifications } from '@mantine/notifications';
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { PATCHMedicalResultReportRequestDto } from '@/lib/dtos/medical/result/request.dto';
 
 type MedicalReportFormProps = {
@@ -81,7 +81,7 @@ const MedicalReportForm: React.FC<MedicalReportFormProps> = ({ result, onClose, 
             onClose();
             reset();
         }
-    }, [data, onFormSubmittion, onClose]);
+    }, [data, onFormSubmittion, onClose, reset]);
 
 
 

@@ -1,6 +1,6 @@
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle'
 import { ModularBox } from '@/components/modular/box/ModularBox'
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { GETUserAttributeRequestDto } from '@/lib/dtos/user/user.response.dto';
 import { LoadingOverlay, Flex, rem, Box, Button, Title } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
@@ -48,7 +48,7 @@ const UserFormAssignCompanyAttribute: React.FC<UserFormAssignCompanyAttributePro
     useEffect(() => {
         if (attributeError) notifications.show({ message: attributeError.message, color: 'red' });
         else if (patchAttributeError) notifications.show({ message: patchAttributeError.message, color: 'red' });
-    }, [attributeError || patchAttributeError]);
+    }, [attributeError, patchAttributeError]);
 
     useEffect(() => {
         if (shouldPatch && patchAttributeBody) {
@@ -62,7 +62,7 @@ const UserFormAssignCompanyAttribute: React.FC<UserFormAssignCompanyAttributePro
             onClose();
             patchAttributeReset();
         }
-    }, [patchAttribute, patchAttributeReset])
+    }, [patchAttribute, patchAttributeReset, onClose])
 
     return (
         <>

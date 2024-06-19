@@ -4,7 +4,7 @@ import { MIME_TYPES } from '@mantine/dropzone'
 import React, { useEffect, useState } from 'react'
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle'
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context'
-import { useFetch } from '@/hooks/useFetch/useFetch'
+import { useFetch } from '@/hooks/useFetch'
 import { notifications } from '@mantine/notifications'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 

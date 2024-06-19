@@ -11,9 +11,6 @@ export interface MedicalResult {
     diseaseName: string;
     diseaseGroupId: number;
     diseaseGroupName: string;
-    order: {
-        patientFullname: string
-    }
     report?: MedicalReport;
 }
 

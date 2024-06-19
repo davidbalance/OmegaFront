@@ -1,3 +1,4 @@
+import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
 import { PATCHMedicalResultReportRequestDto } from "@/lib/dtos/medical/result/request.dto";
 import { PATCHMedicalResultReportResponseDto } from "@/lib/dtos/medical/result/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
@@ -13,7 +14,10 @@ export async function PATCH(
     try {
         const data: PATCHMedicalResultReportRequestDto = await req.json();
         const patchReport = withAuth<PATCHMedicalResultReportRequestDto, PATCHMedicalResultReportResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const medicalResult: PATCHMedicalResultReportResponseDto = await patchReport(endpoints.MEDICAL.RESULT.FIND_ONE_AND_ATTACH_REPORT(params.id), { body: data });
+        const medicalResult: PATCHMedicalResultReportResponseDto = await patchReport(endpoints.MEDICAL.RESULT.FIND_ONE_AND_ATTACH_REPORT(params.id), {
+            body: data,
+            headers: CONTENT_TYPE_APPLICATION_JSON
+        });
         return NextResponse.json(medicalResult, { status: 200 });
     } catch (error) {
         console.log(error);

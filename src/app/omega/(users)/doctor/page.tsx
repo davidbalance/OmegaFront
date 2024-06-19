@@ -5,7 +5,7 @@ import { DoctorFormCreateCredential } from '@/components/doctor/form/DoctorFormC
 import { DoctorFormUploadSignature } from '@/components/doctor/form/DoctorFormUploadSignature';
 import { ActionColumnProps, ColumnOptions, TableLayout } from '@/components/layout/table-layout/TableLayout';
 import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
-import { useFetch } from '@/hooks/useFetch/useFetch'
+import { useFetch } from '@/hooks/useFetch'
 import { useList } from '@/hooks/useList';
 import { Doctor } from '@/lib/dtos/user/doctor.response.dto';
 import { User } from '@/lib/dtos/user/user.response.dto';
@@ -84,7 +84,7 @@ const DoctorPage: React.FC = () => {
             createCredential={!prop.value.hasCredential}
             onUploadSignature={() => handleClickEventSignatureUpdaload(prop.value)}
         />
-    ), []);
+    ), [handleClickEventCreateCredential, handleClickEventAssignCompany, handleClickEventSignatureUpdaload]);
 
     const handleFormSubmittion = useCallback((id: number) => {
         doctorUpdate('user', id, { hasCredential: true });

@@ -5,11 +5,11 @@ import { OmegaTable } from '@/components/table';
 import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 import OmegaTh from '@/components/table/omega-th/OmegaTh';
 import { useChunk } from '@/hooks/useChunk';
-import { useFilter } from '@/hooks/useFilter';
+import { useFilter } from '@/hooks/useFilter/useFilter';
 import { useSort } from '@/hooks/useSort';
 import { Flex, Grid, Table, rem } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import React, { ChangeEvent, useMemo, useState } from 'react'
+import React, { ChangeEvent, useCallback, useMemo, useState } from 'react'
 
 export type ColumnOptions<T extends object> = {
     name: string;
@@ -40,17 +40,17 @@ const TableLayout: <T extends object, >(props: TableLayoutProps<T>) => React.Rea
     const match = useMediaQuery('(max-width: 700px)');
 
     const [filteredData, FilterHandlers, FilterValues] = useFilter(data, columns.map(e => e.key));
-    const [sortedData, SortedHandlers, SortValues] = useSort(filteredData);
+    const [sortedData, { sortBy: sortByHandler }, { sortBy: sortByValue }] = useSort(filteredData);
     const [chunkData, , ChunkValues] = useChunk(sortedData, size);
     const [page, setPage] = useState<number>(1);
 
-    const sort = (key: any) => () => SortedHandlers.sortBy(key);
+    const sort = useCallback((key: any) => () => sortByHandler(key), [sortByHandler]);
 
     const header = useMemo(() => {
         const headers = columns.map((e) => (
             <OmegaTh key={e.key as string} sort={{
                 onSort: sort(e.key),
-                sorted: SortValues.sortBy === e.key
+                sorted: sortByValue === e.key
             }}>{e.name}
             </OmegaTh>
         ));
@@ -58,7 +58,7 @@ const TableLayout: <T extends object, >(props: TableLayoutProps<T>) => React.Rea
             headers.push(action ? <OmegaTh key='action'>{action.name}</OmegaTh> : <></>);
         }
         return headers;
-    }, [columns, action, SortValues.sortBy]);
+    }, [columns, action, sortByValue, sort]);
 
     const rows = useMemo(() => {
         if (chunkData[page - 1]) {

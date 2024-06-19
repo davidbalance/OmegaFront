@@ -1,6 +1,6 @@
-import { useFetch } from '@/hooks/useFetch/useFetch';
-import { SelectorOption } from '@/lib';
+import { useFetch } from '@/hooks/useFetch';
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
+import { SelectorOption } from '@/lib/dtos/selector/response.dto';
 import { ComboboxItem, Modal, Flex, LoadingOverlay, rem, Box, Select, ButtonGroup, Button, ModalProps } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
@@ -103,10 +103,8 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
         if (shouldPatchDisease && patchBody) {
             patchReload();
             setShouldPatchDisease(false);
-            patchReset();
         }
     }, [shouldPatchDisease, patchBody, patchReload])
-
 
     useEffect(() => {
         if (patchServerResponse && selectedDiseaseGroup && selectedDiseaseGroup && selectedDisease && selectedDisease) {
@@ -123,7 +121,6 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
     }, [
         patchServerResponse,
         selectedDiseaseGroup,
-        selectedDisease,
         selectedDisease,
         onFormSubmitted,
         patchReset,

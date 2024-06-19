@@ -6,7 +6,7 @@ import classes from './Authentication.module.css'
 import { useForm } from '@mantine/form'
 import Joi from 'joi';
 import { joiResolver } from 'mantine-form-joi-resolver';
-import { useAuth } from '@/hooks/useAuth/useAuth'
+import { useAuth } from '@/hooks/useAuth'
 import { notifications } from '@mantine/notifications'
 
 interface ILoginForm {

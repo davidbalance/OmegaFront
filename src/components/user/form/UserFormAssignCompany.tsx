@@ -1,6 +1,6 @@
-import { useFetch } from '@/hooks/useFetch/useFetch';
-import { SelectorOption } from '@/lib'
+import { useFetch } from '@/hooks/useFetch';
 import { CorporativeGroup } from '@/lib/dtos/location/corporative/group.response.dto';
+import { SelectorOption } from '@/lib/dtos/selector/response.dto';
 import { Box, Button, ComboboxItem, LoadingOverlay, Select, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
@@ -53,7 +53,7 @@ const UserFormAssignCompany = React.forwardRef<HTMLButtonElement, UserFormAssign
                 }
             }
         }
-    }, [value && fetchCorporativeGroups])
+    }, [value, fetchCorporativeGroups])
 
 
     useEffect(() => {
@@ -95,5 +95,7 @@ const UserFormAssignCompany = React.forwardRef<HTMLButtonElement, UserFormAssign
         </Box>
     )
 })
+
+UserFormAssignCompany.displayName = 'UserFormAssignCompany';
 
 export { UserFormAssignCompany }

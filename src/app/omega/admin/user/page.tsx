@@ -6,9 +6,8 @@ import { notifications } from '@mantine/notifications';
 import { LoadingOverlay } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { useList } from '@/hooks/useList';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
-import { ResponsiveButton } from '@/components/buttons/responsive-button/ResponsiveButton';
 import { User } from '@/lib/dtos/user/user.response.dto';
 import { UserFormCreate } from '@/components/user/form/UserFormCreate';
 import { UserFormUpdate } from '@/components/user/form/UserFormUpdate';
@@ -16,6 +15,7 @@ import { UserFormWebResource } from '@/components/user/form/UserFormWebResource'
 import { UserFormChangePassword } from '@/components/user/form/UserFormChangePassword';
 import { UserActionButton } from '@/components/user/action/UserActionButton';
 import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
+import { ButtonResponsive } from '@/components/button/responsive/ButtonResponsive';
 
 enum LayoutStates {
     DEFAULT,
@@ -119,17 +119,21 @@ const UserPage: React.FC = () => {
             deleteReload();
             setShouldDeleteUser(false);
         }
-    }, [selected, shouldDeleteUser]);
+    }, [selected, shouldDeleteUser, deleteReload]);
 
     useEffect(() => {
         if (deleteData) {
             userRemove('id', selected?.id!);
             setSelected(null);
         }
-    }, [deleteData, userRemove]);
+    }, [selected, deleteData, userRemove]);
 
     const createUserDockButton = useMemo(() => (
-        <ResponsiveButton key='create-user-dock' onClick={handleClickEventCreate} label={'Nuevo usuario'} icon={<IconPlus />} />
+        <ButtonResponsive
+            key='create-user-dock'
+            onClick={handleClickEventCreate}
+            label={'Nuevo usuario'}
+            icon={<IconPlus />} />
     ), [handleClickEventCreate]);
 
     const view: Record<LayoutStates, React.ReactNode> = useMemo(() => ({
@@ -175,16 +179,16 @@ const UserPage: React.FC = () => {
     }), [
         handleClickEventClose,
         handleFormSubmittionEventCreate,
-        handleClickEventClose,
         selected,
         handleFormSubmittionEventUpdateUser,
-        handleClickEventClose,
         users,
         fetchUsersLoading,
         handleClickEventUpdateUser,
         handleClickEventUpdatePassword,
         handleClickEventUpdateRole,
-        handleClickEventDeleteUser
+        handleClickEventDeleteUser,
+        handleClickEventUpdateCompany,
+        createUserDockButton,
     ]);
 
     return <>

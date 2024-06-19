@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { UserFormLogo } from './UserFormLogo';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { notifications } from '@mantine/notifications';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { User } from '@/lib/dtos/user/user.response.dto';
 import { WebResource } from '@/lib/dtos/web/resources.response.dto';
 import WebResourceFormAssign from '@/components/web/resource/form/WebResourceFormAssign';
@@ -74,7 +74,7 @@ const UserFormCreate: React.FC<UserFormCreateProps> = ({ onClose, onFormSubmit }
 
     const formReferences = useRef<React.RefObject<HTMLButtonElement>[]>(steps.map(() => React.createRef<HTMLButtonElement>()));
 
-    const nextStep = useCallback(() => setActive((current) => (current < steps.length ? current + 1 : current)), []);
+    const nextStep = useCallback(() => setActive((current) => (current < steps.length ? current + 1 : current)), [steps.length]);
     const prevStep = useCallback(() => setActive((current) => (current > 0 ? current - 1 : current)), []);
 
     const handleNextChange = useCallback(() => {
@@ -93,7 +93,7 @@ const UserFormCreate: React.FC<UserFormCreateProps> = ({ onClose, onFormSubmit }
         } else {
             nextStep();
         }
-    }, [nextStep, createRequest, formData, steps]);
+    }, [nextStep, createRequest, active, formData, steps]);
 
     const handleClose = useCallback(() => onClose(), [onClose]);
 
@@ -111,7 +111,7 @@ const UserFormCreate: React.FC<UserFormCreateProps> = ({ onClose, onFormSubmit }
                     {...step.step.props} />
             </Container>
         </Stepper.Step>
-    ))), [isMobile, steps, formData, handleFormSubmittion, formReferences.current]);
+    ))), [isMobile, steps, formData, handleFormSubmittion]);
 
     useEffect(() => {
         if (createError) notifications.show({ message: createError.message, color: 'red' });

@@ -24,7 +24,7 @@ export const Confirmation: React.FC<{ children: React.ReactNode }> = ({ children
         return new Promise<boolean>((resolve) => {
             setResolvePromise(() => resolve);
         });
-    }, []);
+    }, [open]);
 
     const handleResponse = (response: boolean) => {
         close();

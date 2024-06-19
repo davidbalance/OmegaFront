@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Flex, Modal, ModalProps, Text, Title } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks';
-import { IconX, IconXboxA } from '@tabler/icons-react';
+import { IconX } from '@tabler/icons-react';
 import React from 'react'
 
 type ModalConfirmationProps = Omit<ModalProps, 'children' | 'title'> & {

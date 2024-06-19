@@ -1,9 +1,10 @@
 'use client'
-import { DownloadActionButton } from '@/components/download/action-button/DownloadActionButton'
+
+import { DownloadActionButton } from '@/components/download/action/DownloadActionButton'
 import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout'
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement'
 import { ModularBox } from '@/components/modular/box/ModularBox'
-import { useFetch } from '@/hooks/useFetch/useFetch'
+import { useFetch } from '@/hooks/useFetch'
 import { useList } from '@/hooks/useList'
 import { GETMedicalMedicalOrderFileResponseDto, MedicalOrderFile } from '@/lib/dtos/medical/order/response.dto'
 import { blobFile } from '@/lib/utils/blob-to-file'
@@ -79,7 +80,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
 
     useEffect(() => {
         if (fileBody) fileReload();
-    }, [fileBody]);
+    }, [fileBody, fileReload]);
 
     useEffect(() => {
         if (error) notifications.show({ message: error.message, color: 'red' });
@@ -88,7 +89,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
 
     useEffect(() => {
         if (data) medicalResultOverride([...data.fileResults, ...data.fileReports]);
-    }, [data])
+    }, [data, medicalResultOverride])
 
     useEffect(() => {
         if (fileBlob && data) {

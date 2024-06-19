@@ -1,6 +1,6 @@
 'use client'
 
-import { ResponsiveButton } from '@/components/buttons/responsive-button/ResponsiveButton';
+import { ButtonResponsive } from '@/components/button/responsive/ButtonResponsive';
 import DiseaseActionMenu from '@/components/disease/action/DiseaseActionMenu';
 import { DiseaseFormCreate } from '@/components/disease/form/DiseaseFormCreate';
 import { DiseaseFormUpdate } from '@/components/disease/form/DiseaseFormUpdate';
@@ -12,7 +12,7 @@ import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLay
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { DiseaseGroup } from '@/lib/dtos/disease/group/response.dto';
 import { Disease } from '@/lib/dtos/disease/response.dto';
@@ -99,13 +99,13 @@ const DiseasePage: React.FC = () => {
         if (selectedGroup) {
             diseaseOverride(selectedGroup.diseases);
         }
-    }, [selectedGroup]);
+    }, [selectedGroup, diseaseOverride]);
 
     useEffect(() => {
         if (groupError) notifications.show({ message: groupError.message, color: 'red' });
         else if (deleteGroupError) notifications.show({ message: deleteGroupError.message, color: 'red' });
         else if (deleteDiseaseError) notifications.show({ message: deleteDiseaseError.message, color: 'red' });
-    }, [groupError, deleteGroupError]);
+    }, [groupError, deleteGroupError, deleteDiseaseError]);
 
     useEffect(() => {
         if (shouldDeleteGroup && selectedGroup) {
@@ -128,7 +128,7 @@ const DiseasePage: React.FC = () => {
             setSelectedGroup(null);
             deleteGroupReset();
         }
-    }, [deleteGroup, selectedGroup, deleteGroupReset]);
+    }, [deleteGroup, selectedGroup, deleteGroupReset, groupRemove]);
 
     useEffect(() => {
         if (deleteDisease && selectedDisease) {
@@ -143,21 +143,21 @@ const DiseasePage: React.FC = () => {
             setSelectedDisease(null);
             deleteDiseaseReset();
         }
-    }, [deleteDisease, selectedDisease, deleteDiseaseReset]);
+    }, [deleteDisease, selectedDisease, deleteDiseaseReset, diseaseRemove]);
 
-    const handleClickEventSelectGroup = (data: DiseaseGroup) => {
+    const handleClickEventSelectGroup = useCallback((data: DiseaseGroup) => {
         setSelectedGroup(data);
         setActive(1);
-    }
+    }, []);
 
-    const handleClickEventCreateGroup = () => {
+    const handleClickEventCreateGroup = useCallback(() => {
         setCurrentState(LayoutState.CREATE_GROUP);
-    }
+    }, []);
 
-    const handleClickEventUpdateGroup = (data: DiseaseGroup) => {
+    const handleClickEventUpdateGroup = useCallback((data: DiseaseGroup) => {
         setSelectedGroup(data);
         setCurrentState(LayoutState.UPDATE_GROUP);
-    }
+    }, []);
 
     const handleClickEventDeleteGroup = useCallback(async (data: DiseaseGroup) => {
         setSelectedGroup(data);
@@ -169,19 +169,19 @@ const DiseasePage: React.FC = () => {
         }
     }, [confirmation]);
 
-    const handleClickEventCreateDisease = () => {
+    const handleClickEventCreateDisease = useCallback(() => {
         setCurrentState(LayoutState.CREATE_DISEASE);
-    }
+    }, []);
 
-    const handleClickEventUpdateDisease = (data: Disease) => {
+    const handleClickEventUpdateDisease = useCallback((data: Disease) => {
         setSelectedDisease(data);
         setCurrentState(LayoutState.UPDATE_DISEASE);
-    }
+    }, []);
 
-    const handleClickEventUpdateDiseaseDiseaseGroup = (data: Disease) => {
+    const handleClickEventUpdateDiseaseDiseaseGroup = useCallback((data: Disease) => {
         setSelectedDisease(data);
         setCurrentState(LayoutState.UPDATE_DISEASE_GROUP);
-    }
+    }, []);
 
     const handleClickEventDeleteDisease = useCallback(async (data: Disease) => {
         setSelectedDisease(data);
@@ -204,7 +204,7 @@ const DiseasePage: React.FC = () => {
         >
             <Title order={6}>{row.name}</Title>
         </ListRowElement>
-    ), [selectedGroup]);
+    ), [selectedGroup, handleClickEventSelectGroup, handleClickEventUpdateGroup, handleClickEventDeleteGroup]);
 
     const handleDiseaseRow = useCallback((row: Disease) => (
         <ListRowElement
@@ -215,15 +215,17 @@ const DiseasePage: React.FC = () => {
                 onGroupModification={() => handleClickEventUpdateDiseaseDiseaseGroup(row)} />}>
             <Title order={6}>{row.name}</Title>
         </ListRowElement>
-    ), []);
+    ), [handleClickEventUpdateDisease, handleClickEventDeleteDisease, handleClickEventUpdateDiseaseDiseaseGroup]);
 
-    const createDiseaseGroupButton = useMemo(() => <ResponsiveButton
-        key='disease-group-create-button'
-        label={'Nuevo grupo de morbilidades'}
-        onClick={handleClickEventCreateGroup} />, [handleClickEventCreateGroup]);
+    const createDiseaseGroupButton = useMemo(() => (
+        <ButtonResponsive
+            key='disease-group-create-button'
+            label={'Nuevo grupo de morbilidades'}
+            onClick={handleClickEventCreateGroup} />
+    ), [handleClickEventCreateGroup]);
 
     const createDiseaseButton = useMemo(() => selectedGroup
-        ? [<ResponsiveButton
+        ? [<ButtonResponsive
             key='disease-group-create-button'
             label={'Nueva morbilidades'}
             onClick={handleClickEventCreateDisease} />]
@@ -273,9 +275,9 @@ const DiseasePage: React.FC = () => {
         });
     }, []);
 
-    const handleCloseStateEvent = () => {
+    const handleCloseStateEvent = useCallback(() => {
         setCurrentState(LayoutState.DEFAULT);
-    }
+    }, []);
 
     const handleFormSubmittedEventCreateGroup = useCallback((data: DiseaseGroup) => {
         groupAppend({ ...data, diseases: [] });
@@ -283,7 +285,7 @@ const DiseasePage: React.FC = () => {
 
     const handleFormSubmittedEventUpdateGroup = useCallback((data: DiseaseGroup) => {
         groupUpdate('id', data.id, { ...data, diseases: selectedGroup?.diseases || [] });
-    }, [groupAppend, selectedGroup]);
+    }, [groupUpdate, selectedGroup]);
 
 
     const handleFormSubmittedEventCreateDisease = useCallback((data: Disease) => {
@@ -347,13 +349,9 @@ const DiseasePage: React.FC = () => {
         handleFormSubmittedEventCreateGroup,
         selectedGroup,
         handleFormSubmittedEventUpdateGroup,
-        handleCloseStateEvent,
-        handleCloseStateEvent,
         handleFormSubmittedEventCreateDisease,
         selectedDisease,
-        handleCloseStateEvent,
         handleFormSubmittedEventUpdateDisease,
-        handleCloseStateEvent,
         handleFormSubmittedEventUpdateDiseaseGroup,
         groupSelectionOptions
     ]);

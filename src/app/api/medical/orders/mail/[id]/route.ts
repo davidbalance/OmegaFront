@@ -1,3 +1,4 @@
+import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
 import { POSTMedicalOrderMail } from "@/lib/dtos/medical/order/request.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
@@ -12,7 +13,10 @@ export async function GET(
     try {
         const body: { id: number } = { id: parseInt(`${params.id}`) };
         const postMailer = withAuth<POSTMedicalOrderMail, any>(post, DEFAULT_WITH_AUTH_OPTIONS);
-        await postMailer(endpoints.MAIL.ORDER, { body });
+        await postMailer(endpoints.MAIL.ORDER, {
+            body: body,
+            headers: CONTENT_TYPE_APPLICATION_JSON
+        });
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

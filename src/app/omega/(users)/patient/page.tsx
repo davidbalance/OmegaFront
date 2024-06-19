@@ -6,7 +6,7 @@ import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-ti
 import MedicalOrderActionMenu from '@/components/medical/order/action/MedicalOrderActionMenu';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { MedicalResultFormDisease } from '@/components/medical/result/form/MedicalResultFormDisease';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { MedicalOrder } from '@/lib/dtos/medical/order/response.dto';
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
@@ -32,8 +32,6 @@ enum LayoutState {
     DEFAULT
 }
 
-type MedicalResultWithOrderOmitted = Omit<MedicalResult, 'order'>;
-
 const patientColumns: ListElement<PatientDataType>[] = [
     { key: 'dni', name: 'Cedula' },
     { key: 'name', name: 'Nombre' },
@@ -45,7 +43,7 @@ const medicalOrderColumns: ListElement<MedicalOrder>[] = [
     { key: 'createAt', name: 'Fecha de creacion' },
 ];
 
-const medicalResultColumns: ListElement<MedicalResultWithOrderOmitted>[] = [
+const medicalResultColumns: ListElement<MedicalResult>[] = [
     { key: 'examName', name: 'Examen medico' },
 ];
 
@@ -56,7 +54,7 @@ const PatientPage: React.FC = () => {
     const [currentState] = useState<LayoutState>(LayoutState.DEFAULT);
     const [patientSelected, setPatientSelected] = useState<PatientDataType | null>(null);
     const [medicalOrderSelected, setMedicalOrderSelected] = useState<MedicalOrder | null>(null);
-    const [medicalResultSelected, setMedicalResultSelected] = useState<MedicalResultWithOrderOmitted | null>(null);
+    const [medicalResultSelected, setMedicalResultSelected] = useState<MedicalResult | null>(null);
     const [shouldFetchMedicalOrder, setShouldFetchMedicalOrder] = useState<boolean>(false);
 
     const {
@@ -84,7 +82,7 @@ const PatientPage: React.FC = () => {
     const [medicalResults, {
         override: medicalResultOverride,
         update: medicalResultUpdate
-    }] = useList<MedicalResultWithOrderOmitted>([]);
+    }] = useList<MedicalResult>([]);
 
     const parsedPatients = useMemo(() => parsePatient(fetchedPatients || []), [fetchedPatients]);
 
@@ -99,20 +97,13 @@ const PatientPage: React.FC = () => {
         setActive(2);
     }, []);
 
-    const handleEventMailSend = useCallback((data: MedicalOrder) => {
-        medicalOrderUpdate('id', data.id, data);
-    }, [medicalOrderUpdate]);
-
     const handlePatientRow = useCallback((row: PatientDataType) => (
         <ListRowElement
             key={row.id}
             active={row.id === patientSelected?.id}
             onClick={() => handlePatientSelection(row)}>
             <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
-            <Flex direction='row' justify='space-between'>
-                <Text>{row.dni}</Text>
-                <Text>{row.email}</Text>
-            </Flex>
+            <Text>{row.dni}</Text>
         </ListRowElement>
     ), [patientSelected, handlePatientSelection]);
 
@@ -136,9 +127,9 @@ const PatientPage: React.FC = () => {
                 </Grid.Col>
             </Grid>
         </ListRowElement>
-    ), [medicalOrderSelected, handleOrderSelection, handleEventMailSend]);
+    ), [medicalOrderSelected, handleOrderSelection]);
 
-    const handleMedicalResultRow = useCallback((row: MedicalResultWithOrderOmitted) => (
+    const handleMedicalResultRow = useCallback((row: MedicalResult) => (
         <ListRowElement
             key={row.id}
             rightSection={<MedicalResultActionMenu
@@ -174,7 +165,7 @@ const PatientPage: React.FC = () => {
         },
         {
             title: 'Resultados',
-            element: <ListLayout<MedicalResultWithOrderOmitted>
+            element: <ListLayout<MedicalResult>
                 key='result-list-layout'
                 loading={false}
                 data={medicalResults}

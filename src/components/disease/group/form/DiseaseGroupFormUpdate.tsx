@@ -3,7 +3,7 @@ import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useRef } from 'react'
 import DiseaseGroupForm from './DiseaseGroupForm';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { notifications } from '@mantine/notifications';
 import { DiseaseGroup } from '@/lib/dtos/disease/group/response.dto';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
@@ -19,19 +19,19 @@ const DiseaseGroupFormUpdate: React.FC<DiseaseGroupFormUpdateProps> = ({ onClose
 
     const handleFormSubmittedEvent = useCallback((data: Omit<DiseaseGroup, 'id' | 'diseases'>) => {
         request({ ...diseaseGroup, ...data });
-    }, [request]);
+    }, [request, diseaseGroup]);
 
     const handleClickEvent = useCallback(() => {
         if (buttonRef.current) {
             buttonRef.current.click();
         }
-    }, [buttonRef.current]);
+    }, []);
 
     useEffect(() => {
         if (body) {
             reload();
         }
-    }, [body]);
+    }, [body, reload]);
 
     useEffect(() => {
         if (data && body) {
@@ -39,7 +39,7 @@ const DiseaseGroupFormUpdate: React.FC<DiseaseGroupFormUpdateProps> = ({ onClose
             onClose();
             reset();
         }
-    }, [data, body, reset, onFormSubmitted]);
+    }, [data, diseaseGroup, body, reset, onFormSubmitted, onClose]);
 
     useEffect(() => {
         if (error) notifications.show({ message: error.message });

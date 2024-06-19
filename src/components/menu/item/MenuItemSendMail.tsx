@@ -1,5 +1,5 @@
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { Menu, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
 import { IconSend } from '@tabler/icons-react'
@@ -28,7 +28,7 @@ const MenuItemSendMail: React.FC<MenuItemSendMailProps> = ({ url, onSend, onComp
             sendMail();
             onSend?.();
         }
-    }, [sendMail, show]);
+    }, [sendMail, show, onSend]);
 
     useEffect(() => {
         if (mail) {
@@ -43,7 +43,7 @@ const MenuItemSendMail: React.FC<MenuItemSendMailProps> = ({ url, onSend, onComp
             onError?.(mailError);
             notifications.show({ message: mailError.message, color: 'red' });
         }
-    }, [mailError]);
+    }, [mailError, onError]);
 
     return (
         <Menu.Item onClick={handleClickEventSendMail} leftSection={<IconSend style={{ width: rem(16), height: rem(16) }} />}>

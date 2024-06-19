@@ -5,6 +5,7 @@ import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 import { GETDiseaseGroupsResponseDto, POSTDiseaseGroupResponseDto } from "@/lib/dtos/disease/group/response.dto";
 import { POSTDiseaseGroupRequestDto } from "@/lib/dtos/disease/group/request.dto";
+import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
 
 export async function GET() {
     try {
@@ -24,7 +25,10 @@ export async function POST(req: NextRequest) {
     try {
         const data: POSTDiseaseGroupRequestDto = await req.json();
         const postDiseaseGroup = withAuth(post, DEFAULT_WITH_AUTH_OPTIONS);
-        const group: POSTDiseaseGroupResponseDto = await postDiseaseGroup<POSTDiseaseGroupRequestDto, POSTDiseaseGroupResponseDto>(endpoints.DISEASE.GROUP.CREATE, { body: data });
+        const group: POSTDiseaseGroupResponseDto = await postDiseaseGroup<POSTDiseaseGroupRequestDto, POSTDiseaseGroupResponseDto>(endpoints.DISEASE.GROUP.CREATE, {
+            body: data,
+            headers: CONTENT_TYPE_APPLICATION_JSON
+        });
         return NextResponse.json(group, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {
