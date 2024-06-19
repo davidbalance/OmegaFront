@@ -33,7 +33,7 @@ export async function DELETE(
 ) {
     try {
         const deleteDiseaseGroup = withAuth(del, DEFAULT_WITH_AUTH_OPTIONS);
-        await deleteDiseaseGroup(endpoints.DISEASE.DISEASE.FIND_ONE_AND_DELETE(params.id), {});
+        await deleteDiseaseGroup(endpoints.DISEASE.GROUP.FIND_ONE_AND_DELETE(params.id), {});
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

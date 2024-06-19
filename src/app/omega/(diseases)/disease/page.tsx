@@ -161,9 +161,14 @@ const DiseasePage: React.FC = () => {
 
     const handleClickEventDeleteGroup = useCallback(async (data: DiseaseGroup) => {
         setSelectedGroup(data);
-        const state = await confirmation.show('Eliminacion de morbilidades', `La morbilidad ${data.name} va a ser eliminada. ¿Esta seguro?`);
+        const state = await confirmation.show('Eliminacion de grupos de morbilidades', `La morbilidad ${data.name} va a ser eliminada. ¿Esta seguro?`);
         if (state) {
-            setShouldDeleteGroup(true);
+            if (!data.diseases.length) {
+                setShouldDeleteGroup(true);
+            } else {
+                notifications.show({ message: 'Este grupo tiene morbilidades asociadas', color: 'red' });
+                setSelectedGroup(null);
+            }
         } else {
             setSelectedGroup(null);
         }
