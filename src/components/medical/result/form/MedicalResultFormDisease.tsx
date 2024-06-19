@@ -104,7 +104,7 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
             patchReload();
             setShouldPatchDisease(false);
         }
-    }, [shouldPatchDisease, patchBody, patchReload])
+    }, [shouldPatchDisease, patchBody, patchReload]);
 
     useEffect(() => {
         if (patchServerResponse && selectedDiseaseGroup && selectedDiseaseGroup && selectedDisease && selectedDisease) {
