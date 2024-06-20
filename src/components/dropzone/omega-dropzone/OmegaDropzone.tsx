@@ -53,7 +53,7 @@ const OmegaDropzone: React.FC<OmegaDropzoneProps> = ({
                             <Dropzone.Reject>
                                 <IconX
                                     style={{ width: rem(50), height: rem(50) }}
-                                    color={theme.colors.red[6]}
+                                    color={theme.colors.red[4]}
                                     stroke={1.5}
                                 />
                             </Dropzone.Reject>

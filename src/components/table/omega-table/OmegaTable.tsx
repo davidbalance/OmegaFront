@@ -18,9 +18,13 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
 
     const matches = useMediaQuery("(min-width: 700px)");
 
+    const scrollAreaHeight = matches
+        ? 400
+        : 300
+
     return (
         <Box className={classes.outer}>
-            <ScrollArea h={matches ? 400 : 300} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+            <ScrollArea h={scrollAreaHeight} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
                 <Table horizontalSpacing="md" verticalSpacing="xs" layout='auto'>
                     <Table.Thead className={cx(classes.sticky, { [classes.scrolled]: scrolled })} c='omegaColors'>
                         <Table.Tr>
@@ -35,13 +39,11 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
                                     <OmegaTd colSpan={4}>
                                         {
                                             loading ?
-                                                <Flex justify='center' align='center' c='omegaColors'>
+                                                <Flex justify='center' align='center'>
                                                     <Loader size='sm' m='md' />
-                                                    <Text size='xs'>Cargando recursos...</Text>
+                                                    <Text>Cargando recursos...</Text>
                                                 </Flex>
-                                                : <Text
-                                                    ta="center"
-                                                    size='xs'>
+                                                : <Text ta="center">
                                                     Datos no encontrados
                                                 </Text>
                                         }
@@ -63,7 +65,7 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
                         withEdges />
                 </div>
             }
-        </Box>
+        </Box >
     )
 }
 

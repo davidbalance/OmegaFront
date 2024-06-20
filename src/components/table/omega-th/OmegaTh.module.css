@@ -1,17 +1,19 @@
 .th {
   padding: 0;
-  border-top-left-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
-  background-color: var(--mantine-color-omegaColors-5);
+  background-color: var(--mantine-color-neutral-1);
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
+  color: var(--mantine-color-neutral-9);
 }
 
 .control {
   width: 100%;
   padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+}
+
+.text {
+  text-transform: uppercase;
 }
 
 .icon {

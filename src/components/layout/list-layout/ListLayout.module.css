@@ -1,0 +1,55 @@
+.header > .control:last-child {
+  border-start-end-radius: 1000px;
+  border-end-end-radius: 1000px;
+}
+
+.header > .control:first-child {
+  border-start-start-radius: 1000px;
+  border-end-start-radius: 1000px;
+}
+
+.list-content {
+  cursor: default;
+}
+
+.list-content.clickable {
+  cursor: pointer;
+}
+
+.list-content,
+.control {
+  padding: rem(4px) rem(8px);
+}
+
+.control {
+  background-color: var(--mantine-color-neutral-light);
+  color: var(--mantine-color-neutral-filled);
+
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  &[data-active] {
+    background-color: var(--mantine-color-neutral-filled);
+    color: var(--mantine-color-white);
+  }
+}
+
+.list-element {
+  border: 1px solid transparent;
+  border-bottom-color: var(--mantine-color-neutral-2);
+}
+
+.list-element:has(.list-content[data-active="true"]),
+.list-element:has(.list-content.clickable.hoverable:hover) {
+  border-radius: var(--mantine-radius-md);
+  background-color: var(--mantine-color-orange-light);
+  border-color: transparent;
+}
+
+.item-container .list-element:last-child {
+  border-color: transparent;
+}
+
+.icon-size {
+  width: 16px;
+  height: 16px;
+}
