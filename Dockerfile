@@ -21,7 +21,7 @@ COPY --from=development /usr/src/app/node_modules ./node_modules
 
 COPY --chown=node:node . .
 
-COPY --chown=node:node .env .env.local
+COPY --chown=node:node .env .env
 
 RUN npm run build
 RUN npm install --production

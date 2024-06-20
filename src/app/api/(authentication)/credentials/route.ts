@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
         await postCredential(endpoints.AUTHENTICATION.CREDENTIAL.CREATE, { body: data, headers: CONTENT_TYPE_APPLICATION_JSON });
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
-        console.log(error);
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
         } else {

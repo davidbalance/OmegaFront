@@ -62,7 +62,6 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json(user, { status: 200 });
     } catch (error: any) {
-        console.log(error.message);
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
         } else {

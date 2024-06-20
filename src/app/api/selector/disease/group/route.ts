@@ -9,7 +9,6 @@ export async function GET() {
     try {
         const getGroupSelector = withAuth<any, GETSelectorOptionResponseDto<number>>(get, DEFAULT_WITH_AUTH_OPTIONS);
         const { options }: GETSelectorOptionResponseDto<number> = await getGroupSelector(endpoints.SELECTOR.DISEASE_GROUP, { });
-        console.log(endpoints.SELECTOR.DISEASE_GROUP);
         return NextResponse.json(options, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

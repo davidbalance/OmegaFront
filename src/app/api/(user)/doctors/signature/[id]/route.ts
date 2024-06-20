@@ -20,7 +20,6 @@ export async function POST(
         return NextResponse.json({}, { status: 200 });
     } catch (error: any) {
         if (error instanceof FetchError) {
-            console.log(error.data);
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
         } else {
             return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
