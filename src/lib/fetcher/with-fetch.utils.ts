@@ -47,18 +47,16 @@ export const DEFAULT_WITH_AUTH_OPTIONS: WithAuthOptions = {
     refreshProcessing: processToken
 }
 
+type WithAuthConfigurationOptions<T> = GetFetcherConfigurationOptions | PostFetcherConfigurationOptions<T> | PatchFetcherConfigurationOptions<T> | PutFetcherConfigurationOptions<T> | DeleteFetcherConfigurationOptions<T>;
+type WithAuthDelegate<T, R> = (url: string, options: WithAuthConfigurationOptions<T>) => Promise<R>;
 
-export type WithAuthConfigurationOptions<T> = GetFetcherConfigurationOptions | PostFetcherConfigurationOptions<T> | PatchFetcherConfigurationOptions<T> | PutFetcherConfigurationOptions<T> | DeleteFetcherConfigurationOptions<T>;
-export const withAuth = <T, R>(
-    method: (url: string, options: WithAuthConfigurationOptions<T>) => Promise<R>,
-    { authKey, refreshKey, refreshURL, refreshProcessing }: WithAuthOptions
-): ((url: string, options: WithAuthConfigurationOptions<T>) => Promise<R>) => (
-    async (url: string, { ...options }: WithAuthConfigurationOptions<T>) => {
+export const withAuth = <T, R>(method: WithAuthDelegate<T, R>, { authKey, refreshKey, refreshURL, refreshProcessing }: WithAuthOptions): (WithAuthDelegate<T, R>) => {
+    return async (url: string, options: WithAuthConfigurationOptions<T>) => {
         const cookieManager = cookies();
         const tokenAuth: string | null = cookieManager.get(authKey)?.value || null;
 
         if (!tokenAuth) {
-            throw new Error('No authentication tokne provided');
+            throw new Error('No authentication token provided');
         }
 
         options.headers = {
@@ -79,8 +77,11 @@ export const withAuth = <T, R>(
                             headers: headers
                         });
                         if (refreshProcessing) {
-                            const newAuthToken = refreshProcessing(response);
-                            const retryMethod = withAuth(method, { authKey: newAuthToken });
+                            const authToken = response['access'];
+                            const refreshToken = response['refresh'];
+                            const expires = response['expiresAt'];
+                            refreshProcessing({ authKey, authToken, refreshKey, refreshToken, expires });
+                            const retryMethod = withAuth(method, { authKey });
                             return retryMethod(url, { ...options });
                         }
                     }
@@ -89,7 +90,7 @@ export const withAuth = <T, R>(
             throw error;
         }
     }
-);
+}
 
 export const DEFAULT_WITH_LOGIN_OPTIONS: WithLoginOptions = {
     authKey: AUTH_TOKEN_COOKIE,
