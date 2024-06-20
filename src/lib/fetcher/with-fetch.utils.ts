@@ -23,7 +23,7 @@ const processToken = ({ authKey, refreshKey, authToken, refreshToken, expires }:
     const cookieManager = cookies();
     cookieManager.set(authKey, authToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        // secure: process.env.NODE_ENV === 'production',
         expires: dayjs(expires).toDate(),
         path: '/'
     });
@@ -31,7 +31,7 @@ const processToken = ({ authKey, refreshKey, authToken, refreshToken, expires }:
     if (refreshKey && refreshToken) {
         cookieManager.set(refreshKey, refreshToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            // secure: process.env.NODE_ENV === 'production',
             expires: dayjs(expires).toDate(),
             path: '/'
         });
