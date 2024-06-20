@@ -38,7 +38,6 @@ const MedicalResultButtonMenuItem: React.FC<MedicalResultButtonMenuItemProps> = 
 
     useEffect(() => {
         if (fileError) {
-            console.log(fileError);
             notifications.show({ message: fileError.message, color: 'red' });
             onEndDownload?.();
         }

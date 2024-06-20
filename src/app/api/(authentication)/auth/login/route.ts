@@ -15,7 +15,6 @@ export async function POST(req: NextRequest) {
     try {
         const credential: POSTLoginRequestDto = await req.json();
         const login = withLogin<POSTLoginRequestDto, POSTLoginResponseDto>(post, DEFAULT_WITH_LOGIN_OPTIONS);
-        console.log(endpoints.AUTHENTICATION.AUTH.LOGIN);
         await login(endpoints.AUTHENTICATION.AUTH.LOGIN, { body: credential, headers: CONTENT_TYPE_APPLICATION_JSON });
         const getPreferences = withAuth<any, Omit<GETWebClientResponseDto, 'user'>>(get, DEFAULT_WITH_AUTH_OPTIONS);
         const preferences: GETWebClientResponseDto = await getPreferences(endpoints.WEB.CLIENT.FIND, {});
