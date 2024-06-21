@@ -1,5 +1,5 @@
 import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
-import { POSTMedicalOrderMail } from "@/lib/dtos/medical/order/request.dto";
+import { POSTMedicalOrderMailRequestDto } from "@/lib/dtos/medical/order/request.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { post } from "@/lib/fetcher/fetcher";
@@ -8,11 +8,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
     _: NextRequest,
-    { params }: { params: { id: number } }
+    { params }: { params: { order: number, mail: number } }
 ) {
     try {
-        const body: { id: number } = { id: parseInt(`${params.id}`) };
-        const postMailer = withAuth<POSTMedicalOrderMail, any>(post, DEFAULT_WITH_AUTH_OPTIONS);
+        const body: POSTMedicalOrderMailRequestDto = { order: parseInt(`${params.order}`), mail: parseInt(`${params.mail}`) };
+        const postMailer = withAuth<POSTMedicalOrderMailRequestDto, any>(post, DEFAULT_WITH_AUTH_OPTIONS);
         await postMailer(endpoints.MAIL.ORDER, {
             body: body,
             headers: CONTENT_TYPE_APPLICATION_JSON

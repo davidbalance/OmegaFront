@@ -3,6 +3,7 @@
 import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
+import MedicalClientLayoutEmail from '@/components/medical/client/layout/MedicalClientLayoutEmail';
 import MedicalOrderActionMenu from '@/components/medical/order/action/MedicalOrderActionMenu';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { MedicalResultFormDisease } from '@/components/medical/result/form/MedicalResultFormDisease';
@@ -33,6 +34,7 @@ const parsePatient = (patients: Patient[]): PatientDataType[] => patients.map<Pa
 
 enum LayoutState {
     DEFAULT,
+    EMAIL,
     UPDATE_EMPLOYEE
 }
 
@@ -101,13 +103,18 @@ const PatientPage: React.FC = () => {
         setActive(2);
     }, []);
 
-    const handleEventMailSend = useCallback((data: MedicalOrder) => {
-        medicalOrderUpdate('id', data.id, data);
+    const handleEventMailSend = useCallback((id: number, state: boolean) => {
+        medicalOrderUpdate('id', id, { mailStatus: state });
     }, [medicalOrderUpdate]);
 
     const handleClickEventAssignModal = useCallback((selection: PatientDataType) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.UPDATE_EMPLOYEE);
+    }, []);
+
+    const handleClickEventEmail = useCallback((selection: PatientDataType) => {
+        setPatientSelected(selection);
+        setCurrentState(LayoutState.EMAIL);
     }, []);
 
     const handlePatientRow = useCallback((row: PatientDataType) => (
@@ -116,12 +123,13 @@ const PatientPage: React.FC = () => {
             active={row.id === patientSelected?.id}
             onClick={() => handlePatientSelection(row)}
             rightSection={<PatientActionButton
-                onAssignCompany={() => handleClickEventAssignModal(row)} />}
+                onAssignCompany={() => handleClickEventAssignModal(row)}
+                onEmail={() => handleClickEventEmail(row)} />}
         >
             <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
             <Text>{row.dni}</Text>
         </ListRowElement>
-    ), [patientSelected, handlePatientSelection, handleClickEventAssignModal]);
+    ), [patientSelected, handlePatientSelection, handleClickEventAssignModal, handleClickEventEmail]);
 
     const handleMedicalOrderRow = useCallback((row: MedicalOrder) => (
         <ListRowElement
@@ -130,8 +138,9 @@ const PatientPage: React.FC = () => {
             onClick={() => handleOrderSelection(row)}
             rightSection={
                 <MedicalOrderActionMenu
-                    data={row}
-                    onMailSend={(event) => handleEventMailSend({ ...row, ...event })} />}
+                    order={row.id}
+                    email={row.client.email}
+                    onMailSend={handleEventMailSend} />}
         >
             <Grid>
                 <Grid.Col span={8}>
@@ -228,6 +237,11 @@ const PatientPage: React.FC = () => {
                 tier={active}
                 onClose={handleCloseTierEvent}
             />
+        ),
+        [LayoutState.EMAIL]: (
+            <MedicalClientLayoutEmail
+                onClose={handleCloseEvent}
+                patient={patientSelected!} />
         ),
         [LayoutState.UPDATE_EMPLOYEE]: (
             <UserFormAssignCompanyAttribute

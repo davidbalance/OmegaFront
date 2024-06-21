@@ -10,9 +10,13 @@ export interface GETMedicalEmailArrayResponseDto {
     email: MedicalClientEmail[];
 }
 
-export interface POSTMedicalEmailResponseDto extends MedicalClientEmail { }
+export interface POSTMedicalEmailResponseDto {
+    email: MedicalClientEmail[];
+}
 
-export interface PATCHMedicalEmailResponseDto extends MedicalClientEmail { }
+export interface PATCHMedicalEmailResponseDto {
+    email: MedicalClientEmail[]
+}
 
 export interface DELETEMedicalEmailResponseDto { }
 

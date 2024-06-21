@@ -1,3 +1,4 @@
-export interface POSTMedicalOrderMail {
-    id: number;
+export interface POSTMedicalOrderMailRequestDto {
+    order: number;
+    mail: number;
 }
