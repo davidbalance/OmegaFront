@@ -1,24 +1,27 @@
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 import { useFetch } from '@/hooks/useFetch';
+import { MedicalClientEmail } from '@/lib/dtos/medical/client/response.dto';
 import { Menu, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
 import { IconSend } from '@tabler/icons-react'
 import React, { useCallback, useEffect } from 'react'
 
 interface MenuItemSendMailProps {
-    url: string;
+    order: number;
+    email: MedicalClientEmail[],
+    defaultMail?: MedicalClientEmail,
     onSend?: () => void;
     onError?: (error: Error) => void;
     onComplete?: () => void;
 }
-const MenuItemSendMail: React.FC<MenuItemSendMailProps> = ({ url, onSend, onComplete, onError }) => {
+const MenuItemSendMail: React.FC<MenuItemSendMailProps> = ({ order, email, onSend, onComplete, onError }) => {
 
     const {
         data: mail,
         error: mailError,
         reload: sendMail,
         reset: sendReset
-    } = useFetch(url, 'GET', { loadOnMount: false });
+    } = useFetch(`/api/medical/orders/mail/${order}`, 'GET', { loadOnMount: false });
 
     const { show } = useConfirmation();
 

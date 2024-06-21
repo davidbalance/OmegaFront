@@ -6,6 +6,7 @@ import { DISEASE_GROUP } from "./v1/disease/group";
 import { HEALTH_CHECK } from "./v1/health/check";
 import { CORPORATIVE_GROUP } from "./v1/location/corporative/group";
 import { LOG } from "./v1/log";
+import { MEDICAL_CLIENT } from "./v1/medical/client";
 import { MEDICAL_FILE } from "./v1/medical/file";
 import { MEDICAL_ORDER } from "./v1/medical/order";
 import { MEDICAL_RESULT } from "./v1/medical/result";
@@ -47,7 +48,8 @@ export default Object.freeze({
     },
     MEDICAL: {
         ORDER: MEDICAL_ORDER,
-        RESULT: MEDICAL_RESULT
+        RESULT: MEDICAL_RESULT,
+        CLIENT: MEDICAL_CLIENT
     },
     HEALTH_CHECK,
     MAIL: {
