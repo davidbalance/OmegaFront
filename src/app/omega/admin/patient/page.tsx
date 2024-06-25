@@ -280,6 +280,7 @@ const PatientPage: React.FC = () => {
         active,
         handleCloseTierEvent,
         handleCloseEvent,
+        handleFormSubmittionEventUploadFile,
         patientSelected,
         medicalResultSelected
     ]);
