@@ -133,7 +133,7 @@ const PatientPage: React.FC = () => {
         <ListRowElement
             key={row.id}
             rightSection={<MedicalResultActionMenu
-                downloadResult
+                downloadResult={row.hasFile}
                 downloadReport={!!row.report}
                 data={row} />}
         >
