@@ -42,7 +42,7 @@ const MedicalResultFormUploadFile: React.FC<MedicalResultFormUploadFileProps> = 
                 setShouldFetch(true);
             }
         }
-    }, [show, request, medicalResult]);
+    }, [show, request]);
 
     useEffect(() => {
         if (error) notifications.show({ message: error.message, color: 'red' });

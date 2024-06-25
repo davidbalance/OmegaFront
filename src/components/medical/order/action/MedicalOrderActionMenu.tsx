@@ -61,7 +61,7 @@ const MedicalOrderActionMenu: React.FC<MedicalOrderActionMenuProps> = ({ email, 
     const handleSelectionEvent = useCallback((data: MedicalClientEmail) => {
         setMailUrl(baseUrl(order, data.id));
         close();
-    }, [setMailUrl]);
+    }, [setMailUrl, close, order]);
 
     const handleCloseEvent = useCallback(() => close(), [close])
 

@@ -67,7 +67,7 @@ const MedicalClientLayoutEmail: React.FC<MedicalClientLayoutEmailProps> = ({ pat
             }>
             <Text>{row.email}</Text>
         </ListRowElement>
-    ), [handleDeleteEvent, handleUpdateEvent]);
+    ), [handleDeleteEvent, handleUpdateEvent, patient.dni]);
 
     const handleValidation = useCallback((data: string): boolean => !email.some(e => e.email === data), [email]);
 
