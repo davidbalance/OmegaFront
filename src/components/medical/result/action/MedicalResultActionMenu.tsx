@@ -4,7 +4,7 @@ import { blobFile } from '@/lib/utils/blob-to-file';
 import { Menu, MenuTarget, Loader, ActionIcon, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconX, IconDotsVertical, IconDownload, IconPencil, IconVirus } from '@tabler/icons-react';
+import { IconX, IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload } from '@tabler/icons-react';
 import React, { useCallback, useEffect } from 'react'
 
 type MedicalResultWithoutOrder = Omit<MedicalResult, 'order'>;
@@ -13,6 +13,7 @@ interface MedicalResultActionMenuProps {
     onClick?: () => void;
     downloadResult?: boolean;
     downloadReport?: boolean;
+    onUploadResult?: () => void;
     onCreateReport?: () => void;
     onDiseaseModification?: () => void;
 }
@@ -21,6 +22,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     downloadReport,
     downloadResult,
     onDiseaseModification,
+    onUploadResult,
     onCreateReport
 }) => {
 
@@ -50,6 +52,10 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         fileResultReload();
         notifications.show({ message: 'La descarga ha comenzado', color: 'green' });
     }, [fileResultReload]);
+
+    const handleClickEventFileResultUpload = useCallback(() => {
+        onUploadResult?.();
+    }, [onUploadResult]);
 
     const handleClickEventFileReportDownload = useCallback(() => {
         fileReportReload();
@@ -87,7 +93,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
                 }
             </MenuTarget>
             <Menu.Dropdown>
-                {(onDiseaseModification || downloadResult) && <Menu.Label>Resultados medicos</Menu.Label>}
+                {(onDiseaseModification || onUploadResult || downloadResult) && <Menu.Label>Resultados medicos</Menu.Label>}
                 {onDiseaseModification && (
                     <Menu.Item
                         onClick={handleClickDiseaseModification}
@@ -101,6 +107,11 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
                 {downloadResult && (
                     <Menu.Item onClick={handleClickEventFileResultDownload} leftSection={<IconDownload style={{ width: rem(16), height: rem(16) }} />}>
                         Descargar resultado
+                    </Menu.Item>
+                )}
+                {(onUploadResult && !downloadResult) && (
+                    <Menu.Item onClick={handleClickEventFileResultUpload} leftSection={<IconUpload style={{ width: rem(16), height: rem(16) }} />}>
+                        Subir resultado
                     </Menu.Item>
                 )}
                 {(onDiseaseModification || downloadResult) && <Menu.Divider />}

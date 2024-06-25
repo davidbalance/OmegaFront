@@ -1,6 +1,6 @@
 'use client'
 
-import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconReportMedical, IconSettings, IconMapPin, IconKey, IconLock, IconVirus } from '@tabler/icons-react';
+import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconReportMedical, IconSettings, IconMapPin, IconKey, IconLock, IconVirus, IconCode } from '@tabler/icons-react';
 import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react'
 import classes from './Navbar.module.css';
 import cx from 'clsx';
@@ -20,6 +20,7 @@ const LinkIcon: Record<string, ForwardRefExoticComponent<Omit<IconProps, "ref"> 
     "report": IconReportMedical,
     "location": IconMapPin,
     "key": IconKey,
+    "code": IconCode,
 }
 
 interface NavbarProps {

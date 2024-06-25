@@ -1,19 +1,19 @@
-import OmegaDropzone from '@/components/dropzone/omega-dropzone/OmegaDropzone'
-import { LoadingOverlay, rem, Flex } from '@mantine/core'
-import { MIME_TYPES } from '@mantine/dropzone'
+import OmegaDropzone from '@/components/dropzone/omega-dropzone/OmegaDropzone';
+import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
+import { ModularBox } from '@/components/modular/box/ModularBox';
+import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
+import { useFetch } from '@/hooks/useFetch';
+import { LoadingOverlay, Flex, rem } from '@mantine/core';
+import { MIME_TYPES } from '@mantine/dropzone';
+import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useState } from 'react'
-import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle'
-import { useConfirmation } from '@/contexts/confirmation/confirmation.context'
-import { useFetch } from '@/hooks/useFetch'
-import { notifications } from '@mantine/notifications'
-import { ModularBox } from '@/components/modular/box/ModularBox'
 
-type DoctorFormUploadSignatureProps = {
-    doctor: number;
+type MedicalResultFormUploadFileProps = {
+    medicalResult: number;
     onClose: () => void;
     onFormSubmittion?: () => void;
 }
-const DoctorFormUploadSignature: React.FC<DoctorFormUploadSignatureProps> = ({ doctor, onClose, onFormSubmittion }) => {
+const MedicalResultFormUploadFile: React.FC<MedicalResultFormUploadFileProps> = ({ medicalResult, onClose, onFormSubmittion }) => {
     const [shouldFetch, setShouldFetch] = useState(false);
 
     const {
@@ -24,7 +24,7 @@ const DoctorFormUploadSignature: React.FC<DoctorFormUploadSignatureProps> = ({ d
         reload,
         request,
         reset
-    } = useFetch(`/api/doctors/signature/${doctor}`, 'POST', {
+    } = useFetch(`/api/medical/results/file/${medicalResult}`, 'POST', {
         loadOnMount: false,
         application: 'form'
     });
@@ -37,12 +37,12 @@ const DoctorFormUploadSignature: React.FC<DoctorFormUploadSignatureProps> = ({ d
             const state = await show('Carga de archivo', `El siguiente archivo ${currentFile.name} sera cargado, ¿Está seguro?`);
             if (state) {
                 const form = new FormData();
-                form.append('signature', currentFile);
+                form.append('file', currentFile);
                 request<FormData>(form);
                 setShouldFetch(true);
             }
         }
-    }, [show, request]);
+    }, [show, request, medicalResult]);
 
     useEffect(() => {
         if (error) notifications.show({ message: error.message, color: 'red' });
@@ -70,22 +70,22 @@ const DoctorFormUploadSignature: React.FC<DoctorFormUploadSignatureProps> = ({ d
             <Flex h='100%' direction='column' gap={rem(8)}>
 
                 <LayoutSubFormTitle
-                    title={'Carga de firma'}
+                    title={'Carga de archivo'}
                     onClose={onClose} />
 
                 <ModularBox align='center' flex={1} justify='center'>
                     <OmegaDropzone
                         labels={{
-                            helper: <>Arrastra y suelta imagenes para cargar. Se aceptan imagenes <i>.png</i> que pesan menos de 5mb.</>,
-                            accept: "Suelta una firma",
-                            idle: "Subir una firma",
+                            helper: <>Arrastra y suelta pdf para cargar. Se aceptan archivos <i>.pdf</i> que pesan menos de 5mb.</>,
+                            accept: "Suelta un pdf",
+                            idle: "Subir un pdf",
                             reject: "Imagenes menores a 5mb",
-                            button: "Seleccionar firma"
+                            button: "Seleccionar pdf"
                         }}
                         maxFiles={1}
                         multiple={false}
                         maxSize={5 * 1024 ** 2}
-                        accept={[MIME_TYPES.png]}
+                        accept={[MIME_TYPES.pdf]}
                         onDrop={handleFileUpload} />
                 </ModularBox>
             </Flex>
@@ -93,4 +93,4 @@ const DoctorFormUploadSignature: React.FC<DoctorFormUploadSignatureProps> = ({ d
     )
 }
 
-export { DoctorFormUploadSignature }
+export { MedicalResultFormUploadFile }

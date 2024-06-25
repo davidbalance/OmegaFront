@@ -7,6 +7,7 @@ import MedicalClientLayoutEmail from '@/components/medical/client/layout/Medical
 import MedicalOrderActionMenu from '@/components/medical/order/action/MedicalOrderActionMenu';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { MedicalResultFormDisease } from '@/components/medical/result/form/MedicalResultFormDisease';
+import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
 import { PatientActionButton } from '@/components/patient/action/PatientActionButton';
 import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
 import { useFetch } from '@/hooks/useFetch';
@@ -16,6 +17,7 @@ import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { Patient } from '@/lib/dtos/user/patient.response.dto';
 import { User } from '@/lib/dtos/user/user.response.dto';
 import { Title, Flex, Text, Grid } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -35,7 +37,8 @@ const parsePatient = (patients: Patient[]): PatientDataType[] => patients.map<Pa
 enum LayoutState {
     DEFAULT,
     EMAIL,
-    UPDATE_EMPLOYEE
+    UPDATE_EMPLOYEE,
+    UPLOAD_RESULT_FILE
 }
 
 const patientColumns: ListElement<PatientDataType>[] = [
@@ -62,6 +65,11 @@ const PatientPage: React.FC = () => {
     const [medicalOrderSelected, setMedicalOrderSelected] = useState<MedicalOrder | null>(null);
     const [medicalResultSelected, setMedicalResultSelected] = useState<MedicalResult | null>(null);
     const [shouldFetchMedicalOrder, setShouldFetchMedicalOrder] = useState<boolean>(false);
+
+    const [openedDiseaseModal, {
+        open: openDiseaseModal,
+        close: closeDiseaseModal
+    }] = useDisclosure();
 
     const {
         data: fetchedPatients,
@@ -112,10 +120,24 @@ const PatientPage: React.FC = () => {
         setCurrentState(LayoutState.UPDATE_EMPLOYEE);
     }, []);
 
+    const handleClickEventUpdateDisease = useCallback((selection: MedicalResult) => {
+        setMedicalResultSelected(selection);
+        openDiseaseModal();
+    }, [openDiseaseModal]);
+
+    const handleClickEventUploadResultFile = useCallback((selection: MedicalResult) => {
+        setMedicalResultSelected(selection);
+        setCurrentState(LayoutState.UPLOAD_RESULT_FILE);
+    }, []);
+
     const handleClickEventEmail = useCallback((selection: PatientDataType) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.EMAIL);
     }, []);
+
+    const handleFormSubmittionEventUploadFile = useCallback((id: number) => {
+        medicalResultUpdate('id', id, { hasFile: true });
+    }, [medicalResultUpdate]);
 
     const handlePatientRow = useCallback((row: PatientDataType) => (
         <ListRowElement
@@ -162,14 +184,15 @@ const PatientPage: React.FC = () => {
         <ListRowElement
             key={row.id}
             rightSection={<MedicalResultActionMenu
-                onDiseaseModification={() => setMedicalResultSelected(row)}
+                onDiseaseModification={() => handleClickEventUpdateDisease(row)}
                 downloadReport={!!row.report}
-                downloadResult
+                downloadResult={row.hasFile}
+                onUploadResult={() => handleClickEventUploadResultFile(row)}
                 data={row} />}
         >
             <Title order={6}>{row.examName}</Title>
         </ListRowElement>
-    ), []);
+    ), [handleClickEventUploadResultFile, handleClickEventUpdateDisease]);
 
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {
@@ -247,10 +270,24 @@ const PatientPage: React.FC = () => {
             <UserFormAssignCompanyAttribute
                 url={`/api/users/attribute/employee/${patientSelected?.user}`}
                 onClose={handleCloseEvent} />
-        )
-    }), [multipleLayerComponents, active, handleCloseTierEvent, handleCloseEvent, patientSelected]);
+        ),
+        [LayoutState.UPLOAD_RESULT_FILE]: <MedicalResultFormUploadFile
+            medicalResult={medicalResultSelected?.id!}
+            onClose={handleCloseEvent}
+            onFormSubmittion={() => handleFormSubmittionEventUploadFile(medicalResultSelected?.id!)} />
+    }), [
+        multipleLayerComponents,
+        active,
+        handleCloseTierEvent,
+        handleCloseEvent,
+        patientSelected,
+        medicalResultSelected
+    ]);
 
-    const handleExamModalCloseEvent = useCallback(() => setMedicalResultSelected(null), []);
+    const handleExamModalCloseEvent = useCallback(() => {
+        setMedicalResultSelected(null)
+        closeDiseaseModal();
+    }, [closeDiseaseModal]);
 
     const handleMedicalOrderResultFormSubmittion = useCallback((data: MedicalResult) => {
         medicalResultUpdate('id', data.id, data);
@@ -295,7 +332,7 @@ const PatientPage: React.FC = () => {
         <>
             <MedicalResultFormDisease
                 medicalOrderExam={medicalResultSelected!}
-                opened={!!medicalResultSelected}
+                opened={!!medicalResultSelected && openedDiseaseModal}
                 onClose={handleExamModalCloseEvent}
                 onFormSubmitted={handleMedicalOrderResultFormSubmittion} />
             {view[currentState]}
