@@ -33,10 +33,12 @@ const CorporativeGroupPage: React.FC = () => {
 
     const handleClickEventSelectGroup = useCallback((data: CorporativeGroup) => {
         setSelectedCorporativeGroup(data);
+        setActive(1);
     }, []);
 
     const handleClickEventSelectCompany = useCallback((data: Company) => {
         setSelectedCompany(data);
+        setActive(2);
     }, []);
 
     const handleCorporativeGroupRow = useCallback((row: CorporativeGroup) => (
