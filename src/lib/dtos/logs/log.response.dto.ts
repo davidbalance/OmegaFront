@@ -4,6 +4,14 @@ export interface ServerLog {
     timestamp: Date;
 }
 
+export interface ServerLogLevel {
+    level: string;
+}
+
 export interface GETLogs {
     logs: ServerLog[];
+}
+
+export interface GETLogsLevel {
+    levels: ServerLogLevel[];
 }

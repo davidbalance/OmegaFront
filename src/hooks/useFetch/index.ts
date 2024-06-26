@@ -3,6 +3,7 @@ import { FetchOptions, FetchResult } from "./hook.types";
 
 const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE", options?: FetchOptions<T>): FetchResult<T> => {
     const {
+        body: optionBody = null,
         loadOnMount = true,
         type = 'json',
         application = 'json',
@@ -14,7 +15,7 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
     const [error, setError] = useState<Error | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [status, setStatus] = useState<number | null>(null);
-    const [body, setBody] = useState<any | null>(null);
+    const [body, setBody] = useState<any | null>(optionBody);
 
     const requestOptions = useMemo((): RequestInit => ({
         method,
