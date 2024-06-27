@@ -1,4 +1,4 @@
-import { GETCorporativeGroupArrayResponseDto } from "@/lib/dtos/location/corporative/group.response.dto";
+import { GETWebFullResourceResponseDto } from "@/lib/dtos/web/resources.response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get } from "@/lib/fetcher/fetcher";
@@ -7,9 +7,9 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const getCorporativeGroups = withAuth<any, GETCorporativeGroupArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { groups }: GETCorporativeGroupArrayResponseDto = await getCorporativeGroups(endpoints.LOCATION.CORPORATIVE_GROUP.FIND_ALL, {});
-        return NextResponse.json(groups, { status: 200 });
+        const getUsers = withAuth<any, GETWebFullResourceResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
+        const { resources }: GETWebFullResourceResponseDto = await getUsers(endpoints.WEB.RESOURCE.FIND_DEVELOPER_RESOURCES, {});
+        return NextResponse.json(resources, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });

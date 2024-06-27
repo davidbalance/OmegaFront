@@ -51,9 +51,13 @@ type WithAuthConfigurationOptions<T> = GetFetcherConfigurationOptions | PostFetc
 type WithAuthDelegate<T, R> = (url: string, options: WithAuthConfigurationOptions<T>) => Promise<R>;
 
 export const withAuth = <T, R>(method: WithAuthDelegate<T, R>, { authKey, refreshKey, refreshURL, refreshProcessing }: WithAuthOptions): (WithAuthDelegate<T, R>) => {
+    const cookieManager = cookies();
+    const tokenAuth: string | null = cookieManager.get(authKey)?.value || null;
+    let tokenRefresh: string | null = null
+    if (refreshKey) {
+        tokenRefresh = cookieManager.get(refreshKey)?.value || null;
+    }
     return async (url: string, options: WithAuthConfigurationOptions<T>) => {
-        const cookieManager = cookies();
-        const tokenAuth: string | null = cookieManager.get(authKey)?.value || null;
 
         if (!tokenAuth) {
             throw new Error('No authentication token provided');
@@ -69,7 +73,6 @@ export const withAuth = <T, R>(method: WithAuthDelegate<T, R>, { authKey, refres
         } catch (error: any) {
             if (error instanceof FetchError && error.response.status === 401) {
                 if (refreshKey && refreshURL) {
-                    const tokenRefresh: string | null = cookieManager.get(refreshKey)?.value || null;
                     if (tokenRefresh) {
                         const headers: Record<string, string> = { 'Authorization': `Bearer ${tokenRefresh}` };
                         const response: any = await fetcher(refreshURL, {
@@ -112,4 +115,10 @@ export const withLogin = <T, R>(
             throw error;
         }
     }
+}
+
+export const removeAuth = () => {
+    const cookieManager = cookies();
+    cookieManager.delete(AUTH_TOKEN_COOKIE);
+    cookieManager.delete(REFRESH_TOKEN_COOKIE);
 }

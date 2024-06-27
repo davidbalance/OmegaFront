@@ -25,7 +25,8 @@ export type FetchResult<T> = FetchHookResult<T> & {
     reset: () => void;
 }
 
-export type FetchOptions<T> = Omit<RequestInit, ' body' | 'method'> & {
+export type FetchOptions<T> = Omit<RequestInit, 'body' | 'method'> & {
+    body?: any | null;
     /**
      * Will indicates the system to fetch when the component is mounted
      */

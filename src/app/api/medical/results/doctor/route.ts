@@ -1,4 +1,3 @@
-import { GETMedicalOrderArrayResponseDto } from "@/lib/dtos/medical/order/response.dto";
 import { GETMedicalResultsResponseDto } from "@/lib/dtos/medical/result/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
