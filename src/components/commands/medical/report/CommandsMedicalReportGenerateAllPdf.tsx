@@ -1,4 +1,5 @@
 import { ModularBox } from '@/components/modular/box/ModularBox'
+import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 import { useFetch } from '@/hooks/useFetch'
 import { Button, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -15,9 +16,14 @@ const CommandsMedicalReportGenerateAllPdf: React.FC = () => {
         reset,
     } = useFetch<any>('/api/medical/reports/recreate/pdf', 'GET', { loadOnMount: false });
 
-    const handleClickEvent = useCallback(() => {
-        reload();
-    }, [reload]);
+    const { show } = useConfirmation();
+
+    const handleClickEvent = useCallback(async () => {
+        const state = await show('Auto generacion de pdf', 'Se van a recrear todos los reportes medicos, esta operacion puede tomar mucho tiempo, ¿Esta de acuerdo?');
+        if (state) {
+            reload();
+        }
+    }, [reload, show]);
 
     useEffect(() => {
         if (error) notifications.show({ message: error.message, color: 'red' });

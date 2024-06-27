@@ -1,4 +1,5 @@
 import { ModularBox } from '@/components/modular/box/ModularBox'
+import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 import { useFetch } from '@/hooks/useFetch';
 import { Box, Button, Grid, TextInput, rem } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -39,9 +40,15 @@ const CommandsMedicalReportGeneratePdfByDni: React.FC = () => {
         reset,
     } = useFetch<any>('/api/medical/reports/recreate/pdf', 'POST', { loadOnMount: false });
 
-    const handleFormSubmit = useCallback(({ dni }: { dni: string }) => {
-        request({ dni });
-        setShouldRequest(true);
+    const { show } = useConfirmation();
+
+
+    const handleFormSubmit = useCallback(async ({ dni }: { dni: string }) => {
+        const state = await show('Auto generacion de pdf', `Se van a recrear todos los reportes medicos del paciente ${dni}, esta operacion puede tomar mucho tiempo, ¿Esta de acuerdo?`);
+        if (state) {
+            request({ dni });
+            setShouldRequest(true);
+        }
     }, [request]);
 
     useEffect(() => {
