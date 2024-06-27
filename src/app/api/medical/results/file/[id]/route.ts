@@ -17,7 +17,6 @@ export async function POST(
         });
         return NextResponse.json({}, { status: 200 });
     } catch (error: any) {
-        console.log(error);
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
         } else {

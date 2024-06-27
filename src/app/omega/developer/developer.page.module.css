@@ -1,9 +1,13 @@
 .root {
   position: relative;
+<<<<<<< HEAD
   background-color: light-dark(
     var(--mantine-color-gray-0),
     var(--mantine-color-dark-8)
   );
+=======
+  background-color: var(--mantine-color-white);
+>>>>>>> b1959bc12ea66851ccc58f016382bc50fedd14c8
   width: fit-content;
   border-radius: var(--mantine-radius-md);
   padding: 5px;
@@ -18,7 +22,11 @@
   justify-content: center;
   padding: 7px 12px;
   line-height: 1;
+<<<<<<< HEAD
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-2));
+=======
+  color: var(--mantine-color-neutral-5);
+>>>>>>> b1959bc12ea66851ccc58f016382bc50fedd14c8
   border-radius: var(--mantine-radius-md);
   font-size: var(--mantine-font-size-sm);
   transition: color 100ms ease;

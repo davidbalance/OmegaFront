@@ -1,5 +1,3 @@
-'use server'
-
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { post } from "@/lib/fetcher/fetcher";

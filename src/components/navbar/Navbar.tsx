@@ -10,18 +10,7 @@ import { RESOURCE_KEY } from '@/lib/constants';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { NavLinkProp } from '@/lib/types/nav-link.type';
 import { NavLink } from './nav/link/NavLink';
-
-const LinkIcon: Record<string, ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>>> = {
-    "user": IconUsers,
-    "patient": IconWheelchair,
-    "doctor": IconStethoscope,
-    "role": IconLicense,
-    "morbidity": IconVirus,
-    "report": IconReportMedical,
-    "location": IconMapPin,
-    "key": IconKey,
-    "code": IconCode,
-}
+import { NavIcon } from './NavIcon';
 
 interface NavbarProps {
     opened: boolean;
@@ -43,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({ opened, onClose }) => {
             href={item.address}
             active={active}
             link={{
-                icon: item.icon ? LinkIcon[item.icon] : IconSettings,
+                icon: item.icon ? NavIcon[item.icon] : IconSettings,
                 label: item.label
             }}
             onClick={() => {
