@@ -6,7 +6,8 @@ import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
 
-export async function PATCH(req: NextRequest,
+export async function PATCH(
+    req: NextRequest,
     { params }: { params: { user: number } }
 ) {
     try {

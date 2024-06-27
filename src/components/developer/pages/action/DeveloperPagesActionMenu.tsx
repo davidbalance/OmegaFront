@@ -23,7 +23,7 @@ const DeveloperPagesActionMenu: React.FC<DeveloperPagesActionMenuProps> = ({ res
 
     const handleClickEventDelete = useCallback(() => {
         fetchReload();
-    }, []);
+    }, [fetchReload]);
 
     useEffect(() => {
         if (fetchError) notifications.show({ message: fetchError.message, color: 'red' });
@@ -34,7 +34,7 @@ const DeveloperPagesActionMenu: React.FC<DeveloperPagesActionMenuProps> = ({ res
             onDelete(resource);
             fetchReset();
         }
-    }, [fetchData, onDelete, fetchReset]);
+    }, [fetchData, onDelete, fetchReset, resource]);
 
     return (
         <Menu>

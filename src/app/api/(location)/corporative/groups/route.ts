@@ -1,5 +1,3 @@
-'use server'
-
 import { GETCorporativeGroupArrayResponseDto } from "@/lib/dtos/location/corporative/group.response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";

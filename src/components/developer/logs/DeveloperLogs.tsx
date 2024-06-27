@@ -55,7 +55,7 @@ const DeveloperLogs: React.FC = () => {
         });
     }, [logRequest]);
 
-    const logItems = useMemo(() => logDataArray.map((e) => <DeveloperLog log={e} />), [logDataArray])
+    const logItems = useMemo(() => logDataArray.map((e, index) => <DeveloperLog key={index} log={e} />), [logDataArray])
 
     useEffect(() => {
         if (logError) notifications.show({ message: logError.message, color: 'red' });
@@ -73,7 +73,7 @@ const DeveloperLogs: React.FC = () => {
             logReload();
             setShouldRequest(false);
         }
-    }, [setShouldRequest, logReload])
+    }, [shouldRequest, logReload])
 
     return (
         <ModularLayout>

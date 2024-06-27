@@ -108,4 +108,6 @@ const DeveloperPageForm = React.forwardRef<HTMLButtonElement, DeveloperPageFormP
     )
 })
 
+DeveloperPageForm.displayName = 'DeveloperPageForm';
+
 export { DeveloperPageForm }

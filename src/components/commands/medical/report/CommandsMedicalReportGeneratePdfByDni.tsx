@@ -42,14 +42,13 @@ const CommandsMedicalReportGeneratePdfByDni: React.FC = () => {
 
     const { show } = useConfirmation();
 
-
     const handleFormSubmit = useCallback(async ({ dni }: { dni: string }) => {
         const state = await show('Auto generacion de pdf', `Se van a recrear todos los reportes medicos del paciente ${dni}, esta operacion puede tomar mucho tiempo, ¿Esta de acuerdo?`);
         if (state) {
             request({ dni });
             setShouldRequest(true);
         }
-    }, [request]);
+    }, [request, show]);
 
     useEffect(() => {
         if (body && shouldRequest) {
