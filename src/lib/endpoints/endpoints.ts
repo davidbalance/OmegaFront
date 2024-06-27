@@ -9,6 +9,7 @@ import { LOG } from "./v1/log";
 import { MEDICAL_CLIENT } from "./v1/medical/client";
 import { MEDICAL_FILE } from "./v1/medical/file";
 import { MEDICAL_ORDER } from "./v1/medical/order";
+import { MEDICAL_REPORT } from "./v1/medical/report";
 import { MEDICAL_RESULT } from "./v1/medical/result";
 import { BRANCH_SELECTOR } from "./v1/selector/branch";
 import { CITY_SELECTOR } from "./v1/selector/city";
@@ -49,7 +50,8 @@ export default Object.freeze({
     MEDICAL: {
         ORDER: MEDICAL_ORDER,
         RESULT: MEDICAL_RESULT,
-        CLIENT: MEDICAL_CLIENT
+        CLIENT: MEDICAL_CLIENT,
+        REPORT: MEDICAL_REPORT
     },
     HEALTH_CHECK,
     MAIL: {

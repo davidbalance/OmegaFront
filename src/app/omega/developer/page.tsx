@@ -5,17 +5,17 @@ import { UnstyledButton, FloatingIndicator, Flex, rem } from '@mantine/core';
 import React, { useMemo, useState } from 'react'
 import classes from './developer.page.module.css';
 import { DeveloperLogs } from '@/components/developer/logs/DeveloperLogs';
-import DeveloperPages from '@/components/developer/pages/DeveloperPages';
-import DeveloperReport from '@/components/developer/report/DeveloperReport';
+import { DeveloperPages } from '@/components/developer/pages/DeveloperPages';
+import { DeveloperCommands } from '@/components/developer/commands/DeveloperCommands';
 
-const data = ['Logs', 'Paginas', 'Reportes Globales'];
-const layouts = [DeveloperLogs, DeveloperPages, DeveloperReport];
+const data = ['Logs', 'Paginas', 'Comandos'];
+const layouts = [DeveloperLogs, DeveloperPages, DeveloperCommands];
 
 const DeveloperPage = () => {
 
     const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
     const [controlsRefs, setControlsRefs] = useState<Record<string, HTMLButtonElement | null>>({});
-    const [active, setActive] = useState(1);
+    const [active, setActive] = useState(2);
 
     const setControlRef = (index: number) => (node: HTMLButtonElement) => {
         controlsRefs[index] = node;

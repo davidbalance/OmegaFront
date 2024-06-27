@@ -1,9 +1,6 @@
 .root {
   position: relative;
-  background-color: light-dark(
-    var(--mantine-color-gray-0),
-    var(--mantine-color-dark-8)
-  );
+  background-color: var(--mantine-color-white);
   width: fit-content;
   border-radius: var(--mantine-radius-md);
   padding: 5px;
@@ -18,7 +15,7 @@
   justify-content: center;
   padding: 7px 12px;
   line-height: 1;
-  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-2));
+  color: var(--mantine-color-neutral-5);
   border-radius: var(--mantine-radius-md);
   font-size: var(--mantine-font-size-sm);
   transition: color 100ms ease;

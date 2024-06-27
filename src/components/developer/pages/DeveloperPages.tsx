@@ -139,4 +139,4 @@ const DeveloperPages: React.FC = () => {
     return (<>{view[currenState]}</>)
 }
 
-export default DeveloperPages
+export { DeveloperPages }
