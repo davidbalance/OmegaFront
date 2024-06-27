@@ -6,9 +6,9 @@ import { NextResponse } from "next/server";
 
 export async function POST() {
     try {
-        removeAuth();
         const logout = withAuth<any, any>(post, DEFAULT_WITH_AUTH_OPTIONS);
         await logout(endpoints.AUTHENTICATION.AUTH.LOGOUT, {});
+        removeAuth();
         return NextResponse.json('Logged out', { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {
