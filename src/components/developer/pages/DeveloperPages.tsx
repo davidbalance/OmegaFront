@@ -1,18 +1,6 @@
-<<<<<<< HEAD
-import React from 'react'
-
-const DeveloperPages: React.FC = () => {
-    return (
-        <div>DeveloperPages</div>
-    )
-}
-
-export default DeveloperPages
-=======
 import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
-import { ListRowElement, ListRowElementProps } from '@/components/layout/list-layout/ListRowElement';
+import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import { NavIcon } from '@/components/navbar/NavIcon';
-import { SystemLogo } from '@/components/navbar/nav/logo/logos';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { WebFullResource } from '@/lib/dtos/web/resources.response.dto';
@@ -151,4 +139,3 @@ const DeveloperPages: React.FC = () => {
 }
 
 export { DeveloperPages }
->>>>>>> b1959bc12ea66851ccc58f016382bc50fedd14c8
