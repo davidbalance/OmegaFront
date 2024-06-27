@@ -44,6 +44,11 @@ const medicalResultColumns: ListElement<MedicalOrderFile>[] = [
 
 const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
 
+    const [selected, setSelected] = useState<MedicalOrderFile[]>([]);
+    const [shouldFetch, setShouldFetch] = useState<boolean>(false);
+
+    const isMobile = useMediaQuery('(max-width: 50em)');
+
     const { data, error, loading } = useFetch<GETMedicalMedicalOrderFileResponseDto>(`/api/medical/orders/files/${params.id}`, 'GET');
     const {
         data: fileBlob,
@@ -56,18 +61,17 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
     } = useFetch<Blob>(`/api/medical/results/file/downloader/multiple`, 'POST', { loadOnMount: false, type: 'blob' });
 
     const [orderResults, { override: medicalResultOverride }] = useList<MedicalOrderFile>([]);
-    const [selected, setSelected] = useState<MedicalOrderFile[]>([]);
-
-    const isMobile = useMediaQuery('(max-width: 50em)');
 
     const handleClickEventDownloadAll = useCallback(() => {
         const files = orderResults.map((e: MedicalOrderFile) => ({ id: e.id, type: e.type }));
         fileRequest({ files });
+        setShouldFetch(true);
     }, [orderResults, fileRequest]);
 
     const handleClickEventDownloadSelected = useCallback(() => {
         const files = selected.map(e => ({ id: e.id, type: e.type }));
         fileRequest({ files });
+        setShouldFetch(true);
     }, [selected, fileRequest]);
 
     const handleSelection = useCallback((selection: MedicalOrderFile) => {
@@ -79,8 +83,11 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
     }, []);
 
     useEffect(() => {
-        if (fileBody) fileReload();
-    }, [fileBody, fileReload]);
+        if (fileBody && shouldFetch) {
+            fileReload();
+            setShouldFetch(false);
+        }
+    }, [fileBody, shouldFetch, fileReload]);
 
     useEffect(() => {
         if (error) notifications.show({ message: error.message, color: 'red' });
