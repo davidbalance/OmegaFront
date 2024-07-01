@@ -1801,7 +1801,6 @@ Actualiza un recurso web usando el identificador unico del recurso web
     icon: string,
     status: boolean
 }
-
 ```
 
 ### `DELETE` /api/web/resources/_{id}_
