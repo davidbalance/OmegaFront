@@ -1,6 +1,6 @@
 import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
 import { PATCHUserAttributeRequestDto } from "@/lib/dtos/user/user.request.dto";
-import { GETUserAttributeRequestDto } from "@/lib/dtos/user/user.response.dto";
+import { GETUserAttributeResponseDto } from "@/lib/dtos/user/user.response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get, patch } from "@/lib/fetcher/fetcher";
@@ -13,7 +13,7 @@ export async function GET(
 ) {
     try {
         const getAttribute = withAuth<any, any>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const attribute: GETUserAttributeRequestDto = await getAttribute(endpoints.USER.USER.ATTRIBUTES.EMPLOYEE.FIND(params.id), {
+        const attribute: GETUserAttributeResponseDto = await getAttribute(endpoints.USER.USER.ATTRIBUTES.EMPLOYEE.FIND(params.id), {
             cacheExpirationSeconds: 30,
             headers: CONTENT_TYPE_APPLICATION_JSON
         });

@@ -1,4 +1,5 @@
 import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
+import { POSTApiKeyRequestDto } from "@/lib/dtos/auth/api/key/request.dto";
 import { GETApiKeyArrayResponseDto, POSTApiKeyResponseDto } from "@/lib/dtos/auth/api/key/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
@@ -24,8 +25,8 @@ export async function POST(
     req: NextRequest
 ) {
     try {
-        const data = await req.json();
-        const postApiKey = withAuth<any, POSTApiKeyResponseDto>(post, DEFAULT_WITH_AUTH_OPTIONS);
+        const data: POSTApiKeyRequestDto = await req.json();
+        const postApiKey = withAuth<POSTApiKeyRequestDto, POSTApiKeyResponseDto>(post, DEFAULT_WITH_AUTH_OPTIONS);
         const apikey: POSTApiKeyResponseDto = await postApiKey(endpoints.AUTHENTICATION.API_KEY.CREATE, {
             body: data,
             headers: CONTENT_TYPE_APPLICATION_JSON
