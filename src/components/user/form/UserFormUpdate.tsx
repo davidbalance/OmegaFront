@@ -9,9 +9,21 @@ import { UserForm } from './UserForm';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 
 type UserFormUpdateProps = {
+    /**
+     * Objeto que inicializa el formulario de actualizacion del usuario
+     */
     user: User;
-    onFormSubmittion?: (user: User) => void;
+    /**
+     * Funcion que es invocada cuando llama al evento de cierre del formulario.
+     * @returns 
+     */
     onClose: () => void;
+    /**
+     * Funcion que es invocada cuando se envia el formulario.
+     * @param user 
+     * @returns 
+     */
+    onFormSubmittion?: (user: User) => void;
 }
 
 const UserFormUpdate: React.FC<UserFormUpdateProps> = ({ onClose, user, onFormSubmittion }) => {

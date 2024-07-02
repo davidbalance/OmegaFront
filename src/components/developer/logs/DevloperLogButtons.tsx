@@ -7,6 +7,11 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import classes from './DevloperLogButtons.module.css'
 
 interface DevloperLogButtonsProps {
+    /**
+     * Funcion que es llamada cuando se realiza un click
+     * @param value 
+     * @returns 
+     */
     onClick: (value: string | null) => void;
 }
 const DevloperLogButtons: React.FC<DevloperLogButtonsProps> = ({ onClick }) => {

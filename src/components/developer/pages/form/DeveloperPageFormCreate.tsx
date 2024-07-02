@@ -11,7 +11,15 @@ import { useFetch } from '@/hooks/useFetch';
 import { notifications } from '@mantine/notifications';
 
 type DeveloperPageFormCreateProps = {
+    /**
+     * Funcion que es llamada cuando se llama al cierre del fomulario.
+     * @returns 
+     */
     onClose: () => void;
+    /**
+     * Funcion que es llamada cuando se envia el formulario.
+     * @returns 
+     */
     onFormSubmit?: (data: WebFullResource) => void;
 }
 const DeveloperPageFormCreate: React.FC<DeveloperPageFormCreateProps> = ({ onClose, onFormSubmit }) => {

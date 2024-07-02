@@ -7,13 +7,22 @@ import cx from 'clsx';
 
 type NavIcon = ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>>;
 
-type NavLinkProps = Omit<LinkProps, 'data-active' | 'className'> & {
+interface NavLinkProps extends Omit<LinkProps, 'data-active' | 'className'> {
+    /**
+     * Estado que indica que el boton debe encontrarse abierta.
+     */
     opened?: boolean;
+    /**
+     * Direccion a la que se tiene que mover.
+     */
     link: {
         icon: NavIcon,
         label: string,
         notifications?: number
     }
+    /**
+     * Estado que indica si el boton esta habilitado o no.
+     */
     active?: string;
 };
 

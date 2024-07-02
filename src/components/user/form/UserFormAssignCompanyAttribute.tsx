@@ -10,7 +10,14 @@ import { IconDeviceFloppy } from '@tabler/icons-react';
 import { PATCHUserAttributeRequestDto } from '@/lib/dtos/user/user.request.dto';
 
 interface UserFormAssignCompanyAttributeProps {
+    /**
+     * URL que se conecta al endpoint de asignacion de atributos.
+     */
     url: string;
+    /**
+     * Funcion que es invocada cuando llama al evento de cierre del formulario.
+     * @returns 
+     */
     onClose: () => void;
 }
 const UserFormAssignCompanyAttribute: React.FC<UserFormAssignCompanyAttributeProps> = ({ url, onClose }) => {

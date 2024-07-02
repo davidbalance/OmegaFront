@@ -1,9 +1,7 @@
 import { Flex, FlexProps, rem } from '@mantine/core';
 import React from 'react'
 
-interface ModularLayoutProps extends Omit<FlexProps, 'gap'> {
-    children: React.ReactNode;
-}
+interface ModularLayoutProps extends Omit<FlexProps, 'gap'> { }
 const ModularLayout: React.FC<ModularLayoutProps> = ({ children, ...props }) => {
     return (
         <Flex

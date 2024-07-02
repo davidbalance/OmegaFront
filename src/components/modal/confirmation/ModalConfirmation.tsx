@@ -4,8 +4,18 @@ import { IconX } from '@tabler/icons-react';
 import React from 'react'
 
 type ModalConfirmationProps = Omit<ModalProps, 'children' | 'title'> & {
+    /**
+     * Titulo de la confirmacion.
+     */
     title: string;
+    /**
+     * Mensaje de la confirmacion.
+     */
     message?: string;
+    /**
+     * Funcion que es invocada cuando se llama al evento de confirmacion.
+     * @returns 
+     */
     onConfirm: () => void;
 }
 const ModalConfirmation: React.FC<ModalConfirmationProps> = ({ message, title, onConfirm, ...props }) => {

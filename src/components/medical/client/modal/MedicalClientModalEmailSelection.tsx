@@ -6,7 +6,15 @@ import classes from './MedicalClientModalEmailSelection.module.css'
 import { notifications } from '@mantine/notifications';
 
 interface MedicalClientModalEmailSelectionProps extends ModalProps {
+    /**
+     * Arreglo de correos electronicos.
+     */
     email: MedicalClientEmail[];
+    /**
+     * Funcion que es invocada se cierra el formulario.
+     * @param email 
+     * @returns 
+     */
     onSelection: (email: MedicalClientEmail) => void;
 }
 

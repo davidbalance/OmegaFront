@@ -4,7 +4,13 @@ import { IconChevronUp, IconChevronDown, IconSelector } from "@tabler/icons-reac
 import classes from './ListLayout.module.css'
 
 interface ListHeaderButtonProps {
+    /**
+     * Texto de la etiqueta.
+     */
     label: string;
+    /**
+     * Variable que determina el evento de ordenamiento y el estado del mismo.
+     */
     sort: {
         sorted: boolean;
         onSort: () => void;

@@ -2,8 +2,7 @@ import { NavIcon } from '@/components/navbar/NavIcon';
 import { POSTWebFullResourceRequestDto } from '@/lib/dtos/web/resources.request.dto';
 import { Box, SimpleGrid, rem, TextInput, Button, Select, Grid, Flex } from '@mantine/core'
 import { joiResolver, useForm } from '@mantine/form';
-import { IconId, IconAt } from '@tabler/icons-react'
-import Joi, { ref } from 'joi'
+import Joi from 'joi'
 import React, { useCallback, useMemo } from 'react'
 
 const resourceSchema = Joi.object<POSTWebFullResourceRequestDto>({
@@ -34,7 +33,13 @@ const resourceSchema = Joi.object<POSTWebFullResourceRequestDto>({
 });
 
 interface DeveloperPageFormProps {
+    /**
+     * Datos para ser precargados cuando el componente es montado. 
+     */
     data?: POSTWebFullResourceRequestDto;
+    /**
+     * Funcion que es llamada cuando se envia el formulario.
+     */
     onFormSubmittion: (data: POSTWebFullResourceRequestDto) => void;
 }
 const DeveloperPageForm = React.forwardRef<HTMLButtonElement, DeveloperPageFormProps>(({ data, onFormSubmittion }, ref) => {

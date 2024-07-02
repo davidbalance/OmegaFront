@@ -19,7 +19,14 @@ interface PatientEmail {
 }
 
 interface MedicalClientLayoutEmailProps {
+    /**
+     * Objeto que encapsula los datos del paciente.
+     */
     patient: PatientEmail;
+    /**
+     * Funcion que es invocada se cierra el formulario.
+     * @returns 
+     */
     onClose: () => void;
 }
 

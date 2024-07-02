@@ -3,6 +3,11 @@ import { SystemLogo } from '@/components/navbar/nav/logo/logos'
 import React, { FormEvent, ForwardedRef, useCallback, useMemo, useState } from 'react'
 
 type UserFormLogoProps = {
+    /**
+     * Funcion que es invocada cuando se envia el formulario.
+     * @param values 
+     * @returns 
+     */
     onSubmit: (values: { logo: number }) => void;
 }
 

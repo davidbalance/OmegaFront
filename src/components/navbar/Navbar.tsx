@@ -13,9 +13,19 @@ import { NavLink } from './nav/link/NavLink';
 import { NavIcon } from './NavIcon';
 
 interface NavbarProps {
+    /**
+     * Estado que indica que el panel debe encontrarse abierto o cerrado.
+     */
     opened: boolean;
-    onClose: () => void;
+    /**
+     * Estado que indica si se esta cargando el panel.
+     */
     loading?: boolean
+    /**
+     * Funcion que es invocada cuando se realiza un click en cualquier enlace del panel.
+     * @returns 
+     */
+    onClose: () => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ opened, onClose }) => {

@@ -4,7 +4,14 @@ import { IconX } from '@tabler/icons-react'
 import React from 'react'
 
 type LayoutSubFormTitleProps = {
+    /**
+     * Titulo del formulario.
+     */
     title: string;
+    /**
+     * Funcion que es invocada cuando se llama al evento de cierre.
+     * @returns 
+     */
     onClose: () => void;
 }
 const LayoutSubFormTitle: React.FC<LayoutSubFormTitleProps> = ({ title, onClose }) => {

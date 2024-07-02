@@ -8,7 +8,15 @@ import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
 interface MedicalResultFormDiseaseProps extends Omit<ModalProps, 'title'> {
+    /**
+     * Objeto de resultado medico que inicializa el formulario.
+     */
     medicalOrderExam: Omit<MedicalResult, 'order'>;
+    /**
+     * Funcion que es invocada cuando el formulario es enviado.
+     * @param value 
+     * @returns 
+     */
     onFormSubmitted: (value: MedicalResult) => void;
 }
 const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ medicalOrderExam, onFormSubmitted, onClose, ...props }) => {

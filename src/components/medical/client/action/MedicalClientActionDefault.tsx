@@ -5,10 +5,28 @@ import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect } from 'react'
 
 interface MedicalClientActionDefaultProps {
+  /**
+   * Identificador unico del correo electronico.
+   */
   id: number;
+  /**
+   * DNI del cliente medico.
+   */
   dni: string;
+  /**
+   * Estado que identifica si el correo se encuentra por defecto o no.
+   */
   state: boolean;
+  /**
+   * Funcion que es invocada cuando se realiza un click.
+   * @returns 
+   */
   onClick?: () => void;
+  /**
+   * Funcion que es invocada cuando se completa la actualizacion del correo.
+   * @param data 
+   * @returns 
+   */
   onComplete?: (data: MedicalClientEmail[]) => void;
 }
 const MedicalClientActionDefault: React.FC<MedicalClientActionDefaultProps> = ({ state, dni, id, onClick, onComplete }) => {

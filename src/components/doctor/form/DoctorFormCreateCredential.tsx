@@ -3,18 +3,30 @@ import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTi
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { useFetch } from '@/hooks/useFetch';
 import { POSTCredentialRequestDto } from '@/lib/dtos/auth/credential/request.dto';
-import { LoadingOverlay, Group, rem, Box, Button, Text, Flex } from '@mantine/core';
+import { LoadingOverlay, rem, Box, Button, Flex } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 type DoctorFormCreateCredentialProps = {
-    doctor: { id: number, email: string };
+    /**
+     * Datos del usuario usados como base para a asignacion de credenciales.
+     */
+    user: { id: number, email: string };
+    /**
+     * Funcion que es invocada cuando se llama al evento de cierre.
+     * @returns 
+     */
     onClose: () => void;
+    /**
+     * Funcion que es invocada cuando se envia el formulario.
+     * @param id 
+     * @returns 
+     */
     onFormSubmittion?: (id: number) => void;
 }
 
-const DoctorFormCreateCredential: React.FC<DoctorFormCreateCredentialProps> = ({ doctor, onClose, onFormSubmittion }) => {
+const DoctorFormCreateCredential: React.FC<DoctorFormCreateCredentialProps> = ({ user, onClose, onFormSubmittion }) => {
 
     const [shouldFetch, setShouldFetch] = useState<boolean>(false);
 
@@ -31,9 +43,9 @@ const DoctorFormCreateCredential: React.FC<DoctorFormCreateCredentialProps> = ({
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const handleFormSubmittion = useCallback((password: string) => {
-        request<POSTCredentialRequestDto>({ email: doctor.email, password: password, user: doctor.id });
+        request<POSTCredentialRequestDto>({ email: user.email, password: password, user: user.id });
         setShouldFetch(true);
-    }, [request, doctor]);
+    }, [request, user]);
 
     useEffect(() => {
         if (shouldFetch && body) {
@@ -48,11 +60,11 @@ const DoctorFormCreateCredential: React.FC<DoctorFormCreateCredentialProps> = ({
 
     useEffect(() => {
         if (data) {
-            onFormSubmittion?.(doctor.id);
+            onFormSubmittion?.(user.id);
             onClose();
             reset();
         }
-    }, [onClose, onFormSubmittion, reset, data, doctor]);
+    }, [onClose, onFormSubmittion, reset, data, user]);
 
     return (
         <>
@@ -60,7 +72,7 @@ const DoctorFormCreateCredential: React.FC<DoctorFormCreateCredentialProps> = ({
 
             <Flex h='100%' direction='column' gap={rem(8)}>
                 <LayoutSubFormTitle
-                    title={`Formulario de asignacion de credenciales: ${doctor.email}`}
+                    title={`Formulario de asignacion de credenciales: ${user.email}`}
                     onClose={onClose} />
 
                 <ModularBox flex={1} align='center'>

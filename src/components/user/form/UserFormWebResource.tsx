@@ -10,8 +10,15 @@ import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 interface UserFormWebResourceProps {
-    onClose: () => void;
+    /**
+     * Objeto que inicializa el formulario de actualizacion del usuario.
+     */
     user: User;
+    /**
+     * Funcion que es invocada cuando llama al evento de cierre del formulario.
+     * @returns 
+     */
+    onClose: () => void;
 }
 
 const UserFormWebResource: React.FC<UserFormWebResourceProps> = ({ user, onClose }) => {

@@ -6,7 +6,13 @@ import classes from './OmegaTh.module.css'
 import cx from 'clsx';
 
 type OmegaTh = {
+    /**
+     * Elementos internos del componente.
+     */
     children: React.ReactNode;
+    /**
+     * Objeto enfocado en el ordenamiento de las presentes filas.
+     */
     sort?: {
         sorted: boolean;
         onSort: () => void;

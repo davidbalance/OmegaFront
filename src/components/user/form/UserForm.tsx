@@ -40,10 +40,24 @@ const userSchema = Joi.object<IUserForm>({
 });
 
 type UserFormProps = {
-    onSubmit: (values: IUserForm) => void;
-    disabledDni?: boolean;
-    disabledEmail?: boolean;
+    /**
+     * Objeto que inicializa el formulario.
+     */
     data?: IUserForm;
+    /**
+     * Estado que habilita el campo de ingreso del DNI.
+     */
+    disabledDni?: boolean;
+    /**
+     * Estado que habilita el campo de ingreso del correo electronico.
+     */
+    disabledEmail?: boolean;
+    /**
+     * Funcion que es invocada cuando es enviado el formulario.
+     * @param values 
+     * @returns 
+     */
+    onSubmit: (values: IUserForm) => void;
 }
 
 const UserForm = React.forwardRef<HTMLButtonElement, UserFormProps>(({ data, onSubmit, disabledDni, disabledEmail }, ref) => {

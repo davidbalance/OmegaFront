@@ -5,10 +5,30 @@ import { IconBuilding, IconDotsVertical, IconKey, IconPencil, IconSitemap, IconT
 import React from 'react'
 
 interface UserActionButtonProps extends ActionColumnProps<User> {
+    /**
+     * Funcion que es invocada cuando se llama al evento de cambio de contraseña.
+     * @returns 
+     */
     onChangePassword?: () => void;
+    /**
+     * Funcion que es invocada cuando se llama al evento de modificacion de recursos.
+     * @returns 
+     */
     onResourceChange?: () => void;
+    /**
+     * Funcion que es invocada cuando se llama al evento de de asignacion de empresa.
+     * @returns 
+     */
     onLookForCompany?: () => void;
+    /**
+     * Funcion que es invocada cuando se llama al evento de modificacion de usuario.
+     * @returns 
+     */
     onModification?: () => void;
+    /**
+     * Funcion que es invocada cuando se llama al evento de eliminacion de usuario.
+     * @returns 
+     */
     onDelete?: () => void;
 }
 const UserActionButton: React.FC<UserActionButtonProps> = ({ onChangePassword, onResourceChange, onDelete, onModification, onLookForCompany }) => {

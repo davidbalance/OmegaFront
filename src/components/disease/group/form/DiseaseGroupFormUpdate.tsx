@@ -9,9 +9,21 @@ import { DiseaseGroup } from '@/lib/dtos/disease/group/response.dto';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 
 type DiseaseGroupFormUpdateProps = {
+    /**
+     * Grupo de morbilidad para inicializar el formulario.
+     */
     diseaseGroup: DiseaseGroup;
-    onFormSubmitted: (value: DiseaseGroup) => void;
+    /**
+     * Funcion que es llamada cuando se llama al cierre del fomulario.
+     * @returns 
+     */
     onClose: () => void;
+    /**
+     * Funcion que es llamada cuando se envia el formulario.
+     * @param value 
+     * @returns 
+     */
+    onFormSubmitted: (value: DiseaseGroup) => void;
 }
 const DiseaseGroupFormUpdate: React.FC<DiseaseGroupFormUpdateProps> = ({ onClose, onFormSubmitted, diseaseGroup }) => {
     const { body, data, error, loading, reload, request, reset } = useFetch<DiseaseGroup>(`/api/diseases/groups/${diseaseGroup ? diseaseGroup.id : ''}`, 'PATCH', { loadOnMount: false });

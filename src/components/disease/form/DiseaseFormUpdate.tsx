@@ -8,10 +8,25 @@ import { useRef, useCallback, useEffect } from "react";
 import { DiseaseForm } from "./DiseaseForm";
 import { LayoutSubFormTitle } from "@/components/layout/sub/form/LayoutSubFormTitle";
 
-type DiseaseFormUpdateProps = {
+interface DiseaseFormUpdateProps {
+    /**
+     * Valores por defecto de la morbilidad a actualizar
+     */
     disease: Disease;
+    /**
+     * Identificador unico de un grupo de morbilidades
+     */
     group: number;
+    /**
+     * Funcion que es llamada cuando se llama al cierre del fomulario.
+     * @param value 
+     * @returns 
+     */
     onFormSubmitted: (value: Disease) => void;
+    /**
+     * Funcion que es llamada cuando se envia el formulario.
+     * @returns 
+     */
     onClose: () => void;
 }
 const DiseaseFormUpdate: React.FC<DiseaseFormUpdateProps> = ({ onClose, onFormSubmitted, disease, group }) => {

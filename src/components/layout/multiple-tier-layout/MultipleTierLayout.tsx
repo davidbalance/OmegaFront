@@ -11,8 +11,19 @@ export interface TierElement {
 }
 
 interface MultipleTierLayoutProps {
+    /**
+     * Elementos que seran renderizados en cada subpagina.
+     */
     elements: TierElement[];
+    /**
+     * Pagina actual activa.
+     */
     tier: number;
+    /**
+     * Funcion que es invocada cuando se llama al cierre de cada pagina.
+     * @param index 
+     * @returns 
+     */
     onClose: (index: number) => void;
 }
 const MultipleTierLayout: React.FC<MultipleTierLayoutProps> = ({ elements, tier, onClose }) => {

@@ -3,11 +3,30 @@ import classes from './ListLayout.module.css'
 import cx from 'clsx';
 
 interface ListRowElementProps {
+    /**
+     * Contenido interno de la fila.
+     */
     children: React.ReactNode;
+    /**
+     * Estado de la fila.
+     */
     active?: boolean;
+    /**
+     * Seccion izquierda que requiere un componente de react.
+     */
     leftSection?: React.ReactNode;
+    /**
+     * Seccion derecha que requiere un componente de react.
+     */
     rightSection?: React.ReactNode;
+    /**
+     * Estado que activa o desactiva el evento hover.
+     */
     hover?: boolean;
+    /**
+     * Funcion que es invokada cuando se hace un click a la fila.
+     * @returns 
+     */
     onClick?: () => void;
 }
 

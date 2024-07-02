@@ -3,7 +3,15 @@ import { IconDotsVertical, IconEdit, IconTrash } from '@tabler/icons-react'
 import React, { useCallback } from 'react'
 
 interface DiseaseGroupActionMenuProps {
+    /**
+     * Funcion que es llamada cuando se solicita la modificacion del grupo de morbilidades.
+     * @returns 
+     */
     onModification: () => void;
+    /**
+     * Funcion que es llamada cuando se solicita la eliminacion del grupo de morbilidades.
+     * @returns 
+     */
     onDelete: () => void;
 }
 const DiseaseGroupActionMenu: React.FC<DiseaseGroupActionMenuProps> = ({ onModification, onDelete }) => {

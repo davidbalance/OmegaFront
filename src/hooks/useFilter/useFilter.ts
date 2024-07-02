@@ -2,6 +2,12 @@ import { keys } from "@mantine/core";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FilterHandlers, FilterValues } from "./hook.types";
 
+/**
+ * Filtra los elementos de un arreglo dado.
+ * @param initialValues 
+ * @param filterKeys 
+ * @returns 
+ */
 const useFilter = <T extends object>(initialValues: T[], filterKeys: (keyof T)[] | null = null): [data: T[], handlers: FilterHandlers<T>, values: FilterValues<T>] => {
     const [data, setData] = useState<T[]>(initialValues);
     const [search, setSearch] = useState<string>('');

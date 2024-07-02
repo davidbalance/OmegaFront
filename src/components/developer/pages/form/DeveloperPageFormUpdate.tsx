@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { DeveloperPageForm } from './DeveloperPageForm'
-import { PATCHWebResourceResponseDto, POSTWebResourceResponseDto, WebFullResource } from '@/lib/dtos/web/resources.response.dto';
+import { PATCHWebResourceResponseDto, WebFullResource } from '@/lib/dtos/web/resources.response.dto';
 import { POSTWebFullResourceRequestDto } from '@/lib/dtos/web/resources.request.dto';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 import { ModularBox } from '@/components/modular/box/ModularBox';
@@ -11,8 +11,17 @@ import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 
 type DeveloperPageFormUpdateProps = {
-    resource: WebFullResource,
+    /**
+     * Es el recurso web que debera ser modificado.
+     */
+    resource: WebFullResource;
+    /**
+     * Funcion que es llamada cuando se llama al cierre del fomulario.
+     */
     onClose: () => void;
+    /**
+     * Funcion que es llamada cuando se envia el formulario.
+     */
     onFormSubmit?: (data: WebFullResource) => void;
 }
 const DeveloperPageFormUpdate: React.FC<DeveloperPageFormUpdateProps> = ({ resource, onClose, onFormSubmit }) => {

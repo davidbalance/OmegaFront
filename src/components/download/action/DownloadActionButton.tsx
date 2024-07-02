@@ -6,8 +6,18 @@ import { IconDownload } from '@tabler/icons-react';
 import React, { useCallback, useEffect } from 'react'
 
 interface DownloadActionButtonProps {
+    /**
+     * Direccion URL donde se encuentra alojado el archivo.
+     */
     url: string;
+    /**
+     * Nombre que el archivo tendra al ser descargado.
+     */
     filename: string;
+    /**
+     * Funcion que es invocada cuando se realiza un click.
+     * @returns 
+     */
     onClick?: () => void;
 }
 const DownloadActionButton: React.FC<DownloadActionButtonProps> = ({ url, filename, onClick }) => {

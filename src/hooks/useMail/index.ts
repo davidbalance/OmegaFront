@@ -5,10 +5,28 @@ import { FetchHookResult } from "@/lib/types/fetch-hook.interface";
 import { notifications } from "@mantine/notifications";
 
 interface MailResult<T> extends FetchHookResult<T> {
-    url: string | null,
+    /**
+     * Url actual
+     */
+    url: string | null;
+    /**
+     * Actualiza la Url
+     * @param newUrl 
+     * @returns 
+     */
     setUrl: (newUrl: string | null) => void;
+    /**
+     * Realiza el envio del correo
+     * @returns 
+     */
     send: () => void;
 }
+
+/**
+ * 
+ * @param initialUrl 
+ * @returns 
+ */
 export const useMail = <T>(initialUrl?: string): MailResult<T> => {
 
     const [url, setUrl] = useState<string | null>(initialUrl || null);

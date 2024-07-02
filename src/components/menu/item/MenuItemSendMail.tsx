@@ -7,11 +7,33 @@ import { IconSend } from '@tabler/icons-react'
 import React, { useCallback, useEffect } from 'react'
 
 interface MenuItemSendMailProps {
+    /**
+     * Identificador unico de la orden medica.
+     */
     order: number;
-    email: MedicalClientEmail[],
-    defaultMail?: MedicalClientEmail,
+    /**
+     * Correos disponibles del paciente
+     */
+    email: MedicalClientEmail[];
+    /**
+     * Correo por defecto del paciente.
+     */
+    defaultMail?: MedicalClientEmail;
+    /**
+     * Funcion que es invocada cuando se envia un correo electronico.
+     * @returns 
+     */
     onSend?: () => void;
+    /**
+     * Funcion que es invocada cuando ocurre un error.
+     * @param error 
+     * @returns 
+     */
     onError?: (error: Error) => void;
+    /**
+     * Funcion que es invocada cuando se completa el envio del correo electronico.
+     * @returns 
+     */
     onComplete?: () => void;
 }
 const MenuItemSendMail: React.FC<MenuItemSendMailProps> = ({ order, email, onSend, onComplete, onError }) => {

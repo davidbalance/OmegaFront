@@ -3,9 +3,24 @@ import { IconBuilding, IconDotsVertical, IconLock, IconUpload } from '@tabler/ic
 import React from 'react'
 
 type DoctorActionMenuProps = {
-    onUploadSignature: () => void;
-    onAssignCompany: () => void;
+    /**
+     * Variable que habilita la opcion de asignacion de credenciales.
+     */
     createCredential?: boolean;
+    /**
+     * Funcion que es llamada cuando se llama al evento de carga de firma.
+     * @returns 
+     */
+    onUploadSignature: () => void;
+    /**
+     * Funcion que es llamada cuando se llama al evento de asignacion de empresa.
+     * @returns 
+     */
+    onAssignCompany: () => void;
+    /**
+     * Funcion que es llamada cuando se llama al evento de creacion de credenciales.
+     * @returns 
+     */
     onCreateCredential?: () => void;
 }
 const DoctorActionMenu: React.FC<DoctorActionMenuProps> = ({ createCredential, onCreateCredential, onUploadSignature, onAssignCompany }) => {

@@ -17,12 +17,35 @@ export interface ListElement<T> {
 }
 
 interface ListLayoutProps<T> {
+    /**
+     * Arreglo de datos para ser renderizados.
+     */
     data: T[];
+    /**
+     * Estado de carga.
+     */
     loading: boolean;
+    /**
+     * Columnas que seran visualizadas en el encabezado.
+     */
     columns: ListElement<T>[];
+    /**
+     * Altura del contenido.
+     */
     height?: number;
+    /**
+     * Numero de items que seran renderizados en cada pagina.
+     */
     size?: number;
-    dock?: React.ReactElement | React.ReactElement[]
+    /**
+     * Elementos adicionales, se posicionaran a un lado del area de busqueda.
+     */
+    dock?: React.ReactElement | React.ReactElement[];
+    /**
+     * Funcion que es invocada al momento de renderizar cada fila, debe retornar un elemento react.
+     * @param row 
+     * @returns 
+     */
     rows: (row: T) => React.ReactElement<ListRowElementProps>;
 }
 

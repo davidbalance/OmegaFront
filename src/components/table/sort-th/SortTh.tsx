@@ -4,9 +4,21 @@ import React from 'react'
 import classes from './SortTh.module.css'
 
 interface SortThProps {
+    /**
+     * Elementos internos del componente.
+     */
     children: React.ReactNode;
+    /**
+     * Indica la direccion del ordenamiento.
+     */
     reversed: boolean;
+    /**
+     * Indica si la columna fue o no ordenada.
+     */
     sorted: boolean;
+    /**
+     * Funcion que es invocada cuando se realiza un click a la columna.
+     */
     onSort(): void;
 }
 

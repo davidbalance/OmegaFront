@@ -14,14 +14,24 @@ import { AuthenticationFormPassword } from '@/components/authentication/form/Aut
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 
 type UserStepProps = {
-    description: string; icon: React.ReactNode; step: {
+    description: string; icon: React.ReactNode;
+    step: {
         form: React.ElementType,
         props: any
     }
 }
 
 type UserFormCreateProps = {
+    /**
+     * Funcion que es invocada cuando llama al evento de cierre del formulario.
+     * @returns 
+     */
     onClose: () => void;
+    /**
+     * Funcion que es invocada cuando se envia el formulario.
+     * @param user 
+     * @returns 
+     */
     onFormSubmit?: (user: User) => void;
 }
 
