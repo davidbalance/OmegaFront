@@ -9,12 +9,37 @@ import React, { useCallback, useEffect } from 'react'
 
 type MedicalResultWithoutOrder = Omit<MedicalResult, 'order'>;
 interface MedicalResultActionMenuProps {
+    /**
+     * Valores del resultado medico usados en la inicializacion del componente.
+     */
     data: MedicalResultWithoutOrder;
-    onClick?: () => void;
+    /**
+     * Estado que habilita la descarga de un reporte medico.
+     */
     downloadResult?: boolean;
+    /**
+     * Estado que habilita la descarga de un resultado medico.
+     */
     downloadReport?: boolean;
+    /**
+     * Funcion que es invocada cuando se realiza un click.
+     * @returns 
+     */
+    onClick?: () => void;
+    /**
+     * Funcion que es invocada cuando se llama al evento de asignacion de morbilidades
+     * @returns 
+     */
     onUploadResult?: () => void;
+    /**
+     * Funcion que es invocada cuando se llama al evento de carga de resultado medico.
+     * @returns 
+     */
     onCreateReport?: () => void;
+    /**
+     * Funcion que es invocada cuando se llama al evento de creacion de reporte medico.
+     * @returns 
+     */
     onDiseaseModification?: () => void;
 }
 const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({

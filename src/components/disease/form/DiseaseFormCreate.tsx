@@ -9,8 +9,17 @@ import { DiseaseForm } from './DiseaseForm';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 
 type DiseaseFormCreateProps = {
+    /**
+     * Identificador unico de un grupo de morbilidades
+     */
     group: number;
+    /**
+     * Funcion que es llamada cuando se llama al cierre del fomulario.
+     */
     onClose: () => void;
+    /**
+     * Funcion que es llamada cuando se envia el formulario.
+     */
     onFormSubmitted: (data: Disease) => void;
 }
 const DiseaseFormCreate: React.FC<DiseaseFormCreateProps> = ({ group, onClose, onFormSubmitted }) => {

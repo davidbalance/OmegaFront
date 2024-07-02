@@ -18,9 +18,21 @@ import { useFetch } from '@/hooks/useFetch';
 import { PATCHMedicalResultReportRequestDto } from '@/lib/dtos/medical/result/request.dto';
 
 type MedicalReportFormProps = {
+    /**
+     * Valores del reporte medico usados en la inicializacion del componente.
+     */
     result: Omit<MedicalResult, 'order'>;
-    onFormSubmittion?: (data: MedicalResult) => void;
+    /**
+     * Funcion que es invocada cuando se cierra el formulario.
+     * @returns 
+     */
     onClose: () => void;
+    /**
+     * Funcion que es invocada cuando se completa el envio del formulario.
+     * @param data 
+     * @returns 
+     */
+    onFormSubmittion?: (data: MedicalResult) => void;
 }
 const MedicalReportForm: React.FC<MedicalReportFormProps> = ({ result, onClose, onFormSubmittion }) => {
 

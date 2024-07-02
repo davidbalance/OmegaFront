@@ -6,7 +6,15 @@ import { notifications } from '@mantine/notifications';
 import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
 interface UserFormAssignCompanyProps {
+    /**
+     * Valor que es usado para inicializar el formulario.
+     */
     value?: string;
+    /**
+     * Funcion que es invocada cuando es enviado el formulario.
+     * @param value 
+     * @returns 
+     */
     onFormSubmittion?: (value: string) => void;
 }
 const UserFormAssignCompany = React.forwardRef<HTMLButtonElement, UserFormAssignCompanyProps>(({ value, onFormSubmittion }, ref) => {

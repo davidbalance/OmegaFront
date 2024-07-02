@@ -5,7 +5,7 @@ import { LocalStorageHookResult } from "./hook.types";
 
 export const useLocalStorage = <T>(key: string, defaultValue: T): LocalStorageHookResult<T> => {
     const [value, setValue] = useState<T>(defaultValue);
-    const [defaultValueState, setDefaultValueState] = useState<T>(defaultValue)
+    const [defaultValueState] = useState<T>(defaultValue)
 
     useEffect(() => {
         const currentValue = localStorage.getItem(key);

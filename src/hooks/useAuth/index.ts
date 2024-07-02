@@ -8,6 +8,10 @@ import { useLocalStorage } from "../useLocalStorage";
 import { AuthCredentials } from "@/lib/dtos/auth/request.dto";
 import { AuthResult } from "./hook.types";
 
+/**
+ * Hook usado en la administracion de inicio y cierre de sesion.
+ * @returns 
+ */
 export const useAuth = (): AuthResult => {
 
     const [error, setError] = useState<Error | null>(null);

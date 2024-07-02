@@ -8,6 +8,11 @@ import { IconKey, IconDeviceFloppy, IconClipboard } from '@tabler/icons-react'
 import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react'
 
 type ApiKeyFormCreateProps = {
+    /**
+     * Funcion que es llamada cuando el formulario se envia.
+     * @param data 
+     * @returns 
+     */
     onFormSubmittion: (data: ApiKey) => void;
 }
 const ApiKeyFormCreate: React.FC<ApiKeyFormCreateProps> = ({ onFormSubmittion }) => {

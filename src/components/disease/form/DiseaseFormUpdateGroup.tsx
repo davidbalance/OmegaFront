@@ -9,11 +9,29 @@ import { DiseaseGroup } from "@/lib/dtos/disease/group/response.dto";
 import { Disease } from "@/lib/dtos/disease/response.dto";
 import { LayoutSubFormTitle } from "@/components/layout/sub/form/LayoutSubFormTitle";
 
-type DiseaseFormUpdateGroupProps = {
+interface DiseaseFormUpdateGroupProps {
+    /**
+     * Valores para la iniciacion por defecto del formulario.
+     */
     disease: Disease;
+    /**
+     * Grupo al que pertenece la morbilidad.
+     */
     group: number;
+    /**
+     * Grupos de morbilidades.
+     */
     groups: { label: string, value: string }[]
+    /**
+     * Funcion que es llamada cuando se envia el formulario.
+     * @param value 
+     * @returns 
+     */
     onFormSubmitted: (value: Disease & { group: number }) => void;
+    /**
+     * Funcion que es llamada cuando se llama al cierre del fomulario.
+     * @returns 
+     */
     onClose: () => void;
 }
 const DiseaseFormUpdateGroup: React.FC<DiseaseFormUpdateGroupProps> = ({ onClose, onFormSubmitted, disease, group, groups }) => {

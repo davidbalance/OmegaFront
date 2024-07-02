@@ -21,10 +21,22 @@ const userSchema = Joi.object({
         })
 });
 
-
 interface MedicalClientFormProps {
+    /**
+     * DNI del cliente medico.
+     */
     dni: string;
+    /**
+     * Funcion que es invocada antes de enviar el fomulario.
+     * @param email 
+     * @returns 
+     */
     onValidate: (email: string) => boolean;
+    /**
+     * Funcion que es invocada cuando se completa el envio del formmulario.
+     * @param data 
+     * @returns 
+     */
     onFormSubmittion?: (data: MedicalClientEmail[]) => void;
 }
 const MedicalClientForm: React.FC<MedicalClientFormProps> = ({ dni, onValidate, onFormSubmittion }) => {

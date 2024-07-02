@@ -9,8 +9,19 @@ import { notifications } from '@mantine/notifications'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 
 type DoctorFormUploadSignatureProps = {
+    /**
+     * Identificador unico del medico.
+     */
     doctor: number;
+    /**
+     * Funcion que es invocada cuando se llama al evento de cierre.
+     * @returns 
+     */
     onClose: () => void;
+    /**
+     * Funcion que es invocada cuando se envia el formulario.
+     * @returns 
+     */
     onFormSubmittion?: () => void;
 }
 const DoctorFormUploadSignature: React.FC<DoctorFormUploadSignatureProps> = ({ doctor, onClose, onFormSubmittion }) => {

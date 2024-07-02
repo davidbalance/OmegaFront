@@ -4,9 +4,22 @@ import { IconPlus, IconProps } from "@tabler/icons-react";
 import React from "react";
 
 interface ButtonResponsiveProps {
+    /**
+     * Etiqueta para el boton.
+     */
     label: string;
+    /**
+     * Funcion que es llamada cuando se hace un click.
+     * @returns 
+     */
     onClick: () => void;
+    /**
+     * Icono para el boton
+     */
     icon?: React.ReactElement<IconProps>
+    /**
+     * Props para el icono
+     */
     iconProps?: IconProps
 }
 const ButtonResponsive: React.FC<ButtonResponsiveProps> = ({ label, onClick, icon, iconProps }) => {

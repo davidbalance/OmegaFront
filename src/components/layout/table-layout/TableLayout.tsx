@@ -26,12 +26,33 @@ type ActionColumnOptions<T extends object> = {
 }
 
 type TableLayoutProps<T extends object> = {
+    /**
+     * Titulo de la tabla.
+     */
     title: string;
-    columns: ColumnOptions<T>[]
+    /**
+     * Columnas que seran renderizadas.
+     */
+    columns: ColumnOptions<T>[];
+    /**
+     * Arreglo de datos para ser renderizados.
+     */
     data: T[];
+    /**
+     * Estado de carga de la tabla.
+     */
     isLoading: boolean;
+    /**
+     * Elemento react de la columna de accion.
+     */
     action?: ActionColumnOptions<T>;
-    dock?: React.ReactElement | React.ReactElement[]
+    /**
+     * Elementos que se situan a un lado del buscador, solo se aceptan componentes de react.
+     */
+    dock?: React.ReactElement | React.ReactElement[];
+    /**
+     * Tamaño de elementos que seran redenrizados por pagina.
+     */
     size?: number;
 }
 

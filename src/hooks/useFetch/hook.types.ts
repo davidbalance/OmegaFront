@@ -2,25 +2,25 @@ import { FetchHookResult } from "@/lib/types/fetch-hook.interface";
 
 export type FetchResult<T> = FetchHookResult<T> & {
     /**
-     * Will give you the http status of the request
+     * Valor numerico del estado al realizarse la peticion.
      */
     status: number | null;
     /**
-     * Will give you the body request object
+     * Cuerpo de la peticion.
      */
     body: any | null;
     /**
-     * Set the body for the request body
+     * Coloca el cuerpo a la peticion.
      * @template R Type of the request body
      * @param body Request body
      */
     request: <R>(body: R | null) => void;
     /**
-     * Triggers the request
+     * Reenvia la peticion.
      */
     reload: () => void;
     /**
-     * Resets the data, error and request body;
+     * Restaura todos los estados del hook a sus valores iniciales.
      */
     reset: () => void;
 }
@@ -28,15 +28,15 @@ export type FetchResult<T> = FetchHookResult<T> & {
 export type FetchOptions<T> = Omit<RequestInit, 'body' | 'method'> & {
     body?: any | null;
     /**
-     * Will indicates the system to fetch when the component is mounted
+     * Indica si el se debe hacer la peticion cuando el componente es montado, por defecto es true
      */
     loadOnMount?: boolean;
     /**
-     * Decides if you are getting a json or blob
+     * El tipo de objeto que recibes, por defecto json
      */
     type?: 'json' | 'blob',
     /**
-     * Will indicates the system to fetch when the component is mounted
+     * Tipo de dato a enviar, por defecto json
      */
     application?: 'json' | 'form',
 }

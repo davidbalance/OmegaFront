@@ -4,9 +4,20 @@ import { Box, Table, TextInput, Checkbox, Button } from '@mantine/core';
 import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react'
 
 type WebResourceFormAssignProps = {
-    onSubmit: (values: { resources: number[] }) => void;
-    resources: WebResource[];
+    /**
+     * Objeto que inicializa el formulario.
+     */
     data?: { resources: number[] };
+    /**
+     * Arreglo de recursos web necesarios para la inicializacion del formulario.
+     */
+    resources: WebResource[];
+    /**
+     * Funcion que es invocada cuando se envia el formulario.
+     * @param values 
+     * @returns 
+     */
+    onSubmit: (values: { resources: number[] }) => void;
 };
 
 const WebResourceFormAssign = React.forwardRef<HTMLButtonElement, WebResourceFormAssignProps>(({ onSubmit, resources, data }, ref) => {

@@ -8,6 +8,12 @@ const chunkRecursive = <T>(array: T[], size: number): T[][] => {
     return [head, ...chunkRecursive(tail, size)];
 }
 
+/**
+ * Se encarga de la paginar un array.
+ * @param initialValues 
+ * @param initialSize 
+ * @returns 
+ */
 const useChunk = <T>(initialValues: T[], initialSize: number = 10): [data: T[][], handlers: ChunkHandlers<T>, values: ChunkValues<T>] => {
     const [data, setData] = useState<T[][]>([]);
     const [size, setSize] = useState<number>(initialSize);

@@ -4,8 +4,11 @@ import React, { FormEvent, useEffect, useState } from "react";
 
 type DiseaseFormGroup = { group: number };
 
-export type DiseaseFormGroupProps = BaseFormProps<DiseaseFormGroup> & {
-    options: { value: string, label: string }[]
+export interface DiseaseFormGroupProps extends BaseFormProps<DiseaseFormGroup> {
+    /**
+     * Valores que inicializan el selector del formulario.
+     */
+    options: { value: string, label: string }[];
 };
 const DiseaseFormGroup = React.forwardRef<HTMLButtonElement, DiseaseFormGroupProps>(({ formData, onFormSubmitted, options }, ref) => {
 

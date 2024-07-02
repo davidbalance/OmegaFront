@@ -1,17 +1,39 @@
 import { useFetch } from '@/hooks/useFetch';
 import { blobFile } from '@/lib/utils/blob-to-file';
-import { Menu, rem } from '@mantine/core'
+import { Menu } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
-import { IconPdf } from '@tabler/icons-react'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 
 interface MedicalResultButtonMenuItemProps {
+    /**
+     * Tipo del elemento que sera descargado.
+     */
     type: 'report' | 'result';
+    /**
+     * Identificador unico del archivo.
+     */
     file: number;
+    /**
+     * Etiqueta del boton de descarga.
+     */
     label: string;
+    /**
+     * Nombre del archivo a descargar.
+     */
     fileName: string;
+    /**
+     * Icono que sera colocado en el elemento del menu.
+     */
     icon: React.ReactNode;
+    /**
+     * Funcion que es invocada cuando comienza la descarga del archivo.
+     * @returns 
+     */
     onStartDownload?: () => void;
+    /**
+     * Funcion que es invocada cuando finaliza la descarga del archivo.
+     * @returns 
+     */
     onEndDownload?: () => void;
 }
 const MedicalResultButtonMenuItem: React.FC<MedicalResultButtonMenuItemProps> = ({ icon, file, fileName, type, label, onEndDownload, onStartDownload }) => {

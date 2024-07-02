@@ -101,7 +101,7 @@ const DoctorPage: React.FC = () => {
     const view = useMemo(() => ({
         [LayoutState.CREATE_CREDENTIAL]: (
             <DoctorFormCreateCredential
-                doctor={{
+                user={{
                     id: selectedDoctor?.user!,
                     email: selectedDoctor?.email!
                 }}

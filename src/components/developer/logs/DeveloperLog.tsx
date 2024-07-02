@@ -7,6 +7,9 @@ import React, { useMemo } from 'react'
 import classes from './DeveloperLog.module.css'
 
 interface DeveloperLog {
+    /**
+     * Log del sistema
+     */
     log: ServerLog
 }
 const DeveloperLog: React.FC<DeveloperLog> = ({ log }) => {

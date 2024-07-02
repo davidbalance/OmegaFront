@@ -9,7 +9,16 @@ import { DiseaseGroup } from "@/lib/dtos/disease/group/response.dto";
 import { LayoutSubFormTitle } from "@/components/layout/sub/form/LayoutSubFormTitle";
 
 type DiseaseGroupFormCreateProps = {
+    /**
+     * Funcion que es llamada cuando se llama al cierre del fomulario.
+     * @returns 
+     */
     onClose: () => void;
+    /**
+     * Funcion que es llamada cuando se envia el formulario.
+     * @param data 
+     * @returns 
+     */
     onFormSubmitted: (data: DiseaseGroup) => void;
 }
 const DiseaseGroupFormCreate: React.FC<DiseaseGroupFormCreateProps> = ({ onClose, onFormSubmitted }) => {

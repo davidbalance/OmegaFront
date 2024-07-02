@@ -34,7 +34,15 @@ const passwordSchema = Joi.object<IPasswordForm>({
 });
 
 type AuthenticationFormPasswordProps = {
+    /**
+     * Funcion que es llamada cuando el formulario se envia.
+     * @param values 
+     * @returns 
+     */
     onSubmit: (values: Omit<IPasswordForm, 'confirmPassword'>) => void;
+    /**
+     * Datos usados para llenar el formulario cuando es montado
+     */
     data?: { password: string };
 }
 const AuthenticationFormPassword = React.forwardRef<HTMLButtonElement, AuthenticationFormPasswordProps>(({ data, onSubmit }, ref: ForwardedRef<HTMLButtonElement>) => {

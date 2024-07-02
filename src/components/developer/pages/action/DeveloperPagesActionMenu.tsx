@@ -1,5 +1,4 @@
 import { useFetch } from '@/hooks/useFetch';
-import { POSTWebFullResourceRequestDto } from '@/lib/dtos/web/resources.request.dto';
 import { DELETEWebResourceResponseDto } from '@/lib/dtos/web/resources.response.dto';
 import { Menu, MenuTarget, Flex, ActionIcon, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
@@ -7,8 +6,20 @@ import { IconDotsVertical, IconPencil, IconTrash } from '@tabler/icons-react'
 import React, { useCallback, useEffect } from 'react'
 
 interface DeveloperPagesActionMenuProps {
-    resource: number,
+    /**
+     * Identificador unico del recurso web.
+     * @returns 
+     */
+    resource: number;
+    /**
+     * Funcion que es llamada cuando se realiza un click a la opcion de modificacion.
+     * @returns 
+     */
     onModification: () => void;
+    /**
+     * Funcion que es llamada cuando se realiza un click a la opcion de eliminacion.
+     * @returns 
+     */
     onDelete: (id: number) => void;
 }
 const DeveloperPagesActionMenu: React.FC<DeveloperPagesActionMenuProps> = ({ resource, onModification, onDelete }) => {

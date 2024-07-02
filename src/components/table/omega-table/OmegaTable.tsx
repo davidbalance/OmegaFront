@@ -6,12 +6,32 @@ import { OmegaTd } from '../omega-td/OmegaTd';
 import { useMediaQuery } from '@mantine/hooks';
 
 type OmegaTableProps = {
+    /**
+     * Componentes de react que forman el encabezado de la tabla.
+     */
     header: React.ReactNode;
+    /**
+     * Arreglo de componentes de react que forman el cuerpo de la tabla.
+     */
     rows: React.JSX.Element[];
+    /**
+     * Total de items.
+     */
     total: number;
+    /**
+     * Pagina actual.
+     */
     page: number;
-    onPageChange: (value: number) => void;
+    /**
+     * Estado de carga.
+     */
     loading?: boolean;
+    /**
+     * Funcion que es invocada cuando se llama al evento de cambio de pagina.
+     * @param value 
+     * @returns 
+     */
+    onPageChange: (value: number) => void;
 }
 const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPageChange, loading = false }) => {
     const [scrolled, setScrolled] = useState<boolean>(false);

@@ -1,6 +1,11 @@
 import { useCallback, useState } from "react";
 import { ListHandler } from "./hook.types";
 
+/**
+ * Lista los elementos de un arreglo dado y proveer metodos para su correcta manipulacion.
+ * @param initialValues 
+ * @returns 
+ */
 const useList = <T extends object>(initialValues: T[]): [data: T[], handlers: ListHandler<T>] => {
     const [values, setValues] = useState<T[]>(initialValues);
 

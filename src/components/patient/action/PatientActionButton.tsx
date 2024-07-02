@@ -3,7 +3,15 @@ import { IconDotsVertical, IconBuilding, IconAt } from '@tabler/icons-react'
 import React from 'react'
 
 interface PatientActionButtonProps {
+  /**
+   * Funcion que es invocada cuando se llama al evento de asignacion de empresas.
+   * @returns 
+   */
   onAssignCompany?: () => void;
+  /**
+   * Funcion que es invocada cuando se llama al evento de asignacion de correos electronicos.
+   * @returns 
+   */
   onEmail?: () => void;
 }
 const PatientActionButton: React.FC<PatientActionButtonProps> = ({ onAssignCompany, onEmail }) => {

@@ -7,8 +7,15 @@ import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
-type UserFormChangePasswordProps = {
+interface UserFormChangePasswordProps {
+    /**
+     * Correo electronico necesario para la inicializacion del formulario.
+     */
     email: string;
+    /**
+     * Funcion que es invocada cuando llama al evento de cierre del formulario.
+     * @returns 
+     */
     onClose: () => void;
 }
 const UserFormChangePassword: React.FC<UserFormChangePasswordProps> = ({ email, onClose }) => {

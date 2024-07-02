@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FetchOptions, FetchResult } from "./hook.types";
 
+/**
+ * Se encarga de efectuar consultas y envio de peticiones atraves de estados.
+ * @param url 
+ * @param method 
+ * @param options 
+ * @returns 
+ */
 const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE", options?: FetchOptions<T>): FetchResult<T> => {
     const {
         body: optionBody = null,

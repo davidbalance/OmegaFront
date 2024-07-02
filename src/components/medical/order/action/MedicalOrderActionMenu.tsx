@@ -11,8 +11,20 @@ import { useDisclosure } from '@mantine/hooks';
 const baseUrl = (order: number, mail: number) => `/api/medical/orders/mail/${order}/${mail}`;
 
 interface MedicalOrderActionMenuProps {
+    /**
+     * Idetnficador unico de la orden medica.
+     */
     order: number;
+    /**
+     * Arreglo de correos electronicos.
+     */
     email: MedicalClientEmail[]
+    /**
+     * Funcion que es invocada se envia el correo.
+     * @param id 
+     * @param mailStatus 
+     * @returns 
+     */
     onMailSend: (id: number, mailStatus: true) => void;
 }
 const MedicalOrderActionMenu: React.FC<MedicalOrderActionMenuProps> = ({ email, order, onMailSend }) => {

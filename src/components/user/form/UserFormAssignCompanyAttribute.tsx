@@ -1,7 +1,7 @@
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { useFetch } from '@/hooks/useFetch';
-import { GETUserAttributeRequestDto } from '@/lib/dtos/user/user.response.dto';
+import { GETUserAttributeResponseDto } from '@/lib/dtos/user/user.response.dto';
 import { LoadingOverlay, Flex, rem, Box, Button, Title } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
@@ -10,7 +10,14 @@ import { IconDeviceFloppy } from '@tabler/icons-react';
 import { PATCHUserAttributeRequestDto } from '@/lib/dtos/user/user.request.dto';
 
 interface UserFormAssignCompanyAttributeProps {
+    /**
+     * URL que se conecta al endpoint de asignacion de atributos.
+     */
     url: string;
+    /**
+     * Funcion que es invocada cuando llama al evento de cierre del formulario.
+     * @returns 
+     */
     onClose: () => void;
 }
 const UserFormAssignCompanyAttribute: React.FC<UserFormAssignCompanyAttributeProps> = ({ url, onClose }) => {
@@ -23,7 +30,7 @@ const UserFormAssignCompanyAttribute: React.FC<UserFormAssignCompanyAttributePro
         data: fetchAttribute,
         error: attributeError,
         loading: attributeLoading
-    } = useFetch<GETUserAttributeRequestDto>(url, 'GET');
+    } = useFetch<GETUserAttributeResponseDto>(url, 'GET');
 
     const {
         data: patchAttribute,

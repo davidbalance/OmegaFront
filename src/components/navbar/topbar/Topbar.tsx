@@ -5,6 +5,9 @@ import { TopbarMenu } from './TopbarMenu';
 import { NavLogo } from '../nav/logo/NavLogo';
 
 type TopbarProps = {
+    /**
+     * Boton que permite abrir o cerrar el panel de navegacion.
+     */
     burger: {
         opened: boolean;
         onClick: () => void;

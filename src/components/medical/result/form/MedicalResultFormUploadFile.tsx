@@ -9,8 +9,19 @@ import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useState } from 'react'
 
 type MedicalResultFormUploadFileProps = {
+    /**
+     * Identificador unico del resultado medico.
+     */
     medicalResult: number;
+    /**
+     * Funcion que es invocada cuando se cierra el formulario.
+     * @returns 
+     */
     onClose: () => void;
+    /**
+     * Funcion que es invocada cuando el formulario es enviado.
+     * @returns 
+     */
     onFormSubmittion?: () => void;
 }
 const MedicalResultFormUploadFile: React.FC<MedicalResultFormUploadFileProps> = ({ medicalResult, onClose, onFormSubmittion }) => {
