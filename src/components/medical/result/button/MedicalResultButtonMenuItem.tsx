@@ -42,7 +42,7 @@ const MedicalResultButtonMenuItem: React.FC<MedicalResultButtonMenuItemProps> = 
         data: fileBlob,
         error: fileError,
         reload: fileReload,
-    } = useFetch<Blob>(`/api/medical/results/file/downloader/${type}/${file}`, 'GET', { loadOnMount: false, type: 'blob' });
+    } = useFetch<Blob>(`/api/medical/file/downloader/${type}/${file}`, 'GET', { loadOnMount: false, type: 'blob' });
 
     const handleClickEventDownload = useCallback(() => {
         fileReload();

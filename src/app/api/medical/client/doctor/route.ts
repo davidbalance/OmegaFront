@@ -9,7 +9,6 @@ export async function GET() {
     try {
         const getClient = withAuth<any, GETMedicalClientArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
         const { clients }: GETMedicalClientArrayResponseDto = await getClient(endpoints.MEDICAL.CLIENT.FIND_CLIENT_CLIENTS_BY_DOCTOR, {});
-        console.log(clients);
         return NextResponse.json(clients, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

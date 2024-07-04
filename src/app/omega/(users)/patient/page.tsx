@@ -193,6 +193,7 @@ const PatientPage: React.FC = () => {
     ], [
         patientLoading,
         patients,
+        reloadOrderButton,
         handlePatientRow,
         patientSelected,
         orderLoading,

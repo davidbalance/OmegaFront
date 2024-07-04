@@ -67,14 +67,14 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         error: fileResultError,
         reload: fileResultReload,
         reset: fileResultReset
-    } = useFetch<Blob>(`/api/medical/results/file/downloader/result/${data.id}`, 'GET', { loadOnMount: false, type: 'blob' });
+    } = useFetch<Blob>(`/api/medical/file/downloader/result/${data.id}`, 'GET', { loadOnMount: false, type: 'blob' });
 
     const { data: fileReportBlob,
         loading: fileReportLoading,
         error: fileReportError,
         reload: fileReportReload,
         reset: fileReportReset
-    } = useFetch<Blob>(`/api/medical/results/file/downloader/report/${data.report?.id || ''}`, 'GET', { loadOnMount: false, type: 'blob' });
+    } = useFetch<Blob>(`/api/medical/file/downloader/report/${data.report?.id || ''}`, 'GET', { loadOnMount: false, type: 'blob' });
 
     const handleClickDiseaseModification = useCallback(() => {
         onDiseaseModification?.();
@@ -116,7 +116,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     const handleDeleteResultEventComplete = useCallback(() => {
         fileRemoveClose();
         onDeleteResultFile?.();
-    }, [onDeleteResultFile]);
+    }, [onDeleteResultFile, fileRemoveClose]);
 
     return (
         <Menu>
@@ -153,6 +153,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
                     <MedicalResultDeleteFileMenuItem
                         id={data.id}
                         type={'result'}
+                        onError={fileRemoveClose}
                         onComplete={handleDeleteResultEventComplete}
                         onStart={fileRemoveOpen} />
                 )}

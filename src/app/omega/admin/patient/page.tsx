@@ -202,7 +202,7 @@ const PatientPage: React.FC = () => {
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </ListRowElement>
-    ), [handleClickEventUploadResultFile, handleClickEventUpdateDisease]);
+    ), [handleClickEventUploadResultFile, handleClickEventUpdateDisease, handleClickEventDeleteMedicalResultFile]);
 
     const handleOrderRefesh = useCallback(() => {
         setMedicalOrderSelected(null);

@@ -58,7 +58,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
         reload: fileReload,
         request: fileRequest,
         reset: fileReset
-    } = useFetch<Blob>(`/api/medical/results/file/downloader/multiple`, 'POST', { loadOnMount: false, type: 'blob' });
+    } = useFetch<Blob>(`/api/medical/file/downloader/multiple`, 'POST', { loadOnMount: false, type: 'blob' });
 
     const [orderResults, { override: medicalResultOverride }] = useList<MedicalOrderFile>([]);
 
@@ -113,7 +113,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
                 onChange={() => handleSelection(row)}
             />}
             rightSection={<DownloadActionButton
-                url={`/api/medical/results/file/downloader/${row.type}/${row.id}`}
+                url={`/api/medical/file/downloader/${row.type}/${row.id}`}
                 filename={`${row.examName.toLocaleLowerCase().split(' ').join('_')}.pdf`}
             />}
             onClick={() => handleSelection(row)}>

@@ -7,10 +7,17 @@ import React, { useCallback, useEffect, useState } from 'react'
 interface MedicalResultDeleteFileMenuItemProps {
     id: number;
     type: "result" | "report";
+    onError?: () => void;
     onStart?: () => void;
     onComplete?: () => void;
 }
-const MedicalResultDeleteFileMenuItem: React.FC<MedicalResultDeleteFileMenuItemProps> = ({ id, type, onStart, onComplete }) => {
+const MedicalResultDeleteFileMenuItem: React.FC<MedicalResultDeleteFileMenuItemProps> = ({
+    id,
+    type,
+    onStart,
+    onComplete,
+    onError
+}) => {
 
     const {
         data,
@@ -21,13 +28,17 @@ const MedicalResultDeleteFileMenuItem: React.FC<MedicalResultDeleteFileMenuItemP
 
     const [shouldFetch, setShouldFetch] = useState<boolean>(false);
 
-    const handleDeleteResult = useCallback(() => { 
+    const handleDeleteResult = useCallback(() => {
         setShouldFetch(true);
     }, []);
 
     useEffect(() => {
-        if (error) notifications.show({ message: error.message, color: 'red' });
-    }, [error]);
+        if (error) {
+            console.log(error);
+            onError?.();
+            notifications.show({ message: error.message, color: 'red' });
+        }
+    }, [error, onError]);
 
     useEffect(() => {
         if (shouldFetch) {
