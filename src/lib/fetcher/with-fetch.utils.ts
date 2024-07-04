@@ -52,13 +52,12 @@ type WithAuthDelegate<T, R> = (url: string, options: WithAuthConfigurationOption
 
 export const withAuth = <T, R>(method: WithAuthDelegate<T, R>, { authKey, refreshKey, refreshURL, refreshProcessing }: WithAuthOptions): (WithAuthDelegate<T, R>) => {
     const cookieManager = cookies();
-    const tokenAuth: string | null = cookieManager.get(authKey)?.value || null;
-    let tokenRefresh: string | null = null
-    if (refreshKey) {
-        tokenRefresh = cookieManager.get(refreshKey)?.value || null;
-    }
     return async (url: string, options: WithAuthConfigurationOptions<T>) => {
-
+        const tokenAuth: string | null = cookieManager.get(authKey)?.value || null;
+        let tokenRefresh: string | null = null
+        if (refreshKey) {
+            tokenRefresh = cookieManager.get(refreshKey)?.value || null;
+        }
         if (!tokenAuth) {
             throw new Error('No authentication token provided');
         }
