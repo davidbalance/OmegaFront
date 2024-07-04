@@ -34,9 +34,7 @@ export async function DELETE(
 ) {
     try {
         const deleteFile = withAuth(del, DEFAULT_WITH_AUTH_OPTIONS);
-        console.log(1);
         await deleteFile(endpoints.FILE.RESULT.DELETE_FILE(params.type, params.id), {});
-        console.log(2);
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

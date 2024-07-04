@@ -12,7 +12,6 @@ export async function PATCH(
 ) {
     try {
         const data: PATCHMedicalResultWithDiseaseRequestDto = await req.json();
-        console.log(data);
         const patchExamResult = withAuth<PATCHMedicalResultWithDiseaseRequestDto, any>(patch, DEFAULT_WITH_AUTH_OPTIONS);
         await patchExamResult(endpoints.MEDICAL.RESULT.FIND_ONE_AND_UPDATE_DISEASE(params.id), {
             body: data,
