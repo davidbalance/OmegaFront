@@ -1,5 +1,7 @@
 # Omega Sistema de Reporteria Medica
 
+## Tabla de Contenidos
+
 1. [Introducción](#introduction)
 2. [Autenticación](#used-technologies)
 3. [Guia de Instalacion](#installation-guide)
