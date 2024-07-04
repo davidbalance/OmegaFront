@@ -3,6 +3,7 @@ export interface PATCHMedicalResultWithDiseaseRequestDto {
     diseaseName: string;
     diseaseGroupId: number;
     diseaseGroupName: string;
+    diseaseCommentary: string;
 }
 
 export interface PATCHMedicalResultReportRequestDto {
