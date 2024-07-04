@@ -200,8 +200,9 @@ const PatientPage: React.FC = () => {
 
     const handleOrderRefesh = useCallback(() => {
         setMedicalOrderSelected(null);
+        medicalResultOverride([]);
         orderReload();
-    }, [orderReload]);
+    }, [orderReload, medicalResultOverride]);
 
     const reloadOrderButton = useMemo(() => patientSelected !== null
         ? (<ActionIcon variant='light' onClick={handleOrderRefesh}>
