@@ -140,6 +140,10 @@ const PatientPage: React.FC = () => {
         medicalResultUpdate('id', id, { hasFile: true });
     }, [medicalResultUpdate]);
 
+    const handleClickEventDeleteMedicalResultFile = useCallback((id: number) => {
+        medicalResultUpdate('id', id, { hasFile: false });
+    }, [medicalResultUpdate]);
+
     const handlePatientRow = useCallback((row: PatientDataType) => (
         <ListRowElement
             key={row.id}
@@ -186,9 +190,11 @@ const PatientPage: React.FC = () => {
             key={row.id}
             rightSection={<MedicalResultActionMenu
                 onDiseaseModification={() => handleClickEventUpdateDisease(row)}
+                // deleteResultFile={row.hasFile}
                 downloadReport={!!row.report}
                 downloadResult={row.hasFile}
                 onUploadResult={() => handleClickEventUploadResultFile(row)}
+                onDeleteResultFile={() => handleClickEventDeleteMedicalResultFile(row.id)}
                 data={row} />}
         >
             <Title order={6}>{row.examName}</Title>

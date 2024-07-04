@@ -1,11 +1,12 @@
 import { useFetch } from '@/hooks/useFetch';
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { blobFile } from '@/lib/utils/blob-to-file';
-import { Menu, MenuTarget, Loader, ActionIcon, rem } from '@mantine/core';
+import { Menu, MenuTarget, ActionIcon, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconX, IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload } from '@tabler/icons-react';
+import { IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload } from '@tabler/icons-react';
 import React, { useCallback, useEffect } from 'react'
+import { MedicalResultDeleteFileMenuItem } from '../menu/MedicalResultDeleteFileMenuItem';
 
 type MedicalResultWithoutOrder = Omit<MedicalResult, 'order'>;
 interface MedicalResultActionMenuProps {
@@ -41,17 +42,25 @@ interface MedicalResultActionMenuProps {
      * @returns 
      */
     onDiseaseModification?: () => void;
+    /**
+     * Estado que habilita la eliminacion de un archivo de resultado medico.
+     */
+    onDeleteResultFile?: () => void;
 }
 const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     data,
     downloadReport,
     downloadResult,
+    onDeleteResultFile,
     onDiseaseModification,
     onUploadResult,
     onCreateReport
 }) => {
 
-    const [disclosure, { close, open }] = useDisclosure(false)
+    const [fileRemove, {
+        close: fileRemoveClose,
+        open: fileRemoveOpen
+    }] = useDisclosure(false)
 
     const { data: fileResultBlob,
         loading: fileResultLoading,
@@ -66,8 +75,6 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         reload: fileReportReload,
         reset: fileReportReset
     } = useFetch<Blob>(`/api/medical/results/file/downloader/report/${data.report?.id || ''}`, 'GET', { loadOnMount: false, type: 'blob' });
-
-    const handleClick = useCallback(() => open(), [open]);
 
     const handleClickDiseaseModification = useCallback(() => {
         onDiseaseModification?.();
@@ -106,16 +113,19 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         else if (fileResultError) notifications.show({ message: fileResultError.message, color: 'red' });
     }, [fileReportError, fileResultError]);
 
+    const handleDeleteResultEventComplete = useCallback(() => {
+        fileRemoveClose();
+        onDeleteResultFile?.();
+    }, [onDeleteResultFile]);
+
     return (
-        <Menu onClose={close} disabled={fileResultLoading || fileReportLoading}>
+        <Menu>
             <MenuTarget>
-                {
-                    fileResultLoading || fileReportLoading
-                        ? <Loader size='xs' />
-                        : <ActionIcon variant="transparent" onClick={handleClick}>
-                            {disclosure ? <IconX style={{ width: '70%', height: '70%' }} stroke={1.5} /> : <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />}
-                        </ActionIcon>
-                }
+                <ActionIcon
+                    variant="transparent"
+                    loading={fileResultLoading || fileReportLoading || fileRemove}>
+                    <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                </ActionIcon>
             </MenuTarget>
             <Menu.Dropdown>
                 {(onDiseaseModification || onUploadResult || downloadResult) && <Menu.Label>Resultados medicos</Menu.Label>}
@@ -138,6 +148,13 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
                     <Menu.Item onClick={handleClickEventFileResultUpload} leftSection={<IconUpload style={{ width: rem(16), height: rem(16) }} />}>
                         Subir resultado
                     </Menu.Item>
+                )}
+                {(onDeleteResultFile) && (
+                    <MedicalResultDeleteFileMenuItem
+                        id={data.id}
+                        type={'result'}
+                        onComplete={handleDeleteResultEventComplete}
+                        onStart={fileRemoveOpen} />
                 )}
                 {(onDiseaseModification || downloadResult) && <Menu.Divider />}
 
