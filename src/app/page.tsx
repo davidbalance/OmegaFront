@@ -1,17 +1,18 @@
 'use client'
 
+import { Loader } from "@mantine/core";
 import styles from "./page.module.css";
 import { redirect } from "next/navigation";
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 
 const Home: React.FC = () => {
-  useLayoutEffect(() => {
+  useEffect(() => {
     redirect('login');
-  }, []);
+  }, [])
 
   return (
     <main className={styles.main}>
-      Loading resources...
+      <Loader type="dots" />
     </main>
   );
 }
