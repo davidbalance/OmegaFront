@@ -134,7 +134,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
                         Descargar resultado
                     </Menu.Item>
                 )}
-                {(onUploadResult && !downloadResult) && (
+                {(onUploadResult) && (
                     <Menu.Item onClick={handleClickEventFileResultUpload} leftSection={<IconUpload style={{ width: rem(16), height: rem(16) }} />}>
                         Subir resultado
                     </Menu.Item>

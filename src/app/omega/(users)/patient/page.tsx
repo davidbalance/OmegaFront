@@ -138,6 +138,9 @@ const PatientPage: React.FC = () => {
                 data={row} />}
         >
             <Title order={6}>{row.examName}</Title>
+            <Text size='xs' c={row.diseaseName ? 'neutral' : 'red'}>{row.diseaseName ? row.diseaseName : 'Morbilidad no asociada'}</Text>
+            {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
+            {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </ListRowElement>
     ), []);
 
