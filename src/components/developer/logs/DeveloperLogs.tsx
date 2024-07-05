@@ -4,7 +4,7 @@ import { useFetch } from '@/hooks/useFetch'
 import { useList } from '@/hooks/useList';
 import { POSTLogRequestDto } from '@/lib/dtos/logs/log.request.dto';
 import { ServerLog } from '@/lib/dtos/logs/log.response.dto';
-import { Flex, LoadingOverlay, ScrollArea, rem } from '@mantine/core';
+import { ActionIcon, Flex, LoadingOverlay, ScrollArea, rem } from '@mantine/core';
 import { DatePickerInput, DatesRangeValue } from '@mantine/dates';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -12,6 +12,7 @@ import { DeveloperLog } from './DeveloperLog';
 import classes from './DeveloperLogs.module.css';
 import DevloperLogButtons from './DevloperLogButtons';
 import { useMediaQuery } from '@mantine/hooks';
+import { IconReload } from '@tabler/icons-react';
 
 const DeveloperLogs: React.FC = () => {
 
@@ -55,7 +56,15 @@ const DeveloperLogs: React.FC = () => {
         });
     }, [logRequest]);
 
-    const logItems = useMemo(() => logDataArray.map((e, index) => <DeveloperLog key={index} log={e} />), [logDataArray])
+    const logItems = useMemo(() => logDataArray.map((e, index) => <DeveloperLog key={index} log={e} />), [logDataArray]);
+
+    const handleReload = useCallback(() => {
+        setSearchRequest(prev => {
+            logRequest(prev ? prev : {});
+            setShouldRequest(true);
+            return prev;
+        })
+    }, [logRequest]);
 
     useEffect(() => {
         if (logError) notifications.show({ message: logError.message, color: 'red' });
@@ -78,7 +87,9 @@ const DeveloperLogs: React.FC = () => {
     return (
         <ModularLayout>
             <ModularLayout direction={isMobile ? 'column' : 'row'} h='auto'>
-                <DevloperLogButtons onClick={handleClickEventLogLevel} />
+                <DevloperLogButtons
+                    onReload={handleReload}
+                    onClick={handleClickEventLogLevel} />
 
                 <ModularBox>
                     <DatePickerInput
