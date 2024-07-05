@@ -117,7 +117,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         fileRemoveClose();
         onDeleteResultFile?.();
     }, [onDeleteResultFile, fileRemoveClose]);
-
+    
     const handleDeleteResultEventError = useCallback(() => {
         fileRemoveClose();
     }, [fileRemoveClose]);
