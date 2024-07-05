@@ -34,6 +34,7 @@ const MedicalResultDeleteFileMenuItem: React.FC<MedicalResultDeleteFileMenuItemP
 
     useEffect(() => {
         if (error) {
+            console.log(error);
             onError?.();
             notifications.show({ message: error.message, color: 'red' });
         }
