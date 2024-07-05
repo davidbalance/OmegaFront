@@ -58,7 +58,6 @@ export const withAuth = <T, R>(method: WithAuthDelegate<T, R>, { authKey, refres
         tokenRefresh = cookieManager.get(refreshKey)?.value || null;
     }
     return async (url: string, options: WithAuthConfigurationOptions<T>) => {
-
         if (!tokenAuth) {
             throw new Error('No authentication token provided');
         }
