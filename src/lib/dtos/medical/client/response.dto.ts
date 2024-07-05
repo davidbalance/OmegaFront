@@ -28,4 +28,8 @@ export interface MedicalClient {
 
 export interface GETMedicalClientResponseDto extends MedicalClient { }
 
+export interface GETMedicalClientArrayResponseDto {
+    clients: MedicalClient[];
+}
+
 export interface POSTMedicalClientResponseDto extends MedicalClient { }

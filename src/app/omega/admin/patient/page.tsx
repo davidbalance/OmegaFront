@@ -16,9 +16,10 @@ import { MedicalOrder } from '@/lib/dtos/medical/order/response.dto';
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { Patient } from '@/lib/dtos/user/patient.response.dto';
 import { User } from '@/lib/dtos/user/user.response.dto';
-import { Title, Flex, Text, Grid } from '@mantine/core';
+import { Title, Flex, Text, Grid, ActionIcon, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { IconRefresh } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
@@ -139,6 +140,10 @@ const PatientPage: React.FC = () => {
         medicalResultUpdate('id', id, { hasFile: true });
     }, [medicalResultUpdate]);
 
+    const handleClickEventDeleteMedicalResultFile = useCallback((id: number) => {
+        medicalResultUpdate('id', id, { hasFile: false });
+    }, [medicalResultUpdate]);
+
     const handlePatientRow = useCallback((row: PatientDataType) => (
         <ListRowElement
             key={row.id}
@@ -185,14 +190,31 @@ const PatientPage: React.FC = () => {
             key={row.id}
             rightSection={<MedicalResultActionMenu
                 onDiseaseModification={() => handleClickEventUpdateDisease(row)}
+                // deleteResultFile={row.hasFile}
                 downloadReport={!!row.report}
                 downloadResult={row.hasFile}
                 onUploadResult={() => handleClickEventUploadResultFile(row)}
+                onDeleteResultFile={() => handleClickEventDeleteMedicalResultFile(row.id)}
                 data={row} />}
         >
             <Title order={6}>{row.examName}</Title>
+            <Text size='xs' c={row.diseaseName ? 'neutral' : 'red'}>{row.diseaseName ? row.diseaseName : 'Morbilidad no asociada'}</Text>
+            {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
+            {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </ListRowElement>
-    ), [handleClickEventUploadResultFile, handleClickEventUpdateDisease]);
+    ), [handleClickEventUploadResultFile, handleClickEventUpdateDisease, handleClickEventDeleteMedicalResultFile]);
+
+    const handleOrderRefesh = useCallback(() => {
+        setMedicalOrderSelected(null);
+        medicalResultOverride([]);
+        orderReload();
+    }, [orderReload, medicalResultOverride]);
+
+    const reloadOrderButton = useMemo(() => patientSelected !== null
+        ? (<ActionIcon variant='light' onClick={handleOrderRefesh}>
+            <IconRefresh style={{ width: rem(16), height: rem(16) }} />
+        </ActionIcon>)
+        : undefined, [patientSelected, handleOrderRefesh]);
 
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {
@@ -210,6 +232,7 @@ const PatientPage: React.FC = () => {
             title: patientSelected ? `Ordenes de: ${patientSelected.name} ${patientSelected.lastname}` : 'Ordenes',
             element: <ListLayout<MedicalOrder>
                 key='order-list-layout'
+                dock={reloadOrderButton}
                 loading={orderLoading}
                 data={medicalOrders}
                 columns={medicalOrderColumns}
@@ -230,6 +253,7 @@ const PatientPage: React.FC = () => {
         patientLoading,
         patients,
         handlePatientRow,
+        reloadOrderButton,
         patientSelected,
         orderLoading,
         medicalOrders,

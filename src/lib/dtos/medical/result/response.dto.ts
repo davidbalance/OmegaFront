@@ -10,6 +10,7 @@ export interface MedicalResult {
     diseaseName: string;
     diseaseGroupId: number;
     diseaseGroupName: string;
+    diseaseCommentary: string;
     hasFile: boolean;
     report?: MedicalReport;
 }

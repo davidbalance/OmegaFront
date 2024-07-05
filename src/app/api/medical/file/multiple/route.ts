@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     try {
         const data = await req.json();
-        const blob: Blob = await post(endpoints.FILE.RESULT.DONWLOAD_MULTIPLE_FILE, {
+        const blob: Blob = await post(endpoints.FILE.RESULT.DOWNLOAD_MULTIPLE_FILE, {
             type: 'blob',
             body: data,
             headers: {

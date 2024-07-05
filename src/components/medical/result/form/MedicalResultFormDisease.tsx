@@ -1,11 +1,12 @@
 import { useFetch } from '@/hooks/useFetch';
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto';
-import { ComboboxItem, Modal, Flex, LoadingOverlay, rem, Box, Select, ButtonGroup, Button, ModalProps } from '@mantine/core';
+import { ComboboxItem, Modal, Flex, LoadingOverlay, rem, Box, Select, ButtonGroup, Button, ModalProps, Textarea } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import { HtmlContext } from 'next/dist/server/future/route-modules/app-page/vendored/contexts/entrypoints';
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
 interface MedicalResultFormDiseaseProps extends Omit<ModalProps, 'title'> {
     /**
@@ -54,6 +55,8 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
     const diseaseGroupsOptions = useMemo(() => groups?.map(e => ({ value: `${e.key}`, label: e.label })) || [], [groups]);
     const diseaseOptions = useMemo(() => diseases?.map(e => ({ value: `${e.key}`, label: e.label })) || [], [diseases]);
 
+    const [commentary, setCommentary] = useState<string>(medicalOrderExam ? medicalOrderExam.diseaseCommentary : "");
+
     const handleGroupChangeEvent = useCallback((_: string | null, option: ComboboxItem) => {
         setSelectedDisease(null);
         setSelectedDiseaseGroup({ key: parseInt(option.value), label: option.label });
@@ -62,6 +65,10 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
 
     const handleDiseaseChangeEvent = useCallback((_: string | null, option: ComboboxItem) => {
         setSelectedDisease({ key: parseInt(option.value), label: option.label });
+    }, []);
+
+    const handleCommentaryChangeEvent = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+        setCommentary(event.target.value);
     }, []);
 
     const handleCloseEvent = useCallback(() => {
@@ -77,11 +84,12 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
                 diseaseGroupId: selectedDiseaseGroup.key,
                 diseaseGroupName: selectedDiseaseGroup.label,
                 diseaseId: selectedDisease.key,
-                diseaseName: selectedDisease.label
+                diseaseName: selectedDisease.label,
+                diseaseCommentary: commentary
             });
             setShouldPatchDisease(true);
         }
-    }, [patchRequest, selectedDiseaseGroup, selectedDisease]);
+    }, [patchRequest, commentary, selectedDiseaseGroup, selectedDisease]);
 
     useEffect(() => {
         if (medicalOrderExam) {
@@ -182,6 +190,17 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
                                     nothingFoundMessage="Morbilidad no encontrada..."
                                     allowDeselect={false}
                                     maxDropdownHeight={200}
+                                />
+
+                                <Textarea
+                                    label="Comentario"
+                                    value={commentary}
+                                    placeholder="Comentario de la morbilidad"
+                                    autosize
+                                    minRows={2}
+                                    maxRows={8}
+                                    onChange={handleCommentaryChangeEvent}
+                                    required
                                 />
                             </Box>
                             <ButtonGroup>

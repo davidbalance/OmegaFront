@@ -10,7 +10,7 @@ export async function GET(
     { params }: { params: { dni: string } }) {
     try {
         const getOrder = withAuth<any, GETMedicalOrderArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { orders }: GETMedicalOrderArrayResponseDto = await getOrder(endpoints.MEDICAL.ORDER.FIND_BY_PATIENT(params.dni), { cache: false });
+        const { orders }: GETMedicalOrderArrayResponseDto = await getOrder(endpoints.MEDICAL.ORDER.FIND_BY_PATIENT_AND_DOCTOR(params.dni), { cache: false });
         return NextResponse.json(orders, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {
