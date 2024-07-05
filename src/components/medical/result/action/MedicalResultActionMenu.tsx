@@ -4,8 +4,8 @@ import { blobFile } from '@/lib/utils/blob-to-file';
 import { Menu, MenuTarget, ActionIcon, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload } from '@tabler/icons-react';
-import React, { useCallback, useEffect } from 'react'
+import { IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload, IconTrash } from '@tabler/icons-react';
+import React, { useCallback, useEffect, useState } from 'react'
 import { MedicalResultDeleteFileMenuItem } from '../menu/MedicalResultDeleteFileMenuItem';
 
 type MedicalResultWithoutOrder = Omit<MedicalResult, 'order'>;
@@ -76,6 +76,16 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         reset: fileReportReset
     } = useFetch<Blob>(`/api/medical/file/downloader/report/${data.report?.id || ''}`, 'GET', { loadOnMount: false, type: 'blob' });
 
+    const {
+        data: deleteResultFileData,
+        error: deleteResultFileError,
+        reload: deleteResultFileReload,
+        reset: deleteResultFileReset,
+    } = useFetch(`/api/medical/file/result/${data.id}`, 'DELETE', { loadOnMount: false });
+
+    const [shouldDelete, setShouldDelete] = useState<boolean>(false);
+
+
     const handleClickDiseaseModification = useCallback(() => {
         onDiseaseModification?.();
     }, [onDiseaseModification]);
@@ -96,7 +106,11 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
 
     const handleClickEventCreateReport = useCallback(() => {
         onCreateReport?.();
-    }, [onCreateReport])
+    }, [onCreateReport]);
+
+    const handleResultFileEventDeleteFile = useCallback(() => {
+        setShouldDelete(true);
+    }, []);
 
     useEffect(() => {
         if (fileResultBlob || fileReportBlob) {
@@ -111,20 +125,27 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     useEffect(() => {
         if (fileReportError) notifications.show({ message: fileReportError.message, color: 'red' });
         else if (fileResultError) notifications.show({ message: fileResultError.message, color: 'red' });
-    }, [fileReportError, fileResultError]);
+        else if (deleteResultFileError) {
+            notifications.show({ message: deleteResultFileError.message, color: 'red' });
+            fileRemoveClose();
+        }
+    }, [fileReportError, fileResultError, deleteResultFileError, fileRemoveClose]);
 
-    const handleDeleteResultEventComplete = useCallback(() => {
-        fileRemoveClose();
-        onDeleteResultFile?.();
-    }, [onDeleteResultFile, fileRemoveClose]);
-    
-    const handleDeleteResultEventError = useCallback(() => {
-        fileRemoveClose();
-    }, [fileRemoveClose]);
+    useEffect(() => {
+        if (shouldDelete) {
+            fileRemoveOpen();
+            deleteResultFileReload();
+            setShouldDelete(false);
+        }
+    }, [shouldDelete, deleteResultFileReload, fileRemoveOpen]);
 
-    const handleDeleteResultEventStart = useCallback(() => {
-        fileRemoveOpen();
-    }, [fileRemoveOpen]);
+    useEffect(() => {
+        if (deleteResultFileData) {
+            deleteResultFileReset();
+            fileRemoveClose();
+            onDeleteResultFile?.();
+        }
+    }, [deleteResultFileData, deleteResultFileReset, onDeleteResultFile, fileRemoveClose]);
 
     return (
         <Menu>
@@ -158,12 +179,13 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
                     </Menu.Item>
                 )}
                 {(onDeleteResultFile) && (
-                    <MedicalResultDeleteFileMenuItem
-                        id={data.id}
-                        type={'result'}
-                        onError={handleDeleteResultEventError}
-                        onComplete={handleDeleteResultEventComplete}
-                        onStart={handleDeleteResultEventStart} />
+                    <Menu.Item
+                        onClick={handleResultFileEventDeleteFile}
+                        leftSection={
+                            <IconTrash style={{ width: rem(16), height: rem(16) }} />
+                        }>
+                        Eliminar Archivo
+                    </Menu.Item>
                 )}
                 {(onDiseaseModification || downloadResult) && <Menu.Divider />}
 
