@@ -117,6 +117,14 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         fileRemoveClose();
         onDeleteResultFile?.();
     }, [onDeleteResultFile, fileRemoveClose]);
+    
+    const handleDeleteResultEventError = useCallback(() => {
+        fileRemoveClose();
+    }, [fileRemoveClose]);
+    
+    const handleDeleteResultEventStart = useCallback(() => {
+        fileRemoveOpen();
+    }, [fileRemoveOpen]);
 
     return (
         <Menu>
@@ -153,9 +161,9 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
                     <MedicalResultDeleteFileMenuItem
                         id={data.id}
                         type={'result'}
-                        onError={fileRemoveClose}
+                        onError={handleDeleteResultEventError}
                         onComplete={handleDeleteResultEventComplete}
-                        onStart={fileRemoveOpen} />
+                        onStart={handleDeleteResultEventStart} />
                 )}
                 {(onDiseaseModification || downloadResult) && <Menu.Divider />}
 
