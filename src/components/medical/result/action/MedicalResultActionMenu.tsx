@@ -60,7 +60,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     const [fileRemove, {
         close: fileRemoveClose,
         open: fileRemoveOpen
-    }] = useDisclosure(false)
+    }] = useDisclosure(false);
 
     const { data: fileResultBlob,
         loading: fileResultLoading,
@@ -117,11 +117,11 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         fileRemoveClose();
         onDeleteResultFile?.();
     }, [onDeleteResultFile, fileRemoveClose]);
-    
+
     const handleDeleteResultEventError = useCallback(() => {
         fileRemoveClose();
     }, [fileRemoveClose]);
-    
+
     const handleDeleteResultEventStart = useCallback(() => {
         fileRemoveOpen();
     }, [fileRemoveOpen]);
@@ -131,7 +131,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
             <MenuTarget>
                 <ActionIcon
                     variant="transparent"
-                    loading={fileResultLoading || fileReportLoading || fileRemove}>
+                    loading={fileRemove || fileResultLoading || fileReportLoading}>
                     <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />
                 </ActionIcon>
             </MenuTarget>
