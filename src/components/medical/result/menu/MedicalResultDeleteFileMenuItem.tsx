@@ -20,10 +20,10 @@ const MedicalResultDeleteFileMenuItem: React.FC<MedicalResultDeleteFileMenuItemP
 }) => {
 
     const {
-        data,
-        error,
-        reload,
-        reset,
+        data: deleteData,
+        error: deleteError,
+        reload: deleteReload,
+        reset: deleteReset,
     } = useFetch(`/api/medical/file/${type}/${id}`, 'DELETE', { loadOnMount: false });
 
     const [shouldFetch, setShouldFetch] = useState<boolean>(false);
@@ -33,32 +33,34 @@ const MedicalResultDeleteFileMenuItem: React.FC<MedicalResultDeleteFileMenuItemP
     }, []);
 
     useEffect(() => {
-        if (error) {
-            notifications.show({ message: error.message, color: 'red' });
-            if (onError) onError();
+        if (deleteError) {
+            notifications.show({ message: deleteError.message, color: 'red' });
+            onError?.();
         }
-    }, [error, onError]);
+    }, [deleteError, onError]);
 
     useEffect(() => {
         if (shouldFetch) {
             onStart?.();
-            reload();
+            deleteReload();
             setShouldFetch(false);
         }
-    }, [shouldFetch, reload, onStart]);
+    }, [shouldFetch, deleteReload, onStart]);
 
     useEffect(() => {
-        if (data) {
-            reset();
+        if (deleteData) {
+            deleteReset();
             onComplete?.();
         }
-    }, [data, reset, onComplete, id]);
+    }, [deleteData, deleteReset, onComplete]);
 
 
     return (
-        <Menu.Item onClick={handleDeleteResult} leftSection={
-            <IconTrash style={{ width: rem(16), height: rem(16) }} />
-        }>
+        <Menu.Item
+            onClick={handleDeleteResult}
+            leftSection={
+                <IconTrash style={{ width: rem(16), height: rem(16) }} />
+            }>
             Eliminar Archivo
         </Menu.Item>
     )
