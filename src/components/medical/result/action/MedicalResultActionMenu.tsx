@@ -6,7 +6,6 @@ import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload, IconTrash } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useState } from 'react'
-import { MedicalResultDeleteFileMenuItem } from '../menu/MedicalResultDeleteFileMenuItem';
 
 type MedicalResultWithoutOrder = Omit<MedicalResult, 'order'>;
 interface MedicalResultActionMenuProps {
