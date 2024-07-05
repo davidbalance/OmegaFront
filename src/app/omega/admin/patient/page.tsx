@@ -190,7 +190,6 @@ const PatientPage: React.FC = () => {
             key={row.id}
             rightSection={<MedicalResultActionMenu
                 onDiseaseModification={() => handleClickEventUpdateDisease(row)}
-                // deleteResultFile={row.hasFile}
                 downloadReport={!!row.report}
                 downloadResult={row.hasFile}
                 onUploadResult={() => handleClickEventUploadResultFile(row)}
