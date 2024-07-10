@@ -54,8 +54,8 @@
    41. [`PATCH` /api/medical/results/_{id}_](#enpoint-41)
    42. [`GET` /api/medical/results/doctor](#enpoint-42)
    43. [`POST` /api/medical/results/file/_{id}_](#enpoint-43)
-   44. [`GET` /api/medical/file/downloader/_{type}_/_{id}_](#enpoint-44)
-   45. [`POST` /api/medical/file/downloader/multiple](#enpoint-45)
+   44. [`GET` /api/medical/file/_{type}_/_{id}_](#enpoint-44)
+   45. [`POST` /api/medical/file/multiple](#enpoint-45)
    46. [`PATCH` /api/medical/results/report](#enpoint-46)
    47. [`GET` /api/selector/disease/group](#enpoint-47)
    48. [`GET` /api/selector/disease/_{group}_](#enpoint-48)
@@ -1753,7 +1753,7 @@ Archivo en formato pdf
 
 <div id='enpoint-44'/>
 
-### `GET` /api/medical/file/downloader/_{type}_/_{id}_
+### `GET` /api/medical/file/_{type}_/_{id}_
 
 Obtiene un archivo en base al tipo y al identificador unico especificado
 
@@ -1772,7 +1772,7 @@ Retorna un archivo en formato pdf
 
 <div id='enpoint-45'/>
 
-### `POST` /api/medical/file/downloader/multiple
+### `POST` /api/medical/file/multiple
 
 Obtiene varios archivo en base al tipo y al identificador unico especificado, retornando un archivo zip
 
