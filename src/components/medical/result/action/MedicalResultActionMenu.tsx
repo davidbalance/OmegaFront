@@ -66,14 +66,14 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         error: fileResultError,
         reload: fileResultReload,
         reset: fileResultReset
-    } = useFetch<Blob>(`/api/medical/file/downloader/result/${data.id}`, 'GET', { loadOnMount: false, type: 'blob' });
+    } = useFetch<Blob>(`/api/medical/file/result/${data.id}`, 'GET', { loadOnMount: false, type: 'blob' });
 
     const { data: fileReportBlob,
         loading: fileReportLoading,
         error: fileReportError,
         reload: fileReportReload,
         reset: fileReportReset
-    } = useFetch<Blob>(`/api/medical/file/downloader/report/${data.report?.id || ''}`, 'GET', { loadOnMount: false, type: 'blob' });
+    } = useFetch<Blob>(`/api/medical/file/report/${data.report?.id || ''}`, 'GET', { loadOnMount: false, type: 'blob' });
 
     const {
         data: deleteResultFileData,
