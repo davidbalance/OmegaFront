@@ -1,12 +1,14 @@
 import { MedicalClient } from "../client/response.dto";
 import { MedicalResult } from "../result/response.dto";
 
+export type OrderStatus = "created" | "validated";
+
 export interface MedicalOrder {
     id: number;
     process: string;
     createAt: Date;
     mailStatus: boolean;
-    orderStatus: "created" | "verified";
+    orderStatus: OrderStatus;
     results: Omit<MedicalResult, 'order'>[];
     client: MedicalClient
 }

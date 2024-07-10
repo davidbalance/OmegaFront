@@ -5,6 +5,8 @@ import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import MedicalClientLayoutEmail from '@/components/medical/client/layout/MedicalClientLayoutEmail';
 import MedicalOrderActionMenu from '@/components/medical/order/action/MedicalOrderActionMenu';
+import { MedicalOrderActionSendButton } from '@/components/medical/order/action/MedicalOrderActionSendButton';
+import { MedicalOrderActionValidateButton } from '@/components/medical/order/action/MedicalOrderActionValidateButton';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { MedicalResultFormDisease } from '@/components/medical/result/form/MedicalResultFormDisease';
 import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
@@ -12,14 +14,14 @@ import { PatientActionButton } from '@/components/patient/action/PatientActionBu
 import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
-import { MedicalOrder } from '@/lib/dtos/medical/order/response.dto';
+import { MedicalOrder, OrderStatus } from '@/lib/dtos/medical/order/response.dto';
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { Patient } from '@/lib/dtos/user/patient.response.dto';
 import { User } from '@/lib/dtos/user/user.response.dto';
-import { Title, Flex, Text, Grid, ActionIcon, rem } from '@mantine/core';
+import { Title, Flex, Text, Grid, ActionIcon, rem, Box, useMantineTheme, Avatar } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconRefresh } from '@tabler/icons-react';
+import { IconLock, IconLockOpen, IconLockOpen2, IconMail, IconMailCancel, IconMailCheck, IconMailOff, IconRefresh } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
@@ -59,6 +61,8 @@ const medicalResultColumns: ListElement<MedicalResult>[] = [
 
 
 const PatientPage: React.FC = () => {
+
+    const theme = useMantineTheme();
 
     const [active, setActive] = useState(0);
     const [currentState, setCurrentState] = useState<LayoutState>(LayoutState.DEFAULT);
@@ -116,6 +120,10 @@ const PatientPage: React.FC = () => {
         medicalOrderUpdate('id', id, { mailStatus: state });
     }, [medicalOrderUpdate]);
 
+    const handleEventOrderStatus = useCallback((id: number, state: OrderStatus) => {
+        medicalOrderUpdate('id', id, { orderStatus: state });
+    }, [medicalOrderUpdate]);
+
     const handleClickEventAssignModal = useCallback((selection: PatientDataType) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.UPDATE_EMPLOYEE);
@@ -164,21 +172,24 @@ const PatientPage: React.FC = () => {
             active={row.id === medicalOrderSelected?.id}
             onClick={() => handleOrderSelection(row)}
             rightSection={
-                <MedicalOrderActionMenu
-                    order={row.id}
-                    email={row.client.email}
-                    onMailSend={handleEventMailSend} />}
+                <Flex align='center' h='100%' gap={rem(16)}>
+                    <MedicalOrderActionSendButton
+                        order={row.id}
+                        email={row.client.email}
+                        mailStatus={row.mailStatus}
+                        onMailSend={handleEventMailSend} />
+                    <MedicalOrderActionValidateButton
+                        orderStatus={row.orderStatus}
+                        order={row.id}
+                        onValidate={handleEventOrderStatus} />
+                </Flex>
+            }
         >
             <Grid>
                 <Grid.Col span={8}>
                     <Flex direction='column'>
                         <Title order={6}>{row.process}</Title>
                         <Text>{dayjs(row.createAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
-                    </Flex>
-                </Grid.Col>
-                <Grid.Col span={4}>
-                    <Flex align='center' h='100%'>
-                        {row.mailStatus ? <Text>Correo enviado</Text> : <Text c='red'>Correo no enviado</Text>}
                     </Flex>
                 </Grid.Col>
             </Grid>
@@ -197,7 +208,15 @@ const PatientPage: React.FC = () => {
                 data={row} />}
         >
             <Title order={6}>{row.examName}</Title>
-            <Text size='xs' c={row.diseaseName ? 'neutral' : 'red'}>{row.diseaseName ? row.diseaseName : 'Morbilidad no asociada'}</Text>
+            {
+                (!row.diseases || !row.diseases.length)
+                    ? <Text size='xs' c={'red'}>Morbilidades no asociadas</Text>
+                    : row.diseases.map((e, index) => (
+                        <Box w={50} key={index}>
+                            <Text size='xs' c='neutral' truncate='end'>{e.diseaseName}, {e.diseaseCommentary}</Text>
+                        </Box>
+                    ))
+            }
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </ListRowElement>

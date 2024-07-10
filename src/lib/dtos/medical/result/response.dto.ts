@@ -15,7 +15,7 @@ export interface MedicalResult {
     id: number;
     examName: string;
     hasFile: boolean;
-    diseases?: MedicalResultDisease;
+    diseases?: MedicalResultDisease[];
     report?: MedicalReport;
 }
 
