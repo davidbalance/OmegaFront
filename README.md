@@ -51,7 +51,7 @@
    38. [`GET` /api/medical/orders/patient/_{dni}_](#enpoint-38)
    39. [`GET` /api/medical/reports/recreate/pdf](#enpoint-39)
    40. [`POST` /api/medical/reports/recreate/pdf](#enpoint-40)
-   41. [`PATCH` /api/medical/results/_{id}_](#enpoint-41)
+   41. [`PATCH` /api/medical/results/diseases/_{id}_](#enpoint-41)
    42. [`GET` /api/medical/results/doctor](#enpoint-42)
    43. [`POST` /api/medical/results/file/_{id}_](#enpoint-43)
    44. [`GET` /api/medical/file/_{type}_/_{id}_](#enpoint-44)
@@ -1667,7 +1667,7 @@ Recrea todos los reportes existentes asociados a un paciente
 
 <div id='enpoint-41'/>
 
-### `PATCH` /api/medical/results/_{id}_
+### `PATCH` /api/medical/results/diseases/_{id}_
 
 Agrega mrbilidades al resultado
 

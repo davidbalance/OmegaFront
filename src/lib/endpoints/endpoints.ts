@@ -4,7 +4,9 @@ import { CREDENTIAL } from "./v1/authentication/credential";
 import { DISEASE } from "./v1/disease";
 import { DISEASE_GROUP } from "./v1/disease/group";
 import { HEALTH_CHECK } from "./v1/health/check";
+import { AREA } from "./v1/location/area";
 import { CORPORATIVE_GROUP } from "./v1/location/corporative/group";
+import { MANAGEMENT } from "./v1/location/management";
 import { LOG } from "./v1/log";
 import { MEDICAL_CLIENT } from "./v1/medical/client";
 import { MEDICAL_FILE } from "./v1/medical/file";
@@ -31,7 +33,9 @@ export default Object.freeze({
         GROUP: DISEASE_GROUP
     },
     LOCATION: {
-        CORPORATIVE_GROUP
+        CORPORATIVE_GROUP,
+        MANAGEMENT,
+        AREA
     },
     USER: {
         USER,

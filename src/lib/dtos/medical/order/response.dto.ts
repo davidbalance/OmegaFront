@@ -6,6 +6,7 @@ export interface MedicalOrder {
     process: string;
     createAt: Date;
     mailStatus: boolean;
+    orderStatus: "created" | "verified"
     results: Omit<MedicalResult, 'order'>[];
     client: MedicalClient
 }

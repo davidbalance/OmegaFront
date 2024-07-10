@@ -3,15 +3,19 @@ export interface MedicalReport {
     content: string;
 }
 
-export interface MedicalResult {
-    id: number;
-    examName: string;
+export interface MedicalResultDisease {
     diseaseId: number;
     diseaseName: string;
     diseaseGroupId: number;
     diseaseGroupName: string;
     diseaseCommentary: string;
+}
+
+export interface MedicalResult {
+    id: number;
+    examName: string;
     hasFile: boolean;
+    diseases?: MedicalResultDisease;
     report?: MedicalReport;
 }
 

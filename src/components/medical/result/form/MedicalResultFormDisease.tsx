@@ -50,7 +50,7 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
         reload: patchReload,
         request: patchRequest,
         reset: patchReset
-    } = useFetch<any>(`/api/medical/results/${medicalOrderExam ? medicalOrderExam.id : ''}`, 'PATCH', { loadOnMount: false });
+    } = useFetch<any>(`/api/medical/results/diseases/${medicalOrderExam ? medicalOrderExam.id : ''}`, 'PATCH', { loadOnMount: false });
 
     const diseaseGroupsOptions = useMemo(() => groups?.map(e => ({ value: `${e.key}`, label: e.label })) || [], [groups]);
     const diseaseOptions = useMemo(() => diseases?.map(e => ({ value: `${e.key}`, label: e.label })) || [], [diseases]);
