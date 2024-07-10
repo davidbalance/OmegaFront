@@ -81,6 +81,7 @@
    68. [`PATCH` /api/area/_{id}_](#enpoint-68)
    69. [`DELETE` /api/area/_{id}_](#enpoint-69)
    70. [`POST` /api/medical/orders/company](#enpoint-70)
+   71. [`PATCH` /api/medical/orders/order/_{id}_/status/validate](#enpoint-71)
 8. [Documentacion de Componentes](#components)
    1. [ApiKeyFormCreateProps](#component-1)
    2. [AuthenticationFormPassword](#component-2)
@@ -1610,6 +1611,7 @@ Obtiene todas las ordenes asociadas a un paciente usando su `dni`
         process: string,
         createAt: Date,
         mailStatus: boolean,
+        orderStatus: "created" | "verified",
         results: {
             id: number,
             examName: string,
@@ -2448,6 +2450,56 @@ Obtiene las empresas que se asocian con un ruc dado
         process: string,
         createAt: Date,
         mailStatus: boolean,
+        orderStatus: "created" | "verified",
+        results: {
+            id: number,
+            examName: string,
+            diseaseId: number,
+            diseaseName: string,
+            diseaseGroupId: number,
+            diseaseGroupName: string,
+            hasFile: boolean,
+            report: {
+                id: number,
+                content: string
+            } | null
+        }[],
+        client: {
+            dni: string,
+            fullname: string,
+            email: {
+                id: number,
+                email: string,
+                default: boolean;
+            }[]
+        }
+    }[]
+}
+```
+
+<div id='enpoint-71'/>
+
+### `PATCH` /api/medical/orders/order/_{id}_/status/validate
+
+Cambia el estado de la orden a validado
+
+#### URL Parameters
+
+- `id`: Identificador unico de una orden medica
+  - **Type**: _String_
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+    orders: {
+        id: number,
+        process: string,
+        createAt: Date,
+        mailStatus: boolean,
+        orderStatus: "created" | "verified",
         results: {
             id: number,
             examName: string,
