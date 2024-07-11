@@ -1,18 +1,18 @@
 import { LoadingOverlay, rem, Button, Flex } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import React, { useCallback, useEffect, useRef } from 'react'
-import DiseaseGroupForm from './DiseaseGroupForm';
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { useFetch } from '@/hooks/useFetch';
 import { notifications } from '@mantine/notifications';
-import { DiseaseGroup } from '@/lib/dtos/disease/group/response.dto';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
+import { Management } from '@/lib/dtos/location/management/response.dto';
+import { ManagementForm } from './ManagementForm';
 
-type DiseaseGroupFormUpdateProps = {
+type ManagementFormUpdateProps = {
     /**
      * Grupo de morbilidad para inicializar el formulario.
      */
-    diseaseGroup: DiseaseGroup;
+    management: Management;
     /**
      * Funcion que es llamada cuando se llama al cierre del fomulario.
      * @returns 
@@ -23,15 +23,28 @@ type DiseaseGroupFormUpdateProps = {
      * @param value 
      * @returns 
      */
-    onFormSubmitted: (value: DiseaseGroup) => void;
+    onFormSubmitted: (value: Management) => void;
 }
-const DiseaseGroupFormUpdate: React.FC<DiseaseGroupFormUpdateProps> = ({ onClose, onFormSubmitted, diseaseGroup }) => {
-    const { body, data, error, loading, reload, request, reset } = useFetch<DiseaseGroup>(`/api/diseases/groups/${diseaseGroup ? diseaseGroup.id : ''}`, 'PATCH', { loadOnMount: false });
+const ManagementFormUpdate: React.FC<ManagementFormUpdateProps> = ({ onClose, onFormSubmitted, management }) => {
+
+    const [shouldSendRequest, setShouldSendRequest] = useState<boolean>(false);
+
+    const {
+        body,
+        data,
+        error,
+        loading,
+        reload,
+        request,
+        reset
+    } = useFetch<Management>(`/api/management/${management ? management.id : ''}`, 'PATCH', { loadOnMount: false });
+
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const handleFormSubmittedEvent = useCallback((data: Omit<DiseaseGroup, 'id' | 'diseases'>) => {
-        request({ ...diseaseGroup, ...data });
-    }, [request, diseaseGroup]);
+    const handleFormSubmittedEvent = useCallback((data: Omit<Management, 'id' | 'areas'>) => {
+        request({ ...management, ...data });
+        setShouldSendRequest(true);
+    }, [request, management]);
 
     const handleClickEvent = useCallback(() => {
         if (buttonRef.current) {
@@ -40,21 +53,22 @@ const DiseaseGroupFormUpdate: React.FC<DiseaseGroupFormUpdateProps> = ({ onClose
     }, []);
 
     useEffect(() => {
-        if (body) {
+        if (body && shouldSendRequest) {
             reload();
+            setShouldSendRequest(false);
         }
-    }, [body, reload]);
+    }, [body, reload, shouldSendRequest]);
 
     useEffect(() => {
         if (data && body) {
-            onFormSubmitted({ ...diseaseGroup, ...body });
+            onFormSubmitted({ ...management, ...body });
             onClose();
             reset();
         }
-    }, [data, diseaseGroup, body, reset, onFormSubmitted, onClose]);
+    }, [data, management, body, reset, onFormSubmitted, onClose]);
 
     useEffect(() => {
-        if (error) notifications.show({ message: error.message });
+        if (error) notifications.show({ message: error.message, color: 'red' });
     }, [error]);
 
     return <>
@@ -62,13 +76,13 @@ const DiseaseGroupFormUpdate: React.FC<DiseaseGroupFormUpdateProps> = ({ onClose
 
         <Flex h='100%' direction='column' gap={rem(8)}>
             <LayoutSubFormTitle
-                title={'Formulario de creacion de grupos de morbilidades'}
+                title={'Formulario de modificacion de gerencia'}
                 onClose={onClose} />
 
             <ModularBox flex={1} align='center'>
-                <DiseaseGroupForm
+                <ManagementForm
                     ref={buttonRef}
-                    formData={diseaseGroup}
+                    formData={management}
                     onFormSubmitted={handleFormSubmittedEvent} />
             </ModularBox>
 
@@ -88,4 +102,4 @@ const DiseaseGroupFormUpdate: React.FC<DiseaseGroupFormUpdateProps> = ({ onClose
     </>;
 }
 
-export { DiseaseGroupFormUpdate };
+export { ManagementFormUpdate };

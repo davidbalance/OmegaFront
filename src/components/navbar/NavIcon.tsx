@@ -1,4 +1,4 @@
-import { IconProps, Icon, IconUsers, IconWheelchair, IconStethoscope, IconLicense, IconVirus, IconReportMedical, IconMapPin, IconKey, IconCode } from "@tabler/icons-react";
+import { IconProps, Icon, IconUsers, IconWheelchair, IconStethoscope, IconLicense, IconVirus, IconReportMedical, IconMapPin, IconKey, IconCode, IconBuildingCommunity, IconClipboardData } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 export const NavIcon: Record<string, ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>>> = {
@@ -11,4 +11,6 @@ export const NavIcon: Record<string, ForwardRefExoticComponent<Omit<IconProps, "
     "location": IconMapPin,
     "key": IconKey,
     "code": IconCode,
+    "building": IconBuildingCommunity,
+    "order": IconClipboardData,
 }

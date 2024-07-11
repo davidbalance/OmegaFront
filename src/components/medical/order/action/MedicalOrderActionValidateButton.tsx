@@ -55,7 +55,7 @@ const MedicalOrderActionValidateButton: React.FC<MedicalOrderActionValidateButto
       orderRequest({});
       setShouldSendRequest(true);
     }
-  }, [show]);
+  }, [show, orderRequest]);
 
   useEffect(() => {
     if (orderError) notifications.show({ message: orderError.message, color: 'red' });
@@ -73,7 +73,7 @@ const MedicalOrderActionValidateButton: React.FC<MedicalOrderActionValidateButto
       onValidate(order, "validated");
       orderReset();
     }
-  }, [orderData, orderReset]);
+  }, [order, orderData, orderReset, onValidate]);
 
   return (
     <Tooltip

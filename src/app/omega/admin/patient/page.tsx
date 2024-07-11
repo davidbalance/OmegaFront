@@ -4,7 +4,6 @@ import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLay
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import MedicalClientLayoutEmail from '@/components/medical/client/layout/MedicalClientLayoutEmail';
-import MedicalOrderActionMenu from '@/components/medical/order/action/MedicalOrderActionMenu';
 import { MedicalOrderActionSendButton } from '@/components/medical/order/action/MedicalOrderActionSendButton';
 import { MedicalOrderActionValidateButton } from '@/components/medical/order/action/MedicalOrderActionValidateButton';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
@@ -18,10 +17,10 @@ import { MedicalOrder, OrderStatus } from '@/lib/dtos/medical/order/response.dto
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { Patient } from '@/lib/dtos/user/patient.response.dto';
 import { User } from '@/lib/dtos/user/user.response.dto';
-import { Title, Flex, Text, Grid, ActionIcon, rem, Box, useMantineTheme, Avatar } from '@mantine/core';
+import { Title, Flex, Text, Grid, ActionIcon, rem, Box, useMantineTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconLock, IconLockOpen, IconLockOpen2, IconMail, IconMailCancel, IconMailCheck, IconMailOff, IconRefresh } from '@tabler/icons-react';
+import { IconRefresh } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
@@ -194,7 +193,7 @@ const PatientPage: React.FC = () => {
                 </Grid.Col>
             </Grid>
         </ListRowElement>
-    ), [medicalOrderSelected, handleOrderSelection, handleEventMailSend]);
+    ), [medicalOrderSelected, handleOrderSelection, handleEventMailSend, handleEventOrderStatus]);
 
     const handleMedicalResultRow = useCallback((row: MedicalResult) => (
         <ListRowElement
