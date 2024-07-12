@@ -82,6 +82,9 @@
    69. [`DELETE` /api/area/_{id}_](#enpoint-69)
    70. [`POST` /api/medical/orders/company](#enpoint-70)
    71. [`PATCH` /api/medical/orders/order/_{id}_/status/validate](#enpoint-71)
+   72. [`GET` /api/medical/client/_{dni}_/management/area](#enpoint-72)
+   73. [`POST` /api/medical/client/_{dni}_/management/area](#enpoint-73)
+   74. [`DELETE` /api/medical/client/_{dni}_/management/area](#enpoint-74)
 8. [Documentacion de Componentes](#components)
    1. [ApiKeyFormCreateProps](#component-1)
    2. [AuthenticationFormPassword](#component-2)
@@ -2524,6 +2527,87 @@ Cambia el estado de la orden a validado
         }
     }[]
 }
+```
+
+<div id="enpoint-72" />
+
+### `GET` /api/medical/client/_{dni}_/management/area
+
+Obtiene todos las areas registradas en el sistema
+
+#### URL Parameters
+
+- `dni`: DNI del paciente
+  - **Type**: _String_
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+  managementId: number;
+  managementName: string;
+  areaId: number;
+  areaName: string;
+}
+```
+
+<div id="enpoint-73" />
+
+### `POST` /api/medical/client/_{dni}_/management/area
+
+Obtiene todos las areas registradas en el sistema
+
+#### URL Parameters
+
+- `dni`: DNI del paciente
+  - **Type**: _String_
+
+#### Request Body
+
+- **managementId**: Identificador unico de la gerencia
+- **areaId**: Identificador unico del area
+
+```typescript
+{
+  managementId: number;
+  managementName: string;
+  areaId: number;
+  areaName: string;
+}
+```
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+  managementId: number;
+  managementName: string;
+  areaId: number;
+  areaName: string;
+}
+```
+
+<div id="enpoint-74" />
+
+### `DELETE` /api/medical/client/_{dni}_/management/area
+
+Obtiene todos las areas registradas en el sistema
+
+#### URL Parameters
+
+- `dni`: DNI del paciente
+  - **Type**: _String_
+
+#### Response
+
+##### Response Body
+
+```typescript
+
 ```
 
 <div id='components'/>
