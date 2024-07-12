@@ -9,7 +9,7 @@ export interface MedicalOrder {
     createAt: Date;
     mailStatus: boolean;
     orderStatus: OrderStatus;
-    results: Omit<MedicalResult, 'order'>[];
+    results: MedicalResult[];
     client: MedicalClient
 }
 

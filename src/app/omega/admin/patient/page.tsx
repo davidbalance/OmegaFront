@@ -3,12 +3,13 @@
 import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
+import { MedicalClientFormManagementAreaCreate } from '@/components/medical/client/form/MedicalClientFormManagementAreaCreate';
 import MedicalClientLayoutEmail from '@/components/medical/client/layout/MedicalClientLayoutEmail';
 import { MedicalOrderActionSendButton } from '@/components/medical/order/action/MedicalOrderActionSendButton';
 import { MedicalOrderActionValidateButton } from '@/components/medical/order/action/MedicalOrderActionValidateButton';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
-import { MedicalResultFormDisease } from '@/components/medical/result/form/MedicalResultFormDisease';
 import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
+import { MedicalResultModalDiseases } from '@/components/medical/result/modal/MedicalResultModalDiseases';
 import { PatientActionButton } from '@/components/patient/action/PatientActionButton';
 import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
 import { useFetch } from '@/hooks/useFetch';
@@ -39,6 +40,7 @@ const parsePatient = (patients: Patient[]): PatientDataType[] => patients.map<Pa
 enum LayoutState {
     DEFAULT,
     EMAIL,
+    UPDATE_PATIENT_MANAGEMENT_AREA,
     UPDATE_EMPLOYEE,
     UPLOAD_RESULT_FILE
 }
@@ -58,10 +60,7 @@ const medicalResultColumns: ListElement<MedicalResult>[] = [
     { key: 'examName', name: 'Examen medico' },
 ];
 
-
 const PatientPage: React.FC = () => {
-
-    const theme = useMantineTheme();
 
     const [active, setActive] = useState(0);
     const [currentState, setCurrentState] = useState<LayoutState>(LayoutState.DEFAULT);
@@ -143,6 +142,11 @@ const PatientPage: React.FC = () => {
         setCurrentState(LayoutState.EMAIL);
     }, []);
 
+    const handleClickEventManagementArea = useCallback((selection: PatientDataType) => {
+        setPatientSelected(selection);
+        setCurrentState(LayoutState.UPDATE_PATIENT_MANAGEMENT_AREA);
+    }, []);
+
     const handleFormSubmittionEventUploadFile = useCallback((id: number) => {
         medicalResultUpdate('id', id, { hasFile: true });
     }, [medicalResultUpdate]);
@@ -158,7 +162,8 @@ const PatientPage: React.FC = () => {
             onClick={() => handlePatientSelection(row)}
             rightSection={<PatientActionButton
                 onAssignCompany={() => handleClickEventAssignModal(row)}
-                onEmail={() => handleClickEventEmail(row)} />}
+                onEmail={() => handleClickEventEmail(row)}
+                onManagementArea={() => handleClickEventManagementArea(row)} />}
         >
             <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
             <Text>{row.dni}</Text>
@@ -208,13 +213,13 @@ const PatientPage: React.FC = () => {
         >
             <Title order={6}>{row.examName}</Title>
             {
-                (!row.diseases || !row.diseases.length)
-                    ? <Text size='xs' c={'red'}>Morbilidades no asociadas</Text>
-                    : row.diseases.map((e, index) => (
-                        <Box w={50} key={index}>
+                (row.diseases && row.diseases.length)
+                    ? row.diseases.map((e, index) => (
+                        <Box w={150} key={index}>
                             <Text size='xs' c='neutral' truncate='end'>{e.diseaseName}, {e.diseaseCommentary}</Text>
                         </Box>
                     ))
+                    : <Text size='xs' c={'red'}>Morbilidades no asociadas</Text>
             }
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
@@ -312,10 +317,17 @@ const PatientPage: React.FC = () => {
                 url={`/api/users/attribute/employee/${patientSelected?.user}`}
                 onClose={handleCloseEvent} />
         ),
-        [LayoutState.UPLOAD_RESULT_FILE]: <MedicalResultFormUploadFile
-            medicalResult={medicalResultSelected?.id!}
-            onClose={handleCloseEvent}
-            onFormSubmittion={() => handleFormSubmittionEventUploadFile(medicalResultSelected?.id!)} />
+        [LayoutState.UPLOAD_RESULT_FILE]: (
+            <MedicalResultFormUploadFile
+                medicalResult={medicalResultSelected?.id!}
+                onClose={handleCloseEvent}
+                onFormSubmittion={() => handleFormSubmittionEventUploadFile(medicalResultSelected?.id!)} />
+        ),
+        [LayoutState.UPDATE_PATIENT_MANAGEMENT_AREA]: (
+            <MedicalClientFormManagementAreaCreate
+                onClose={handleCloseEvent}
+                dni={patientSelected?.dni!} />
+        )
     }), [
         multipleLayerComponents,
         active,
@@ -372,8 +384,8 @@ const PatientPage: React.FC = () => {
 
     return (
         <>
-            <MedicalResultFormDisease
-                medicalOrderExam={medicalResultSelected!}
+            <MedicalResultModalDiseases
+                medicalResult={medicalResultSelected!}
                 opened={!!medicalResultSelected && openedDiseaseModal}
                 onClose={handleExamModalCloseEvent}
                 onFormSubmitted={handleMedicalOrderResultFormSubmittion} />

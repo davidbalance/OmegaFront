@@ -1,67 +1,72 @@
 import { useFetch } from '@/hooks/useFetch';
-import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
+import { DiseaseGroup } from '@/lib/dtos/disease/group/response.dto';
+import { Disease } from '@/lib/dtos/disease/response.dto';
+import { MedicalResultDisease } from '@/lib/dtos/medical/result/response.dto';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto';
-import { ComboboxItem, Modal, Flex, LoadingOverlay, rem, Box, Select, ButtonGroup, Button, ModalProps, Textarea } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { ComboboxItem, LoadingOverlay, rem, Box, Select, Button, Textarea } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { IconDeviceFloppy } from '@tabler/icons-react';
-import { HtmlContext } from 'next/dist/server/future/route-modules/app-page/vendored/contexts/entrypoints';
 import React, { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
-interface MedicalResultFormDiseaseProps extends Omit<ModalProps, 'title'> {
+interface MedicalResultFormDiseaseProps {
     /**
      * Objeto de resultado medico que inicializa el formulario.
      */
-    medicalOrderExam: Omit<MedicalResult, 'order'>;
+    disease?: Omit<MedicalResultDisease, 'id'> | null
     /**
      * Funcion que es invocada cuando el formulario es enviado.
      * @param value 
      * @returns 
      */
-    onFormSubmitted: (value: MedicalResult) => void;
+    onFormSubmitted: (value: Omit<MedicalResultDisease, 'id'>) => void;
 }
-const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ medicalOrderExam, onFormSubmitted, onClose, ...props }) => {
+const MedicalResultFormDisease = React.forwardRef<HTMLButtonElement, MedicalResultFormDiseaseProps>(({ disease, onFormSubmitted }, ref) => {
 
     const [selectedDiseaseGroup, setSelectedDiseaseGroup] = useState<SelectorOption<number> | null>(null);
     const [selectedDisease, setSelectedDisease] = useState<SelectorOption<number> | null>(null);
-    const [shouldFetchDiseaseSelector, setShouldFetchDiseaseSelector] = useState<boolean>(false);
-    const [shouldPatchDisease, setShouldPatchDisease] = useState<boolean>(false);
-
-    const isMobile = useMediaQuery('(max-width: 50em)');
+    const [currentDiseases, setCurrentDiseases] = useState<Disease[]>([]);
+    const [commentary, setCommentary] = useState<string>("");
 
     const {
         loading: groupLoading,
         data: groups,
         error: groupError
-    } = useFetch<SelectorOption<number>[]>('/api/selector/disease/group', 'GET');
+    } = useFetch<DiseaseGroup[]>('/api/diseases/groups', 'GET');
 
-    const {
-        loading: diseaseLoading,
-        data: diseases,
-        error: diseaseError,
-        reload: diseaseReload
-    } = useFetch<SelectorOption<number>[]>(`/api/selector/disease/${selectedDiseaseGroup?.key}`, 'GET', { loadOnMount: false });
+    const diseaseGroupsOptions = useMemo(() => groups?.map(e => ({ value: `${e.id}`, label: e.name })) || [], [groups]);
+    const diseaseOptions = useMemo(() => currentDiseases?.map(e => ({ value: `${e.id}`, label: e.name })) || [], [currentDiseases]);
 
-    const {
-        data: patchServerResponse,
-        loading: patchLoading,
-        body: patchBody,
-        error: patchError,
-        reload: patchReload,
-        request: patchRequest,
-        reset: patchReset
-    } = useFetch<any>(`/api/medical/results/diseases/${medicalOrderExam ? medicalOrderExam.id : ''}`, 'PATCH', { loadOnMount: false });
+    const cleanForm = useCallback(() => {
+        setSelectedDisease(null);
+        setSelectedDisease(null);
+        setCommentary("")
+        setCurrentDiseases([]);
+    }, []);
 
-    const diseaseGroupsOptions = useMemo(() => groups?.map(e => ({ value: `${e.key}`, label: e.label })) || [], [groups]);
-    const diseaseOptions = useMemo(() => diseases?.map(e => ({ value: `${e.key}`, label: e.label })) || [], [diseases]);
+    useEffect(() => {
+        if (disease && groups) {
+            setSelectedDiseaseGroup({ key: disease.diseaseGroupId, label: disease.diseaseGroupName });
+            setSelectedDisease({ key: disease.diseaseId, label: disease.diseaseName });
+            setCommentary(disease.diseaseCommentary);
 
-    const [commentary, setCommentary] = useState<string>(medicalOrderExam ? medicalOrderExam.diseaseCommentary : "");
+            const currentDiseaseGroup = groups.find((e) => e.id === disease.diseaseGroupId);
+            if (currentDiseaseGroup) {
+                setCurrentDiseases(currentDiseaseGroup.diseases || []);
+            }
+        } else {
+            cleanForm();
+        }
+    }, [disease, groups]);
 
     const handleGroupChangeEvent = useCallback((_: string | null, option: ComboboxItem) => {
         setSelectedDisease(null);
         setSelectedDiseaseGroup({ key: parseInt(option.value), label: option.label });
-        setShouldFetchDiseaseSelector(true);
-    }, []);
+        if (groups) {
+            const currentDiseaseGroup = groups.find((e) => e.id === parseInt(option.value));
+            if (currentDiseaseGroup) {
+                setCurrentDiseases(currentDiseaseGroup.diseases || []);
+            }
+        }
+    }, [groups]);
 
     const handleDiseaseChangeEvent = useCallback((_: string | null, option: ComboboxItem) => {
         setSelectedDisease({ key: parseInt(option.value), label: option.label });
@@ -71,148 +76,71 @@ const MedicalResultFormDisease: React.FC<MedicalResultFormDiseaseProps> = ({ med
         setCommentary(event.target.value);
     }, []);
 
-    const handleCloseEvent = useCallback(() => {
-        setSelectedDiseaseGroup(null);
-        setSelectedDisease(null);
-        onClose();
-    }, [onClose]);
-
-    const handleFormSubmittionEvent = useCallback((event: FormEvent<HTMLDivElement>) => {
+    const handleFormSubmittionEvent = useCallback((event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (selectedDiseaseGroup && selectedDisease) {
-            patchRequest({
+            onFormSubmitted({
                 diseaseGroupId: selectedDiseaseGroup.key,
                 diseaseGroupName: selectedDiseaseGroup.label,
                 diseaseId: selectedDisease.key,
                 diseaseName: selectedDisease.label,
                 diseaseCommentary: commentary
             });
-            setShouldPatchDisease(true);
+            cleanForm();
         }
-    }, [patchRequest, commentary, selectedDiseaseGroup, selectedDisease]);
-
-    useEffect(() => {
-        if (medicalOrderExam) {
-            if (medicalOrderExam.diseaseGroupId && medicalOrderExam.diseaseGroupName) {
-                setSelectedDiseaseGroup({ key: medicalOrderExam.diseaseGroupId, label: medicalOrderExam.diseaseGroupName });
-            }
-            if (medicalOrderExam.diseaseId && medicalOrderExam.diseaseName) {
-                setSelectedDisease({ key: medicalOrderExam.diseaseId, label: medicalOrderExam.diseaseName });
-            }
-        }
-    }, [medicalOrderExam]);
-
-    useEffect(() => {
-        if (selectedDiseaseGroup && shouldFetchDiseaseSelector) {
-            diseaseReload();
-            setShouldFetchDiseaseSelector(false);
-        }
-    }, [selectedDiseaseGroup, shouldFetchDiseaseSelector, diseaseReload]);
+    }, [onFormSubmitted, commentary, selectedDiseaseGroup, selectedDisease]);
 
     useEffect(() => {
         if (groupError) notifications.show({ message: groupError.message, color: 'red' });
-        else if (diseaseError) notifications.show({ message: diseaseError.message, color: 'red' });
-        else if (patchError) notifications.show({ message: patchError.message, color: 'red' });
-    }, [groupError, diseaseError, patchError]);
-
-    useEffect(() => {
-        if (shouldPatchDisease && patchBody) {
-            patchReload();
-            setShouldPatchDisease(false);
-        }
-    }, [shouldPatchDisease, patchBody, patchReload]);
-
-    useEffect(() => {
-        if (patchServerResponse && selectedDiseaseGroup && selectedDiseaseGroup && selectedDisease && selectedDisease) {
-            const newMedicalResult: Omit<MedicalResult, 'order'> = {
-                ...medicalOrderExam,
-                diseaseGroupId: selectedDiseaseGroup.key,
-                diseaseGroupName: selectedDiseaseGroup.label,
-                diseaseId: selectedDisease.key,
-                diseaseName: selectedDisease.label
-            };
-            onFormSubmitted(newMedicalResult as any);
-            patchReset();
-        }
-    }, [
-        patchServerResponse,
-        selectedDiseaseGroup,
-        selectedDisease,
-        onFormSubmitted,
-        patchReset,
-        medicalOrderExam
-    ]);
+    }, [groupError]);
 
     return (
-        <Modal.Root
-            fullScreen={isMobile}
-            closeOnEscape={false}
-            centered
-            transitionProps={{ transition: 'fade', duration: 200 }}
-            onClose={onClose}
-            {...props}>
-            <Modal.Overlay backgroundOpacity={0.55} blur={3} />
-            <Modal.Content>
-                <Flex direction='column' h='100%'>
-                    <Modal.Header>
-                        <Modal.Title>Formulario de asignación de morbilidades</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body flex={1} pos='relative'>
-                        <LoadingOverlay visible={groupLoading || diseaseLoading || patchLoading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
-                        <Flex component='form' direction='column' gap={rem(12)} h='100%' onSubmit={handleFormSubmittionEvent}>
-                            <Box flex={1}>
-                                <Select
-                                    value={`${selectedDiseaseGroup?.key || ''}`}
-                                    data={diseaseGroupsOptions}
-                                    checkIconPosition="left"
-                                    onChange={handleGroupChangeEvent}
-                                    label="Grupo de morbilidades"
-                                    pb={rem(16)}
-                                    placeholder="Escoge un grupo de morbilidades"
-                                    searchable
-                                    defaultDropdownOpened={false}
-                                    clearable
-                                    nothingFoundMessage="Grupo de morbilidades no encontrado..."
-                                    allowDeselect={false}
-                                    maxDropdownHeight={200}
-                                />
-                                <Select
-                                    value={`${selectedDisease?.key || ''}`}
-                                    data={diseaseOptions}
-                                    checkIconPosition="left"
-                                    onChange={handleDiseaseChangeEvent}
-                                    label="Morbilidades"
-                                    pb={rem(16)}
-                                    placeholder="Escoge una morbilidad"
-                                    searchable
-                                    defaultDropdownOpened={false}
-                                    clearable
-                                    nothingFoundMessage="Morbilidad no encontrada..."
-                                    allowDeselect={false}
-                                    maxDropdownHeight={200}
-                                />
+        <Box component='form' h='100%' onSubmit={handleFormSubmittionEvent} pos='relative'>
+            <LoadingOverlay visible={groupLoading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
+            <Box pos='relative'>
+                <Select
+                    value={`${selectedDiseaseGroup?.key || ''}`}
+                    data={diseaseGroupsOptions}
+                    checkIconPosition="left"
+                    onChange={handleGroupChangeEvent}
+                    label="Grupo de morbilidades"
+                    pb={rem(16)}
+                    placeholder="Escoge un grupo de morbilidades"
+                    searchable
+                    defaultDropdownOpened={false}
+                    nothingFoundMessage="Grupo de morbilidades no encontrado..."
+                    allowDeselect={false}
+                    maxDropdownHeight={200}
+                />
+                <Select
+                    value={`${selectedDisease?.key || ''}`}
+                    data={diseaseOptions}
+                    checkIconPosition="left"
+                    onChange={handleDiseaseChangeEvent}
+                    label="Morbilidades"
+                    pb={rem(16)}
+                    placeholder="Escoge una morbilidad"
+                    searchable
+                    defaultDropdownOpened={false}
+                    nothingFoundMessage="Morbilidad no encontrada..."
+                    allowDeselect={false}
+                    maxDropdownHeight={200}
+                />
 
-                                <Textarea
-                                    label="Comentario"
-                                    value={commentary}
-                                    placeholder="Comentario de la morbilidad"
-                                    autosize
-                                    minRows={2}
-                                    maxRows={8}
-                                    onChange={handleCommentaryChangeEvent}
-                                    required
-                                />
-                            </Box>
-                            <ButtonGroup>
-                                <Button size='xs' fullWidth variant='outline' onClick={handleCloseEvent}>Cancelar</Button>
-                                <Button size='xs' fullWidth type='submit' leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>Guardar</Button>
-                            </ButtonGroup>
-                        </Flex>
-                    </Modal.Body>
-                </Flex>
-            </Modal.Content>
-        </Modal.Root>
+                <Textarea
+                    label="Comentario"
+                    value={commentary}
+                    placeholder="Comentario de la morbilidad"
+                    autosize
+                    minRows={2}
+                    maxRows={8}
+                    onChange={handleCommentaryChangeEvent}
+                    required
+                />
+            </Box>
+            <Button type='submit' style={{ display: 'none' }} ref={ref}></Button>
+        </Box>
     )
-}
+})
 
 export { MedicalResultFormDisease }

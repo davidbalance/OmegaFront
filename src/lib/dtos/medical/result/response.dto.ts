@@ -4,6 +4,7 @@ export interface MedicalReport {
 }
 
 export interface MedicalResultDisease {
+    id: number;
     diseaseId: number;
     diseaseName: string;
     diseaseGroupId: number;
@@ -22,5 +23,8 @@ export interface MedicalResult {
 export interface GETMedicalResultsResponseDto {
     results: MedicalResult[];
 }
+
+export interface POSTMedicalResultDiseaseResponseDto extends MedicalResultDisease { }
+export interface PATCHMedicalResultDiseaseResponseDto extends MedicalResultDisease { }
 
 export interface PATCHMedicalResultReportResponseDto extends MedicalResult { }

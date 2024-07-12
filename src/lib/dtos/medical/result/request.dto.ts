@@ -1,4 +1,4 @@
-export interface PATCHMedicalResultWithDiseaseRequestDto {
+export interface POSTMedicalResultDiseaseRequestDto {
     diseaseId: number;
     diseaseName: string;
     diseaseGroupId: number;
@@ -6,9 +6,7 @@ export interface PATCHMedicalResultWithDiseaseRequestDto {
     diseaseCommentary: string;
 }
 
-export interface PATCHMedicalResultWithDiseaseArrayRequestDto {
-    diseases: PATCHMedicalResultWithDiseaseRequestDto[];
-}
+export interface PATCHMedicalResultDiseaseRequestDto { }
 
 export interface PATCHMedicalResultReportRequestDto {
     content: string;
