@@ -68,7 +68,7 @@ const MedicalClientFormManagementArea = React.forwardRef<HTMLButtonElement, Medi
 
     const handleAreaChange = useCallback((_: string | null, option: ComboboxItem) => {
         setSelectedArea({ key: parseInt(option.value), label: option.label });
-    }, [managements]);
+    }, []);
 
     const managementOptions = useMemo(() => managements.map(e => ({ label: e.name, value: `${e.id}` })), [managements]);
     const areaOptions = useMemo(() => areas.map(e => ({ label: e.name, value: `${e.id}` })) || [], [areas]);
@@ -125,6 +125,8 @@ const MedicalClientFormManagementArea = React.forwardRef<HTMLButtonElement, Medi
 
         </Box>
     )
-}))
+}));
+
+MedicalClientFormManagementArea.displayName = "MedicalClientFormManagementArea";
 
 export { MedicalClientFormManagementArea }

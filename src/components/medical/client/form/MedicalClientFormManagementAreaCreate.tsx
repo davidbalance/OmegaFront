@@ -94,7 +94,7 @@ const MedicalClientFormManagementAreaCreate: React.FC<MedicalClientFormManagemen
         requestPOSTClient<POSTMedicalClientManagementAndAreaRequestDto>(form);
         setShouldSendRequest(true);
         onFormSubmit?.();
-    }, [onFormSubmit]);
+    }, [onFormSubmit, requestPOSTClient]);
 
     useEffect(() => {
         if (errorGETManagement) notifications.show({ message: errorGETManagement.message, color: 'red' });

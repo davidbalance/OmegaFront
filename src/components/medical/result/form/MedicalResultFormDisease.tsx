@@ -55,7 +55,7 @@ const MedicalResultFormDisease = React.forwardRef<HTMLButtonElement, MedicalResu
         } else {
             cleanForm();
         }
-    }, [disease, groups]);
+    }, [disease, groups, cleanForm]);
 
     const handleGroupChangeEvent = useCallback((_: string | null, option: ComboboxItem) => {
         setSelectedDisease(null);
@@ -88,7 +88,7 @@ const MedicalResultFormDisease = React.forwardRef<HTMLButtonElement, MedicalResu
             });
             cleanForm();
         }
-    }, [onFormSubmitted, commentary, selectedDiseaseGroup, selectedDisease]);
+    }, [onFormSubmitted, commentary, selectedDiseaseGroup, selectedDisease, cleanForm]);
 
     useEffect(() => {
         if (groupError) notifications.show({ message: groupError.message, color: 'red' });
@@ -141,6 +141,8 @@ const MedicalResultFormDisease = React.forwardRef<HTMLButtonElement, MedicalResu
             <Button type='submit' style={{ display: 'none' }} ref={ref}></Button>
         </Box>
     )
-})
+});
+
+MedicalResultFormDisease.displayName = 'MedicalResultFormDisease';
 
 export { MedicalResultFormDisease }

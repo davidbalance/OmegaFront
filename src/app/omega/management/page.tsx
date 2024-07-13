@@ -5,7 +5,8 @@ import { AreaFormCreate } from '@/components/area/form/AreaFormCreate';
 import { AreaFormUpdate } from '@/components/area/form/AreaFormUpdate';
 import { AreaFormUpdateManagement } from '@/components/area/form/AreaFormUpdateManagement';
 import { ButtonResponsive } from '@/components/button/responsive/ButtonResponsive';
-import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
+import { ListLayout } from '@/components/layout/list-layout/ListLayout';
+import { ListElement } from '@/components/layout/list-layout/ListLayoutBase';
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { ManagementActionButton } from '@/components/management/action/ManagementActionButton';
@@ -283,12 +284,14 @@ const ManagementPage: React.FC = () => {
         active,
         selectedManagement,
         selectedArea,
+        managementsSelectionOptions,
         handleCloseTierEvent,
         handleClickEventClose,
         handleFormSubmittedEventCreateManagement,
         handleFormSubmittedEventUpdateManagement,
         handleFormSubmittedEventCreateArea,
-        handleFormSubmittedEventUpdateArea
+        handleFormSubmittedEventUpdateArea,
+        handleFormSubmittedEventUpdateAreaManagement
     ]);
 
     useEffect(() => {

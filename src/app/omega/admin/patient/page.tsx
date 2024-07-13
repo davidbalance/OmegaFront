@@ -1,6 +1,8 @@
 'use client'
 
-import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
+import { ListLayout } from '@/components/layout/list-layout/ListLayout';
+import { ListElement } from '@/components/layout/list-layout/ListLayoutBase';
+import { ListLayoutFetch } from '@/components/layout/list-layout/ListLayoutFetch';
 import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { MedicalClientFormManagementAreaCreate } from '@/components/medical/client/form/MedicalClientFormManagementAreaCreate';
@@ -16,17 +18,15 @@ import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { MedicalOrder, OrderStatus } from '@/lib/dtos/medical/order/response.dto';
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
-import { Patient } from '@/lib/dtos/user/patient.response.dto';
-import { User } from '@/lib/dtos/user/user.response.dto';
-import { Title, Flex, Text, Grid, ActionIcon, rem, Box, useMantineTheme } from '@mantine/core';
+import { Patient, PatientPlain } from '@/lib/dtos/user/patient.response.dto';
+import { Title, Flex, Text, Grid, ActionIcon, rem, Box } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconRefresh } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
-type PatientDataType = Omit<Patient, 'user'> & Omit<User, 'id'> & { user: number };
-const parsePatient = (patients: Patient[]): PatientDataType[] => patients.map<PatientDataType>((e) => ({
+const parsePatient = (patients: Patient[]): PatientPlain[] => patients.map<PatientPlain>((e) => ({
     id: e.id,
     dni: e.user.dni,
     name: e.user.name,
@@ -45,7 +45,7 @@ enum LayoutState {
     UPLOAD_RESULT_FILE
 }
 
-const patientColumns: ListElement<PatientDataType>[] = [
+const patientColumns: ListElement<PatientPlain>[] = [
     { key: 'dni', name: 'Cedula' },
     { key: 'name', name: 'Nombre' },
     { key: 'lastname', name: 'Apellido' },
@@ -64,7 +64,7 @@ const PatientPage: React.FC = () => {
 
     const [active, setActive] = useState(0);
     const [currentState, setCurrentState] = useState<LayoutState>(LayoutState.DEFAULT);
-    const [patientSelected, setPatientSelected] = useState<PatientDataType | null>(null);
+    const [patientSelected, setPatientSelected] = useState<PatientPlain | null>(null);
     const [medicalOrderSelected, setMedicalOrderSelected] = useState<MedicalOrder | null>(null);
     const [medicalResultSelected, setMedicalResultSelected] = useState<MedicalResult | null>(null);
     const [shouldFetchMedicalOrder, setShouldFetchMedicalOrder] = useState<boolean>(false);
@@ -89,7 +89,7 @@ const PatientPage: React.FC = () => {
 
     const [patients, {
         override: patientOverride,
-    }] = useList<PatientDataType>([]);
+    }] = useList<PatientPlain>([]);
 
     const [medicalOrders, {
         override: medicalOrderOverride,
@@ -103,7 +103,7 @@ const PatientPage: React.FC = () => {
 
     const parsedPatients = useMemo(() => parsePatient(fetchedPatients || []), [fetchedPatients]);
 
-    const handlePatientSelection = useCallback((selection: PatientDataType): void => {
+    const handlePatientSelection = useCallback((selection: PatientPlain): void => {
         setPatientSelected(selection);
         setMedicalOrderSelected(null);
         setShouldFetchMedicalOrder(true);
@@ -122,7 +122,7 @@ const PatientPage: React.FC = () => {
         medicalOrderUpdate('id', id, { orderStatus: state });
     }, [medicalOrderUpdate]);
 
-    const handleClickEventAssignModal = useCallback((selection: PatientDataType) => {
+    const handleClickEventAssignModal = useCallback((selection: PatientPlain) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.UPDATE_EMPLOYEE);
     }, []);
@@ -137,12 +137,12 @@ const PatientPage: React.FC = () => {
         setCurrentState(LayoutState.UPLOAD_RESULT_FILE);
     }, []);
 
-    const handleClickEventEmail = useCallback((selection: PatientDataType) => {
+    const handleClickEventEmail = useCallback((selection: PatientPlain) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.EMAIL);
     }, []);
 
-    const handleClickEventManagementArea = useCallback((selection: PatientDataType) => {
+    const handleClickEventManagementArea = useCallback((selection: PatientPlain) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.UPDATE_PATIENT_MANAGEMENT_AREA);
     }, []);
@@ -155,7 +155,7 @@ const PatientPage: React.FC = () => {
         medicalResultUpdate('id', id, { hasFile: false });
     }, [medicalResultUpdate]);
 
-    const handlePatientRow = useCallback((row: PatientDataType) => (
+    const handlePatientRow = useCallback((row: PatientPlain) => (
         <ListRowElement
             key={row.id}
             active={row.id === patientSelected?.id}
@@ -168,7 +168,7 @@ const PatientPage: React.FC = () => {
             <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
             <Text>{row.dni}</Text>
         </ListRowElement>
-    ), [patientSelected, handlePatientSelection, handleClickEventAssignModal, handleClickEventEmail]);
+    ), [patientSelected, handlePatientSelection, handleClickEventAssignModal, handleClickEventEmail, handleClickEventManagementArea]);
 
     const handleMedicalOrderRow = useCallback((row: MedicalOrder) => (
         <ListRowElement
@@ -241,13 +241,13 @@ const PatientPage: React.FC = () => {
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {
             title: 'Pacientes',
-            element: <ListLayout<PatientDataType>
+            element: <ListLayoutFetch<PatientPlain>
                 key='patient-list-layout'
                 loading={patientLoading}
-                data={patients}
                 columns={patientColumns}
                 rows={handlePatientRow}
                 size={100}
+                url={'/api/patients/paginate'}
             />,
         },
         {
@@ -273,7 +273,6 @@ const PatientPage: React.FC = () => {
         },
     ], [
         patientLoading,
-        patients,
         handlePatientRow,
         reloadOrderButton,
         patientSelected,

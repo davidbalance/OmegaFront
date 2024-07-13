@@ -68,51 +68,51 @@ const MedicalResultModalDiseases: React.FC<MedicalResultModalDiseasesProps> = ({
             diseasePOSTRequest<PATCHMedicalResultDiseaseRequestDto>(value);
             setShouldSendPOST(true);
         }
-    }, []);
+    }, [diseasePATCHRequest, diseasePOSTRequest]);
 
     const handleCloseEvent = useCallback(() => {
         onFormSubmitted?.({ ...medicalResult, diseases: diseases });
         onClose();
-    }, [onClose, diseases]);
+    }, [diseases, medicalResult, onClose, onFormSubmitted]);
 
     useEffect(() => {
         if (medicalResult && medicalResult.diseases?.length) {
             overrideDisease(medicalResult.diseases);
         }
-    }, [medicalResult]);
+    }, [medicalResult, overrideDisease]);
 
     useEffect(() => {
         if (diseasePOSTError) notifications.show({ message: diseasePOSTError.message, color: 'red' });
         else if (diseasePATCHError) notifications.show({ message: diseasePATCHError.message, color: 'red' });
-    }, [diseasePOSTError || diseasePATCHError]);
+    }, [diseasePOSTError, diseasePATCHError]);
 
     useEffect(() => {
         if (shouldSendPATCH && diseasePATCHBody) {
             diseasePATCHReload();
             setShouldSendPATCH(false);
         }
-    }, [shouldSendPATCH || diseasePATCHBody]);
+    }, [shouldSendPATCH, diseasePATCHBody, diseasePATCHReload]);
 
     useEffect(() => {
         if (shouldSendPOST && diseasePOSTBody) {
             diseasePOSTReload();
             setShouldSendPOST(false);
         }
-    }, [shouldSendPOST || diseasePOSTBody]);
+    }, [shouldSendPOST, diseasePOSTBody, diseasePOSTReload]);
 
     useEffect(() => {
         if (diseasePOSTData) {
             appendDisease(diseasePOSTData);
             diseasePOSTReset();
         }
-    }, [diseasePOSTData]);
+    }, [diseasePOSTData, appendDisease, diseasePOSTReset]);
 
     useEffect(() => {
         if (diseasePATCHData) {
             updateDisease('id', diseasePATCHData.id, diseasePATCHData);
             diseasePATCHReset();
         }
-    }, [diseasePATCHData]);
+    }, [diseasePATCHData, updateDisease, diseasePATCHReset]);
 
     const handleDiseaseRowDeleteEvent = useCallback((id: number) => {
         removeDisease('id', id);
@@ -120,7 +120,7 @@ const MedicalResultModalDiseases: React.FC<MedicalResultModalDiseasesProps> = ({
 
     const handleDiseaseRowClickEvent = useCallback((data: MedicalResultDisease) => setSelectedDisease(data), []);
 
-    const diseaseRows = useMemo(() => diseases.map((row, index) => (
+    const diseaseRows = useMemo(() => diseases.map((row) => (
         <MedicalResultListElement
             key={row.id}
             medicalResult={medicalResult.id}
@@ -128,7 +128,7 @@ const MedicalResultModalDiseases: React.FC<MedicalResultModalDiseasesProps> = ({
             onClick={() => handleDiseaseRowClickEvent(row)}
             disease={row}
             onDelete={handleDiseaseRowDeleteEvent} />
-    )), [diseases, selectedDisease, handleDiseaseRowClickEvent, handleDiseaseRowDeleteEvent]);
+    )), [diseases, selectedDisease, handleDiseaseRowClickEvent, handleDiseaseRowDeleteEvent, medicalResult]);
 
     return (
         <Modal.Root

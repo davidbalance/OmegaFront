@@ -49,7 +49,7 @@ const MedicalResultListElement: React.FC<MedicalResultListElementProps> = ({ act
             diseaseDELETEReset();
             onDelete(disease.id);
         }
-    }, [diseaseDELETEData, onDelete]);
+    }, [diseaseDELETEData, disease.id, onDelete, diseaseDELETEReset]);
 
     return (
         <ListRowElement
