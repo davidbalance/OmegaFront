@@ -1,7 +1,7 @@
 import { UnstyledButton, Flex, Center, Text } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { IconChevronUp, IconChevronDown, IconSelector } from "@tabler/icons-react";
-import classes from './ListLayout.module.css'
+import classes from './ListHeader.module.css'
 
 interface ListHeaderButtonProps {
     /**
@@ -17,7 +17,7 @@ interface ListHeaderButtonProps {
     };
 }
 
-const ListHeaderButton: React.FC<ListHeaderButtonProps> = ({ label, sort }) => {
+const ListHeader: React.FC<ListHeaderButtonProps> = ({ label, sort }) => {
     const [reversed, { toggle }] = useDisclosure(false);
     const isMobile = useMediaQuery('(max-width: 50em)');
 
@@ -48,4 +48,4 @@ const ListHeaderButton: React.FC<ListHeaderButtonProps> = ({ label, sort }) => {
     );
 };
 
-export { ListHeaderButton };
+export { ListHeader };

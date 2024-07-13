@@ -5,9 +5,9 @@ import { AreaFormCreate } from '@/components/area/form/AreaFormCreate';
 import { AreaFormUpdate } from '@/components/area/form/AreaFormUpdate';
 import { AreaFormUpdateManagement } from '@/components/area/form/AreaFormUpdateManagement';
 import { ButtonResponsive } from '@/components/button/responsive/ButtonResponsive';
-import { ListLayout } from '@/components/layout/list-layout/ListLayout';
-import { ListElement } from '@/components/layout/list-layout/ListLayoutBase';
-import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
+import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
+import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
+import { ListElement } from '@/components/layout/list-layout/types';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { ManagementActionButton } from '@/components/management/action/ManagementActionButton';
 import { ManagementFormCreate } from '@/components/management/form/ManagementFormCreate';
@@ -109,7 +109,7 @@ const ManagementPage: React.FC = () => {
     }, []);
 
     const handleManagementRow = useCallback((row: Management) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             active={row.id === selectedManagement?.id}
             onClick={() => handleClickEventSelectManagement(row)}
@@ -120,11 +120,11 @@ const ManagementPage: React.FC = () => {
                     management={row} />
             )}>
             <Title order={6}>{row.name}</Title>
-        </ListRowElement>
+        </ListRow>
     ), [selectedManagement, handleClickEventSelectManagement, handleClickEventModificationManagement, handleDeleteEventManagement]);
 
     const handleAreaRow = useCallback((row: Area) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             rightSection={(
                 <AreaActionButton
@@ -134,7 +134,7 @@ const ManagementPage: React.FC = () => {
                     onChangeManagement={() => handleClickEventModificationAreaChangeManagement(row)} />
             )}>
             <Title order={6}>{row.name}</Title>
-        </ListRowElement>
+        </ListRow>
     ), [handleClickEventModificationArea, handleDeleteEventArea, handleClickEventModificationAreaChangeManagement]);
 
     const createManagementButton = useMemo(() => (

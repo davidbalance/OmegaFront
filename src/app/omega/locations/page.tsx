@@ -4,11 +4,12 @@ import React, { useCallback, useMemo, useState } from "react"
 import { useFetch } from "@/hooks/useFetch"
 import { CorporativeGroup } from "@/lib/dtos/location/corporative/group.response.dto"
 import MultipleTierLayout, { TierElement } from "@/components/layout/multiple-tier-layout/MultipleTierLayout"
-import { ListElement, ListLayout } from "@/components/layout/list-layout/ListLayout"
 import { Company } from "@/lib/dtos/location/company.response.dto"
 import { Branch } from "@/lib/dtos/location/branch.response.dto"
-import { ListRowElement } from "@/components/layout/list-layout/ListRowElement"
 import { Flex, SimpleGrid, Text, Title, rem } from "@mantine/core"
+import { ListRow } from "@/components/layout/list-layout/components/row/ListRow"
+import { ListLayout } from "@/components/layout/list-layout/components/extended/ListLayout"
+import { ListElement } from "@/components/layout/list-layout/types"
 
 enum LayoutStates {
     DEFAULT
@@ -42,17 +43,17 @@ const CorporativeGroupPage: React.FC = () => {
     }, []);
 
     const handleCorporativeGroupRow = useCallback((row: CorporativeGroup) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             active={row.id === selectedCorporativeGroup?.id}
             onClick={() => handleClickEventSelectGroup(row)}
         >
             <Title order={6}>{row.name}</Title>
-        </ListRowElement>
+        </ListRow>
     ), [selectedCorporativeGroup, handleClickEventSelectGroup]);
 
     const handleCorporativeCompanyRow = useCallback((row: Company) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             active={row.id === selectedCompany?.id}
             onClick={() => handleClickEventSelectCompany(row)}
@@ -65,14 +66,14 @@ const CorporativeGroupPage: React.FC = () => {
                     <Text>{row.phone}</Text>
                 </SimpleGrid>
             </Flex>
-        </ListRowElement>
+        </ListRow>
     ), [handleClickEventSelectCompany, selectedCompany]);
 
     const handleBranchRow = useCallback((row: Branch) => (
-        <ListRowElement key={row.id}>
+        <ListRow key={row.id}>
             <Title order={6}>{row.name}</Title>
             <Text>{row.city.name}</Text>
-        </ListRowElement>
+        </ListRow>
     ), []);
 
     const multipleLayerComponents = useMemo((): TierElement[] => [

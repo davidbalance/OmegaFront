@@ -1,4 +1,4 @@
-import { ListRowElement } from '@/components/layout/list-layout/ListRowElement'
+import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { useFetch } from '@/hooks/useFetch';
 import { MedicalResultDisease } from '@/lib/dtos/medical/result/response.dto';
 import { ActionIcon, rem, Text, Title, Tooltip } from '@mantine/core'
@@ -52,7 +52,7 @@ const MedicalResultListElement: React.FC<MedicalResultListElementProps> = ({ act
     }, [diseaseDELETEData, disease.id, onDelete, diseaseDELETEReset]);
 
     return (
-        <ListRowElement
+        <ListRow
             active={active}
             onClick={handleClickEvent}
             rightSection={(
@@ -68,7 +68,7 @@ const MedicalResultListElement: React.FC<MedicalResultListElementProps> = ({ act
             )}>
             <Title order={6}>{disease.diseaseName}</Title>
             <Text size='xs'>{disease.diseaseGroupName}</Text>
-        </ListRowElement>
+        </ListRow>
     )
 }
 

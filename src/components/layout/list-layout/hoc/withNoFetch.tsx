@@ -2,35 +2,13 @@ import { useChunk } from '@/hooks/useChunk';
 import { useFilter } from '@/hooks/useFilter/useFilter';
 import { useSort } from '@/hooks/useSort';
 import React, { ChangeEvent, useCallback, useMemo, useState } from 'react'
-import { ListLayoutBaseProps } from '../ListLayoutBase';
-import { ListRowElementProps } from '../ListRowElement';
+import { ListLayoutBaseProps, NoFetchProps, ListLayoutBaseOmittedProps } from '../types';
 
-interface ListLayoutOmittedBase<T> extends Omit<ListLayoutBaseProps<T>, 'data' | 'total' | 'sort' | 'onSort' | 'onPageChange' | 'searchProps'> { }
-
-interface ListLayoutExtendedFunctionalityProps<T> {
-    /**
-     * Arreglo de datos para ser renderizados.
-     */
-    data: T[];
-    /**
-     * Numero de items que seran renderizados en cada pagina.
-     */
-    size?: number;
-    /**
-     * Funcion que es invocada al momento de renderizar cada fila, debe retornar un elemento react.
-     * @param row 
-     * @returns 
-     */
-    rows: (row: T) => React.ReactElement<ListRowElementProps>;
-}
-
-export type ListLayoutProps<T> = ListLayoutExtendedFunctionalityProps<T> & ListLayoutOmittedBase<T>;
-
-const listlayoutNoFetchFunctionality = <T extends object>(
+const withNoFetch = <T extends object>(
     WrappedComponent: React.ComponentType<ListLayoutBaseProps<T>>
-): React.FC<ListLayoutProps<T>> => {
+): React.FC<NoFetchProps<T>> => {
 
-    const ListLayout = ({ data, size = 10, rows, columns, ...props }: ListLayoutProps<T>): React.ReactElement | null => {
+    const ListLayout = ({ data, size = 10, rows, columns, ...props }: NoFetchProps<T>): React.ReactElement | null => {
 
         const [filteredData, FilterHandlers, FilterValues] = useFilter(data, columns.map((e) => e.key));
         const [sortedData, { sortBy: sortByHandler }, { sortBy: sortByValue }] = useSort<T>(filteredData);
@@ -46,7 +24,7 @@ const listlayoutNoFetchFunctionality = <T extends object>(
         const handlePageChange = useCallback((value: number) => setPage(value), []);
 
         return <WrappedComponent
-            {...(props as ListLayoutOmittedBase<T>)}
+            {...(props as ListLayoutBaseOmittedProps<T>)}
             data={memoizedRows}
             total={total}
             sort={sortByValue}
@@ -62,4 +40,4 @@ const listlayoutNoFetchFunctionality = <T extends object>(
     return ListLayout;
 };
 
-export { listlayoutNoFetchFunctionality };
+export { withNoFetch };

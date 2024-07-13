@@ -1,17 +1,17 @@
 'use client'
 
-import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
-import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
+import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
+import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
+import { ListElement } from '@/components/layout/list-layout/types';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
-import { MedicalResultFormDisease } from '@/components/medical/result/form/MedicalResultFormDisease';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { MedicalOrder } from '@/lib/dtos/medical/order/response.dto';
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { Patient } from '@/lib/dtos/user/patient.response.dto';
 import { User } from '@/lib/dtos/user/user.response.dto';
-import { Title, Flex, Text, Grid, ActionIcon, rem } from '@mantine/core';
+import { Title, Flex, Text, Grid, ActionIcon, rem, Box } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconRefresh } from '@tabler/icons-react';
 import dayjs from 'dayjs';
@@ -98,17 +98,17 @@ const PatientPage: React.FC = () => {
     }, []);
 
     const handlePatientRow = useCallback((row: PatientDataType) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             active={row.id === patientSelected?.id}
             onClick={() => handlePatientSelection(row)}>
             <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
             <Text>{row.dni}</Text>
-        </ListRowElement>
+        </ListRow>
     ), [patientSelected, handlePatientSelection]);
 
     const handleMedicalOrderRow = useCallback((row: MedicalOrder) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             active={row.id === medicalOrderSelected?.id}
             onClick={() => handleOrderSelection(row)}
@@ -126,11 +126,11 @@ const PatientPage: React.FC = () => {
                     </Flex>
                 </Grid.Col>
             </Grid>
-        </ListRowElement>
+        </ListRow>
     ), [medicalOrderSelected, handleOrderSelection]);
 
     const handleMedicalResultRow = useCallback((row: MedicalResult) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             rightSection={<MedicalResultActionMenu
                 downloadResult={row.hasFile}
@@ -138,10 +138,18 @@ const PatientPage: React.FC = () => {
                 data={row} />}
         >
             <Title order={6}>{row.examName}</Title>
-            <Text size='xs' c={row.diseaseName ? 'neutral' : 'red'}>{row.diseaseName ? row.diseaseName : 'Morbilidad no asociada'}</Text>
+            {
+                (row.diseases && row.diseases.length)
+                    ? row.diseases.map((e, index) => (
+                        <Box w={150} key={index}>
+                            <Text size='xs' c='neutral' truncate='end'>{e.diseaseName}, {e.diseaseCommentary}</Text>
+                        </Box>
+                    ))
+                    : <Text size='xs' c={'red'}>Morbilidades no asociadas</Text>
+            }
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
-        </ListRowElement>
+        </ListRow>
     ), []);
 
     const handleOrderRefesh = useCallback(() => {
@@ -264,14 +272,7 @@ const PatientPage: React.FC = () => {
     }, [shouldFetchMedicalOrder, patientSelected, orderReload, medicalResultOverride]);
 
     return (
-        <>
-            <MedicalResultFormDisease
-                medicalOrderExam={medicalResultSelected!}
-                opened={!!medicalResultSelected}
-                onClose={handleExamModalCloseEvent}
-                onFormSubmitted={handleMedicalOrderResultFormSubmittion} />
-            {view[currentState]}
-        </>
+        <>{view[currentState]}</>
     );
 }
 

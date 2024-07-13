@@ -1,8 +1,9 @@
 'use client'
 
 import { DownloadActionButton } from '@/components/download/action/DownloadActionButton'
-import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout'
-import { ListRowElement } from '@/components/layout/list-layout/ListRowElement'
+import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout'
+import { ListRow } from '@/components/layout/list-layout/components/row/ListRow'
+import { ListElement } from '@/components/layout/list-layout/types'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { useFetch } from '@/hooks/useFetch'
 import { useList } from '@/hooks/useList'
@@ -106,7 +107,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
     }, [fileBlob, data, fileReset])
 
     const handleOrderRows = useCallback((row: MedicalOrderFile) => (
-        <ListRowElement
+        <ListRow
             key={`medical-${row.type}-${row.id}`}
             leftSection={<Checkbox
                 checked={!!selected.find(e => e.id === row.id && e.type === row.type)}
@@ -119,7 +120,7 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
             onClick={() => handleSelection(row)}>
             <Title order={6}>{row.examName}</Title>
             <Text>{row.type === 'report' ? 'Reporte Medico' : 'Resultado Medico'}</Text>
-        </ListRowElement>)
+        </ListRow>)
         , [selected, handleSelection]);
 
     const downloadSelectedButton = useMemo(() => selected.length > 0 &&

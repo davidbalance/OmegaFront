@@ -1,43 +1,17 @@
 import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
-import { ListLayoutBaseProps } from '../ListLayoutBase';
-import { ListRowElementProps } from '../ListRowElement';
 import { PaginationOrder, PaginationRequest, PaginationResponse } from '@/lib/types/pagination.type';
 import { useFetch } from '@/hooks/useFetch';
 import { notifications } from '@mantine/notifications';
 import { useList } from '@/hooks/useList';
 import { ActionIcon, rem } from '@mantine/core';
-import { IconSearch, IconX } from '@tabler/icons-react';
+import { IconRefresh, IconSearch, IconX } from '@tabler/icons-react';
+import { ListLayoutBaseProps, FetchProps, ListLayoutBaseOmittedProps } from '../types';
 
-interface ListLayoutOmittedBase<T> extends Omit<ListLayoutBaseProps<T>, 'data' | 'total' | 'sort' | 'onSort' | 'onPageChange' | 'searchProps'> { }
-
-interface ListLayoutExtendedFunctionalityProps<T> {
-    /**
-     * Url that must be connected with the list
-     */
-    url: string;
-    /**
-     * Indicates if it must load when the component is mounted
-     */
-    loadOnMount?: boolean;
-    /**
-     * Numero de items que seran renderizados en cada pagina.
-     */
-    size?: number;
-    /**
-     * Funcion que es invocada al momento de renderizar cada fila, debe retornar un elemento react.
-     * @param row 
-     * @returns 
-     */
-    rows: (row: T) => React.ReactElement<ListRowElementProps>;
-}
-
-export type ListLayoutFetchProps<T> = ListLayoutExtendedFunctionalityProps<T> & ListLayoutOmittedBase<T>;
-
-const listlayoutFetchFunctionality = <T extends object>(
+const withFetch = <T extends object>(
     WrappedComponent: React.ComponentType<ListLayoutBaseProps<T>>
-): React.FC<ListLayoutFetchProps<T>> => {
+): React.FC<FetchProps<T>> => {
 
-    const ListLayout = ({ url, loadOnMount = true, size = 10, rows, columns, ...props }: ListLayoutFetchProps<T>): React.ReactElement | null => {
+    const ListLayout = ({ url, loadOnMount = true, size = 10, rows, columns, dock, reload = true, ...props }: FetchProps<T>): React.ReactElement | null => {
 
         const [currentPage, setCurrentPage] = useState<number>(1);
         const [currentFilter, setCurrentFilter] = useState<string | null>(null);
@@ -54,7 +28,7 @@ const listlayoutFetchFunctionality = <T extends object>(
             request: fetchRequest,
             reload: fetchReload,
             reset: fetchReset,
-        } = useFetch<PaginationResponse<T>>(url, 'POST', { loadOnMount, body: currentBody });
+        } = useFetch<PaginationResponse<T>>(url, 'POST', { body: currentBody });
 
         const [listData, {
             override: listOverride
@@ -99,7 +73,7 @@ const listlayoutFetchFunctionality = <T extends object>(
                 setShouldFetch(true);
                 return newFetchBody;
             });
-        }, []);
+        }, [fetchRequest]);
 
         const handleEventSearch = useCallback(() => {
             fetchRequest(currentBody);
@@ -140,8 +114,20 @@ const listlayoutFetchFunctionality = <T extends object>(
             </ActionIcon>
             ) : undefined, [currentFilter, handleEventClear]);
 
+        const handleEventRefresh = useCallback(() => {
+            fetchRequest(currentBody);
+            setShouldFetch(true);
+        }, [currentBody, fetchRequest]);
+
+
+        const ReloadButton = useMemo(() => reload ? (
+            <ActionIcon variant='light' onClick={handleEventRefresh}>
+                <IconRefresh style={{ width: rem(16), height: rem(16) }} />
+            </ActionIcon>) : undefined, [reload, handleEventRefresh]);
+
+
         return <WrappedComponent
-            {...(props as ListLayoutOmittedBase<T>)}
+            {...(props as ListLayoutBaseOmittedProps<T>)}
             data={memoizedRows}
             total={pagesCount}
             sort={sortBy ? sortBy.key : null}
@@ -154,10 +140,11 @@ const listlayoutFetchFunctionality = <T extends object>(
                 leftSection: ClearFilterButton
             }}
             columns={columns}
-            loading={fetchLoading} />
+            loading={fetchLoading}
+            dock={ReloadButton} />
     }
 
     return ListLayout;
 };
 
-export { listlayoutFetchFunctionality };
+export { withFetch };

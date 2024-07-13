@@ -1,6 +1,6 @@
 import { useList } from '@/hooks/useList';
 import { MedicalResult, MedicalResultDisease } from '@/lib/dtos/medical/result/response.dto';
-import { Box, Button, Flex, Grid, LoadingOverlay, Modal, ModalProps, rem, ScrollArea, Text, Title, UnstyledButton } from '@mantine/core';
+import { Box, Button, Flex, Grid, LoadingOverlay, Modal, ModalProps, rem, ScrollArea } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { MedicalResultFormDisease } from '../form/MedicalResultFormDisease';
@@ -8,7 +8,6 @@ import { IconDeselect, IconDeviceFloppy } from '@tabler/icons-react';
 import { useFetch } from '@/hooks/useFetch';
 import { PATCHMedicalResultDiseaseRequestDto, POSTMedicalResultDiseaseRequestDto } from '@/lib/dtos/medical/result/request.dto';
 import { notifications } from '@mantine/notifications';
-import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import MedicalResultListElement from '../disease/list/MedicalResultListElement';
 
 interface MedicalResultModalDiseasesProps extends Omit<ModalProps, 'title'> {

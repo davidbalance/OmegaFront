@@ -1,0 +1,20 @@
+.list-content {
+  cursor: default;
+  padding: rem(4px) rem(8px);
+}
+
+.list-content.clickable {
+  cursor: pointer;
+}
+
+.list-element {
+  border: 1px solid transparent;
+  border-bottom-color: var(--mantine-color-neutral-2);
+}
+
+.list-element:has(.list-content[data-active="true"]),
+.list-element:has(.list-content.clickable.hoverable:hover) {
+  border-radius: var(--mantine-radius-md);
+  background-color: var(--mantine-color-orange-light);
+  border-color: transparent;
+}

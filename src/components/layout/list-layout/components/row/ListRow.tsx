@@ -1,8 +1,8 @@
 import { Flex, rem, UnstyledButton } from "@mantine/core";
-import classes from './ListLayout.module.css'
+import classes from './ListRow.module.css'
 import cx from 'clsx';
 
-interface ListRowElementProps {
+interface ListRowProps {
     /**
      * Contenido interno de la fila.
      */
@@ -30,7 +30,7 @@ interface ListRowElementProps {
     onClick?: () => void;
 }
 
-const ListRowElement: React.FC<ListRowElementProps> = ({
+const ListRow: React.FC<ListRowProps> = ({
     leftSection,
     rightSection,
     children,
@@ -70,5 +70,5 @@ const ListRowElement: React.FC<ListRowElementProps> = ({
     );
 };
 
-export { ListRowElement };
-export type { ListRowElementProps };
+export { ListRow };
+export type { ListRowProps };

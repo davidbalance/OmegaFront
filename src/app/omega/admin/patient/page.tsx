@@ -1,9 +1,10 @@
 'use client'
 
-import { ListLayout } from '@/components/layout/list-layout/ListLayout';
-import { ListElement } from '@/components/layout/list-layout/ListLayoutBase';
-import { ListLayoutFetch } from '@/components/layout/list-layout/ListLayoutFetch';
-import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
+import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
+import { ListWithFetchContext } from '@/components/layout/list-layout/components/extended/ListWithFetchContext';
+import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
+import { ListLayoutFetchProvider } from '@/components/layout/list-layout/context/ListFetchPaginationContext';
+import { ListElement } from '@/components/layout/list-layout/types';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { MedicalClientFormManagementAreaCreate } from '@/components/medical/client/form/MedicalClientFormManagementAreaCreate';
 import MedicalClientLayoutEmail from '@/components/medical/client/layout/MedicalClientLayoutEmail';
@@ -156,7 +157,7 @@ const PatientPage: React.FC = () => {
     }, [medicalResultUpdate]);
 
     const handlePatientRow = useCallback((row: PatientPlain) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             active={row.id === patientSelected?.id}
             onClick={() => handlePatientSelection(row)}
@@ -167,11 +168,11 @@ const PatientPage: React.FC = () => {
         >
             <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
             <Text>{row.dni}</Text>
-        </ListRowElement>
+        </ListRow>
     ), [patientSelected, handlePatientSelection, handleClickEventAssignModal, handleClickEventEmail, handleClickEventManagementArea]);
 
     const handleMedicalOrderRow = useCallback((row: MedicalOrder) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             active={row.id === medicalOrderSelected?.id}
             onClick={() => handleOrderSelection(row)}
@@ -197,11 +198,11 @@ const PatientPage: React.FC = () => {
                     </Flex>
                 </Grid.Col>
             </Grid>
-        </ListRowElement>
+        </ListRow>
     ), [medicalOrderSelected, handleOrderSelection, handleEventMailSend, handleEventOrderStatus]);
 
     const handleMedicalResultRow = useCallback((row: MedicalResult) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             rightSection={<MedicalResultActionMenu
                 onDiseaseModification={() => handleClickEventUpdateDisease(row)}
@@ -223,7 +224,7 @@ const PatientPage: React.FC = () => {
             }
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
-        </ListRowElement>
+        </ListRow>
     ), [handleClickEventUploadResultFile, handleClickEventUpdateDisease, handleClickEventDeleteMedicalResultFile]);
 
     const handleOrderRefesh = useCallback(() => {
@@ -241,13 +242,11 @@ const PatientPage: React.FC = () => {
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {
             title: 'Pacientes',
-            element: <ListLayoutFetch<PatientPlain>
+            element: <ListWithFetchContext<PatientPlain>
                 key='patient-list-layout'
                 loading={patientLoading}
                 columns={patientColumns}
                 rows={handlePatientRow}
-                size={100}
-                url={'/api/patients/paginate'}
             />,
         },
         {
@@ -388,7 +387,11 @@ const PatientPage: React.FC = () => {
                 opened={!!medicalResultSelected && openedDiseaseModal}
                 onClose={handleExamModalCloseEvent}
                 onFormSubmitted={handleMedicalOrderResultFormSubmittion} />
-            {view[currentState]}
+            <ListLayoutFetchProvider<PatientPlain>
+                url={'/api/patients/paginate'}
+                size={50}>
+                {view[currentState]}
+            </ListLayoutFetchProvider >
         </>
     );
 }
