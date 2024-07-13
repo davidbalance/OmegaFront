@@ -19,7 +19,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { MedicalOrder, OrderStatus } from '@/lib/dtos/medical/order/response.dto';
 import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
-import { Patient, PatientPlain } from '@/lib/dtos/user/patient.response.dto';
+import { EEQPatientPlain } from '@/lib/dtos/user/patient.response.dto';
 import { Title, Flex, Text, Grid, ActionIcon, rem, Box } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
@@ -35,10 +35,10 @@ enum LayoutState {
     UPLOAD_RESULT_FILE
 }
 
-const patientColumns: ListElement<PatientPlain>[] = [
+const patientColumns: ListElement<EEQPatientPlain>[] = [
     { key: 'dni', name: 'Cedula' },
     { key: 'name', name: 'Nombre' },
-    { key: 'lastname', name: 'Apellido' },
+    { key: 'lastname', name: 'Apellido' }
 ];
 
 const medicalOrderColumns: ListElement<MedicalOrder>[] = [
@@ -54,7 +54,7 @@ const PatientPage: React.FC = () => {
 
     const [active, setActive] = useState(0);
     const [currentState, setCurrentState] = useState<LayoutState>(LayoutState.DEFAULT);
-    const [patientSelected, setPatientSelected] = useState<PatientPlain | null>(null);
+    const [patientSelected, setPatientSelected] = useState<EEQPatientPlain | null>(null);
     const [medicalOrderSelected, setMedicalOrderSelected] = useState<MedicalOrder | null>(null);
     const [medicalResultSelected, setMedicalResultSelected] = useState<MedicalResult | null>(null);
     const [shouldFetchMedicalOrder, setShouldFetchMedicalOrder] = useState<boolean>(false);
@@ -82,7 +82,7 @@ const PatientPage: React.FC = () => {
     }] = useList<MedicalResult>([]);
 
 
-    const handlePatientSelection = useCallback((selection: PatientPlain): void => {
+    const handlePatientSelection = useCallback((selection: EEQPatientPlain): void => {
         setPatientSelected(selection);
         setMedicalOrderSelected(null);
         setShouldFetchMedicalOrder(true);
@@ -101,7 +101,7 @@ const PatientPage: React.FC = () => {
         medicalOrderUpdate('id', id, { orderStatus: state });
     }, [medicalOrderUpdate]);
 
-    const handleClickEventAssignModal = useCallback((selection: PatientPlain) => {
+    const handleClickEventAssignModal = useCallback((selection: EEQPatientPlain) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.UPDATE_EMPLOYEE);
     }, []);
@@ -116,12 +116,12 @@ const PatientPage: React.FC = () => {
         setCurrentState(LayoutState.UPLOAD_RESULT_FILE);
     }, []);
 
-    const handleClickEventEmail = useCallback((selection: PatientPlain) => {
+    const handleClickEventEmail = useCallback((selection: EEQPatientPlain) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.EMAIL);
     }, []);
 
-    const handleClickEventManagementArea = useCallback((selection: PatientPlain) => {
+    const handleClickEventManagementArea = useCallback((selection: EEQPatientPlain) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.UPDATE_PATIENT_MANAGEMENT_AREA);
     }, []);
@@ -134,7 +134,7 @@ const PatientPage: React.FC = () => {
         medicalResultUpdate('id', id, { hasFile: false });
     }, [medicalResultUpdate]);
 
-    const handlePatientRow = useCallback((row: PatientPlain) => (
+    const handlePatientRow = useCallback((row: EEQPatientPlain) => (
         <ListRow
             key={row.id}
             active={row.id === patientSelected?.id}
@@ -145,7 +145,14 @@ const PatientPage: React.FC = () => {
                 onManagementArea={() => handleClickEventManagementArea(row)} />}
         >
             <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
-            <Text>{row.dni}</Text>
+            <Flex>
+                <Text fw={500} mr={rem(2)}>Rol:</Text>
+                <Text>{row.role}</Text>
+            </Flex>
+            <Flex>
+                <Text fw={500} mr={rem(2)}>Cedula:</Text>
+                <Text>{row.dni}</Text>
+            </Flex>
         </ListRow>
     ), [patientSelected, handlePatientSelection, handleClickEventAssignModal, handleClickEventEmail, handleClickEventManagementArea]);
 
@@ -220,7 +227,7 @@ const PatientPage: React.FC = () => {
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {
             title: 'Pacientes',
-            element: <ListWithFetchContext<PatientPlain>
+            element: <ListWithFetchContext<EEQPatientPlain>
                 key='patient-list-layout'
                 columns={patientColumns}
                 rows={handlePatientRow}
@@ -358,8 +365,8 @@ const PatientPage: React.FC = () => {
                 opened={!!medicalResultSelected && openedDiseaseModal}
                 onClose={handleExamModalCloseEvent}
                 onFormSubmitted={handleMedicalOrderResultFormSubmittion} />
-            <ListLayoutFetchProvider<PatientPlain>
-                url={'/api/patients/paginate'}
+            <ListLayoutFetchProvider<EEQPatientPlain>
+                url={'/api/patients/eeq/paginate'}
                 size={50}>
                 {view[currentState]}
             </ListLayoutFetchProvider >

@@ -6,7 +6,7 @@ import { IconX } from '@tabler/icons-react';
 import React, { useCallback, useMemo, useState } from 'react'
 import { ListHeader } from '../header/ListHeader';
 import { ListLayoutBaseProps } from '../../types';
-import classes from './ListLayoutBase.module.css'
+import classes from '../../styles/ListLayoutBase.module.css'
 
 const ListLayoutBase = <T extends object>({ data, total, loading, columns, height = 350, sort, onSort, dock, onPageChange, searchProps }: ListLayoutBaseProps<T>): React.ReactElement | null => {
 

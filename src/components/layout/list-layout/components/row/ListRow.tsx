@@ -1,5 +1,5 @@
 import { Flex, rem, UnstyledButton } from "@mantine/core";
-import classes from './ListRow.module.css'
+import classes from '../../styles/ListLayoutBase.module.css'
 import cx from 'clsx';
 
 interface ListRowProps {

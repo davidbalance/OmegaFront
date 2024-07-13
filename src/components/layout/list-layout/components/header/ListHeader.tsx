@@ -1,7 +1,7 @@
 import { UnstyledButton, Flex, Center, Text } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { IconChevronUp, IconChevronDown, IconSelector } from "@tabler/icons-react";
-import classes from './ListHeader.module.css'
+import classes from '../../styles/ListLayoutBase.module.css'
 
 interface ListHeaderButtonProps {
     /**

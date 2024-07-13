@@ -9,6 +9,6 @@ interface CommonFunctionalityProps<T> {
     size?: number;
 }
 
-export type FetchContextProps<T> = CommonFunctionalityProps<T> & ListLayoutBaseOmittedProps<T>;
+export type FetchContextProps<T> = CommonFunctionalityProps<T> & Omit<ListLayoutBaseOmittedProps<T>, 'loading'>;
 export type NoFetchProps<T> = CommonFunctionalityProps<T> & ListLayoutBaseOmittedProps<T> & { data: T[] };
 export type FetchProps<T> = CommonFunctionalityProps<T> & ListLayoutBaseOmittedProps<T> & { url: string; loadOnMount?: boolean; };
