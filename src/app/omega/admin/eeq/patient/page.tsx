@@ -161,7 +161,7 @@ const PatientPage: React.FC = () => {
             key={row.id}
             active={row.id === medicalOrderSelected?.id}
             onClick={() => handleOrderSelection(row)}
-            rightSection={
+            rightSection={(
                 <Flex align='center' h='100%' gap={rem(16)}>
                     <MedicalOrderActionSendButton
                         order={row.id}
@@ -173,8 +173,7 @@ const PatientPage: React.FC = () => {
                         order={row.id}
                         onValidate={handleEventOrderStatus} />
                 </Flex>
-            }
-        >
+            )}>
             <Grid>
                 <Grid.Col span={8}>
                     <Flex direction='column'>

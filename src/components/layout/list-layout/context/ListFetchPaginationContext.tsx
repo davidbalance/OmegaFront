@@ -26,13 +26,21 @@ const useListFetchPaginationContext = () => {
     return context;
 }
 
-interface ListLayoutFetchProviderProps {
+export interface ListLayoutFetchForceItemUpdate<T extends object> {
+    key: keyof T;
+    value: any;
+    newValue: Partial<T>;
+    callback: () => void;
+}
+
+interface ListLayoutFetchProviderProps<T extends object> {
     url: string;
     size?: number;
     children: React.ReactNode;
     loadOnMount?: boolean;
+    forceItemUpdate?: ListLayoutFetchForceItemUpdate<T> | null;
 }
-const ListLayoutFetchProvider = <T extends object>({ children, url, size = 10, loadOnMount }: ListLayoutFetchProviderProps) => {
+const ListLayoutFetchProvider = <T extends object>({ children, url, size = 10, loadOnMount, forceItemUpdate }: ListLayoutFetchProviderProps<T>) => {
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [currentBody, setCurrentBody] = useState<PaginationRequest<T>>({ page: currentPage - 1, limit: size });
@@ -41,7 +49,8 @@ const ListLayoutFetchProvider = <T extends object>({ children, url, size = 10, l
     const [currentSize] = useState<number>(size);
 
     const [listData, {
-        override: listOverride
+        override: listOverride,
+        update: listUpdate
     }] = useList<T>([]);
 
     const {
@@ -102,8 +111,15 @@ const ListLayoutFetchProvider = <T extends object>({ children, url, size = 10, l
             fetchReload();
             setShouldFetch(false);
         }
-    }, [shouldFetch, fetchBody, fetchReload])
+    }, [shouldFetch, fetchBody, fetchReload]);
 
+    useEffect(() => {
+        if (forceItemUpdate) {
+            const { callback, key, newValue, value } = forceItemUpdate;
+            listUpdate(key, value, newValue);
+            callback();
+        }
+    }, [forceItemUpdate]);
 
     const value = useMemo((): ListFetchPaginationContextProps<T> => ({
         data: listData,
