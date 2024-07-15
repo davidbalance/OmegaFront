@@ -9,6 +9,7 @@ import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-ti
 import { MedicalOrderActionSendButton } from '@/components/medical/order/action/MedicalOrderActionSendButton';
 import { MedicalOrderActionValidateButton } from '@/components/medical/order/action/MedicalOrderActionValidateButton';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
+import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
 import { MedicalResultModalDiseases } from '@/components/medical/result/modal/MedicalResultModalDiseases';
 import { useList } from '@/hooks/useList';
 import { OrderStatus, PlainMedicalOrder } from '@/lib/dtos/medical/order/response.dto';
@@ -19,7 +20,8 @@ import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 enum LayoutState {
-    DEFAULT
+    DEFAULT,
+    UPLOAD_RESULT_FILE
 }
 
 const medicalOrderColumns: ListElement<PlainMedicalOrder>[] = [
@@ -45,11 +47,6 @@ const AdminOrderPage = () => {
         open: openDiseaseModal,
         close: closeDiseaseModal
     }] = useDisclosure();
-
-    const [forceObjectUpdate, {
-        open: startForceUpdate,
-        close: endForceUpdate
-    }] = useDisclosure(false);
 
     const [medicalResults, {
         override: medicalResultOverride,
@@ -96,6 +93,11 @@ const AdminOrderPage = () => {
         });
     }, [handleForceUpdateEvent]);
 
+    const handleClickEventUploadResultFile = useCallback((selection: MedicalResult) => {
+        setMedicalResultSelected(selection);
+        setCurrentState(LayoutState.UPLOAD_RESULT_FILE);
+    }, []);
+
     const handleMedicalOrderRow = useCallback((row: PlainMedicalOrder) => (
         <ListRow
             key={row.id}
@@ -138,6 +140,7 @@ const AdminOrderPage = () => {
                 onDiseaseModification={() => handleClickEventUpdateDisease(row)}
                 downloadReport={!!row.report}
                 downloadResult={row.hasFile}
+                onUploadResult={() => handleClickEventUploadResultFile(row)}
                 onDeleteResultFile={() => handleClickEventDeleteMedicalResultFile(row.id)}
                 data={row} />}
         >
@@ -154,7 +157,7 @@ const AdminOrderPage = () => {
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </ListRow>
-    ), [handleClickEventUpdateDisease, handleClickEventDeleteMedicalResultFile]);
+    ), [handleClickEventUpdateDisease, handleClickEventUploadResultFile, handleClickEventDeleteMedicalResultFile]);
 
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {
@@ -191,6 +194,11 @@ const AdminOrderPage = () => {
         return newValue;
     }), []);
 
+    const handleCloseEvent = useCallback(() => {
+        setMedicalOrderSelected(null);
+        setCurrentState(LayoutState.DEFAULT);
+    }, []);
+
     const view = useMemo((): Record<LayoutState, React.ReactNode> => ({
         [LayoutState.DEFAULT]: (
             <MultipleTierLayout
@@ -198,18 +206,25 @@ const AdminOrderPage = () => {
                 tier={active}
                 onClose={handleCloseTierEvent}
             />
+        ),
+        [LayoutState.UPLOAD_RESULT_FILE]: (
+            <MedicalResultFormUploadFile
+                medicalResult={medicalResultSelected?.id!}
+                onClose={handleCloseEvent}
+                onFormSubmittion={() => handleFormSubmittionEventUploadFile(medicalResultSelected?.id!)} />
         )
     }), [
         multipleLayerComponents,
         active,
+        handleCloseEvent,
         handleCloseTierEvent,
         handleFormSubmittionEventUploadFile,
         medicalResultSelected
     ]);
 
     const handleExamModalCloseEvent = useCallback(() => {
-        setMedicalResultSelected(null)
         closeDiseaseModal();
+        setMedicalResultSelected(null)
     }, [closeDiseaseModal]);
 
     const handleMedicalOrderResultFormSubmittion = useCallback((data: MedicalResult) => {

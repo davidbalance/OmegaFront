@@ -10,7 +10,7 @@ export async function DELETE(
 ) {
     try {
         const deleteClientMail = withAuth<any, any>(del, DEFAULT_WITH_AUTH_OPTIONS);
-        await deleteClientMail(endpoints.MEDICAL.CLIENT.DELETE_CLIENT_MAIL(params.id), {});
+        await deleteClientMail(endpoints.MEDICAL.CLIENT.DELETE_CLIENT_MAIL(params.id), { cache: false });
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

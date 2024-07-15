@@ -23,6 +23,7 @@ export interface MedicalOrderFile {
     id: number;
     examName: string;
     type: string;
+    hasFile: boolean
 }
 
 export interface GETMedicalMedicalOrderFileResponseDto {
