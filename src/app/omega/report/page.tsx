@@ -1,9 +1,9 @@
 'use client'
 
-import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
-import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
+import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
+import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
+import { ListElement } from '@/components/layout/list-layout/types';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
-import { ActionColumnProps, TableLayout } from '@/components/layout/table-layout/TableLayout';
 import { MedicalReportForm } from '@/components/medical/report/form/MedicalReportForm';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { useFetch } from '@/hooks/useFetch';
@@ -83,17 +83,17 @@ const MedicalReport: React.FC = () => {
     }, []);
 
     const handlePatientRow = useCallback((row: MedicalClient) => (
-        <ListRowElement
+        <ListRow
             key={row.dni}
             active={row.dni === patientSelected?.dni}
             onClick={() => handlePatientSelection(row)}>
             <Title order={6}>{`${row.fullname}`}</Title>
             <Text>{row.dni}</Text>
-        </ListRowElement>
+        </ListRow>
     ), [patientSelected, handlePatientSelection]);
 
     const handleMedicalOrderRow = useCallback((row: MedicalOrder) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             active={row.id === medicalOrderSelected?.id}
             onClick={() => handleOrderSelection(row)}
@@ -111,7 +111,7 @@ const MedicalReport: React.FC = () => {
                     </Flex>
                 </Grid.Col>
             </Grid>
-        </ListRowElement>
+        </ListRow>
     ), [medicalOrderSelected, handleOrderSelection]);
 
     const handleCreateEvent = useCallback((data: MedicalResult) => {
@@ -120,7 +120,7 @@ const MedicalReport: React.FC = () => {
     }, []);
 
     const handleMedicalResultRow = useCallback((row: MedicalResult) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             rightSection={<MedicalResultActionMenu
                 data={row}
@@ -131,7 +131,7 @@ const MedicalReport: React.FC = () => {
             <Title order={6}>{row.examName}</Title>
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
-        </ListRowElement>
+        </ListRow>
     ), [handleCreateEvent]);
 
     const multipleLayerComponents = useMemo((): TierElement[] => [

@@ -1,8 +1,9 @@
 'use client'
 
 import ApiKeyFormCreate from '@/components/api-key/form/ApiKeyFormCreate';
-import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
-import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
+import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
+import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
+import { ListElement } from '@/components/layout/list-layout/types';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { ApiKey } from '@/lib/dtos/auth/api/key/response.dto';
@@ -38,9 +39,9 @@ const ApiKeyPage = () => {
   }, [apiKeyAppend]);
 
   const handleDataRows = useCallback((row: ApiKey) => (
-    <ListRowElement key={`${row.id}-${row.name}`}>
+    <ListRow key={`${row.id}-${row.name}`}>
       {row.name}
-    </ListRowElement>
+    </ListRow>
   ), []);
 
   useEffect(() => {

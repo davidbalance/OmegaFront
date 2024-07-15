@@ -62,7 +62,7 @@ const DiseaseGroupFormUpdate: React.FC<DiseaseGroupFormUpdateProps> = ({ onClose
 
         <Flex h='100%' direction='column' gap={rem(8)}>
             <LayoutSubFormTitle
-                title={'Formulario de creacion de groupos de morbilidades'}
+                title={'Formulario de creacion de grupos de morbilidades'}
                 onClose={onClose} />
 
             <ModularBox flex={1} align='center'>

@@ -1,5 +1,3 @@
-import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
-import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
@@ -10,6 +8,9 @@ import React, { useCallback, useEffect } from 'react'
 import { MedicalClientActionDefault } from '../action/MedicalClientActionDefault';
 import { MedicalClientActionDelete } from '../action/MedicalClientActionDelete';
 import { MedicalClientForm } from '../form/MedicalClientForm';
+import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
+import { ListElement } from '@/components/layout/list-layout/types';
+import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 
 interface PatientEmail {
     id: number,
@@ -58,7 +59,7 @@ const MedicalClientLayoutEmail: React.FC<MedicalClientLayoutEmailProps> = ({ pat
     }, [emailOverride]);
 
     const handleRowMedicalClientEmail = useCallback((row: MedicalClientEmail) => (
-        <ListRowElement
+        <ListRow
             key={`${row.id}`}
             rightSection={
                 <Flex>
@@ -73,7 +74,7 @@ const MedicalClientLayoutEmail: React.FC<MedicalClientLayoutEmailProps> = ({ pat
                 </Flex>
             }>
             <Text>{row.email}</Text>
-        </ListRowElement>
+        </ListRow>
     ), [handleDeleteEvent, handleUpdateEvent, patient.dni]);
 
     const handleValidation = useCallback((data: string): boolean => !email.some(e => e.email === data), [email]);

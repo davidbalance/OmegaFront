@@ -51,7 +51,7 @@
    38. [`GET` /api/medical/orders/patient/_{dni}_](#enpoint-38)
    39. [`GET` /api/medical/reports/recreate/pdf](#enpoint-39)
    40. [`POST` /api/medical/reports/recreate/pdf](#enpoint-40)
-   41. [`PATCH` /api/medical/results/_{id}_](#enpoint-41)
+   41. [`PATCH` /api/medical/results/diseases/_{id}_](#enpoint-41)
    42. [`GET` /api/medical/results/doctor](#enpoint-42)
    43. [`POST` /api/medical/results/file/_{id}_](#enpoint-43)
    44. [`GET` /api/medical/file/_{type}_/_{id}_](#enpoint-44)
@@ -72,6 +72,19 @@
    59. [`PATCH` /api/web/resources/_{id}_](#enpoint-59)
    60. [`DELETE` /api/web/resources/_{id}_](#enpoint-60)
    61. [`GET` /api/web/resources/all](#enpoint-61)
+   62. [`GET` /api/management](#enpoint-62)
+   63. [`POST` /api/management](#enpoint-63)
+   64. [`PATCH` /api/management/_{id}_](#enpoint-64)
+   65. [`DELETE` /api/management/_{id}_](#enpoint-65)
+   66. [`GET` /api/area](#enpoint-66)
+   67. [`POST` /api/area](#enpoint-67)
+   68. [`PATCH` /api/area/_{id}_](#enpoint-68)
+   69. [`DELETE` /api/area/_{id}_](#enpoint-69)
+   70. [`POST` /api/medical/orders/company](#enpoint-70)
+   71. [`PATCH` /api/medical/orders/order/_{id}_/status/validate](#enpoint-71)
+   72. [`GET` /api/medical/client/_{dni}_/management/area](#enpoint-72)
+   73. [`POST` /api/medical/client/_{dni}_/management/area](#enpoint-73)
+   74. [`DELETE` /api/medical/client/_{dni}_/management/area](#enpoint-74)
 8. [Documentacion de Componentes](#components)
    1. [ApiKeyFormCreateProps](#component-1)
    2. [AuthenticationFormPassword](#component-2)
@@ -1601,6 +1614,7 @@ Obtiene todas las ordenes asociadas a un paciente usando su `dni`
         process: string,
         createAt: Date,
         mailStatus: boolean,
+        orderStatus: "created" | "verified",
         results: {
             id: number,
             examName: string,
@@ -1667,7 +1681,7 @@ Recrea todos los reportes existentes asociados a un paciente
 
 <div id='enpoint-41'/>
 
-### `PATCH` /api/medical/results/_{id}_
+### `PATCH` /api/medical/results/diseases/_{id}_
 
 Agrega mrbilidades al resultado
 
@@ -2209,6 +2223,391 @@ Obtiene todos los recursos web registrados en el sistema
         status: boolean
     }[]
 }
+```
+
+<div id='enpoint-62'/>
+
+### `GET` /api/management
+
+Obtiene todos las gerencias registradas en el sistema
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+  managements: {
+    id: number;
+    name: string;
+    areas: {
+      id: number;
+      name: string;
+    }
+    [];
+  }
+  [];
+}
+```
+
+<div id="enpoint-63" />
+
+### `POST` /api/management
+
+Crea una gerencia
+
+#### Request Body
+
+- **name**: Nombre de la gerencia
+
+```typescript
+{
+  name: string;
+}
+```
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+  id: number;
+  name: string;
+}
+```
+
+<div id="enpoint-64" />
+
+### `PATCH` /api/management/_{id}_
+
+Modifica una gerencia dado un identificador unico
+
+#### URL Parameters
+
+- `id`: Identificador unico de una gerencia
+  - **Type**: _String_
+
+#### Request Body
+
+- **name**: Nombre de la gerencia
+
+```typescript
+{
+  name: string;
+}
+```
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+  id: number;
+  name: string;
+}
+```
+
+<div id="enpoint-65" />
+
+### `DELETE` /api/management/_{id}_
+
+Elimina una gerencia usando el identificador unico
+
+#### URL Parameters
+
+- `id`: Identificador unico de una gerencia
+  - **Type**: _String_
+
+#### Response
+
+##### Response Body
+
+```typescript
+
+```
+
+<div id="enpoint-66" />
+
+### `GET` /api/area
+
+Obtiene todos las areas registradas en el sistema
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+  areas: {
+    id: number;
+    name: string;
+  }
+  [];
+}
+```
+
+<div id="enpoint-67" />
+
+### `POST` /api/area
+
+Crea un area
+
+#### Request Body
+
+- **name**: Nombre del area
+
+```typescript
+{
+  name: string;
+}
+```
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+  id: number;
+  name: string;
+}
+```
+
+<div id="enpoint-68" />
+
+### `PATCH` /api/area/_{id}_
+
+Modifica un area dado un identificador unico
+
+#### URL Parameters
+
+- `id`: Identificador unico de un area
+  - **Type**: _String_
+
+#### Request Body
+
+- **name**: Nombre de la area
+
+```typescript
+{
+  name: string;
+}
+```
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+  id: number;
+  name: string;
+}
+```
+
+<div id="enpoint-69" />
+
+### `DELETE` /api/area/_{id}_
+
+Elimina un area usando el identificador unico
+
+#### URL Parameters
+
+- `id`: Identificador unico de un area
+  - **Type**: _String_
+
+#### Response
+
+##### Response Body
+
+```typescript
+
+```
+
+<div id="enpoint-70" />
+
+### `POST` /api/medical/orders/company
+
+Obtiene las empresas que se asocian con un ruc dado
+
+#### Request Body
+
+- **ruc**: Ruc de la empresa
+
+```typescript
+{
+  ruc: string;
+}
+```
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+    orders: {
+        id: number,
+        process: string,
+        createAt: Date,
+        mailStatus: boolean,
+        orderStatus: "created" | "verified",
+        results: {
+            id: number,
+            examName: string,
+            diseaseId: number,
+            diseaseName: string,
+            diseaseGroupId: number,
+            diseaseGroupName: string,
+            hasFile: boolean,
+            report: {
+                id: number,
+                content: string
+            } | null
+        }[],
+        client: {
+            dni: string,
+            fullname: string,
+            email: {
+                id: number,
+                email: string,
+                default: boolean;
+            }[]
+        }
+    }[]
+}
+```
+
+<div id='enpoint-71'/>
+
+### `PATCH` /api/medical/orders/order/_{id}_/status/validate
+
+Cambia el estado de la orden a validado
+
+#### URL Parameters
+
+- `id`: Identificador unico de una orden medica
+  - **Type**: _String_
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+    orders: {
+        id: number,
+        process: string,
+        createAt: Date,
+        mailStatus: boolean,
+        orderStatus: "created" | "verified",
+        results: {
+            id: number,
+            examName: string,
+            diseaseId: number,
+            diseaseName: string,
+            diseaseGroupId: number,
+            diseaseGroupName: string,
+            hasFile: boolean,
+            report: {
+                id: number,
+                content: string
+            } | null
+        }[],
+        client: {
+            dni: string,
+            fullname: string,
+            email: {
+                id: number,
+                email: string,
+                default: boolean;
+            }[]
+        }
+    }[]
+}
+```
+
+<div id="enpoint-72" />
+
+### `GET` /api/medical/client/_{dni}_/management/area
+
+Obtiene todos las areas registradas en el sistema
+
+#### URL Parameters
+
+- `dni`: DNI del paciente
+  - **Type**: _String_
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+  managementId: number;
+  managementName: string;
+  areaId: number;
+  areaName: string;
+}
+```
+
+<div id="enpoint-73" />
+
+### `POST` /api/medical/client/_{dni}_/management/area
+
+Obtiene todos las areas registradas en el sistema
+
+#### URL Parameters
+
+- `dni`: DNI del paciente
+  - **Type**: _String_
+
+#### Request Body
+
+- **managementId**: Identificador unico de la gerencia
+- **areaId**: Identificador unico del area
+
+```typescript
+{
+  managementId: number;
+  managementName: string;
+  areaId: number;
+  areaName: string;
+}
+```
+
+#### Response
+
+##### Response Body
+
+```typescript
+{
+  managementId: number;
+  managementName: string;
+  areaId: number;
+  areaName: string;
+}
+```
+
+<div id="enpoint-74" />
+
+### `DELETE` /api/medical/client/_{dni}_/management/area
+
+Obtiene todos las areas registradas en el sistema
+
+#### URL Parameters
+
+- `dni`: DNI del paciente
+  - **Type**: _String_
+
+#### Response
+
+##### Response Body
+
+```typescript
+
 ```
 
 <div id='components'/>

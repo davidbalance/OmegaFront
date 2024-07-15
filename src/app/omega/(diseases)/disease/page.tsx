@@ -8,8 +8,9 @@ import { DiseaseFormUpdateGroup } from '@/components/disease/form/DiseaseFormUpd
 import DiseaseGroupActionMenu from '@/components/disease/group/action/DiseaseGroupActionMenu';
 import { DiseaseGroupFormCreate } from '@/components/disease/group/form/DiseaseGroupFormCreate';
 import { DiseaseGroupFormUpdate } from '@/components/disease/group/form/DiseaseGroupFormUpdate';
-import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
-import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
+import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
+import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
+import { ListElement } from '@/components/layout/list-layout/types';
 import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 import { useFetch } from '@/hooks/useFetch';
@@ -199,7 +200,7 @@ const DiseasePage: React.FC = () => {
     }, [confirmation]);
 
     const handleGroupRow = useCallback((row: DiseaseGroup) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             active={row.id === selectedGroup?.id}
             onClick={() => handleClickEventSelectGroup(row)}
@@ -208,18 +209,18 @@ const DiseasePage: React.FC = () => {
                 onDelete={() => handleClickEventDeleteGroup(row)} />}
         >
             <Title order={6}>{row.name}</Title>
-        </ListRowElement>
+        </ListRow>
     ), [selectedGroup, handleClickEventSelectGroup, handleClickEventUpdateGroup, handleClickEventDeleteGroup]);
 
     const handleDiseaseRow = useCallback((row: Disease) => (
-        <ListRowElement
+        <ListRow
             key={row.id}
             rightSection={<DiseaseActionMenu
                 onModification={() => handleClickEventUpdateDisease(row)}
                 onDelete={() => handleClickEventDeleteDisease(row)}
                 onGroupModification={() => handleClickEventUpdateDiseaseDiseaseGroup(row)} />}>
             <Title order={6}>{row.name}</Title>
-        </ListRowElement>
+        </ListRow>
     ), [handleClickEventUpdateDisease, handleClickEventDeleteDisease, handleClickEventUpdateDiseaseDiseaseGroup]);
 
     const createDiseaseGroupButton = useMemo(() => (

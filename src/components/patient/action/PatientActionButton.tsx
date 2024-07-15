@@ -1,5 +1,5 @@
 import { Menu, MenuTarget, Flex, ActionIcon, rem } from '@mantine/core'
-import { IconDotsVertical, IconBuilding, IconAt } from '@tabler/icons-react'
+import { IconDotsVertical, IconBuilding, IconAt, IconBuildingCommunity } from '@tabler/icons-react'
 import React from 'react'
 
 interface PatientActionButtonProps {
@@ -13,8 +13,13 @@ interface PatientActionButtonProps {
    * @returns 
    */
   onEmail?: () => void;
+  /**
+   * Funcion que es invocada cuando se llama al evento de asignacion de correos electronicos.
+   * @returns 
+   */
+  onManagementArea?: () => void;
 }
-const PatientActionButton: React.FC<PatientActionButtonProps> = ({ onAssignCompany, onEmail }) => {
+const PatientActionButton: React.FC<PatientActionButtonProps> = ({ onAssignCompany, onEmail, onManagementArea }) => {
   return (
     <Menu>
       <MenuTarget>
@@ -28,12 +33,17 @@ const PatientActionButton: React.FC<PatientActionButtonProps> = ({ onAssignCompa
         <Menu.Item
           leftSection={<IconBuilding style={{ width: rem(16), height: rem(16) }} />}
           onClick={onAssignCompany}>
-          Asignar Empresa
+          Asignar empresa
         </Menu.Item>
         <Menu.Item
           leftSection={<IconAt style={{ width: rem(16), height: rem(16) }} />}
           onClick={onEmail}>
-          Correos Electronicos
+          Correos electronicos
+        </Menu.Item>
+        <Menu.Item
+          leftSection={<IconBuildingCommunity style={{ width: rem(16), height: rem(16) }} />}
+          onClick={onManagementArea}>
+          Asignar gerencia y area
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

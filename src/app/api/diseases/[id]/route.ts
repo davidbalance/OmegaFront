@@ -12,7 +12,7 @@ export async function PATCH(
     { params }: { params: { id: number } }
 ) {
     try {
-        const data: PATCHDiseaseRequestDto = await req.json()
+        const data: PATCHDiseaseRequestDto = await req.json();
         const patchDisease = withAuth<PATCHDiseaseRequestDto, PATCHDiseaseResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
         const disease: PATCHDiseaseResponseDto = await patchDisease(endpoints.DISEASE.DISEASE.FIND_ONE_AND_UPDATE(params.id), {
             body: data,

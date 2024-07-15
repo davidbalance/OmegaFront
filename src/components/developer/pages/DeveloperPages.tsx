@@ -1,5 +1,3 @@
-import { ListElement, ListLayout } from '@/components/layout/list-layout/ListLayout';
-import { ListRowElement } from '@/components/layout/list-layout/ListRowElement';
 import { NavIcon } from '@/components/navbar/NavIcon';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
@@ -11,6 +9,9 @@ import { DeveloperPagesActionMenu } from './action/DeveloperPagesActionMenu';
 import { ButtonResponsive } from '@/components/button/responsive/ButtonResponsive';
 import { DeveloperPageFormCreate } from './form/DeveloperPageFormCreate';
 import { DeveloperPageFormUpdate } from './form/DeveloperPageFormUpdate';
+import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
+import { ListElement } from '@/components/layout/list-layout/types';
+import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 
 enum LayoutStates {
     DEFAULT,
@@ -63,7 +64,7 @@ const DeveloperPages: React.FC = () => {
 
     const handleRow = useCallback((row: WebFullResource) => {
         const Icon = NavIcon[row.icon];
-        return <ListRowElement
+        return <ListRow
             key={row.id}
             rightSection={
                 <DeveloperPagesActionMenu
@@ -89,7 +90,7 @@ const DeveloperPages: React.FC = () => {
                     </Text>
                 </Grid.Col>
             </Grid>
-        </ListRowElement>
+        </ListRow>
     }, [handleClickEventModification, handleClickEventDelete]);
 
     const handleFormSubmittionEventCreate = useCallback((value: WebFullResource) => {
