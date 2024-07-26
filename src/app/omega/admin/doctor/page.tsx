@@ -22,7 +22,7 @@ const columnsDoctor: ColumnOptions<Doctor>[] = [
     { key: 'dni', name: 'CI' },
     { key: 'name', name: 'Nombre' },
     { key: 'lastname', name: 'Apellido' },
-    { key: 'email', name: 'Correo Electronico' }
+    { key: 'email', name: 'Correo electronico' }
 ]
 
 const DoctorPage: React.FC = () => {
