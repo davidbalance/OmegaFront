@@ -68,9 +68,11 @@ const Navbar: React.FC<NavbarProps> = ({ opened, onClose }) => {
                     </ScrollArea>
                 </Drawer>
                 : <nav className={(cx(classes.navbar, { [classes.open]: opened || locked }))}>
-                    <ScrollArea className={classes.links} h={450}>
-                        <Box className={classes.linksInner}>{mainLinks}</Box>
-                    </ScrollArea>
+                    <Box className={classes.links}>
+                        <ScrollArea h={475}>
+                            <Box className={classes.linksInner}>{mainLinks}</Box>
+                        </ScrollArea>
+                    </Box>
                     <Box className={cx(classes.lock, { [classes.open]: opened || locked })}>
                         <ActionIcon variant={locked ? 'filled' : 'transparent'} onClick={toggle}>
                             <IconLock />
