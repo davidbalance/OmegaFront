@@ -2,7 +2,6 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useFetch } from "@/hooks/useFetch"
-import { CorporativeGroup } from "@/lib/dtos/location/corporative/response.dto"
 import { Company } from "@/lib/dtos/location/company.response.dto"
 import { Branch } from "@/lib/dtos/location/branch.response.dto"
 import { Flex, SimpleGrid, Text, Title, rem } from "@mantine/core"
@@ -11,6 +10,7 @@ import { ListLayout } from "@/components/layout/list-layout/components/extended/
 import { ListElement } from "@/components/layout/list-layout/types"
 import { notifications } from "@mantine/notifications"
 import { TierElement, MultipleTierLayout } from "@/components/layout/multiple-tier-layout/MultipleTierLayout"
+import { CorporativeGroup } from "@/lib/dtos/location/corporative/base.response.dto"
 
 enum LayoutStates {
     DEFAULT

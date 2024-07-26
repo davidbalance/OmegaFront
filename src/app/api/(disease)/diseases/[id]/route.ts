@@ -3,8 +3,8 @@ import { del, patch } from "@/lib/fetcher/fetcher";
 import { DEFAULT_WITH_AUTH_OPTIONS, withAuth } from "@/lib/fetcher/with-fetch.utils";
 import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
-import { PATCHDiseaseRequestDto } from "@/lib/dtos/disease/request.dto";
-import { PATCHDiseaseResponseDto } from "@/lib/dtos/disease/response.dto";
+import { PatchDiseaseRequestDto } from "@/lib/dtos/disease/request.dto";
+import { PatchDiseaseResponseDto } from "@/lib/dtos/disease/response.dto";
 import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
 
 export async function PATCH(
@@ -12,9 +12,9 @@ export async function PATCH(
     { params }: { params: { id: number } }
 ) {
     try {
-        const data: PATCHDiseaseRequestDto = await req.json();
-        const patchDisease = withAuth<PATCHDiseaseRequestDto, PATCHDiseaseResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const disease: PATCHDiseaseResponseDto = await patchDisease(endpoints.DISEASE.DISEASE.UPDATE_ONE(params.id), {
+        const data: PatchDiseaseRequestDto = await req.json();
+        const patchDisease = withAuth<PatchDiseaseRequestDto, PatchDiseaseResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
+        const disease: PatchDiseaseResponseDto = await patchDisease(endpoints.DISEASE.DISEASE.UPDATE_ONE(params.id), {
             body: data,
             headers: CONTENT_TYPE_APPLICATION_JSON
         });

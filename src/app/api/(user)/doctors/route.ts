@@ -9,10 +9,9 @@ export async function GET() {
     try {
         const getDoctors = withAuth<any, GetDoctorArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
         const { data }: GetDoctorArrayResponseDto = await getDoctors(endpoints.USER.DOCTOR.FIND_ALL, {});
-        console.log(data);
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
         } else {

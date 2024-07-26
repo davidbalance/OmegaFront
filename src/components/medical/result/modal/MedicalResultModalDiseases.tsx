@@ -68,7 +68,7 @@ const MedicalResultModalDiseases: React.FC<MedicalResultModalDiseasesProps> = ({
             diseasePOSTRequest<PostMedicalResultDiseaseRequestDto>({ ...value, medicalResultId: medicalResult.id });
             setShouldSendPOST(true);
         }
-    }, [diseasePATCHRequest, diseasePOSTRequest]);
+    }, [medicalResult, diseasePATCHRequest, diseasePOSTRequest]);
 
     const handleCloseEvent = useCallback(() => {
         onFormSubmitted?.({ ...medicalResult, diseases: diseases });

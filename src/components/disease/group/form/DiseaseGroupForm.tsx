@@ -1,4 +1,4 @@
-import { DiseaseGroup } from "@/lib/dtos/disease/group/response.dto";
+import { DiseaseGroup } from "@/lib/dtos/disease/group/base.response.dto";
 import { BaseFormProps } from "@/lib/types/base-form-prop";
 import { Box, TextInput, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";

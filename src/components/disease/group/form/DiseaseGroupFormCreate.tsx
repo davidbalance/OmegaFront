@@ -1,12 +1,12 @@
 import { LoadingOverlay, rem, Button, Flex } from "@mantine/core";
 import { IconDeviceFloppy } from "@tabler/icons-react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import DiseaseGroupForm from "./DiseaseGroupForm";
 import { useFetch } from "@/hooks/useFetch";
 import { ModularBox } from "@/components/modular/box/ModularBox";
 import { notifications } from "@mantine/notifications";
-import { DiseaseGroup } from "@/lib/dtos/disease/group/response.dto";
 import { LayoutSubFormTitle } from "@/components/layout/sub/form/LayoutSubFormTitle";
+import { DiseaseGroup } from "@/lib/dtos/disease/group/base.response.dto";
 
 type DiseaseGroupFormCreateProps = {
     /**
@@ -23,11 +23,14 @@ type DiseaseGroupFormCreateProps = {
 }
 const DiseaseGroupFormCreate: React.FC<DiseaseGroupFormCreateProps> = ({ onClose, onFormSubmitted }) => {
 
+    const [shouldRequest, setShouldRequest] = useState<boolean>(false)
+
     const { body, data, error, loading, reload, request, reset } = useFetch<DiseaseGroup>('/api/diseases/groups', 'POST', { loadOnMount: false });
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const handleFormSubmittedEvent = useCallback((data: Omit<DiseaseGroup, 'id' | 'diseases'>) => {
         request(data);
+        setShouldRequest(true);
     }, [request]);
 
     const handleClickEvent = useCallback(() => {
@@ -37,10 +40,11 @@ const DiseaseGroupFormCreate: React.FC<DiseaseGroupFormCreateProps> = ({ onClose
     }, []);
 
     useEffect(() => {
-        if (body) {
+        if (body && shouldRequest) {
             reload();
+            setShouldRequest(false);
         }
-    }, [body, reload]);
+    }, [body, shouldRequest, reload]);
 
     useEffect(() => {
         if (data) {
@@ -74,9 +78,10 @@ const DiseaseGroupFormCreate: React.FC<DiseaseGroupFormCreateProps> = ({ onClose
                     type="submit"
                     flex={1}
                     size='xs'
-                    leftSection={<IconDeviceFloppy
-                        style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                >
+                    leftSection={(
+                        <IconDeviceFloppy
+                            style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+                    )}>
                     Guardar
                 </Button>
             </ModularBox>

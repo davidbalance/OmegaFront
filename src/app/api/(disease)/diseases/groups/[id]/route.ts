@@ -3,7 +3,7 @@ import { del, patch } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
-import { PATCHDiseaseGroupRequestDto } from "@/lib/dtos/disease/group/request.dto";
+import { PatchDiseaseGroupRequestDto } from "@/lib/dtos/disease/group/request.dto";
 import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
 
 export async function PATCH(
@@ -11,8 +11,8 @@ export async function PATCH(
     { params }: { params: { id: number } }
 ) {
     try {
-        const data: PATCHDiseaseGroupRequestDto = await req.json()
-        const patchDiseaseGroup = withAuth<PATCHDiseaseGroupRequestDto, any>(patch, DEFAULT_WITH_AUTH_OPTIONS);
+        const data: PatchDiseaseGroupRequestDto = await req.json()
+        const patchDiseaseGroup = withAuth<PatchDiseaseGroupRequestDto, any>(patch, DEFAULT_WITH_AUTH_OPTIONS);
         await patchDiseaseGroup(endpoints.DISEASE.GROUP.UPDATE_ONE(params.id), {
             body: data,
             headers: CONTENT_TYPE_APPLICATION_JSON

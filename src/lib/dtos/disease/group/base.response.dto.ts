@@ -1,4 +1,4 @@
-import { Disease } from "../response.dto";
+import { Disease } from "../base.response.dto";
 
 export interface DiseaseGroup {
     id: number;
