@@ -123,13 +123,19 @@ const AdminOrderPage = () => {
                 </Flex>
             )}>
             <Grid>
-                <Grid.Col span={6}>
+                <Grid.Col span={4}>
                     <Flex direction='column'>
                         <Title order={6}>{row.fullname}</Title>
                         <Text>{row.dni}</Text>
                     </Flex>
                 </Grid.Col>
-                <Grid.Col span={6}>
+                <Grid.Col span={4}>
+                    <Flex direction='column'>
+                        <Title order={6}>{row.companyName}</Title>
+                        <Text>{row.companyRuc}</Text>
+                    </Flex>
+                </Grid.Col>
+                <Grid.Col span={4}>
                     <Flex direction='column'>
                         <Title order={6}>{row.process}</Title>
                         <Text>{dayjs(row.createAt).format('YYYY-MM-DD HH:mm:ss')}</Text>

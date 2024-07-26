@@ -36,6 +36,8 @@ export interface MedicalOrderFlat {
     createAt: Date;
     mailStatus: boolean;
     orderStatus: OrderStatus;
+    companyRuc: string;
+    companyName: string;
     dni: string;
     fullname: string;
     results: MedicalResult[];
