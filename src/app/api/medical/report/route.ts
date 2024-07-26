@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
         });
         return NextResponse.json(medicalReport, { status: 200 });
     } catch (error) {
+        console.error(error);
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
         } else {

@@ -23,7 +23,8 @@ enum LayoutStates {
 
 const patientColumns: ListElement<MedicalClient>[] = [
     { key: 'dni', name: 'Cedula' },
-    { key: 'fullname', name: 'Nombre' },
+    { key: 'name', name: 'Nombre' },
+    { key: 'lastname', name: 'Apellido' },
 ];
 
 const medicalOrderColumns: ListElement<MedicalOrder>[] = [
@@ -87,7 +88,7 @@ const MedicalReport: React.FC = () => {
             key={row.dni}
             active={row.dni === patientSelected?.dni}
             onClick={() => handlePatientSelection(row)}>
-            <Title order={6}>{`${row.fullname}`}</Title>
+            <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
             <Text>{row.dni}</Text>
         </ListRow>
     ), [patientSelected, handlePatientSelection]);
@@ -147,7 +148,7 @@ const MedicalReport: React.FC = () => {
             />,
         },
         {
-            title: patientSelected ? `Ordenes de: ${patientSelected.fullname}` : 'Ordenes',
+            title: patientSelected ? `Ordenes de: ${patientSelected.name} ${patientSelected.lastname}` : 'Ordenes',
             element: <ListLayout<MedicalOrder>
                 key='order-list-layout'
                 loading={orderLoading}

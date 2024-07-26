@@ -16,6 +16,7 @@ import { ModularBox } from '@/components/modular/box/ModularBox';
 import { useFetch } from '@/hooks/useFetch';
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import { PostMedicalReportRequestDto } from '@/lib/dtos/medical/report/request.dto';
+import { MedicalReport } from '@/lib/dtos/medical/report/base.respoonse.dto';
 
 type MedicalReportFormProps = {
     /**
@@ -46,7 +47,7 @@ const MedicalReportForm: React.FC<MedicalReportFormProps> = ({ result, onClose, 
         reload,
         request,
         reset
-    } = useFetch<MedicalResult>(`/api/medical/report/${result ? result.id : ''}`, 'POST', { loadOnMount: false });
+    } = useFetch<MedicalReport>(`/api/medical/report`, 'POST', { loadOnMount: false });
 
     const editor = useEditor({
         extensions: [
@@ -89,11 +90,12 @@ const MedicalReportForm: React.FC<MedicalReportFormProps> = ({ result, onClose, 
 
     useEffect(() => {
         if (data) {
-            onFormSubmittion?.(data);
+            result.report = data;
+            onFormSubmittion?.(result);
             onClose();
             reset();
         }
-    }, [data, onFormSubmittion, onClose, reset]);
+    }, [data, result, onFormSubmittion, onClose, reset]);
 
     return (
         <>
