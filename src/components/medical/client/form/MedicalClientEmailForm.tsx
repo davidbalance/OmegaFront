@@ -21,7 +21,7 @@ const userSchema = Joi.object({
         })
 });
 
-interface MedicalClientFormProps {
+interface MedicalClientEmailFormProps {
     /**
      * DNI del cliente medico.
      */
@@ -37,9 +37,9 @@ interface MedicalClientFormProps {
      * @param data 
      * @returns 
      */
-    onFormSubmittion?: (data: MedicalClientEmail[]) => void;
+    onFormSubmittion?: (data: MedicalClientEmail) => void;
 }
-const MedicalClientForm: React.FC<MedicalClientFormProps> = ({ dni, onValidate, onFormSubmittion }) => {
+const MedicalClientEamilForm: React.FC<MedicalClientEmailFormProps> = ({ dni, onValidate, onFormSubmittion }) => {
 
     const form = useForm({ initialValues: { email: '' }, validate: joiResolver(userSchema) });
 
@@ -53,7 +53,7 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({ dni, onValidate, 
         reload: postReload,
         request: postRequest,
         reset: postReset
-    } = useFetch<MedicalClientEmail[]>(`/api/medical/client/email/${dni}`, 'POST', { loadOnMount: false });
+    } = useFetch<MedicalClientEmail>(`/api/medical/client/email/${dni}`, 'POST', { loadOnMount: false });
 
     const handleFormSubmittion = useCallback(({ email }: { email: string }) => {
         if (onValidate(email)) {
@@ -112,4 +112,4 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({ dni, onValidate, 
     )
 }
 
-export { MedicalClientForm }
+export { MedicalClientEamilForm }

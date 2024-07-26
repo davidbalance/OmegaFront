@@ -6,7 +6,7 @@ import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect } from 'react'
 import { MedicalClientActionDefault } from '../action/MedicalClientActionDefault';
 import { MedicalClientActionDelete } from '../action/MedicalClientActionDelete';
-import { MedicalClientForm } from '../form/MedicalClientForm';
+import { MedicalClientEamilForm } from '../form/MedicalClientEmailForm';
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListElement } from '@/components/layout/list-layout/types';
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
@@ -47,16 +47,17 @@ const MedicalClientLayoutEmail: React.FC<MedicalClientLayoutEmailProps> = ({ pat
     const [email, {
         append: emailAppend,
         override: emailOverride,
-        remove: emailRemove
+        remove: emailRemove,
+        update: emailUpdate
     }] = useList<MedicalClientEmail>([]);
 
     const handleDeleteEvent = useCallback((id: number) => {
         emailRemove('id', id);
     }, [emailRemove]);
 
-    const handleUpdateEvent = useCallback((values: MedicalClientEmail[]) => {
-        emailOverride(values);
-    }, [emailOverride]);
+    const handleUpdateEvent = useCallback((value: MedicalClientEmail) => {
+        emailUpdate('id', value.id, value);
+    }, [emailUpdate]);
 
     const handleRowMedicalClientEmail = useCallback((row: MedicalClientEmail) => (
         <ListRow
@@ -78,9 +79,9 @@ const MedicalClientLayoutEmail: React.FC<MedicalClientLayoutEmailProps> = ({ pat
 
     const handleValidation = useCallback((data: string): boolean => !email.some(e => e.email === data), [email]);
 
-    const handleFormSubmittion = useCallback((data: MedicalClientEmail[]) => {
-        emailOverride(data);
-    }, [emailOverride]);
+    const handleFormSubmittion = useCallback((data: MedicalClientEmail) => {
+        emailAppend(data);
+    }, [emailAppend]);
 
     useEffect(() => {
         if (error) notifications.show({ message: error.message, color: 'red' });
@@ -98,7 +99,7 @@ const MedicalClientLayoutEmail: React.FC<MedicalClientLayoutEmailProps> = ({ pat
                     title={`Correos de ${patient.name} ${patient.lastname}`}
                     onClose={onClose} />
 
-                <MedicalClientForm
+                <MedicalClientEamilForm
                     dni={patient.dni}
                     onValidate={handleValidation}
                     onFormSubmittion={handleFormSubmittion} />

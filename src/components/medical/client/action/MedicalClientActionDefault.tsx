@@ -22,7 +22,7 @@ interface MedicalClientActionDefaultProps {
    * @param data 
    * @returns 
    */
-  onComplete?: (data: MedicalClientEmail[]) => void;
+  onComplete?: (data: MedicalClientEmail) => void;
 }
 const MedicalClientActionDefault: React.FC<MedicalClientActionDefaultProps> = ({ state, id, onClick, onComplete }) => {
 
@@ -32,7 +32,7 @@ const MedicalClientActionDefault: React.FC<MedicalClientActionDefaultProps> = ({
     loading,
     reload,
     reset
-  } = useFetch<MedicalClientEmail[]>(`/api/medical/client/email/${id}`, 'PATCH', { loadOnMount: false });
+  } = useFetch<MedicalClientEmail>(`/api/medical/client/email/${id}`, 'PATCH', { loadOnMount: false });
 
   const handleClickEvent = useCallback(() => {
     onClick?.();

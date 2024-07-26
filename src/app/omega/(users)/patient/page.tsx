@@ -62,14 +62,10 @@ const PatientPage: React.FC = () => {
     }] = useList<Patient>([]);
 
     const [medicalOrders, {
-        override: medicalOrderOverride,
-        update: medicalOrderUpdate
-    }] = useList<MedicalOrder>([]);
+        override: medicalOrderOverride    }] = useList<MedicalOrder>([]);
 
     const [medicalResults, {
-        override: medicalResultOverride,
-        update: medicalResultUpdate
-    }] = useList<MedicalResult>([]);
+        override: medicalResultOverride    }] = useList<MedicalResult>([]);
 
     const handlePatientSelection = useCallback((selection: Patient): void => {
         setPatientSelected(selection);
@@ -214,21 +210,6 @@ const PatientPage: React.FC = () => {
             />
         ),
     }), [multipleLayerComponents, active, handleCloseTierEvent]);
-
-    const handleExamModalCloseEvent = useCallback(() => setMedicalResultSelected(null), []);
-
-    const handleMedicalOrderResultFormSubmittion = useCallback((data: MedicalResult) => {
-        medicalResultUpdate('id', data.id, data);
-        if (medicalOrderSelected) {
-            const updatedOrder = { ...medicalOrderSelected };
-            const resultIndex = updatedOrder.results.findIndex(e => e.id === data.id);
-            if (resultIndex !== -1) {
-                updatedOrder.results[resultIndex] = data;
-                medicalOrderUpdate('id', updatedOrder.id, updatedOrder);
-                handleExamModalCloseEvent();
-            }
-        }
-    }, [medicalOrderSelected, medicalOrderUpdate, medicalResultUpdate, handleExamModalCloseEvent]);
 
     useEffect(() => {
         if (fetchedPatients)
