@@ -13,6 +13,7 @@ export async function GET(
         const { data }: GetMedicalOrderArrayResponseDto = await getOrder(endpoints.MEDICAL.ORDER.FIND_BY_PATIENT(params.dni), { cache: false });
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
+        console.error(error);
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
         } else {

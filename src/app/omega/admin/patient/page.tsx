@@ -20,7 +20,6 @@ import { MedicalOrder, OrderStatus } from '@/lib/dtos/medical/order/base.respons
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import { Patient } from '@/lib/dtos/user/patient/base.response.dto';
 import { Title, Flex, Text, Grid, ActionIcon, rem, Box } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconRefresh } from '@tabler/icons-react';
 import dayjs from 'dayjs';
@@ -58,11 +57,6 @@ const PatientPage: React.FC = () => {
     const [medicalResultSelected, setMedicalResultSelected] = useState<MedicalResult | null>(null);
     const [shouldFetchMedicalOrder, setShouldFetchMedicalOrder] = useState<boolean>(false);
 
-    const [openedDiseaseModal, {
-        open: openDiseaseModal,
-        close: closeDiseaseModal
-    }] = useDisclosure();
-
     const {
         data: fetchedOrders,
         loading: orderLoading,
@@ -98,17 +92,13 @@ const PatientPage: React.FC = () => {
 
     const handleEventOrderStatus = useCallback((id: number, state: OrderStatus) => {
         medicalOrderUpdate('id', id, { orderStatus: state });
+        setMedicalOrderSelected(prev => prev ? ({ ...prev, orderStatus: state }) : null);
     }, [medicalOrderUpdate]);
 
     const handleClickEventAssignModal = useCallback((selection: Patient) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.UPDATE_EMPLOYEE);
     }, []);
-
-    const handleClickEventUpdateDisease = useCallback((selection: MedicalResult) => {
-        setMedicalResultSelected(selection);
-        openDiseaseModal();
-    }, [openDiseaseModal]);
 
     const handleClickEventUploadResultFile = useCallback((selection: MedicalResult) => {
         setMedicalResultSelected(selection);
@@ -194,11 +184,17 @@ const PatientPage: React.FC = () => {
         <ListRow
             key={row.id}
             rightSection={<MedicalResultActionMenu
-                onDiseaseModification={handleMedicalOrderResultFormSubmittion}
-                downloadReport={!!row.report}
+                onDiseaseModification={medicalOrderSelected?.orderStatus === 'created'
+                    ? handleMedicalOrderResultFormSubmittion
+                    : undefined}
+                downloadReport={!!row.report && row.report.hasFile}
                 downloadResult={row.hasFile}
-                onUploadResult={() => handleClickEventUploadResultFile(row)}
-                onDeleteResultFile={() => handleClickEventDeleteMedicalResultFile(row.id)}
+                onUploadResult={medicalOrderSelected?.orderStatus === 'created'
+                    ? () => handleClickEventUploadResultFile(row)
+                    : undefined}
+                onDeleteResultFile={medicalOrderSelected?.orderStatus === 'created'
+                    ? () => handleClickEventDeleteMedicalResultFile(row.id)
+                    : undefined}
                 data={row} />}
         >
             <Title order={6}>{row.examName}</Title>
@@ -214,7 +210,7 @@ const PatientPage: React.FC = () => {
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </ListRow>
-    ), [handleClickEventUploadResultFile, handleClickEventDeleteMedicalResultFile, handleMedicalOrderResultFormSubmittion]);
+    ), [medicalOrderSelected, handleClickEventUploadResultFile, handleClickEventDeleteMedicalResultFile, handleMedicalOrderResultFormSubmittion]);
 
     const handleOrderRefesh = useCallback(() => {
         setMedicalOrderSelected(null);

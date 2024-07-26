@@ -1,17 +1,19 @@
 import { root } from "../../config";
 
+const baseUrl: string = 'medical/results';
+
 export const MEDICAL_RESULT = {
     DISEASE: {
-        REPORT: `${root}/medical/result/disease/report`,
-        YEAR: `${root}/medical/result/disease/year`,
-        CREATE: `${root}/medical/results/diseases`,
-        FIND_ALL: `${root}/medical/results/diseases`,
-        FIND_ONE: (id: number) => `${root}/medical/results/diseases/${id}`,
-        UPDATE_ONE: (id: number) => `${root}/medical/results/diseases/${id}`,
-        DELETE_ONE: (id: number) => `${root}/medical/results/diseases/${id}`,
+        REPORT: `${root}/${baseUrl}/disease/report`,
+        YEAR: `${root}/${baseUrl}/disease/year`,
+        CREATE: `${root}/${baseUrl}/diseases`,
+        FIND_ALL: `${root}/${baseUrl}/diseases`,
+        FIND_ONE: (id: number) => `${root}/${baseUrl}/diseases/${id}`,
+        UPDATE_ONE: (id: number) => `${root}/${baseUrl}/diseases/${id}`,
+        DELETE_ONE: (id: number) => `${root}/${baseUrl}/diseases/${id}`,
     },
-    UPLOAD_FILE: (key: number) => `${root}/medical/results/file/${key}`,
-    FIND_ALL: `${root}/medical/results`,
-    FIND_ONE: (id: number) => `${root}/medical/results/${id}`,
-    FIND_BY_DOCTOR: `${root}/medical/results/doctor`
+    UPLOAD_FILE: (key: number) => `${root}/${baseUrl}/file/${key}`,
+    FIND_ALL: `${root}/${baseUrl}`,
+    FIND_ONE: (id: number) => `${root}/${baseUrl}/${id}`,
+    FIND_BY_DOCTOR: `${root}/${baseUrl}/doctor`
 }
