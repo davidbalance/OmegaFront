@@ -69,7 +69,7 @@ const Navbar: React.FC<NavbarProps> = ({ opened, onClose }) => {
                 </Drawer>
                 : <nav className={(cx(classes.navbar, { [classes.open]: opened || locked }))}>
                     <Box className={classes.links}>
-                        <ScrollArea h={475}>
+                        <ScrollArea h={475} style={{ direction: 'rtl' }}>
                             <Box className={classes.linksInner}>{mainLinks}</Box>
                         </ScrollArea>
                     </Box>
