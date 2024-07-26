@@ -1,16 +1,11 @@
-export interface ApiKey {
-    id: number;
-    name: string;
-}
+import { ObjectArray } from "@/lib/interfaces/object-array.interface";
+import { ApiKey } from "./base.response.dto";
 
-export interface GETApiKeyArrayResponseDto {
-    apiKeys: ApiKey[];
-}
 
-export interface POSTApiKeyResponseDto extends ApiKey {
+export interface GetApiKeyArrayResponseDto extends ObjectArray<ApiKey> {}
+
+export interface PostApiKeyResponseDto extends ApiKey {
     apikey: string;
 }
 
-export interface PATCHApiKeyResponseDto extends ApiKey { }
-
-export interface DELETEApiKeyResponseDto { }
+export interface PatchApiKeyResponseDto extends ApiKey { }

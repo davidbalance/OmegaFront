@@ -1,7 +1,8 @@
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { useFetch } from '@/hooks/useFetch'
-import { POSTApiKeyRequestDto } from '@/lib/dtos/auth/api/key/request.dto'
-import { ApiKey, POSTApiKeyResponseDto } from '@/lib/dtos/auth/api/key/response.dto'
+import { ApiKey } from '@/lib/dtos/auth/api/key/base.response.dto'
+import { PostApiKeyRequestDto } from '@/lib/dtos/auth/api/key/request.dto'
+import { PostApiKeyResponseDto } from '@/lib/dtos/auth/api/key/response.dto'
 import { ActionIcon, Box, Button, LoadingOverlay, Modal, SimpleGrid, Text, TextInput, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 import { IconKey, IconDeviceFloppy, IconClipboard } from '@tabler/icons-react'
@@ -29,7 +30,7 @@ const ApiKeyFormCreate: React.FC<ApiKeyFormCreateProps> = ({ onFormSubmittion })
         reload: postReload,
         request: postRequest,
         reset: postReset
-    } = useFetch<POSTApiKeyResponseDto>('/api/key', 'POST', { loadOnMount: false });
+    } = useFetch<PostApiKeyResponseDto>('/api/key', 'POST', { loadOnMount: false });
 
     const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setInputState(event.target.value);
@@ -41,7 +42,7 @@ const ApiKeyFormCreate: React.FC<ApiKeyFormCreateProps> = ({ onFormSubmittion })
             notifications.show({ message: 'Debe ingresar el nombre de un api key', color: 'red' });
             return;
         }
-        postRequest<POSTApiKeyRequestDto>({ name: inputState });
+        postRequest<PostApiKeyRequestDto>({ name: inputState });
         setShouldPatch(true);
     }, [inputState, postRequest]);
 

@@ -1,5 +1,5 @@
-export interface POSTApiKeyRequestDto {
-    name: string;
-}
+import { ApiKeyRequest } from "./base.request.dto";
 
-export interface PATCHApiKeyRequestDto extends POSTApiKeyRequestDto { }
+export interface PostApiKeyRequestDto extends ApiKeyRequest {}
+
+export interface PatchApiKeyRequestDto extends ApiKeyRequest { }
