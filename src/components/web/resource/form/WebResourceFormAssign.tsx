@@ -1,5 +1,5 @@
 import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
-import { WebResource } from '@/lib/dtos/web/resources.response.dto';
+import { OmegaNavResource } from '@/lib/dtos/omega/nav/resource/base.response.dto';
 import { Box, Table, TextInput, Checkbox, Button } from '@mantine/core';
 import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react'
 
@@ -11,7 +11,7 @@ type WebResourceFormAssignProps = {
     /**
      * Arreglo de recursos web necesarios para la inicializacion del formulario.
      */
-    resources: WebResource[];
+    resources: OmegaNavResource[];
     /**
      * Funcion que es invocada cuando se envia el formulario.
      * @param values 

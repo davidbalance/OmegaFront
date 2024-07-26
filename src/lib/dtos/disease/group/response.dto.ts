@@ -1,19 +1,8 @@
-import { Disease } from "../response.dto";
+import { ObjectArray } from "@/lib/interfaces/object-array.interface";
+import { DiseaseGroup } from "./base.response.dto";
 
-export interface DiseaseGroup {
-    id: number;
-    name: string;
-    diseases: Disease[];
-}
+export interface GetDiseaseGroupResponseDto extends DiseaseGroup {}
 
-export interface GETDiseaseGroupResponseDto extends DiseaseGroup { }
+export interface GetDiseaseGroupArrayResponseDto extends ObjectArray<DiseaseGroup> {}
 
-export interface GETDiseaseGroupsResponseDto {
-    groups: DiseaseGroup[];
-}
-
-export interface POSTDiseaseGroupResponseDto extends DiseaseGroup { };
-
-export interface PATCHDiseaseGroupResponseDto { }
-
-export interface DELETEDiseaseGroupResponseDto { }
+export interface PostDiseaseGroupResponseDto extends DiseaseGroup { };

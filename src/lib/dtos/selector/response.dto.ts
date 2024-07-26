@@ -3,6 +3,6 @@ export type SelectorOption<T> = {
     label: string;
 }
 
-export type GETSelectorOptionResponseDto<T> = {
+export type GetSelectorOptionResponseDto<T> = {
     options: SelectorOption<T>[]
 }

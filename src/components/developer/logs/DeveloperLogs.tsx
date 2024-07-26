@@ -4,7 +4,7 @@ import { useFetch } from '@/hooks/useFetch'
 import { useList } from '@/hooks/useList';
 import { POSTLogRequestDto } from '@/lib/dtos/logs/log.request.dto';
 import { ServerLog } from '@/lib/dtos/logs/log.response.dto';
-import { ActionIcon, Flex, LoadingOverlay, ScrollArea, rem } from '@mantine/core';
+import { Flex, LoadingOverlay, ScrollArea, rem } from '@mantine/core';
 import { DatePickerInput, DatesRangeValue } from '@mantine/dates';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -12,7 +12,6 @@ import { DeveloperLog } from './DeveloperLog';
 import classes from './DeveloperLogs.module.css';
 import DevloperLogButtons from './DevloperLogButtons';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconReload } from '@tabler/icons-react';
 
 const DeveloperLogs: React.FC = () => {
 

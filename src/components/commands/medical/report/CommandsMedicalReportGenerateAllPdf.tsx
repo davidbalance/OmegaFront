@@ -14,7 +14,7 @@ const CommandsMedicalReportGenerateAllPdf: React.FC = () => {
         loading,
         reload,
         reset,
-    } = useFetch<any>('/api/medical/reports/recreate/pdf', 'GET', { loadOnMount: false });
+    } = useFetch<any>('/api/medical/report/recreate/pdf', 'GET', { loadOnMount: false });
 
     const { show } = useConfirmation();
 

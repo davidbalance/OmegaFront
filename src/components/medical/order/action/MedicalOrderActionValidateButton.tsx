@@ -1,6 +1,6 @@
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 import { useFetch } from '@/hooks/useFetch';
-import { OrderStatus } from '@/lib/dtos/medical/order/response.dto';
+import { OrderStatus } from '@/lib/dtos/medical/order/base.response.dto';
 import { ActionIcon, ActionIconProps, rem, Tooltip } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconLock, IconLockOpen2 } from '@tabler/icons-react';
@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 const ActionIconOrderStatusProps: Record<OrderStatus, ActionIconProps> = {
   created: {},
-  validated: { variant: 'light', color: 'neutral', disabled: true }
+  validated: { variant: 'light', color: 'neutral' }
 }
 
 const IconsElement: Record<OrderStatus, React.ElementType> = {
@@ -18,7 +18,7 @@ const IconsElement: Record<OrderStatus, React.ElementType> = {
 
 const TooltipMessage: Record<OrderStatus, string> = {
   created: "Cerrar",
-  validated: ""
+  validated: "Abrir"
 }
 
 interface MedicalOrderActionValidateButtonProps {
@@ -29,6 +29,10 @@ interface MedicalOrderActionValidateButtonProps {
 
 const MedicalOrderActionValidateButton: React.FC<MedicalOrderActionValidateButtonProps> = ({ order, onValidate, orderStatus }) => {
 
+  const url = useMemo(() => orderStatus === 'created'
+    ? `/api/medical/orders/${order}/status/validate`
+    : `/api/medical/orders/${order}/status/created`, [orderStatus, order])
+
   const {
     data: orderData,
     body: orderBody,
@@ -37,7 +41,7 @@ const MedicalOrderActionValidateButton: React.FC<MedicalOrderActionValidateButto
     reload: orderReload,
     request: orderRequest,
     reset: orderReset,
-  } = useFetch(`/api/medical/orders/order/${order}/status/validate`, 'PATCH', { loadOnMount: false });
+  } = useFetch(url, 'PATCH', { loadOnMount: false });
 
   const { show } = useConfirmation();
 
@@ -70,15 +74,14 @@ const MedicalOrderActionValidateButton: React.FC<MedicalOrderActionValidateButto
 
   useEffect(() => {
     if (orderData) {
-      onValidate(order, "validated");
+      onValidate(order, orderStatus === 'created' ? "validated" : "created");
       orderReset();
     }
-  }, [order, orderData, orderReset, onValidate]);
+  }, [order, orderStatus, orderData, orderReset, onValidate]);
 
   return (
     <Tooltip
-      label={tooltipMessage}
-      disabled={orderStatus === 'validated'}>
+      label={tooltipMessage}>
       <ActionIcon onClick={handleClickEvent} {...currentButtonProps} loading={orderLoading}>
         <CurrentIcon style={{ width: rem(16), height: rem(16), lineHeight: rem(1.5) }} />
       </ActionIcon>

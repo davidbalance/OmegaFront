@@ -4,9 +4,9 @@ import React, { useCallback, useEffect } from 'react'
 import { useMail } from '@/hooks/useMail';
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 import { notifications } from '@mantine/notifications';
-import { MedicalClientEmail } from '@/lib/dtos/medical/client/response.dto';
 import MedicalClientModalEmailSelection from '../../client/modal/MedicalClientModalEmailSelection';
 import { useDisclosure } from '@mantine/hooks';
+import { MedicalClientEmail } from '@/lib/dtos/medical/client/email/base.response.dto';
 
 const baseUrl = (order: number, mail: number) => `/api/medical/orders/mail/${order}/${mail}`;
 

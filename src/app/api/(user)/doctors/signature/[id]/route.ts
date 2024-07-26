@@ -11,7 +11,7 @@ export async function POST(
     try {
         const body = await req.formData();
         const postFile = withAuth<any, any>(post, DEFAULT_WITH_AUTH_OPTIONS);
-        await postFile(endpoints.USER.DOCTOR.FIND_ONE_AND_UPLOAD_IMAGE(params.id), {
+        await postFile(endpoints.USER.DOCTOR.UPLOAD_IMAGE(params.id), {
             application: 'form',
             body: body
         });

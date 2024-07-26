@@ -1,55 +1,13 @@
-import { MedicalClient, MedicalClientEmail } from "../client/response.dto";
-import { MedicalResult } from "../result/response.dto";
+import { ObjectArray } from "@/lib/interfaces/object-array.interface";
+import { MedicalOrder, MedicalOrderCloud, MedicalOrderFlat } from "./base.response.dto";
+import { PaginationResponse } from "@/lib/interfaces/pagination.interface";
 
-export type OrderStatus = "created" | "validated";
+export interface GetMedicalOrderCloudResponseDto extends MedicalOrderCloud { }
 
-export interface MedicalOrder {
-    id: number;
-    process: string;
-    createAt: Date;
-    mailStatus: boolean;
-    orderStatus: OrderStatus;
-    results: MedicalResult[];
-    client: MedicalClient
-}
+export interface GetMedicalOrderResponseDto extends MedicalOrder { }
 
-export interface GETMedicalOrderResponseDto extends MedicalOrder { }
+export interface GetMedicalOrderArrayResponseDto extends ObjectArray<MedicalOrder> { }
 
-export interface GETMedicalOrderArrayResponseDto {
-    orders: MedicalOrder[];
-}
+export interface GetMedicalOrderFlatArrayResponseDto extends ObjectArray<MedicalOrderFlat> { }
 
-export interface MedicalOrderFile {
-    id: number;
-    examName: string;
-    type: string;
-    hasFile: boolean
-}
-
-export interface GETMedicalMedicalOrderFileResponseDto {
-    dni: string;
-    fullname: string;
-    email: string;
-    fileResults: MedicalOrderFile[];
-    fileReports: MedicalOrderFile[];
-}
-
-export interface PlainMedicalOrder {
-    id: number;
-    process: string;
-    createAt: Date;
-    mailStatus: boolean;
-    orderStatus: OrderStatus;
-    dni: string;
-    fullname: string;
-    results: MedicalResult[];
-    email: MedicalClientEmail[];
-}
-
-export interface GETPlainMedicalOrderArrayResponseDto {
-    orders: PlainMedicalOrder[];
-}
-
-export interface GETArrayWithPaginationResponseDto extends GETPlainMedicalOrderArrayResponseDto {
-    pages: number;
-}
+export interface GetMedicalOrderFlatPaginationResponseDto extends PaginationResponse<MedicalOrderFlat> { }

@@ -4,9 +4,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useFetch } from '@/hooks/useFetch';
 import { notifications } from '@mantine/notifications';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { User } from '@/lib/dtos/user/user.response.dto';
 import { UserForm } from './UserForm';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
+import { User } from '@/lib/dtos/user/user/base.response.dto';
 
 type UserFormUpdateProps = {
     /**

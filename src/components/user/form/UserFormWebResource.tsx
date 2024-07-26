@@ -2,8 +2,9 @@ import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTi
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import WebResourceFormAssign from '@/components/web/resource/form/WebResourceFormAssign';
 import { useFetch } from '@/hooks/useFetch';
-import { User } from '@/lib/dtos/user/user.response.dto';
-import { WebResource } from '@/lib/dtos/web/resources.response.dto';
+import { OmegaNavResource } from '@/lib/dtos/omega/nav/resource/base.response.dto';
+import { OmegaWebResource } from '@/lib/dtos/omega/web/resource/base.response.dto';
+import { User } from '@/lib/dtos/user/user/base.response.dto';
 import { LoadingOverlay, Flex, rem, Box, Button, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
@@ -25,11 +26,11 @@ const UserFormWebResource: React.FC<UserFormWebResourceProps> = ({ user, onClose
 
     const { data: webResources,
         error: webResourceError,
-        loading: webResourceLoading } = useFetch<WebResource[]>('/api/web/resources', 'GET');
+        loading: webResourceLoading } = useFetch<OmegaNavResource[]>('/api/nav/resources', 'GET');
 
     const { data: clientResources,
         error: clientResourceError,
-        loading: clientResourceLoading } = useFetch<WebResource[]>(`/api/web/clients/resources/${user.id}`, 'GET');
+        loading: clientResourceLoading } = useFetch<OmegaWebResource[]>(`/api/web/clients/resources/${user.id}`, 'GET');
 
     const { data: patchResource,
         error: patchResourceError,

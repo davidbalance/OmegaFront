@@ -1,17 +1,17 @@
-import { LoadingOverlay, rem, Stepper, Flex, Text, Button, Container } from '@mantine/core';
+import { LoadingOverlay, rem, Stepper, Flex, Text, Button, Container, ScrollArea } from '@mantine/core';
 import { IconBuilding, IconChevronLeft, IconChevronRight, IconCircleCheck, IconDeviceFloppy, IconLicense, IconLock, IconUserCheck } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { UserFormLogo } from './UserFormLogo';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { notifications } from '@mantine/notifications';
 import { useFetch } from '@/hooks/useFetch';
-import { User } from '@/lib/dtos/user/user.response.dto';
-import { WebResource } from '@/lib/dtos/web/resources.response.dto';
 import WebResourceFormAssign from '@/components/web/resource/form/WebResourceFormAssign';
 import { UserForm } from './UserForm';
 import { useMediaQuery } from '@mantine/hooks';
 import { AuthenticationFormPassword } from '@/components/authentication/form/AuthenticationFormPassword';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
+import { User } from '@/lib/dtos/user/user/base.response.dto';
+import { OmegaNavResource } from '@/lib/dtos/omega/nav/resource/base.response.dto';
 
 type UserStepProps = {
     description: string; icon: React.ReactNode;
@@ -51,7 +51,7 @@ const UserFormCreate: React.FC<UserFormCreateProps> = ({ onClose, onFormSubmit }
         data: webResources,
         error: webResourceError,
         loading: webResourceLoading
-    } = useFetch<WebResource[]>('/api/web/resources', 'GET');
+    } = useFetch<OmegaNavResource[]>('/api/nav/resources', 'GET');
 
     const isMobile = useMediaQuery('(max-width: 50em)');
 
@@ -113,13 +113,15 @@ const UserFormCreate: React.FC<UserFormCreateProps> = ({ onClose, onFormSubmit }
             label={!isMobile && `Paso ${index + 1}`}
             description={!isMobile && step.description}
             icon={step.icon}>
-            <Container mt={rem(44)}>
-                <step.step.form
-                    data={{ ...formData }}
-                    ref={formReferences.current[index]}
-                    onSubmit={handleFormSubmittion}
-                    {...step.step.props} />
-            </Container>
+            <ScrollArea h={400}>
+                <Container mt={rem(44)}>
+                    <step.step.form
+                        data={{ ...formData }}
+                        ref={formReferences.current[index]}
+                        onSubmit={handleFormSubmittion}
+                        {...step.step.props} />
+                </Container>
+            </ScrollArea>
         </Stepper.Step>
     ))), [isMobile, steps, formData, handleFormSubmittion]);
 
@@ -171,7 +173,6 @@ const UserFormCreate: React.FC<UserFormCreateProps> = ({ onClose, onFormSubmit }
                         </Stepper.Completed>
                     </Stepper>
                 </ModularBox>
-
                 <ModularBox direction='row'>
                     {active < steps.length ?
                         (<>

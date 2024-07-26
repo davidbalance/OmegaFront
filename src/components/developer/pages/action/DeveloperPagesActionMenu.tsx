@@ -1,5 +1,4 @@
 import { useFetch } from '@/hooks/useFetch';
-import { DELETEWebResourceResponseDto } from '@/lib/dtos/web/resources.response.dto';
 import { Menu, MenuTarget, Flex, ActionIcon, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
 import { IconDotsVertical, IconPencil, IconTrash } from '@tabler/icons-react'
@@ -30,7 +29,7 @@ const DeveloperPagesActionMenu: React.FC<DeveloperPagesActionMenuProps> = ({ res
         loading: fetchLoading,
         reload: fetchReload,
         reset: fetchReset
-    } = useFetch<DELETEWebResourceResponseDto>(`/api/web/resources/${resource}`, 'DELETE', { loadOnMount: false });
+    } = useFetch<any>(`/api/web/resources/${resource}`, 'DELETE', { loadOnMount: false });
 
     const handleClickEventDelete = useCallback(() => {
         fetchReload();

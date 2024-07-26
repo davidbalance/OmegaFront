@@ -5,21 +5,20 @@ import { ListWithFetchContext } from '@/components/layout/list-layout/components
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { ListLayoutFetchProvider } from '@/components/layout/list-layout/context/ListFetchPaginationContext';
 import { ListElement } from '@/components/layout/list-layout/types';
-import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
+import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { MedicalClientFormManagementAreaCreate } from '@/components/medical/client/form/MedicalClientFormManagementAreaCreate';
 import MedicalClientLayoutEmail from '@/components/medical/client/layout/MedicalClientLayoutEmail';
 import { MedicalOrderActionSendButton } from '@/components/medical/order/action/MedicalOrderActionSendButton';
 import { MedicalOrderActionValidateButton } from '@/components/medical/order/action/MedicalOrderActionValidateButton';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
-import { MedicalResultModalDiseases } from '@/components/medical/result/modal/MedicalResultModalDiseases';
 import { PatientActionButton } from '@/components/patient/action/PatientActionButton';
 import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
-import { MedicalOrder, OrderStatus } from '@/lib/dtos/medical/order/response.dto';
-import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
-import { Patient, PatientPlain } from '@/lib/dtos/user/patient.response.dto';
+import { MedicalOrder, OrderStatus } from '@/lib/dtos/medical/order/base.response.dto';
+import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
+import { Patient } from '@/lib/dtos/user/patient/base.response.dto';
 import { Title, Flex, Text, Grid, ActionIcon, rem, Box } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
@@ -35,7 +34,7 @@ enum LayoutState {
     UPLOAD_RESULT_FILE
 }
 
-const patientColumns: ListElement<PatientPlain>[] = [
+const patientColumns: ListElement<Patient>[] = [
     { key: 'dni', name: 'Cedula' },
     { key: 'name', name: 'Nombre' },
     { key: 'lastname', name: 'Apellido' },
@@ -54,7 +53,7 @@ const PatientPage: React.FC = () => {
 
     const [active, setActive] = useState(0);
     const [currentState, setCurrentState] = useState<LayoutState>(LayoutState.DEFAULT);
-    const [patientSelected, setPatientSelected] = useState<PatientPlain | null>(null);
+    const [patientSelected, setPatientSelected] = useState<Patient | null>(null);
     const [medicalOrderSelected, setMedicalOrderSelected] = useState<MedicalOrder | null>(null);
     const [medicalResultSelected, setMedicalResultSelected] = useState<MedicalResult | null>(null);
     const [shouldFetchMedicalOrder, setShouldFetchMedicalOrder] = useState<boolean>(false);
@@ -82,7 +81,7 @@ const PatientPage: React.FC = () => {
     }] = useList<MedicalResult>([]);
 
 
-    const handlePatientSelection = useCallback((selection: PatientPlain): void => {
+    const handlePatientSelection = useCallback((selection: Patient): void => {
         setPatientSelected(selection);
         setMedicalOrderSelected(null);
         setShouldFetchMedicalOrder(true);
@@ -101,7 +100,7 @@ const PatientPage: React.FC = () => {
         medicalOrderUpdate('id', id, { orderStatus: state });
     }, [medicalOrderUpdate]);
 
-    const handleClickEventAssignModal = useCallback((selection: PatientPlain) => {
+    const handleClickEventAssignModal = useCallback((selection: Patient) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.UPDATE_EMPLOYEE);
     }, []);
@@ -116,12 +115,12 @@ const PatientPage: React.FC = () => {
         setCurrentState(LayoutState.UPLOAD_RESULT_FILE);
     }, []);
 
-    const handleClickEventEmail = useCallback((selection: PatientPlain) => {
+    const handleClickEventEmail = useCallback((selection: Patient) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.EMAIL);
     }, []);
 
-    const handleClickEventManagementArea = useCallback((selection: PatientPlain) => {
+    const handleClickEventManagementArea = useCallback((selection: Patient) => {
         setPatientSelected(selection);
         setCurrentState(LayoutState.UPDATE_PATIENT_MANAGEMENT_AREA);
     }, []);
@@ -134,7 +133,7 @@ const PatientPage: React.FC = () => {
         medicalResultUpdate('id', id, { hasFile: false });
     }, [medicalResultUpdate]);
 
-    const handlePatientRow = useCallback((row: PatientPlain) => (
+    const handlePatientRow = useCallback((row: Patient) => (
         <ListRow
             key={row.id}
             active={row.id === patientSelected?.id}
@@ -179,11 +178,23 @@ const PatientPage: React.FC = () => {
         </ListRow>
     ), [medicalOrderSelected, handleOrderSelection, handleEventMailSend, handleEventOrderStatus]);
 
+    const handleMedicalOrderResultFormSubmittion = useCallback((data: MedicalResult) => {
+        medicalResultUpdate('id', data.id, data);
+        if (medicalOrderSelected) {
+            const updatedOrder = { ...medicalOrderSelected };
+            const resultIndex = updatedOrder.results.findIndex(e => e.id === data.id);
+            if (resultIndex !== -1) {
+                updatedOrder.results[resultIndex] = data;
+                medicalOrderUpdate('id', updatedOrder.id, updatedOrder);
+            }
+        }
+    }, [medicalOrderSelected, medicalOrderUpdate, medicalResultUpdate]);
+
     const handleMedicalResultRow = useCallback((row: MedicalResult) => (
         <ListRow
             key={row.id}
             rightSection={<MedicalResultActionMenu
-                onDiseaseModification={() => handleClickEventUpdateDisease(row)}
+                onDiseaseModification={handleMedicalOrderResultFormSubmittion}
                 downloadReport={!!row.report}
                 downloadResult={row.hasFile}
                 onUploadResult={() => handleClickEventUploadResultFile(row)}
@@ -203,7 +214,7 @@ const PatientPage: React.FC = () => {
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </ListRow>
-    ), [handleClickEventUploadResultFile, handleClickEventUpdateDisease, handleClickEventDeleteMedicalResultFile]);
+    ), [handleClickEventUploadResultFile, handleClickEventDeleteMedicalResultFile, handleMedicalOrderResultFormSubmittion]);
 
     const handleOrderRefesh = useCallback(() => {
         setMedicalOrderSelected(null);
@@ -220,7 +231,7 @@ const PatientPage: React.FC = () => {
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {
             title: 'Pacientes',
-            element: <ListWithFetchContext<PatientPlain>
+            element: <ListWithFetchContext<Patient>
                 key='patient-list-layout'
                 columns={patientColumns}
                 rows={handlePatientRow}
@@ -312,24 +323,6 @@ const PatientPage: React.FC = () => {
         medicalResultSelected
     ]);
 
-    const handleExamModalCloseEvent = useCallback(() => {
-        setMedicalResultSelected(null)
-        closeDiseaseModal();
-    }, [closeDiseaseModal]);
-
-    const handleMedicalOrderResultFormSubmittion = useCallback((data: MedicalResult) => {
-        medicalResultUpdate('id', data.id, data);
-        if (medicalOrderSelected) {
-            const updatedOrder = { ...medicalOrderSelected };
-            const resultIndex = updatedOrder.results.findIndex(e => e.id === data.id);
-            if (resultIndex !== -1) {
-                updatedOrder.results[resultIndex] = data;
-                medicalOrderUpdate('id', updatedOrder.id, updatedOrder);
-                handleExamModalCloseEvent();
-            }
-        }
-    }, [medicalOrderSelected, medicalOrderUpdate, medicalResultUpdate, handleExamModalCloseEvent]);
-
     useEffect(() => {
         if (fetchedOrders) medicalOrderOverride(fetchedOrders);
     }, [fetchedOrders, medicalOrderOverride]);
@@ -353,12 +346,7 @@ const PatientPage: React.FC = () => {
 
     return (
         <>
-            <MedicalResultModalDiseases
-                medicalResult={medicalResultSelected!}
-                opened={!!medicalResultSelected && openedDiseaseModal}
-                onClose={handleExamModalCloseEvent}
-                onFormSubmitted={handleMedicalOrderResultFormSubmittion} />
-            <ListLayoutFetchProvider<PatientPlain>
+            <ListLayoutFetchProvider<Patient>
                 url={'/api/patients/paginate'}
                 size={50}>
                 {view[currentState]}

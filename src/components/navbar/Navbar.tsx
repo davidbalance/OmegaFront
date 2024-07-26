@@ -1,7 +1,7 @@
 'use client'
 
-import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconReportMedical, IconSettings, IconMapPin, IconKey, IconLock, IconVirus, IconCode } from '@tabler/icons-react';
-import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react'
+import { IconSettings, IconLock } from '@tabler/icons-react';
+import React, { useState } from 'react'
 import classes from './Navbar.module.css';
 import cx from 'clsx';
 import { ActionIcon, Box, Drawer, ScrollArea } from '@mantine/core';

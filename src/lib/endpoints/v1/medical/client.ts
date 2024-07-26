@@ -1,12 +1,18 @@
 import { root } from "../../config";
 
+const baseUrl: string = 'medical/client';
+
 export const MEDICAL_CLIENT = {
-    FIND_CLIENT_CLIENTS_BY_DOCTOR: `${root}/medical/client/doctor`,
-    FIND_CLIENT_EMAIL: (dni: string) => `${root}/medical/client/${dni}/email`,
-    CREATE_CLIENT_EMAIL: (dni: string) => `${root}/medical/client/${dni}/email`,
-    FIND_CLIENT_BY_DNI_GET_MANAGEMENT_AREA: (dni: string) => `${root}/medical/client/${dni}/management/area`,
-    FIND_CLIENT_BY_DNI_POST_MANAGEMENT_AREA: (dni: string) => `${root}/medical/client/${dni}/management/area`,
-    FIND_CLIENT_BY_DNI_DELETE_MANAGEMENT_AREA: (dni: string) => `${root}/medical/client/${dni}/management/area`,
-    SET_CLIENT_MAIL_DEFAULT: (dni: string, mail: number) => `${root}/medical/client/${dni}/email/${mail}`,
-    DELETE_CLIENT_MAIL: (mail: number) => `${root}/medical/client/email/${mail}`,
+    EMAIL: {
+        FIND_ALL: (dni: string) => `${root}/${baseUrl}/email/${dni}`,
+        CREATE: (dni: string) => `${root}/${baseUrl}/email/${dni}`,
+        UPDATE_ONE: (id: number) => `${root}/${baseUrl}/email/${id}`,
+        DELETE_ONE: (id: number) => `${root}/${baseUrl}/email/${id}`,
+    },
+    MANAGEMENT: {
+        FIND_ONE: (dni: string) => `${root}/${baseUrl}/management/area/${dni}`,
+        CREATE: (dni: string) => `${root}/${baseUrl}/management/area/${dni}`,
+        DELETE_ONE: (dni: string) => `${root}/${baseUrl}/management/area/${dni}`,
+    },
+    FIND_WITH_DOCTOR: `${root}/${baseUrl}/doctor`,
 }

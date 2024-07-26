@@ -1,7 +1,7 @@
 import { useFetch } from '@/hooks/useFetch';
-import { DiseaseGroup } from '@/lib/dtos/disease/group/response.dto';
+import { DiseaseGroup } from '@/lib/dtos/disease/group/base.response.dto';
 import { Disease } from '@/lib/dtos/disease/response.dto';
-import { MedicalResultDisease } from '@/lib/dtos/medical/result/response.dto';
+import { MedicalResultDisease } from '@/lib/dtos/medical/result/disease/base.response.dto';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto';
 import { ComboboxItem, LoadingOverlay, rem, Box, Select, Button, Textarea } from '@mantine/core';
 import { notifications } from '@mantine/notifications';

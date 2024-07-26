@@ -1,7 +1,6 @@
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
-import { MedicalClientEmail } from '@/lib/dtos/medical/client/response.dto';
 import { LoadingOverlay, Flex, rem, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect } from 'react'
@@ -11,6 +10,7 @@ import { MedicalClientForm } from '../form/MedicalClientForm';
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListElement } from '@/components/layout/list-layout/types';
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
+import { MedicalClientEmail } from '@/lib/dtos/medical/client/email/base.response.dto';
 
 interface PatientEmail {
     id: number,
@@ -42,7 +42,7 @@ const MedicalClientLayoutEmail: React.FC<MedicalClientLayoutEmailProps> = ({ pat
         data,
         error,
         loading
-    } = useFetch<MedicalClientEmail[]>(`/api/medical/client/${patient.dni}/email`, 'GET');
+    } = useFetch<MedicalClientEmail[]>(`/api/medical/client/email/${patient.dni}`, 'GET');
 
     const [email, {
         append: emailAppend,
@@ -65,7 +65,6 @@ const MedicalClientLayoutEmail: React.FC<MedicalClientLayoutEmailProps> = ({ pat
                 <Flex>
                     <MedicalClientActionDefault
                         id={row.id}
-                        dni={patient.dni}
                         state={row.default}
                         onComplete={handleUpdateEvent} />
                     <MedicalClientActionDelete
@@ -75,7 +74,7 @@ const MedicalClientLayoutEmail: React.FC<MedicalClientLayoutEmailProps> = ({ pat
             }>
             <Text>{row.email}</Text>
         </ListRow>
-    ), [handleDeleteEvent, handleUpdateEvent, patient.dni]);
+    ), [handleDeleteEvent, handleUpdateEvent]);
 
     const handleValidation = useCallback((data: string): boolean => !email.some(e => e.email === data), [email]);
 

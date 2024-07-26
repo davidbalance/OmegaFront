@@ -6,6 +6,7 @@ import { DISEASE_GROUP } from "./v1/disease/group";
 import { HEALTH_CHECK } from "./v1/health/check";
 import { AREA } from "./v1/location/area";
 import { CORPORATIVE_GROUP } from "./v1/location/corporative/group";
+import { JOB_POSITION } from "./v1/location/job/position";
 import { MANAGEMENT } from "./v1/location/management";
 import { LOG } from "./v1/log";
 import { MEDICAL_CLIENT } from "./v1/medical/client";
@@ -23,8 +24,11 @@ import { EXAM_SELECTOR } from "./v1/selector/exam";
 import { DOCTOR } from "./v1/user/doctor";
 import { PATIENT } from "./v1/user/patient";
 import { USER } from "./v1/user/user";
-import { WEB_CLIENT } from "./v1/web/client";
-import { WEB_RESOURCE } from "./v1/web/resource";
+import { WEB_CLIENT } from "./v1/omega/web/client";
+import { WEB_RESOURCE } from "./v1/omega/web/resource";
+import { NAV_RESOURCE } from "./v1/omega/nav/resource";
+import { LAB_EXAM_SUBTYPE } from "./v1/laboratory/exam/subtype";
+import { LAB_EXAM_TYPE } from "./v1/laboratory/exam/type";
 
 export default Object.freeze({
     LOGGER: LOG,
@@ -35,6 +39,7 @@ export default Object.freeze({
     LOCATION: {
         CORPORATIVE_GROUP,
         MANAGEMENT,
+        JOB_POSITION,
         AREA
     },
     USER: {
@@ -47,9 +52,20 @@ export default Object.freeze({
         CREDENTIAL,
         API_KEY
     },
-    WEB: {
-        RESOURCE: WEB_RESOURCE,
-        CLIENT: WEB_CLIENT
+    OMEGA: {
+        WEB: {
+            RESOURCE: WEB_RESOURCE,
+            CLIENT: WEB_CLIENT
+        },
+        NAV: {
+            RESOURCE: NAV_RESOURCE
+        }
+    },
+    LABORATORY: {
+        EXAM: {
+            TYPE: LAB_EXAM_TYPE,
+            SUBTYPE: LAB_EXAM_SUBTYPE,
+        }
     },
     MEDICAL: {
         ORDER: MEDICAL_ORDER,
@@ -58,9 +74,6 @@ export default Object.freeze({
         REPORT: MEDICAL_REPORT
     },
     HEALTH_CHECK,
-    MAIL: {
-        ORDER: MEDICAL_ORDER.SEND_MAIL
-    },
     FILE: {
         RESULT: MEDICAL_FILE
     },

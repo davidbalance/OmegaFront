@@ -8,7 +8,6 @@ import { IconPlus } from '@tabler/icons-react';
 import { useList } from '@/hooks/useList';
 import { useFetch } from '@/hooks/useFetch';
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
-import { User } from '@/lib/dtos/user/user.response.dto';
 import { UserFormCreate } from '@/components/user/form/UserFormCreate';
 import { UserFormUpdate } from '@/components/user/form/UserFormUpdate';
 import { UserFormWebResource } from '@/components/user/form/UserFormWebResource';
@@ -16,6 +15,7 @@ import { UserFormChangePassword } from '@/components/user/form/UserFormChangePas
 import { UserActionButton } from '@/components/user/action/UserActionButton';
 import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
 import { ButtonResponsive } from '@/components/button/responsive/ButtonResponsive';
+import { User } from '@/lib/dtos/user/user/base.response.dto';
 
 enum LayoutStates {
     DEFAULT,

@@ -8,7 +8,7 @@ import { ButtonResponsive } from '@/components/button/responsive/ButtonResponsiv
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { ListElement } from '@/components/layout/list-layout/types';
-import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
+import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { ManagementActionButton } from '@/components/management/action/ManagementActionButton';
 import { ManagementFormCreate } from '@/components/management/form/ManagementFormCreate';
 import { ManagementFormUpdate } from '@/components/management/form/ManagementFormUpdate';

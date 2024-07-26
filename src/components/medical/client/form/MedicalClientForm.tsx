@@ -1,7 +1,7 @@
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { useFetch } from '@/hooks/useFetch'
-import { POSTMedicalEmailRequestDto } from '@/lib/dtos/medical/client/request.dto'
-import { MedicalClientEmail, POSTMedicalEmailResponseDto } from '@/lib/dtos/medical/client/response.dto'
+import { MedicalClientEmail } from '@/lib/dtos/medical/client/email/base.response.dto'
+import { PostMedicalClientEmailRequestDto } from '@/lib/dtos/medical/client/email/request.dto'
 import { LoadingOverlay, Box, TextInput, rem, ActionIcon } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { notifications } from '@mantine/notifications'
@@ -53,11 +53,11 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({ dni, onValidate, 
         reload: postReload,
         request: postRequest,
         reset: postReset
-    } = useFetch<MedicalClientEmail[]>(`/api/medical/client/${dni}/email`, 'POST', { loadOnMount: false });
+    } = useFetch<MedicalClientEmail[]>(`/api/medical/client/email/${dni}`, 'POST', { loadOnMount: false });
 
     const handleFormSubmittion = useCallback(({ email }: { email: string }) => {
         if (onValidate(email)) {
-            postRequest<POSTMedicalEmailRequestDto>({ email });
+            postRequest<PostMedicalClientEmailRequestDto>({ email });
             setShouldPatch(true);
         } else {
             notifications.show({ message: 'Este correo ya existe' });

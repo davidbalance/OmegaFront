@@ -1,30 +1,6 @@
-export interface MedicalReport {
-    id: number;
-    content: string;
-}
+import { ObjectArray } from "@/lib/interfaces/object-array.interface";
+import { MedicalResult } from "./base.response.dto";
 
-export interface MedicalResultDisease {
-    id: number;
-    diseaseId: number;
-    diseaseName: string;
-    diseaseGroupId: number;
-    diseaseGroupName: string;
-    diseaseCommentary: string;
-}
+export interface GetMedicalResultResponseDto extends MedicalResult { }
 
-export interface MedicalResult {
-    id: number;
-    examName: string;
-    hasFile: boolean;
-    diseases?: MedicalResultDisease[];
-    report?: MedicalReport;
-}
-
-export interface GETMedicalResultsResponseDto {
-    results: MedicalResult[];
-}
-
-export interface POSTMedicalResultDiseaseResponseDto extends MedicalResultDisease { }
-export interface PATCHMedicalResultDiseaseResponseDto extends MedicalResultDisease { }
-
-export interface PATCHMedicalResultReportResponseDto extends MedicalResult { }
+export interface GetMedicalResultArrayResponseDto extends ObjectArray<MedicalResult> {}

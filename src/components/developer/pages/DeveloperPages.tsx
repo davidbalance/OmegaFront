@@ -1,7 +1,6 @@
 import { NavIcon } from '@/components/navbar/NavIcon';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
-import { WebFullResource } from '@/lib/dtos/web/resources.response.dto';
 import { Flex, Grid, Text, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -12,6 +11,7 @@ import { DeveloperPageFormUpdate } from './form/DeveloperPageFormUpdate';
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListElement } from '@/components/layout/list-layout/types';
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
+import { OmegaWebResource } from '@/lib/dtos/omega/web/resource/base.response.dto';
 
 enum LayoutStates {
     DEFAULT,
@@ -19,7 +19,7 @@ enum LayoutStates {
     CREATE
 }
 
-const columns: ListElement<WebFullResource>[] = [
+const columns: ListElement<OmegaWebResource>[] = [
     { name: 'Label', key: 'label' },
     { name: 'Direccion', key: 'address' },
     { name: 'Icono', key: 'icon' },
@@ -28,22 +28,22 @@ const columns: ListElement<WebFullResource>[] = [
 const DeveloperPages: React.FC = () => {
 
     const [currenState, setCurrenState] = useState<LayoutStates>(LayoutStates.DEFAULT);
-    const [pageSelected, setPageSelected] = useState<WebFullResource | null>(null);
+    const [pageSelected, setPageSelected] = useState<OmegaWebResource | null>(null);
 
     const {
         data: fetchData,
         error: fetchError,
         loading: fetchLoading
-    } = useFetch<WebFullResource[]>('/api/web/resources/all', 'GET');
+    } = useFetch<OmegaWebResource[]>('/api/web/resources', 'GET');
 
     const [resources, {
         override: overrideResource,
         append: appendResource,
         update: updateResource,
         remove: removeResource
-    }] = useList<WebFullResource>([]);
+    }] = useList<OmegaWebResource>([]);
 
-    const handleClickEventModification = useCallback((data: WebFullResource) => {
+    const handleClickEventModification = useCallback((data: OmegaWebResource) => {
         setPageSelected(data);
         setCurrenState(LayoutStates.UPDATE);
     }, []);
@@ -62,7 +62,7 @@ const DeveloperPages: React.FC = () => {
         removeResource('id', id);
     }, [removeResource]);
 
-    const handleRow = useCallback((row: WebFullResource) => {
+    const handleRow = useCallback((row: OmegaWebResource) => {
         const Icon = NavIcon[row.icon];
         return <ListRow
             key={row.id}
@@ -93,11 +93,11 @@ const DeveloperPages: React.FC = () => {
         </ListRow>
     }, [handleClickEventModification, handleClickEventDelete]);
 
-    const handleFormSubmittionEventCreate = useCallback((value: WebFullResource) => {
+    const handleFormSubmittionEventCreate = useCallback((value: OmegaWebResource) => {
         appendResource(value);
     }, [appendResource])
 
-    const handleFormSubmittionEventUpdate = useCallback((value: WebFullResource) => {
+    const handleFormSubmittionEventUpdate = useCallback((value: OmegaWebResource) => {
         updateResource('id', value.id, value);
     }, [updateResource])
 
@@ -113,7 +113,7 @@ const DeveloperPages: React.FC = () => {
 
     const view = useMemo((): Record<LayoutStates, React.ReactNode> => ({
         [LayoutStates.DEFAULT]: (
-            <ListLayout<WebFullResource>
+            <ListLayout<OmegaWebResource>
                 dock={<ButtonResponsive
                     label='Nueva Pagina'
                     onClick={handleClickEventCreate} />}

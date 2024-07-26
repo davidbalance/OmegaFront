@@ -1,4 +1,4 @@
-import { GETSelectorOptionResponseDto } from "@/lib/dtos/selector/response.dto";
+import { GetSelectorOptionResponseDto } from "@/lib/dtos/selector/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get } from "@/lib/fetcher/fetcher";
@@ -10,8 +10,8 @@ export async function GET(
     { params }: { params: { group: number } }
 ) {
     try {
-        const getGroupSelector = withAuth<any, GETSelectorOptionResponseDto<number>>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { options }: GETSelectorOptionResponseDto<number> = await getGroupSelector(endpoints.SELECTOR.LOCATION.COMPANY(params.group), {});
+        const getGroupSelector = withAuth<any, GetSelectorOptionResponseDto<number>>(get, DEFAULT_WITH_AUTH_OPTIONS);
+        const { options }: GetSelectorOptionResponseDto<number> = await getGroupSelector(endpoints.SELECTOR.LOCATION.COMPANY(params.group), {});
         return NextResponse.json(options, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

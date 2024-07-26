@@ -14,7 +14,7 @@ export async function PATCH(
     try {
         const data = await req.json();
         const patchApiKey = withAuth<PATCHApiKeyRequestDto, PATCHApiKeyResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const apikey: PATCHApiKeyResponseDto = await patchApiKey(endpoints.AUTHENTICATION.API_KEY.UPDATE(params.id),
+        const apikey: PATCHApiKeyResponseDto = await patchApiKey(endpoints.AUTHENTICATION.API_KEY.UPDATE_ONE(params.id),
             {
                 body: data,
                 headers: CONTENT_TYPE_APPLICATION_JSON

@@ -7,21 +7,9 @@ import { ActionColumnProps, ColumnOptions, TableLayout } from '@/components/layo
 import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
 import { useFetch } from '@/hooks/useFetch'
 import { useList } from '@/hooks/useList';
-import { Doctor } from '@/lib/dtos/user/doctor.response.dto';
-import { User } from '@/lib/dtos/user/user.response.dto';
+import { Doctor } from '@/lib/dtos/user/doctor/base.response.dto';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-
-type DoctorDataType = Omit<Doctor, 'user'> & Omit<User, 'id'> & { user: number, hasCredential: boolean };
-const parseDoctor = (patients: Doctor[]): DoctorDataType[] => patients.map<DoctorDataType>((e) => ({
-    id: e.id,
-    dni: e.user.dni,
-    name: e.user.name,
-    lastname: e.user.lastname,
-    email: e.user.email,
-    user: e.user.id,
-    hasCredential: e.user.hasCredential
-}));
 
 enum LayoutState {
     DEFAULT,
@@ -30,7 +18,7 @@ enum LayoutState {
     UPDATE_COMPANY,
 }
 
-const columnsDoctor: ColumnOptions<DoctorDataType>[] = [
+const columnsDoctor: ColumnOptions<Doctor>[] = [
     { key: 'dni', name: 'CI' },
     { key: 'name', name: 'Nombre' },
     { key: 'lastname', name: 'Apellido' },
@@ -40,7 +28,7 @@ const columnsDoctor: ColumnOptions<DoctorDataType>[] = [
 const DoctorPage: React.FC = () => {
 
     const [currentState, setCurrentState] = useState<LayoutState>(LayoutState.DEFAULT);
-    const [selectedDoctor, setSelectedDoctor] = useState<DoctorDataType | null>(null);
+    const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
 
     const {
         data: fetchData,
@@ -53,21 +41,19 @@ const DoctorPage: React.FC = () => {
         override: doctorOverride,
         remove: doctorRemove,
         update: doctorUpdate
-    }] = useList<DoctorDataType>([]);
+    }] = useList<Doctor>([]);
 
-    const parsedDoctors = useMemo(() => parseDoctor(fetchData || []), [fetchData])
-
-    const handleClickEventCreateCredential = useCallback((data: DoctorDataType) => {
+    const handleClickEventCreateCredential = useCallback((data: Doctor) => {
         setSelectedDoctor(data);
         setCurrentState(LayoutState.CREATE_CREDENTIAL);
     }, []);
 
-    const handleClickEventAssignCompany = useCallback((data: DoctorDataType) => {
+    const handleClickEventAssignCompany = useCallback((data: Doctor) => {
         setSelectedDoctor(data);
         setCurrentState(LayoutState.UPDATE_COMPANY);
     }, []);
 
-    const handleClickEventSignatureUpdaload = useCallback((data: DoctorDataType) => {
+    const handleClickEventSignatureUpdaload = useCallback((data: Doctor) => {
         setCurrentState(LayoutState.UPLOAD_SIGNATURE);
         setSelectedDoctor(data);
     }, []);
@@ -77,7 +63,7 @@ const DoctorPage: React.FC = () => {
         setSelectedDoctor(null);
     }, []);
 
-    const handleTableAction = useCallback((prop: ActionColumnProps<DoctorDataType>) => (
+    const handleTableAction = useCallback((prop: ActionColumnProps<Doctor>) => (
         <DoctorActionMenu
             onCreateCredential={() => handleClickEventCreateCredential(prop.value)}
             onAssignCompany={() => handleClickEventAssignCompany(prop.value)}
@@ -95,8 +81,9 @@ const DoctorPage: React.FC = () => {
     }, [fetchError]);
 
     useEffect(() => {
-        if (parsedDoctors.length > 0) doctorOverride(parsedDoctors);
-    }, [parsedDoctors, doctorOverride]);
+        if (fetchData)
+            doctorOverride(fetchData);
+    }, [fetchData, doctorOverride]);
 
     const view = useMemo(() => ({
         [LayoutState.CREATE_CREDENTIAL]: (
@@ -119,7 +106,7 @@ const DoctorPage: React.FC = () => {
                 onClose={handleCloseEvent} />
         ),
         [LayoutState.DEFAULT]: (
-            <TableLayout<DoctorDataType>
+            <TableLayout<Doctor>
                 title={'Medicos'}
                 columns={columnsDoctor}
                 data={doctors}

@@ -3,9 +3,9 @@ import { SimpleGrid, rem, TextInput, Box, Button } from '@mantine/core';
 import { IconId, IconAt } from '@tabler/icons-react';
 import { joiResolver, useForm } from '@mantine/form';
 import Joi from 'joi';
-import { User } from '@/lib/dtos/user/user.response.dto';
+import { User } from '@/lib/dtos/user/user/base.response.dto';
 
-type IUserForm = Omit<User, 'id'>;
+type IUserForm = Omit<User, 'id' | 'hasCredential'>;
 
 const userSchema = Joi.object<IUserForm>({
     name: Joi

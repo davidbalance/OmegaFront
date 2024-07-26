@@ -14,7 +14,7 @@ export async function PATCH(
     try {
         const data: PATCHAreaRequestDto = await req.json();
         const patchArea = withAuth<PATCHAreaRequestDto, PATCHAreaResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const area: PATCHAreaResponseDto = await patchArea(endpoints.LOCATION.AREA.FIND_ONE_AND_UPDATE(params.id), {
+        const area: PATCHAreaResponseDto = await patchArea(endpoints.LOCATION.AREA.UPDATE_ONE(params.id), {
             body: data,
             headers: CONTENT_TYPE_APPLICATION_JSON
         });
@@ -34,7 +34,7 @@ export async function DELETE(
 ) {
     try {
         const deleteArea = withAuth<any, any>(del, DEFAULT_WITH_AUTH_OPTIONS);
-        await deleteArea(endpoints.LOCATION.AREA.FIND_ONE_AND_DELETE(params.id), {
+        await deleteArea(endpoints.LOCATION.AREA.DELETE_ONE(params.id), {
             headers: CONTENT_TYPE_APPLICATION_JSON
         });
         return NextResponse.json({}, { status: 200 });

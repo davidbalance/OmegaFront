@@ -3,14 +3,14 @@
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { ListElement } from '@/components/layout/list-layout/types';
-import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
+import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { MedicalReportForm } from '@/components/medical/report/form/MedicalReportForm';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
-import { MedicalClient } from '@/lib/dtos/medical/client/response.dto';
-import { MedicalOrder } from '@/lib/dtos/medical/order/response.dto';
-import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
+import { MedicalClient } from '@/lib/dtos/medical/client/base.response.dto';
+import { MedicalOrder } from '@/lib/dtos/medical/order/base.response.dto';
+import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import { Title, Grid, Flex, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';

@@ -1,4 +1,4 @@
-import { GETDoctorArrayResponseDto } from "@/lib/dtos/user/doctor.response.dto";
+import { GetDoctorArrayResponseDto } from "@/lib/dtos/user/doctor/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get } from "@/lib/fetcher/fetcher";
@@ -7,11 +7,11 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const getDoctors = withAuth<any, GETDoctorArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { doctors }: GETDoctorArrayResponseDto = await getDoctors(endpoints.USER.DOCTOR.FIND_ALL, {});
-        return NextResponse.json(doctors, { status: 200 });
+        const getDoctors = withAuth<any, GetDoctorArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
+        const { data }: GetDoctorArrayResponseDto = await getDoctors(endpoints.USER.DOCTOR.FIND_ALL, {});
+        return NextResponse.json(data, { status: 200 });
     } catch (error) {
-        
+
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
         } else {

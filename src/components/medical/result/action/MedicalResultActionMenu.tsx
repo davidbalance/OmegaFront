@@ -1,13 +1,14 @@
 import { useFetch } from '@/hooks/useFetch';
-import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { blobFile } from '@/lib/utils/blob-to-file';
 import { Menu, MenuTarget, ActionIcon, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload, IconTrash } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useState } from 'react'
+import { MedicalResultModalDiseases } from '../modal/MedicalResultModalDiseases';
+import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 
-type MedicalResultWithoutOrder = Omit<MedicalResult, 'order'>;
+type MedicalResultWithoutOrder = MedicalResult;
 interface MedicalResultActionMenuProps {
     /**
      * Valores del resultado medico usados en la inicializacion del componente.
@@ -40,7 +41,7 @@ interface MedicalResultActionMenuProps {
      * Funcion que es invocada cuando se llama al evento de creacion de reporte medico.
      * @returns 
      */
-    onDiseaseModification?: () => void;
+    onDiseaseModification?: (value: MedicalResult) => void;
     /**
      * Estado que habilita la eliminacion de un archivo de resultado medico.
      */
@@ -55,6 +56,11 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     onUploadResult,
     onCreateReport
 }) => {
+
+    const [openedDiseaseModal, {
+        open: OpenDiseaseModal,
+        close: CloseDiseaseModal
+    }] = useDisclosure(false);
 
     const [fileRemove, {
         close: fileRemoveClose,
@@ -83,11 +89,6 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     } = useFetch(`/api/medical/file/result/${data.id}`, 'DELETE', { loadOnMount: false });
 
     const [shouldDelete, setShouldDelete] = useState<boolean>(false);
-
-
-    const handleClickDiseaseModification = useCallback(() => {
-        onDiseaseModification?.();
-    }, [onDiseaseModification]);
 
     const handleClickEventFileResultDownload = useCallback(() => {
         fileResultReload();
@@ -146,64 +147,84 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         }
     }, [deleteResultFileData, deleteResultFileReset, onDeleteResultFile, fileRemoveClose]);
 
+    const handleClickEventDiseaseModification = useCallback(() => {
+        OpenDiseaseModal();
+    }, [OpenDiseaseModal]);
+
+    const handleExamModalCloseEvent = useCallback(() => {
+        CloseDiseaseModal();
+    }, [CloseDiseaseModal]);
+
+    const handleMedicalOrderResultFormSubmittion = useCallback((newValue: MedicalResult) => {
+        onDiseaseModification?.(newValue);
+        handleExamModalCloseEvent();
+    }, [onDiseaseModification, handleExamModalCloseEvent]);
+
     return (
-        <Menu>
-            <MenuTarget>
-                <ActionIcon
-                    variant="transparent"
-                    loading={fileRemove || fileResultLoading || fileReportLoading}>
-                    <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                </ActionIcon>
-            </MenuTarget>
-            <Menu.Dropdown>
-                {(onDiseaseModification || onUploadResult || downloadResult) && <Menu.Label>Resultados medicos</Menu.Label>}
-                {onDiseaseModification && (
-                    <Menu.Item
-                        onClick={handleClickDiseaseModification}
-                        leftSection={
-                            <IconVirus style={{ width: rem(16), height: rem(16) }} />}
-                    >
-                        Modificar morbilidades
-                    </Menu.Item>
+        <>
+            <MedicalResultModalDiseases
+                medicalResult={data}
+                opened={openedDiseaseModal}
+                onClose={handleExamModalCloseEvent}
+                onFormSubmitted={handleMedicalOrderResultFormSubmittion} />
+            <Menu>
+                <MenuTarget>
+                    <ActionIcon
+                        variant="transparent"
+                        loading={fileRemove || fileResultLoading || fileReportLoading}>
+                        <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                    </ActionIcon>
+                </MenuTarget>
+                <Menu.Dropdown>
+                    {(onDiseaseModification || onUploadResult || downloadResult) && <Menu.Label>Resultados medicos</Menu.Label>}
+                    {onDiseaseModification && (
+                        <Menu.Item
+                            onClick={handleClickEventDiseaseModification}
+                            leftSection={
+                                <IconVirus style={{ width: rem(16), height: rem(16) }} />}
+                        >
+                            Modificar morbilidades
+                        </Menu.Item>
 
-                )}
-                {downloadResult && (
-                    <Menu.Item onClick={handleClickEventFileResultDownload} leftSection={<IconDownload style={{ width: rem(16), height: rem(16) }} />}>
-                        Descargar resultado
-                    </Menu.Item>
-                )}
-                {(onUploadResult) && (
-                    <Menu.Item onClick={handleClickEventFileResultUpload} leftSection={<IconUpload style={{ width: rem(16), height: rem(16) }} />}>
-                        Subir resultado
-                    </Menu.Item>
-                )}
-                {(onDeleteResultFile) && (
-                    <Menu.Item
-                        onClick={handleResultFileEventDeleteFile}
-                        leftSection={
-                            <IconTrash style={{ width: rem(16), height: rem(16) }} />
-                        }>
-                        Eliminar Archivo
-                    </Menu.Item>
-                )}
-                {(onDiseaseModification || downloadResult) && <Menu.Divider />}
+                    )}
+                    {downloadResult && (
+                        <Menu.Item onClick={handleClickEventFileResultDownload} leftSection={<IconDownload style={{ width: rem(16), height: rem(16) }} />}>
+                            Descargar resultado
+                        </Menu.Item>
+                    )}
+                    {(onUploadResult) && (
+                        <Menu.Item onClick={handleClickEventFileResultUpload} leftSection={<IconUpload style={{ width: rem(16), height: rem(16) }} />}>
+                            Subir resultado
+                        </Menu.Item>
+                    )}
+                    {(onDeleteResultFile) && (
+                        <Menu.Item
+                            onClick={handleResultFileEventDeleteFile}
+                            leftSection={
+                                <IconTrash style={{ width: rem(16), height: rem(16) }} />
+                            }>
+                            Eliminar Archivo
+                        </Menu.Item>
+                    )}
+                    {(onDiseaseModification || downloadResult) && <Menu.Divider />}
 
-                {(downloadReport || onCreateReport) && <Menu.Label>Reporteria medica</Menu.Label>}
-                {onCreateReport && (
-                    <Menu.Item
-                        leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
-                        onClick={handleClickEventCreateReport}
-                    >
-                        Elaborar reporte
-                    </Menu.Item>
-                )}
-                {(downloadReport && !!data.report) && (
-                    <Menu.Item onClick={handleClickEventFileReportDownload} leftSection={<IconDownload style={{ width: rem(16), height: rem(16) }} />}>
-                        Descargar reporte
-                    </Menu.Item>
-                )}
-            </Menu.Dropdown>
-        </Menu>
+                    {(downloadReport || onCreateReport) && <Menu.Label>Reporteria medica</Menu.Label>}
+                    {onCreateReport && (
+                        <Menu.Item
+                            leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
+                            onClick={handleClickEventCreateReport}
+                        >
+                            Elaborar reporte
+                        </Menu.Item>
+                    )}
+                    {(downloadReport && !!data.report) && (
+                        <Menu.Item onClick={handleClickEventFileReportDownload} leftSection={<IconDownload style={{ width: rem(16), height: rem(16) }} />}>
+                            Descargar reporte
+                        </Menu.Item>
+                    )}
+                </Menu.Dropdown>
+            </Menu>
+        </>
     )
 }
 

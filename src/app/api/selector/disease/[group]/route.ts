@@ -3,15 +3,15 @@ import { get } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
-import { GETSelectorOptionResponseDto } from "@/lib/dtos/selector/response.dto";
+import { GetSelectorOptionResponseDto } from "@/lib/dtos/selector/response.dto";
 
 export async function GET(
     _: NextRequest,
     { params }: { params: { group: number } }
 ) {
     try {
-        const getDiseaseSelector = withAuth<any, GETSelectorOptionResponseDto<number>>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { options }: GETSelectorOptionResponseDto<number> = await getDiseaseSelector(endpoints.SELECTOR.DISEASE(params.group), {});
+        const getDiseaseSelector = withAuth<any, GetSelectorOptionResponseDto<number>>(get, DEFAULT_WITH_AUTH_OPTIONS);
+        const { options }: GetSelectorOptionResponseDto<number> = await getDiseaseSelector(endpoints.SELECTOR.DISEASE(params.group), {});
         return NextResponse.json(options, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {

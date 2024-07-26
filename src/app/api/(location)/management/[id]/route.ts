@@ -14,7 +14,7 @@ export async function PATCH(
     try {
         const data: PATCHManagementRequestDto = await req.json();
         const patchManagement = withAuth<PATCHManagementRequestDto, PATCHManagementResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const management: PATCHManagementResponseDto = await patchManagement(endpoints.LOCATION.MANAGEMENT.FIND_ONE_AND_UPDATE(params.id), {
+        const management: PATCHManagementResponseDto = await patchManagement(endpoints.LOCATION.MANAGEMENT.UPDATE_ONE(params.id), {
             body: data,
             headers: CONTENT_TYPE_APPLICATION_JSON
         });
@@ -34,7 +34,7 @@ export async function DELETE(
 ) {
     try {
         const deleteArea = withAuth<any, any>(del, DEFAULT_WITH_AUTH_OPTIONS);
-        await deleteArea(endpoints.LOCATION.MANAGEMENT.FIND_ONE_AND_DELETE(params.id), {
+        await deleteArea(endpoints.LOCATION.MANAGEMENT.DELETE_ONE(params.id), {
             headers: CONTENT_TYPE_APPLICATION_JSON
         });
         return NextResponse.json({}, { status: 200 });
