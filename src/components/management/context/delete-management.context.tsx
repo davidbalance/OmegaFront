@@ -1,5 +1,5 @@
 import { useFetch } from "@/hooks/useFetch";
-import { Management } from "@/lib/dtos/location/management/response.dto";
+import { Management } from "@/lib/dtos/location/management/base.response.dto";
 import { notifications } from "@mantine/notifications";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 

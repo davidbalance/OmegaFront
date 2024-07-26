@@ -2,8 +2,8 @@ import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 import { useFetch } from '@/hooks/useFetch';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Area } from '@/lib/dtos/location/area/response.dto';
 import { useDeleteArea } from '../context/delete-area.context';
+import { Area } from '@/lib/dtos/location/area/base.response.dto';
 
 interface ExtendedFunctionalityProps {
   area: Area;

@@ -1,6 +1,6 @@
 import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
-import { PATCHManagementRequestDto } from "@/lib/dtos/location/management/request.dto";
-import { PATCHManagementResponseDto } from "@/lib/dtos/location/management/response.dto";
+import { PatchManagementRequestDto } from "@/lib/dtos/location/management/request.dto";
+import { PatchManagementResponseDto } from "@/lib/dtos/location/management/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { del, patch } from "@/lib/fetcher/fetcher";
@@ -12,9 +12,9 @@ export async function PATCH(
     { params }: { params: { id: number } }
 ) {
     try {
-        const data: PATCHManagementRequestDto = await req.json();
-        const patchManagement = withAuth<PATCHManagementRequestDto, PATCHManagementResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const management: PATCHManagementResponseDto = await patchManagement(endpoints.LOCATION.MANAGEMENT.UPDATE_ONE(params.id), {
+        const data: PatchManagementRequestDto = await req.json();
+        const patchManagement = withAuth<PatchManagementRequestDto, PatchManagementResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
+        const management: PatchManagementResponseDto = await patchManagement(endpoints.LOCATION.MANAGEMENT.UPDATE_ONE(params.id), {
             body: data,
             headers: CONTENT_TYPE_APPLICATION_JSON
         });

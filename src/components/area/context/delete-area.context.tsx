@@ -1,5 +1,5 @@
 import { useFetch } from "@/hooks/useFetch";
-import { Area } from "@/lib/dtos/location/area/response.dto";
+import { Area } from "@/lib/dtos/location/area/base.response.dto";
 import { notifications } from "@mantine/notifications";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 

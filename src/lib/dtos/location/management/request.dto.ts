@@ -1,7 +1,5 @@
-export interface POSTManagementRequestDto {
-    name: string;
-}
+import { ManagementRequest } from "./base.request.dto";
 
-export interface PATCHManagementRequestDto {
-    name: string;
-}
+export interface PostManagementRequestDto extends ManagementRequest { }
+
+export interface PatchManagementRequestDto extends ManagementRequest { }

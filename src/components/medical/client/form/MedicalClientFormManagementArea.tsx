@@ -1,5 +1,5 @@
-import { Area } from '@/lib/dtos/location/area/response.dto'
-import { Management } from '@/lib/dtos/location/management/response.dto'
+import { Area } from '@/lib/dtos/location/area/base.response.dto';
+import { Management } from '@/lib/dtos/location/management/base.response.dto';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto'
 import { Box, rem, Select, ComboboxItem, Button } from '@mantine/core'
 import { notifications } from '@mantine/notifications'

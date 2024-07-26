@@ -1,6 +1,6 @@
 import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
-import { PATCHAreaRequestDto } from "@/lib/dtos/location/area/request.dto";
-import { PATCHAreaResponseDto } from "@/lib/dtos/location/area/response.dto";
+import { PatchAreaRequestDto } from "@/lib/dtos/location/area/request.dto";
+import { PatchAreaResponseDto } from "@/lib/dtos/location/area/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { del, patch } from "@/lib/fetcher/fetcher";
@@ -12,9 +12,9 @@ export async function PATCH(
     { params }: { params: { id: number } }
 ) {
     try {
-        const data: PATCHAreaRequestDto = await req.json();
-        const patchArea = withAuth<PATCHAreaRequestDto, PATCHAreaResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const area: PATCHAreaResponseDto = await patchArea(endpoints.LOCATION.AREA.UPDATE_ONE(params.id), {
+        const data: PatchAreaRequestDto = await req.json();
+        const patchArea = withAuth<PatchAreaRequestDto, PatchAreaResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
+        const area: PatchAreaResponseDto = await patchArea(endpoints.LOCATION.AREA.UPDATE_ONE(params.id), {
             body: data,
             headers: CONTENT_TYPE_APPLICATION_JSON
         });

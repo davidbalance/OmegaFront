@@ -14,8 +14,8 @@ import { ManagementFormCreate } from '@/components/management/form/ManagementFor
 import { ManagementFormUpdate } from '@/components/management/form/ManagementFormUpdate';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
-import { Area } from '@/lib/dtos/location/area/response.dto';
-import { Management } from '@/lib/dtos/location/management/response.dto';
+import { Area } from '@/lib/dtos/location/area/base.response.dto';
+import { Management } from '@/lib/dtos/location/management/base.response.dto';
 import { Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -206,7 +206,7 @@ const ManagementPage: React.FC = () => {
 
     const handleFormSubmittedEventUpdateArea = useCallback((newArea: Area) => {
         areaUpdate('id', newArea.id, newArea);
-        if (selectedManagement) {
+        if (selectedManagement && selectedManagement.areas) {
             const areaIndex = selectedManagement.areas.findIndex(e => e.id === newArea.id);
             const newAreaArr = selectedManagement.areas;
             newAreaArr[areaIndex] = newArea;

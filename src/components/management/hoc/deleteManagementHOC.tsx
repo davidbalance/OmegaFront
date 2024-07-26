@@ -1,9 +1,9 @@
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 import { useFetch } from '@/hooks/useFetch';
-import { Management } from '@/lib/dtos/location/management/response.dto';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDeleteManagement } from '../context/delete-management.context';
+import { Management } from '@/lib/dtos/location/management/base.response.dto';
 
 interface ExtendedFunctionalityProps {
   management: Management;

@@ -5,8 +5,8 @@ import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
-import { Area } from '@/lib/dtos/location/area/response.dto';
 import { AreaForm } from './AreaForm';
+import { Area } from '@/lib/dtos/location/area/base.response.dto';
 
 type AreaFormCreateProps = {
     /**
