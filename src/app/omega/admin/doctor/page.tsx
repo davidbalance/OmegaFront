@@ -65,6 +65,8 @@ const DoctorPage: React.FC = () => {
 
     const handleTableAction = useCallback((prop: ActionColumnProps<Doctor>) => (
         <DoctorActionMenu
+            doctor={prop.value}
+            hasFile={prop.value.hasFile}
             onCreateCredential={() => handleClickEventCreateCredential(prop.value)}
             onAssignCompany={() => handleClickEventAssignCompany(prop.value)}
             createCredential={!prop.value.hasCredential}
@@ -74,6 +76,10 @@ const DoctorPage: React.FC = () => {
 
     const handleFormSubmittion = useCallback((id: number) => {
         doctorUpdate('user', id, { hasCredential: true });
+    }, [doctorUpdate]);
+
+    const handleFormSubmitUploadSignature = useCallback((id: number) => {
+        doctorUpdate('id', id, { hasFile: true });
     }, [doctorUpdate]);
 
     useEffect(() => {
@@ -97,6 +103,7 @@ const DoctorPage: React.FC = () => {
         ),
         [LayoutState.UPLOAD_SIGNATURE]: (
             <DoctorFormUploadSignature
+                onFormSubmittion={handleFormSubmitUploadSignature}
                 doctor={selectedDoctor?.id!}
                 onClose={handleCloseEvent} />
         ),

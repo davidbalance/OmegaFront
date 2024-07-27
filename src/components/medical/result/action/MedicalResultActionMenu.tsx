@@ -3,10 +3,11 @@ import { blobFile } from '@/lib/utils/blob-to-file';
 import { Menu, MenuTarget, ActionIcon, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload, IconTrash } from '@tabler/icons-react';
+import { IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload, IconTrash, IconEye } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useState } from 'react'
 import { MedicalResultModalDiseases } from '../modal/MedicalResultModalDiseases';
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
+import BlobPreview from '@/components/blob/preview/BlobPreview';
 
 type MedicalResultWithoutOrder = MedicalResult;
 interface MedicalResultActionMenuProps {
@@ -14,6 +15,10 @@ interface MedicalResultActionMenuProps {
      * Valores del resultado medico usados en la inicializacion del componente.
      */
     data: MedicalResultWithoutOrder;
+    /**
+     * Valor que indica si se muestra el un resultado o reporte sin necesidad de descargar
+     */
+    preview?: boolean;
     /**
      * Estado que habilita la descarga de un reporte medico.
      */
@@ -49,13 +54,17 @@ interface MedicalResultActionMenuProps {
 }
 const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     data,
+    preview,
     downloadReport,
     downloadResult,
     onDeleteResultFile,
     onDiseaseModification,
     onUploadResult,
-    onCreateReport
+    onCreateReport,
 }) => {
+
+    const [blob, setBlob] = useState<Blob | null>(null);
+    const [previewBlob, setPreviewBlob] = useState<boolean>(false);
 
     const [openedDiseaseModal, {
         open: OpenDiseaseModal,
@@ -91,8 +100,14 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     const [shouldDelete, setShouldDelete] = useState<boolean>(false);
 
     const handleClickEventFileResultDownload = useCallback(() => {
+        setPreviewBlob(false);
         fileResultReload();
         notifications.show({ message: 'La descarga ha comenzado', color: 'green' });
+    }, [fileResultReload]);
+
+    const handleClickEventFileResultPreview = useCallback(() => {
+        setPreviewBlob(true);
+        fileResultReload();
     }, [fileResultReload]);
 
     const handleClickEventFileResultUpload = useCallback(() => {
@@ -100,8 +115,14 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     }, [onUploadResult]);
 
     const handleClickEventFileReportDownload = useCallback(() => {
+        setPreviewBlob(false);
         fileReportReload();
         notifications.show({ message: 'La descarga ha comenzado', color: 'green' });
+    }, [fileReportReload]);
+
+    const handleClickEventFileReportPreview = useCallback(() => {
+        setPreviewBlob(true);
+        fileReportReload();
     }, [fileReportReload]);
 
     const handleClickEventCreateReport = useCallback(() => {
@@ -114,11 +135,15 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
 
     useEffect(() => {
         if (fileResultBlob || fileReportBlob) {
-            if (fileResultBlob) blobFile(fileResultBlob, `${data.examName}.pdf`);
-            else if (fileReportBlob) blobFile(fileReportBlob, `${data.examName}.pdf`);
+            if (previewBlob) {
+                setBlob(fileResultBlob || fileReportBlob);
+            } else {
+                if (fileResultBlob) blobFile(fileResultBlob, `${data.examName}.pdf`);
+                else if (fileReportBlob) blobFile(fileReportBlob, `${data.examName}.pdf`);
+                notifications.show({ message: 'Descarga completa', color: 'green' });
+            }
             fileResultReset();
             fileReportReset();
-            notifications.show({ message: 'Descarga completa', color: 'green' });
         }
     }, [fileResultBlob, fileReportBlob, fileResultReset, fileReportReset, data]);
 
@@ -160,6 +185,11 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         handleExamModalCloseEvent();
     }, [onDiseaseModification, handleExamModalCloseEvent]);
 
+    const handleModalEventCloseBlobPreview = useCallback(() => {
+        setPreviewBlob(false);
+        setBlob(null);
+    }, []);
+
     return (
         <>
             <MedicalResultModalDiseases
@@ -167,6 +197,10 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
                 opened={openedDiseaseModal}
                 onClose={handleExamModalCloseEvent}
                 onFormSubmitted={handleMedicalOrderResultFormSubmittion} />
+            <BlobPreview
+                blob={blob}
+                opened={previewBlob && !!blob}
+                onClose={handleModalEventCloseBlobPreview} />
             <Menu>
                 <MenuTarget>
                     <ActionIcon
@@ -188,8 +222,17 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
 
                     )}
                     {downloadResult && (
-                        <Menu.Item onClick={handleClickEventFileResultDownload} leftSection={<IconDownload style={{ width: rem(16), height: rem(16) }} />}>
+                        <Menu.Item onClick={handleClickEventFileResultDownload} leftSection={(
+                            <IconDownload style={{ width: rem(16), height: rem(16) }} />
+                        )}>
                             Descargar resultado
+                        </Menu.Item>
+                    )}
+                    {downloadResult && preview && (
+                        <Menu.Item onClick={handleClickEventFileResultPreview} leftSection={(
+                            <IconEye style={{ width: rem(16), height: rem(16) }} />
+                        )}>
+                            Visualizar resultado
                         </Menu.Item>
                     )}
                     {(onUploadResult) && (
@@ -218,8 +261,17 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
                         </Menu.Item>
                     )}
                     {(downloadReport && !!data.report) && (
-                        <Menu.Item onClick={handleClickEventFileReportDownload} leftSection={<IconDownload style={{ width: rem(16), height: rem(16) }} />}>
+                        <Menu.Item onClick={handleClickEventFileReportDownload} leftSection={(
+                            <IconDownload style={{ width: rem(16), height: rem(16) }} />
+                        )}>
                             Descargar reporte
+                        </Menu.Item>
+                    )}
+                    {downloadReport && preview && (
+                        <Menu.Item onClick={handleClickEventFileReportPreview} leftSection={(
+                            <IconEye style={{ width: rem(16), height: rem(16) }} />
+                        )}>
+                            Visualizar reporte
                         </Menu.Item>
                     )}
                 </Menu.Dropdown>

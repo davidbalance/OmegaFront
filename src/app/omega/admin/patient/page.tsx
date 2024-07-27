@@ -183,20 +183,22 @@ const PatientPage: React.FC = () => {
     const handleMedicalResultRow = useCallback((row: MedicalResult) => (
         <ListRow
             key={row.id}
-            rightSection={<MedicalResultActionMenu
-                onDiseaseModification={medicalOrderSelected?.orderStatus === 'created'
-                    ? handleMedicalOrderResultFormSubmittion
-                    : undefined}
-                downloadReport={!!row.report && row.report.hasFile}
-                downloadResult={row.hasFile}
-                onUploadResult={medicalOrderSelected?.orderStatus === 'created'
-                    ? () => handleClickEventUploadResultFile(row)
-                    : undefined}
-                onDeleteResultFile={medicalOrderSelected?.orderStatus === 'created'
-                    ? () => handleClickEventDeleteMedicalResultFile(row.id)
-                    : undefined}
-                data={row} />}
-        >
+            rightSection={(
+                <MedicalResultActionMenu
+                    preview
+                    onDiseaseModification={medicalOrderSelected?.orderStatus === 'created'
+                        ? handleMedicalOrderResultFormSubmittion
+                        : undefined}
+                    downloadReport={!!row.report && row.report.hasFile}
+                    downloadResult={row.hasFile}
+                    onUploadResult={medicalOrderSelected?.orderStatus === 'created'
+                        ? () => handleClickEventUploadResultFile(row)
+                        : undefined}
+                    onDeleteResultFile={medicalOrderSelected?.orderStatus === 'created'
+                        ? () => handleClickEventDeleteMedicalResultFile(row.id)
+                        : undefined}
+                    data={row} />
+            )}>
             <Title order={6}>{row.examName}</Title>
             {
                 (row.diseases && row.diseases.length)

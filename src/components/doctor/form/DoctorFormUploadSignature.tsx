@@ -22,7 +22,7 @@ type DoctorFormUploadSignatureProps = {
      * Funcion que es invocada cuando se envia el formulario.
      * @returns 
      */
-    onFormSubmittion?: () => void;
+    onFormSubmittion?: (id: number) => void;
 }
 const DoctorFormUploadSignature: React.FC<DoctorFormUploadSignatureProps> = ({ doctor, onClose, onFormSubmittion }) => {
     const [shouldFetch, setShouldFetch] = useState(false);
@@ -68,11 +68,11 @@ const DoctorFormUploadSignature: React.FC<DoctorFormUploadSignatureProps> = ({ d
 
     useEffect(() => {
         if (data) {
-            onFormSubmittion?.();
+            onFormSubmittion?.(doctor);
             onClose();
             reset();
         }
-    }, [data, reset, onFormSubmittion, onClose]);
+    }, [data, doctor, reset, onFormSubmittion, onClose]);
 
     return (
         <>
