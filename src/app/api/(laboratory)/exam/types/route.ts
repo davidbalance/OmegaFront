@@ -8,7 +8,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
     try {
         const getUsers = withAuth<any, GetExamTypeArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { data }: GetExamTypeArrayResponseDto = await getUsers(endpoints.LABORATORY.EXAM.TYPE.FIND_ALL, {});
+        const { data }: GetExamTypeArrayResponseDto = await getUsers(endpoints.LABORATORY.EXAM.TYPE.FIND_ALL, { cache: false });
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
         console.error(error);

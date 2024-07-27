@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET() {
     try {
         const getExamSubtype = withAuth<any, GetExamSubtypeArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { data }: GetExamSubtypeArrayResponseDto = await getExamSubtype(endpoints.LABORATORY.EXAM.TYPE.FIND_ALL, {});
+        const { data }: GetExamSubtypeArrayResponseDto = await getExamSubtype(endpoints.LABORATORY.EXAM.TYPE.FIND_ALL, { cache: false });
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
         console.error(error);

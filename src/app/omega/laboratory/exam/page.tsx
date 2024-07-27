@@ -4,6 +4,7 @@ import { ButtonResponsive } from '@/components/button/responsive/ButtonResponsiv
 import ExamSubtypeAction from '@/components/exam/subtype/action/ExamSubtypeAction';
 import { ExamSubtypeFormCreate } from '@/components/exam/subtype/form/ExamSubtypeFormCreate';
 import { ExamSubtypeFormUpdate } from '@/components/exam/subtype/form/ExamSubtypeFormUpdate';
+import { ExamSubtypeTypeFormChange } from '@/components/exam/subtype/form/ExamSubtypeTypeFormChange';
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { ListElement } from '@/components/layout/list-layout/types';
@@ -102,7 +103,10 @@ const LaboratoryExamPage = () => {
     setCurrentState(LayoutState.EXAM_SUBTYPE_UPDATE)
   }, []);
 
-  const handleChangeExamSubtypeEvent = useCallback((row: ExamSubtype) => { }, []);
+  const handleChangeExamSubtypeEvent = useCallback((row: ExamSubtype) => {
+    setExamSubtypeSelected(row);
+    setCurrentState(LayoutState.EXAM_SUBTYPE_CHANGE_TYPE);
+  }, []);
 
   const handleExamSubtypeRow = useCallback((row: ExamSubtype) => (
     <ListRow
@@ -119,7 +123,7 @@ const LaboratoryExamPage = () => {
     >
       <Text>{row.name}</Text>
     </ListRow>
-  ), [handleSubtypeSelection, examSubtypeSelected]);
+  ), [examSubtypeSelected, handleSubtypeSelection, handleDeleteExamSubtypeEvent, handleModificationExamSubtypeEvent, handleChangeExamSubtypeEvent]);
 
   const handleExamRow = useCallback((row: Exam) => (
     <ListRow
@@ -219,13 +223,37 @@ const LaboratoryExamPage = () => {
       updateSubtypes('id', data.id, data);
       updateTypes('id', examTypeSelected.id, { subtypes: currentSubtypes });
       handleClickEventClose();
+      setExamSubtypeSelected(null);
     }
   }, [
-    subtypes,
     examTypeSelected,
-    appendSubtypes,
     updateTypes,
+    updateSubtypes,
     handleClickEventClose
+  ]);
+
+  const handleFormSubmitSubtypeChangeTypeEvent = useCallback((newType: number): void => {
+    if (examTypeSelected && examSubtypeSelected) {
+      if (examTypeSelected.id !== newType) {
+        removeSubtypes('id', examSubtypeSelected.id);
+        const currentSubtypes = examTypeSelected.subtypes.filter(e => e.id !== examSubtypeSelected.id);
+        updateTypes('id', examTypeSelected.id, { subtypes: currentSubtypes });
+        const type = types.find(e => e.id === newType);
+        if (type) {
+          const newSubtypes = type.subtypes;
+          newSubtypes.push(examSubtypeSelected);
+          updateTypes('id', newType, { subtypes: newSubtypes });
+        }
+        handleClickEventClose();
+        setExamSubtypeSelected(null);
+      }
+    }
+  }, [
+    types,
+    examTypeSelected,
+    examSubtypeSelected,
+    updateTypes,
+    removeSubtypes
   ]);
 
   const view = useMemo((): Record<LayoutState, React.ReactNode> => ({
@@ -248,14 +276,24 @@ const LaboratoryExamPage = () => {
         onClose={handleClickEventClose}
         onFormSubmit={handleFormSubmitUpdateSubtypeEvent} />
     ),
-    [LayoutState.EXAM_SUBTYPE_CHANGE_TYPE]: (<></>),
+    [LayoutState.EXAM_SUBTYPE_CHANGE_TYPE]: (
+      <ExamSubtypeTypeFormChange
+        type={examTypeSelected?.id!}
+        examSubtype={examSubtypeSelected!}
+        types={types}
+        onClose={handleClickEventClose}
+        onFormSubmit={handleFormSubmitSubtypeChangeTypeEvent} />),
   }), [
     multipleLayerComponents,
     active,
-    handleCloseTierEvent,
+    types,
     examTypeSelected,
+    examSubtypeSelected,
+    handleCloseTierEvent,
     handleClickEventClose,
     handleFormSubmitCreateSubtypeEvent,
+    handleFormSubmitUpdateSubtypeEvent,
+    handleFormSubmitSubtypeChangeTypeEvent
   ]);
 
   useEffect(() => {

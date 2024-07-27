@@ -6,7 +6,7 @@ import { ExamSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dt
 import { useDeleteExamSubtype } from '../context/delete-exam-subtype-context';
 
 interface ExtendedFunctionalityProps {
-  id: number;
+  examSubtype: ExamSubtype;
   onError?: () => void;
   onStart?: () => void;
   onEnd?: () => void;
@@ -15,7 +15,7 @@ interface ExtendedFunctionalityProps {
 const deleteExamSubtypeFunctionality = <T extends object>(
   WrappedComponent: React.ComponentType<T>
 ): React.FC<T & ExtendedFunctionalityProps> => {
-  const DeleteAreaHOC: React.FC<T & ExtendedFunctionalityProps> = ({ id, onEnd, onError, onStart, ...props }: T & ExtendedFunctionalityProps) => {
+  const DeleteAreaHOC: React.FC<T & ExtendedFunctionalityProps> = ({ examSubtype, onEnd, onError, onStart, ...props }: T & ExtendedFunctionalityProps) => {
 
     const [shouldSendRequest, setShouldSendRequest] = useState<boolean>(false);
 
@@ -26,16 +26,20 @@ const deleteExamSubtypeFunctionality = <T extends object>(
       error: examSubtypeError,
       reload: examSubtypeReload,
       reset: examSubtypeReset,
-    } = useFetch(`/api/exam/subtypes/${id}`, 'DELETE', { loadOnMount: false });
+    } = useFetch(`/api/exam/subtypes/${examSubtype.id}`, 'DELETE', { loadOnMount: false });
 
     const { show } = useConfirmation();
 
     const handleClick = useCallback(async () => {
-      const userSelection = await show('El area va a ser eliminada', '¿Esta seguro?');
+      const userSelection = await show('El subtipo va a ser eliminada', '¿Esta seguro?');
       if (userSelection) {
-        setShouldSendRequest(true);
+        if (examSubtype.exams.length) {
+          notifications.show({ message: 'Este subtipo tiene examenes asociados' });
+        } else {
+          setShouldSendRequest(true);
+        }
       }
-    }, [show]);
+    }, [show, examSubtype]);
 
     useEffect(() => {
 
@@ -84,18 +88,22 @@ const deleteExamSubtypeFunctionality = <T extends object>(
 const deleteExamSubtypeFunctionalityWithContext = <T extends object>(
   WrappedComponent: React.ComponentType<T>
 ): React.FC<T & ExtendedFunctionalityProps> => {
-  const DeleteAreaHOC: React.FC<T & ExtendedFunctionalityProps> = ({ id, onEnd, onError, onStart, ...props }: T & ExtendedFunctionalityProps) => {
+  const DeleteAreaHOC: React.FC<T & ExtendedFunctionalityProps> = ({ examSubtype, onEnd, onError, onStart, ...props }: T & ExtendedFunctionalityProps) => {
 
     const { trigger } = useDeleteExamSubtype();
     const { show } = useConfirmation();
     const elementRef = useRef<HTMLElement>(null);
 
     const handleClick = useCallback(async () => {
-      const userSelection = await show('El area va a ser eliminada', '¿Esta seguro?');
+      const userSelection = await show('El subtipo va a ser eliminado', '¿Esta seguro?');
       if (userSelection) {
-        trigger(id, onStart, onEnd, onError);
+        if (examSubtype.exams.length) {
+          notifications.show({ message: 'Este subtipo tiene examenes asociados' });
+        } else {
+          trigger(examSubtype.id, onStart, onEnd, onError);
+        }
       }
-    }, [show, id, trigger, onStart, onEnd, onError]);
+    }, [show, examSubtype, trigger, onStart, onEnd, onError]);
 
     useEffect(() => {
 

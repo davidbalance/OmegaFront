@@ -4,22 +4,22 @@ import { useFetch } from '@/hooks/useFetch'
 import { Box, Button, LoadingOverlay, rem } from '@mantine/core'
 import { IconDeviceFloppy } from '@tabler/icons-react'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { ExamSubtypeForm } from './ExamSubtypeForm'
 import { ExamSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto'
-import { PatchExamSubtypeRequestDto, PostExamSubtypeRequestDto } from '@/lib/dtos/laboratory/exam/subtype/request.dto'
+import { PatchExamSubtypeRequestDto } from '@/lib/dtos/laboratory/exam/subtype/request.dto'
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle'
 import { notifications } from '@mantine/notifications'
 import { ExamType } from '@/lib/dtos/laboratory/exam/type/base.response.dto'
+import { ExamSubtypeTypeForm } from './ExamSubtypeTypeForm'
 
-interface ExamSubtypeFormChangeTypeProps {
+interface ExamSubtypeTypeFormChangeProps {
     type: number;
     examSubtype: ExamSubtype,
     types: ExamType[],
     onClose: () => void;
-    onFormSubmit?: (value: ExamSubtype) => void;
+    onFormSubmit?: (newType: number) => void;
 }
 
-const ExamSubtypeFormChangeType: React.FC<ExamSubtypeFormChangeTypeProps> = ({ type, examSubtype, types, onClose, onFormSubmit }) => {
+const ExamSubtypeTypeFormChange: React.FC<ExamSubtypeTypeFormChangeProps> = ({ type, examSubtype, types, onClose, onFormSubmit }) => {
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -35,10 +35,10 @@ const ExamSubtypeFormChangeType: React.FC<ExamSubtypeFormChangeTypeProps> = ({ t
         reset,
     } = useFetch<ExamSubtype>(`/api/exam/subtypes/${examSubtype ? examSubtype.id : ''}`, 'PATCH', { loadOnMount: false });
 
-    const handleFormSubmittion = useCallback((data: { name: string }) => {
-        request<PatchExamSubtypeRequestDto>({ ...data, type });
+    const handleFormSubmittion = useCallback((data: { type: string }) => {
+        request<PatchExamSubtypeRequestDto>({ ...examSubtype, type: parseInt(data.type) });
         setShouldRequest(true);
-    }, [request, type]);
+    }, [request, examSubtype]);
 
     useEffect(() => {
         if (error) notifications.show({ message: error.message, color: 'red' });
@@ -53,24 +53,25 @@ const ExamSubtypeFormChangeType: React.FC<ExamSubtypeFormChangeTypeProps> = ({ t
 
     useEffect(() => {
         if (data) {
-            onFormSubmit?.(data);
+            onFormSubmit?.(body.type);
             reset();
         }
-    }, [type, data, reset, onFormSubmit])
+    }, [body, data, reset, onFormSubmit])
 
     return (
         <ModularLayout pos='relative'>
             <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
             <LayoutSubFormTitle
-                title={'Formulario de actualizacion de subtipos de examenes'}
+                title={'Cambio de tipo'}
                 onClose={onClose} />
 
             <ModularBox flex={1} align='center'>
                 <Box maw={700} w='100%' pt={rem(16)} >
-                    <ExamSubtypeForm
+                    <ExamSubtypeTypeForm
                         ref={buttonRef}
-                        formData={examSubtype}
+                        formData={{ type: `${type}` }}
+                        types={types}
                         onFormSubmitted={handleFormSubmittion} />
                 </Box>
             </ModularBox>
@@ -89,4 +90,4 @@ const ExamSubtypeFormChangeType: React.FC<ExamSubtypeFormChangeTypeProps> = ({ t
     )
 }
 
-export { ExamSubtypeFormChangeType }
+export { ExamSubtypeTypeFormChange }

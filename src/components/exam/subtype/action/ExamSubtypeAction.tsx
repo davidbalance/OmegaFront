@@ -73,7 +73,7 @@ const ExamSubtypeAction: React.FC<ExamSubtypeActionButtonProps> = ({ examSubtype
                     <Menu.Divider />
                     <Menu.Label>Danger zone</Menu.Label>
                     <EnhancedDeleteItem
-                        id={examSubtype.id}
+                        examSubtype={examSubtype}
                         color="red"
                         onStart={handleStart}
                         onError={handleError}

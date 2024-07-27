@@ -14,7 +14,7 @@ export async function PATCH(
     try {
         const data: PostExamSubtypeRequestDto = await req.json();
         const patchSubtype = withAuth<PostExamSubtypeRequestDto, PostExamSubtypeResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const subtype: PostExamSubtypeResponseDto = await patchSubtype(endpoints.LABORATORY.EXAM.TYPE.UPDATE_ONE(params.id), {
+        const subtype: PostExamSubtypeResponseDto = await patchSubtype(endpoints.LABORATORY.EXAM.SUBTYPE.UPDATE_ONE(params.id), {
             body: data,
             headers: CONTENT_TYPE_APPLICATION_JSON
         });
@@ -35,7 +35,7 @@ export async function DELETE(
 ) {
     try {
         const deleteSubtype = withAuth<any, any>(del, DEFAULT_WITH_AUTH_OPTIONS);
-        await deleteSubtype(endpoints.LABORATORY.EXAM.TYPE.DELETE_ONE(params.id), {});
+        await deleteSubtype(endpoints.LABORATORY.EXAM.SUBTYPE.DELETE_ONE(params.id), {});
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
         console.error(error);

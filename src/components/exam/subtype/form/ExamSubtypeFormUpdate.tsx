@@ -6,7 +6,7 @@ import { IconDeviceFloppy } from '@tabler/icons-react'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { ExamSubtypeForm } from './ExamSubtypeForm'
 import { ExamSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto'
-import { PatchExamSubtypeRequestDto, PostExamSubtypeRequestDto } from '@/lib/dtos/laboratory/exam/subtype/request.dto'
+import { PatchExamSubtypeRequestDto } from '@/lib/dtos/laboratory/exam/subtype/request.dto'
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle'
 import { notifications } from '@mantine/notifications'
 
