@@ -15,7 +15,7 @@ const withNoFetch = <T extends object>(
         const [chunkData, , { size: chunkSizeValue }] = useChunk(sortedData, size);
         const [page, setPage] = useState<number>(1);
 
-        const total = useMemo(() => Math.ceil(filteredData.length / chunkSizeValue), [filteredData, chunkSizeValue]);
+        const total = useMemo(() => filteredData ? Math.ceil(filteredData.length / chunkSizeValue) : 0, [filteredData, chunkSizeValue]);
 
         const memoizedRows = useMemo(() => chunkData[page - 1]?.map((row) => rows(row)) || [], [rows, chunkData, page]);
 

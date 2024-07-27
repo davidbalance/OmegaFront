@@ -3,7 +3,7 @@ import { PostExamSubtypeRequestDto } from "@/lib/dtos/laboratory/exam/subtype/re
 import { GetExamSubtypeArrayResponseDto, PostExamSubtypeResponseDto } from "@/lib/dtos/laboratory/exam/subtype/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
-import { get } from "@/lib/fetcher/fetcher";
+import { get, post } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -25,8 +25,8 @@ export async function GET() {
 export async function POST(req: NextRequest) {
     try {
         const data: PostExamSubtypeRequestDto = await req.json();
-        const getExamSubtype = withAuth<PostExamSubtypeRequestDto, PostExamSubtypeResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const subtype: PostExamSubtypeResponseDto = await getExamSubtype(endpoints.LABORATORY.EXAM.TYPE.CREATE, {
+        const postExamSubtype = withAuth<PostExamSubtypeRequestDto, PostExamSubtypeResponseDto>(post, DEFAULT_WITH_AUTH_OPTIONS);
+        const subtype: PostExamSubtypeResponseDto = await postExamSubtype(endpoints.LABORATORY.EXAM.SUBTYPE.CREATE, {
             body: data,
             headers: CONTENT_TYPE_APPLICATION_JSON
         });

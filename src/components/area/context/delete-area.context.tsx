@@ -17,7 +17,7 @@ const DeleteAreaContext = createContext<DeleteAreaContextProps | undefined>(unde
 export const useDeleteArea = () => {
     const context = useContext(DeleteAreaContext);
     if (!context) {
-        throw new Error('useDeleteManagemet must be used within a DeleteAreaProvider');
+        throw new Error('useDeleteArea must be used within a DeleteAreaProvider');
     }
     return context;
 };
