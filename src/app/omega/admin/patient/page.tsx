@@ -168,7 +168,7 @@ const PatientPage: React.FC = () => {
         </ListRow>
     ), [medicalOrderSelected, handleOrderSelection, handleEventMailSend, handleEventOrderStatus]);
 
-    const handleMedicalOrderResultFormSubmittion = useCallback((data: MedicalResult) => {
+    const handleMedicalResultModification = useCallback((data: MedicalResult) => {
         medicalResultUpdate('id', data.id, data);
         if (medicalOrderSelected) {
             const updatedOrder = { ...medicalOrderSelected };
@@ -187,7 +187,10 @@ const PatientPage: React.FC = () => {
                 <MedicalResultActionMenu
                     preview
                     onDiseaseModification={medicalOrderSelected?.orderStatus === 'created'
-                        ? handleMedicalOrderResultFormSubmittion
+                        ? handleMedicalResultModification
+                        : undefined}
+                    onExamModification={medicalOrderSelected?.orderStatus === 'created'
+                        ? handleMedicalResultModification
                         : undefined}
                     downloadReport={!!row.report && row.report.hasFile}
                     downloadResult={row.hasFile}
@@ -212,7 +215,7 @@ const PatientPage: React.FC = () => {
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </ListRow>
-    ), [medicalOrderSelected, handleClickEventUploadResultFile, handleClickEventDeleteMedicalResultFile, handleMedicalOrderResultFormSubmittion]);
+    ), [medicalOrderSelected, handleClickEventUploadResultFile, handleClickEventDeleteMedicalResultFile, handleMedicalResultModification]);
 
     const handleOrderRefesh = useCallback(() => {
         setMedicalOrderSelected(null);

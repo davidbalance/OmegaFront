@@ -3,11 +3,12 @@ import { blobFile } from '@/lib/utils/blob-to-file';
 import { Menu, MenuTarget, ActionIcon, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload, IconTrash, IconEye } from '@tabler/icons-react';
+import { IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload, IconTrash, IconEye, IconStethoscope } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useState } from 'react'
 import { MedicalResultModalDiseases } from '../modal/MedicalResultModalDiseases';
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import BlobPreview from '@/components/blob/preview/BlobPreview';
+import { MedicalResultExamSelectionFormUpdateModal } from '../modal/MedicalResultExamSelectionFormUpdateModal';
 
 type MedicalResultWithoutOrder = MedicalResult;
 interface MedicalResultActionMenuProps {
@@ -51,6 +52,8 @@ interface MedicalResultActionMenuProps {
      * Estado que habilita la eliminacion de un archivo de resultado medico.
      */
     onDeleteResultFile?: () => void;
+
+    onExamModification?: (value: MedicalResult) => void;
 }
 const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     data,
@@ -61,6 +64,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     onDiseaseModification,
     onUploadResult,
     onCreateReport,
+    onExamModification
 }) => {
 
     const [blob, setBlob] = useState<Blob | null>(null);
@@ -69,6 +73,11 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     const [openedDiseaseModal, {
         open: OpenDiseaseModal,
         close: CloseDiseaseModal
+    }] = useDisclosure(false);
+
+    const [openedExamModal, {
+        open: OpenExamModal,
+        close: CloseExamModal
     }] = useDisclosure(false);
 
     const [fileRemove, {
@@ -176,27 +185,45 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         OpenDiseaseModal();
     }, [OpenDiseaseModal]);
 
-    const handleExamModalCloseEvent = useCallback(() => {
+    const handleClickEventExamModification = useCallback(() => {
+        OpenExamModal();
+    }, [OpenExamModal]);
+
+    const handleDiseaseModalCloseEvent = useCallback(() => {
         CloseDiseaseModal();
     }, [CloseDiseaseModal]);
 
     const handleMedicalOrderResultFormSubmittion = useCallback((newValue: MedicalResult) => {
         onDiseaseModification?.(newValue);
-        handleExamModalCloseEvent();
-    }, [onDiseaseModification, handleExamModalCloseEvent]);
+        handleDiseaseModalCloseEvent();
+    }, [onDiseaseModification, handleDiseaseModalCloseEvent]);
 
     const handleModalEventCloseBlobPreview = useCallback(() => {
         setPreviewBlob(false);
         setBlob(null);
     }, []);
 
+    const handleMedicalExamFormSubmittion = useCallback((newValue: MedicalResult) => {
+        onExamModification?.(newValue)
+        CloseExamModal();
+    }, [onExamModification, CloseExamModal]);
+
+    const handleExamModalCloseEvent = useCallback(() => {
+        CloseExamModal();
+    }, [CloseExamModal]);
+
     return (
         <>
             <MedicalResultModalDiseases
                 medicalResult={data}
                 opened={openedDiseaseModal}
-                onClose={handleExamModalCloseEvent}
+                onClose={handleDiseaseModalCloseEvent}
                 onFormSubmitted={handleMedicalOrderResultFormSubmittion} />
+            <MedicalResultExamSelectionFormUpdateModal
+                medicalResult={data}
+                onFormSubmitted={handleMedicalExamFormSubmittion}
+                opened={openedExamModal}
+                onClose={handleExamModalCloseEvent} />
             <BlobPreview
                 blob={blob}
                 opened={previewBlob && !!blob}
@@ -210,7 +237,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
                     </ActionIcon>
                 </MenuTarget>
                 <Menu.Dropdown>
-                    {(onDiseaseModification || onUploadResult || downloadResult) && <Menu.Label>Resultados medicos</Menu.Label>}
+                    {(onDiseaseModification || onUploadResult || onExamModification || downloadResult) && <Menu.Label>Resultados medicos</Menu.Label>}
                     {onDiseaseModification && (
                         <Menu.Item
                             onClick={handleClickEventDiseaseModification}
@@ -218,6 +245,16 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
                                 <IconVirus style={{ width: rem(16), height: rem(16) }} />}
                         >
                             Modificar morbilidades
+                        </Menu.Item>
+
+                    )}
+                    {onExamModification && (
+                        <Menu.Item
+                            onClick={handleClickEventExamModification}
+                            leftSection={
+                                <IconStethoscope style={{ width: rem(16), height: rem(16) }} />}
+                        >
+                            Modificar tipo de examen
                         </Menu.Item>
 
                     )}

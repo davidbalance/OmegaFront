@@ -36,7 +36,7 @@ const MedicalResultFormDisease = React.forwardRef<HTMLButtonElement, MedicalResu
     const diseaseOptions = useMemo(() => currentDiseases?.map(e => ({ value: `${e.id}`, label: e.name })) || [], [currentDiseases]);
 
     const cleanForm = useCallback(() => {
-        setSelectedDisease(null);
+        setSelectedDiseaseGroup(null);
         setSelectedDisease(null);
         setCommentary("")
         setCurrentDiseases([]);
@@ -99,7 +99,7 @@ const MedicalResultFormDisease = React.forwardRef<HTMLButtonElement, MedicalResu
             <LoadingOverlay visible={groupLoading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
             <Box pos='relative'>
                 <Select
-                    value={`${selectedDiseaseGroup?.key || ''}`}
+                    value={selectedDiseaseGroup ? `${selectedDiseaseGroup.key}` : null}
                     data={diseaseGroupsOptions}
                     checkIconPosition="left"
                     onChange={handleGroupChangeEvent}
@@ -113,7 +113,7 @@ const MedicalResultFormDisease = React.forwardRef<HTMLButtonElement, MedicalResu
                     maxDropdownHeight={200}
                 />
                 <Select
-                    value={`${selectedDisease?.key || ''}`}
+                    value={selectedDisease ? `${selectedDisease.key}` : null}
                     data={diseaseOptions}
                     checkIconPosition="left"
                     onChange={handleDiseaseChangeEvent}
