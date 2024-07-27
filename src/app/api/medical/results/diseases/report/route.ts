@@ -9,14 +9,14 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     try {
         const data: PostMedicalResultDiseaseReportRequestDto = await req.json();
-        const postDisease = withAuth<PostMedicalResultDiseaseReportRequestDto, Blob>(post, DEFAULT_WITH_AUTH_OPTIONS);
-        const blob: Blob = await postDisease(endpoints.MEDICAL.RESULT.DISEASE.REPORT, {
+        const postDiseaseReport = withAuth<PostMedicalResultDiseaseReportRequestDto, Blob>(post, DEFAULT_WITH_AUTH_OPTIONS);
+        const blob: Blob = await postDiseaseReport(endpoints.MEDICAL.RESULT.REPORT.DISEASE.EXPORT, {
             type: 'blob',
             body: data,
             headers: { 'Accept': 'application/*', ...CONTENT_TYPE_APPLICATION_JSON }
         });
         const headers = new Headers();
-        headers.set("Content-Type", "application/pdf");
+        headers.set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         return new NextResponse(blob, { status: 200, headers });
     } catch (error) {
         console.error(error);

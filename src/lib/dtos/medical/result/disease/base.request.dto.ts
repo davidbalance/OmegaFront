@@ -4,6 +4,6 @@ export interface MedicalResultDiseaseRequest extends Omit<MedicalResultDisease, 
 
 export interface MedicalResultDiseaseReportRequest {
     year?: number;
-    corporativeName: string;
-    companyRuc: string;
+    corporativeName?: string;
+    companyRuc?: string;
 }

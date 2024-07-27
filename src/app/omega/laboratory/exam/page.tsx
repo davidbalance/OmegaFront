@@ -252,6 +252,7 @@ const LaboratoryExamPage = () => {
     types,
     examTypeSelected,
     examSubtypeSelected,
+    handleClickEventClose,
     updateTypes,
     removeSubtypes
   ]);
