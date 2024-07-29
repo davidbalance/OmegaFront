@@ -148,7 +148,11 @@ const AdminOrderPage = () => {
         <ListRow
             key={row.id}
             rightSection={<MedicalResultActionMenu
+                preview
                 onDiseaseModification={medicalOrderSelected?.orderStatus === 'created'
+                    ? handleMedicalOrderResultFormSubmittion
+                    : undefined}
+                onExamModification={medicalOrderSelected?.orderStatus === 'created'
                     ? handleMedicalOrderResultFormSubmittion
                     : undefined}
                 downloadReport={!!row.report && row.report.hasFile}
