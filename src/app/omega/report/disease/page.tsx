@@ -25,7 +25,7 @@ const ReportDiseasePage = () => {
     reload: excelReload,
     reset: excelReset
   } = useFetch<Blob>('/api/medical/results/diseases/report', 'POST', { loadOnMount: false });
-    
+
   const handleFormSubmittedEvent = useCallback((data: MedicalResultDiseaseReportRequest) => {
     console.log(data, !data.year && !data.corporativeName && !data.companyRuc)
     if (!data.year && !data.corporativeName && !data.companyRuc) {
@@ -34,7 +34,7 @@ const ReportDiseasePage = () => {
     }
     excelRequest<PostMedicalResultDiseaseReportRequestDto>(data);
     setShouldRequest(true);
-  }, []);
+  }, [excelRequest]);
 
   useEffect(() => {
     if (excelBody && shouldRequest) {

@@ -63,12 +63,12 @@ const DoctorActionMenu: React.FC<DoctorActionMenuProps> = ({
     const handleModalEventCloseBlobPreview = useCallback(() => {
         ClosePreviewModal();
         setBlob(null);
-    }, []);
+    }, [ClosePreviewModal]);
 
     const handleClickEventFileSignaturePreview = useCallback(() => {
         OpenPreviewModal();
         fileSignatureReload();
-    }, [OpenPreviewModal]);
+    }, [OpenPreviewModal, fileSignatureReload]);
 
     useEffect(() => {
         if (fileSignatureBlob) {

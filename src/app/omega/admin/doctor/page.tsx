@@ -124,7 +124,7 @@ const DoctorPage: React.FC = () => {
                 }}
             />
         ),
-    }), [doctors, fetchLoading, handleTableAction, handleFormSubmittion, handleCloseEvent, selectedDoctor]);
+    }), [doctors, fetchLoading, handleTableAction, handleFormSubmitUploadSignature, handleFormSubmittion, handleCloseEvent, selectedDoctor]);
 
     return (
         <>{view[currentState]}</>

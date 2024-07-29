@@ -64,7 +64,7 @@ const MedicalResultExamSelectionFormUpdateModal: React.FC<MedicalResultExamSelec
             medicalResultReload();
             setShouldSendRequest(false);
         }
-    }, [medicalResultBody, medicalResultReload]);
+    }, [medicalResultBody, shouldSendRequest, medicalResultReload]);
 
     return (
         <Modal.Root

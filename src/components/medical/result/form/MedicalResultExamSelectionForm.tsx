@@ -51,7 +51,7 @@ const MedicalResultExamSelectionForm = React.forwardRef<HTMLButtonElement, Medic
         }
         setSelectedSubype(value)
         setSelectedExam(null)
-    }, []);
+    }, [subtypes]);
 
     const handleSelectExamChange = useCallback((value: string | null) => {
         setSelectedExam(value)
@@ -78,7 +78,7 @@ const MedicalResultExamSelectionForm = React.forwardRef<HTMLButtonElement, Medic
             setSubtypes(initialSubtypes || []);
             setExam(currentSubtype?.exams || []);
         }
-    }, [formData]);
+    }, [formData, types]);
 
 
     return (

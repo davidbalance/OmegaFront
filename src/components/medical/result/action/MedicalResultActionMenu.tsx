@@ -154,7 +154,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
             fileResultReset();
             fileReportReset();
         }
-    }, [fileResultBlob, fileReportBlob, fileResultReset, fileReportReset, data]);
+    }, [fileResultBlob, previewBlob, fileReportBlob, fileResultReset, fileReportReset, data]);
 
     useEffect(() => {
         if (fileReportError) notifications.show({ message: fileReportError.message, color: 'red' });

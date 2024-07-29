@@ -12,6 +12,7 @@ import { MedicalOrderActionSendButton } from '@/components/medical/order/action/
 import { MedicalOrderActionValidateButton } from '@/components/medical/order/action/MedicalOrderActionValidateButton';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
+import { MedicalResultModalDiseases } from '@/components/medical/result/modal/MedicalResultModalDiseases';
 import { PatientActionButton } from '@/components/patient/action/PatientActionButton';
 import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
 import { useFetch } from '@/hooks/useFetch';
@@ -73,7 +74,6 @@ const PatientPage: React.FC = () => {
         override: medicalResultOverride,
         update: medicalResultUpdate
     }] = useList<MedicalResult>([]);
-
 
     const handlePatientSelection = useCallback((selection: Patient): void => {
         setPatientSelected(selection);

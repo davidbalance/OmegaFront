@@ -103,7 +103,6 @@ const AdminOrderPage = () => {
         }
     }, [medicalOrderSelected, handleForceUpdateEvent, medicalResultUpdate]);
 
-
     const handleMedicalOrderRow = useCallback((row: MedicalOrderFlat) => (
         <ListRow
             key={row.id}
