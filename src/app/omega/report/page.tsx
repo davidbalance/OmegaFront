@@ -3,14 +3,14 @@
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { ListElement } from '@/components/layout/list-layout/types';
-import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
+import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { MedicalReportForm } from '@/components/medical/report/form/MedicalReportForm';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
-import { MedicalClient } from '@/lib/dtos/medical/client/response.dto';
-import { MedicalOrder } from '@/lib/dtos/medical/order/response.dto';
-import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
+import { MedicalClient } from '@/lib/dtos/medical/client/base.response.dto';
+import { MedicalOrder } from '@/lib/dtos/medical/order/base.response.dto';
+import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import { Title, Grid, Flex, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
@@ -23,7 +23,8 @@ enum LayoutStates {
 
 const patientColumns: ListElement<MedicalClient>[] = [
     { key: 'dni', name: 'Cedula' },
-    { key: 'fullname', name: 'Nombre' },
+    { key: 'name', name: 'Nombre' },
+    { key: 'lastname', name: 'Apellido' },
 ];
 
 const medicalOrderColumns: ListElement<MedicalOrder>[] = [
@@ -87,7 +88,7 @@ const MedicalReport: React.FC = () => {
             key={row.dni}
             active={row.dni === patientSelected?.dni}
             onClick={() => handlePatientSelection(row)}>
-            <Title order={6}>{`${row.fullname}`}</Title>
+            <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
             <Text>{row.dni}</Text>
         </ListRow>
     ), [patientSelected, handlePatientSelection]);
@@ -147,7 +148,7 @@ const MedicalReport: React.FC = () => {
             />,
         },
         {
-            title: patientSelected ? `Ordenes de: ${patientSelected.fullname}` : 'Ordenes',
+            title: patientSelected ? `Ordenes de: ${patientSelected.name} ${patientSelected.lastname}` : 'Ordenes',
             element: <ListLayout<MedicalOrder>
                 key='order-list-layout'
                 loading={orderLoading}

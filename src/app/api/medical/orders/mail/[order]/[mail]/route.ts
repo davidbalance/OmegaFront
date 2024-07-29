@@ -13,7 +13,7 @@ export async function GET(
     try {
         const body: POSTMedicalOrderMailRequestDto = { order: parseInt(`${params.order}`), mail: parseInt(`${params.mail}`) };
         const postMailer = withAuth<POSTMedicalOrderMailRequestDto, any>(post, DEFAULT_WITH_AUTH_OPTIONS);
-        await postMailer(endpoints.MAIL.ORDER, {
+        await postMailer(endpoints.MEDICAL.ORDER.MAIL, {
             body: body,
             headers: CONTENT_TYPE_APPLICATION_JSON
         });

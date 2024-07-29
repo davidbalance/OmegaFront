@@ -1,5 +1,4 @@
-import { useFetch } from '@/hooks/useFetch';
-import { MedicalClientEmail } from '@/lib/dtos/medical/client/response.dto';
+import { useFetch } from '@/hooks/useFetch'; import { MedicalClientEmail } from '@/lib/dtos/medical/client/email/base.response.dto';
 import { Button } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect } from 'react'
@@ -9,10 +8,6 @@ interface MedicalClientActionDefaultProps {
    * Identificador unico del correo electronico.
    */
   id: number;
-  /**
-   * DNI del cliente medico.
-   */
-  dni: string;
   /**
    * Estado que identifica si el correo se encuentra por defecto o no.
    */
@@ -27,9 +22,9 @@ interface MedicalClientActionDefaultProps {
    * @param data 
    * @returns 
    */
-  onComplete?: (data: MedicalClientEmail[]) => void;
+  onComplete?: (data: MedicalClientEmail) => void;
 }
-const MedicalClientActionDefault: React.FC<MedicalClientActionDefaultProps> = ({ state, dni, id, onClick, onComplete }) => {
+const MedicalClientActionDefault: React.FC<MedicalClientActionDefaultProps> = ({ state, id, onClick, onComplete }) => {
 
   const {
     data,
@@ -37,7 +32,7 @@ const MedicalClientActionDefault: React.FC<MedicalClientActionDefaultProps> = ({
     loading,
     reload,
     reset
-  } = useFetch<MedicalClientEmail[]>(`/api/medical/client/${dni}/email/${id}`, 'PATCH', { loadOnMount: false });
+  } = useFetch<MedicalClientEmail>(`/api/medical/client/email/${id}`, 'PATCH', { loadOnMount: false });
 
   const handleClickEvent = useCallback(() => {
     onClick?.();

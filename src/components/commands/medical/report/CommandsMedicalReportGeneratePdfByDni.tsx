@@ -7,7 +7,7 @@ import { notifications } from '@mantine/notifications';
 import { IconId, IconReport } from '@tabler/icons-react';
 import Joi from 'joi';
 import { joiResolver } from 'mantine-form-joi-resolver';
-import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 const formSchema = Joi.object({
     dni: Joi
@@ -38,7 +38,7 @@ const CommandsMedicalReportGeneratePdfByDni: React.FC = () => {
         request,
         reload,
         reset,
-    } = useFetch<any>('/api/medical/reports/recreate/pdf', 'POST', { loadOnMount: false });
+    } = useFetch<any>('/api/medical/report/recreate/pdf', 'POST', { loadOnMount: false });
 
     const { show } = useConfirmation();
 

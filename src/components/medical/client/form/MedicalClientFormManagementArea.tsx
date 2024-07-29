@@ -1,10 +1,8 @@
-import { ModularBox } from '@/components/modular/box/ModularBox'
-import { Area } from '@/lib/dtos/location/area/response.dto'
-import { Management } from '@/lib/dtos/location/management/response.dto'
+import { Area } from '@/lib/dtos/location/area/base.response.dto';
+import { Management } from '@/lib/dtos/location/management/base.response.dto';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto'
-import { LoadingOverlay, Box, TextInput, rem, ActionIcon, Select, ComboboxItem, Button } from '@mantine/core'
+import { Box, rem, Select, ComboboxItem, Button } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import { IconKey, IconDeviceFloppy } from '@tabler/icons-react'
 import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
 interface FormType {

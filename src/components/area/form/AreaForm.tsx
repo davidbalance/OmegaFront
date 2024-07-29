@@ -1,4 +1,4 @@
-import { Area } from "@/lib/dtos/location/area/response.dto";
+import { Area } from "@/lib/dtos/location/area/base.response.dto";
 import { BaseFormProps } from "@/lib/types/base-form-prop";
 import { Box, TextInput, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";

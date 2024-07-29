@@ -1,5 +1,5 @@
 import { useFetch } from '@/hooks/useFetch';
-import { CorporativeGroup } from '@/lib/dtos/location/corporative/group.response.dto';
+import { CorporativeGroup } from '@/lib/dtos/location/corporative/base.response.dto';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto';
 import { Box, Button, ComboboxItem, LoadingOverlay, Select, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -61,8 +61,7 @@ const UserFormAssignCompany = React.forwardRef<HTMLButtonElement, UserFormAssign
                 }
             }
         }
-    }, [value, fetchCorporativeGroups])
-
+    }, [value, fetchCorporativeGroups]);
 
     useEffect(() => {
         if (corporativeGroupError) notifications.show({ message: corporativeGroupError.message, color: 'red' });

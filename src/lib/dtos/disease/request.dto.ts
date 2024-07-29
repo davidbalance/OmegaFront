@@ -1,6 +1,5 @@
-export interface POSTDiseaseRequestDto {
-    name: string;
-    group: number;
-}
+import { DiseaseRequest } from "./base.request.dto";
 
-export interface PATCHDiseaseRequestDto extends Partial<POSTDiseaseRequestDto> { }
+export interface PostDiseaseRequestDto extends DiseaseRequest { }
+
+export interface PatchDiseaseRequestDto extends Partial<DiseaseRequest> { }

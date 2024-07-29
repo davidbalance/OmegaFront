@@ -1,11 +1,11 @@
 import { NavIcon } from '@/components/navbar/NavIcon';
-import { POSTWebFullResourceRequestDto } from '@/lib/dtos/web/resources.request.dto';
+import { PostOmegaWebResourceRequestDto } from '@/lib/dtos/omega/web/resource/request.dto';
 import { Box, SimpleGrid, rem, TextInput, Button, Select, Grid, Flex } from '@mantine/core'
 import { joiResolver, useForm } from '@mantine/form';
 import Joi from 'joi'
 import React, { useCallback, useMemo } from 'react'
 
-const resourceSchema = Joi.object<POSTWebFullResourceRequestDto>({
+const resourceSchema = Joi.object<PostOmegaWebResourceRequestDto>({
     name: Joi
         .string()
         .empty()
@@ -16,19 +16,19 @@ const resourceSchema = Joi.object<POSTWebFullResourceRequestDto>({
         .string()
         .empty()
         .messages({
-            "string.empty": 'Especifique un apellido'
+            "string.empty": 'Especifique una direccion'
         }),
     icon: Joi
         .string()
         .empty()
         .messages({
-            "string.empty": 'Especifique un apellido'
+            "string.empty": 'Especifique un icono'
         }),
     label: Joi
         .string()
         .empty()
         .messages({
-            "string.empty": 'Especifique un apellido'
+            "string.empty": 'Especifique una etiqueta'
         })
 });
 
@@ -36,11 +36,11 @@ interface DeveloperPageFormProps {
     /**
      * Datos para ser precargados cuando el componente es montado. 
      */
-    data?: POSTWebFullResourceRequestDto;
+    data?: PostOmegaWebResourceRequestDto;
     /**
      * Funcion que es llamada cuando se envia el formulario.
      */
-    onFormSubmittion: (data: POSTWebFullResourceRequestDto) => void;
+    onFormSubmittion: (data: PostOmegaWebResourceRequestDto) => void;
 }
 const DeveloperPageForm = React.forwardRef<HTMLButtonElement, DeveloperPageFormProps>(({ data, onFormSubmittion }, ref) => {
 
@@ -58,7 +58,7 @@ const DeveloperPageForm = React.forwardRef<HTMLButtonElement, DeveloperPageFormP
 
     const Icon = useMemo(() => NavIcon[form.values.icon as any], [form.values.icon]);
 
-    const handleFormSubmittion = useCallback((formData: POSTWebFullResourceRequestDto) => {
+    const handleFormSubmittion = useCallback((formData: PostOmegaWebResourceRequestDto) => {
         onFormSubmittion(formData);
     }, [onFormSubmittion]);
 

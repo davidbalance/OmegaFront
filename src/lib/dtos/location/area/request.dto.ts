@@ -1,9 +1,5 @@
-export interface POSTAreaRequestDto {
-    management: 0;
-    name: string;
-}
+import { AreaRequest } from "./base.request.dto";
 
-export interface PATCHAreaRequestDto {
-    management: 0;
-    name: string;
-}
+export interface PostAreaRequestDto extends AreaRequest { }
+
+export interface PatchAreaRequestDto extends AreaRequest { }

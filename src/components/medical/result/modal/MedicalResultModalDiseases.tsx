@@ -1,20 +1,21 @@
 import { useList } from '@/hooks/useList';
-import { MedicalResult, MedicalResultDisease } from '@/lib/dtos/medical/result/response.dto';
 import { Box, Button, Flex, Grid, LoadingOverlay, Modal, ModalProps, rem, ScrollArea } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { MedicalResultFormDisease } from '../form/MedicalResultFormDisease';
 import { IconDeselect, IconDeviceFloppy } from '@tabler/icons-react';
 import { useFetch } from '@/hooks/useFetch';
-import { PATCHMedicalResultDiseaseRequestDto, POSTMedicalResultDiseaseRequestDto } from '@/lib/dtos/medical/result/request.dto';
 import { notifications } from '@mantine/notifications';
 import MedicalResultListElement from '../disease/list/MedicalResultListElement';
+import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
+import { MedicalResultDisease } from '@/lib/dtos/medical/result/disease/base.response.dto';
+import { PatchMedicalResultDiseaseRequestDto, PostMedicalResultDiseaseRequestDto } from '@/lib/dtos/medical/result/disease/request.dto';
 
 interface MedicalResultModalDiseasesProps extends Omit<ModalProps, 'title'> {
     /**
      * Objeto de resultado medico que inicializa el formulario.
      */
-    medicalResult: Omit<MedicalResult, 'order'>;
+    medicalResult: MedicalResult;
     /**
      * Funcion que es invocada cuando el formulario es enviado.
      * @param value 
@@ -47,7 +48,7 @@ const MedicalResultModalDiseases: React.FC<MedicalResultModalDiseasesProps> = ({
         reload: diseasePOSTReload,
         request: diseasePOSTRequest,
         reset: diseasePOSTReset,
-    } = useFetch<MedicalResultDisease>(`/api/medical/results/${medicalResult ? medicalResult.id : ''}/diseases`, 'POST', { loadOnMount: false });
+    } = useFetch<MedicalResultDisease>(`/api/medical/results/diseases`, 'POST', { loadOnMount: false });
 
     const {
         body: diseasePATCHBody,
@@ -57,17 +58,17 @@ const MedicalResultModalDiseases: React.FC<MedicalResultModalDiseasesProps> = ({
         reload: diseasePATCHReload,
         request: diseasePATCHRequest,
         reset: diseasePATCHReset,
-    } = useFetch<MedicalResultDisease>(`/api/medical/results/${medicalResult ? medicalResult.id : ''}/diseases/${selectedDisease ? selectedDisease.id : ''}`, 'PATCH', { loadOnMount: false });
+    } = useFetch<MedicalResultDisease>(`/api/medical/results/diseases/${selectedDisease ? selectedDisease.id : ''}`, 'PATCH', { loadOnMount: false });
 
     const handleFormSubmittionEvent = useCallback((value: Omit<MedicalResultDisease, 'id'>, id: number | null = null) => {
         if (id) {
-            diseasePATCHRequest<POSTMedicalResultDiseaseRequestDto>(value);
+            diseasePATCHRequest<PatchMedicalResultDiseaseRequestDto>(value);
             setShouldSendPATCH(true);
         } else {
-            diseasePOSTRequest<PATCHMedicalResultDiseaseRequestDto>(value);
+            diseasePOSTRequest<PostMedicalResultDiseaseRequestDto>({ ...value, medicalResultId: medicalResult.id });
             setShouldSendPOST(true);
         }
-    }, [diseasePATCHRequest, diseasePOSTRequest]);
+    }, [medicalResult, diseasePATCHRequest, diseasePOSTRequest]);
 
     const handleCloseEvent = useCallback(() => {
         onFormSubmitted?.({ ...medicalResult, diseases: diseases });

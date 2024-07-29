@@ -1,13 +1,13 @@
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { useFetch } from '@/hooks/useFetch';
-import { GETUserAttributeResponseDto } from '@/lib/dtos/user/user.response.dto';
 import { LoadingOverlay, Flex, rem, Box, Button, Title } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { UserFormAssignCompany } from './UserFormAssignCompany';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import { PATCHUserAttributeRequestDto } from '@/lib/dtos/user/user.request.dto';
+import { GetUserAttributeResponseDto } from '@/lib/dtos/user/user/attribute/response.dto';
+import { PatchUserAttributeRequestDto } from '@/lib/dtos/user/user/attribute/request.dto';
 
 interface UserFormAssignCompanyAttributeProps {
     /**
@@ -30,7 +30,7 @@ const UserFormAssignCompanyAttribute: React.FC<UserFormAssignCompanyAttributePro
         data: fetchAttribute,
         error: attributeError,
         loading: attributeLoading
-    } = useFetch<GETUserAttributeResponseDto>(url, 'GET');
+    } = useFetch<GetUserAttributeResponseDto>(url, 'GET');
 
     const {
         data: patchAttribute,
@@ -44,9 +44,8 @@ const UserFormAssignCompanyAttribute: React.FC<UserFormAssignCompanyAttributePro
 
     const handleFormSubmittionEvent = useCallback((value: string) => {
         setShouldPatch(true);
-        patchAttributeRequest<PATCHUserAttributeRequestDto>({ value });
+        patchAttributeRequest<PatchUserAttributeRequestDto>({ value });
     }, [patchAttributeRequest],)
-
 
     const handleClickEventSubmit = () => {
         buttonRef.current?.click();

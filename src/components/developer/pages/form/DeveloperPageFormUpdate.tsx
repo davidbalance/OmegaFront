@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { DeveloperPageForm } from './DeveloperPageForm'
-import { PATCHWebResourceResponseDto, WebFullResource } from '@/lib/dtos/web/resources.response.dto';
-import { POSTWebFullResourceRequestDto } from '@/lib/dtos/web/resources.request.dto';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
@@ -9,12 +7,14 @@ import { useFetch } from '@/hooks/useFetch';
 import { LoadingOverlay, Button, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
+import { OmegaWebResource } from '@/lib/dtos/omega/web/resource/base.response.dto';
+import { PatchOmegaWebResourceRequestDto } from '@/lib/dtos/omega/web/resource/request.dto';
 
 type DeveloperPageFormUpdateProps = {
     /**
      * Es el recurso web que debera ser modificado.
      */
-    resource: WebFullResource;
+    resource: OmegaWebResource;
     /**
      * Funcion que es llamada cuando se llama al cierre del fomulario.
      */
@@ -22,7 +22,7 @@ type DeveloperPageFormUpdateProps = {
     /**
      * Funcion que es llamada cuando se envia el formulario.
      */
-    onFormSubmit?: (data: WebFullResource) => void;
+    onFormSubmit?: (data: OmegaWebResource) => void;
 }
 const DeveloperPageFormUpdate: React.FC<DeveloperPageFormUpdateProps> = ({ resource, onClose, onFormSubmit }) => {
 
@@ -36,7 +36,7 @@ const DeveloperPageFormUpdate: React.FC<DeveloperPageFormUpdateProps> = ({ resou
         reload: fetchReload,
         request: fetchRequest,
         reset: fetchReset
-    } = useFetch<PATCHWebResourceResponseDto>(`/api/web/resources/${resource ? resource.id : ''}`, 'PATCH', { loadOnMount: false });
+    } = useFetch<OmegaWebResource>(`/api/web/resources/${resource ? resource.id : ''}`, 'PATCH', { loadOnMount: false });
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -48,7 +48,7 @@ const DeveloperPageFormUpdate: React.FC<DeveloperPageFormUpdateProps> = ({ resou
         onClose();
     }, [onClose]);
 
-    const handleFormSubmittionEvent = useCallback((data: POSTWebFullResourceRequestDto) => {
+    const handleFormSubmittionEvent = useCallback((data: PatchOmegaWebResourceRequestDto) => {
         fetchRequest(data);
         setShouldFetch(true);
     }, [fetchRequest]);

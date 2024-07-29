@@ -1,7 +1,7 @@
 'use client'
 
-import { IconProps, Icon, IconUsers, IconStethoscope, IconWheelchair, IconLicense, IconReportMedical, IconSettings, IconMapPin, IconKey, IconLock, IconVirus, IconCode } from '@tabler/icons-react';
-import React, { ForwardRefExoticComponent, RefAttributes, useState } from 'react'
+import { IconSettings, IconLock } from '@tabler/icons-react';
+import React, { useState } from 'react'
 import classes from './Navbar.module.css';
 import cx from 'clsx';
 import { ActionIcon, Box, Drawer, ScrollArea } from '@mantine/core';
@@ -68,9 +68,11 @@ const Navbar: React.FC<NavbarProps> = ({ opened, onClose }) => {
                     </ScrollArea>
                 </Drawer>
                 : <nav className={(cx(classes.navbar, { [classes.open]: opened || locked }))}>
-                    <ScrollArea className={classes.links} h={450}>
-                        <Box className={classes.linksInner}>{mainLinks}</Box>
-                    </ScrollArea>
+                    <Box className={classes.links}>
+                        <ScrollArea h={475} style={{ direction: 'rtl' }}>
+                            <Box className={classes.linksInner}>{mainLinks}</Box>
+                        </ScrollArea>
+                    </Box>
                     <Box className={cx(classes.lock, { [classes.open]: opened || locked })}>
                         <ActionIcon variant={locked ? 'filled' : 'transparent'} onClick={toggle}>
                             <IconLock />

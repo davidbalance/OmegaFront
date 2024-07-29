@@ -1,6 +1,6 @@
 import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
-import { PATCHUserAttributeRequestDto } from "@/lib/dtos/user/user.request.dto";
-import { GETUserAttributeResponseDto } from "@/lib/dtos/user/user.response.dto";
+import { PatchUserAttributeRequestDto } from "@/lib/dtos/user/user/attribute/request.dto";
+import { GetUserAttributeResponseDto } from "@/lib/dtos/user/user/attribute/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get, patch } from "@/lib/fetcher/fetcher";
@@ -13,12 +13,13 @@ export async function GET(
 ) {
     try {
         const getAttribute = withAuth<any, any>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const attribute: GETUserAttributeResponseDto = await getAttribute(endpoints.USER.USER.ATTRIBUTES.EMPLOYEE.FIND(params.id), {
+        const attribute: GetUserAttributeResponseDto = await getAttribute(endpoints.USER.USER.ATTRIBUTES.EMPLOYEE.FIND(params.id), {
             cacheExpirationSeconds: 30,
             headers: CONTENT_TYPE_APPLICATION_JSON
         });
         return NextResponse.json(attribute, { status: 200 });
     } catch (error) {
+        console.error(error);
         if (error instanceof FetchError) {
             if (error.response.status !== 404) {
                 return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
@@ -36,14 +37,15 @@ export async function PATCH(
     { params }: { params: { id: number } }
 ) {
     try {
-        const data: PATCHUserAttributeRequestDto = await req.json();
+        const data: PatchUserAttributeRequestDto = await req.json();
         const patchAttribute = withAuth<any, any>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        await patchAttribute(endpoints.USER.USER.ATTRIBUTES.EMPLOYEE.FIND_ONE_AND_UPDATE(params.id), {
+        await patchAttribute(endpoints.USER.USER.ATTRIBUTES.EMPLOYEE.UPDATE_ONE(params.id), {
             body: data,
             headers: CONTENT_TYPE_APPLICATION_JSON
         });
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
+        console.error(error);
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
         } else {

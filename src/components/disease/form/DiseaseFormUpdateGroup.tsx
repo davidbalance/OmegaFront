@@ -5,9 +5,9 @@ import { notifications } from "@mantine/notifications";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useRef, useCallback, useEffect } from "react";
 import DiseaseFormGroup from "./DiseaseFormGroup";
-import { DiseaseGroup } from "@/lib/dtos/disease/group/response.dto";
-import { Disease } from "@/lib/dtos/disease/response.dto";
 import { LayoutSubFormTitle } from "@/components/layout/sub/form/LayoutSubFormTitle";
+import { Disease } from "@/lib/dtos/disease/base.response.dto";
+import { DiseaseGroup } from "@/lib/dtos/disease/group/base.response.dto";
 
 interface DiseaseFormUpdateGroupProps {
     /**

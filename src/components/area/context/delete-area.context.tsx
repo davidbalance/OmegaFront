@@ -1,5 +1,5 @@
 import { useFetch } from "@/hooks/useFetch";
-import { Area } from "@/lib/dtos/location/area/response.dto";
+import { Area } from "@/lib/dtos/location/area/base.response.dto";
 import { notifications } from "@mantine/notifications";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
@@ -17,7 +17,7 @@ const DeleteAreaContext = createContext<DeleteAreaContextProps | undefined>(unde
 export const useDeleteArea = () => {
     const context = useContext(DeleteAreaContext);
     if (!context) {
-        throw new Error('useDeleteManagemet must be used within a DeleteAreaProvider');
+        throw new Error('useDeleteArea must be used within a DeleteAreaProvider');
     }
     return context;
 };

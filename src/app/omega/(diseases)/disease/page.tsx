@@ -11,12 +11,12 @@ import { DiseaseGroupFormUpdate } from '@/components/disease/group/form/DiseaseG
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { ListElement } from '@/components/layout/list-layout/types';
-import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
+import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
-import { DiseaseGroup } from '@/lib/dtos/disease/group/response.dto';
-import { Disease } from '@/lib/dtos/disease/response.dto';
+import { Disease } from '@/lib/dtos/disease/base.response.dto';
+import { DiseaseGroup } from '@/lib/dtos/disease/group/base.response.dto';
 import { LoadingOverlay, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -30,16 +30,13 @@ enum LayoutState {
     UPDATE_DISEASE_GROUP,
 }
 
-type DiseaseGroupType = Omit<DiseaseGroup, 'diseases'>;
-
-const columnDiseaseGroup: ListElement<DiseaseGroupType>[] = [
+const columnDiseaseGroup: ListElement<DiseaseGroup>[] = [
     { key: 'name', name: 'Grupo' }
 ]
 
 const columnDisease: ListElement<Disease>[] = [
     { key: 'name', name: 'Morbilidad' }
 ]
-
 
 const DiseasePage: React.FC = () => {
 

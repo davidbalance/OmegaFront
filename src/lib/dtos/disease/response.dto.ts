@@ -1,16 +1,11 @@
-export interface Disease {
-    id: number;
-    name: string;
-}
+import { ObjectArray } from "@/lib/interfaces/object-array.interface";
+import { Disease } from "./base.response.dto";
 
-export interface GETDiseaseResponseDto extends Disease { }
 
-export interface GETDiseaseArrayResponseDto {
-    diseases: GETDiseaseResponseDto[];
-}
+export interface GetDiseaseResponseDto extends Disease { }
 
-export interface POSTDiseaseResponseDto extends Disease { }
+export interface GetDiseaseArrayResponseDto extends ObjectArray<Disease> {}
 
-export interface PATCHDiseaseResponseDto extends Disease { }
+export interface PostDiseaseResponseDto extends Disease { }
 
-export interface DELETEDiseaseResponseDto { }
+export interface PatchDiseaseResponseDto extends Disease { }

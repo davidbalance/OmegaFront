@@ -4,21 +4,12 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { notifications } from '@mantine/notifications';
 import { useFetch } from '@/hooks/useFetch';
-import { User } from '@/lib/dtos/user/user.response.dto';
-import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
-import { GETMedicalClientManagementAndAreaResponseDto } from '@/lib/dtos/medical/client/response.dto';
-import { MedicalClientFormManagementArea } from './MedicalClientFormManagementArea';
-import { Management } from '@/lib/dtos/location/management/response.dto';
-import { POSTMedicalClientManagementAndAreaRequestDto } from '@/lib/dtos/medical/client/request.dto';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto';
-
-type UserStepProps = {
-    description: string; icon: React.ReactNode;
-    step: {
-        form: React.ElementType,
-        props: any
-    }
-}
+import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
+import { MedicalClientFormManagementArea } from './MedicalClientFormManagementArea';
+import { MedicalClientManagement } from '@/lib/dtos/medical/client/management/base.response.dto';
+import { PostMedicalClientManagementRequestDto } from '@/lib/dtos/medical/client/management/request.dto';
+import { Management } from '@/lib/dtos/location/management/base.response.dto';
 
 type MedicalClientFormManagementAreaCreateProps = {
     /**
@@ -50,7 +41,7 @@ const MedicalClientFormManagementAreaCreate: React.FC<MedicalClientFormManagemen
         data: dataGETClient,
         error: errorGETClient,
         loading: loadingGETClient,
-    } = useFetch<GETMedicalClientManagementAndAreaResponseDto>(`/api/medical/client/${dni ? dni : ''}/management/area`, 'GET');
+    } = useFetch<MedicalClientManagement>(`/api/medical/client/management/area/${dni ? dni : ''}`, 'GET');
 
     const {
         data: dataPOSTClient,
@@ -60,7 +51,7 @@ const MedicalClientFormManagementAreaCreate: React.FC<MedicalClientFormManagemen
         request: requestPOSTClient,
         reload: reloadPOSTClient,
         reset: resetPOSTClient,
-    } = useFetch<any>(`/api/medical/client/${dni ? dni : ''}/management/area`, 'POST', { loadOnMount: false });
+    } = useFetch<any>(`/api/medical/client/management/area/${dni ? dni : ''}`, 'POST', { loadOnMount: false });
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [shouldSendRequest, setShouldSendRequest] = useState<boolean>(false);
@@ -91,7 +82,7 @@ const MedicalClientFormManagementAreaCreate: React.FC<MedicalClientFormManagemen
         areaId: number;
         areaName: string;
     }) => {
-        requestPOSTClient<POSTMedicalClientManagementAndAreaRequestDto>(form);
+        requestPOSTClient<PostMedicalClientManagementRequestDto>(form);
         setShouldSendRequest(true);
         onFormSubmit?.();
     }, [onFormSubmit, requestPOSTClient]);

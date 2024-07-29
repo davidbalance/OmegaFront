@@ -72,4 +72,6 @@ const MultipleTierLayout: React.FC<MultipleTierLayoutProps> = ({ elements, tier,
     )
 }
 
-export default MultipleTierLayout
+MultipleTierLayout.displayName = 'MultipleTierLayout';
+
+export { MultipleTierLayout }

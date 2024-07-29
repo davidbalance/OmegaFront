@@ -1,6 +1,6 @@
 import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
-import { PATCHApiKeyRequestDto } from "@/lib/dtos/auth/api/key/request.dto";
-import { PATCHApiKeyResponseDto } from "@/lib/dtos/auth/api/key/response.dto";
+import { PatchApiKeyRequestDto } from "@/lib/dtos/auth/api/key/request.dto";
+import { PatchApiKeyResponseDto } from "@/lib/dtos/auth/api/key/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { patch } from "@/lib/fetcher/fetcher";
@@ -12,9 +12,9 @@ export async function PATCH(
     { params }: { params: { id: number } }
 ) {
     try {
-        const data = await req.json();
-        const patchApiKey = withAuth<PATCHApiKeyRequestDto, PATCHApiKeyResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const apikey: PATCHApiKeyResponseDto = await patchApiKey(endpoints.AUTHENTICATION.API_KEY.UPDATE(params.id),
+        const data: PatchApiKeyRequestDto = await req.json();
+        const patchApiKey = withAuth<PatchApiKeyRequestDto, PatchApiKeyResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
+        const apikey: PatchApiKeyResponseDto = await patchApiKey(endpoints.AUTHENTICATION.API_KEY.UPDATE_ONE(params.id),
             {
                 body: data,
                 headers: CONTENT_TYPE_APPLICATION_JSON

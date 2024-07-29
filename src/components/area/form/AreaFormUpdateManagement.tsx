@@ -6,7 +6,7 @@ import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useRef, useCallback, useEffect } from "react";
 import { LayoutSubFormTitle } from "@/components/layout/sub/form/LayoutSubFormTitle";
 import AreaFormManagement from "./AreaFormManagement";
-import { Area } from "@/lib/dtos/location/area/response.dto";
+import { Area } from "@/lib/dtos/location/area/base.response.dto";
 
 interface AreaFormUpdateManagementProps {
     /**

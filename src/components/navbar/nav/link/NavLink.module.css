@@ -6,6 +6,7 @@
   border-radius: var(--mantine-radius-sm);
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
   text-decoration: none;
+  direction: ltr;
 
   width: rem(40px);
   height: rem(40px);

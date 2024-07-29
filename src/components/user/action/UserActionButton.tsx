@@ -1,5 +1,5 @@
 import { ActionColumnProps } from '@/components/layout/table-layout/TableLayout';
-import { User } from '@/lib/dtos/user/user.response.dto';
+import { User } from '@/lib/dtos/user/user/base.response.dto';
 import { Menu, MenuTarget, ActionIcon, rem, Flex } from '@mantine/core';
 import { IconBuilding, IconDotsVertical, IconKey, IconPencil, IconSitemap, IconTrash } from '@tabler/icons-react';
 import React from 'react'

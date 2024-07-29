@@ -3,10 +3,10 @@ import { useFetch } from '@/hooks/useFetch';
 import { LoadingOverlay, Flex, rem, Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import React, { useCallback, useEffect, useRef } from 'react'
-import { Disease } from '@/lib/dtos/disease/response.dto';
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { DiseaseForm } from './DiseaseForm';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
+import { Disease } from '@/lib/dtos/disease/base.response.dto';
 
 type DiseaseFormCreateProps = {
     /**
@@ -24,11 +24,14 @@ type DiseaseFormCreateProps = {
 }
 const DiseaseFormCreate: React.FC<DiseaseFormCreateProps> = ({ group, onClose, onFormSubmitted }) => {
 
+    const [shouldRequest, setShouldRequest] = useState<boolean>(false);
+
     const { body, data, error, loading, reload, request, reset } = useFetch<Disease>('/api/diseases', 'POST', { loadOnMount: false });
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const handleFormSubmittedEvent = useCallback((data: Omit<Disease, 'id'>) => {
         request({ group, ...data });
+        setShouldRequest(true);
     }, [request, group]);
 
     const handleClickEvent = useCallback(() => {
@@ -38,10 +41,11 @@ const DiseaseFormCreate: React.FC<DiseaseFormCreateProps> = ({ group, onClose, o
     }, []);
 
     useEffect(() => {
-        if (body) {
+        if (body && shouldRequest) {
             reload();
+            setShouldRequest(false);
         }
-    }, [body, reload]);
+    }, [body, shouldRequest, reload]);
 
     useEffect(() => {
         if (data) {

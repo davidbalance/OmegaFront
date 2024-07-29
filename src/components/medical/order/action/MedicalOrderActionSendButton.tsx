@@ -1,12 +1,12 @@
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
 import { useMail } from '@/hooks/useMail';
-import { MedicalClientEmail } from '@/lib/dtos/medical/client/response.dto';
 import { ActionIcon, ActionIconProps, rem, Tooltip } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconSend, IconSendOff } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import MedicalClientModalEmailSelection from '../../client/modal/MedicalClientModalEmailSelection';
 import { useDisclosure } from '@mantine/hooks';
+import { MedicalClientEmail } from '@/lib/dtos/medical/client/email/base.response.dto';
 
 const baseUrl = (order: number, mail: number) => `/api/medical/orders/mail/${order}/${mail}`;
 

@@ -1,4 +1,4 @@
-import { GETMedicalResultsResponseDto } from "@/lib/dtos/medical/result/response.dto";
+import { GetMedicalResultArrayResponseDto } from "@/lib/dtos/medical/result/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
 import { get } from "@/lib/fetcher/fetcher";
@@ -7,9 +7,9 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const getOrder = withAuth<any, GETMedicalResultsResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { results }: GETMedicalResultsResponseDto = await getOrder(endpoints.MEDICAL.RESULT.FIND_ALL, {});
-        return NextResponse.json(results, { status: 200 });
+        const getMedicalResult = withAuth<any, GetMedicalResultArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
+        const { data }: GetMedicalResultArrayResponseDto = await getMedicalResult(endpoints.MEDICAL.RESULT.FIND_BY_DOCTOR, {});
+        return NextResponse.json(data, { status: 200 });
     } catch (error) {
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });

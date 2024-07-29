@@ -1,7 +1,7 @@
 import { useFetch } from '@/hooks/useFetch';
-import { DiseaseGroup } from '@/lib/dtos/disease/group/response.dto';
-import { Disease } from '@/lib/dtos/disease/response.dto';
-import { MedicalResultDisease } from '@/lib/dtos/medical/result/response.dto';
+import { Disease } from '@/lib/dtos/disease/base.response.dto';
+import { DiseaseGroup } from '@/lib/dtos/disease/group/base.response.dto';
+import { MedicalResultDisease } from '@/lib/dtos/medical/result/disease/base.response.dto';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto';
 import { ComboboxItem, LoadingOverlay, rem, Box, Select, Button, Textarea } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -36,7 +36,7 @@ const MedicalResultFormDisease = React.forwardRef<HTMLButtonElement, MedicalResu
     const diseaseOptions = useMemo(() => currentDiseases?.map(e => ({ value: `${e.id}`, label: e.name })) || [], [currentDiseases]);
 
     const cleanForm = useCallback(() => {
-        setSelectedDisease(null);
+        setSelectedDiseaseGroup(null);
         setSelectedDisease(null);
         setCommentary("")
         setCurrentDiseases([]);
@@ -99,7 +99,7 @@ const MedicalResultFormDisease = React.forwardRef<HTMLButtonElement, MedicalResu
             <LoadingOverlay visible={groupLoading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
             <Box pos='relative'>
                 <Select
-                    value={`${selectedDiseaseGroup?.key || ''}`}
+                    value={selectedDiseaseGroup ? `${selectedDiseaseGroup.key}` : null}
                     data={diseaseGroupsOptions}
                     checkIconPosition="left"
                     onChange={handleGroupChangeEvent}
@@ -113,7 +113,7 @@ const MedicalResultFormDisease = React.forwardRef<HTMLButtonElement, MedicalResu
                     maxDropdownHeight={200}
                 />
                 <Select
-                    value={`${selectedDisease?.key || ''}`}
+                    value={selectedDisease ? `${selectedDisease.key}` : null}
                     data={diseaseOptions}
                     checkIconPosition="left"
                     onChange={handleDiseaseChangeEvent}

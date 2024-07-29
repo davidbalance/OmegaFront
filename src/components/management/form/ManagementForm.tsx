@@ -1,4 +1,4 @@
-import { Management } from "@/lib/dtos/location/management/response.dto";
+import { Management } from "@/lib/dtos/location/management/base.response.dto";
 import { BaseFormProps } from "@/lib/types/base-form-prop";
 import { Box, TextInput, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";

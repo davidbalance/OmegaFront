@@ -1,9 +1,9 @@
-import { MedicalClientEmail } from '@/lib/dtos/medical/client/response.dto'
 import { Box, Button, Flex, Modal, ModalProps, ScrollArea, UnstyledButton, rem } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import React, { useCallback, useMemo, useState } from 'react'
 import classes from './MedicalClientModalEmailSelection.module.css'
 import { notifications } from '@mantine/notifications';
+import { MedicalClientEmail } from '@/lib/dtos/medical/client/email/base.response.dto';
 
 interface MedicalClientModalEmailSelectionProps extends ModalProps {
     /**

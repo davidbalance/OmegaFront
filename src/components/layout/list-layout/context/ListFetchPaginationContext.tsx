@@ -1,6 +1,6 @@
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
-import { PaginationOrder, PaginationRequest, PaginationResponse } from '@/lib/types/pagination.type';
+import { PaginationRequest, PaginationResponse, PaginationOrder, PaginationOrderEnum } from '@/lib/interfaces/pagination.interface';
 import { notifications } from '@mantine/notifications';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
@@ -80,7 +80,7 @@ const ListLayoutFetchProvider = <T extends object>({ children, url, size = 10, l
     const handleEventSort = useCallback((key: keyof T | null) => {
         setCurrentBody(prev => {
             const currentSortDirection = prev.order?.order === 'ASC' && prev.order.key === key;
-            const newSortOrder: PaginationOrder<T> | undefined = key ? { key: key, order: currentSortDirection ? "DESC" : "ASC" } : undefined;
+            const newSortOrder: PaginationOrder<T> | undefined = key ? { key: key, order: currentSortDirection ? PaginationOrderEnum.DESC : PaginationOrderEnum.ASC } : undefined;
             const newFetchBody = { ...prev, order: newSortOrder };
             fetchRequest(newFetchBody);
             setShouldFetch(true);
@@ -119,7 +119,7 @@ const ListLayoutFetchProvider = <T extends object>({ children, url, size = 10, l
             listUpdate(key, value, newValue);
             callback();
         }
-    }, [forceItemUpdate]);
+    }, [forceItemUpdate, listUpdate]);
 
     const value = useMemo((): ListFetchPaginationContextProps<T> => ({
         data: listData,

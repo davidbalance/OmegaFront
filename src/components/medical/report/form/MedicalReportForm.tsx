@@ -11,17 +11,18 @@ import SubScript from '@tiptap/extension-subscript';
 import Placeholder from '@tiptap/extension-placeholder';
 import React, { useCallback, useEffect, useState } from 'react'
 import { notifications } from '@mantine/notifications';
-import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { useFetch } from '@/hooks/useFetch';
-import { PATCHMedicalResultReportRequestDto } from '@/lib/dtos/medical/result/request.dto';
+import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
+import { PostMedicalReportRequestDto } from '@/lib/dtos/medical/report/request.dto';
+import { MedicalReport } from '@/lib/dtos/medical/report/base.respoonse.dto';
 
 type MedicalReportFormProps = {
     /**
      * Valores del reporte medico usados en la inicializacion del componente.
      */
-    result: Omit<MedicalResult, 'order'>;
+    result: MedicalResult;
     /**
      * Funcion que es invocada cuando se cierra el formulario.
      * @returns 
@@ -46,7 +47,7 @@ const MedicalReportForm: React.FC<MedicalReportFormProps> = ({ result, onClose, 
         reload,
         request,
         reset
-    } = useFetch<MedicalResult>(`/api/medical/results/report/${result ? result.id : ''}`, 'PATCH', { loadOnMount: false });
+    } = useFetch<MedicalReport>(`/api/medical/report`, 'POST', { loadOnMount: false });
 
     const editor = useEditor({
         extensions: [
@@ -71,9 +72,9 @@ const MedicalReportForm: React.FC<MedicalReportFormProps> = ({ result, onClose, 
             notifications.show({ message: 'Debe escribirse un reporte medico', color: 'red' });
             return;
         };
-        request<PATCHMedicalResultReportRequestDto>({ content: editor?.getHTML() || '' });
+        request<PostMedicalReportRequestDto>({ medicalResult: result.id, content: editor?.getHTML() || '' });
         setShouldFetch(true);
-    }, [editor, request]);
+    }, [editor, request, result.id]);
 
     useEffect(() => {
         if (body && shouldFetch) {
@@ -89,13 +90,12 @@ const MedicalReportForm: React.FC<MedicalReportFormProps> = ({ result, onClose, 
 
     useEffect(() => {
         if (data) {
-            onFormSubmittion?.(data);
+            result.report = data;
+            onFormSubmittion?.(result);
             onClose();
             reset();
         }
-    }, [data, onFormSubmittion, onClose, reset]);
-
-
+    }, [data, result, onFormSubmittion, onClose, reset]);
 
     return (
         <>

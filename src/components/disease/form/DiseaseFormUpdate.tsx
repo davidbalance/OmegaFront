@@ -1,12 +1,12 @@
 import { ModularBox } from "@/components/modular/box/ModularBox";
 import { useFetch } from "@/hooks/useFetch";
-import { Disease } from "@/lib/dtos/disease/response.dto";
 import { LoadingOverlay, Flex, rem, Button } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useRef, useCallback, useEffect } from "react";
 import { DiseaseForm } from "./DiseaseForm";
 import { LayoutSubFormTitle } from "@/components/layout/sub/form/LayoutSubFormTitle";
+import { Disease } from "@/lib/dtos/disease/base.response.dto";
 
 interface DiseaseFormUpdateProps {
     /**

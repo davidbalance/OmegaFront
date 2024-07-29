@@ -1,6 +1,6 @@
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { useFetch } from '@/hooks/useFetch';
-import { MedicalResultDisease } from '@/lib/dtos/medical/result/response.dto';
+import { MedicalResultDisease } from '@/lib/dtos/medical/result/disease/base.response.dto';
 import { ActionIcon, rem, Text, Title, Tooltip } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
 import { IconTrash } from '@tabler/icons-react';
@@ -21,7 +21,7 @@ const MedicalResultListElement: React.FC<MedicalResultListElementProps> = ({ act
         loading: diseaseDELETELoading,
         reload: diseaseDELETEReload,
         reset: diseaseDELETEReset,
-    } = useFetch<any>(`/api/medical/results/${medicalResult}/diseases/${disease.id}`, 'DELETE', { loadOnMount: false });
+    } = useFetch<any>(`/api/medical/results/diseases/${disease.id}`, 'DELETE', { loadOnMount: false });
 
     const [shouldSendRequest, setShouldSendRequest] = useState<boolean>(false);
 

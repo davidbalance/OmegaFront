@@ -5,8 +5,8 @@ import DiseaseGroupForm from './DiseaseGroupForm';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { useFetch } from '@/hooks/useFetch';
 import { notifications } from '@mantine/notifications';
-import { DiseaseGroup } from '@/lib/dtos/disease/group/response.dto';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
+import { DiseaseGroup } from '@/lib/dtos/disease/group/base.response.dto';
 
 type DiseaseGroupFormUpdateProps = {
     /**
@@ -78,9 +78,10 @@ const DiseaseGroupFormUpdate: React.FC<DiseaseGroupFormUpdateProps> = ({ onClose
                     type="submit"
                     flex={1}
                     size='xs'
-                    leftSection={<IconDeviceFloppy
-                        style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                >
+                    leftSection={(
+                        <IconDeviceFloppy
+                            style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+                    )}>
                     Guardar
                 </Button>
             </ModularBox>

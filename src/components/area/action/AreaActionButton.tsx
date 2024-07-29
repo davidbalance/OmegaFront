@@ -2,9 +2,9 @@ import { Menu, MenuTarget, Flex, ActionIcon, rem, MenuItem, MenuItemProps } from
 import { IconDotsVertical, IconExchange, IconPencil, IconTrash } from '@tabler/icons-react'
 import React, { useCallback } from 'react'
 import { useDisclosure } from '@mantine/hooks';
-import { Area } from '@/lib/dtos/location/area/response.dto';
 import { deleteAreaFunctionalityWithContext } from '../hoc/deleteAreaHOC';
 import { DeleteAreaProvider } from '../context/delete-area.context';
+import { Area } from '@/lib/dtos/location/area/base.response.dto';
 
 const EnhancedDeleteItem = deleteAreaFunctionalityWithContext<MenuItemProps>(MenuItem);
 

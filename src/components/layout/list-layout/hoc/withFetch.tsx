@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
-import { PaginationOrder, PaginationRequest, PaginationResponse } from '@/lib/types/pagination.type';
 import { useFetch } from '@/hooks/useFetch';
 import { notifications } from '@mantine/notifications';
 import { useList } from '@/hooks/useList';
 import { ActionIcon, rem } from '@mantine/core';
 import { IconRefresh, IconSearch, IconX } from '@tabler/icons-react';
 import { ListLayoutBaseProps, FetchProps, ListLayoutBaseOmittedProps } from '../types';
+import { PaginationRequest, PaginationOrder, PaginationResponse, PaginationOrderEnum } from '@/lib/interfaces/pagination.interface';
 
 const withFetch = <T extends object>(
     WrappedComponent: React.ComponentType<ListLayoutBaseProps<T>>
@@ -52,12 +52,12 @@ const withFetch = <T extends object>(
         const handleEventSort = useCallback((key: keyof T | null) => {
             setSortBy(prev => {
                 const currentSortDirection = prev?.order === 'ASC' && prev.key === key;
-                const newSortOrder: PaginationOrder<T> | null = key ? { key: key, order: currentSortDirection ? "DESC" : "ASC" } : null;
+                const newSortOrder: PaginationOrder<T> | null = key ? { key: key, order: currentSortDirection ? PaginationOrderEnum.DESC : PaginationOrderEnum.ASC } : null;
                 return newSortOrder;
             });
             setCurrentBody(prev => {
                 const currentSortDirection = prev.order?.order === 'ASC' && prev.order.key === key;
-                const newSortOrder: PaginationOrder<T> | undefined = key ? { key: key, order: currentSortDirection ? "DESC" : "ASC" } : undefined;
+                const newSortOrder: PaginationOrder<T> | undefined = key ? { key: key, order: currentSortDirection ? PaginationOrderEnum.DESC : PaginationOrderEnum.ASC } : undefined;
                 const newFetchBody = { ...prev, order: newSortOrder };
                 fetchRequest(newFetchBody);
                 setShouldFetch(true);

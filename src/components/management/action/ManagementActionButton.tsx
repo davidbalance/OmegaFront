@@ -3,8 +3,8 @@ import { IconDotsVertical, IconPencil, IconTrash } from '@tabler/icons-react'
 import React, { useCallback } from 'react'
 import { deleteManagementFunctionalityWithContext } from '../hoc/deleteManagementHOC';
 import { useDisclosure } from '@mantine/hooks';
-import { Management } from '@/lib/dtos/location/management/response.dto';
 import { DeleteManagementProvider } from '../context/delete-management.context';
+import { Management } from '@/lib/dtos/location/management/base.response.dto';
 
 const EnhancedDeleteItem = deleteManagementFunctionalityWithContext<MenuItemProps>(MenuItem);
 

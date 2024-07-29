@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { DeveloperPageForm } from './DeveloperPageForm'
-import { POSTWebResourceResponseDto, WebFullResource } from '@/lib/dtos/web/resources.response.dto';
-import { POSTWebFullResourceRequestDto } from '@/lib/dtos/web/resources.request.dto';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
 import { Button, LoadingOverlay, rem } from '@mantine/core';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
@@ -9,6 +7,8 @@ import { ModularBox } from '@/components/modular/box/ModularBox';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useFetch } from '@/hooks/useFetch';
 import { notifications } from '@mantine/notifications';
+import { OmegaWebResource } from '@/lib/dtos/omega/web/resource/base.response.dto';
+import { PostOmegaWebResourceRequestDto } from '@/lib/dtos/omega/web/resource/request.dto';
 
 type DeveloperPageFormCreateProps = {
     /**
@@ -20,7 +20,7 @@ type DeveloperPageFormCreateProps = {
      * Funcion que es llamada cuando se envia el formulario.
      * @returns 
      */
-    onFormSubmit?: (data: WebFullResource) => void;
+    onFormSubmit?: (data: OmegaWebResource) => void;
 }
 const DeveloperPageFormCreate: React.FC<DeveloperPageFormCreateProps> = ({ onClose, onFormSubmit }) => {
 
@@ -34,7 +34,7 @@ const DeveloperPageFormCreate: React.FC<DeveloperPageFormCreateProps> = ({ onClo
         reload: fetchReload,
         request: fetchRequest,
         reset: fetchReset
-    } = useFetch<POSTWebResourceResponseDto>('/api/web/resources', 'POST', { loadOnMount: false });
+    } = useFetch<OmegaWebResource>('/api/web/resources', 'POST', { loadOnMount: false });
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -46,7 +46,7 @@ const DeveloperPageFormCreate: React.FC<DeveloperPageFormCreateProps> = ({ onClo
         onClose();
     }, [onClose]);
 
-    const handleFormSubmittionEvent = useCallback((data: POSTWebFullResourceRequestDto) => {
+    const handleFormSubmittionEvent = useCallback((data: PostOmegaWebResourceRequestDto) => {
         fetchRequest(data);
         setShouldFetch(true);
     }, [fetchRequest]);

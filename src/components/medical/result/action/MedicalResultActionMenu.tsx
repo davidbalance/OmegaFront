@@ -1,18 +1,25 @@
 import { useFetch } from '@/hooks/useFetch';
-import { MedicalResult } from '@/lib/dtos/medical/result/response.dto';
 import { blobFile } from '@/lib/utils/blob-to-file';
 import { Menu, MenuTarget, ActionIcon, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload, IconTrash } from '@tabler/icons-react';
+import { IconDotsVertical, IconDownload, IconPencil, IconVirus, IconUpload, IconTrash, IconEye, IconStethoscope } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useState } from 'react'
+import { MedicalResultModalDiseases } from '../modal/MedicalResultModalDiseases';
+import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
+import BlobPreview from '@/components/blob/preview/BlobPreview';
+import { MedicalResultExamSelectionFormUpdateModal } from '../modal/MedicalResultExamSelectionFormUpdateModal';
 
-type MedicalResultWithoutOrder = Omit<MedicalResult, 'order'>;
+type MedicalResultWithoutOrder = MedicalResult;
 interface MedicalResultActionMenuProps {
     /**
      * Valores del resultado medico usados en la inicializacion del componente.
      */
     data: MedicalResultWithoutOrder;
+    /**
+     * Valor que indica si se muestra el un resultado o reporte sin necesidad de descargar
+     */
+    preview?: boolean;
     /**
      * Estado que habilita la descarga de un reporte medico.
      */
@@ -40,21 +47,38 @@ interface MedicalResultActionMenuProps {
      * Funcion que es invocada cuando se llama al evento de creacion de reporte medico.
      * @returns 
      */
-    onDiseaseModification?: () => void;
+    onDiseaseModification?: (value: MedicalResult) => void;
     /**
      * Estado que habilita la eliminacion de un archivo de resultado medico.
      */
     onDeleteResultFile?: () => void;
+
+    onExamModification?: (value: MedicalResult) => void;
 }
 const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     data,
+    preview,
     downloadReport,
     downloadResult,
     onDeleteResultFile,
     onDiseaseModification,
     onUploadResult,
-    onCreateReport
+    onCreateReport,
+    onExamModification
 }) => {
+
+    const [blob, setBlob] = useState<Blob | null>(null);
+    const [previewBlob, setPreviewBlob] = useState<boolean>(false);
+
+    const [openedDiseaseModal, {
+        open: OpenDiseaseModal,
+        close: CloseDiseaseModal
+    }] = useDisclosure(false);
+
+    const [openedExamModal, {
+        open: OpenExamModal,
+        close: CloseExamModal
+    }] = useDisclosure(false);
 
     const [fileRemove, {
         close: fileRemoveClose,
@@ -84,14 +108,15 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
 
     const [shouldDelete, setShouldDelete] = useState<boolean>(false);
 
-
-    const handleClickDiseaseModification = useCallback(() => {
-        onDiseaseModification?.();
-    }, [onDiseaseModification]);
-
     const handleClickEventFileResultDownload = useCallback(() => {
+        setPreviewBlob(false);
         fileResultReload();
         notifications.show({ message: 'La descarga ha comenzado', color: 'green' });
+    }, [fileResultReload]);
+
+    const handleClickEventFileResultPreview = useCallback(() => {
+        setPreviewBlob(true);
+        fileResultReload();
     }, [fileResultReload]);
 
     const handleClickEventFileResultUpload = useCallback(() => {
@@ -99,8 +124,14 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     }, [onUploadResult]);
 
     const handleClickEventFileReportDownload = useCallback(() => {
+        setPreviewBlob(false);
         fileReportReload();
         notifications.show({ message: 'La descarga ha comenzado', color: 'green' });
+    }, [fileReportReload]);
+
+    const handleClickEventFileReportPreview = useCallback(() => {
+        setPreviewBlob(true);
+        fileReportReload();
     }, [fileReportReload]);
 
     const handleClickEventCreateReport = useCallback(() => {
@@ -113,13 +144,17 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
 
     useEffect(() => {
         if (fileResultBlob || fileReportBlob) {
-            if (fileResultBlob) blobFile(fileResultBlob, `${data.examName}.pdf`);
-            else if (fileReportBlob) blobFile(fileReportBlob, `${data.examName}.pdf`);
+            if (previewBlob) {
+                setBlob(fileResultBlob || fileReportBlob);
+            } else {
+                if (fileResultBlob) blobFile(fileResultBlob, `${data.examName}.pdf`);
+                else if (fileReportBlob) blobFile(fileReportBlob, `${data.examName}.pdf`);
+                notifications.show({ message: 'Descarga completa', color: 'green' });
+            }
             fileResultReset();
             fileReportReset();
-            notifications.show({ message: 'Descarga completa', color: 'green' });
         }
-    }, [fileResultBlob, fileReportBlob, fileResultReset, fileReportReset, data]);
+    }, [fileResultBlob, previewBlob, fileReportBlob, fileResultReset, fileReportReset, data]);
 
     useEffect(() => {
         if (fileReportError) notifications.show({ message: fileReportError.message, color: 'red' });
@@ -146,64 +181,139 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
         }
     }, [deleteResultFileData, deleteResultFileReset, onDeleteResultFile, fileRemoveClose]);
 
+    const handleClickEventDiseaseModification = useCallback(() => {
+        OpenDiseaseModal();
+    }, [OpenDiseaseModal]);
+
+    const handleClickEventExamModification = useCallback(() => {
+        OpenExamModal();
+    }, [OpenExamModal]);
+
+    const handleDiseaseModalCloseEvent = useCallback(() => {
+        CloseDiseaseModal();
+    }, [CloseDiseaseModal]);
+
+    const handleMedicalOrderResultFormSubmittion = useCallback((newValue: MedicalResult) => {
+        onDiseaseModification?.(newValue);
+        handleDiseaseModalCloseEvent();
+    }, [onDiseaseModification, handleDiseaseModalCloseEvent]);
+
+    const handleModalEventCloseBlobPreview = useCallback(() => {
+        setPreviewBlob(false);
+        setBlob(null);
+    }, []);
+
+    const handleMedicalExamFormSubmittion = useCallback((newValue: MedicalResult) => {
+        onExamModification?.(newValue)
+        CloseExamModal();
+    }, [onExamModification, CloseExamModal]);
+
+    const handleExamModalCloseEvent = useCallback(() => {
+        CloseExamModal();
+    }, [CloseExamModal]);
+
     return (
-        <Menu>
-            <MenuTarget>
-                <ActionIcon
-                    variant="transparent"
-                    loading={fileRemove || fileResultLoading || fileReportLoading}>
-                    <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                </ActionIcon>
-            </MenuTarget>
-            <Menu.Dropdown>
-                {(onDiseaseModification || onUploadResult || downloadResult) && <Menu.Label>Resultados medicos</Menu.Label>}
-                {onDiseaseModification && (
-                    <Menu.Item
-                        onClick={handleClickDiseaseModification}
-                        leftSection={
-                            <IconVirus style={{ width: rem(16), height: rem(16) }} />}
-                    >
-                        Modificar morbilidades
-                    </Menu.Item>
+        <>
+            <MedicalResultModalDiseases
+                medicalResult={data}
+                opened={openedDiseaseModal}
+                onClose={handleDiseaseModalCloseEvent}
+                onFormSubmitted={handleMedicalOrderResultFormSubmittion} />
+            <MedicalResultExamSelectionFormUpdateModal
+                medicalResult={data}
+                onFormSubmitted={handleMedicalExamFormSubmittion}
+                opened={openedExamModal}
+                onClose={handleExamModalCloseEvent} />
+            <BlobPreview
+                blob={blob}
+                opened={previewBlob && !!blob}
+                onClose={handleModalEventCloseBlobPreview} />
+            <Menu>
+                <MenuTarget>
+                    <ActionIcon
+                        variant="transparent"
+                        loading={fileRemove || fileResultLoading || fileReportLoading}>
+                        <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                    </ActionIcon>
+                </MenuTarget>
+                <Menu.Dropdown>
+                    {(onDiseaseModification || onUploadResult || onExamModification || downloadResult) && <Menu.Label>Resultados medicos</Menu.Label>}
+                    {onDiseaseModification && (
+                        <Menu.Item
+                            onClick={handleClickEventDiseaseModification}
+                            leftSection={
+                                <IconVirus style={{ width: rem(16), height: rem(16) }} />}
+                        >
+                            Modificar morbilidades
+                        </Menu.Item>
 
-                )}
-                {downloadResult && (
-                    <Menu.Item onClick={handleClickEventFileResultDownload} leftSection={<IconDownload style={{ width: rem(16), height: rem(16) }} />}>
-                        Descargar resultado
-                    </Menu.Item>
-                )}
-                {(onUploadResult) && (
-                    <Menu.Item onClick={handleClickEventFileResultUpload} leftSection={<IconUpload style={{ width: rem(16), height: rem(16) }} />}>
-                        Subir resultado
-                    </Menu.Item>
-                )}
-                {(onDeleteResultFile) && (
-                    <Menu.Item
-                        onClick={handleResultFileEventDeleteFile}
-                        leftSection={
-                            <IconTrash style={{ width: rem(16), height: rem(16) }} />
-                        }>
-                        Eliminar Archivo
-                    </Menu.Item>
-                )}
-                {(onDiseaseModification || downloadResult) && <Menu.Divider />}
+                    )}
+                    {onExamModification && (
+                        <Menu.Item
+                            onClick={handleClickEventExamModification}
+                            leftSection={
+                                <IconStethoscope style={{ width: rem(16), height: rem(16) }} />}
+                        >
+                            Modificar tipo de examen
+                        </Menu.Item>
 
-                {(downloadReport || onCreateReport) && <Menu.Label>Reporteria medica</Menu.Label>}
-                {onCreateReport && (
-                    <Menu.Item
-                        leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
-                        onClick={handleClickEventCreateReport}
-                    >
-                        Elaborar reporte
-                    </Menu.Item>
-                )}
-                {(downloadReport && !!data.report) && (
-                    <Menu.Item onClick={handleClickEventFileReportDownload} leftSection={<IconDownload style={{ width: rem(16), height: rem(16) }} />}>
-                        Descargar reporte
-                    </Menu.Item>
-                )}
-            </Menu.Dropdown>
-        </Menu>
+                    )}
+                    {downloadResult && (
+                        <Menu.Item onClick={handleClickEventFileResultDownload} leftSection={(
+                            <IconDownload style={{ width: rem(16), height: rem(16) }} />
+                        )}>
+                            Descargar resultado
+                        </Menu.Item>
+                    )}
+                    {downloadResult && preview && (
+                        <Menu.Item onClick={handleClickEventFileResultPreview} leftSection={(
+                            <IconEye style={{ width: rem(16), height: rem(16) }} />
+                        )}>
+                            Visualizar resultado
+                        </Menu.Item>
+                    )}
+                    {(onUploadResult) && (
+                        <Menu.Item onClick={handleClickEventFileResultUpload} leftSection={<IconUpload style={{ width: rem(16), height: rem(16) }} />}>
+                            Subir resultado
+                        </Menu.Item>
+                    )}
+                    {(onDeleteResultFile) && (
+                        <Menu.Item
+                            onClick={handleResultFileEventDeleteFile}
+                            leftSection={
+                                <IconTrash style={{ width: rem(16), height: rem(16) }} />
+                            }>
+                            Eliminar Archivo
+                        </Menu.Item>
+                    )}
+                    {(onDiseaseModification || downloadResult) && <Menu.Divider />}
+
+                    {(downloadReport || onCreateReport) && <Menu.Label>Reporteria medica</Menu.Label>}
+                    {onCreateReport && (
+                        <Menu.Item
+                            leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
+                            onClick={handleClickEventCreateReport}
+                        >
+                            Elaborar reporte
+                        </Menu.Item>
+                    )}
+                    {(downloadReport && !!data.report) && (
+                        <Menu.Item onClick={handleClickEventFileReportDownload} leftSection={(
+                            <IconDownload style={{ width: rem(16), height: rem(16) }} />
+                        )}>
+                            Descargar reporte
+                        </Menu.Item>
+                    )}
+                    {downloadReport && preview && (
+                        <Menu.Item onClick={handleClickEventFileReportPreview} leftSection={(
+                            <IconEye style={{ width: rem(16), height: rem(16) }} />
+                        )}>
+                            Visualizar reporte
+                        </Menu.Item>
+                    )}
+                </Menu.Dropdown>
+            </Menu>
+        </>
     )
 }
 

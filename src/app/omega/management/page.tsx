@@ -8,14 +8,14 @@ import { ButtonResponsive } from '@/components/button/responsive/ButtonResponsiv
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { ListElement } from '@/components/layout/list-layout/types';
-import MultipleTierLayout, { TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
+import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { ManagementActionButton } from '@/components/management/action/ManagementActionButton';
 import { ManagementFormCreate } from '@/components/management/form/ManagementFormCreate';
 import { ManagementFormUpdate } from '@/components/management/form/ManagementFormUpdate';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
-import { Area } from '@/lib/dtos/location/area/response.dto';
-import { Management } from '@/lib/dtos/location/management/response.dto';
+import { Area } from '@/lib/dtos/location/area/base.response.dto';
+import { Management } from '@/lib/dtos/location/management/base.response.dto';
 import { Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -206,7 +206,7 @@ const ManagementPage: React.FC = () => {
 
     const handleFormSubmittedEventUpdateArea = useCallback((newArea: Area) => {
         areaUpdate('id', newArea.id, newArea);
-        if (selectedManagement) {
+        if (selectedManagement && selectedManagement.areas) {
             const areaIndex = selectedManagement.areas.findIndex(e => e.id === newArea.id);
             const newAreaArr = selectedManagement.areas;
             newAreaArr[areaIndex] = newArea;

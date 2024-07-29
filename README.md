@@ -49,8 +49,8 @@
    36. [`GET` /api/medical/orders/files/_{id}_](#enpoint-36)
    37. [`GET` /api/medical/orders/mail/_{order}_/_{mail}_](#enpoint-37)
    38. [`GET` /api/medical/orders/patient/_{dni}_](#enpoint-38)
-   39. [`GET` /api/medical/reports/recreate/pdf](#enpoint-39)
-   40. [`POST` /api/medical/reports/recreate/pdf](#enpoint-40)
+   39. [`GET` /api/medical/report/recreate/pdf](#enpoint-39)
+   40. [`POST` /api/medical/report/recreate/pdf](#enpoint-40)
    41. [`PATCH` /api/medical/results/diseases/_{id}_](#enpoint-41)
    42. [`GET` /api/medical/results/doctor](#enpoint-42)
    43. [`POST` /api/medical/results/file/_{id}_](#enpoint-43)
@@ -125,7 +125,7 @@
    37. [TableLayout](#component-38)
    38. [MedicalClientActionDefault](#component-39)
    39. [MedicalClientActionDelete](#component-40)
-   40. [MedicalClientForm](#component-41)
+   40. [MedicalClientEamilForm](#component-41)
    41. [MedicalClientLayoutEmail](#component-42)
    42. [MedicalClientModalEmailSelection](#component-43)
    43. [MedicalOrderActionMenu](#component-44)
@@ -1643,7 +1643,7 @@ Obtiene todas las ordenes asociadas a un paciente usando su `dni`
 
 <div id='enpoint-39'/>
 
-### `GET` /api/medical/reports/recreate/pdf
+### `GET` /api/medical/report/recreate/pdf
 
 Recrea todos los reportes existentes en la base de datos
 
@@ -1657,7 +1657,7 @@ Recrea todos los reportes existentes en la base de datos
 
 <div id='enpoint-40'/>
 
-### `POST` /api/medical/reports/recreate/pdf
+### `POST` /api/medical/report/recreate/pdf
 
 Recrea todos los reportes existentes asociados a un paciente
 
@@ -3043,7 +3043,7 @@ Obtiene todos las areas registradas en el sistema
 
 <div id='component-41' />
 
-### MedicalClientForm
+### MedicalClientEamilForm
 
 **Description:** Formulario base para la creacion o modificacion de uno correo electronico.
 

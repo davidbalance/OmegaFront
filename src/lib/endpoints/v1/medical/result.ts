@@ -1,11 +1,23 @@
 import { root } from "../../config";
 
+const baseUrl: string = 'medical/results';
+
 export const MEDICAL_RESULT = {
-    FIND_ALL: `${root}/medical/results`,
-    FIND_BY_DOCTOR: `${root}/medical/results/doctor`,
-    FIND_ONE_RESULT_AND_INSERT_DISEASE: (id: number) => `${root}/medical/results/${id}/diseases`,
-    FIND_ONE_RESULT_AND_UPDATE_DISEASE: (id: number, disease: number) => `${root}/medical/results/${id}/diseases/${disease}`,
-    FIND_ONE_RESULT_AND_DELETE_DISEASE: (id: number, disease: number) => `${root}/medical/results/${id}/diseases/${disease}`,
-    FIND_ONE_AND_UPLOAD_FILE: (key: number) => `${root}/medical/results/file/${key}`,
-    FIND_ONE_AND_ATTACH_REPORT: (key: number) => `${root}/medical/results/report/${key}`
+    REPORT: {
+        DISEASE: {
+            EXPORT: `${root}/${baseUrl}/report/diseases`,   
+            YEAR: `${root}/${baseUrl}/report/diseases/year`
+        }
+    },
+    DISEASE: {
+        CREATE: `${root}/${baseUrl}/diseases`,
+        FIND_ALL: `${root}/${baseUrl}/diseases`,
+        FIND_ONE: (id: number) => `${root}/${baseUrl}/diseases/${id}`,
+        UPDATE_ONE: (id: number) => `${root}/${baseUrl}/diseases/${id}`,
+        DELETE_ONE: (id: number) => `${root}/${baseUrl}/diseases/${id}`,
+    },
+    UPLOAD_FILE: (key: number) => `${root}/${baseUrl}/file/${key}`,
+    FIND_ALL: `${root}/${baseUrl}`,
+    FIND_ONE: (id: number) => `${root}/${baseUrl}/${id}`,
+    FIND_BY_DOCTOR: `${root}/${baseUrl}/doctor`
 }
