@@ -185,15 +185,37 @@ const PatientPage: React.FC = () => {
         </ListRow>
     ), [medicalOrderSelected, handleOrderSelection, handleEventMailSend, handleEventOrderStatus]);
 
+    const handleMedicalResultModification = useCallback((data: MedicalResult) => {
+        medicalResultUpdate('id', data.id, data);
+        if (medicalOrderSelected) {
+            const updatedOrder = { ...medicalOrderSelected };
+            const resultIndex = updatedOrder.results.findIndex(e => e.id === data.id);
+            if (resultIndex !== -1) {
+                updatedOrder.results[resultIndex] = data;
+                medicalOrderUpdate('id', updatedOrder.id, updatedOrder);
+            }
+        }
+    }, [medicalOrderSelected, medicalOrderUpdate, medicalResultUpdate]);
+
     const handleMedicalResultRow = useCallback((row: MedicalResult) => (
         <ListRow
             key={row.id}
             rightSection={<MedicalResultActionMenu
-                onDiseaseModification={handleMedicalOrderResultFormSubmittion}
-                downloadReport={!!row.report}
+                preview
+                onDiseaseModification={medicalOrderSelected?.orderStatus === 'created'
+                    ? handleMedicalResultModification
+                    : undefined}
+                onExamModification={medicalOrderSelected?.orderStatus === 'created'
+                    ? handleMedicalResultModification
+                    : undefined}
+                downloadReport={!!row.report && row.report.hasFile}
                 downloadResult={row.hasFile}
-                onUploadResult={() => handleClickEventUploadResultFile(row)}
-                onDeleteResultFile={() => handleClickEventDeleteMedicalResultFile(row.id)}
+                onUploadResult={medicalOrderSelected?.orderStatus === 'created'
+                    ? () => handleClickEventUploadResultFile(row)
+                    : undefined}
+                onDeleteResultFile={medicalOrderSelected?.orderStatus === 'created'
+                    ? () => handleClickEventDeleteMedicalResultFile(row.id)
+                    : undefined}
                 data={row} />}
         >
             <Title order={6}>{row.examName}</Title>
@@ -209,7 +231,7 @@ const PatientPage: React.FC = () => {
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </ListRow>
-    ), [handleClickEventUploadResultFile, handleClickEventDeleteMedicalResultFile, handleMedicalOrderResultFormSubmittion]);
+    ), [medicalOrderSelected, handleMedicalResultModification, handleClickEventUploadResultFile, handleClickEventDeleteMedicalResultFile]);
 
     const handleOrderRefesh = useCallback(() => {
         setMedicalOrderSelected(null);

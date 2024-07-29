@@ -125,6 +125,7 @@ const MedicalReport: React.FC = () => {
             key={row.id}
             rightSection={<MedicalResultActionMenu
                 data={row}
+                preview
                 onCreateReport={() => handleCreateEvent(row)}
                 downloadReport={!!row.report}
                 downloadResult={row.hasFile} />}
