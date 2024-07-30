@@ -297,7 +297,7 @@ const PatientPage: React.FC = () => {
     }), []);
 
     const handleCloseEvent = useCallback(() => {
-        setPatientSelected(null);
+        // setPatientSelected(null);
         setCurrentState(LayoutState.DEFAULT);
     }, []);
 

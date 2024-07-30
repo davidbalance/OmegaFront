@@ -5,7 +5,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { OmegaNavResource } from '@/lib/dtos/omega/nav/resource/base.response.dto';
 import { OmegaWebResource } from '@/lib/dtos/omega/web/resource/base.response.dto';
 import { User } from '@/lib/dtos/user/user/base.response.dto';
-import { LoadingOverlay, Flex, rem, Box, Button, Text } from '@mantine/core';
+import { LoadingOverlay, Flex, rem, Box, Button, Text, ScrollArea } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
@@ -81,17 +81,21 @@ const UserFormWebResource: React.FC<UserFormWebResourceProps> = ({ user, onClose
                     onClose={onClose} />
 
                 <ModularBox flex={1} align='center'>
-                    <Box pt={rem(16)} w='100%' maw={rem(700)}>
-                        {
-                            clientResources
-                                ? <WebResourceFormAssign
-                                    ref={buttonRef}
-                                    onSubmit={handleSubmit}
-                                    resources={webResources || []}
-                                    data={{ resources: clientResources.map(e => e.id) }} />
-                                : <Text>No se han encontrado paginas</Text>
-                        }
-                    </Box>
+                    <ScrollArea h={400} w='100%'>
+                        <Flex justify='center'>
+                            <Box pt={rem(16)} w='100%' maw={rem(700)}>
+                                {
+                                    clientResources
+                                        ? <WebResourceFormAssign
+                                            ref={buttonRef}
+                                            onSubmit={handleSubmit}
+                                            resources={webResources || []}
+                                            data={{ resources: clientResources.map(e => e.id) }} />
+                                        : <Text>No se han encontrado paginas</Text>
+                                }
+                            </Box>
+                        </Flex>
+                    </ScrollArea>
                 </ModularBox>
 
                 <ModularBox direction='row'>

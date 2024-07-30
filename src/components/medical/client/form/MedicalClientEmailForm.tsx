@@ -39,7 +39,7 @@ interface MedicalClientEmailFormProps {
      */
     onFormSubmittion?: (data: MedicalClientEmail) => void;
 }
-const MedicalClientEamilForm: React.FC<MedicalClientEmailFormProps> = ({ dni, onValidate, onFormSubmittion }) => {
+const MedicalClientEmailForm: React.FC<MedicalClientEmailFormProps> = ({ dni, onValidate, onFormSubmittion }) => {
 
     const form = useForm({ initialValues: { email: '' }, validate: joiResolver(userSchema) });
 
@@ -112,4 +112,4 @@ const MedicalClientEamilForm: React.FC<MedicalClientEmailFormProps> = ({ dni, on
     )
 }
 
-export { MedicalClientEamilForm }
+export { MedicalClientEmailForm }

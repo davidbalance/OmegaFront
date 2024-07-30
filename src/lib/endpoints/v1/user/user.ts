@@ -20,8 +20,8 @@ export const USER = {
             UPDATE_ONE: (id: number) => `${root}/${baseUrlAttribute}/doctor/of/${id}`
         },
         EMPLOYEE: {
-            FIND: (id: number) => `${root}/${baseUrlAttribute}/employee/${id}`,
-            UPDATE_ONE: (id: number) => `${root}/${baseUrlAttribute}/employee/${id}`
+            FIND: (id: number) => `${root}/${baseUrlAttribute}/employee/of/${id}`,
+            UPDATE_ONE: (id: number) => `${root}/${baseUrlAttribute}/employee/of/${id}`
         }
     }
 }

@@ -6,7 +6,7 @@ import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect } from 'react'
 import { MedicalClientActionDefault } from '../action/MedicalClientActionDefault';
 import { MedicalClientActionDelete } from '../action/MedicalClientActionDelete';
-import { MedicalClientEamilForm } from '../form/MedicalClientEmailForm';
+import { MedicalClientEmailForm } from '../form/MedicalClientEmailForm';
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListElement } from '@/components/layout/list-layout/types';
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
@@ -56,8 +56,10 @@ const MedicalClientLayoutEmail: React.FC<MedicalClientLayoutEmailProps> = ({ pat
     }, [emailRemove]);
 
     const handleUpdateEvent = useCallback((value: MedicalClientEmail) => {
+        const newMail = email.map(e => ({ ...e, default: false }));
+        emailOverride(newMail);
         emailUpdate('id', value.id, value);
-    }, [emailUpdate]);
+    }, [email, emailUpdate, emailOverride]);
 
     const handleRowMedicalClientEmail = useCallback((row: MedicalClientEmail) => (
         <ListRow
@@ -99,7 +101,7 @@ const MedicalClientLayoutEmail: React.FC<MedicalClientLayoutEmailProps> = ({ pat
                     title={`Correos de ${patient.name} ${patient.lastname}`}
                     onClose={onClose} />
 
-                <MedicalClientEamilForm
+                <MedicalClientEmailForm
                     dni={patient.dni}
                     onValidate={handleValidation}
                     onFormSubmittion={handleFormSubmittion} />
