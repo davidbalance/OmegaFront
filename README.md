@@ -125,7 +125,7 @@
    37. [TableLayout](#component-38)
    38. [MedicalClientActionDefault](#component-39)
    39. [MedicalClientActionDelete](#component-40)
-   40. [MedicalClientEamilForm](#component-41)
+   40. [MedicalClientEmailForm](#component-41)
    41. [MedicalClientLayoutEmail](#component-42)
    42. [MedicalClientModalEmailSelection](#component-43)
    43. [MedicalOrderActionMenu](#component-44)
@@ -3043,7 +3043,7 @@ Obtiene todos las areas registradas en el sistema
 
 <div id='component-41' />
 
-### MedicalClientEamilForm
+### MedicalClientEmailForm
 
 **Description:** Formulario base para la creacion o modificacion de uno correo electronico.
 

@@ -10,6 +10,7 @@
 
 .list-content {
   cursor: default;
+  user-select: text;
 }
 
 .list-content.clickable {

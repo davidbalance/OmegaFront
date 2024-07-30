@@ -85,6 +85,7 @@ const MedicalResultExamSelectionFormUpdateModal: React.FC<MedicalResultExamSelec
                         <LoadingOverlay visible={medicalResultLoading || examTypeLoading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
 
                         <MedicalResultExamSelectionForm
+                            ref={buttonRef}
                             formData={medicalResult}
                             types={examTypeData || []}
                             onFormSubmitted={handleFormSubmittion} />

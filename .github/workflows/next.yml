@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['22.x']
+        node-version: ["22.x"]
     env:
       NEXT_PUBLIC_ROOT_API: ${{ secrets.NEXT_PUBLIC_ROOT_API }}
       NEXT_PUBLIC_AUTH_TOKEN_KEY: ${{ secrets.NEXT_PUBLIC_AUTH_TOKEN_KEY }}
@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create temporary env file
-        run: | 
+        run: |
           echo "NEXT_PUBLIC_ROOT_API=$NEXT_PUBLIC_ROOT_API" >> .env
           echo "NEXT_PUBLIC_AUTH_TOKEN_KEY=$NEXT_PUBLIC_AUTH_TOKEN_KEY" >> .env
           echo "NEXT_PUBLIC_REFRESH_TOKEN_KEY=$NEXT_PUBLIC_REFRESH_TOKEN_KEY" >> .env
@@ -55,6 +55,15 @@ jobs:
     steps:
       - name: Check Repository
         uses: actions/checkout@v4
+
+      - name: SSH into server and backup database
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            docker exec ${{ secrets.MYSQL_CONTAINER_NAME }} bash -c "mysqldump --no-create-info -u ${{ secrets.MYSQL_USER }} -p${{ secrets.MYSQL_PASSWORD }} ${{ secrets.MYSQL_DATABASE }} > /backup/backup_$(date +%F_%T).sql"
 
       - name: SSH into server and deploy application
         uses: appleboy/ssh-action@master

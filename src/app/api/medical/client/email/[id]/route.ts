@@ -37,7 +37,6 @@ export async function POST(
             body: body,
             headers: CONTENT_TYPE_APPLICATION_JSON
         });
-        console.log(data);
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
         console.error(error);
@@ -54,10 +53,11 @@ export async function PATCH(
     { params }: { params: { id: number } }
 ) {
     try {
-        const postClientMail = withAuth<any, PatchMedicalClientEmailResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const data: PatchMedicalClientEmailResponseDto = await postClientMail(endpoints.MEDICAL.CLIENT.EMAIL.UPDATE_ONE(params.id), {});
+        const patchClientMail = withAuth<any, PatchMedicalClientEmailResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
+        const data: PatchMedicalClientEmailResponseDto = await patchClientMail(endpoints.MEDICAL.CLIENT.EMAIL.UPDATE_ONE(params.id), {});
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
+        console.error(error);
         if (error instanceof FetchError) {
             return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
         } else {

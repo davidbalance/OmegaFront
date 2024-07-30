@@ -3,6 +3,10 @@ import { root } from "../../config";
 const baseUrl: string = 'medical/client';
 
 export const MEDICAL_CLIENT = {
+    JOB_POSITION: {
+        FIND_ONE: (dni: string) => `${root}/${baseUrl}/job/position/${dni}`,
+        UPDATE_ONE: (dni: string) => `${root}/${baseUrl}/job/position/${dni}`,
+    },
     EMAIL: {
         FIND_ALL: (dni: string) => `${root}/${baseUrl}/email/${dni}`,
         CREATE: (dni: string) => `${root}/${baseUrl}/email/${dni}`,

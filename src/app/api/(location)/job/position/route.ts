@@ -10,7 +10,9 @@ import { NextResponse, NextRequest } from "next/server";
 export async function GET() {
     try {
         const getJobPosition = withAuth<any, GetJobPositionArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { data }: GetJobPositionArrayResponseDto = await getJobPosition(endpoints.LOCATION.JOB_POSITION.FIND_ALL, {});
+        const { data }: GetJobPositionArrayResponseDto = await getJobPosition(endpoints.LOCATION.JOB_POSITION.FIND_ALL, {
+            cache: false
+        });
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
         console.error(error);

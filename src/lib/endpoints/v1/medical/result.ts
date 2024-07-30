@@ -5,7 +5,7 @@ const baseUrl: string = 'medical/results';
 export const MEDICAL_RESULT = {
     REPORT: {
         DISEASE: {
-            EXPORT: `${root}/${baseUrl}/report/diseases`,   
+            EXPORT: `${root}/${baseUrl}/report/diseases`,
             YEAR: `${root}/${baseUrl}/report/diseases/year`
         }
     },
@@ -19,5 +19,6 @@ export const MEDICAL_RESULT = {
     UPLOAD_FILE: (key: number) => `${root}/${baseUrl}/file/${key}`,
     FIND_ALL: `${root}/${baseUrl}`,
     FIND_ONE: (id: number) => `${root}/${baseUrl}/${id}`,
-    FIND_BY_DOCTOR: `${root}/${baseUrl}/doctor`
+    FIND_BY_DOCTOR: `${root}/${baseUrl}/doctor`,
+    UPDATE_ONE: (id: number) => `${root}/${baseUrl}/${id}`
 }

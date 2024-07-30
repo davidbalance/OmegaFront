@@ -1,5 +1,5 @@
 import { Menu, MenuTarget, Flex, ActionIcon, rem } from '@mantine/core'
-import { IconDotsVertical, IconBuilding, IconAt, IconBuildingCommunity } from '@tabler/icons-react'
+import { IconDotsVertical, IconBuilding, IconAt, IconBuildingCommunity, IconBriefcase } from '@tabler/icons-react'
 import React from 'react'
 
 interface PatientActionButtonProps {
@@ -18,8 +18,10 @@ interface PatientActionButtonProps {
    * @returns 
    */
   onManagementArea?: () => void;
+
+  onJobPosition?: () => void;
 }
-const PatientActionButton: React.FC<PatientActionButtonProps> = ({ onAssignCompany, onEmail, onManagementArea }) => {
+const PatientActionButton: React.FC<PatientActionButtonProps> = ({ onAssignCompany, onEmail, onManagementArea, onJobPosition }) => {
   return (
     <Menu>
       <MenuTarget>
@@ -44,6 +46,13 @@ const PatientActionButton: React.FC<PatientActionButtonProps> = ({ onAssignCompa
           leftSection={<IconBuildingCommunity style={{ width: rem(16), height: rem(16) }} />}
           onClick={onManagementArea}>
           Asignar gerencia y area
+        </Menu.Item>
+        <Menu.Item
+          onClick={onJobPosition}
+          leftSection={(
+            <IconBriefcase style={{ width: rem(16), height: rem(16) }} />
+          )}>
+          Asignar puesto de trabajo
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

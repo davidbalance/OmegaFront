@@ -1,7 +1,7 @@
 import { GetMedicalOrderCloudResponseDto } from "@/lib/dtos/medical/order/response.dto";
 import endpoints from "@/lib/endpoints/endpoints";
 import { FetchError } from "@/lib/errors/fetch.error";
-import { post } from "@/lib/fetcher/fetcher";
+import { get } from "@/lib/fetcher/fetcher";
 import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,7 +10,7 @@ export async function GET(
     { params }: { params: { id: number } }
 ) {
     try {
-        const getMedicalResult = withAuth<any, GetMedicalOrderCloudResponseDto>(post, DEFAULT_WITH_AUTH_OPTIONS);
+        const getMedicalResult = withAuth<any, GetMedicalOrderCloudResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
         const data: GetMedicalOrderCloudResponseDto = await getMedicalResult(endpoints.MEDICAL.ORDER.CLOUD(params.id), {});
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
