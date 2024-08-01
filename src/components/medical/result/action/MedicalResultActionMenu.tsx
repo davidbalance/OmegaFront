@@ -39,6 +39,11 @@ interface MedicalResultActionMenuProps {
      */
     onUploadResult?: () => void;
     /**
+     * Funcion que es invocada cuando se llama al evento de asignacion de morbilidades
+     * @returns 
+     */
+    onUploadReport?: () => void;
+    /**
      * Funcion que es invocada cuando se llama al evento de carga de resultado medico.
      * @returns 
      */
@@ -63,6 +68,7 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     onDeleteResultFile,
     onDiseaseModification,
     onUploadResult,
+    onUploadReport,
     onCreateReport,
     onExamModification
 }) => {
@@ -122,6 +128,10 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     const handleClickEventFileResultUpload = useCallback(() => {
         onUploadResult?.();
     }, [onUploadResult]);
+
+    const handleClickEventFileReportUpload = useCallback(() => {
+        onUploadReport?.();
+    }, [onUploadReport]);
 
     const handleClickEventFileReportDownload = useCallback(() => {
         setPreviewBlob(false);
@@ -288,13 +298,18 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
                     )}
                     {(onDiseaseModification || downloadResult) && <Menu.Divider />}
 
-                    {(downloadReport || onCreateReport) && <Menu.Label>Reporteria medica</Menu.Label>}
+                    {(downloadReport || onCreateReport || onUploadReport) && <Menu.Label>Reporteria medica</Menu.Label>}
                     {onCreateReport && (
                         <Menu.Item
                             leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
                             onClick={handleClickEventCreateReport}
                         >
                             Elaborar reporte
+                        </Menu.Item>
+                    )}
+                    {(onUploadReport) && (
+                        <Menu.Item onClick={handleClickEventFileReportUpload} leftSection={<IconUpload style={{ width: rem(16), height: rem(16) }} />}>
+                            Subir reporte
                         </Menu.Item>
                     )}
                     {(downloadReport && !!data.report) && (

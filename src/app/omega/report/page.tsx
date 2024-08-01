@@ -5,6 +5,7 @@ import { ListRow } from '@/components/layout/list-layout/components/row/ListRow'
 import { ListElement } from '@/components/layout/list-layout/types';
 import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { MedicalReportForm } from '@/components/medical/report/form/MedicalReportForm';
+import { MedicalReportFormUploadFile } from '@/components/medical/report/form/MedicalReportFormUploadFile';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
@@ -18,7 +19,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 enum LayoutStates {
     DEFAULT,
-    INSERT_REPORT
+    INSERT_REPORT,
+    UPLOAD_FILE
 }
 
 const patientColumns: ListElement<MedicalClient>[] = [
@@ -120,6 +122,11 @@ const MedicalReport: React.FC = () => {
         setCurrentState(LayoutStates.INSERT_REPORT);
     }, []);
 
+    const handleUploadReportEvent = useCallback((data: MedicalResult) => {
+        setMedicalResultSelected(data);
+        setCurrentState(LayoutStates.UPLOAD_FILE);
+    }, []);
+
     const handleMedicalResultRow = useCallback((row: MedicalResult) => (
         <ListRow
             key={row.id}
@@ -128,7 +135,12 @@ const MedicalReport: React.FC = () => {
                 preview
                 onCreateReport={() => handleCreateEvent(row)}
                 downloadReport={!!row.report}
-                downloadResult={row.hasFile} />}
+                downloadResult={row.hasFile}
+                onUploadReport={
+                    !!row.report && row.report?.hasFile
+                        ? () => handleUploadReportEvent(row)
+                        : undefined
+                } />}
         >
             <Title order={6}>{row.examName}</Title>
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
@@ -194,7 +206,7 @@ const MedicalReport: React.FC = () => {
     }), []);
 
     const handleCloseEvent = useCallback(() => {
-        setPatientSelected(null);
+        // setPatientSelected(null);
         setCurrentState(LayoutStates.DEFAULT);
     }, []);
 
@@ -202,19 +214,28 @@ const MedicalReport: React.FC = () => {
         medicalResultUpdate('id', data.id, data);
     }, [medicalResultUpdate]);
 
-    const view = useMemo(() => ({
-        [LayoutStates.INSERT_REPORT]: (
-            <MedicalReportForm
-                result={medicalResultSelected!}
-                onClose={handleCloseEvent}
-                onFormSubmittion={handleFormSubmittion} />
-        ),
+    const view = useMemo((): Record<LayoutStates, React.ReactNode> => ({
         [LayoutStates.DEFAULT]: (
             <MultipleTierLayout
                 elements={multipleLayerComponents}
                 tier={active}
                 onClose={handleCloseTierEvent}
             />
+        ),
+        [LayoutStates.INSERT_REPORT]: (
+            <MedicalReportForm
+                result={medicalResultSelected!}
+                onClose={handleCloseEvent}
+                onFormSubmittion={handleFormSubmittion} />
+        ),
+        [LayoutStates.UPLOAD_FILE]: (
+            <MedicalReportFormUploadFile
+                medicalReport={medicalResultSelected?.report?.id!}
+                onClose={handleCloseEvent}
+                onFormSubmittion={medicalResultSelected && medicalResultSelected.report
+                    ? () => handleFormSubmittion({ ...medicalResultSelected, report: { ...medicalResultSelected.report!, hasFile: true } })
+                    : undefined
+                } />
         ),
     }), [multipleLayerComponents, active, handleCloseTierEvent, handleCloseEvent, handleFormSubmittion, medicalResultSelected]);
 
