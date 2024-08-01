@@ -1,7 +1,7 @@
 import { JobPosition } from '@/lib/dtos/location/job/position/base.response.dto';
 import { BaseFormProps } from '@/lib/types/base-form-prop';
 import { Box, Button, ComboboxItem, rem, Select } from '@mantine/core';
-import React, { FormEvent, useCallback, useMemo, useState } from 'react'
+import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
 interface UserFormJobPositionProps extends BaseFormProps<string | null> {
     jobPosition: JobPosition[]
@@ -10,6 +10,11 @@ interface UserFormJobPositionProps extends BaseFormProps<string | null> {
 const UserFormJobPosition = React.forwardRef<HTMLButtonElement, UserFormJobPositionProps>(({ formData, onFormSubmitted, jobPosition }, ref) => {
 
     const [jobPositionSelected, setJobPositionSelected] = useState<string | null>(formData || null);
+
+    useEffect(() => {
+        setJobPositionSelected(formData || null);
+    }, [formData])
+
 
     const handleSelectorChange = useCallback((value: string | null, _: ComboboxItem) => {
         setJobPositionSelected(value);
