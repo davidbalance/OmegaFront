@@ -74,7 +74,6 @@ const UserFormJobPositionAssign: React.FC<UserFormJobPositionAssignProps> = ({ d
 
     useEffect(() => {
         if (assignJobPositionData) {
-            console.log(assignJobPositionData);
             setInitialJobPosition(assignJobPositionData.jobPositionName || null);
             assignJobPositionReset();
         }

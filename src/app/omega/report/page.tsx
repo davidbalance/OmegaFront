@@ -149,7 +149,7 @@ const MedicalReport: React.FC = () => {
                 : <Text size='xs' c='red'>Reporte no realizado</Text>
             }
         </ListRow>
-    ), [handleCreateEvent]);
+    ), [handleCreateEvent, handleUploadReportEvent]);
 
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {
