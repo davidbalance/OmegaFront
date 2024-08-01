@@ -121,7 +121,6 @@ const AdminOrderPage = () => {
                         onValidate={handleEventOrderStatus} />
                 </Flex>
             )}>
-            {row.id}
             <Grid>
                 <Grid.Col span={4}>
                     <Flex direction='column'>
