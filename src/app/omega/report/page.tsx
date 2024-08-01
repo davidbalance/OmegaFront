@@ -132,7 +132,10 @@ const MedicalReport: React.FC = () => {
         >
             <Title order={6}>{row.examName}</Title>
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
-            {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
+            {!!row.report && row.report.hasFile
+                ? <Text size='xs' c='blue'>Reporte realizado</Text>
+                : <Text size='xs' c='red'>Reporte no realizado</Text>
+            }
         </ListRow>
     ), [handleCreateEvent]);
 
