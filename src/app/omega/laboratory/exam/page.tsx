@@ -271,7 +271,6 @@ const LaboratoryExamPage = () => {
 
   const handleFormSubmitExamChangeSubtypeEvent = useCallback((exam: Exam, type: number, subtype: number): void => {
     if (examTypeSelected && examSubtypeSelected) {
-      console.log(type, subtype);
       const newType = types.find(e => e.id === type);
       if (newType) {
 
