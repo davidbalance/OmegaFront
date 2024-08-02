@@ -18,6 +18,6 @@
 }
 
 .outer {
-  border-radius: rem(16);
+  border-radius: var(--mantine-radius-sm);
   overflow: hidden;
 }

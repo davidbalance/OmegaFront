@@ -1,0 +1,78 @@
+name: Docker Image Deployment
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build_and_push_docker_image:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ["22.x"]
+    env:
+      NEXT_PUBLIC_ROOT_API: ${{ secrets.NEXT_PUBLIC_ROOT_API }}
+      NEXT_PUBLIC_AUTH_TOKEN_KEY: ${{ secrets.NEXT_PUBLIC_AUTH_TOKEN_KEY }}
+      NEXT_PUBLIC_REFRESH_TOKEN_KEY: ${{ secrets.NEXT_PUBLIC_REFRESH_TOKEN_KEY }}
+      NEXT_PUBLIC_CONFIGURATION_KEY: ${{ secrets.NEXT_PUBLIC_CONFIGURATION_KEY }}
+      NEXT_PUBLIC_LOGO_KEY: ${{ secrets.NEXT_PUBLIC_LOGO_KEY }}
+      NEXT_PUBLIC_RESOURCES_KEY: ${{ secrets.NEXT_PUBLIC_RESOURCES_KEY }}
+      NEXT_PUBLIC_USER_KEY: ${{ secrets.NEXT_PUBLIC_USER_KEY }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create temporary env file
+        run: |
+          echo "NEXT_PUBLIC_ROOT_API=$NEXT_PUBLIC_ROOT_API" >> .env
+          echo "NEXT_PUBLIC_AUTH_TOKEN_KEY=$NEXT_PUBLIC_AUTH_TOKEN_KEY" >> .env
+          echo "NEXT_PUBLIC_REFRESH_TOKEN_KEY=$NEXT_PUBLIC_REFRESH_TOKEN_KEY" >> .env
+          echo "NEXT_PUBLIC_CONFIGURATION_KEY=$NEXT_PUBLIC_CONFIGURATION_KEY" >> .env
+          echo "NEXT_PUBLIC_LOGO_KEY=$NEXT_PUBLIC_LOGO_KEY" >> .env
+          echo "NEXT_PUBLIC_RESOURCES_KEY=$NEXT_PUBLIC_RESOURCES_KEY" >> .env
+          echo "NEXT_PUBLIC_USER_KEY=$NEXT_PUBLIC_USER_KEY" >> .env
+
+      - name: Build docker image
+        run: docker build -t ${{ secrets.DOCKER_IMAGE }} .
+        working-directory: .
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push Docker image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_IMAGE }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_push_docker_image
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Check Repository
+        uses: actions/checkout@v4
+
+      - name: SSH into server and backup database
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            docker exec ${{ secrets.MYSQL_CONTAINER_NAME }} bash -c "mysqldump --no-create-info -u ${{ secrets.MYSQL_USER }} -p${{ secrets.MYSQL_PASSWORD }} ${{ secrets.MYSQL_DATABASE }} > /backup/backup_$(date +%F_%T).sql"
+
+      - name: SSH into server and deploy application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            cd ${{ secrets.DOCKER_COMPOSE_DIRECTORY }}
+            docker-compose down || true
+            docker-compose pull
+            docker-compose up -d

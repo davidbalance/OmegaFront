@@ -1,0 +1,19 @@
+.option {
+  width: 100%;
+  padding: rem(16px);
+  border: 1px solid transparent;
+  border-radius: var(--mantine-radius-md);
+  margin-top: rem(4px);
+
+  transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
+
+  &[data-active] {
+    background-color: var(--mantine-color-orange-light);
+    color: var(--mantine-color-orange-filled);
+  }
+
+  &:hover {
+    border-color: var(--mantine-color-orange-filled);
+  }
+}

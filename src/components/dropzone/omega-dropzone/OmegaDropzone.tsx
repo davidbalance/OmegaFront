@@ -5,7 +5,10 @@ import React, { useRef } from 'react'
 import classes from './OmegaDropzone.module.css';
 import { useMediaQuery } from '@mantine/hooks';
 
-type OmegaDropzoneProps = Partial<DropzoneProps> & {
+interface OmegaDropzoneProps extends Partial<DropzoneProps> {
+    /**
+     * Objeto que permite modificar las etiquetas del dropzone.
+     */
     labels?: {
         helper: React.ReactNode;
         accept: string;
@@ -53,7 +56,7 @@ const OmegaDropzone: React.FC<OmegaDropzoneProps> = ({
                             <Dropzone.Reject>
                                 <IconX
                                     style={{ width: rem(50), height: rem(50) }}
-                                    color={theme.colors.red[6]}
+                                    color={theme.colors.red[4]}
                                     stroke={1.5}
                                 />
                             </Dropzone.Reject>

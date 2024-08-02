@@ -6,21 +6,45 @@ import { OmegaTd } from '../omega-td/OmegaTd';
 import { useMediaQuery } from '@mantine/hooks';
 
 type OmegaTableProps = {
+    /**
+     * Componentes de react que forman el encabezado de la tabla.
+     */
     header: React.ReactNode;
+    /**
+     * Arreglo de componentes de react que forman el cuerpo de la tabla.
+     */
     rows: React.JSX.Element[];
+    /**
+     * Total de items.
+     */
     total: number;
+    /**
+     * Pagina actual.
+     */
     page: number;
-    onPageChange: (value: number) => void;
+    /**
+     * Estado de carga.
+     */
     loading?: boolean;
+    /**
+     * Funcion que es invocada cuando se llama al evento de cambio de pagina.
+     * @param value 
+     * @returns 
+     */
+    onPageChange: (value: number) => void;
 }
 const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPageChange, loading = false }) => {
     const [scrolled, setScrolled] = useState<boolean>(false);
 
     const matches = useMediaQuery("(min-width: 700px)");
 
+    const scrollAreaHeight = matches
+        ? 400
+        : 300
+
     return (
         <Box className={classes.outer}>
-            <ScrollArea h={matches ? 400 : 300} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+            <ScrollArea h={scrollAreaHeight} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
                 <Table horizontalSpacing="md" verticalSpacing="xs" layout='auto'>
                     <Table.Thead className={cx(classes.sticky, { [classes.scrolled]: scrolled })} c='omegaColors'>
                         <Table.Tr>
@@ -35,13 +59,11 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
                                     <OmegaTd colSpan={4}>
                                         {
                                             loading ?
-                                                <Flex justify='center' align='center' c='omegaColors'>
+                                                <Flex justify='center' align='center'>
                                                     <Loader size='sm' m='md' />
-                                                    <Text size='xs'>Cargando recursos...</Text>
+                                                    <Text>Cargando recursos...</Text>
                                                 </Flex>
-                                                : <Text
-                                                    ta="center"
-                                                    size='xs'>
+                                                : <Text ta="center">
                                                     Datos no encontrados
                                                 </Text>
                                         }
@@ -63,7 +85,7 @@ const OmegaTable: React.FC<OmegaTableProps> = ({ header, rows, total, page, onPa
                         withEdges />
                 </div>
             }
-        </Box>
+        </Box >
     )
 }
 
