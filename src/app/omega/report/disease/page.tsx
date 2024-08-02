@@ -27,7 +27,6 @@ const ReportDiseasePage = () => {
   } = useFetch<Blob>('/api/medical/results/diseases/report', 'POST', { loadOnMount: false });
 
   const handleFormSubmittedEvent = useCallback((data: MedicalResultDiseaseReportRequest) => {
-    console.log(data, !data.year && !data.corporativeName && !data.companyRuc)
     if (!data.year && !data.corporativeName && !data.companyRuc) {
       notifications.show({ message: 'Debe colocar al menos un campo de busqueda antes de exportar' })
       return;

@@ -29,6 +29,7 @@ import { WEB_RESOURCE } from "./v1/omega/web/resource";
 import { NAV_RESOURCE } from "./v1/omega/nav/resource";
 import { LAB_EXAM_SUBTYPE } from "./v1/laboratory/exam/subtype";
 import { LAB_EXAM_TYPE } from "./v1/laboratory/exam/type";
+import { LAB_EXAM } from "./v1/laboratory/exam";
 
 export default Object.freeze({
     LOGGER: LOG,
@@ -63,6 +64,7 @@ export default Object.freeze({
     },
     LABORATORY: {
         EXAM: {
+            ...LAB_EXAM,
             TYPE: LAB_EXAM_TYPE,
             SUBTYPE: LAB_EXAM_SUBTYPE,
         }

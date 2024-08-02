@@ -14,6 +14,7 @@ import { MedicalResultActionMenu } from '@/components/medical/result/action/Medi
 import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
 import { PatientActionButton } from '@/components/patient/action/PatientActionButton';
 import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
+import { UserFormJobPositionAssign } from '@/components/user/form/UserFormJobPositionAssign';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { MedicalOrder, OrderStatus } from '@/lib/dtos/medical/order/base.response.dto';
@@ -29,6 +30,7 @@ enum LayoutState {
     DEFAULT,
     EMAIL,
     UPDATE_PATIENT_MANAGEMENT_AREA,
+    UPDATE_JOB_POSITION,
     UPDATE_EMPLOYEE,
     UPLOAD_RESULT_FILE
 }
@@ -134,16 +136,24 @@ const PatientPage: React.FC = () => {
         }
     }, [medicalOrderSelected, medicalOrderUpdate, medicalResultUpdate]);
 
+    const handleClickEventJobPosition = useCallback((selection: PatientEeq) => {
+        setPatientSelected(selection);
+        setCurrentState(LayoutState.UPDATE_JOB_POSITION);
+    }, []);
+
+
     const handlePatientRow = useCallback((row: PatientEeq) => (
         <ListRow
             key={row.id}
             active={row.id === patientSelected?.id}
             onClick={() => handlePatientSelection(row)}
-            rightSection={<PatientActionButton
-                onAssignCompany={() => handleClickEventAssignModal(row)}
-                onEmail={() => handleClickEventEmail(row)}
-                onManagementArea={() => handleClickEventManagementArea(row)} />}
-        >
+            rightSection={(
+                <PatientActionButton
+                    onAssignCompany={() => handleClickEventAssignModal(row)}
+                    onEmail={() => handleClickEventEmail(row)}
+                    onManagementArea={() => handleClickEventManagementArea(row)}
+                    onJobPosition={() => handleClickEventJobPosition(row)} />
+            )}>
             <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
             <Flex>
                 <Text fw={500} mr={rem(2)}>Rol:</Text>
@@ -154,7 +164,7 @@ const PatientPage: React.FC = () => {
                 <Text>{row.dni}</Text>
             </Flex>
         </ListRow>
-    ), [patientSelected, handlePatientSelection, handleClickEventAssignModal, handleClickEventEmail, handleClickEventManagementArea]);
+    ), [patientSelected, handlePatientSelection, handleClickEventAssignModal, handleClickEventEmail, handleClickEventManagementArea, handleClickEventJobPosition]);
 
     const handleMedicalOrderRow = useCallback((row: MedicalOrder) => (
         <ListRow
@@ -329,7 +339,12 @@ const PatientPage: React.FC = () => {
             <MedicalClientFormManagementAreaCreate
                 onClose={handleCloseEvent}
                 dni={patientSelected?.dni!} />
-        )
+        ),
+        [LayoutState.UPDATE_JOB_POSITION]: (
+            <UserFormJobPositionAssign
+                dni={patientSelected?.dni!}
+                onClose={handleCloseEvent} />
+        ),
     }), [
         multipleLayerComponents,
         active,
