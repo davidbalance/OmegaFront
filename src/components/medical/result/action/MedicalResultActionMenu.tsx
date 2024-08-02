@@ -59,6 +59,10 @@ interface MedicalResultActionMenuProps {
     onDeleteResultFile?: () => void;
 
     onExamModification?: (value: MedicalResult) => void;
+
+    onMedicalResultFileDownloadFail?: () => void;
+
+    onMedicalReportFileDownloadFail?: () => void;
 }
 const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     data,
@@ -70,7 +74,9 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     onUploadResult,
     onUploadReport,
     onCreateReport,
-    onExamModification
+    onExamModification,
+    onMedicalResultFileDownloadFail,
+    onMedicalReportFileDownloadFail
 }) => {
 
     const [blob, setBlob] = useState<Blob | null>(null);
@@ -167,13 +173,27 @@ const MedicalResultActionMenu: React.FC<MedicalResultActionMenuProps> = ({
     }, [fileResultBlob, previewBlob, fileReportBlob, fileResultReset, fileReportReset, data]);
 
     useEffect(() => {
-        if (fileReportError) notifications.show({ message: fileReportError.message, color: 'red' });
-        else if (fileResultError) notifications.show({ message: fileResultError.message, color: 'red' });
+        if (fileReportError && data.report) {
+            notifications.show({ message: fileReportError.message, color: 'red' });
+            onMedicalReportFileDownloadFail?.();
+        }
+        else if (fileResultError) {
+            notifications.show({ message: fileResultError.message, color: 'red' });
+            onMedicalResultFileDownloadFail?.();
+        }
         else if (deleteResultFileError) {
             notifications.show({ message: deleteResultFileError.message, color: 'red' });
             fileRemoveClose();
         }
-    }, [fileReportError, fileResultError, deleteResultFileError, fileRemoveClose]);
+    }, [
+        data,
+        fileReportError,
+        fileResultError,
+        deleteResultFileError,
+        fileRemoveClose,
+        onMedicalReportFileDownloadFail,
+        onMedicalResultFileDownloadFail
+    ]);
 
     useEffect(() => {
         if (shouldDelete) {

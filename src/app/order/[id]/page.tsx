@@ -61,7 +61,10 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
         reset: fileReset
     } = useFetch<Blob>(`/api/medical/file/multiple`, 'POST', { loadOnMount: false, type: 'blob' });
 
-    const [orderResults, { override: medicalResultOverride }] = useList<MedicalOrderCloudFile>([]);
+    const [orderResults, {
+        override: medicalResultOverride,
+        update: medicalResultUpdate,
+    }] = useList<MedicalOrderCloudFile>([]);
 
     const handleClickEventDownloadAll = useCallback(() => {
         const files = orderResults.filter(e => e.hasFile).map((e: MedicalOrderCloudFile) => ({ id: e.id, type: e.type }));
@@ -108,7 +111,11 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
             blobFile(fileBlob, `${data.fullname.toLocaleLowerCase().split(' ').join('_')}.zip`);
             fileReset();
         }
-    }, [fileBlob, data, fileReset])
+    }, [fileBlob, data, fileReset]);
+
+    const handleFileFail = useCallback((data: MedicalOrderCloudFile) => {
+        medicalResultUpdate('id', data.id, { hasFile: false });
+    }, [medicalResultUpdate]);
 
     const handleOrderRows = useCallback((row: MedicalOrderCloudFile) => (
         <ListRow
@@ -122,13 +129,14 @@ const OrderIdPage: React.FC<{ params: { id: number } }> = ({ params }) => {
                 <DownloadActionButton
                     url={`/api/medical/file/${row.type}/${row.id}`}
                     filename={`${row.examName.toLocaleLowerCase().split(' ').join('_')}.pdf`}
+                    onError={() => handleFileFail(row)}
                 />
             )}
             onClick={row.hasFile ? () => handleSelection(row) : undefined}>
             <Title order={6}>{row.examName}</Title>
             <Text>{row.type === 'report' ? 'Reporte Medico' : 'Resultado Medico'}</Text>
         </ListRow>)
-        , [selected, handleSelection]);
+        , [selected, handleSelection, handleFileFail]);
 
     const downloadSelectedButton = useMemo(() => selected.length > 0 &&
         <Button

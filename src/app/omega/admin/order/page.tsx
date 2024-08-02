@@ -12,6 +12,7 @@ import { MedicalResultActionMenu } from '@/components/medical/result/action/Medi
 import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
 import { useList } from '@/hooks/useList';
 import { MedicalOrderFlat, OrderStatus } from '@/lib/dtos/medical/order/base.response.dto';
+import { MedicalReport } from '@/lib/dtos/medical/report/base.respoonse.dto';
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import { Title, Flex, Grid, Box, Text, rem } from '@mantine/core';
 import dayjs from 'dayjs';
@@ -144,6 +145,32 @@ const AdminOrderPage = () => {
         </ListRow>
     ), [medicalOrderSelected, handleOrderSelection, handleEventMailSend, handleEventOrderStatus]);
 
+    const handleResultFileDownloadFail = useCallback((data: MedicalResult) => {
+        medicalResultUpdate('id', data.id, { hasFile: false });
+        if (medicalOrderSelected) {
+            const newMedicalResultArr = medicalResults.map(e => e.id === data.id ? ({ ...data, hasFile: true }) : e);
+            setForceMedicalOrderUpdate({
+                callback: handleForceUpdateEvent,
+                key: 'id',
+                value: medicalOrderSelected.id,
+                newValue: { results: newMedicalResultArr }
+            });
+        }
+    }, [medicalOrderSelected, medicalResults, handleForceUpdateEvent, medicalResultUpdate]);
+
+    const handleReportFileDownloadFail = useCallback((data: MedicalReport, medicalResult: number) => {
+        medicalResultUpdate('id', medicalResult, { hasFile: false });
+        if (medicalOrderSelected) {
+            const newMedicalResultArr: MedicalResult[] = medicalResults.map(e => e.id === medicalResult ? ({ ...e, report: { ...data, hasFile: false } }) : e);
+            setForceMedicalOrderUpdate({
+                callback: handleForceUpdateEvent,
+                key: 'id',
+                value: medicalOrderSelected.id,
+                newValue: { results: newMedicalResultArr }
+            });
+        }
+    }, [medicalOrderSelected, medicalResults, handleForceUpdateEvent, medicalResultUpdate]);
+
     const handleMedicalResultRow = useCallback((row: MedicalResult) => (
         <ListRow
             key={row.id}
@@ -163,6 +190,10 @@ const AdminOrderPage = () => {
                 onDeleteResultFile={medicalOrderSelected?.orderStatus === 'created'
                     ? () => handleClickEventDeleteMedicalResultFile(row.id)
                     : undefined}
+                onMedicalResultFileDownloadFail={() => handleResultFileDownloadFail(row)}
+                onMedicalReportFileDownloadFail={row.report
+                    ? () => handleReportFileDownloadFail(row.report!, row.id)
+                    : undefined}
                 data={row} />}
         >
             <Title order={6}>{row.examName}</Title>
@@ -178,7 +209,7 @@ const AdminOrderPage = () => {
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </ListRow>
-    ), [medicalOrderSelected, handleClickEventUploadResultFile, handleClickEventDeleteMedicalResultFile, handleMedicalOrderResultFormSubmittion]);
+    ), [medicalOrderSelected, handleClickEventUploadResultFile, handleClickEventDeleteMedicalResultFile, handleMedicalOrderResultFormSubmittion, handleReportFileDownloadFail, handleResultFileDownloadFail]);
 
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {

@@ -19,8 +19,10 @@ interface DownloadActionButtonProps {
      * @returns 
      */
     onClick?: () => void;
+
+    onError?: () => void;
 }
-const DownloadActionButton: React.FC<DownloadActionButtonProps> = ({ url, filename, onClick }) => {
+const DownloadActionButton: React.FC<DownloadActionButtonProps> = ({ url, filename, onClick, onError }) => {
     const { data, loading, error, reload, reset } = useFetch<Blob>(url, 'GET', { loadOnMount: false, type: 'blob' });
 
     const handleClickEventDownloadFile = useCallback(() => {
@@ -38,8 +40,9 @@ const DownloadActionButton: React.FC<DownloadActionButtonProps> = ({ url, filena
     useEffect(() => {
         if (error) {
             notifications.show({ message: error.message, color: 'red' });
+            onError?.();
         }
-    }, [error]);
+    }, [error, onError]);
 
     return (
         loading

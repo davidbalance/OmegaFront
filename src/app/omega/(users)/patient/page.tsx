@@ -8,6 +8,7 @@ import { MedicalResultActionMenu } from '@/components/medical/result/action/Medi
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { MedicalOrder } from '@/lib/dtos/medical/order/base.response.dto';
+import { MedicalReport } from '@/lib/dtos/medical/report/base.respoonse.dto';
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import { Patient } from '@/lib/dtos/user/patient/base.response.dto';
 import { Title, Flex, Text, Grid, ActionIcon, rem, Box } from '@mantine/core';
@@ -62,10 +63,14 @@ const PatientPage: React.FC = () => {
     }] = useList<Patient>([]);
 
     const [medicalOrders, {
-        override: medicalOrderOverride    }] = useList<MedicalOrder>([]);
+        override: medicalOrderOverride,
+        update: medicalOrderUpdate
+    }] = useList<MedicalOrder>([]);
 
     const [medicalResults, {
-        override: medicalResultOverride    }] = useList<MedicalResult>([]);
+        override: medicalResultOverride,
+        update: medicalResultUpdate
+    }] = useList<MedicalResult>([]);
 
     const handlePatientSelection = useCallback((selection: Patient): void => {
         setPatientSelected(selection);
@@ -110,12 +115,32 @@ const PatientPage: React.FC = () => {
         </ListRow>
     ), [medicalOrderSelected, handleOrderSelection]);
 
+    const handleResultFileDownloadFail = useCallback((data: MedicalResult) => {
+        medicalResultUpdate('id', data.id, { hasFile: false });
+        if (medicalOrderSelected) {
+            const newMedicalResultArr = medicalResults.map(e => e.id === data.id ? ({ ...e, hasFile: true }) : e);
+            medicalOrderUpdate('id', medicalOrderSelected.id, { results: newMedicalResultArr });
+        }
+    }, [medicalOrderSelected, medicalResults, medicalResultUpdate, medicalOrderUpdate]);
+
+    const handleReportFileDownloadFail = useCallback((data: MedicalReport, medicalResult: number) => {
+        medicalResultUpdate('id', medicalResult, { hasFile: false });
+        if (medicalOrderSelected) {
+            const newMedicalResultArr: MedicalResult[] = medicalResults.map(e => e.id === medicalResult ? ({ ...e, report: { ...data, hasFile: false } }) : e);
+            medicalOrderUpdate('id', medicalOrderSelected.id, { results: newMedicalResultArr });
+        }
+    }, [medicalOrderSelected, medicalResults, medicalResultUpdate, medicalOrderUpdate]);
+
     const handleMedicalResultRow = useCallback((row: MedicalResult) => (
         <ListRow
             key={row.id}
             rightSection={<MedicalResultActionMenu
                 downloadResult={row.hasFile}
                 downloadReport={!!row.report}
+                onMedicalResultFileDownloadFail={() => handleResultFileDownloadFail(row)}
+                onMedicalReportFileDownloadFail={row.report
+                    ? () => handleReportFileDownloadFail(row.report!, row.id)
+                    : undefined}
                 data={row} />}
         >
             <Title order={6}>{row.examName}</Title>
@@ -131,7 +156,7 @@ const PatientPage: React.FC = () => {
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </ListRow>
-    ), []);
+    ), [handleResultFileDownloadFail, handleReportFileDownloadFail]);
 
     const handleOrderRefesh = useCallback(() => {
         setMedicalOrderSelected(null);
