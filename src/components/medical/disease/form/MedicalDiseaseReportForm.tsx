@@ -17,6 +17,7 @@ const MedicalDiseaseReportForm: React.FC<MedicalDiseaseReportFormProps> = ({ onF
 
     const [year, setYear] = useState<string | null>(null);
     const [corporativeName, setCorporativeName] = useState<string | null>(null);
+    const [corporativeSelected, setCorporativeSelected] = useState<string | null>(null);
     const [companyRuc, setCompanyRuc] = useState<string | null>(null);
 
     const [companies, setCompanies] = useState<Company[]>([]);
@@ -42,14 +43,17 @@ const MedicalDiseaseReportForm: React.FC<MedicalDiseaseReportFormProps> = ({ onF
     }, []);
 
     const handleCorporativeGroupChange = useCallback((value: string | null, option: ComboboxItem) => {
-        if (!value) { setCompanyRuc(null); }
-        else {
+        setCompanyRuc(null);
+        if (!!value) {
             const current = corporativeGroupData?.find(e => e.id === parseInt(value));
             if (current) {
                 setCompanies(current.companies);
             }
+        } else {
+            setCompanies([]);
         }
-        setCorporativeName(value);
+        setCorporativeSelected(value);
+        setCorporativeName(value ? option.label : value);
     }, [corporativeGroupData]);
 
     const handleCompnayChange = useCallback((value: string | null) => {
@@ -88,7 +92,7 @@ const MedicalDiseaseReportForm: React.FC<MedicalDiseaseReportFormProps> = ({ onF
                 </Grid.Col>
                 <Grid.Col span={4}>
                     <Select
-                        value={corporativeName}
+                        value={corporativeSelected}
                         data={groupOptions}
                         checkIconPosition="left"
                         onChange={handleCorporativeGroupChange}
