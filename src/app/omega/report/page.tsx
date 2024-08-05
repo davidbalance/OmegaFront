@@ -95,8 +95,10 @@ const MedicalReport: React.FC = () => {
         </ListRow>
     ), [patientSelected, handlePatientSelection]);
 
-    const handleMedicalOrderRow = useCallback((row: MedicalOrder) => (
-        <ListRow
+    const handleMedicalOrderRow = useCallback((row: MedicalOrder) => {
+        const notDoneReports: number = row.results.reduce((prev, curr) => (!curr.report ? 1 : 0) + prev, 0);
+
+        return <ListRow
             key={row.id}
             active={row.id === medicalOrderSelected?.id}
             onClick={() => handleOrderSelection(row)}
@@ -109,13 +111,14 @@ const MedicalReport: React.FC = () => {
                     </Flex>
                 </Grid.Col>
                 <Grid.Col span={4}>
-                    <Flex align='center' h='100%'>
+                    <Flex align='center' h='100%' direction='column'>
                         {row.mailStatus ? <Text>Correo enviado</Text> : <Text c='red'>Correo no enviado</Text>}
                     </Flex>
                 </Grid.Col>
             </Grid>
-        </ListRow>
-    ), [medicalOrderSelected, handleOrderSelection]);
+            {!notDoneReports ? <Text>Reportes completos</Text> : <Text c='red'>Reportes faltantes {notDoneReports}</Text>}
+        </ListRow>;
+    }, [medicalOrderSelected, handleOrderSelection]);
 
     const handleCreateEvent = useCallback((data: MedicalResult) => {
         setMedicalResultSelected(data);
