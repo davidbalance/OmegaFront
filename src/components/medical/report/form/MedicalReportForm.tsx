@@ -1,6 +1,6 @@
 import { LoadingOverlay, rem, Button, Flex } from '@mantine/core'
 import { IconDeviceFloppy } from '@tabler/icons-react'
-import { useEditor } from '@tiptap/react'
+import { BubbleMenu, useEditor } from '@tiptap/react'
 import { RichTextEditor, Link } from '@mantine/tiptap';
 import Highlight from '@tiptap/extension-highlight';
 import StarterKit from '@tiptap/starter-kit';
@@ -17,6 +17,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import { PostMedicalReportRequestDto } from '@/lib/dtos/medical/report/request.dto';
 import { MedicalReport } from '@/lib/dtos/medical/report/base.respoonse.dto';
+import { RichTextEditorPageBreak } from '../buttons/rich-rext-editor-page-break';
 
 type MedicalReportFormProps = {
     /**
@@ -108,8 +109,25 @@ const MedicalReportForm: React.FC<MedicalReportFormProps> = ({ result, onClose, 
 
                 <ModularBox flex={1} align='center'>
 
-                    <RichTextEditor editor={editor}>
+                    <RichTextEditor editor={editor} style={{ width: '100%' }} >
+                        {editor && (
+                            <BubbleMenu editor={editor}>
+                                <RichTextEditor.ControlsGroup>
+                                    <RichTextEditor.Bold />
+                                    <RichTextEditor.Italic />
+                                    <RichTextEditor.Underline />
+                                    <RichTextEditor.Highlight />
+                                    <RichTextEditor.Code />
+                                </RichTextEditor.ControlsGroup>
+                            </BubbleMenu>
+                        )}
+
                         <RichTextEditor.Toolbar sticky stickyOffset={0}>
+
+                            <RichTextEditor.ControlsGroup>
+                                <RichTextEditorPageBreak />
+                            </RichTextEditor.ControlsGroup>
+
                             <RichTextEditor.ControlsGroup>
                                 <RichTextEditor.Bold />
                                 <RichTextEditor.Italic />
