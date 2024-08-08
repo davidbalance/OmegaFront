@@ -73,7 +73,6 @@ const MedicalReportForm: React.FC<MedicalReportFormProps> = ({ result, onClose, 
             notifications.show({ message: 'Debe escribirse un reporte medico', color: 'red' });
             return;
         };
-        console.log(editor?.getHTML());
         request<PostMedicalReportRequestDto>({ medicalResult: result.id, content: editor?.getHTML() || '' });
         setShouldFetch(true);
     }, [editor, request, result.id]);
@@ -110,7 +109,7 @@ const MedicalReportForm: React.FC<MedicalReportFormProps> = ({ result, onClose, 
 
                 <ModularBox flex={1} align='center'>
 
-                    <RichTextEditor editor={editor}>
+                    <RichTextEditor editor={editor} style={{ width: '100%' }} >
                         {editor && (
                             <BubbleMenu editor={editor}>
                                 <RichTextEditor.ControlsGroup>
@@ -124,7 +123,7 @@ const MedicalReportForm: React.FC<MedicalReportFormProps> = ({ result, onClose, 
                         )}
 
                         <RichTextEditor.Toolbar sticky stickyOffset={0}>
-                            
+
                             <RichTextEditor.ControlsGroup>
                                 <RichTextEditorPageBreak />
                             </RichTextEditor.ControlsGroup>
