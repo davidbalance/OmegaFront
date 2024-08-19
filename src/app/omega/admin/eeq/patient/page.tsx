@@ -7,6 +7,7 @@ import { ListElement } from '@/components/layout/list-layout/types';
 import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { MedicalClientFormManagementAreaCreate } from '@/components/medical/client/form/MedicalClientFormManagementAreaCreate';
 import MedicalClientLayoutEmail from '@/components/medical/client/layout/MedicalClientLayoutEmail';
+import MedicalDiseaseContainer from '@/components/medical/disease/container/MedicalDiseaseContainer';
 import MedicalOrderListRow from '@/components/medical/order/row/MedicalOrderListRow';
 import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
 import MedicalResultListRow from '@/components/medical/result/row/MedicalResultListRow';
@@ -215,15 +216,7 @@ const PatientPage: React.FC = () => {
             data={row}
             actions={actions}>
             <Title order={6}>{row.examName}</Title>
-            {
-                (row.diseases && row.diseases.length)
-                    ? row.diseases.map((e, index) => (
-                        <Box w={150} key={index}>
-                            <Text size='xs' c='neutral' truncate='end'>{e.diseaseName}, {e.diseaseCommentary}</Text>
-                        </Box>
-                    ))
-                    : <Text size='xs' c={'red'}>Morbilidades no asociadas</Text>
-            }
+            <MedicalDiseaseContainer data={row.diseases || []} />
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </MedicalResultListRow>;

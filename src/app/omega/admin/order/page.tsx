@@ -6,10 +6,14 @@ import { ListRow } from '@/components/layout/list-layout/components/row/ListRow'
 import { ListLayoutFetchForceItemUpdate, ListLayoutFetchProvider } from '@/components/layout/list-layout/context/ListFetchPaginationContext';
 import { ListElement } from '@/components/layout/list-layout/types';
 import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
+import MedicalDiseaseContainer from '@/components/medical/disease/container/MedicalDiseaseContainer';
 import { MedicalOrderActionSendButton } from '@/components/medical/order/action/MedicalOrderActionSendButton';
 import { MedicalOrderActionValidateButton } from '@/components/medical/order/action/MedicalOrderActionValidateButton';
+import MedicalOrderFlatListRow from '@/components/medical/order/row/MedicalOrderFlatListRow';
+import MedicalOrderListRow from '@/components/medical/order/row/MedicalOrderListRow';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
+import MedicalResultListRow from '@/components/medical/result/row/MedicalResultListRow';
 import { useList } from '@/hooks/useList';
 import { MedicalOrderFlat, OrderStatus } from '@/lib/dtos/medical/order/base.response.dto';
 import { MedicalReport } from '@/lib/dtos/medical/report/base.respoonse.dto';
@@ -105,23 +109,15 @@ const AdminOrderPage = () => {
     }, [medicalOrderSelected, handleForceUpdateEvent, medicalResultUpdate]);
 
     const handleMedicalOrderRow = useCallback((row: MedicalOrderFlat) => (
-        <ListRow
+        <MedicalOrderFlatListRow
             key={row.id}
+            data={row}
             active={row.id === medicalOrderSelected?.id}
             onClick={() => handleOrderSelection(row)}
-            rightSection={(
-                <Flex align='center' h='100%' gap={rem(16)}>
-                    <MedicalOrderActionSendButton
-                        order={row.id}
-                        email={row.email}
-                        mailStatus={row.mailStatus}
-                        onMailSend={handleEventMailSend} />
-                    <MedicalOrderActionValidateButton
-                        orderStatus={!!row.orderStatus ? row.orderStatus : 'created'}
-                        order={row.id}
-                        onValidate={handleEventOrderStatus} />
-                </Flex>
-            )}>
+            actions={{
+                onMail: handleEventMailSend,
+                onValidate: handleEventOrderStatus
+            }}>
             <Grid>
                 <Grid.Col span={4}>
                     <Flex direction='column'>
@@ -142,7 +138,7 @@ const AdminOrderPage = () => {
                     </Flex>
                 </Grid.Col>
             </Grid>
-        </ListRow>
+        </MedicalOrderFlatListRow>
     ), [medicalOrderSelected, handleOrderSelection, handleEventMailSend, handleEventOrderStatus]);
 
     const handleResultFileDownloadFail = useCallback((data: MedicalResult) => {
@@ -171,45 +167,38 @@ const AdminOrderPage = () => {
         }
     }, [medicalOrderSelected, medicalResults, handleForceUpdateEvent, medicalResultUpdate]);
 
-    const handleMedicalResultRow = useCallback((row: MedicalResult) => (
-        <ListRow
+    const handleMedicalResultRow = useCallback((row: MedicalResult) => {
+        const currentStatus = medicalOrderSelected?.orderStatus;
+        const hasReport = !!row.report && row.report.hasFile;
+        const actions = {
+            preview: true,
+            downloadReport: hasReport,
+            downloadResult: row.hasFile,
+            onDiseaseModification: currentStatus === 'created' ? handleMedicalOrderResultFormSubmittion : undefined,
+            onExamModification: currentStatus === 'created' ? handleMedicalOrderResultFormSubmittion : undefined,
+            onUploadResult: currentStatus === 'created' ? () => handleClickEventUploadResultFile(row) : undefined,
+            onDeleteResultFile: currentStatus === 'created' ? () => handleClickEventDeleteMedicalResultFile(row.id) : undefined,
+            onMedicalResultFileDownloadFail: () => handleResultFileDownloadFail(row),
+            onMedicalReportFileDownloadFail: row.report ? () => handleReportFileDownloadFail(row.report!, row.id) : undefined,
+        }
+
+        return <MedicalResultListRow
             key={row.id}
-            rightSection={<MedicalResultActionMenu
-                preview
-                onDiseaseModification={medicalOrderSelected?.orderStatus === 'created'
-                    ? handleMedicalOrderResultFormSubmittion
-                    : undefined}
-                onExamModification={medicalOrderSelected?.orderStatus === 'created'
-                    ? handleMedicalOrderResultFormSubmittion
-                    : undefined}
-                downloadReport={!!row.report && row.report.hasFile}
-                downloadResult={row.hasFile}
-                onUploadResult={medicalOrderSelected?.orderStatus === 'created'
-                    ? () => handleClickEventUploadResultFile(row)
-                    : undefined}
-                onDeleteResultFile={medicalOrderSelected?.orderStatus === 'created'
-                    ? () => handleClickEventDeleteMedicalResultFile(row.id)
-                    : undefined}
-                onMedicalResultFileDownloadFail={() => handleResultFileDownloadFail(row)}
-                onMedicalReportFileDownloadFail={row.report
-                    ? () => handleReportFileDownloadFail(row.report!, row.id)
-                    : undefined}
-                data={row} />}
-        >
+            data={row}
+            actions={actions}>
             <Title order={6}>{row.examName}</Title>
-            {
-                (row.diseases && row.diseases.length)
-                    ? row.diseases.map((e, index) => (
-                        <Box w={150} key={index}>
-                            <Text size='xs' c='neutral' truncate='end'>{e.diseaseName}, {e.diseaseCommentary}</Text>
-                        </Box>
-                    ))
-                    : <Text size='xs' c={'red'}>Morbilidades no asociadas</Text>
-            }
+            <MedicalDiseaseContainer data={row.diseases || []} />
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
-        </ListRow>
-    ), [medicalOrderSelected, handleClickEventUploadResultFile, handleClickEventDeleteMedicalResultFile, handleMedicalOrderResultFormSubmittion, handleReportFileDownloadFail, handleResultFileDownloadFail]);
+        </MedicalResultListRow>;
+    }, [
+        medicalOrderSelected,
+        handleClickEventUploadResultFile,
+        handleClickEventDeleteMedicalResultFile,
+        handleMedicalOrderResultFormSubmittion,
+        handleReportFileDownloadFail,
+        handleResultFileDownloadFail
+    ]);
 
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {

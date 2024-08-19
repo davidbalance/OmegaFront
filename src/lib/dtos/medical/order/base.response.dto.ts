@@ -29,7 +29,6 @@ export interface MedicalOrder {
     client: MedicalClient
 }
 
-
 export interface MedicalOrderFlat {
     id: number;
     process: string;

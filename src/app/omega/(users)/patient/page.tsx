@@ -3,6 +3,7 @@
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListElement } from '@/components/layout/list-layout/types';
 import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
+import MedicalDiseaseContainer from '@/components/medical/disease/container/MedicalDiseaseContainer';
 import MedicalOrderListRow from '@/components/medical/order/row/MedicalOrderListRow';
 import MedicalResultListRow from '@/components/medical/result/row/MedicalResultListRow';
 import PatientListRow from '@/components/patient/row/PatientListRow';
@@ -140,15 +141,7 @@ const PatientPage: React.FC = () => {
             data={row}
             actions={actions}>
             <Title order={6}>{row.examName}</Title>
-            {
-                (row.diseases && row.diseases.length)
-                    ? row.diseases.map((e, index) => (
-                        <Box w={150} key={index}>
-                            <Text size='xs' c='neutral' truncate='end'>{e.diseaseName}, {e.diseaseCommentary}</Text>
-                        </Box>
-                    ))
-                    : <Text size='xs' c={'red'}>Morbilidades no asociadas</Text>
-            }
+            <MedicalDiseaseContainer data={row.diseases || []} />
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
         </MedicalResultListRow>;
