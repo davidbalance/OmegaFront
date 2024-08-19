@@ -1,7 +1,7 @@
 'use client'
 
 import { IconSettings, IconLock } from '@tabler/icons-react';
-import React, { useMemo } from 'react'
+import React, { useRef, useState } from 'react'
 import classes from './Navbar.module.css';
 import cx from 'clsx';
 import { ActionIcon, Box, Drawer, ScrollArea } from '@mantine/core';
@@ -34,7 +34,9 @@ const Navbar: React.FC<NavbarProps> = ({ opened, onClose }) => {
     const match = useMediaQuery('(max-width: 700px)', true, { getInitialValueInEffect: true });
     const [link] = useLocalStorage<NavLinkProp[]>(RESOURCE_KEY, []);
 
-    const mainLinks = useMemo(() => link.map((item) => {
+    const navRef = useRef<HTMLDivElement | null>(null);
+
+    const mainLinks = link.map((item) => {
         return <NavLink
             opened={opened || locked}
             key={item.label}
@@ -44,7 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({ opened, onClose }) => {
                 label: item.label
             }}
             onClick={onClose} />
-    }), [link]);
+    });
 
     return <>
         {
@@ -62,7 +64,7 @@ const Navbar: React.FC<NavbarProps> = ({ opened, onClose }) => {
                         <Box className={classes.linksInner}>{mainLinks}</Box>
                     </ScrollArea>
                 </Drawer>
-                : <nav className={(cx(classes.navbar, { [classes.open]: opened || locked }))}>
+                : <nav ref={navRef} className={(cx(classes.navbar, { [classes.open]: opened || locked }))}>
                     <Box className={classes.links}>
                         <ScrollArea h={475} style={{ direction: 'rtl' }}>
                             <Box className={classes.linksInner}>{mainLinks}</Box>
