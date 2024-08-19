@@ -1,7 +1,7 @@
 'use client'
 
 import { IconSettings, IconLock } from '@tabler/icons-react';
-import React, { useState } from 'react'
+import React, { useMemo } from 'react'
 import classes from './Navbar.module.css';
 import cx from 'clsx';
 import { ActionIcon, Box, Drawer, ScrollArea } from '@mantine/core';
@@ -30,26 +30,21 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ opened, onClose }) => {
 
-    const [active, setActive] = useState<string>('');
     const [locked, { toggle }] = useDisclosure(false);
     const match = useMediaQuery('(max-width: 700px)', true, { getInitialValueInEffect: true });
     const [link] = useLocalStorage<NavLinkProp[]>(RESOURCE_KEY, []);
 
-    const mainLinks = link.map((item) => {
+    const mainLinks = useMemo(() => link.map((item) => {
         return <NavLink
             opened={opened || locked}
             key={item.label}
             href={item.address}
-            active={active}
             link={{
                 icon: item.icon ? NavIcon[item.icon] : IconSettings,
                 label: item.label
             }}
-            onClick={() => {
-                setActive(item.label);
-                onClose();
-            }} />
-    });
+            onClick={onClose} />
+    }), [link]);
 
     return <>
         {

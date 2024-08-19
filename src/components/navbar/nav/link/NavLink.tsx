@@ -4,6 +4,7 @@ import React, { ForwardRefExoticComponent, RefAttributes } from 'react'
 import { IconProps, Icon } from '@tabler/icons-react';
 import classes from './NavLink.module.css';
 import cx from 'clsx';
+import { usePathname } from 'next/navigation';
 
 type NavIcon = ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<Icon>>;
 
@@ -20,13 +21,11 @@ interface NavLinkProps extends Omit<LinkProps, 'data-active' | 'className'> {
         label: string,
         notifications?: number
     }
-    /**
-     * Estado que indica si el boton esta habilitado o no.
-     */
-    active?: string;
 };
 
-const NavLink: React.FC<NavLinkProps> = ({ opened, link, active, ...props }) => {
+const NavLink: React.FC<NavLinkProps> = ({ opened, link, ...props }) => {
+    const path = usePathname();
+
     return (
         <Tooltip
             label={link.label}
@@ -37,7 +36,7 @@ const NavLink: React.FC<NavLinkProps> = ({ opened, link, active, ...props }) => 
             disabled={opened}
         >
             <Link
-                data-active={active === link.label || undefined}
+                data-active={path === props.href || undefined}
                 className={(cx(classes.mainLink, { [classes.open]: opened }))}
                 {...props}>
                 <div className={classes.mainLinkInner}>
