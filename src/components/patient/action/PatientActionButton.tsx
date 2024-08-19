@@ -7,7 +7,7 @@ interface PatientActionButtonProps {
    * Funcion que es invocada cuando se llama al evento de asignacion de empresas.
    * @returns 
    */
-  onAssignCompany?: () => void;
+  onCompany?: () => void;
   /**
    * Funcion que es invocada cuando se llama al evento de asignacion de correos electronicos.
    * @returns 
@@ -21,7 +21,12 @@ interface PatientActionButtonProps {
 
   onJobPosition?: () => void;
 }
-const PatientActionButton: React.FC<PatientActionButtonProps> = ({ onAssignCompany, onEmail, onManagementArea, onJobPosition }) => {
+const PatientActionButton: React.FC<PatientActionButtonProps> = ({
+  onCompany,
+  onEmail,
+  onManagementArea,
+  onJobPosition
+}) => {
   return (
     <Menu>
       <MenuTarget>
@@ -34,7 +39,7 @@ const PatientActionButton: React.FC<PatientActionButtonProps> = ({ onAssignCompa
       <Menu.Dropdown>
         <Menu.Item
           leftSection={<IconBuilding style={{ width: rem(16), height: rem(16) }} />}
-          onClick={onAssignCompany}>
+          onClick={onCompany}>
           Asignar empresa
         </Menu.Item>
         <Menu.Item

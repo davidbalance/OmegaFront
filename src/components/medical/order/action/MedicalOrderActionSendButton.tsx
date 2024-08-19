@@ -29,7 +29,7 @@ interface MedicalOrderActionSendButtonProps {
      * @param mailStatus 
      * @returns 
      */
-    onMailSend: (id: number, mailStatus: true) => void;
+    onMailSend: (id: number, mailStatus: boolean) => void;
 }
 
 const MedicalOrderActionSendButton: React.FC<MedicalOrderActionSendButtonProps> = ({ email, onMailSend, order, mailStatus }) => {

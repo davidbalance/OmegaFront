@@ -4,15 +4,18 @@ import { ListLayout } from '@/components/layout/list-layout/components/extended/
 import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { ListElement } from '@/components/layout/list-layout/types';
 import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
+import MedicalOrderListRow from '@/components/medical/order/row/MedicalOrderListRow';
 import { MedicalReportForm } from '@/components/medical/report/form/MedicalReportForm';
 import { MedicalReportFormUploadFile } from '@/components/medical/report/form/MedicalReportFormUploadFile';
 import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
+import MedicalResultListRow from '@/components/medical/result/row/MedicalResultListRow';
+import PatientListRow from '@/components/patient/row/PatientListRow';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { MedicalClient } from '@/lib/dtos/medical/client/base.response.dto';
 import { MedicalOrder } from '@/lib/dtos/medical/order/base.response.dto';
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
-import { Title, Grid, Flex, Text } from '@mantine/core';
+import { Title, Grid, Flex, Text, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -86,38 +89,34 @@ const MedicalReport: React.FC = () => {
     }, []);
 
     const handlePatientRow = useCallback((row: MedicalClient) => (
-        <ListRow
+        <PatientListRow
             key={row.dni}
+            data={row as any}
             active={row.dni === patientSelected?.dni}
             onClick={() => handlePatientSelection(row)}>
             <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
             <Text>{row.dni}</Text>
-        </ListRow>
+        </PatientListRow>
     ), [patientSelected, handlePatientSelection]);
 
     const handleMedicalOrderRow = useCallback((row: MedicalOrder) => {
         const notDoneReports: number = row.results.reduce((prev, curr) => (!curr.report ? 1 : 0) + prev, 0);
 
-        return <ListRow
+        return <MedicalOrderListRow
             key={row.id}
+            data={row}
             active={row.id === medicalOrderSelected?.id}
-            onClick={() => handleOrderSelection(row)}
-        >
+            onClick={() => handleOrderSelection(row)}>
             <Grid>
                 <Grid.Col span={8}>
                     <Flex direction='column'>
                         <Title order={6}>{row.process}</Title>
-                        <Text>{dayjs(row.createAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
-                    </Flex>
-                </Grid.Col>
-                <Grid.Col span={4}>
-                    <Flex align='center' h='100%' direction='column'>
-                        {row.mailStatus ? <Text>Correo enviado</Text> : <Text c='red'>Correo no enviado</Text>}
+                        <Text mb={rem(8)}>{dayjs(row.createAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
+                        {!notDoneReports ? <Text>Reportes completos</Text> : <Text c='red'>Reportes faltantes {notDoneReports}</Text>}
                     </Flex>
                 </Grid.Col>
             </Grid>
-            {!notDoneReports ? <Text>Reportes completos</Text> : <Text c='red'>Reportes faltantes {notDoneReports}</Text>}
-        </ListRow>;
+        </MedicalOrderListRow>
     }, [medicalOrderSelected, handleOrderSelection]);
 
     const handleCreateEvent = useCallback((data: MedicalResult) => {
@@ -130,29 +129,30 @@ const MedicalReport: React.FC = () => {
         setCurrentState(LayoutStates.UPLOAD_FILE);
     }, []);
 
-    const handleMedicalResultRow = useCallback((row: MedicalResult) => (
-        <ListRow
+    const handleMedicalResultRow = useCallback((row: MedicalResult) => {
+        const reportDone = !!row.report && row.report.hasFile;
+
+        const actions = {
+            preview: true,
+            downloadReport: !!row.report,
+            downloadResult: row.hasFile,
+            onCreateReport: () => handleCreateEvent(row),
+            onUploadReport: reportDone ? () => handleUploadReportEvent(row) : undefined
+        }
+
+        return <MedicalResultListRow
             key={row.id}
-            rightSection={<MedicalResultActionMenu
-                data={row}
-                preview
-                onCreateReport={() => handleCreateEvent(row)}
-                downloadReport={!!row.report}
-                downloadResult={row.hasFile}
-                onUploadReport={
-                    !!row.report && row.report?.hasFile
-                        ? () => handleUploadReportEvent(row)
-                        : undefined
-                } />}
-        >
+            data={row}
+            actions={actions}>
             <Title order={6}>{row.examName}</Title>
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
-            {!!row.report && row.report.hasFile
-                ? <Text size='xs' c='blue'>Reporte realizado</Text>
-                : <Text size='xs' c='red'>Reporte no realizado</Text>
-            }
-        </ListRow>
-    ), [handleCreateEvent, handleUploadReportEvent]);
+            {reportDone ? (
+                <Text size='xs' c='blue'>Reporte realizado</Text>
+            ) : (
+                <Text size='xs' c='red'>Reporte no realizado</Text>
+            )}
+        </MedicalResultListRow>;/* (
+    ) */}, [handleCreateEvent, handleUploadReportEvent]);
 
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {

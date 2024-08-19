@@ -2,17 +2,15 @@
 
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListWithFetchContext } from '@/components/layout/list-layout/components/extended/ListWithFetchContext';
-import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { ListLayoutFetchProvider } from '@/components/layout/list-layout/context/ListFetchPaginationContext';
 import { ListElement } from '@/components/layout/list-layout/types';
 import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import { MedicalClientFormManagementAreaCreate } from '@/components/medical/client/form/MedicalClientFormManagementAreaCreate';
 import MedicalClientLayoutEmail from '@/components/medical/client/layout/MedicalClientLayoutEmail';
-import { MedicalOrderActionSendButton } from '@/components/medical/order/action/MedicalOrderActionSendButton';
-import { MedicalOrderActionValidateButton } from '@/components/medical/order/action/MedicalOrderActionValidateButton';
-import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
+import MedicalOrderListRow from '@/components/medical/order/row/MedicalOrderListRow';
 import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
-import { PatientActionButton } from '@/components/patient/action/PatientActionButton';
+import MedicalResultListRow from '@/components/medical/result/row/MedicalResultListRow';
+import PatientListRow from '@/components/patient/row/PatientListRow';
 import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
 import { UserFormJobPositionAssign } from '@/components/user/form/UserFormJobPositionAssign';
 import { useFetch } from '@/hooks/useFetch';
@@ -125,17 +123,6 @@ const PatientPage: React.FC = () => {
         medicalResultUpdate('id', id, { hasFile: false });
     }, [medicalResultUpdate]);
 
-    const handleMedicalOrderResultFormSubmittion = useCallback((data: MedicalResult) => {
-        medicalResultUpdate('id', data.id, data);
-        if (medicalOrderSelected) {
-            const updatedOrder = { ...medicalOrderSelected };
-            const resultIndex = updatedOrder.results.findIndex(e => e.id === data.id);
-            if (resultIndex !== -1) {
-                updatedOrder.results[resultIndex] = data;
-                medicalOrderUpdate('id', updatedOrder.id, updatedOrder);
-            }
-        }
-    }, [medicalOrderSelected, medicalOrderUpdate, medicalResultUpdate]);
 
     const handleClickEventJobPosition = useCallback((selection: PatientEeq) => {
         setPatientSelected(selection);
@@ -144,47 +131,32 @@ const PatientPage: React.FC = () => {
 
 
     const handlePatientRow = useCallback((row: PatientEeq) => (
-        <ListRow
+        <PatientListRow
             key={row.id}
+            data={row}
             active={row.id === patientSelected?.id}
-            onClick={() => handlePatientSelection(row)}
-            rightSection={(
-                <PatientActionButton
-                    onAssignCompany={() => handleClickEventAssignModal(row)}
-                    onEmail={() => handleClickEventEmail(row)}
-                    onManagementArea={() => handleClickEventManagementArea(row)}
-                    onJobPosition={() => handleClickEventJobPosition(row)} />
-            )}>
+            actions={{
+                onCompany: () => handleClickEventAssignModal(row),
+                onEmail: () => handleClickEventEmail(row),
+                onJobPosition: () => handleClickEventManagementArea(row),
+                onManagementArea: () => handleClickEventJobPosition(row),
+            }}
+            onClick={() => handlePatientSelection(row)}>
             <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
-            <Flex>
-                <Text fw={500} mr={rem(2)}>Rol:</Text>
-                <Text>{row.role}</Text>
-            </Flex>
-            <Flex>
-                <Text fw={500} mr={rem(2)}>Cedula:</Text>
-                <Text>{row.dni}</Text>
-            </Flex>
-        </ListRow>
+            <Text>{row.dni}</Text>
+        </PatientListRow>
     ), [patientSelected, handlePatientSelection, handleClickEventAssignModal, handleClickEventEmail, handleClickEventManagementArea, handleClickEventJobPosition]);
 
     const handleMedicalOrderRow = useCallback((row: MedicalOrder) => (
-        <ListRow
+        <MedicalOrderListRow
             key={row.id}
+            data={row}
             active={row.id === medicalOrderSelected?.id}
             onClick={() => handleOrderSelection(row)}
-            rightSection={(
-                <Flex align='center' h='100%' gap={rem(16)}>
-                    <MedicalOrderActionSendButton
-                        order={row.id}
-                        email={row.client.email}
-                        mailStatus={row.mailStatus}
-                        onMailSend={handleEventMailSend} />
-                    <MedicalOrderActionValidateButton
-                        orderStatus={row.orderStatus}
-                        order={row.id}
-                        onValidate={handleEventOrderStatus} />
-                </Flex>
-            )}>
+            actions={{
+                onMail: handleEventMailSend,
+                onValidate: handleEventOrderStatus
+            }}>
             <Grid>
                 <Grid.Col span={8}>
                     <Flex direction='column'>
@@ -193,7 +165,7 @@ const PatientPage: React.FC = () => {
                     </Flex>
                 </Grid.Col>
             </Grid>
-        </ListRow>
+        </MedicalOrderListRow>
     ), [medicalOrderSelected, handleOrderSelection, handleEventMailSend, handleEventOrderStatus]);
 
     const handleMedicalResultModification = useCallback((data: MedicalResult) => {
@@ -224,31 +196,24 @@ const PatientPage: React.FC = () => {
         }
     }, [medicalOrderSelected, medicalResults, medicalResultUpdate, medicalOrderUpdate]);
 
-    const handleMedicalResultRow = useCallback((row: MedicalResult) => (
-        <ListRow
+    const handleMedicalResultRow = useCallback((row: MedicalResult) => {
+        const currentStatus = medicalOrderSelected?.orderStatus;
+        const actions = {
+            preview: true,
+            downloadReport: !!row.report && row.report.hasFile,
+            downloadResult: row.hasFile,
+            onDiseaseModification: currentStatus === 'created' ? handleMedicalResultModification : undefined,
+            onExamModification: currentStatus === 'created' ? handleMedicalResultModification : undefined,
+            onUploadResult: currentStatus === 'created' ? () => handleClickEventUploadResultFile(row) : undefined,
+            onDeleteResultFile: currentStatus === 'created' ? () => handleClickEventDeleteMedicalResultFile(row.id) : undefined,
+            onMedicalResultFileDownloadFail: () => handleResultFileDownloadFail(row),
+            onMedicalReportFileDownloadFail: row.report ? () => handleReportFileDownloadFail(row.report!, row.id) : undefined
+        }
+
+        return <MedicalResultListRow
             key={row.id}
-            rightSection={<MedicalResultActionMenu
-                preview
-                onDiseaseModification={medicalOrderSelected?.orderStatus === 'created'
-                    ? handleMedicalResultModification
-                    : undefined}
-                onExamModification={medicalOrderSelected?.orderStatus === 'created'
-                    ? handleMedicalResultModification
-                    : undefined}
-                downloadReport={!!row.report && row.report.hasFile}
-                downloadResult={row.hasFile}
-                onUploadResult={medicalOrderSelected?.orderStatus === 'created'
-                    ? () => handleClickEventUploadResultFile(row)
-                    : undefined}
-                onDeleteResultFile={medicalOrderSelected?.orderStatus === 'created'
-                    ? () => handleClickEventDeleteMedicalResultFile(row.id)
-                    : undefined}
-                onMedicalResultFileDownloadFail={() => handleResultFileDownloadFail(row)}
-                onMedicalReportFileDownloadFail={row.report
-                    ? () => handleReportFileDownloadFail(row.report!, row.id)
-                    : undefined}
-                data={row} />}
-        >
+            data={row}
+            actions={actions}>
             <Title order={6}>{row.examName}</Title>
             {
                 (row.diseases && row.diseases.length)
@@ -261,8 +226,8 @@ const PatientPage: React.FC = () => {
             }
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
-        </ListRow>
-    ), [
+        </MedicalResultListRow>;
+    }, [
         medicalOrderSelected,
         handleMedicalResultModification,
         handleClickEventUploadResultFile,

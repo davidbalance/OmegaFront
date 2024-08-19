@@ -1,10 +1,11 @@
 'use client'
 
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
-import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { ListElement } from '@/components/layout/list-layout/types';
 import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
-import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
+import MedicalOrderListRow from '@/components/medical/order/row/MedicalOrderListRow';
+import MedicalResultListRow from '@/components/medical/result/row/MedicalResultListRow';
+import PatientListRow from '@/components/patient/row/PatientListRow';
 import { useFetch } from '@/hooks/useFetch';
 import { useList } from '@/hooks/useList';
 import { MedicalOrder } from '@/lib/dtos/medical/order/base.response.dto';
@@ -42,7 +43,6 @@ const PatientPage: React.FC = () => {
     const [currentState] = useState<LayoutState>(LayoutState.DEFAULT);
     const [patientSelected, setPatientSelected] = useState<Patient | null>(null);
     const [medicalOrderSelected, setMedicalOrderSelected] = useState<MedicalOrder | null>(null);
-    const [medicalResultSelected, setMedicalResultSelected] = useState<MedicalResult | null>(null);
     const [shouldFetchMedicalOrder, setShouldFetchMedicalOrder] = useState<boolean>(false);
 
     const {
@@ -84,21 +84,22 @@ const PatientPage: React.FC = () => {
     }, []);
 
     const handlePatientRow = useCallback((row: Patient) => (
-        <ListRow
+        <PatientListRow
             key={row.id}
+            data={row}
             active={row.id === patientSelected?.id}
             onClick={() => handlePatientSelection(row)}>
             <Title order={6}>{`${row.name} ${row.lastname}`}</Title>
             <Text>{row.dni}</Text>
-        </ListRow>
+        </PatientListRow>
     ), [patientSelected, handlePatientSelection]);
 
     const handleMedicalOrderRow = useCallback((row: MedicalOrder) => (
-        <ListRow
+        <MedicalOrderListRow
             key={row.id}
+            data={row}
             active={row.id === medicalOrderSelected?.id}
-            onClick={() => handleOrderSelection(row)}
-        >
+            onClick={() => handleOrderSelection(row)}>
             <Grid>
                 <Grid.Col span={8}>
                     <Flex direction='column'>
@@ -106,13 +107,8 @@ const PatientPage: React.FC = () => {
                         <Text>{dayjs(row.createAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
                     </Flex>
                 </Grid.Col>
-                <Grid.Col span={4}>
-                    <Flex align='center' h='100%'>
-                        {row.mailStatus ? <Text>Correo enviado</Text> : <Text c='red'>Correo no enviado</Text>}
-                    </Flex>
-                </Grid.Col>
             </Grid>
-        </ListRow>
+        </MedicalOrderListRow>
     ), [medicalOrderSelected, handleOrderSelection]);
 
     const handleResultFileDownloadFail = useCallback((data: MedicalResult) => {
@@ -131,18 +127,18 @@ const PatientPage: React.FC = () => {
         }
     }, [medicalOrderSelected, medicalResults, medicalResultUpdate, medicalOrderUpdate]);
 
-    const handleMedicalResultRow = useCallback((row: MedicalResult) => (
-        <ListRow
+    const handleMedicalResultRow = useCallback((row: MedicalResult) => {
+        const actions = {
+            downloadReport: !!row.report && row.report.hasFile,
+            downloadResult: row.hasFile,
+            onMedicalResultFileDownloadFail: () => handleResultFileDownloadFail(row),
+            onMedicalReportFileDownloadFail: row.report ? () => handleReportFileDownloadFail(row.report!, row.id) : undefined
+        }
+
+        return <MedicalResultListRow
             key={row.id}
-            rightSection={<MedicalResultActionMenu
-                downloadResult={row.hasFile}
-                downloadReport={!!row.report}
-                onMedicalResultFileDownloadFail={() => handleResultFileDownloadFail(row)}
-                onMedicalReportFileDownloadFail={row.report
-                    ? () => handleReportFileDownloadFail(row.report!, row.id)
-                    : undefined}
-                data={row} />}
-        >
+            data={row}
+            actions={actions}>
             <Title order={6}>{row.examName}</Title>
             {
                 (row.diseases && row.diseases.length)
@@ -155,8 +151,8 @@ const PatientPage: React.FC = () => {
             }
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {!row.report && <Text size='xs' c='red'>Reporte no realizado</Text>}
-        </ListRow>
-    ), [handleResultFileDownloadFail, handleReportFileDownloadFail]);
+        </MedicalResultListRow>;
+    }, [handleResultFileDownloadFail, handleReportFileDownloadFail]);
 
     const handleOrderRefesh = useCallback(() => {
         setMedicalOrderSelected(null);

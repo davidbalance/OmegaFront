@@ -11,7 +11,7 @@ import BlobPreview from '@/components/blob/preview/BlobPreview';
 import { MedicalResultExamSelectionFormUpdateModal } from '../modal/MedicalResultExamSelectionFormUpdateModal';
 
 type MedicalResultWithoutOrder = MedicalResult;
-interface MedicalResultActionMenuProps {
+export interface MedicalResultActionMenuProps {
     /**
      * Valores del resultado medico usados en la inicializacion del componente.
      */
