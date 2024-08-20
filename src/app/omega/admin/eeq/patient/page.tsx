@@ -1,5 +1,6 @@
 'use client'
 
+import ActionMenu from '@/components/_base/ActionMenu';
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListWithFetchContext } from '@/components/layout/list-layout/components/extended/ListWithFetchContext';
 import { ListLayoutFetchProvider } from '@/components/layout/list-layout/context/ListFetchPaginationContext';
@@ -10,6 +11,9 @@ import MedicalClientLayoutEmail from '@/components/medical/client/layout/Medical
 import MedicalDiseaseContainer from '@/components/medical/disease/container/MedicalDiseaseContainer';
 import MedicalOrderListRow from '@/components/medical/order/row/MedicalOrderListRow';
 import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
+import { withMedicalResultFile } from '@/components/medical/result/hoc/menu/with-medical-result-file';
+import { withMedicalResultManagement } from '@/components/medical/result/hoc/menu/with-medical-result-management';
+import { withMedicalResultReport } from '@/components/medical/result/hoc/menu/with-medical-result-report';
 import MedicalResultListRow from '@/components/medical/result/row/MedicalResultListRow';
 import PatientListRow from '@/components/patient/row/PatientListRow';
 import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
@@ -20,11 +24,13 @@ import { MedicalOrder, OrderStatus } from '@/lib/dtos/medical/order/base.respons
 import { MedicalReport } from '@/lib/dtos/medical/report/base.respoonse.dto';
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import { PatientEeq } from '@/lib/dtos/user/patient/base.response.dto';
-import { Title, Flex, Text, Grid, ActionIcon, rem, Box } from '@mantine/core';
+import { Title, Flex, Text, Grid, ActionIcon, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconRefresh } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+
+const MedicalResultMenu = withMedicalResultReport(withMedicalResultFile(withMedicalResultManagement(ActionMenu)));
 
 enum LayoutState {
     DEFAULT,
@@ -199,22 +205,18 @@ const PatientPage: React.FC = () => {
 
     const handleMedicalResultRow = useCallback((row: MedicalResult) => {
         const currentStatus = medicalOrderSelected?.orderStatus;
-        const actions = {
-            preview: true,
-            downloadReport: !!row.report && row.report.hasFile,
-            downloadResult: row.hasFile,
-            onDiseaseModification: currentStatus === 'created' ? handleMedicalResultModification : undefined,
-            onExamModification: currentStatus === 'created' ? handleMedicalResultModification : undefined,
-            onUploadResult: currentStatus === 'created' ? () => handleClickEventUploadResultFile(row) : undefined,
-            onDeleteResultFile: currentStatus === 'created' ? () => handleClickEventDeleteMedicalResultFile(row.id) : undefined,
-            onMedicalResultFileDownloadFail: () => handleResultFileDownloadFail(row),
-            onMedicalReportFileDownloadFail: row.report ? () => handleReportFileDownloadFail(row.report!, row.id) : undefined
-        }
+
+        const menu = <MedicalResultMenu
+            result={row}
+            onDiseaseModification={currentStatus === 'created' ? handleMedicalResultModification : undefined}
+            onExamType={currentStatus === 'created' ? handleMedicalResultModification : undefined}
+            onUploadResultFile={currentStatus === 'created' ? () => handleClickEventUploadResultFile(row) : undefined}
+            onDeleteResultFile={currentStatus === 'created' ? () => handleClickEventDeleteMedicalResultFile(row.id) : undefined} />
 
         return <MedicalResultListRow
             key={row.id}
             data={row}
-            actions={actions}>
+            menu={menu}>
             <Title order={6}>{row.examName}</Title>
             <MedicalDiseaseContainer data={row.diseases || []} />
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}

@@ -1,26 +1,27 @@
 'use client'
 
+import ActionMenu from '@/components/_base/ActionMenu';
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListWithFetchContext } from '@/components/layout/list-layout/components/extended/ListWithFetchContext';
-import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { ListLayoutFetchForceItemUpdate, ListLayoutFetchProvider } from '@/components/layout/list-layout/context/ListFetchPaginationContext';
 import { ListElement } from '@/components/layout/list-layout/types';
 import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import MedicalDiseaseContainer from '@/components/medical/disease/container/MedicalDiseaseContainer';
-import { MedicalOrderActionSendButton } from '@/components/medical/order/action/MedicalOrderActionSendButton';
-import { MedicalOrderActionValidateButton } from '@/components/medical/order/action/MedicalOrderActionValidateButton';
 import MedicalOrderFlatListRow from '@/components/medical/order/row/MedicalOrderFlatListRow';
-import MedicalOrderListRow from '@/components/medical/order/row/MedicalOrderListRow';
-import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
 import { MedicalResultFormUploadFile } from '@/components/medical/result/form/MedicalResultFormUploadFile';
+import { withMedicalResultFile } from '@/components/medical/result/hoc/menu/with-medical-result-file';
+import { withMedicalResultManagement } from '@/components/medical/result/hoc/menu/with-medical-result-management';
+import { withMedicalResultReport } from '@/components/medical/result/hoc/menu/with-medical-result-report';
 import MedicalResultListRow from '@/components/medical/result/row/MedicalResultListRow';
 import { useList } from '@/hooks/useList';
 import { MedicalOrderFlat, OrderStatus } from '@/lib/dtos/medical/order/base.response.dto';
 import { MedicalReport } from '@/lib/dtos/medical/report/base.respoonse.dto';
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
-import { Title, Flex, Grid, Box, Text, rem } from '@mantine/core';
+import { Title, Flex, Grid, Text } from '@mantine/core';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+
+const MedicalResultMenu = withMedicalResultReport(withMedicalResultFile(withMedicalResultManagement(ActionMenu)));
 
 enum LayoutState {
     DEFAULT,
@@ -170,22 +171,19 @@ const AdminOrderPage = () => {
     const handleMedicalResultRow = useCallback((row: MedicalResult) => {
         const currentStatus = medicalOrderSelected?.orderStatus;
         const hasReport = !!row.report && row.report.hasFile;
-        const actions = {
-            preview: true,
-            downloadReport: hasReport,
-            downloadResult: row.hasFile,
-            onDiseaseModification: currentStatus === 'created' ? handleMedicalOrderResultFormSubmittion : undefined,
-            onExamModification: currentStatus === 'created' ? handleMedicalOrderResultFormSubmittion : undefined,
-            onUploadResult: currentStatus === 'created' ? () => handleClickEventUploadResultFile(row) : undefined,
-            onDeleteResultFile: currentStatus === 'created' ? () => handleClickEventDeleteMedicalResultFile(row.id) : undefined,
-            onMedicalResultFileDownloadFail: () => handleResultFileDownloadFail(row),
-            onMedicalReportFileDownloadFail: row.report ? () => handleReportFileDownloadFail(row.report!, row.id) : undefined,
-        }
+
+        const menu = <MedicalResultMenu
+            result={row}
+            onDiseaseModification={currentStatus === 'created' ? handleMedicalOrderResultFormSubmittion : undefined}
+            onExamType={currentStatus === 'created' ? handleMedicalOrderResultFormSubmittion : undefined}
+            onUploadResultFile={currentStatus === 'created' ? () => handleClickEventUploadResultFile(row) : undefined}
+            onDeleteResultFile={currentStatus === 'created' ? () => handleClickEventDeleteMedicalResultFile(row.id) : undefined}
+        />
 
         return <MedicalResultListRow
             key={row.id}
             data={row}
-            actions={actions}>
+            menu={menu}>
             <Title order={6}>{row.examName}</Title>
             <MedicalDiseaseContainer data={row.diseases || []} />
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}

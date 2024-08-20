@@ -1,13 +1,14 @@
 'use client'
 
+import ActionMenu from '@/components/_base/ActionMenu';
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
-import { ListRow } from '@/components/layout/list-layout/components/row/ListRow';
 import { ListElement } from '@/components/layout/list-layout/types';
 import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import MedicalOrderListRow from '@/components/medical/order/row/MedicalOrderListRow';
 import { MedicalReportForm } from '@/components/medical/report/form/MedicalReportForm';
 import { MedicalReportFormUploadFile } from '@/components/medical/report/form/MedicalReportFormUploadFile';
-import { MedicalResultActionMenu } from '@/components/medical/result/action/MedicalResultActionMenu';
+import { withMedicalResultFile } from '@/components/medical/result/hoc/menu/with-medical-result-file';
+import { withMedicalResultReport } from '@/components/medical/result/hoc/menu/with-medical-result-report';
 import MedicalResultListRow from '@/components/medical/result/row/MedicalResultListRow';
 import PatientListRow from '@/components/patient/row/PatientListRow';
 import { useFetch } from '@/hooks/useFetch';
@@ -19,6 +20,8 @@ import { Title, Grid, Flex, Text, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+
+const MedicalResultMenu = withMedicalResultReport(withMedicalResultFile(ActionMenu));
 
 enum LayoutStates {
     DEFAULT,
@@ -132,18 +135,15 @@ const MedicalReport: React.FC = () => {
     const handleMedicalResultRow = useCallback((row: MedicalResult) => {
         const reportDone = !!row.report && row.report.hasFile;
 
-        const actions = {
-            preview: true,
-            downloadReport: !!row.report,
-            downloadResult: row.hasFile,
-            onCreateReport: () => handleCreateEvent(row),
-            onUploadReport: reportDone ? () => handleUploadReportEvent(row) : undefined
-        }
+        const menu = <MedicalResultMenu
+            result={row}
+            onCreateReportFile={() => handleCreateEvent(row)}
+            onUploadReportFile={reportDone ? () => handleUploadReportEvent(row) : undefined} />;
 
         return <MedicalResultListRow
             key={row.id}
             data={row}
-            actions={actions}>
+            menu={menu}>
             <Title order={6}>{row.examName}</Title>
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
             {reportDone ? (
@@ -151,8 +151,8 @@ const MedicalReport: React.FC = () => {
             ) : (
                 <Text size='xs' c='red'>Reporte no realizado</Text>
             )}
-        </MedicalResultListRow>;/* (
-    ) */}, [handleCreateEvent, handleUploadReportEvent]);
+        </MedicalResultListRow>;
+    }, [handleCreateEvent, handleUploadReportEvent]);
 
     const multipleLayerComponents = useMemo((): TierElement[] => [
         {

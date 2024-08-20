@@ -8,7 +8,7 @@ import { useMedicalReportFileBlob } from "../hooks/use-medical-report-file-blob"
 import { useMedicalReportFileDownload } from "../hooks/use-medical-report-file-download";
 
 export type MedicalReportFileMenuProps<T> = ExtendedActionProps<T> & {
-    data: MedicalReport;
+    report: MedicalReport;
     filename?: string;
     previewReportFile?: boolean;
     downloadReportFile?: boolean;
@@ -16,12 +16,12 @@ export type MedicalReportFileMenuProps<T> = ExtendedActionProps<T> & {
     onUploadReportFile?: () => void;
 }
 
-const menuWithMedicalReportFile = <T extends object>(
-    WrappedComponent: React.ComponentType<ExtendedActionProps<T>>
+const withMedicalReportFile = <T extends object>(
+    WrappedComponent: React.ComponentType<ExtendedActionProps<T>> & { report?: MedicalReport }
 ): React.FC<MedicalReportFileMenuProps<T>> => {
 
     const hoc: React.FC<MedicalReportFileMenuProps<T>> = ({
-        data,
+        report: data,
         loading,
         children,
         filename = 'medical-report',
@@ -34,7 +34,9 @@ const menuWithMedicalReportFile = <T extends object>(
 
         const [blob, setBlob] = useState<Blob | null>(null);
 
-        const flag = useMemo(() => previewReportFile || downloadReportFile || onCreateReportFile || onUploadReportFile, [previewReportFile, downloadReportFile, onCreateReportFile, onUploadReportFile]);
+        const shouldShowReportLabel = useMemo(
+            () => (data.hasFile && (previewReportFile || downloadReportFile)) || onCreateReportFile || onUploadReportFile,
+            [data.hasFile, previewReportFile, downloadReportFile, onCreateReportFile, onUploadReportFile]);
 
         const handleBlob = (fileBlob: Blob) => setBlob(fileBlob);
         const [previewState, previewTrigger] = useMedicalReportFileBlob(data.id, handleBlob);
@@ -52,7 +54,7 @@ const menuWithMedicalReportFile = <T extends object>(
                     loading={loading || downloadState || previewState}
                     {...props as ExtendedActionProps<T>}>
                     {children}
-                    {(flag) && <Menu.Label>Reportes medicos</Menu.Label>}
+                    {(shouldShowReportLabel) && <Menu.Label>Reportes medicos</Menu.Label>}
                     {onCreateReportFile && (
                         <Menu.Item
                             onClick={onCreateReportFile}
@@ -62,7 +64,7 @@ const menuWithMedicalReportFile = <T extends object>(
                             Elaborar reporte
                         </Menu.Item>
                     )}
-                    {downloadReportFile && (
+                    {(data.hasFile && downloadReportFile) && (
                         <Menu.Item
                             onClick={downloadTrigger}
                             leftSection={(
@@ -71,7 +73,7 @@ const menuWithMedicalReportFile = <T extends object>(
                             Descargar reporte
                         </Menu.Item>
                     )}
-                    {(downloadReportFile && previewReportFile) && (
+                    {(data.hasFile && previewReportFile) && (
                         <Menu.Item
                             onClick={previewTrigger}
                             leftSection={(
@@ -94,7 +96,9 @@ const menuWithMedicalReportFile = <T extends object>(
         );
     }
 
+    hoc.displayName = `withMedicalReportFile(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
     return hoc;
 }
 
-export { menuWithMedicalReportFile }; 
+export { withMedicalReportFile }; 

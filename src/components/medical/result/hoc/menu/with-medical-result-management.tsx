@@ -8,17 +8,17 @@ import { MedicalResultExamSelectionFormUpdateModal } from "../../modal/MedicalRe
 import { MedicalResult } from "@/lib/dtos/medical/result/base.response.dto";
 
 export type MedicalResultManagementMenuProps<T> = ExtendedActionProps<T> & {
-    data: MedicalResult;
+    result: MedicalResult;
     onDiseaseModification?: (value: MedicalResult) => void;
     onExamType?: (value: MedicalResult) => void;
 }
 
-const menuWithMedicalResultManagement = <T extends object>(
-    WrappedComponent: React.ComponentType<ExtendedActionProps<T> & { data?: MedicalResult }>
+const withMedicalResultManagement = <T extends object>(
+    WrappedComponent: React.ComponentType<ExtendedActionProps<T> & { result?: MedicalResult }>
 ): React.FC<MedicalResultManagementMenuProps<T>> => {
 
     const hoc: React.FC<MedicalResultManagementMenuProps<T>> = ({
-        data,
+        result: data,
         loading,
         children,
         onDiseaseModification,
@@ -67,7 +67,7 @@ const menuWithMedicalResultManagement = <T extends object>(
                     opened={openedExamModal}
                     onClose={CloseExamModal} />
                 <WrappedComponent
-                    data={data}
+                    result={data}
                     loading={loading}
                     {...props as ExtendedActionProps<T>}>
                     {(onDiseaseModification || onExamType) && <Menu.Label>Misc.</Menu.Label>}
@@ -95,7 +95,9 @@ const menuWithMedicalResultManagement = <T extends object>(
         );
     }
 
+    hoc.displayName = `withMedicalResultManagement(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
     return hoc;
 }
 
-export { menuWithMedicalResultManagement }; 
+export { withMedicalResultManagement }; 

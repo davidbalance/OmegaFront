@@ -22,7 +22,7 @@ const useMedicalResultFileBlob = (id: number, cb: (blob: Blob) => void): [boolea
         if (fileError) notifications.show({ message: fileError.message, color: 'red' });
     }, [fileError]);
 
-    const trigger = () => useCallback(() => {
+    const trigger = useCallback(() => {
         fileReload();
         notifications.show({ message: 'La descarga ha comenzado', color: 'green' });
     }, [fileReload]);

@@ -7,21 +7,26 @@ type ListRowPropOmittedProps = Omit<ListRowProps, 'rightSection'>
 export interface MedicalResultListRowProps extends ListRowPropOmittedProps {
     data: MedicalResult;
     actions?: Omit<MedicalResultActionMenuProps, | 'data'>;
+    menu?: React.ReactNode;
 }
 
-const rowWithMedicalResult = (
+const withMedicalResult = (
     WrappedComponent: React.ComponentType<ListRowProps>
 ): React.FC<MedicalResultListRowProps> => {
 
-    const HOCListRow: React.FC<MedicalResultListRowProps> = ({ data, actions, ...props }) => {
+    const hoc: React.FC<MedicalResultListRowProps> = ({ data, menu, actions, ...props }) => {
         return <WrappedComponent
-            rightSection={actions ? (
-                <MedicalResultActionMenu data={data} {...actions} />
-            ) : undefined}
+            rightSection={menu
+                ? menu
+                : actions ? (
+                    <MedicalResultActionMenu data={data} {...actions} />
+                ) : undefined}
             {...props} />
     }
 
-    return HOCListRow;
+    hoc.displayName = `withMedicalResult(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
+    return hoc;
 }
 
-export { rowWithMedicalResult }
+export { withMedicalResult }

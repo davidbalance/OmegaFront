@@ -9,19 +9,19 @@ import { useMedicalResultFileBlob } from "../../hooks/use-medical-result-file-bl
 import { useMedicalResultFileDelete } from "../../hooks/use-medical-result-file-delete";
 
 type MedicalResultFileProps<T> = ExtendedActionProps<T> & {
-    data: MedicalResult;
+    result: MedicalResult;
     previewResultFile?: boolean;
     downloadResultFile?: boolean;
     onUploadResultFile?: () => void;
     onDeleteResultFile?: () => void;
 }
 
-const menuWithMedicalResultFile = <T extends object>(
-    WrappedComponent: React.ComponentType<ExtendedActionProps<T> & { data?: MedicalResult }>
+const withMedicalResultFile = <T extends object>(
+    WrappedComponent: React.ComponentType<ExtendedActionProps<T> & { result?: MedicalResult }>
 ): React.FC<MedicalResultFileProps<T>> => {
 
     const hoc: React.FC<MedicalResultFileProps<T>> = ({
-        data,
+        result: data,
         loading,
         children,
         previewResultFile = true,
@@ -31,11 +31,11 @@ const menuWithMedicalResultFile = <T extends object>(
         ...props }
     ) => {
 
-        console.log(data);
-
         const [blob, setBlob] = useState<Blob | null>(null);
 
-        const flag = useMemo(() => previewResultFile || downloadResultFile || onDeleteResultFile || onUploadResultFile, [previewResultFile, downloadResultFile, onDeleteResultFile, onUploadResultFile]);
+        const shouldShowResultLabel = useMemo(
+            () => (data.hasFile && (previewResultFile || downloadResultFile || onDeleteResultFile)) || onUploadResultFile
+            , [data.hasFile, previewResultFile, downloadResultFile, onDeleteResultFile, onUploadResultFile]);
 
         const handleBlob = (fileBlob: Blob) => setBlob(fileBlob);
         const [previewState, previewTrigger] = useMedicalResultFileBlob(data.id, handleBlob);
@@ -51,12 +51,12 @@ const menuWithMedicalResultFile = <T extends object>(
                     opened={!!blob}
                     onClose={handleEventPreviewClose} />
                 <WrappedComponent
-                    data={data}
+                    result={data}
                     loading={loading || downloadState || previewState || deleteState}
                     {...props as ExtendedActionProps<T>}>
                     {children}
-                    {(flag) && <Menu.Label>Resultado medicos</Menu.Label>}
-                    {previewResultFile && (
+                    {(shouldShowResultLabel) && <Menu.Label>Resultado medicos</Menu.Label>}
+                    {(data.hasFile && downloadResultFile) && (
                         <Menu.Item
                             onClick={downloadTrigger}
                             leftSection={(
@@ -65,7 +65,7 @@ const menuWithMedicalResultFile = <T extends object>(
                             Descargar resultado
                         </Menu.Item>
                     )}
-                    {(previewResultFile && previewResultFile) && (
+                    {(data.hasFile && previewResultFile) && (
                         <Menu.Item
                             onClick={previewTrigger}
                             leftSection={(
@@ -83,7 +83,7 @@ const menuWithMedicalResultFile = <T extends object>(
                             Subir resultado
                         </Menu.Item>
                     )}
-                    {deleteTrigger && (
+                    {(data.hasFile && onDeleteResultFile) && (
                         <Menu.Item
                             color="red"
                             onClick={deleteTrigger}
@@ -98,7 +98,9 @@ const menuWithMedicalResultFile = <T extends object>(
         );
     }
 
+    hoc.displayName = `withMedicalResultFile(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
     return hoc;
 }
 
-export { menuWithMedicalResultFile }; 
+export { withMedicalResultFile }; 

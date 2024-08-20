@@ -1,10 +1,13 @@
 'use client'
 
+import ActionMenu from '@/components/_base/ActionMenu';
 import { ListLayout } from '@/components/layout/list-layout/components/extended/ListLayout';
 import { ListElement } from '@/components/layout/list-layout/types';
 import { MultipleTierLayout, TierElement } from '@/components/layout/multiple-tier-layout/MultipleTierLayout';
 import MedicalDiseaseContainer from '@/components/medical/disease/container/MedicalDiseaseContainer';
 import MedicalOrderListRow from '@/components/medical/order/row/MedicalOrderListRow';
+import { withMedicalResultFile } from '@/components/medical/result/hoc/menu/with-medical-result-file';
+import { withMedicalResultReport } from '@/components/medical/result/hoc/menu/with-medical-result-report';
 import MedicalResultListRow from '@/components/medical/result/row/MedicalResultListRow';
 import PatientListRow from '@/components/patient/row/PatientListRow';
 import { useFetch } from '@/hooks/useFetch';
@@ -13,11 +16,13 @@ import { MedicalOrder } from '@/lib/dtos/medical/order/base.response.dto';
 import { MedicalReport } from '@/lib/dtos/medical/report/base.respoonse.dto';
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import { Patient } from '@/lib/dtos/user/patient/base.response.dto';
-import { Title, Flex, Text, Grid, ActionIcon, rem, Box } from '@mantine/core';
+import { Title, Flex, Text, Grid, ActionIcon, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconRefresh } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+
+const MedicalResultMenu = withMedicalResultReport(withMedicalResultFile(ActionMenu));
 
 enum LayoutState {
     DEFAULT
@@ -129,17 +134,12 @@ const PatientPage: React.FC = () => {
     }, [medicalOrderSelected, medicalResults, medicalResultUpdate, medicalOrderUpdate]);
 
     const handleMedicalResultRow = useCallback((row: MedicalResult) => {
-        const actions = {
-            downloadReport: !!row.report && row.report.hasFile,
-            downloadResult: row.hasFile,
-            onMedicalResultFileDownloadFail: () => handleResultFileDownloadFail(row),
-            onMedicalReportFileDownloadFail: row.report ? () => handleReportFileDownloadFail(row.report!, row.id) : undefined
-        }
+        const menu = <MedicalResultMenu result={row} />
 
         return <MedicalResultListRow
             key={row.id}
             data={row}
-            actions={actions}>
+            menu={menu}>
             <Title order={6}>{row.examName}</Title>
             <MedicalDiseaseContainer data={row.diseases || []} />
             {!row.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}

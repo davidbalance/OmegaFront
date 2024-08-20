@@ -23,7 +23,7 @@ const useMedicalResultFileDelete = (id: number, cb?: () => void): [boolean, () =
         if (deleteError) notifications.show({ message: deleteError.message, color: 'red' });
     }, [deleteError]);
 
-    const trigger = () => useCallback(() => {
+    const trigger = useCallback(() => {
         deleteReload();
     }, [deleteReload]);
 
