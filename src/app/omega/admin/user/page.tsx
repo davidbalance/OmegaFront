@@ -95,7 +95,6 @@ const UserPage: React.FC = () => {
         }
     }, [show])
 
-
     const handleClickEventClose = useCallback(() => {
         setSelected(null);
         setCurrentState(LayoutStates.DEFAULT);
