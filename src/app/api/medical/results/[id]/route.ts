@@ -1,10 +1,7 @@
-import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
+import ApiClientError from "@/lib/api-client/base/api-error";
+import omega from "@/lib/api-client/omega-client/omega";
 import { PatchMedicalResultExamRequest } from "@/lib/dtos/medical/result/exam/request.dto";
 import { PatchMedicalResultResponseDto } from "@/lib/dtos/medical/result/response.dto";
-import endpoints from "@/lib/endpoints/endpoints";
-import { FetchError } from "@/lib/errors/fetch.error";
-import { patch } from "@/lib/fetcher/fetcher";
-import { DEFAULT_WITH_AUTH_OPTIONS, withAuth } from "@/lib/fetcher/with-fetch.utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
@@ -13,18 +10,13 @@ export async function PATCH(
 ) {
     try {
         const body: PatchMedicalResultExamRequest = await req.json();
-        const patchMedicalResult = withAuth<PatchMedicalResultExamRequest, PatchMedicalResultResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const data: PatchMedicalResultResponseDto = await patchMedicalResult(endpoints.MEDICAL.RESULT.UPDATE_ONE(params.id), {
-            body: body,
-            headers: CONTENT_TYPE_APPLICATION_JSON
-        });
+        const data: PatchMedicalResultResponseDto = await omega().addParams({ id: params.id }).addBody(body).execute('medicalResultUpdateDisease');
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
         console.error(error);
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }

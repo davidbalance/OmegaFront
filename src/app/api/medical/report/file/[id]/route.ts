@@ -1,7 +1,5 @@
-import endpoints from "@/lib/endpoints/endpoints";
-import { FetchError } from "@/lib/errors/fetch.error";
-import { patch } from "@/lib/fetcher/fetcher";
-import { DEFAULT_WITH_AUTH_OPTIONS, withAuth } from "@/lib/fetcher/with-fetch.utils";
+import ApiClientError from "@/lib/api-client/base/api-error";
+import omega from "@/lib/api-client/omega-client/omega";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
@@ -10,18 +8,13 @@ export async function PATCH(
 ) {
     try {
         const body = await req.formData();
-        const patchFile = withAuth<any, any>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        await patchFile(endpoints.MEDICAL.REPORT.UPLOAD_FILE(params.id), {
-            application: 'form',
-            body: body
-        });
+        await omega().addBody(body).addParams({ id: params.id }).execute('medicalReportUpload');
         return NextResponse.json({}, { status: 200 });
-    } catch (error: any) {
+    } catch (error) {
         console.error(error);
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }

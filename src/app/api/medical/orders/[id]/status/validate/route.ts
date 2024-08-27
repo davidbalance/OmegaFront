@@ -1,7 +1,5 @@
-import endpoints from "@/lib/endpoints/endpoints";
-import { FetchError } from "@/lib/errors/fetch.error";
-import { patch } from "@/lib/fetcher/fetcher";
-import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
+import ApiClientError from "@/lib/api-client/base/api-error";
+import omega from "@/lib/api-client/omega-client/omega";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
@@ -9,14 +7,13 @@ export async function PATCH(
     { params }: { params: { id: number } }
 ) {
     try {
-        const patchOrder = withAuth<any, any>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        await patchOrder(endpoints.MEDICAL.ORDER.FIND_ONE_AND_VALIDATE_STATUS(params.id), { cache: false });
+        await omega().addParams({ id: params.id }).addFlag('--no-body').execute('medicalOrderUpdateStatusValidate');
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }

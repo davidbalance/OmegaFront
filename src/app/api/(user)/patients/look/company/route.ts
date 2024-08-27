@@ -1,20 +1,17 @@
-import { FetchError } from "@/lib/errors/fetch.error";
-import { get } from "@/lib/fetcher/fetcher";
-import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
-import endpoints from "@/lib/endpoints/endpoints";
 import { NextResponse } from "next/server";
 import { GetPatientArrayResponseDto } from "@/lib/dtos/user/patient/response.dto";
+import omega from "@/lib/api-client/omega-client/omega";
+import ApiClientError from "@/lib/api-client/base/api-error";
 
 export async function GET() {
     try {
-        const getPatients = withAuth<any, GetPatientArrayResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const { data }: GetPatientArrayResponseDto = await getPatients(endpoints.USER.PATIENT.FIND_BY_COMPANY, {});
+        const { data }: GetPatientArrayResponseDto = await omega().execute('userAttributeLookForCompanyDetails')
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }

@@ -1,10 +1,7 @@
-import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
+import ApiClientError from "@/lib/api-client/base/api-error";
+import omega from "@/lib/api-client/omega-client/omega";
 import { PatchMedicalResultDiseaseRequestDto } from "@/lib/dtos/medical/result/disease/request.dto";
 import { GetMedicalResultDiseaseResponseDto, PatchMedicalResultDiseaseResponseDto } from "@/lib/dtos/medical/result/disease/response.dto";
-import endpoints from "@/lib/endpoints/endpoints";
-import { FetchError } from "@/lib/errors/fetch.error";
-import { del, get, patch } from "@/lib/fetcher/fetcher";
-import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -12,16 +9,14 @@ export async function GET(
     { params }: { params: { id: number } }
 ) {
     try {
-        const getDisease = withAuth<any, GetMedicalResultDiseaseResponseDto>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        const disease: GetMedicalResultDiseaseResponseDto = await getDisease(endpoints.MEDICAL.RESULT.DISEASE.FIND_ONE(params.id), {});
+        const disease: GetMedicalResultDiseaseResponseDto = await omega().addParams({ id: params.id }).execute('medicalResultDiseaseDetail');
         return NextResponse.json(disease, { status: 200 });
     } catch (error) {
         console.error(error);
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }
 
@@ -31,19 +26,14 @@ export async function PATCH(
 ) {
     try {
         const data: PatchMedicalResultDiseaseRequestDto = await req.json();
-        const patchDisease = withAuth<PatchMedicalResultDiseaseRequestDto, PatchMedicalResultDiseaseResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const disease: PatchMedicalResultDiseaseResponseDto = await patchDisease(endpoints.MEDICAL.RESULT.DISEASE.UPDATE_ONE(params.id), {
-            body: data,
-            headers: CONTENT_TYPE_APPLICATION_JSON
-        });
+        const disease: PatchMedicalResultDiseaseResponseDto = await omega().addParams({ id: params.id }).addBody(data).execute('medicalResultDiseaseUpdate');
         return NextResponse.json(disease, { status: 200 });
     } catch (error) {
         console.error(error);
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }
 
@@ -52,15 +42,13 @@ export async function DELETE(
     { params }: { params: { id: number } }
 ) {
     try {
-        const deleteDisease = withAuth<any, any>(del, DEFAULT_WITH_AUTH_OPTIONS);
-        await deleteDisease(endpoints.MEDICAL.RESULT.DISEASE.DELETE_ONE(params.id), {});
+        await omega().addParams({ id: params.id }).execute('medicalResultDiseaseDelete');
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
         console.error(error);
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }

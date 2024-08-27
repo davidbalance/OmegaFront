@@ -1,20 +1,17 @@
-import endpoints from "@/lib/endpoints/endpoints";
-import { FetchError } from "@/lib/errors/fetch.error";
-import { get } from "@/lib/fetcher/fetcher";
-import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
+import ApiClientError from "@/lib/api-client/base/api-error";
+import omega from "@/lib/api-client/omega-client/omega";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const recreateReport = withAuth<any, any>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        await recreateReport(endpoints.MEDICAL.REPORT.RECREATE_ALL_PDF, {});
+        await omega().execute('medicalReportRecreateAll');
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }
 
@@ -23,14 +20,13 @@ export async function POST(
 ) {
     try {
         const { dni }: { dni: string } = await req.json();
-        const recreateReport = withAuth<any, any>(get, DEFAULT_WITH_AUTH_OPTIONS);
-        await recreateReport(endpoints.MEDICAL.REPORT.RECREATE_ALL_PDF_BY_DNI(dni), {});
+        await omega().addParams({ dni: dni }).execute('medicalReportRecreateByPatient');
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }

@@ -1,10 +1,7 @@
-import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
+import ApiClientError from "@/lib/api-client/base/api-error";
+import omega from "@/lib/api-client/omega-client/omega";
 import { PatchManagementRequestDto } from "@/lib/dtos/location/management/request.dto";
 import { PatchManagementResponseDto } from "@/lib/dtos/location/management/response.dto";
-import endpoints from "@/lib/endpoints/endpoints";
-import { FetchError } from "@/lib/errors/fetch.error";
-import { del, patch } from "@/lib/fetcher/fetcher";
-import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
@@ -13,18 +10,14 @@ export async function PATCH(
 ) {
     try {
         const data: PatchManagementRequestDto = await req.json();
-        const patchManagement = withAuth<PatchManagementRequestDto, PatchManagementResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const management: PatchManagementResponseDto = await patchManagement(endpoints.LOCATION.MANAGEMENT.UPDATE_ONE(params.id), {
-            body: data,
-            headers: CONTENT_TYPE_APPLICATION_JSON
-        });
+        const management: PatchManagementResponseDto = await omega().addParams({ id: params.id }).addBody(data).execute('managementUpdate');
         return NextResponse.json(management, { status: 200 });
     } catch (error) {
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }
 
@@ -33,16 +26,13 @@ export async function DELETE(
     { params }: { params: { id: number } }
 ) {
     try {
-        const deleteArea = withAuth<any, any>(del, DEFAULT_WITH_AUTH_OPTIONS);
-        await deleteArea(endpoints.LOCATION.MANAGEMENT.DELETE_ONE(params.id), {
-            headers: CONTENT_TYPE_APPLICATION_JSON
-        });
+        await omega().addParams({ id: params.id }).execute('managementDelete');
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }

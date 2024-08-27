@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FetchOptions, FetchResult } from "./hook.types";
+import { useDebounceCallback } from "@mantine/hooks";
 
 /**
  * Se encarga de efectuar consultas y envio de peticiones atraves de estados.
@@ -37,7 +38,9 @@ const useFetch = <T>(url: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DE
         }
     }), [method, body, application, other]);
 
-    const handleFetch = useCallback(async () => {
+    const handleFetch = useDebounceCallback(async () => await _fetch(), 500);
+
+    const _fetch = useCallback(async () => {
         setLoading(true);
         setError(null);
         setStatus(null);

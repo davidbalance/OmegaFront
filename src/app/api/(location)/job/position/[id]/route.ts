@@ -1,10 +1,7 @@
-import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
+import ApiClientError from "@/lib/api-client/base/api-error";
+import omega from "@/lib/api-client/omega-client/omega";
 import { PatchJobPositionRequestDto } from "@/lib/dtos/location/job/position/request.dto";
 import { GetJobPositionResponseDto, PatchJobPositionResponseDto } from "@/lib/dtos/location/job/position/response.dto";
-import endpoints from "@/lib/endpoints/endpoints";
-import { FetchError } from "@/lib/errors/fetch.error";
-import { patch, del } from "@/lib/fetcher/fetcher";
-import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -12,16 +9,14 @@ export async function GET(
     { params }: { params: { id: number } }
 ) {
     try {
-        const getJobPositon = withAuth<any, GetJobPositionResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const jobPosition: GetJobPositionResponseDto = await getJobPositon(endpoints.LOCATION.JOB_POSITION.FIND_ONE(params.id), {});
+        const jobPosition: GetJobPositionResponseDto = await omega().addParams({ id: params.id }).execute('jobpositionDetail');
         return NextResponse.json(jobPosition, { status: 200 });
     } catch (error) {
         console.error(error);
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }
 
@@ -31,19 +26,14 @@ export async function PATCH(
 ) {
     try {
         const data: PatchJobPositionRequestDto = await req.json();
-        const patchJobPosition = withAuth<PatchJobPositionRequestDto, PatchJobPositionResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const jobPosition: PatchJobPositionResponseDto = await patchJobPosition(endpoints.LOCATION.JOB_POSITION.UPDATE_ONE(params.id), {
-            body: data,
-            headers: CONTENT_TYPE_APPLICATION_JSON
-        });
+        const jobPosition: PatchJobPositionResponseDto = await omega().addParams({ id: params.id }).addBody(data).execute('jobpositionUpdate');
         return NextResponse.json(jobPosition, { status: 200 });
     } catch (error) {
         console.error(error);
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }
 
@@ -52,15 +42,13 @@ export async function DELETE(
     { params }: { params: { id: number } }
 ) {
     try {
-        const deleteJobPosition = withAuth<any, any>(del, DEFAULT_WITH_AUTH_OPTIONS);
-        await deleteJobPosition(endpoints.LOCATION.JOB_POSITION.DELETE_ONE(params.id), {});
+        await omega().addParams({ id: params.id }).execute('jobpositionDelete');
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
         console.error(error);
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }

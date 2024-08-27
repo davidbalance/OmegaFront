@@ -1,10 +1,7 @@
-import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
+import ApiClientError from "@/lib/api-client/base/api-error";
+import omega from "@/lib/api-client/omega-client/omega";
 import { PatchAreaRequestDto } from "@/lib/dtos/location/area/request.dto";
 import { PatchAreaResponseDto } from "@/lib/dtos/location/area/response.dto";
-import endpoints from "@/lib/endpoints/endpoints";
-import { FetchError } from "@/lib/errors/fetch.error";
-import { del, patch } from "@/lib/fetcher/fetcher";
-import { DEFAULT_WITH_AUTH_OPTIONS, withAuth } from "@/lib/fetcher/with-fetch.utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
@@ -13,18 +10,14 @@ export async function PATCH(
 ) {
     try {
         const data: PatchAreaRequestDto = await req.json();
-        const patchArea = withAuth<PatchAreaRequestDto, PatchAreaResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const area: PatchAreaResponseDto = await patchArea(endpoints.LOCATION.AREA.UPDATE_ONE(params.id), {
-            body: data,
-            headers: CONTENT_TYPE_APPLICATION_JSON
-        });
+        const area: PatchAreaResponseDto = await omega().addParams({ id: params.id }).addBody(data).execute('areaUpdate');
         return NextResponse.json(area, { status: 200 });
     } catch (error) {
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }
 
@@ -33,16 +26,13 @@ export async function DELETE(
     { params }: { params: { id: number } }
 ) {
     try {
-        const deleteArea = withAuth<any, any>(del, DEFAULT_WITH_AUTH_OPTIONS);
-        await deleteArea(endpoints.LOCATION.AREA.DELETE_ONE(params.id), {
-            headers: CONTENT_TYPE_APPLICATION_JSON
-        });
+        await omega().addParams({ id: params.id }).execute('areaDelete');
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }

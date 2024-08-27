@@ -1,21 +1,23 @@
-import endpoints from "@/lib/endpoints/endpoints";
-import { FetchError } from "@/lib/errors/fetch.error";
-import { get, post } from "@/lib/fetcher/fetcher";
-import { withAuth, DEFAULT_WITH_AUTH_OPTIONS } from "@/lib/fetcher/with-fetch.utils";
+import ApiClientError from "@/lib/api-client/base/api-error";
+import omega from "@/lib/api-client/omega-client/omega";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
     _: NextRequest,
     { params }: { params: { id: number } }
 ) {
-    const getSignature = withAuth<any, Blob>(get, DEFAULT_WITH_AUTH_OPTIONS);
-    const blob: Blob = await getSignature(endpoints.USER.DOCTOR.FIND_ONE_IMAGE(params.id), {
-        type: 'blob',
-        headers: { 'Accept': 'application/*' }
-    });
-    const headers = new Headers();
-    headers.set("Content-Type", "image/png");
-    return new NextResponse(blob, { status: 200, headers });
+    try {
+        const blob: Blob = await omega().addParams({ id: params.id }).addHeader({ 'accept': 'application/*' }).execute('doctorSignatureImage');
+        const headers = new Headers();
+        headers.set("Content-Type", "image/png");
+        return new NextResponse(blob, { status: 200, headers });
+    } catch (error) {
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
+        }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+    }
 }
 
 export async function POST(
@@ -24,17 +26,13 @@ export async function POST(
 ) {
     try {
         const body = await req.formData();
-        const postFile = withAuth<any, any>(post, DEFAULT_WITH_AUTH_OPTIONS);
-        await postFile(endpoints.USER.DOCTOR.UPLOAD_IMAGE(params.id), {
-            application: 'form',
-            body: body
-        });
+        await omega().addParams({ id: params.id }).addBody(body).execute('doctorSignatureUpload');
         return NextResponse.json({}, { status: 200 });
-    } catch (error: any) {
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+    } catch (error) {
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }

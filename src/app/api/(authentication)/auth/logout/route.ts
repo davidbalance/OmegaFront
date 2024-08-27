@@ -1,19 +1,16 @@
-import { FetchError } from "@/lib/errors/fetch.error";
-import { post } from "@/lib/fetcher/fetcher";
-import { withAuth, DEFAULT_WITH_AUTH_OPTIONS, removeAuth } from "@/lib/fetcher/with-fetch.utils";
-import endpoints from "@/lib/endpoints/endpoints";
 import { NextResponse } from "next/server";
+import ApiClientError from "@/lib/api-client/base/api-error";
+import omega from "@/lib/api-client/omega-client/omega";
 
 export async function POST() {
     try {
-        const logout = withAuth<any, any>(post, DEFAULT_WITH_AUTH_OPTIONS);
-        await logout(endpoints.AUTHENTICATION.AUTH.LOGOUT, {});
-        removeAuth();
-        return NextResponse.json('Logged out', { status: 200 });
+        await omega().addFlag('--no-body').revokeAuthentication();
+        return NextResponse.json({}, { status: 200 });
     } catch (error) {
-        if (error instanceof FetchError) {
-            return NextResponse.json(error.data, { status: error.response.status });
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
-        return NextResponse.json(error, { status: 500 });
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }

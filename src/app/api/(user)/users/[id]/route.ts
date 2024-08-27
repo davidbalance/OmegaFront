@@ -1,11 +1,7 @@
-import { FetchError } from "@/lib/errors/fetch.error";
-import { del, patch } from "@/lib/fetcher/fetcher";
-import { DEFAULT_WITH_AUTH_OPTIONS, withAuth } from "@/lib/fetcher/with-fetch.utils";
-import endpoints from "@/lib/endpoints/endpoints";
 import { NextRequest, NextResponse } from "next/server";
-import { CONTENT_TYPE_APPLICATION_JSON } from "@/lib/constants";
 import { PatchUserRequestDto } from "@/lib/dtos/user/user/request.dto";
-import { PatchUserResponseDto } from "@/lib/dtos/user/user/response.dto";
+import omega from "@/lib/api-client/omega-client/omega";
+import ApiClientError from "@/lib/api-client/base/api-error";
 
 export async function PATCH(
     req: NextRequest,
@@ -13,18 +9,14 @@ export async function PATCH(
 ) {
     try {
         const data: PatchUserRequestDto = await req.json()
-        const patchUser = withAuth<PatchUserRequestDto, PatchUserResponseDto>(patch, DEFAULT_WITH_AUTH_OPTIONS);
-        const user = await patchUser(endpoints.USER.USER.UPDATE_ONE(params.id), {
-            body: data,
-            headers: CONTENT_TYPE_APPLICATION_JSON
-        });
+        const user = await omega().addParams({ id: params.id }).addBody(data).execute('userUpdate');
         return NextResponse.json(user, { status: 200 });
     } catch (error) {
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }
 
@@ -33,14 +25,13 @@ export async function DELETE(
     { params }: { params: { id: number } }
 ) {
     try {
-        const deleteUser = withAuth<any, any>(del, DEFAULT_WITH_AUTH_OPTIONS);
-        await deleteUser(endpoints.USER.USER.DELETE_ONE(params.id), {});
+        await omega().addParams({ id: params.id }).execute('userDelete');
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
-        if (error instanceof FetchError) {
-            return NextResponse.json({ message: error.message, data: error.data }, { status: error.response.status });
-        } else {
-            return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            return NextResponse.json({ message: error.message }, { status: error.status });
         }
+        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
     }
 }
