@@ -14,7 +14,7 @@
   grid-template-columns: max-content auto;
   gap: rem(8px);
 
-  @media (min-width: $mantine-breakpoint-sm) {
+  @media (min-width: $mantine-breakpoint-md) {
     grid-template-areas:
       "header header"
       "navbar main";
@@ -51,6 +51,12 @@
 
   & a {
     text-decoration: none;
+  }
+
+  @media (max-width: $mantine-breakpoint-md) {
+    & a {
+      width: 100% !important;
+    }
   }
 }
 
