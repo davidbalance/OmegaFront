@@ -1,11 +1,12 @@
+import 'server-only'
 import ApiClientBase from "../base/api-client.base";
 import omegaEndpoint from "./endpoints";
 import { OmegaMethod } from "./omega-api-config";
 import { cookies } from "next/headers";
 import { AUTH_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "@/lib/constants";
 import ApiClientError from "../base/api-error";
-import dayjs from "dayjs";
-import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { isTokenValid } from "@/lib/is-token-valid";
+import { tokenOption } from "@/lib/token-option";
 
 type OmegaToken = { access: string, refresh: string, expires: string };
 type EnpointOptions = { customHeader: string[] }
@@ -17,7 +18,7 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
         super(omegaEndpoint.methods, baseUrl);
     }
 
-    public async authenticate(): Promise<void> {
+    public async authenticate(): Promise<OmegaToken> {
         try {
             const endpoint = omegaEndpoint.authentication.sessionWithLogin;
             const url = `${this._baseUrl}/${endpoint}`;
@@ -35,9 +36,9 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
             if (!response.ok) throw new ApiClientError(method, response);
 
             const tokens = await response.json();
-            const { access, refresh, expiresAt } = tokens;
-            this._setToken(AUTH_TOKEN_COOKIE, access, expiresAt);
-            this._setToken(REFRESH_TOKEN_COOKIE, refresh, expiresAt);
+            return { ...tokens, expires: tokens.expiresAt };
+            // this._setToken(AUTH_TOKEN_COOKIE, access, expiresAt);
+            // this._setToken(REFRESH_TOKEN_COOKIE, refresh, expiresAt);
         } catch (error) {
             if (error instanceof ApiClientError) {
                 if (error.status === 403) error.updateMessage('Bad credentials');
@@ -68,9 +69,9 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
         if (!this._isServerContext()) throw new Error('Api clients can only work on the server.');
 
         let access: string = this._getToken(AUTH_TOKEN_COOKIE);
-        if (!this._isTokenValid(access)) {
+        if (!isTokenValid(access)) {
             const refresh = this._getToken(REFRESH_TOKEN_COOKIE);
-            const newToken = await this._refreshToken(refresh);
+            const newToken = await this.refreshToken(refresh);
 
             this._setToken(AUTH_TOKEN_COOKIE, newToken.access, newToken.expires);
             this._setToken(REFRESH_TOKEN_COOKIE, newToken.refresh, newToken.expires);
@@ -87,14 +88,7 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
         return super.execute(key);
     }
 
-    protected _isTokenValid(token: string): boolean {
-        const tokens = token.split('.');
-        if (tokens.length <= 1) throw new Error('Is not a valid token');
-        const payload = JSON.parse(atob(tokens[1]));
-        return payload.exp > Date.now() / 1000;
-    }
-
-    private _refreshToken = async (token: string): Promise<OmegaToken> => {
+    public refreshToken = async (token: string): Promise<OmegaToken> => {
         const method: string = 'POST';
         const headers = new Headers();
         headers.set('authorization', `Bearer ${token}`);
@@ -114,14 +108,6 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
             return { ...data, expires };
         } catch (error) {
             throw error;
-        }
-    }
-
-    private _cookieValue(expires: string): Partial<ResponseCookie> {
-        return {
-            httpOnly: true,
-            expires: dayjs(expires).toDate(),
-            path: '/'
         }
     }
 
@@ -147,7 +133,7 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
 
     private _setToken(key: string, value: string, expires: string): void {
         const cookie = cookies();
-        const option = this._cookieValue(expires);
+        const option = tokenOption(expires);
         cookie.set(key, value, option);
     }
 

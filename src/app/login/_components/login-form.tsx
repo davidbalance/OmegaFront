@@ -7,11 +7,13 @@ import loginSchema from '../_schema/login.schema';
 import { Box, TextInput, PasswordInput, Button } from '@mantine/core';
 import { LoginCredential } from '../_lib/login-credential.type';
 import { notifications } from '@mantine/notifications';
-import { loginAction } from '../_actions/login.action';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const LoginForm: React.FC = () => {
 
     const [loading, setLoading] = useState(false);
+    const route = useRouter();
 
     const form = useForm({
         initialValues: { username: '', password: '' },
@@ -21,7 +23,12 @@ const LoginForm: React.FC = () => {
     const handleLogin = async (value: LoginCredential) => {
         setLoading(true);
         try {
-            await loginAction(value);
+            const response = await signIn('credentials', { redirect: false, ...value });
+            // await loginAction(value);
+            if (response?.error) {
+                throw new Error(response.error);
+            }
+            route.push('/omega');
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });
         } finally {
