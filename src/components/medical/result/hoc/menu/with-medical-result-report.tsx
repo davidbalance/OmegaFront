@@ -3,7 +3,6 @@ import { MedicalResult } from "@/lib/dtos/medical/result/base.response.dto";
 import { useMemo } from "react";
 import { Menu, rem } from "@mantine/core";
 import { IconPencil } from "@tabler/icons-react";
-import { MedicalReport } from "@/lib/dtos/medical/report/base.respoonse.dto";
 import { MedicalReportFileMenuProps, withMedicalReportFile } from "@/components/medical/report/hoc/with-medical-report-file";
 
 export type MedicalResultReportMenuProps<T> = Omit<MedicalReportFileMenuProps<T>, 'report' | 'filename'> & {
@@ -13,8 +12,6 @@ export type MedicalResultReportMenuProps<T> = Omit<MedicalReportFileMenuProps<T>
 const withMedicalResultReport = <T extends object>(
     WrappedComponent: React.ComponentType<ExtendedActionProps<T> & { result?: MedicalResult }>
 ): React.FC<MedicalResultReportMenuProps<T>> => {
-
-    console.log(WrappedComponent.displayName);
 
     const EnhanceComponent = withMedicalReportFile(WrappedComponent);
 

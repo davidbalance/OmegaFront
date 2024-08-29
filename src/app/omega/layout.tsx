@@ -5,12 +5,13 @@ import { Suspense } from "react"
 import OmegaLogo from "./_components/omega-logo"
 import OmegaShellBurger from "./_components/omega-shell/omega-shell-burger"
 import OmegaShellHeader from "./_components/omega-shell/omega-shell-header"
-import OmegaShellLink from "./_components/omega-shell/omega-shell-link"
 import OmegaShellLock from "./_components/omega-shell/omega-shell-lock"
 import OmegaShellMain from "./_components/omega-shell/omega-shell-main"
 import OmegaShellNavbar from "./_components/omega-shell/omega-shell-navbar"
 import OmegaShellRoot from "./_components/omega-shell/omega-shell-root"
 import OmegaShellSection from "./_components/omega-shell/omega-shell-section"
+import OmegaNavbarContent from "./_components/omega-navbar-content"
+import OmegaLogoSuspense from "./_components/omega-logo.suspense"
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
@@ -25,9 +26,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <Box
                         maw='100%'
                         m='auto'>
-                        <Suspense fallback={<Skeleton width={rem(40)} height={rem(15)} />}>
-                            <OmegaLogo />
-                        </Suspense>
+                        {/* <Suspense fallback={<OmegaLogoSuspense />}> */}
+                        <OmegaLogo />
+                        {/* </Suspense> */}
                     </Box>
                     <ActionIcon
                         variant='transparent'>
@@ -41,13 +42,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <Stack h='100%'>
                     <Box flex={1}>
                         <ScrollAreaAutosize mah={500} dir='rtl'>
-                            <OmegaShellSection
-                                gap={rem(4)}>
-                                <OmegaShellLink
-                                    label='Home'
-                                    icon='user'
-                                    href='/omega' />
-                            </OmegaShellSection>
+                            {/* <Suspense> */}
+                            <OmegaNavbarContent />
+                            {/* </Suspense> */}
                         </ScrollAreaAutosize>
                     </Box>
                     <OmegaShellSection

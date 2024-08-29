@@ -2,6 +2,26 @@ import omega from '@/lib/api-client/omega-client/omega';
 import { isTokenValid } from '@/lib/is-token-valid';
 import NextAuth, { AuthOptions, User } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
+import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth";
+import { JWT } from 'next-auth/jwt';
+
+const refreshStrategy = async (token: JWT): Promise<JWT> => {
+    try {
+        const newToken = await omega().refreshToken(token.refresh_token);
+        return {
+            ...token,
+            access_token: newToken.access,
+            refresh_token: newToken.refresh
+        }
+    } catch (error) {
+        console.error(error);
+        return {
+            ...token,
+            error: "RefreshAccessTokenError"
+        }
+    }
+}
 
 export const omegaProvider = Credentials({
     credentials: {
@@ -26,7 +46,7 @@ export const omegaProvider = Credentials({
 
 export const authOptions: AuthOptions = {
     providers: [omegaProvider],
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXT_NEXTAUTH_SECRET,
     session: {
         strategy: 'jwt'
     },
@@ -35,23 +55,31 @@ export const authOptions: AuthOptions = {
     },
     callbacks: {
         jwt: async ({ token, user }) => {
-            if (!isTokenValid(user.access_token)) {
-                const newToken = await omega().refreshToken(user.refresh_token);
-                user.access_token = newToken.access;
-                user.refresh_token = newToken.refresh;
+            if (user) {
+                return { ...user };
             }
-            return {
-                ...token,
-                ...user
+            if (isTokenValid(token.access_token)) {
+                return token;
             }
+            return refreshStrategy(token);
         },
         session: async ({ session, token }) => {
-            return { ...session, ...token }
+            if (token) {
+                session.access_token = token.access_token;
+            }
+            return session;
         }
     }
 }
 
 const handler = NextAuth(authOptions);
+
+export function auth(...args:
+    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
+    | [NextApiRequest, NextApiResponse]
+    | []) {
+    return getServerSession(...args, authOptions);
+}
 
 export { handler as GET, handler as POST };
 
@@ -65,7 +93,6 @@ declare module "next-auth" {
 
     interface Session {
         access_token: string;
-        refresh_token: string;
     }
 }
 

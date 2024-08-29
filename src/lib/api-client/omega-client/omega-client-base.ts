@@ -3,14 +3,14 @@ import ApiClientBase from "../base/api-client.base";
 import omegaEndpoint from "./endpoints";
 import { OmegaMethod } from "./omega-api-config";
 import { cookies } from "next/headers";
-import { AUTH_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "@/lib/constants";
 import ApiClientError from "../base/api-error";
-import { isTokenValid } from "@/lib/is-token-valid";
 import { tokenOption } from "@/lib/token-option";
 
 type OmegaToken = { access: string, refresh: string, expires: string };
 type EnpointOptions = { customHeader: string[] }
 class OmegaClientBase extends ApiClientBase<OmegaMethod> {
+
+    private _token: string | undefined = undefined;
 
     constructor(
         baseUrl: string
@@ -37,8 +37,6 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
 
             const tokens = await response.json();
             return { ...tokens, expires: tokens.expiresAt };
-            // this._setToken(AUTH_TOKEN_COOKIE, access, expiresAt);
-            // this._setToken(REFRESH_TOKEN_COOKIE, refresh, expiresAt);
         } catch (error) {
             if (error instanceof ApiClientError) {
                 if (error.status === 403) error.updateMessage('Bad credentials');
@@ -59,24 +57,11 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
             if (!request) throw new ApiClientError(method, response);
         } catch (error) {
             throw error;
-        } finally {
-            this._removeToken(AUTH_TOKEN_COOKIE);
-            this._removeToken(REFRESH_TOKEN_COOKIE);
         }
     }
 
     public async execute(key: keyof OmegaMethod): Promise<any> {
         if (!this._isServerContext()) throw new Error('Api clients can only work on the server.');
-
-        let access: string = this._getToken(AUTH_TOKEN_COOKIE);
-        if (!isTokenValid(access)) {
-            const refresh = this._getToken(REFRESH_TOKEN_COOKIE);
-            const newToken = await this.refreshToken(refresh);
-
-            this._setToken(AUTH_TOKEN_COOKIE, newToken.access, newToken.expires);
-            this._setToken(REFRESH_TOKEN_COOKIE, newToken.refresh, newToken.expires);
-            access = newToken.access;
-        }
 
         const endpoint = this.endpoints[key];
         if (!endpoint) throw new Error(`No endpoint found for: ${key.toString()}`);
@@ -92,7 +77,6 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
         const method: string = 'POST';
         const headers = new Headers();
         headers.set('authorization', `Bearer ${token}`);
-        console.log(headers);
         try {
             const url = `${this._baseUrl}/${omegaEndpoint.authentication.sessionRefresh}`;
             const request = new Request(url, { method, headers });
@@ -111,10 +95,15 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
         }
     }
 
+    public addToken(token: string): this {
+        this._token = token;
+        return this;
+    }
+
     private _addHeaders(options: string[]): void {
-        const token = this._getToken(AUTH_TOKEN_COOKIE) || '';
+        if (options.includes('auth') && !this._token) throw new Error('There is not token set before doing the request');
         const header: Record<string, [string, string]> = {
-            'auth': ['authorization', `Bearer ${token}`],
+            'auth': ['authorization', `Bearer ${this._token}`],
             'as-json': ['content-type', 'application/json'],
         }
 

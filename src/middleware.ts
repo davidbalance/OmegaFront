@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server';
 export default withAuth(
     function middleware(req) {
         const { pathname, origin } = req.nextUrl;
-        console.log(req.nextauth.token);
         if (req.nextauth.token) {
             if (pathname === '/login') {
                 return NextResponse.redirect(new URL('/login', origin));
