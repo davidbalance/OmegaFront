@@ -5,6 +5,7 @@ import { OmegaMethod } from "./omega-api-config";
 import { cookies } from "next/headers";
 import ApiClientError from "../base/api-error";
 import { tokenOption } from "@/lib/token-option";
+import UrlBuilder from '../base/url-builder';
 
 type OmegaToken = { access: string, refresh: string, expires: string };
 type EnpointOptions = { customHeader: string[] }
@@ -13,7 +14,8 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
     private _token: string | undefined = undefined;
 
     constructor(
-        baseUrl: string
+        baseUrl: string,
+        private readonly key: string
     ) {
         super(omegaEndpoint.methods, baseUrl);
     }
@@ -60,20 +62,7 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
         }
     }
 
-    public async execute(key: keyof OmegaMethod): Promise<any> {
-        if (!this._isServerContext()) throw new Error('Api clients can only work on the server.');
-
-        const endpoint = this.endpoints[key];
-        if (!endpoint) throw new Error(`No endpoint found for: ${key.toString()}`);
-        if (endpoint.options) {
-            const customHeader = (endpoint.options as EnpointOptions).customHeader
-            this._addHeaders(customHeader);
-        }
-
-        return super.execute(key);
-    }
-
-    public refreshToken = async (token: string): Promise<OmegaToken> => {
+    public async refreshToken(token: string): Promise<OmegaToken> {
         const method: string = 'POST';
         const headers = new Headers();
         headers.set('authorization', `Bearer ${token}`);
@@ -93,6 +82,93 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
         } catch (error) {
             throw error;
         }
+    }
+
+    public async retriveSession(session: string): Promise<{ token: string, refresh: string }> {
+        const method: string = 'GET';
+        const url = UrlBuilder.builder(`${this._baseUrl}/${omegaEndpoint.session.sessionDetail}`).param({ session }).build();
+        const headers = new Headers();
+        headers.set('x-client-key', this.key);
+
+        try {
+            const request = new Request(url, { method, headers });
+            const response = await fetch(request);
+            if (!response.ok) {
+                throw new ApiClientError(method, response);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public async createSession(body: { token: string, refresh: string }): Promise<{ session: string }> {
+        const method: string = 'POST';
+        const url = UrlBuilder.builder(`${this._baseUrl}/${omegaEndpoint.session.sessionCreate}`).build();
+        const headers = new Headers();
+        headers.set('x-client-key', this.key);
+        headers.set('content-type', 'application/json');
+
+        try {
+            const request = new Request(url, { method, headers, body: JSON.stringify(body) });
+            const response = await fetch(request);
+            if (!response.ok) {
+                throw new ApiClientError(method, response);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public async updateSession(session: string, body: { token: string, refresh: string }): Promise<void> {
+        const method: string = 'PATCH';
+        const url = UrlBuilder.builder(`${this._baseUrl}/${omegaEndpoint.session.sessionUpdate}`).param({ session }).build();
+        const headers = new Headers();
+        headers.set('x-client-key', this.key);
+        headers.set('content-type', 'application/json');
+
+        try {
+            const request = new Request(url, { method, headers, body: JSON.stringify(body) });
+            const response = await fetch(request);
+            if (!response.ok) {
+                throw new ApiClientError(method, response);
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public async removeSession(session: string): Promise<void> {
+        const method: string = 'DELETE';
+        const url = UrlBuilder.builder(`${this._baseUrl}/${omegaEndpoint.session.sessionDelete}`).param({ session }).build();
+        const headers = new Headers();
+        headers.set('x-client-key', this.key);
+
+        try {
+            const request = new Request(url, { method, headers });
+            const response = await fetch(request);
+            if (!response.ok) {
+                throw new ApiClientError(method, response);
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public async execute(key: keyof OmegaMethod): Promise<any> {
+        if (!this._isServerContext()) throw new Error('Api clients can only work on the server.');
+
+        const endpoint = this.endpoints[key];
+        if (!endpoint) throw new Error(`No endpoint found for: ${key.toString()}`);
+        if (endpoint.options) {
+            const customHeader = (endpoint.options as EnpointOptions).customHeader
+            this._addHeaders(customHeader);
+        }
+
+        return super.execute(key);
     }
 
     public addToken(token: string): this {

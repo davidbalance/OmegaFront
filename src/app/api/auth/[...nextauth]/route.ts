@@ -6,14 +6,15 @@ import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next
 import { getServerSession } from "next-auth";
 import { JWT } from 'next-auth/jwt';
 
-const refreshStrategy = async (token: JWT): Promise<JWT> => {
+const refreshStrategy = async (token: JWT, current: { token: string, refresh: string }): Promise<JWT> => {
     try {
-        const newToken = await omega().refreshToken(token.refresh_token);
+        const newToken = await omega().refreshToken(current.refresh);
+        await omega().updateSession(token.session, { token: newToken.access, refresh: newToken.refresh });
         return {
             ...token,
             access_token: newToken.access,
             refresh_token: newToken.refresh
-        }
+        };
     } catch (error) {
         console.error(error);
         return {
@@ -55,13 +56,37 @@ export const authOptions: AuthOptions = {
     },
     callbacks: {
         jwt: async ({ token, user }) => {
+            console.log('JWT called');
             if (user) {
-                return { ...user };
+                try {
+                    const data = await omega().createSession({
+                        token: user.access_token,
+                        refresh: user.refresh_token
+                    });
+                    return {
+                        ...user,
+                        ...data
+                    };
+                } catch (error) {
+                    console.error(error);
+                    throw error;
+                }
             }
-            if (isTokenValid(token.access_token)) {
-                return token;
+            let tokens: { token: string, refresh: string };
+            try {
+                tokens = await omega().retriveSession(token.session);
+            } catch (error) {
+                console.error(error);
+                throw error;
             }
-            return refreshStrategy(token);
+            if (isTokenValid(tokens.token)) {
+                return {
+                    ...token,
+                    access_token: tokens.token,
+                    refresh_token: tokens.token
+                };
+            }
+            return refreshStrategy(token, tokens);
         },
         session: async ({ session, token }) => {
             if (token) {
@@ -98,6 +123,7 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
     interface JWT {
+        session: string;
         access_token: string;
         refresh_token: string;
     }
