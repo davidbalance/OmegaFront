@@ -53,4 +53,4 @@ const Search: React.FC<SearchProps> = ({ key = 'search', value }) => {
     )
 }
 
-export { Search }
+export default Search

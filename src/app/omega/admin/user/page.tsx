@@ -1,12 +1,12 @@
 import { ModularBox } from '@/components/modular/box/ModularBox'
-import { Box, Button, Center, Flex, Group, rem, ScrollAreaAutosize, Stack, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text, Title, UnstyledButton } from '@mantine/core'
-import React from 'react'
-import clsx from 'clsx'
-import classes from './user.module.css'
-import { IconSelector } from '@tabler/icons-react'
+import { Box, Button, Flex, rem, Title } from '@mantine/core'
+import React, { Suspense } from 'react'
 import ModularLayout from '@/components/modular/layout/ModularLayout'
-import { Search } from '@/components/_base/Search'
-import ServerPagination from '@/components/_base/ServerPagination'
+import Search from '@/components/_base/search'
+import UserTable from './_components/user-table'
+import Await from '@/components/_base/await'
+import UserTableSuspense from './_components/user-table.suspense'
+import { retriveUsers } from './_actions/user.actions'
 
 interface UserPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -14,7 +14,10 @@ interface UserPageProps {
 const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
 
     const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
-    const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+    const order = typeof searchParams.order === 'string' ? searchParams.order : undefined;
+    // const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+
+    const userPromise = retriveUsers();
 
     return <>
         <ModularBox>
@@ -23,7 +26,6 @@ const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
             </Box>
         </ModularBox>
         <ModularLayout>
-            {/* Custom provider start */}
             <ModularBox>
                 <Flex
                     justify='space-between'
@@ -34,50 +36,16 @@ const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
                 </Flex>
             </ModularBox>
             <ModularBox h='100%'>
-                <Stack
-                    align='stretch'
-                    gap={rem(8)}
-                    h='100%'
-                    justify='flex-start'>
-                    <Box mah='100%' mb='auto'>
-                        <ScrollAreaAutosize mah='450px' mx="-xs" px="xs" >
-                            <Table>
-                                <TableThead className={clsx(classes.header, { [classes.scrolled]: false })}>
-                                    <TableTr>
-                                        <TableTh>
-                                            <UnstyledButton>
-                                                <Group>
-                                                    <Text fw={500} fz='sm'>
-                                                        Name
-                                                    </Text>
-                                                    <Center>
-                                                        <IconSelector style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                                                    </Center>
-                                                </Group>
-                                            </UnstyledButton>
-                                        </TableTh>
-                                        <TableTh>Email</TableTh>
-                                        <TableTh>Company</TableTh>
-                                    </TableTr>
-                                </TableThead>
-                                <TableTbody>
-                                    <TableTr>
-                                        <TableTd>rowname</TableTd>
-                                        <TableTd>rowemail</TableTd>
-                                        <TableTd>rowcompany</TableTd>
-                                    </TableTr>
-                                </TableTbody>
-                            </Table>
-                        </ScrollAreaAutosize>
-                    </Box>
-                    <Box>
-                        <ServerPagination
-                            page={page}
-                            total={10} />
-                    </Box>
-                </Stack>
+                <Suspense fallback={<UserTableSuspense order={{ order }} />}>
+                    <Await promise={userPromise}>
+                        {(user) => (
+                            <UserTable
+                                order={{ order: order }}
+                                users={user} />
+                        )}
+                    </Await>
+                </Suspense>
             </ModularBox>
-            {/* Custom provider end */}
         </ModularLayout>
     </>
 }
