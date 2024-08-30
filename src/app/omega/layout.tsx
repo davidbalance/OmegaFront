@@ -12,6 +12,9 @@ import OmegaShellRoot from "./_components/omega-shell/omega-shell-root"
 import OmegaShellSection from "./_components/omega-shell/omega-shell-section"
 import OmegaNavbarContent from "./_components/omega-navbar-content"
 import OmegaLogoSuspense from "./_components/omega-logo.suspense"
+import OmegaHeaderMenu from "./_components/omega-header-menu"
+import OmegaHeaderMenuSuspense from "./_components/omega-header-menu.suspense"
+import OmegaNavbarContentSuspense from "./_components/omega-navbar-content.suspense"
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
@@ -26,25 +29,22 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <Box
                         maw='100%'
                         m='auto'>
-                        {/* <Suspense fallback={<OmegaLogoSuspense />}> */}
-                        <OmegaLogo />
-                        {/* </Suspense> */}
+                        <Suspense fallback={<OmegaLogoSuspense />}>
+                            <OmegaLogo />
+                        </Suspense>
                     </Box>
-                    <ActionIcon
-                        variant='transparent'>
-                        <Avatar
-                            variant='transparent'
-                            color='orange' />
-                    </ActionIcon>
+                    <Suspense fallback={<OmegaHeaderMenuSuspense />}>
+                        <OmegaHeaderMenu />
+                    </Suspense>
                 </Flex>
             </OmegaShellHeader>
             <OmegaShellNavbar>
                 <Stack h='100%'>
                     <Box flex={1}>
                         <ScrollAreaAutosize mah={500} dir='rtl'>
-                            {/* <Suspense> */}
-                            <OmegaNavbarContent />
-                            {/* </Suspense> */}
+                            <Suspense fallback={<OmegaNavbarContentSuspense />}>
+                                <OmegaNavbarContent />
+                            </Suspense>
                         </ScrollAreaAutosize>
                     </Box>
                     <OmegaShellSection

@@ -56,7 +56,6 @@ export const authOptions: AuthOptions = {
     },
     callbacks: {
         jwt: async ({ token, user }) => {
-            console.log('JWT called');
             if (user) {
                 try {
                     const data = await omega().createSession({

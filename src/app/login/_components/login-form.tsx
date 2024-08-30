@@ -23,12 +23,10 @@ const LoginForm: React.FC = () => {
     const handleLogin = async (value: LoginCredential) => {
         setLoading(true);
         try {
-            const response = await signIn('credentials', { redirect: false, ...value });
-            // await loginAction(value);
+            const response = await signIn('credentials', { callbackUrl: '/omega', ...value });
             if (response?.error) {
                 throw new Error(response.error);
             }
-            route.push('/omega');
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });
         } finally {
