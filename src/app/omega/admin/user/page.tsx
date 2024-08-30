@@ -1,13 +1,21 @@
-import { InputSearch } from '@/components/input/search/InputSearch'
 import { ModularBox } from '@/components/modular/box/ModularBox'
-import { Box, Button, Center, Flex, Group, Pagination, rem, ScrollAreaAutosize, Stack, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text, Title, UnstyledButton } from '@mantine/core'
+import { Box, Button, Center, Flex, Group, rem, ScrollAreaAutosize, Stack, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text, Title, UnstyledButton } from '@mantine/core'
 import React from 'react'
 import clsx from 'clsx'
 import classes from './user.module.css'
 import { IconSelector } from '@tabler/icons-react'
 import ModularLayout from '@/components/modular/layout/ModularLayout'
+import { Search } from '@/components/_base/Search'
+import ServerPagination from '@/components/_base/ServerPagination'
 
-const UserPage: React.FC = () => {
+interface UserPageProps {
+    searchParams: { [key: string]: string | string[] | undefined }
+}
+const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
+
+    const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
+    const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+
     return <>
         <ModularBox>
             <Box style={{ flexShrink: 0 }}>
@@ -21,9 +29,7 @@ const UserPage: React.FC = () => {
                     justify='space-between'
                     wrap='nowrap'
                     gap={rem(16)}>
-                    <InputSearch
-                        w='100%'
-                        placeholder="Buscar" />
+                    <Search key='search' value={search} />
                     <Button radius='md'>Crear usuario</Button>
                 </Flex>
             </ModularBox>
@@ -65,13 +71,9 @@ const UserPage: React.FC = () => {
                         </ScrollAreaAutosize>
                     </Box>
                     <Box>
-                        <Flex justify='center'>
-                            <Pagination
-                                total={10}
-                                radius='xl'
-                                withEdges
-                                size='sm' />
-                        </Flex>
+                        <ServerPagination
+                            page={page}
+                            total={10} />
                     </Box>
                 </Stack>
             </ModularBox>

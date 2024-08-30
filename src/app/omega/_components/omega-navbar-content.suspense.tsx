@@ -8,7 +8,7 @@ const OmegaNavbarContentSuspense: React.FC = async () => {
     <OmegaShellSection
       gap={rem(4)}>
       {
-        [1, 2, 3, 4, 5].map((e) => (
+        [...Array(4)].map((e) => (
           <Skeleton key={`suspense-${e}`} width={rem(40)} h={rem(40)} />
         ))
       }

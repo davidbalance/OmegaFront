@@ -8,12 +8,10 @@ import { Box, TextInput, PasswordInput, Button } from '@mantine/core';
 import { LoginCredential } from '../_lib/login-credential.type';
 import { notifications } from '@mantine/notifications';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
 const LoginForm: React.FC = () => {
 
     const [loading, setLoading] = useState(false);
-    const route = useRouter();
 
     const form = useForm({
         initialValues: { username: '', password: '' },
