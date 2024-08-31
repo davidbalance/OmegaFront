@@ -3,17 +3,28 @@
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Button, Flex, LoadingOverlay, rem, Stepper, StepperCompleted, StepperStep, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { IconChevronLeft, IconChevronRight, IconCircleCheck, IconDeviceFloppy } from '@tabler/icons-react';
+import { IconBuilding, IconChevronLeft, IconChevronRight, IconCircleCheck, IconDeviceFloppy, IconLicense, IconLock, IconUserCheck } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createUser } from '../../../_actions/user.actions';
 import { useDebounceCallback } from '@mantine/hooks';
 
 interface UserFormProps {
+    steps?: { description: string; icon: string }[];
     children: React.ReactNode[]
 }
 
-const UserForm: React.FC<UserFormProps> = ({ children }) => {
+const icon: Record<string, any> = {
+    'user-check': <IconUserCheck style={{ width: rem(16), height: rem(16) }} />,
+    'lock': <IconLock style={{ width: rem(16), height: rem(16) }} />,
+    'license': <IconLicense style={{ width: rem(16), height: rem(16) }} />,
+    'building': <IconBuilding style={{ width: rem(16), height: rem(16) }} />,
+}
+
+const UserForm: React.FC<UserFormProps> = ({
+    children,
+    steps = []
+}) => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const [shouldFetch, setShouldFetch] = useState<boolean>(false);
@@ -81,7 +92,6 @@ const UserForm: React.FC<UserFormProps> = ({ children }) => {
         }
     }, [shouldFetch, formValues]);
 
-
     return (
         <>
             <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
@@ -109,8 +119,20 @@ const UserForm: React.FC<UserFormProps> = ({ children }) => {
                                 onSubmit: handleSubmit,
                             });
                         }
+                        let stepperProps: any = { icon: 'user-check', description: undefined };
+                        if (steps[index]) {
+                            stepperProps = steps[index];
+                            if (!icon[stepperProps.icon]) {
+                                stepperProps.icon = 'user-check';
+                            }
+                        }
+                        const { icon: choosenIcon, description } = stepperProps;
                         return (
-                            <StepperStep key={Math.random()}>
+                            <StepperStep
+                                key={Math.random()}
+                                icon={icon[choosenIcon]}
+                                label={`Paso ${index + 1}`}
+                                description={description}>
                                 {newChild}
                             </StepperStep>
                         );

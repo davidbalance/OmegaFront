@@ -1,6 +1,6 @@
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import WebResourceFormAssign from '@/components/web/resource/form/WebResourceFormAssign';
+import WebResourceFormAssign from '@/components/web/resource/form/web-resource-form-assign';
 import { useFetch } from '@/hooks/useFetch';
 import { OmegaNavResource } from '@/lib/dtos/omega/nav/resource/base.response.dto';
 import { OmegaWebResource } from '@/lib/dtos/omega/web/resource/base.response.dto';

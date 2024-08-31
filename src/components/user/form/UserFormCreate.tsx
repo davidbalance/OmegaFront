@@ -1,7 +1,7 @@
 import { LoadingOverlay, rem, Stepper, Flex, Text, Button, Container, ScrollArea } from '@mantine/core';
 import { IconBuilding, IconChevronLeft, IconChevronRight, IconCircleCheck, IconDeviceFloppy, IconLicense, IconLock, IconUserCheck } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { UserFormLogo } from './UserFormLogo';
+import { UserFormLogo } from './user-form-logo';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { notifications } from '@mantine/notifications';
 import { useFetch } from '@/hooks/useFetch';
