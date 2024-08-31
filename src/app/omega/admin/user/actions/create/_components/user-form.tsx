@@ -1,10 +1,13 @@
 'use client'
 
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { Button, Flex, rem, Stepper, StepperCompleted, StepperStep, Text } from '@mantine/core';
+import { Button, Flex, LoadingOverlay, rem, Stepper, StepperCompleted, StepperStep, Text } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { IconChevronLeft, IconChevronRight, IconCircleCheck, IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, useCallback, useMemo, useRef, useState } from 'react'
+import React, { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createUser } from '../../../_actions/user.actions';
+import { useDebounceCallback } from '@mantine/hooks';
 
 interface UserFormProps {
     children: React.ReactNode[]
@@ -12,6 +15,8 @@ interface UserFormProps {
 
 const UserForm: React.FC<UserFormProps> = ({ children }) => {
 
+    const [loading, setLoading] = useState<boolean>(false);
+    const [shouldFetch, setShouldFetch] = useState<boolean>(false);
     const [active, setActive] = useState<number>(0);
     const formRefs = useRef<Map<number, HTMLFormElement>>(new Map());
     const childrenCount = useMemo(() => React.Children.count(children), [children]);
@@ -22,7 +27,7 @@ const UserForm: React.FC<UserFormProps> = ({ children }) => {
     const nextStep = () => setActive(prev => prev < childrenCount ? prev + 1 : prev);
     const prevStep = () => setActive(prev => prev > 0 ? prev - 1 : prev);
 
-    const handleSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
 
@@ -43,24 +48,43 @@ const UserForm: React.FC<UserFormProps> = ({ children }) => {
             setFormValues((prev: any) => ({ ...prev, ...currentValue }));
             nextStep();
         } else {
-            setFormValues((prev: any) => {
-                return { ...prev, ...currentValue };
-            });
-            setActive(prev => prev + 1);
+            setFormValues((prev: any) => ({ ...prev, ...currentValue }));
+            setShouldFetch(true);
         }
-    }, [active, childrenCount]);
+    }, [formValues, active, childrenCount]);
 
-    const handleNextChange = () => {
+    const handleCreation = async (data: any) => {
+        setLoading(true);
+        try {
+            await createUser(data);
+            setActive(prev => prev + 1);
+        } catch (error: any) {
+            notifications.show({ message: error.message, color: 'red' });
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handleNextChange = useDebounceCallback(() => {
         const formElement = formRefs.current.get(active);
         if (formElement) {
             // formElement.submit();
             const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
             formElement.dispatchEvent(submitEvent);
         }
-    }
+    }, 500);
+
+    useEffect(() => {
+        if (shouldFetch) {
+            handleCreation(formValues);
+            setShouldFetch(false);
+        }
+    }, [shouldFetch, formValues]);
+
 
     return (
         <>
+            <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
             <ModularBox flex={1}>
                 <Stepper
                     active={active}

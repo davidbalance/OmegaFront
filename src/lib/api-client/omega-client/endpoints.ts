@@ -281,16 +281,16 @@ const omegaMethodEndpoint = {
     } as ApiResource,
     webClientLogoUpdate: {
         resource: 'omega/web/clients/logos/:id',
-        method: 'post',
+        method: 'patch',
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
     webClientResourceDetails: {
-        resource: 'omega/web/resources/resource/:id',
+        resource: 'omega/web/clients/resources/resource/:id',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     webClientResourceUpdate: {
-        resource: 'omega/web/resources/resource/:id',
+        resource: 'omega/web/clients/resources/resource/:id',
         method: 'patch',
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,

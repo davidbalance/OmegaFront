@@ -1,7 +1,7 @@
 'use client'
 
 import { systemLogo } from '@/components/navbar/nav/logo/logos';
-import { Box, Flex, Radio, RadioGroup, rem, Stack } from '@mantine/core'
+import { Box, Button, Flex, Radio, RadioGroup, rem, Stack } from '@mantine/core'
 import React, { FormEvent, useCallback, useMemo, useState } from 'react'
 
 type UserFormLogoProps = {
@@ -36,12 +36,13 @@ const UserFormLogo = React.forwardRef<HTMLFormElement, UserFormLogoProps>(({
                     withAsterisk
                 >
                     <Stack mt="xs" >
-                        <Radio value="omega" label="Omega" />
-                        <Radio value="eeq" label="Empresa Electrica Quito" />
-                        <Radio value="ipeges" label="Ipeges" />
+                        <Radio value="1" label="Omega" />
+                        <Radio value="2" label="Empresa Electrica Quito" />
+                        <Radio value="3" label="Ipeges" />
                     </Stack>
                 </RadioGroup>
             </Flex>
+            <Button type='submit' style={{ display: 'none' }} />
         </Box>
     );
 });

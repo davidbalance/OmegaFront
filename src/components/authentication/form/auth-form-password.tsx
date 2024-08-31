@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, PasswordInput, rem } from '@mantine/core';
+import { Box, Button, PasswordInput, rem } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconLock } from '@tabler/icons-react';
 import Joi from 'joi';
@@ -78,6 +78,8 @@ const AuthFormPassword = React.forwardRef<HTMLFormElement, AuthFormPasswordProps
                 leftSection={(<IconLock stroke={1.5} size={16} />)}
                 style={{ marginBottom: rem(16) }}
                 {...form.getInputProps('confirmPassword')} />
+
+            <Button type='submit' style={{ display: 'none' }} />
         </Box>
     )
 });

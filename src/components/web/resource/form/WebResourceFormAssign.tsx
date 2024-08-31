@@ -2,7 +2,7 @@
 
 import { OmegaTd } from '@/components/table/omega-td/OmegaTd';
 import { OmegaNavResource } from '@/lib/dtos/omega/nav/resource/base.response.dto';
-import { Box, Table, TextInput, Checkbox, ScrollArea } from '@mantine/core';
+import { Box, Table, TextInput, Checkbox, ScrollArea, Button } from '@mantine/core';
 import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react'
 
 type WebResourceFormAssignProps = {
@@ -71,6 +71,7 @@ const WebResourceFormAssign = React.forwardRef<HTMLFormElement, WebResourceFormA
                     </Table.Tbody>
                 </Table>
             </ScrollArea>
+            <Button type='submit' style={{ display: 'none' }} />
         </Box>
     );
 });

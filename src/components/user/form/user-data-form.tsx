@@ -109,6 +109,7 @@ const UserDataForm = React.forwardRef<HTMLFormElement, UserDataFormProps>(({
                     {...form.getInputProps('email')}
                 />
             </SimpleGrid>
+            <Button type='submit' style={{ display: 'none' }} />
         </Box>
     );
 });
