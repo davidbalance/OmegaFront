@@ -1,4 +1,4 @@
-import { ActionIcon, Menu } from '@mantine/core';
+import { ActionIcon, Menu, MenuDropdown, MenuTarget } from '@mantine/core';
 import { IconDotsVertical } from '@tabler/icons-react';
 import React from 'react'
 
@@ -12,16 +12,16 @@ export type ExtendedActionProps<T> = ActionMenuProps & T;
 const ActionMenu: React.FC<ActionMenuProps> = ({ loading = false, children }) => {
     return (
         <Menu>
-            <Menu.Target>
+            <MenuTarget>
                 <ActionIcon
                     variant="transparent"
                     loading={loading}>
                     <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />
                 </ActionIcon>
-            </Menu.Target>
-            <Menu.Dropdown>
+            </MenuTarget>
+            <MenuDropdown>
                 {children}
-            </Menu.Dropdown>
+            </MenuDropdown>
         </Menu>
     )
 }

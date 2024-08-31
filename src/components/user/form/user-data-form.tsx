@@ -1,13 +1,15 @@
-import React from 'react'
+'use client'
+
+import React, { FormEvent, useCallback } from 'react'
 import { SimpleGrid, rem, TextInput, Box, Button } from '@mantine/core';
 import { IconId, IconAt } from '@tabler/icons-react';
 import { joiResolver, useForm } from '@mantine/form';
 import Joi from 'joi';
 import { User } from '@/lib/dtos/user/user/base.response.dto';
 
-type IUserForm = Omit<User, 'id' | 'hasCredential'>;
+type IUserDataForm = Omit<User, 'id' | 'hasCredential'>;
 
-const userSchema = Joi.object<IUserForm>({
+const userSchema = Joi.object<IUserDataForm>({
     name: Joi
         .string()
         .empty()
@@ -39,28 +41,19 @@ const userSchema = Joi.object<IUserForm>({
         })
 });
 
-type UserFormProps = {
-    /**
-     * Objeto que inicializa el formulario.
-     */
-    data?: IUserForm;
-    /**
-     * Estado que habilita el campo de ingreso del DNI.
-     */
+interface UserDataFormProps {
+    data?: IUserDataForm;
     disabledDni?: boolean;
-    /**
-     * Estado que habilita el campo de ingreso del correo electronico.
-     */
     disabledEmail?: boolean;
-    /**
-     * Funcion que es invocada cuando es enviado el formulario.
-     * @param values 
-     * @returns 
-     */
-    onSubmit: (values: IUserForm) => void;
+    onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
 }
 
-const UserForm = React.forwardRef<HTMLButtonElement, UserFormProps>(({ data, onSubmit, disabledDni, disabledEmail }, ref) => {
+const UserDataForm = React.forwardRef<HTMLFormElement, UserDataFormProps>(({
+    data,
+    disabledDni,
+    disabledEmail,
+    onSubmit
+}, ref) => {
 
     const form = useForm({
         initialValues: {
@@ -72,16 +65,27 @@ const UserForm = React.forwardRef<HTMLButtonElement, UserFormProps>(({ data, onS
         validate: joiResolver(userSchema)
     });
 
+    const handleSubmit = useCallback((_: any, event: FormEvent<HTMLFormElement> | undefined) => {
+        if (event) {
+            onSubmit?.(event)
+        }
+    }, [onSubmit]);
+
     return (
-        <Box component='form' onSubmit={form.onSubmit(onSubmit)}>
+        <Box
+            ref={ref}
+            component='form'
+            onSubmit={form.onSubmit(handleSubmit)}>
             <SimpleGrid cols={{ base: 1, sm: 2 }} style={{ marginBottom: rem(16) }}>
                 <TextInput
                     label="Nombre"
                     placeholder="Carlos Luis"
+                    name='name'
                     {...form.getInputProps('name')} />
                 <TextInput
                     label="Apellido"
                     placeholder="Sanchez Rodriguez"
+                    name='lastname'
                     {...form.getInputProps('lastname')} />
             </SimpleGrid>
 
@@ -92,6 +96,7 @@ const UserForm = React.forwardRef<HTMLButtonElement, UserFormProps>(({ data, onS
                     max={10}
                     leftSection={<IconId stroke={1.5} />}
                     disabled={disabledDni}
+                    name='dni'
                     {...form.getInputProps('dni')}
                 />
 
@@ -100,16 +105,12 @@ const UserForm = React.forwardRef<HTMLButtonElement, UserFormProps>(({ data, onS
                     placeholder="hello@email.com"
                     leftSection={<IconAt stroke={1.5} />}
                     disabled={disabledEmail}
+                    name='email'
                     {...form.getInputProps('email')}
                 />
             </SimpleGrid>
-
-            <Button type='submit' ref={ref} style={{ display: 'none' }}></Button>
-
         </Box>
     );
 });
 
-UserForm.displayName = 'UserForm';
-
-export { UserForm }
+export default UserDataForm

@@ -1,9 +1,11 @@
-import { Box, PasswordInput, rem, Button } from '@mantine/core';
+'use client'
+
+import { Box, PasswordInput, rem } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconLock } from '@tabler/icons-react';
 import Joi from 'joi';
 import { joiResolver } from 'mantine-form-joi-resolver';
-import React, { ForwardedRef } from 'react'
+import React, { FormEvent, useCallback } from 'react'
 
 type IPasswordForm = {
     password: string;
@@ -20,7 +22,7 @@ const passwordSchema = Joi.object<IPasswordForm>({
         .regex(new RegExp(strongPasswordRegex))
         .messages({
             "string.empty": 'Debe escribir una contraseña',
-            "string.regex": "La contraseña debe tener tener especiales, numericos y de longitud 8"
+            "string.pattern.base": "La contraseña debe tener tener especiales, numericos y de longitud 8"
         }),
     confirmPassword: Joi
         .string()
@@ -29,23 +31,18 @@ const passwordSchema = Joi.object<IPasswordForm>({
         .required()
         .messages({
             "string.empty": "Debe confirmar la contraseña",
-            "string.ref": "Las contraseñas no coinciden"
+            "any.only": "Las contraseñas no coinciden"
         })
 });
 
-type AuthenticationFormPasswordProps = {
-    /**
-     * Funcion que es llamada cuando el formulario se envia.
-     * @param values 
-     * @returns 
-     */
-    onSubmit: (values: Omit<IPasswordForm, 'confirmPassword'>) => void;
-    /**
-     * Datos usados para llenar el formulario cuando es montado
-     */
+type AuthFormPasswordProps = {
     data?: { password: string };
+    onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
 }
-const AuthenticationFormPassword = React.forwardRef<HTMLButtonElement, AuthenticationFormPasswordProps>(({ data, onSubmit }, ref: ForwardedRef<HTMLButtonElement>) => {
+const AuthFormPassword = React.forwardRef<HTMLFormElement, AuthFormPasswordProps>(({
+    data,
+    onSubmit
+}, ref) => {
 
     const form = useForm({
         initialValues: {
@@ -55,28 +52,34 @@ const AuthenticationFormPassword = React.forwardRef<HTMLButtonElement, Authentic
         validate: joiResolver(passwordSchema)
     });
 
+    const handleSubmit = useCallback((_: any, event: FormEvent<HTMLFormElement> | undefined) => {
+        if (event) {
+            onSubmit?.(event)
+        }
+    }, [onSubmit]);
+
+
     return (
-        <Box component='form' onSubmit={form.onSubmit(onSubmit)}>
+        <Box
+            ref={ref}
+            component='form'
+            onSubmit={form.onSubmit(handleSubmit)}>
             <PasswordInput
                 label='Contraseña'
                 placeholder='Contraseña'
-                leftSection={<IconLock stroke={1.5} size={16} />}
                 style={{ marginBottom: rem(16) }}
-                {...form.getInputProps('password')}
-            />
+                leftSection={(<IconLock stroke={1.5} size={16} />)}
+                name='password'
+                {...form.getInputProps('password')} />
 
             <PasswordInput
                 label='Confirmar Contraseña'
                 placeholder='Confirmar Contraseña'
-                leftSection={<IconLock stroke={1.5} size={16} />}
+                leftSection={(<IconLock stroke={1.5} size={16} />)}
                 style={{ marginBottom: rem(16) }}
-                {...form.getInputProps('confirmPassword')}
-            />
-            <Button type='submit' ref={ref} style={{ display: 'none' }}></Button>
+                {...form.getInputProps('confirmPassword')} />
         </Box>
     )
 });
 
-AuthenticationFormPassword.displayName = 'AuthenticationFormPassword';
-
-export { AuthenticationFormPassword }
+export default AuthFormPassword;

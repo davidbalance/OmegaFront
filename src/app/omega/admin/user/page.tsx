@@ -7,6 +7,7 @@ import UserTable from './_components/user-table'
 import Await from '@/components/_base/await'
 import UserTableSuspense from './_components/user-table.suspense'
 import { retriveUsers } from './_actions/user.actions'
+import Link from 'next/link'
 
 interface UserPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -32,7 +33,12 @@ const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
                     wrap='nowrap'
                     gap={rem(16)}>
                     <Search key='search' value={search} />
-                    <Button radius='md'>Crear usuario</Button>
+                    <Button
+                        component={Link}
+                        radius='md' 
+                        href={'user/actions/create'}>
+                        Crear usuario
+                    </Button>
                 </Flex>
             </ModularBox>
             <ModularBox h='100%'>

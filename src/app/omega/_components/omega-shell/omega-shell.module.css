@@ -11,7 +11,7 @@
     "header header"
     "main main";
   grid-template-rows: rem(30px) auto;
-  grid-template-columns: max-content auto;
+  grid-template-columns: min-content auto;
   gap: rem(8px);
 
   @media (min-width: $mantine-breakpoint-md) {

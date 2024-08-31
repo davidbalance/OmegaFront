@@ -6,7 +6,7 @@ interface OmegaShellSectionProps extends StackProps {
 }
 const OmegaShellSection: React.FC<OmegaShellSectionProps> = ({ children, ...props }) => {
     return (
-        <Stack {...props}>
+        <Stack w='fit-content' p={0} {...props}>
             {children}
         </Stack>
     )

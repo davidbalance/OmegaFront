@@ -1,6 +1,7 @@
 import { rem, Skeleton } from '@mantine/core'
 import React from 'react'
 import OmegaShellSection from './omega-shell/omega-shell-section'
+import { ModularBox } from '@/components/modular/box/ModularBox'
 
 
 const OmegaNavbarContentSuspense: React.FC = async () => {
@@ -9,7 +10,9 @@ const OmegaNavbarContentSuspense: React.FC = async () => {
       gap={rem(4)}>
       {
         [...Array(4)].map((e) => (
-          <Skeleton key={`suspense-${e}`} width={rem(40)} h={rem(40)} />
+          <ModularBox key={`suspense-${Math.random()}`}>
+            <Skeleton w={rem(30)} h={rem(30)} />
+          </ModularBox>
         ))
       }
     </OmegaShellSection>

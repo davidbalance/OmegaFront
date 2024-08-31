@@ -5,7 +5,8 @@ import TableRoot from '@/components/_base/table/table-root'
 import TableTHead from '@/components/_base/table/table-thead'
 import TableOrderableTh, { TableOrderableThProps } from '@/components/_base/table/table-orderable-th'
 import TableTh from '@/components/_base/table/table-th'
-import { TableTbody, TableTd, TableTr, Text } from '@mantine/core'
+import { MenuItem, TableTbody, TableTd, TableTr, Text } from '@mantine/core'
+import ActionMenu from '@/components/_base/action-menu'
 
 interface UserTableProps {
     users: User[]
@@ -38,7 +39,11 @@ const UserTable: React.FC<UserTableProps> = ({ users, order }) => {
                         <TableTd>{e.name}</TableTd>
                         <TableTd>{e.lastname}</TableTd>
                         <TableTd>{e.email}</TableTd>
-                        <TableTd>Action</TableTd>
+                        <TableTd>
+                            <ActionMenu>
+                                <MenuItem>Modificacion</MenuItem>
+                            </ActionMenu>
+                        </TableTd>
                     </TableTr>
                 ))}
             </TableTbody>

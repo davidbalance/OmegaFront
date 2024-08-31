@@ -1,62 +1,49 @@
-import { Box, Button, Flex, Group, Radio, rem } from '@mantine/core'
-import { SystemLogo } from '@/components/navbar/nav/logo/logos'
-import React, { FormEvent, ForwardedRef, useCallback, useMemo, useState } from 'react'
+'use client'
+
+import { systemLogo } from '@/components/navbar/nav/logo/logos';
+import { Box, Flex, Radio, RadioGroup, rem, Stack } from '@mantine/core'
+import React, { FormEvent, useCallback, useMemo, useState } from 'react'
 
 type UserFormLogoProps = {
-    /**
-     * Funcion que es invocada cuando se envia el formulario.
-     * @param values 
-     * @returns 
-     */
-    onSubmit: (values: { logo: number }) => void;
+    data?: { logo: string };
+    onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
 }
 
-const logoValue: Record<keyof (typeof SystemLogo), number> = {
-    omega: 1,
-    eeq: 2,
-    ipeges: 3
-}
+const UserFormLogo = React.forwardRef<HTMLFormElement, UserFormLogoProps>(({
+    data,
+    onSubmit
+}, ref) => {
 
-const UserFormLogo = React.forwardRef<HTMLButtonElement, UserFormLogoProps>(({ onSubmit }, ref: ForwardedRef<HTMLButtonElement>) => {
-    const [value, setValue] = useState<keyof typeof SystemLogo>('omega');
-
+    const [value, setValue] = useState<string>(data?.logo || 'omega');
     const handleRadioChnageEvent = useCallback((key: string) => setValue(key as any), []);
-
-    const Logo = useMemo(() => SystemLogo[value], [value]);
-
-    const handleFormSubmittionEvent = useCallback((event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        onSubmit({ logo: logoValue[value] });
-    }, [onSubmit, value]);
+    const Logo = useMemo(() => systemLogo(value), [value]);
 
     return (
         <Box
+            ref={ref}
             component='form'
-            onSubmit={handleFormSubmittionEvent}>
+            onSubmit={onSubmit}>
             <Flex
-                direction='column'
+                direction='row'
                 gap={rem(16)}
                 justify='center'
                 align='center'>
-                <Radio.Group
+                <Logo style={{ width: rem(80) }} />
+                <RadioGroup
                     value={value}
                     onChange={handleRadioChnageEvent}
                     name="logo"
                     withAsterisk
                 >
-                    <Group mt="xs" >
+                    <Stack mt="xs" >
                         <Radio value="omega" label="Omega" />
                         <Radio value="eeq" label="Empresa Electrica Quito" />
                         <Radio value="ipeges" label="Ipeges" />
-                    </Group>
-                </Radio.Group>
-                <Logo style={{ width: rem(80) }} />
-                <Button type='submit' ref={ref} style={{ display: 'none' }}></Button>
+                    </Stack>
+                </RadioGroup>
             </Flex>
         </Box>
     );
 });
 
-UserFormLogo.displayName = 'UserFormLogo';
-
-export { UserFormLogo };
+export default UserFormLogo;

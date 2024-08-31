@@ -15,6 +15,7 @@ import OmegaLogoSuspense from "./_components/omega-logo.suspense"
 import OmegaHeaderMenu from "./_components/omega-header-menu"
 import OmegaHeaderMenuSuspense from "./_components/omega-header-menu.suspense"
 import OmegaNavbarContentSuspense from "./_components/omega-navbar-content.suspense"
+import { ModularBox } from "@/components/modular/box/ModularBox"
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
@@ -41,14 +42,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <OmegaShellNavbar>
                 <Stack h='100%'>
                     <Box flex={1}>
-                        <ScrollAreaAutosize mah={500} dir='rtl'>
+                        <ScrollAreaAutosize mah={500} dir='rtl' w='fit-content'>
                             <Suspense fallback={<OmegaNavbarContentSuspense />}>
                                 <OmegaNavbarContent />
                             </Suspense>
                         </ScrollAreaAutosize>
                     </Box>
                     <OmegaShellSection
-                        mt='md'
+                        mt='sm'
                         visibleFrom='md'>
                         <Flex w='100%' justify='flex-end'>
                             <OmegaShellLock />
