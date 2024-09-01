@@ -3,11 +3,11 @@ import React from 'react'
 import { retriveUser } from '../../../_actions/user.actions'
 import UserForm from './_components/user-form'
 
-interface UserActionUpdatePage {
+interface UserActionUpdatePageProps {
     params: { id: number }
 }
 
-const UserActionUpdatePage: React.FC<UserActionUpdatePage> = async ({ params }) => {
+const UserActionUpdatePage: React.FC<UserActionUpdatePageProps> = async ({ params }) => {
 
     const user = await retriveUser(params.id);
 

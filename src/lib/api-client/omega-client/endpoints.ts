@@ -64,7 +64,7 @@ const omegaMethodEndpoint = {
         method: 'delete',
         options: { customHeader: ['auth'] }
     } as ApiResource,
-    corporeativeGroupDetails: {
+    corporativeGroupDetails: {
         resource: 'corporative/groups',
         method: 'get',
         options: { customHeader: ['auth'] }

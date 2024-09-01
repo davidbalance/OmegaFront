@@ -10,14 +10,14 @@ import { revalidatePath } from "next/cache";
 
 export const retriveUsers = async () => {
     const session = await auth();
-    if (!session) throw new Error('Something went wrong');
+    if (!session) throw new Error('There is no session found');
     const { data }: GetUserArrayResponseDto = await omega().addToken(session.access_token).execute('userDetails');
     return data;
 }
 
 export const retriveUser = async (id: number) => {
     const session = await auth();
-    if (!session) throw new Error('Something went wrong');
+    if (!session) throw new Error('There is no session found');
     const data: GetUserResponseDto = await omega().addParams({ id }).addToken(session.access_token).execute('userDetail');
     return data;
 }
@@ -29,7 +29,7 @@ type CreateUserParam = PostUserRequestDto & CreateCredentialWithoutUser & Update
 export const createUser = async (data: CreateUserParam) => {
     const session = await auth();
     try {
-        if (!session) throw new Error('Something went wrong');
+        if (!session) throw new Error('There is no session found');
         const userBody: PostUserRequestDto = data;
         const user = await omega().addToken(session.access_token).addBody(userBody).execute('userCreate');
 
@@ -51,11 +51,21 @@ export const createUser = async (data: CreateUserParam) => {
 
 export const updateUser = async (id: number, data: PatchUserRequestDto) => {
     const session = await auth();
-    if (!session) throw new Error('Something went wrong');
+    if (!session) throw new Error('There is no session found');
     await omega()
         .addParams({ id })
         .addBody(data)
         .addToken(session.access_token)
         .execute('userUpdate');
     // revalidatePath('omega/admin/user');
+}
+
+export const deleteUser = async (id: number) => {
+    const session = await auth();
+    if (!session) throw new Error('There is no session found');
+    await omega()
+        .addToken(session.access_token)
+        .addParams({ id })
+        .execute('userDelete');
+    revalidatePath('');
 }
