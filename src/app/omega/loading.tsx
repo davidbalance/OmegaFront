@@ -7,8 +7,8 @@ const OmegaLoading = () => {
     return (
         <>
             <ModularBox direction='row' gap={rem(16)}>
-                <Skeleton h={rem(30)} circle />
-                <Skeleton w='100%' h={rem(30)} />
+                <Skeleton h={rem(32)} w={rem(32)} circle />
+                <Skeleton w={rem(64)} h={rem(32)} />
             </ModularBox>
             <ModularLayout direction='row' h='100%'>
                 <ModularBox>
@@ -20,14 +20,14 @@ const OmegaLoading = () => {
             </ModularLayout>
             <ModularLayout direction='row' h='auto'>
                 <ModularBox>
-                    <Skeleton w='100%' h={rem(30)} />
+                    <Skeleton w='100%' h={rem(32)} />
                 </ModularBox>
                 <ModularBox>
-                    <Skeleton w='100%' h={rem(30)} />
+                    <Skeleton w='100%' h={rem(32)} />
                 </ModularBox>
             </ModularLayout>
             <ModularBox>
-                <Skeleton w='100%' h={rem(30)} />
+                <Skeleton w='100%' h={rem(32)} />
             </ModularBox>
         </>
     )

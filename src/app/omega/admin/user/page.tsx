@@ -1,7 +1,6 @@
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { Box, Button, Flex, rem, TableTr, Text, Title } from '@mantine/core'
 import React, { Suspense } from 'react'
-import ModularLayout from '@/components/modular/layout/ModularLayout'
 import Search from '@/components/_base/search'
 import UserTable from './_components/user-table'
 import Await from '@/components/_base/await'
@@ -29,61 +28,59 @@ const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
                 <Title order={4} component='span'>Usuarios</Title>
             </Box>
         </ModularBox>
-        <ModularLayout>
-            <ModularBox>
-                <Flex
-                    justify='space-between'
-                    wrap='nowrap'
-                    gap={rem(16)}>
-                    <Search key='search' value={search} />
-                    <Button
-                        component={Link}
-                        radius='md'
-                        href={'user/action/create'}>
-                        Crear usuario
-                    </Button>
-                </Flex>
-            </ModularBox>
-            <ModularBox h='100%'>
-                <TableRoot>
-                    <TableTHead>
-                        <TableTr>
-                            <TableTh>
-                                <OrderableButton field='dni' order={order}>
-                                    <Text>Cedula</Text>
-                                </OrderableButton>
-                            </TableTh>
-                            <TableTh>
-                                <OrderableButton field='name' order={order}>
-                                    <Text>Nombre</Text>
-                                </OrderableButton>
-                            </TableTh>
-                            <TableTh>
-                                <OrderableButton field='lastname' order={order}>
-                                    <Text>Apellido</Text>
-                                </OrderableButton>
-                            </TableTh>
-                            <TableTh>
-                                <OrderableButton field='email' order={order}>
-                                    <Text>Correo Electronico</Text>
-                                </OrderableButton>
-                            </TableTh>
-                            <TableTh>
-                                <Text>Accion</Text>
-                            </TableTh>
-                        </TableTr>
-                    </TableTHead>
-                    <Suspense fallback={<UserTableSuspense />}>
-                        <Await promise={userPromise}>
-                            {(user) => (
-                                <UserTable
-                                    users={user} />
-                            )}
-                        </Await>
-                    </Suspense>
-                </TableRoot>
-            </ModularBox>
-        </ModularLayout >
+        <ModularBox>
+            <Flex
+                justify='space-between'
+                wrap='nowrap'
+                gap={rem(16)}>
+                <Search key='search' value={search} />
+                <Button
+                    component={Link}
+                    radius='md'
+                    href={'user/action/create'}>
+                    Crear usuario
+                </Button>
+            </Flex>
+        </ModularBox>
+        <ModularBox h='100%'>
+            <TableRoot>
+                <TableTHead>
+                    <TableTr>
+                        <TableTh>
+                            <OrderableButton field='dni' order={order}>
+                                <Text>Cedula</Text>
+                            </OrderableButton>
+                        </TableTh>
+                        <TableTh>
+                            <OrderableButton field='name' order={order}>
+                                <Text>Nombre</Text>
+                            </OrderableButton>
+                        </TableTh>
+                        <TableTh>
+                            <OrderableButton field='lastname' order={order}>
+                                <Text>Apellido</Text>
+                            </OrderableButton>
+                        </TableTh>
+                        <TableTh>
+                            <OrderableButton field='email' order={order}>
+                                <Text>Correo Electronico</Text>
+                            </OrderableButton>
+                        </TableTh>
+                        <TableTh>
+                            <Text>Accion</Text>
+                        </TableTh>
+                    </TableTr>
+                </TableTHead>
+                <Suspense fallback={<UserTableSuspense />}>
+                    <Await promise={userPromise}>
+                        {(user) => (
+                            <UserTable
+                                users={user} />
+                        )}
+                    </Await>
+                </Suspense>
+            </TableRoot>
+        </ModularBox>
     </>
 }
 

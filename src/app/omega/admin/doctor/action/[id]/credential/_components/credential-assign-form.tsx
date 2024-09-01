@@ -1,31 +1,33 @@
 'use client'
 
 import LoadingOverlay from '@/components/_base/loading-overlay';
+import AuthFormPassword from '@/components/authentication/form/auth-form-password';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { UserFormCompany } from '@/components/user/form/user-form-company';
-import { CorporativeGroup } from '@/lib/dtos/location/corporative/base.response.dto';
 import { Button, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useCallback, useRef, useState } from 'react'
-import { updateUserAttribute } from '../../../../../../_actions/user-attribute.actions';
+import { addCredential } from '../../../../_actions/auth.actions';
 
-interface CompanyAttributeFormProps {
+interface CredentialAssignFormProps {
     id: number;
-    value?: string | undefined;
-    options: CorporativeGroup[];
+    email: string;
 }
-const CompanyAttributeForm: React.FC<CompanyAttributeFormProps> = ({ id, ...props }) => {
+const CredentialAssignForm: React.FC<CredentialAssignFormProps> = ({
+    id,
+    email
+}) => {
 
     const [loading, setLoading] = useState<boolean>(false);
+
     const formRef = useRef<HTMLFormElement | null>(null);
+
     const router = useRouter();
 
     const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
-
         const formData = new FormData(event.currentTarget);
 
         const currentValue: Record<string, string> = {};
@@ -34,15 +36,15 @@ const CompanyAttributeForm: React.FC<CompanyAttributeFormProps> = ({ id, ...prop
         });
 
         try {
-            const value = currentValue.company;
-            await updateUserAttribute(id, value, 'lookFor');
+            await addCredential(id, { email, password: currentValue.password });
             router.back();
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });
         } finally {
             setLoading(false);
         }
-    }, [id]);
+
+    }, [email]);
 
     const handleClick = () => {
         if (formRef.current) {
@@ -55,10 +57,9 @@ const CompanyAttributeForm: React.FC<CompanyAttributeFormProps> = ({ id, ...prop
         <>
             <LoadingOverlay visible={loading} />
             <ModularBox flex={1}>
-                <UserFormCompany
+                <AuthFormPassword
                     ref={formRef}
-                    onSubmit={handleSubmit}
-                    {...props} />
+                    onSubmit={handleSubmit} />
             </ModularBox>
             <ModularBox direction='row'>
                 <Button
@@ -75,4 +76,4 @@ const CompanyAttributeForm: React.FC<CompanyAttributeFormProps> = ({ id, ...prop
     )
 }
 
-export default CompanyAttributeForm
+export default CredentialAssignForm

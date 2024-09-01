@@ -35,7 +35,7 @@ const CompanyAttributeForm: React.FC<CompanyAttributeFormProps> = ({ id, ...prop
 
         try {
             const value = currentValue.company;
-            await updateUserAttribute(id, value, 'lookFor');
+            await updateUserAttribute(id, value, 'doctorOf');
             router.back();
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });

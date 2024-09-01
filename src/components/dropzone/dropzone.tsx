@@ -1,13 +1,13 @@
 import { Box, Button, Flex, Group, rem, Text, useMantineTheme } from '@mantine/core';
-import { Dropzone, DropzoneProps, MIME_TYPES } from '@mantine/dropzone';
+import { Dropzone as MantineDropzone, DropzoneProps as MantineDropzoneProps, MIME_TYPES, DropzoneAccept, DropzoneReject, DropzoneIdle } from '@mantine/dropzone';
 import { IconCloudUpload, IconDownload, IconX } from '@tabler/icons-react';
 import React, { useRef } from 'react'
-import classes from './OmegaDropzone.module.css';
+import classes from './dropzone.module.css';
 import { useMediaQuery } from '@mantine/hooks';
 
-interface OmegaDropzoneProps extends Partial<DropzoneProps> {
+interface DropzoneProps extends Partial<MantineDropzoneProps> {
     /**
-     * Objeto que permite modificar las etiquetas del dropzone.
+     * Objeto que permite modificar las etiquetas del dropzone
      */
     labels?: {
         helper: React.ReactNode;
@@ -17,7 +17,7 @@ interface OmegaDropzoneProps extends Partial<DropzoneProps> {
         button: string;
     }
 };
-const OmegaDropzone: React.FC<OmegaDropzoneProps> = ({
+const Dropzone: React.FC<DropzoneProps> = ({
     labels = {
         helper: <>Drag&apos;n&apos;drop files here to upload. We can accept only <i>.pdf</i> files that are less than 30mb in size.</>,
         accept: "Drop files here",
@@ -33,49 +33,54 @@ const OmegaDropzone: React.FC<OmegaDropzoneProps> = ({
     const matches = useMediaQuery("(min-width: 700px)");
 
     return (
-        <div className={classes.wrapper}>
-            <div className={classes.dropzoneContainer}>
-                <Dropzone
+        <Box className={classes.wrapper}>
+            <Box className={classes.dropzoneContainer}>
+                <MantineDropzone
                     openRef={openRef}
                     onDrop={() => { }}
                     className={classes.dropzone}
                     radius="md"
                     accept={[MIME_TYPES.pdf]}
                     maxSize={30 * 1024 ** 2}
-                    {...props}
-                >
-                    <div style={{ pointerEvents: 'none', cursor: 'pointer' }}>
+                    {...props}>
+                    <Box style={{ pointerEvents: 'none', cursor: 'pointer' }}>
                         <Group justify="center">
-                            <Dropzone.Accept>
+                            <DropzoneAccept>
                                 <IconDownload
                                     style={{ width: rem(50), height: rem(50) }}
                                     color={theme.colors.blue[6]}
                                     stroke={1.5}
                                 />
-                            </Dropzone.Accept>
-                            <Dropzone.Reject>
+                            </DropzoneAccept>
+                            <DropzoneReject>
                                 <IconX
                                     style={{ width: rem(50), height: rem(50) }}
                                     color={theme.colors.red[4]}
                                     stroke={1.5}
                                 />
-                            </Dropzone.Reject>
-                            <Dropzone.Idle>
+                            </DropzoneReject>
+                            <DropzoneIdle>
                                 <IconCloudUpload style={{ width: rem(50), height: rem(50) }} stroke={1.5} />
-                            </Dropzone.Idle>
+                            </DropzoneIdle>
                         </Group>
 
                         <Text ta="center" fw={700} fz="lg" mt="xl">
-                            <Dropzone.Accept>{labels.accept}</Dropzone.Accept>
-                            <Dropzone.Reject>{labels.reject}</Dropzone.Reject>
-                            <Dropzone.Idle>{labels.idle}</Dropzone.Idle>
+                            <DropzoneAccept>
+                                {labels.accept}
+                            </DropzoneAccept>
+                            <DropzoneReject>
+                                {labels.reject}
+                            </DropzoneReject>
+                            <DropzoneIdle>
+                                {labels.idle}
+                            </DropzoneIdle>
                         </Text>
                         <Text ta="center" fz="sm" mt="xs" c="dimmed">
                             {labels.helper}
                         </Text>
-                    </div>
-                </Dropzone>
-            </div>
+                    </Box>
+                </MantineDropzone>
+            </Box>
 
             <Box className={classes.control}>
                 <Flex justify='center' align='center'>
@@ -84,8 +89,8 @@ const OmegaDropzone: React.FC<OmegaDropzoneProps> = ({
                     </Button>
                 </Flex>
             </Box>
-        </div>
+        </Box>
     );
 }
 
-export default OmegaDropzone
+export default Dropzone

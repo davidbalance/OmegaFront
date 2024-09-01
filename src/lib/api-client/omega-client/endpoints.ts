@@ -231,8 +231,8 @@ const omegaMethodEndpoint = {
     } as ApiResource,
     doctorSignatureUpload: {
         resource: 'doctors/files/signature/:id',
-        method: 'patch',
-        options: { customHeader: ['auth', 'as-json'] }
+        method: 'post',
+        options: { customHeader: ['auth'] }
     } as ApiResource,
     credentialCreate: {
         resource: 'credentials',

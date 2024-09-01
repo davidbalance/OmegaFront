@@ -1,4 +1,3 @@
-import OmegaDropzone from '@/components/dropzone/omega-dropzone/OmegaDropzone'
 import { LoadingOverlay, rem, Flex } from '@mantine/core'
 import { MIME_TYPES } from '@mantine/dropzone'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -7,6 +6,7 @@ import { useConfirmation } from '@/contexts/confirmation/confirmation.context'
 import { useFetch } from '@/hooks/useFetch'
 import { notifications } from '@mantine/notifications'
 import { ModularBox } from '@/components/modular/box/ModularBox'
+import Dropzone from '@/components/dropzone/dropzone'
 
 type DoctorFormUploadSignatureProps = {
     /**
@@ -85,7 +85,7 @@ const DoctorFormUploadSignature: React.FC<DoctorFormUploadSignatureProps> = ({ d
                     onClose={onClose} />
 
                 <ModularBox align='center' flex={1} justify='center'>
-                    <OmegaDropzone
+                    <Dropzone
                         labels={{
                             helper: <>Arrastra y suelta imagenes para cargar. Se aceptan imagenes <i>.png</i> que pesan menos de 5mb.</>,
                             accept: "Suelta una firma",

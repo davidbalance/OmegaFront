@@ -1,4 +1,4 @@
-import OmegaDropzone from '@/components/dropzone/omega-dropzone/OmegaDropzone';
+import OmegaDropzone from '@/components/dropzone/OmegaDropzone';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';

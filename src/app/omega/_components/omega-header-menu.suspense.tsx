@@ -1,9 +1,9 @@
-import { Loader } from '@mantine/core'
+import { rem, Skeleton } from '@mantine/core'
 import React from 'react'
 
 const OmegaHeaderMenuSuspense: React.FC = () => {
     return (
-        <Loader />
+        <Skeleton circle h={rem(30)} />
     )
 }
 

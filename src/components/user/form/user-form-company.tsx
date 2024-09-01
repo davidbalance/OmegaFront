@@ -4,7 +4,7 @@ import { Box, Button, ComboboxItem, Select, rem } from '@mantine/core';
 import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
 const CustomSelect = ({ onChange, ...props }: {
-    value: string | undefined;
+    value: string | null;
     data: { label: string, value: string }[];
     nothingFoundMessage: string;
     label: string;
@@ -71,7 +71,7 @@ const UserFormCompany = React.forwardRef<HTMLFormElement, UserFormCompanyProps>(
             onSubmit={onSubmit}>
             <CustomSelect
                 name='group'
-                value={group?.id.toString()}
+                value={group?.id.toString() || null}
                 data={groupOptions}
                 onChange={handleChangeEventGroup}
                 label="Grupo corporativo"
@@ -80,7 +80,7 @@ const UserFormCompany = React.forwardRef<HTMLFormElement, UserFormCompanyProps>(
             />
             <CustomSelect
                 name='company'
-                value={company?.key}
+                value={company?.key || null}
                 data={companyOptions}
                 onChange={handleChangeEventCompany}
                 label="Empresa"

@@ -1,133 +1,77 @@
-'use client'
+import Await from '@/components/_base/await'
+import OrderableButton from '@/components/_base/orderable-button'
+import Search from '@/components/_base/search'
+import TableRoot from '@/components/_base/table/table-root'
+import TableTHead from '@/components/_base/table/table-thead'
+import { ModularBox } from '@/components/modular/box/ModularBox'
+import { Box, TableTr, Text, Title } from '@mantine/core'
+import React, { Suspense } from 'react'
+import TableTh from '@/components/_base/table/table-th'
+import DoctorTableSuspense from './_components/doctor-table.suspense'
+import { retriveDoctors } from './_actions/doctor.actions'
+import DoctorTable from './_components/doctor-table'
 
-import { DoctorActionMenu } from '@/components/doctor/action/DoctorActionMenu';
-import { DoctorFormCreateCredential } from '@/components/doctor/form/DoctorFormCreateCredential';
-import { DoctorFormUploadSignature } from '@/components/doctor/form/DoctorFormUploadSignature';
-import { ActionColumnProps, ColumnOptions, TableLayout } from '@/components/layout/table-layout/TableLayout';
-import { UserFormAssignCompanyAttribute } from '@/components/user/form/UserFormAssignCompanyAttribute';
-import { useFetch } from '@/hooks/useFetch'
-import { useList } from '@/hooks/useList';
-import { Doctor } from '@/lib/dtos/user/doctor/base.response.dto';
-import { notifications } from '@mantine/notifications';
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-
-enum LayoutState {
-    DEFAULT,
-    CREATE_CREDENTIAL,
-    UPLOAD_SIGNATURE,
-    UPDATE_COMPANY,
+interface DoctorPageProps {
+    searchParams: { [key: string]: string | string[] | undefined }
 }
 
-const columnsDoctor: ColumnOptions<Doctor>[] = [
-    { key: 'dni', name: 'CI' },
-    { key: 'name', name: 'Nombre' },
-    { key: 'lastname', name: 'Apellido' },
-    { key: 'email', name: 'Correo electronico' }
-]
+const DoctorPage: React.FC<DoctorPageProps> = ({ searchParams }) => {
 
-const DoctorPage: React.FC = () => {
+    const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
+    const order = typeof searchParams.order === 'string' ? searchParams.order : undefined;
 
-    const [currentState, setCurrentState] = useState<LayoutState>(LayoutState.DEFAULT);
-    const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
-
-    const {
-        data: fetchData,
-        error: fetchError,
-        loading: fetchLoading
-    } = useFetch<Doctor[]>('/api/doctors', 'GET');
-
-    const [doctors, {
-        append: doctorAppend,
-        override: doctorOverride,
-        remove: doctorRemove,
-        update: doctorUpdate
-    }] = useList<Doctor>([]);
-
-    const handleClickEventCreateCredential = useCallback((data: Doctor) => {
-        setSelectedDoctor(data);
-        setCurrentState(LayoutState.CREATE_CREDENTIAL);
-    }, []);
-
-    const handleClickEventAssignCompany = useCallback((data: Doctor) => {
-        setSelectedDoctor(data);
-        setCurrentState(LayoutState.UPDATE_COMPANY);
-    }, []);
-
-    const handleClickEventSignatureUpdaload = useCallback((data: Doctor) => {
-        setCurrentState(LayoutState.UPLOAD_SIGNATURE);
-        setSelectedDoctor(data);
-    }, []);
-
-    const handleCloseEvent = useCallback(() => {
-        setCurrentState(LayoutState.DEFAULT);
-        setSelectedDoctor(null);
-    }, []);
-
-    const handleTableAction = useCallback((prop: ActionColumnProps<Doctor>) => (
-        <DoctorActionMenu
-            doctor={prop.value}
-            hasFile={prop.value.hasFile}
-            onCreateCredential={() => handleClickEventCreateCredential(prop.value)}
-            onAssignCompany={() => handleClickEventAssignCompany(prop.value)}
-            createCredential={!prop.value.hasCredential}
-            onUploadSignature={() => handleClickEventSignatureUpdaload(prop.value)}
-        />
-    ), [handleClickEventCreateCredential, handleClickEventAssignCompany, handleClickEventSignatureUpdaload]);
-
-    const handleFormSubmittion = useCallback((id: number) => {
-        doctorUpdate('user', id, { hasCredential: true });
-    }, [doctorUpdate]);
-
-    const handleFormSubmitUploadSignature = useCallback((id: number) => {
-        doctorUpdate('id', id, { hasFile: true });
-    }, [doctorUpdate]);
-
-    useEffect(() => {
-        if (fetchError) notifications.show({ message: fetchError.message, color: 'red' });
-    }, [fetchError]);
-
-    useEffect(() => {
-        if (fetchData)
-            doctorOverride(fetchData);
-    }, [fetchData, doctorOverride]);
-
-    const view = useMemo(() => ({
-        [LayoutState.CREATE_CREDENTIAL]: (
-            <DoctorFormCreateCredential
-                user={{
-                    id: selectedDoctor?.user!,
-                    email: selectedDoctor?.email!
-                }}
-                onFormSubmittion={handleFormSubmittion}
-                onClose={handleCloseEvent} />
-        ),
-        [LayoutState.UPLOAD_SIGNATURE]: (
-            <DoctorFormUploadSignature
-                onFormSubmittion={handleFormSubmitUploadSignature}
-                doctor={selectedDoctor?.id!}
-                onClose={handleCloseEvent} />
-        ),
-        [LayoutState.UPDATE_COMPANY]: (
-            <UserFormAssignCompanyAttribute
-                url={`/api/users/attribute/doctor/of/${selectedDoctor?.user}`}
-                onClose={handleCloseEvent} />
-        ),
-        [LayoutState.DEFAULT]: (
-            <TableLayout<Doctor>
-                title={'Medicos'}
-                columns={columnsDoctor}
-                data={doctors}
-                isLoading={fetchLoading}
-                action={{
-                    name: 'Acciones',
-                    child: handleTableAction
-                }}
-            />
-        ),
-    }), [doctors, fetchLoading, handleTableAction, handleFormSubmitUploadSignature, handleFormSubmittion, handleCloseEvent, selectedDoctor]);
+    const doctorPromise = retriveDoctors();
 
     return (
-        <>{view[currentState]}</>
+        <>
+            <ModularBox>
+                <Box style={{ flexShrink: 0 }}>
+                    <Title order={4} component='span'>Medicos</Title>
+                </Box>
+            </ModularBox>
+            <ModularBox>
+                <Search key='search' value={search} />
+            </ModularBox>
+            <ModularBox h='100%'>
+                <TableRoot>
+                    <TableTHead>
+                        <TableTr>
+                            <TableTh>
+                                <OrderableButton field='dni' order={order}>
+                                    <Text>Cedula</Text>
+                                </OrderableButton>
+                            </TableTh>
+                            <TableTh>
+                                <OrderableButton field='name' order={order}>
+                                    <Text>Nombre</Text>
+                                </OrderableButton>
+                            </TableTh>
+                            <TableTh>
+                                <OrderableButton field='lastname' order={order}>
+                                    <Text>Apellido</Text>
+                                </OrderableButton>
+                            </TableTh>
+                            <TableTh>
+                                <OrderableButton field='email' order={order}>
+                                    <Text>Correo Electronico</Text>
+                                </OrderableButton>
+                            </TableTh>
+                            <TableTh>
+                                <Text>Accion</Text>
+                            </TableTh>
+                        </TableTr>
+                    </TableTHead>
+                    <Suspense fallback={<DoctorTableSuspense />}>
+                        <Await promise={doctorPromise}>
+                            {(doctors) => (
+                                <DoctorTable
+                                    doctors={doctors} />
+                            )}
+                        </Await>
+                    </Suspense>
+                </TableRoot>
+            </ModularBox>
+        </>
     )
 }
 
