@@ -144,6 +144,11 @@ const omegaMethodEndpoint = {
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
+    userDetail: {
+        resource: 'users/user/:id',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
     userCreate: {
         resource: 'users',
         method: 'post',

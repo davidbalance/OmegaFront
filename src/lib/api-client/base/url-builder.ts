@@ -21,6 +21,13 @@ class UrlBuilder {
     public build(): string {
         let url: string = this._url;
 
+        const segments = this.extractSegments(url);
+        for (const segment of segments) {
+            if (!(segment in this._urlParams)) {
+                throw new Error(`Missing URL param: ${segment}`);
+            }
+        }
+
         Object.entries(this._urlParams).forEach(([key, value]) => {
             url = url.replace(`:${key}`, value.toString());
         });
@@ -35,6 +42,14 @@ class UrlBuilder {
         }
 
         return url;
+    }
+
+    private extractSegments(url: string): string[] {
+        const segments: string[] = url.split('/');
+
+        return segments
+            .filter(e => e.startsWith(':'))
+            .map(e => e.slice(1));
     }
 }
 

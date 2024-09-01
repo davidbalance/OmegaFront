@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Box, Flex, rem, ScrollAreaAutosize, Skeleton, Stack } from "@mantine/core"
+import { Box, Flex, ScrollAreaAutosize, Stack } from "@mantine/core"
 import Footer from "@/components/footer/Footer"
 import ModularLayout from "@/components/modular/layout/ModularLayout"
 import { Suspense } from "react"
@@ -15,7 +15,6 @@ import OmegaLogoSuspense from "./_components/omega-logo.suspense"
 import OmegaHeaderMenu from "./_components/omega-header-menu"
 import OmegaHeaderMenuSuspense from "./_components/omega-header-menu.suspense"
 import OmegaNavbarContentSuspense from "./_components/omega-navbar-content.suspense"
-import { ModularBox } from "@/components/modular/box/ModularBox"
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 

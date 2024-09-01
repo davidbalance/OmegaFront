@@ -1,12 +1,13 @@
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import ModularLayout from '@/components/modular/layout/ModularLayout'
-import { Box, rem, Skeleton } from '@mantine/core'
+import { rem, Skeleton } from '@mantine/core'
 import React from 'react'
 
 const OmegaLoading = () => {
     return (
         <>
-            <ModularBox>
+            <ModularBox direction='row' gap={rem(16)}>
+                <Skeleton h={rem(30)} circle />
                 <Skeleton w='100%' h={rem(30)} />
             </ModularBox>
             <ModularLayout direction='row' h='100%'>

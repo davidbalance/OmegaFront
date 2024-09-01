@@ -10,7 +10,8 @@ interface TableThProps {
 const TableTh: React.FC<TableThProps> = ({ children }) => {
 
     return (
-        <MantineTh className={classes.th}>
+        <MantineTh
+            className={classes.th}>
             {children}
         </MantineTh>
     )

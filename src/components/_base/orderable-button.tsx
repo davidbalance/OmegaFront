@@ -1,31 +1,38 @@
 'use client'
 
-import React from 'react'
-import TableTh from './table-th';
+import React, { useEffect, useState } from 'react'
 import clsx from 'clsx';
+import { UnstyledButton, Flex, Center, rem } from '@mantine/core'
+import { IconChevronUp, IconChevronDown, IconSelector } from '@tabler/icons-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { IconChevronDown, IconChevronUp, IconSelector } from '@tabler/icons-react';
-import { UnstyledButton, Flex, Center, rem, Text } from '@mantine/core';
 
-import classes from './table.module.css'
+import classes from './orderable-button.module.css'
 
-export interface TableOrderableThProps {
+interface OrderableButtonProps {
     children: React.ReactNode;
     field: string;
     key?: string;
     order?: string;
 }
 
-const TableOrderableTh: React.FC<TableOrderableThProps> = ({
+const OrderableButton: React.FC<OrderableButtonProps> = ({
     key = 'order',
     children,
     field,
     order
 }) => {
-
     const router = useRouter();
     const pathname = usePathname();
     const query = useSearchParams();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return children;
+    }
 
     const Icon = (order && order.split('-')[0] === field) ? (order === `${field}-asc` ? IconChevronUp : IconChevronDown) : IconSelector;
 
@@ -49,21 +56,17 @@ const TableOrderableTh: React.FC<TableOrderableThProps> = ({
     }
 
     return (
-        <TableTh>
-            <UnstyledButton
-                onClick={handleClick}
-                className={clsx(classes.control, { [classes.order]: order && order.split('-')[0] === field })}>
-                <Flex justify="space-between" align='center'>
-                    <Text className={classes.text} fw={500}>
-                        {children}
-                    </Text>
-                    <Center className={classes.icon}>
-                        <Icon style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                    </Center>
-                </Flex>
-            </UnstyledButton>
-        </TableTh>
+        <UnstyledButton
+            onClick={handleClick}
+            className={clsx(classes.control, { [classes.order]: order && order.split('-')[0] === field })}>
+            <Flex justify="space-between" align='center'>
+                {children}
+                <Center className={classes.icon}>
+                    <Icon style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+                </Center>
+            </Flex>
+        </UnstyledButton>
     )
 }
 
-export default TableOrderableTh
+export default OrderableButton
