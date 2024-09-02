@@ -7,18 +7,21 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 
 interface SearchProps {
-    key?: string;
+    queryKey?: string;
     value?: string;
 }
 
-const Search: React.FC<SearchProps> = ({ key = 'search', value }) => {
+const Search: React.FC<SearchProps> = ({
+    queryKey = 'search',
+    value
+}) => {
 
     const router = useRouter();
     const initialRender = useRef<boolean>(true);
     const pathname = usePathname();
     const query = useSearchParams();
 
-    const [text, setText] = useState<string | undefined>(value);
+    const [text, setText] = useState<string>(value || '');
     const [search] = useDebouncedValue(text, 500);
 
     useEffect(() => {
@@ -32,13 +35,13 @@ const Search: React.FC<SearchProps> = ({ key = 'search', value }) => {
             router.push(`${pathname}`);
         } else {
             if (search) {
-                newQuery.set(key, search);
+                newQuery.set(queryKey, search);
             } else {
-                newQuery.delete(key);
+                newQuery.delete(queryKey);
             }
             router.push(`${pathname}?${newQuery.toString()}`);
         }
-    }, [search]);
+    }, [queryKey, search]);
 
     const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => setText(e.target.value);
 

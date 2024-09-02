@@ -33,7 +33,7 @@ const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
                 justify='space-between'
                 wrap='nowrap'
                 gap={rem(16)}>
-                <Search key='search' value={search} />
+                <Search value={search} />
                 <Button
                     component={Link}
                     radius='md'

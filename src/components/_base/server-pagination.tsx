@@ -5,13 +5,13 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react'
 
 interface ServerPaginationProps {
-    key?: string;
+    queryKey?: string;
     page: number;
     total: number;
 }
 
 const ServerPagination: React.FC<ServerPaginationProps> = ({
-    key = 'page',
+    queryKey = 'page',
     page,
     total
 }) => {
@@ -22,7 +22,7 @@ const ServerPagination: React.FC<ServerPaginationProps> = ({
 
     const handleChange = (value: number) => {
         const newQuery = new URLSearchParams(query.toString());
-        newQuery.set(key, value.toString());
+        newQuery.set(queryKey, value.toString());
         router.push(`${pathname}?${newQuery.toString()}`);
     }
 

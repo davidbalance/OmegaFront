@@ -30,7 +30,7 @@ const DoctorPage: React.FC<DoctorPageProps> = ({ searchParams }) => {
                 </Box>
             </ModularBox>
             <ModularBox>
-                <Search key='search' value={search} />
+                <Search value={search} />
             </ModularBox>
             <ModularBox h='100%'>
                 <TableRoot>

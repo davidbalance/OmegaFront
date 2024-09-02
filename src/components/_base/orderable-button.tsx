@@ -11,12 +11,12 @@ import classes from './orderable-button.module.css'
 interface OrderableButtonProps {
     children: React.ReactNode;
     field: string;
-    key?: string;
+    queryKey?: string;
     order?: string;
 }
 
 const OrderableButton: React.FC<OrderableButtonProps> = ({
-    key = 'order',
+    queryKey = 'order',
     children,
     field,
     order
@@ -46,11 +46,11 @@ const OrderableButton: React.FC<OrderableButtonProps> = ({
             }
         }
         if (!currentOrder) {
-            newQuery.set(key, `${field}-asc`);
+            newQuery.set(queryKey, `${field}-asc`);
         } else if (currentOrder === `asc`) {
-            newQuery.set(key, `${field}-desc`);
+            newQuery.set(queryKey, `${field}-desc`);
         } else {
-            newQuery.delete(key);
+            newQuery.delete(queryKey);
         }
         router.push(`${pathname}?${newQuery.toString()}`);
     }
