@@ -6,7 +6,7 @@ import { notifications } from '@mantine/notifications';
 import { useFetch } from '@/hooks/useFetch';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
-import { MedicalClientFormManagementArea } from './MedicalClientFormManagementArea';
+import { MedicalClientFormManagementArea } from './medical-client-area-form';
 import { MedicalClientManagement } from '@/lib/dtos/medical/client/management/base.response.dto';
 import { PostMedicalClientManagementRequestDto } from '@/lib/dtos/medical/client/management/request.dto';
 import { Management } from '@/lib/dtos/location/management/base.response.dto';

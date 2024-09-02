@@ -1,51 +1,30 @@
+'use client'
+
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context';
-import { useMail } from '@/hooks/useMail';
 import { ActionIcon, ActionIconProps, rem, Tooltip } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconSend, IconSendOff } from '@tabler/icons-react';
-import React, { useCallback, useEffect, useMemo } from 'react';
-import MedicalClientModalEmailSelection from '../../client/modal/MedicalClientModalEmailSelection';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import MedicalClientModalEmailSelection from '../../../../../../components/medical/client/modal/MedicalClientModalEmailSelection';
 import { useDisclosure } from '@mantine/hooks';
 import { MedicalClientEmail } from '@/lib/dtos/medical/client/email/base.response.dto';
+import { sendEmail } from '../../_actions/medical-email.actions';
 
-const baseUrl = (order: number, mail: number) => `/api/medical/orders/mail/${order}/${mail}`;
-
-interface MedicalOrderActionSendButtonProps {
-    /**
-     * Indica si el correo ha sido o no enviado
-     */
-    mailStatus: boolean;
-    /**
-     * Idetnficador unico de la orden medica.
-     */
-    order: number;
-    /**
-     * Arreglo de correos electronicos.
-     */
+interface MedicalOrderMailButtonProps {
     email: MedicalClientEmail[]
-    /**
-     * Funcion que es invocada se envia el correo.
-     * @param id 
-     * @param mailStatus 
-     * @returns 
-     */
-    onMailSend: (id: number, mailStatus: boolean) => void;
+    id: number;
+    mailStatus: boolean;
 }
 
-const MedicalOrderActionSendButton: React.FC<MedicalOrderActionSendButtonProps> = ({ email, onMailSend, order, mailStatus }) => {
+const MedicalOrderMailButton: React.FC<MedicalOrderMailButtonProps> = ({
+    id,
+    email,
+    mailStatus
+}) => {
 
+    const [loading, setLoading] = useState<boolean>(false);
     const [modalOpened, { open: openModal, close: modalClose }] = useDisclosure(false);
-
     const { show } = useConfirmation();
-
-    const {
-        data: mailData,
-        error: mailError,
-        loading: mailLoading,
-        send: mailSend,
-        setUrl: setMailUrl,
-        url: mailUrl
-    } = useMail<any>();
 
     const handleClickEvent = useCallback(async () => {
         const defaultEmail = email.find(e => e.default);
@@ -54,7 +33,7 @@ const MedicalOrderActionSendButton: React.FC<MedicalOrderActionSendButtonProps> 
             if (defaultEmail) {
                 const state = await show('Enviar correo', `¿Deseas enviar a ${defaultEmail.email}?`);
                 if (state) {
-                    setMailUrl(baseUrl(order, defaultEmail.id));
+                    triggerSend(defaultEmail.id);
                 } else {
                     openModal();
                 }
@@ -68,36 +47,28 @@ const MedicalOrderActionSendButton: React.FC<MedicalOrderActionSendButtonProps> 
             const currentEmail = email[0];
             const state = await show('Enviar correo', `¿Deseas enviar a ${currentEmail.email}?`);
             if (state) {
-                setMailUrl(baseUrl(order, currentEmail.id));
+                triggerSend(currentEmail.id);
             }
         } else {
             notifications.show({ message: 'No se tienen correos registrados', color: 'red' });
         }
-    }, [show, openModal, setMailUrl, order, email]);
+    }, [show, openModal, id, email]);
 
-    const handleSelectionEvent = useCallback((data: MedicalClientEmail) => {
-        setMailUrl(baseUrl(order, data.id));
+    const handleSelectionEvent = (data: MedicalClientEmail) => {
+        triggerSend(data.id);
         modalClose();
-    }, [setMailUrl, modalClose, order]);
+    };
 
-    const handleCloseEvent = useCallback(() => modalClose(), [modalClose])
-
-    useEffect(() => {
-        if (mailData) {
-            onMailSend(order, true);
+    const triggerSend = useCallback(async (mail: number) => {
+        setLoading(true);
+        try {
+            await sendEmail(id, mail)
+        } catch (error: any) {
+            notifications.show({ message: error.message, color: 'red' });
+        } finally {
+            setLoading(false);
         }
-    }, [mailData, order, onMailSend]);
-
-    useEffect(() => {
-        if (mailError) notifications.show({ message: mailError.message, color: 'red' });
-    }, [mailError]);
-
-    useEffect(() => {
-        if (mailUrl) {
-            mailSend();
-            setMailUrl(null);
-        }
-    }, [mailUrl, mailSend, setMailUrl]);
+    }, [id]);
 
     const currentButtonProps = useMemo((): ActionIconProps => mailStatus
         ? { variant: 'light', color: 'neutral' }
@@ -115,11 +86,11 @@ const MedicalOrderActionSendButton: React.FC<MedicalOrderActionSendButtonProps> 
                 email={email}
                 onSelection={handleSelectionEvent}
                 opened={modalOpened}
-                onClose={handleCloseEvent} />
+                onClose={modalClose} />
 
             <Tooltip
                 label='Enviar Correo'>
-                <ActionIcon loading={mailLoading} onClick={handleClickEvent} {...currentButtonProps}>
+                <ActionIcon loading={loading} onClick={handleClickEvent} {...currentButtonProps}>
                     <CurrentIcon style={{ width: rem(16), height: rem(16), lineHeight: rem(1.5) }} />
                 </ActionIcon>
             </Tooltip>
@@ -127,4 +98,4 @@ const MedicalOrderActionSendButton: React.FC<MedicalOrderActionSendButtonProps> 
     )
 }
 
-export { MedicalOrderActionSendButton }
+export default MedicalOrderMailButton;

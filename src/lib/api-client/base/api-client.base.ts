@@ -1,4 +1,3 @@
-import { NextRequest } from "next/server";
 import ApiClientError from "./api-error";
 import { ApiResource } from "./api-resource.type";
 import UrlBuilder from "./url-builder";
@@ -70,6 +69,8 @@ abstract class ApiClientBase<T extends { [key: string]: ApiResource }> {
 
         try {
             if (!response.ok) {
+                const errorData = await response.json();
+                console.error(errorData);
                 throw new ApiClientError(method, response);
             }
 

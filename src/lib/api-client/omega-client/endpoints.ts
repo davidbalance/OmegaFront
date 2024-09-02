@@ -204,6 +204,11 @@ const omegaMethodEndpoint = {
         method: 'post',
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
+    patientPageCount: {
+        resource: 'patients/pages',
+        method: 'post',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
     patientByCompany: {
         resource: 'patients/look/company',
         method: 'get',
@@ -436,6 +441,11 @@ const omegaMethodEndpoint = {
     } as ApiResource,
     medicalResultDetails: {
         resource: 'medical/results',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    medicalResultDetailsByOrder: {
+        resource: 'medical/results/order/:id',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,

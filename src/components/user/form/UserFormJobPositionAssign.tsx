@@ -7,7 +7,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { JobPosition } from '@/lib/dtos/location/job/position/base.response.dto';
 import { notifications } from '@mantine/notifications';
 import { MedicalClientJobPosition } from '@/lib/dtos/medical/client/job/position/base.response.dto';
-import { UserFormJobPosition } from './UserFormJobPosition';
+import { UserFormJobPosition } from './user-form-job-position';
 import { PatchMedicalClientJobPositionRequestDto } from '@/lib/dtos/medical/client/job/position/request.dto';
 
 interface UserFormJobPositionAssignProps {

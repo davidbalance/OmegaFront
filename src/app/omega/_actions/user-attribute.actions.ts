@@ -30,7 +30,6 @@ export const retriveUserAttribute = async (id: number, attribute: AttributeKey):
     const session = await auth();
     if (!session) throw new Error('There is no session found');
     const key = attributes[attribute].get;
-    console.log(key);
     try {
         const { value }: GetUserAttributeResponseDto = await omega()
             .addParams({ id })
@@ -47,6 +46,7 @@ export const updateUserAttribute = async (id: number, value: string, attribute: 
     const session = await auth();
     if (!session) throw new Error('There is no session found');
     const key = attributes[attribute].patch;
+    console.log(key);
     try {
         await omega()
             .addParams({ id })
