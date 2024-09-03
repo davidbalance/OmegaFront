@@ -5,7 +5,7 @@ import { IconBuilding, IconKey, IconPencil, IconSitemap } from '@tabler/icons-re
 import { User } from '@/lib/dtos/user/user/base.response.dto'
 import UserActionDelete from './user-action-delete'
 import UserActionMenu from './user-action-menu'
-import ActionUserProvider from '../_context/action-user.context'
+import ActionUserProvider from '../../../../../contexts/action-user.context'
 
 interface UserTableProps {
     users: User[]

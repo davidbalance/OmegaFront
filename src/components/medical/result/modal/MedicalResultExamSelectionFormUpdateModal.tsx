@@ -4,7 +4,7 @@ import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import { Modal, Flex, ModalProps, Button, rem, LoadingOverlay } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { MedicalResultExamSelectionForm } from '../form/MedicalResultExamSelectionForm';
+import { MedicalResultExamSelectionForm } from '../form/medical-result-form-exam';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { PatchMedicalResultExamRequest } from '@/lib/dtos/medical/result/exam/request.dto';
 import { notifications } from '@mantine/notifications';

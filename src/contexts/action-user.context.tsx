@@ -27,7 +27,9 @@ const ActionUserProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const trigger = async (promise: Promise<void>) => {
         setLoad(true);
         try {
+            console.log(1)
             await promise;
+            console.log(2)
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });
         } finally {

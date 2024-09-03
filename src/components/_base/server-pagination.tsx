@@ -33,7 +33,6 @@ const ServerPagination: React.FC<ServerPaginationProps> = ({
                 total={total}
                 onChange={handleChange}
                 radius='xl'
-                withEdges
                 size='sm' />
         </Flex>
     )

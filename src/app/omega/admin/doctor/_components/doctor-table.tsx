@@ -4,7 +4,7 @@ import { IconBuilding, IconLock, IconEye, IconUpload } from '@tabler/icons-react
 import Link from 'next/link';
 import React from 'react'
 import UserActionMenu from '../../user/_components/user-action-menu';
-import ActionUserProvider from '../../user/_context/action-user.context';
+import ActionUserProvider from '../../../../../contexts/action-user.context';
 
 interface DoctorTableProps {
     doctors: Doctor[];

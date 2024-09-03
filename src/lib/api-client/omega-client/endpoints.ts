@@ -437,7 +437,7 @@ const omegaMethodEndpoint = {
     medicalResultUpload: {
         resource: 'medical/results/file/:id',
         method: 'patch',
-        options: { customHeader: ['auth', 'as-json'] }
+        options: { customHeader: ['auth'] }
     } as ApiResource,
     medicalResultDetails: {
         resource: 'medical/results',

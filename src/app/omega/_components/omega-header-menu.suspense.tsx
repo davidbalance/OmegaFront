@@ -3,7 +3,7 @@ import React from 'react'
 
 const OmegaHeaderMenuSuspense: React.FC = () => {
     return (
-        <Skeleton circle h={rem(30)} />
+        <Skeleton circle h={rem(30)} w={rem(30)} />
     )
 }
 
