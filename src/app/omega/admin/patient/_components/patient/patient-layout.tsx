@@ -6,7 +6,7 @@ import ListThead from '@/components/_base/list/list-thead';
 import OrderableButton from '@/components/_base/orderable-button';
 import React, { Suspense } from 'react'
 import { Box, Flex, rem, Text, Title } from '@mantine/core';
-import { retrivePatients, patientPages } from '../../_actions/patient.actions';
+import { retrivePatients, patientPages } from '../../../../../../server/patient.actions';
 import ReloadButton from '@/components/_base/reload-button';
 import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';

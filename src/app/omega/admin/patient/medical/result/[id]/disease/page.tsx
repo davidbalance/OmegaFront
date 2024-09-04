@@ -2,8 +2,8 @@ import ReturnableHeader from '@/components/_base/returnable-header'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import React from 'react'
 import DiseaseForm from './_components/disease-form'
-import { retriveDiseaseGroups } from '../../../../_actions/disease-group.actions'
-import { retriveMedicalDisease } from '../../../../_actions/medical-result-disease.actions'
+import { retriveFullDiseaseGroups } from '../../../../../../../../server/disease-group.actions'
+import { retriveMedicalDisease } from '../../../../../../../../server/medical-result-disease.actions'
 import SelectProvider from './_context/select.context'
 import { rem, SimpleGrid, Stack } from '@mantine/core'
 import DiseaseClearButton from './_components/disease-clear-button'
@@ -17,7 +17,7 @@ const MedicalResultDiseasePage: React.FC<MedicalResultDiseasePageProps> = async 
   params
 }) => {
 
-  const options = await retriveDiseaseGroups();
+  const options = await retriveFullDiseaseGroups();
   const values = await retriveMedicalDisease(params.id);
 
   return (

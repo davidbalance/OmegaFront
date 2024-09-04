@@ -1,6 +1,6 @@
 'use client'
 
-import { uploadMedicalResultFile } from '@/app/omega/admin/patient/_actions/medical-result.action'
+import { uploadMedicalResultFile } from '@/server/medical-result.action'
 import LoadingOverlay from '@/components/_base/loading-overlay'
 import Dropzone from '@/components/dropzone/dropzone'
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context'

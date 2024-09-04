@@ -6,6 +6,8 @@ export interface Branch {
     city: City;
 }
 
-export interface GETBranchResponseDto {
-    branches: Branch[];
+export interface BranchSingle {
+    id: number;
+    name: string;
+    city: string;
 }

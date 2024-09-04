@@ -13,8 +13,8 @@ import { Flex, rem, Box, Title, Group, Text } from '@mantine/core';
 import React, { Suspense } from 'react'
 import MedicalOrderListBody from './medical-order-list-body';
 import { MedicalOrder } from '@/lib/dtos/medical/order/base.response.dto';
-import { retriveMedicalOrder } from '../../_actions/medical-order.actions';
-import { retriveEmail } from '../../_actions/medical-email.actions';
+import { retriveMedicalOrder } from '../../../../../../server/medical-order.actions';
+import { retriveEmail } from '../../../../../../server/medical-email.actions';
 import { MedicalClientEmail } from '@/lib/dtos/medical/client/email/base.response.dto';
 
 interface MedicalOrderLayoutProps {

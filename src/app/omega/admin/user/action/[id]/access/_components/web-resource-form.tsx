@@ -9,7 +9,7 @@ import { IconDeviceFloppy } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import React, { FormEvent, useCallback, useRef, useState } from 'react'
 import LoadingOverlay from '@/components/_base/loading-overlay'
-import { updateClientResources } from '../../../../_actions/web-client.actions'
+import { updateClientResources } from '../../../../../../../../server/web-client.actions'
 
 interface WebResourceFormProps {
     id: number;

@@ -1,4 +1,4 @@
-import { retriveBlob } from '@/app/omega/admin/patient/_actions/file.actions'
+import { retriveBlob } from '@/server/file.actions'
 import BlobPreview from '@/components/_base/blob-preview'
 import ReturnableHeader from '@/components/_base/returnable-header'
 import { ModularBox } from '@/components/modular/box/ModularBox'

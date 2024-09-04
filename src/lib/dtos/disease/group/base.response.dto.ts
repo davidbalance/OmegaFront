@@ -5,3 +5,8 @@ export interface DiseaseGroup {
     name: string;
     diseases: Disease[];
 }
+
+export interface DiseaseGroupSingle {
+    id: number;
+    name: string;
+}

@@ -1,6 +1,6 @@
 import omega from '@/lib/api-client/omega-client/omega';
 import { isTokenValid } from '@/lib/is-token-valid';
-import NextAuth, { AuthOptions, User } from 'next-auth';
+import NextAuth, { AuthOptions, Session, User } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
@@ -98,11 +98,13 @@ export const authOptions: AuthOptions = {
 
 const handler = NextAuth(authOptions);
 
-export function auth(...args:
+export async function auth(...args:
     | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
     | [NextApiRequest, NextApiResponse]
-    | []) {
-    return getServerSession(...args, authOptions);
+    | []): Promise<Session> {
+    const session = await getServerSession(...args, authOptions);
+    if (!session) throw new Error('There is no session found');
+    return session;
 }
 
 export { handler as GET, handler as POST };

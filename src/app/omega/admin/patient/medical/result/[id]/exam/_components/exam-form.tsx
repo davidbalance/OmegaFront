@@ -1,6 +1,6 @@
 'use client'
 
-import { updateMedicalResultExam } from '@/app/omega/admin/patient/_actions/medical-result-exam.actions';
+import { updateMedicalResultExam } from '@/server/medical-result-exam.actions';
 import MedicalResultFormExam from '@/components/medical/result/form/medical-result-form-exam';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { ExamType } from '@/lib/dtos/laboratory/exam/type/base.response.dto';

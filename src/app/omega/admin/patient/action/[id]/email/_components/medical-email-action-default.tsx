@@ -3,7 +3,7 @@
 import { Button } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
 import React, { useState } from 'react'
-import { setEmailAsDefault } from '../../../../_actions/medical-email.actions';
+import { setEmailAsDefault } from '../../../../../../../../server/medical-email.actions';
 
 interface MedicalEmailActionDefaultProps {
   id: number;

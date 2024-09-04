@@ -1,8 +1,8 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import ExamForm from './_components/exam-form'
-import { retriveExamType } from '../../../../_actions/exam-type.actions';
-import { retriveMedicalResultExam } from '../../../../_actions/medical-result-exam.actions';
+import { retriveFullExam } from '../../../../../../../../server/exam-type.actions';
+import { retriveMedicalResultExam } from '../../../../../../../../server/medical-result-exam.actions';
 
 interface ExamPageProps {
   params: { id: number }
@@ -10,7 +10,7 @@ interface ExamPageProps {
 
 const ExamPage: React.FC<ExamPageProps> = async ({ params }) => {
 
-  const options = await retriveExamType();
+  const options = await retriveFullExam();
   const value = await retriveMedicalResultExam(params.id);
 
   return (

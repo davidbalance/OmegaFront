@@ -5,7 +5,7 @@ import { ActionIcon, ActionIconProps, rem, Tooltip } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconLock, IconLockOpen2 } from '@tabler/icons-react';
 import React, { useCallback, useMemo, useState } from 'react'
-import { validateOrder } from '../../_actions/medical-order.actions';
+import { validateOrder } from '../../../../../../server/medical-order.actions';
 
 const ActionIconOrderStatusProps: Record<OrderStatus, ActionIconProps> = {
   created: {},

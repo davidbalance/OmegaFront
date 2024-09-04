@@ -24,8 +24,21 @@ const omegaMethodEndpoint = {
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
+
+    //#region Disease
+    diseaseSearch: {
+        resource: 'disease/:group/diseases/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    diseasePages: {
+        resource: 'disease/:group/diseases/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
     diseaseDetails: {
-        resource: 'diseases',
+        resource: 'diseases/:group',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
@@ -34,18 +47,46 @@ const omegaMethodEndpoint = {
         method: 'post',
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
+    diseaseDetail: {
+        resource: 'diseases/disease/:id',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
     diseaseUpdate: {
-        resource: 'diseases/:id',
+        resource: 'diseases/disease/:id',
         method: 'patch',
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
     diseaseDelete: {
-        resource: 'diseases/:id',
+        resource: 'diseases/disease/:id',
         method: 'delete',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
+
+    diseaseGroupSearch: {
+        resource: 'disease/groups/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    diseaseGroupPages: {
+        resource: 'disease/groups/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
+    diseaseGroupFullDetails: {
+        resource: 'diseases/groups/full',
+        method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     diseaseGroupDetails: {
         resource: 'diseases/groups',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    diseaseGroupDetail: {
+        resource: 'diseases/groups/:id',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
@@ -64,13 +105,104 @@ const omegaMethodEndpoint = {
         method: 'delete',
         options: { customHeader: ['auth'] }
     } as ApiResource,
+    //#endregion
+
+    //#region Location
+    corporativeGroupSearch: {
+        resource: 'location/groups/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    corporativeGroupPages: {
+        resource: 'location/groups/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
+    companySearch: {
+        resource: 'location/:group/companies/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    companyPages: {
+        resource: 'location/:group/companies/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
+    branchSearch: {
+        resource: 'location/:company/branches/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    branchPages: {
+        resource: 'location/:company/branches/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
+    managementSearch: {
+        resource: 'location/managements/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    managementPages: {
+        resource: 'location/managements/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
+    areaSearch: {
+        resource: 'location/:management/areas/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    areaPages: {
+        resource: 'location/:management/areas/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
+    jobpositionSearch: {
+        resource: 'location/jobposition/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    jobpositionPages: {
+        resource: 'location/jobposition/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
+
+
+    locationDetails: {
+        resource: 'locations',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
     corporativeGroupDetails: {
         resource: 'corporative/groups',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
+    companyDetails: {
+        resource: 'companies/:group',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    branchDetails: {
+        resource: 'branches/:company',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
     managementDetails: {
         resource: 'management',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    managementDetail: {
+        resource: 'management/:id',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
@@ -119,6 +251,11 @@ const omegaMethodEndpoint = {
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
+    areaDetail: {
+        resource: 'area/:id',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
     areaCreate: {
         resource: 'area',
         method: 'post',
@@ -134,6 +271,42 @@ const omegaMethodEndpoint = {
         method: 'delete',
         options: { customHeader: ['auth'] }
     } as ApiResource,
+    //#endregion
+
+    //#region User
+    userSearch: {
+        resource: 'user/users/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    userPages: {
+        resource: '/user/users/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
+    patientSearch: {
+        resource: 'user/patients/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    patientrPages: {
+        resource: 'user/patients/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
+    doctorSearch: {
+        resource: 'user/doctors/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    doctorrPages: {
+        resource: 'user/doctors/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
     userDetails: {
         resource: 'users',
         method: 'get',
@@ -239,6 +412,89 @@ const omegaMethodEndpoint = {
         method: 'post',
         options: { customHeader: ['auth'] }
     } as ApiResource,
+    //#endregion
+
+    //#region Laboratory
+    examTypeSearch: {
+        resource: 'laboratory/types/paginate',
+        method: 'patch',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+    examTypePages: {
+        resource: 'laboratory/types/paginate',
+        method: 'patch',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+    
+    examSubtypeSearch: {
+        resource: 'laboratory/type/subtypes/paginate',
+        method: 'patch',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+    examSubtypePages: {
+        resource: 'laboratory/type/subtypes/paginate',
+        method: 'patch',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+
+    examSearch: {
+        resource: 'laboratory/:subtype/exams/paginate',
+        method: 'patch',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+    examPages: {
+        resource: 'laboratory/:subtype/exams/pages',
+        method: 'patch',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+
+    examUpdate: {
+        resource: 'exams',
+        method: 'patch',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+    examtypeFullDetails: {
+        resource: 'exam/types/full',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    examtypeSearch: {
+        resource: 'exam/types/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    examtypePages: {
+        resource: 'exam/types/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    examsubtypeDetails: {
+        resource: 'exam/subtypes/:type',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    examsubtypeCreate: {
+        resource: 'exam/subtypes',
+        method: 'post',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+    examsubtypeDetail: {
+        resource: 'exam/subtypes/subtype/:id',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    examsubtypeUpdate: {
+        resource: 'exam/subtypes/subtype/:id',
+        method: 'patch',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+    examsubtypeDelete: {
+        resource: 'exam/subtypes/subtype/:id',
+        method: 'delete',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    //#endregion
+
     credentialCreate: {
         resource: 'credentials',
         method: 'post',
@@ -309,61 +565,7 @@ const omegaMethodEndpoint = {
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
-    examUpdate: {
-        resource: 'exams',
-        method: 'patch',
-        options: { customHeader: ['auth', 'as-json'] }
-    } as ApiResource,
-    examtypeDetails: {
-        resource: 'exam/types',
-        method: 'get',
-        options: { customHeader: ['auth'] }
-    } as ApiResource,
-    examtypeDetail: {
-        resource: 'exam/types/:id',
-        method: 'get',
-        options: { customHeader: ['auth'] }
-    } as ApiResource,
-    examtypeCreate: {
-        resource: 'exam/types',
-        method: 'post',
-        options: { customHeader: ['auth', 'as-json'] }
-    } as ApiResource,
-    examtypeUpdate: {
-        resource: 'exam/types/:id',
-        method: 'patch',
-        options: { customHeader: ['auth', 'as-json'] }
-    } as ApiResource,
-    examtypeDelete: {
-        resource: 'exam/types/:id',
-        method: 'delete',
-        options: { customHeader: ['auth'] }
-    } as ApiResource,
-    examsubtypeDetails: {
-        resource: 'exam/subtypes',
-        method: 'get',
-        options: { customHeader: ['auth'] }
-    } as ApiResource,
-    examsubtypeDetail: {
-        resource: 'exam/subtypes/:id',
-        method: 'get',
-        options: { customHeader: ['auth'] }
-    } as ApiResource,
-    examsubtypeCreate: {
-        resource: 'exam/subtypes',
-        method: 'post',
-        options: { customHeader: ['auth', 'as-json'] }
-    } as ApiResource,
-    examsubtypeUpdate: {
-        resource: 'exam/subtypes/:id',
-        method: 'patch',
-        options: { customHeader: ['auth', 'as-json'] }
-    } as ApiResource,
-    examsubtypeDelete: {
-        resource: 'exam/subtypes/:id',
-        method: 'delete',
-        options: { customHeader: ['auth'] }
-    } as ApiResource,
+
     medicalOrderCloudDetails: {
         resource: 'medical/orders/cloud/:id',
         method: 'get',

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import clsx from 'clsx';
 import { UnstyledButton, Flex, Center, rem } from '@mantine/core'
 import { IconChevronUp, IconChevronDown, IconSelector } from '@tabler/icons-react';
@@ -11,54 +11,53 @@ import classes from './orderable-button.module.css'
 interface OrderableButtonProps {
     children: React.ReactNode;
     field: string;
-    queryKey?: string;
-    order?: string;
+    owner?: string;
 }
 
+const ownerKey: string = 'owner';
+const fieldKey: string = 'field';
+const orderKey: string = 'order';
+
 const OrderableButton: React.FC<OrderableButtonProps> = ({
-    queryKey = 'order',
     children,
+    owner: ownerValue,
     field,
-    order
 }) => {
     const router = useRouter();
     const pathname = usePathname();
-    const query = useSearchParams();
-    const [mounted, setMounted] = useState(false);
+    const searchParams = useSearchParams();
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+    const owner = searchParams.get(ownerKey);
+    const value = searchParams.get(fieldKey);
+    const order = searchParams.get(orderKey);
 
-    if (!mounted) {
-        return children;
-    }
-
-    const Icon = (order && order.split('-')[0] === field) ? (order === `${field}-asc` ? IconChevronUp : IconChevronDown) : IconSelector;
+    const isActive = value === field && (!ownerValue || owner === ownerValue);
+    const Icon = isActive ? (order === 'asc' ? IconChevronUp : IconChevronDown) : IconSelector;
 
     const handleClick = () => {
-        const newQuery = new URLSearchParams(query.toString());
-        let currentOrder: string | undefined = undefined;
-        if (order) {
-            const currentField = order.split('-')[0];
-            if (currentField === field) {
-                currentOrder = order.split('-')[1];
+        const newQuery = new URLSearchParams(searchParams);
+
+        if (isActive) {
+            if (order === 'asc') {
+                newQuery.set(orderKey, 'desc');
+            } else {
+                newQuery.delete(fieldKey);
+                newQuery.delete(orderKey);
+                if (ownerValue) newQuery.delete(ownerKey);
             }
-        }
-        if (!currentOrder) {
-            newQuery.set(queryKey, `${field}-asc`);
-        } else if (currentOrder === `asc`) {
-            newQuery.set(queryKey, `${field}-desc`);
         } else {
-            newQuery.delete(queryKey);
+            if (ownerValue) newQuery.set(ownerKey, ownerValue);
+            newQuery.set(fieldKey, field);
+            newQuery.set(orderKey, 'asc');
         }
+
         router.push(`${pathname}?${newQuery.toString()}`);
-    }
+    };
 
     return (
         <UnstyledButton
             onClick={handleClick}
-            className={clsx(classes.control, { [classes.order]: order && order.split('-')[0] === field })}>
+            className={clsx(classes.control, { [classes.order]: isActive })}>
             <Flex justify="space-between" align='center'>
                 {children}
                 <Center className={classes.icon}>

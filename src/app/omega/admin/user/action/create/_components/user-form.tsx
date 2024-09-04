@@ -6,7 +6,7 @@ import { notifications } from '@mantine/notifications';
 import { IconBuilding, IconChevronLeft, IconChevronRight, IconCircleCheck, IconDeviceFloppy, IconLicense, IconLock, IconUserCheck } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { createUser } from '../../../_actions/user.actions';
+import { createUser } from '../../../../../../../server/user.actions';
 import { useDebounceCallback } from '@mantine/hooks';
 
 interface UserFormProps {

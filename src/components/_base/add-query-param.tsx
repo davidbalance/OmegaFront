@@ -6,23 +6,23 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import React from 'react'
 
 interface AddQueryParamProps {
-  queryKey: string;
+  query: string;
   value: string;
   children: React.ReactNode;
   removeQueries?: string[];
 }
 const AddQueryParam: React.FC<AddQueryParamProps> = ({
-  queryKey,
+  query,
   value,
   children,
   removeQueries
 }) => {
 
   const pathname = usePathname()
-  const query = useSearchParams()
+  const queryParam = useSearchParams()
 
-  const params = new URLSearchParams(query);
-  params.set(queryKey, value);
+  const params = new URLSearchParams(queryParam);
+  params.set(query, value);
   if (removeQueries) {
     for (const key of removeQueries) {
       params.delete(key);

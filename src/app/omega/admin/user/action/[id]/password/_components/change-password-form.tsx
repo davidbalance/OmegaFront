@@ -8,7 +8,7 @@ import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useCallback, useRef, useState } from 'react'
-import { changePassword } from '../../../../_actions/credential.actions';
+import { changePassword } from '../../../../../../../../server/credential.actions';
 
 interface ChangePasswordFormProps {
     email: string;

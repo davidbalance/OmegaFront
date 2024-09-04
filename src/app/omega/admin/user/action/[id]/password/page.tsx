@@ -1,5 +1,5 @@
 import React from 'react'
-import { retriveUser } from '../../../_actions/user.actions'
+import { retriveUser } from '../../../../../../../server/user.actions'
 import ReturnableHeader from '@/components/_base/returnable-header';
 import ChangePasswordForm from './_components/change-password-form';
 

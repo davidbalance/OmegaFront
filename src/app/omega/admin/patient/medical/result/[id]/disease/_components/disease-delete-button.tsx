@@ -6,7 +6,7 @@ import React, { useCallback, useState } from 'react'
 import { useSelect } from '../_context/select.context';
 import { MedicalResultDisease } from '@/lib/dtos/medical/result/disease/base.response.dto';
 import { notifications } from '@mantine/notifications';
-import { deleteMedicalDisease } from '@/app/omega/admin/patient/_actions/medical-result-disease.actions';
+import { deleteMedicalDisease } from '@/server/medical-result-disease.actions';
 
 interface DiseaseDeleteButtonProps {
     id: number;

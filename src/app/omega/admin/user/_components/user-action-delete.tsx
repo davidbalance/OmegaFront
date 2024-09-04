@@ -4,7 +4,7 @@ import { MenuItem, rem } from '@mantine/core'
 import { IconTrash } from '@tabler/icons-react'
 import React from 'react'
 import { useActionUser } from '../../../../../contexts/action-user.context'
-import { deleteUser } from '../_actions/user.actions'
+import { deleteUser } from '../../../../../server/user.actions'
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context'
 
 interface UserActionDeleteProps {

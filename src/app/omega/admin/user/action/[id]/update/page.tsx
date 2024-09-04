@@ -1,6 +1,6 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import { retriveUser } from '../../../_actions/user.actions'
+import { retriveUser } from '../../../../../../../server/user.actions'
 import UserForm from './_components/user-form'
 
 interface UserActionUpdatePageProps {

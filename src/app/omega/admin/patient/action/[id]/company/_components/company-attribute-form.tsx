@@ -9,7 +9,7 @@ import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useCallback, useRef, useState } from 'react'
-import { updateUserAttribute } from '../../../../../../_actions/user-attribute.actions';
+import { updateUserAttribute } from '../../../../../../../../server/user-attribute.actions';
 
 interface CompanyAttributeFormProps {
     id: number;

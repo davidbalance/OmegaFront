@@ -9,7 +9,7 @@ import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useCallback, useRef, useState } from 'react'
-import { assingManagementIntoClient } from '../../../../_actions/medical-client-management.actions';
+import { assingManagementIntoClient } from '../../../../../../../../server/medical-client-management.actions';
 
 interface PatientActionAreaFormProps {
     dni: string;

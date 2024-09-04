@@ -12,7 +12,7 @@ import { Flex, rem, Box, Title, Text } from '@mantine/core'
 import React, { Suspense } from 'react'
 import MedicalResultListBody from './medical-result-list-body'
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto'
-import { retriveMedicalResultsByOrder } from '../../_actions/medical-result.action'
+import { retriveMedicalResultsByOrder } from '../../../../../../server/medical-result.action'
 
 interface MedicalResultLayoutProps {
     search?: string;

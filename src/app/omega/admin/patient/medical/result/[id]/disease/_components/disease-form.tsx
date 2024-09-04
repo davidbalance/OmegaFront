@@ -9,7 +9,7 @@ import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { FormEvent, useCallback, useRef, useState } from 'react'
 import { useSelect } from '../_context/select.context';
-import { createdMedicalDisease, updateMedicalDisease } from '@/app/omega/admin/patient/_actions/medical-result-disease.actions';
+import { createdMedicalDisease, updateMedicalDisease } from '@/server/medical-result-disease.actions';
 
 interface MedicalResultDiseaseFormProps {
     id: number;

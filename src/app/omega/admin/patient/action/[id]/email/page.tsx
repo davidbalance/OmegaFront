@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { retriveEmail } from '../../../_actions/medical-email.actions';
+import { retriveEmail } from '../../../../../../../server/medical-email.actions';
 import ReturnableHeader from '@/components/_base/returnable-header';
 import { MedicalClientEmailForm } from '@/components/medical/client/form/medical-client-email-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';

@@ -5,3 +5,9 @@ export interface ExamSubtype {
     name: string;
     exams: Exam[];
 }
+
+export interface ExamSingleSubtype {
+    id: number;
+    name: string;
+    exams: Exam[];
+}

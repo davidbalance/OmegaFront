@@ -34,7 +34,9 @@ class UrlBuilder {
 
         const query: URLSearchParams = new URLSearchParams();
         Object.entries(this._queryParams).forEach(([key, value]) => {
-            query.append(key, value.toString());
+            if (value !== undefined) {
+                query.append(key, value.toString());
+            }
         });
         const queryString: string = query.toString();
         if (queryString) {

@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import MedicalClientModalEmailSelection from '../../../../../../components/medical/client/modal/MedicalClientModalEmailSelection';
 import { useDisclosure } from '@mantine/hooks';
 import { MedicalClientEmail } from '@/lib/dtos/medical/client/email/base.response.dto';
-import { sendEmail } from '../../_actions/medical-email.actions';
+import { sendEmail } from '../../../../../../server/medical-email.actions';
 
 interface MedicalOrderMailButtonProps {
     email: MedicalClientEmail[]

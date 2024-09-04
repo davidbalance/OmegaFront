@@ -4,7 +4,7 @@ import { ActionIcon, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
 import { IconTrash } from '@tabler/icons-react'
 import React, { useState } from 'react'
-import { deleteEmail } from '../../../../_actions/medical-email.actions';
+import { deleteEmail } from '../../../../../../../../server/medical-email.actions';
 
 interface MedicaEmailActionDeleteProps {
   email: number;

@@ -1,8 +1,8 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import CompanyAttributeForm from './_components/company-attribute-form'
-import { retriveCorporativeGroups } from '../../../../../_actions/corporative-group.actions'
-import { retriveUserAttribute } from '../../../../../_actions/user-attribute.actions'
+import { retriveLocation } from '../../../../../../../server/location.actions'
+import { retriveUserAttribute } from '../../../../../../../server/user-attribute.actions'
 
 interface PatientActionCompanyPageProps {
     params: { id: number; }
@@ -10,7 +10,7 @@ interface PatientActionCompanyPageProps {
 
 const PatientActionCompanyPage: React.FC<PatientActionCompanyPageProps> = async ({ params }) => {
 
-    const groups = await retriveCorporativeGroups();
+    const groups = await retriveLocation();
     const attribute = await retriveUserAttribute(params.id, 'employeeOf');
 
     return (

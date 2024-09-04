@@ -1,8 +1,8 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import PatientJobPositionForm from './_components/patient-job-position-form'
-import { retriveJobPositions } from '../../../../_actions/job-position.actions'
-import { retriveClientJobPosition } from '../../../../_actions/medical-job-position.actions'
+import { retriveJobPositions } from '../../../../../../../../server/job-position.actions'
+import { retriveClientJobPosition } from '../../../../../../../../server/medical-job-position.actions'
 
 interface PatientActionJobPositionPageProps {
   params: {

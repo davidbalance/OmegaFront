@@ -1,6 +1,6 @@
 'use client'
 
-import { addJobPositionToClient } from '@/app/omega/admin/patient/_actions/medical-job-position.actions';
+import { addJobPositionToClient } from '@/server/medical-job-position.actions';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { UserFormJobPosition } from '@/components/user/form/user-form-job-position';
 import { JobPosition } from '@/lib/dtos/location/job/position/base.response.dto';

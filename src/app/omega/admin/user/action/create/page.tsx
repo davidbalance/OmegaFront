@@ -3,7 +3,7 @@ import AuthFormPassword from '@/components/authentication/form/auth-form-passwor
 import UserDataForm from '@/components/user/form/user-data-form'
 import WebResourceFormAssign from '@/components/web/resource/form/web-resource-form-assign'
 import UserForm from './_components/user-form'
-import { retriveNavResources } from '../../_actions/nav-resource.actions'
+import { retriveNavResources } from '../../../../../../server/nav-resource.actions'
 import UserFormLogo from '@/components/user/form/user-form-logo'
 import ReturnableHeader from '@/components/_base/returnable-header'
 

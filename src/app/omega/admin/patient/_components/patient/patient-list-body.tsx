@@ -6,7 +6,7 @@ import { Flex, Title, Text, MenuItem, rem, MenuLabel } from '@mantine/core'
 import React from 'react'
 import { IconAt, IconBriefcase, IconBuilding, IconBuildingCommunity } from '@tabler/icons-react'
 import Link from 'next/link'
-import AddQueryParam from '../add-query-param'
+import AddQueryParam from '../../../../../../components/_base/add-query-param'
 
 interface PatientListBodyProps {
     active?: string;

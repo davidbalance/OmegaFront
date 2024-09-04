@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import { retriveClientResources } from '../../../_actions/web-client.actions'
-import { retriveNavResources } from '../../../_actions/nav-resource.actions'
+import { retriveClientResources } from '../../../../../../../server/web-client.actions'
+import { retriveNavResources } from '../../../../../../../server/nav-resource.actions'
 import WebResourceForm from './_components/web-resource-form'
 
 interface UserActionAccessPageProps {

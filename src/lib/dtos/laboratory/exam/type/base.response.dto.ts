@@ -5,3 +5,8 @@ export interface ExamType {
     name: string;
     subtypes: ExamSubtype[]
 }
+
+export interface ExamTypeSingle {
+    id: number;
+    name: string;
+}

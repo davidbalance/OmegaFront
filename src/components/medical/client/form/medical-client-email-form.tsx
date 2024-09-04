@@ -1,6 +1,6 @@
 'use client'
 
-import { createEmail } from '@/app/omega/admin/patient/_actions/medical-email.actions'
+import { createEmail } from '@/server/medical-email.actions'
 import { Box, TextInput, rem, ActionIcon } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { notifications } from '@mantine/notifications'

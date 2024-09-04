@@ -4,7 +4,7 @@ import { useActionUser } from '@/contexts/action-user.context'
 import { MenuItem, rem } from '@mantine/core'
 import { IconTrash } from '@tabler/icons-react'
 import React from 'react'
-import { removeMedicalResultFile } from '../../_actions/medical-result.action'
+import { removeMedicalResultFile } from '../../../../../../server/medical-result.action'
 
 interface MedicalResultFileDeleteProps {
     id: number;

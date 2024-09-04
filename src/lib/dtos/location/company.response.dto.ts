@@ -9,6 +9,10 @@ export interface Company {
     branches: Branch[];
 }
 
-export interface GETCompanyResponseDto {
-    companies: Company[];
+export interface CompanySingle {
+    id: number;
+    ruc: string;
+    name: string;
+    address: string;
+    phone: string;
 }

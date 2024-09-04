@@ -1,8 +1,8 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import PatientActionAreaForm from './_components/patient-action-area-form'
-import { retriveClientManagement } from '../../../_actions/medical-client-management.actions'
-import { retriveManagements } from '../../../_actions/management.actions'
+import { retriveClientManagement } from '../../../../../../../server/medical-client-management.actions'
+import { retriveManagements } from '../../../../../../../server/management.actions'
 
 interface PatientActionAreaPageProps {
   params: {

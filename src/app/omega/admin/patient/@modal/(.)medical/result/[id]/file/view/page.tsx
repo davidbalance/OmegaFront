@@ -1,4 +1,4 @@
-import { retriveBlob } from '@/app/omega/admin/patient/_actions/file.actions';
+import { retriveBlob } from '@/server/file.actions';
 import BlobPreview from '@/components/_base/blob-preview';
 import { ModalHeader, ModalCloseButton, ModalBody, Box, rem } from '@mantine/core';
 import React from 'react'
