@@ -2,13 +2,29 @@
 
 import { auth } from "@/app/api/auth/[...nextauth]/route"
 import omega from "@/lib/api-client/omega-client/omega";
-import { POSTCredentialRequestDto } from "@/lib/dtos/auth/credential/request.dto";
-import { PatchOmegaWebClientResourceRequestDto, PatchOmegaWebClientLogoRequestDto } from "@/lib/dtos/omega/web/client/request.dto";
-import { PatchUserRequestDto, PostUserRequestDto } from "@/lib/dtos/user/user/request.dto";
-import { GetUserArrayResponseDto, GetUserResponseDto } from "@/lib/dtos/user/user/response.dto";
-import { revalidatePath } from "next/cache";
+import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
+import { User } from "@/lib/dtos/user/user/base.response.dto";
+import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 
-export const retriveUsers = async () => {
+export const searchUsers = async (filter: FilterMeta): Promise<User[]> => {
+    const session = await auth();
+    const { data }: ObjectArray<User> = await omega()
+        .addQuery({ ...filter })
+        .addToken(session.access_token)
+        .execute('userSearch');
+    return data;
+}
+
+export const countUsers = async (filter: CountMeta): Promise<number> => {
+    const session = await auth();
+    const { pages }: PageCount = await omega()
+        .addQuery({ ...filter })
+        .addToken(session.access_token)
+        .execute('userPages');
+    return pages;
+}
+
+/* export const retriveUsers = async () => {
     const session = await auth();
     if (!session) throw new Error('There is no session found');
     const { data }: GetUserArrayResponseDto = await omega().addToken(session.access_token).execute('userDetails');
@@ -68,4 +84,4 @@ export const deleteUser = async (id: number) => {
         .addParams({ id })
         .execute('userDelete');
     revalidatePath('');
-}
+} */

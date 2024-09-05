@@ -80,6 +80,7 @@ const omegaMethodEndpoint = {
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
+
     diseaseGroupDetails: {
         resource: 'diseases/groups',
         method: 'get',
@@ -103,6 +104,11 @@ const omegaMethodEndpoint = {
     diseaseGroupDelete: {
         resource: 'diseases/groups/:id',
         method: 'delete',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    diseaseGroupHasDiseases: {
+        resource: 'diseases/groups/:id/has/diseases',
+        method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     //#endregion
@@ -280,7 +286,7 @@ const omegaMethodEndpoint = {
         options: { customHeader: ['auth'] }
     } as ApiResource,
     userPages: {
-        resource: '/user/users/pages',
+        resource: 'user/users/pages',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
@@ -417,34 +423,34 @@ const omegaMethodEndpoint = {
     //#region Laboratory
     examTypeSearch: {
         resource: 'laboratory/types/paginate',
-        method: 'patch',
-        options: { customHeader: ['auth', 'as-json'] }
+        method: 'get',
+        options: { customHeader: ['auth'] }
     } as ApiResource,
     examTypePages: {
-        resource: 'laboratory/types/paginate',
-        method: 'patch',
-        options: { customHeader: ['auth', 'as-json'] }
+        resource: 'laboratory/types/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
     } as ApiResource,
-    
+
     examSubtypeSearch: {
-        resource: 'laboratory/type/subtypes/paginate',
-        method: 'patch',
-        options: { customHeader: ['auth', 'as-json'] }
+        resource: 'laboratory/:type/subtypes/paginate',
+        method: 'get',
+        options: { customHeader: ['auth'] }
     } as ApiResource,
     examSubtypePages: {
-        resource: 'laboratory/type/subtypes/paginate',
-        method: 'patch',
-        options: { customHeader: ['auth', 'as-json'] }
+        resource: 'laboratory/:type/subtypes/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
     } as ApiResource,
 
     examSearch: {
         resource: 'laboratory/:subtype/exams/paginate',
-        method: 'patch',
+        method: 'get',
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
     examPages: {
         resource: 'laboratory/:subtype/exams/pages',
-        method: 'patch',
+        method: 'get',
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
 

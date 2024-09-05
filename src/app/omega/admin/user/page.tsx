@@ -4,23 +4,30 @@ import React, { Suspense } from 'react'
 import Search from '@/components/_base/search'
 import UserTable from './_components/user-table'
 import Await from '@/components/_base/await'
-import UserTableSuspense from './_components/user-table.suspense'
-import { retriveUsers } from '../../../../server/user.actions'
+import { countUsers, searchUsers } from '../../../../server/user.actions'
 import Link from 'next/link'
 import TableRoot from '@/components/_base/table/table-root'
 import TableTHead from '@/components/_base/table/table-thead'
 import TableTh from '@/components/_base/table/table-th'
 import OrderableButton from '@/components/_base/orderable-button'
+import ServerPagination from '@/components/_base/server-pagination'
+import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense'
+import TableBodySuspense from '@/components/_base/table/table-body.suspense'
 
+const take: number = 100;
 interface UserPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
 }
 const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
 
-    const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
+    const field = typeof searchParams.field === 'string' ? searchParams.field : undefined;
     const order = typeof searchParams.order === 'string' ? searchParams.order : undefined;
 
-    const userPromise = retriveUsers();
+    const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
+    const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+
+    const userPromise = searchUsers({ search: search, field: field, page: page - 1, take: take, order: order as any });
+    const pagePromise = countUsers({ search: search, take: take });
 
     return <>
         <ModularBox>
@@ -47,22 +54,22 @@ const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
                 <TableTHead>
                     <TableTr>
                         <TableTh>
-                            <OrderableButton field='dni' order={order}>
+                            <OrderableButton field='dni'>
                                 <Text>Cedula</Text>
                             </OrderableButton>
                         </TableTh>
                         <TableTh>
-                            <OrderableButton field='name' order={order}>
+                            <OrderableButton field='name'>
                                 <Text>Nombre</Text>
                             </OrderableButton>
                         </TableTh>
                         <TableTh>
-                            <OrderableButton field='lastname' order={order}>
+                            <OrderableButton field='lastname'>
                                 <Text>Apellido</Text>
                             </OrderableButton>
                         </TableTh>
                         <TableTh>
-                            <OrderableButton field='email' order={order}>
+                            <OrderableButton field='email'>
                                 <Text>Correo Electronico</Text>
                             </OrderableButton>
                         </TableTh>
@@ -71,7 +78,7 @@ const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
                         </TableTh>
                     </TableTr>
                 </TableTHead>
-                <Suspense fallback={<UserTableSuspense />}>
+                <Suspense fallback={<TableBodySuspense columns={5} rows={10} action />}>
                     <Await promise={userPromise}>
                         {(user) => (
                             <UserTable
@@ -81,6 +88,18 @@ const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
                 </Suspense>
             </TableRoot>
         </ModularBox>
+        <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
+            <Await promise={pagePromise}>
+                {(pages) => (
+                    <>{pages > 1 && (
+                        <ModularBox>
+                            <ServerPagination
+                                page={page}
+                                total={pages} />
+                        </ModularBox>)}</>
+                )}
+            </Await>
+        </Suspense>
     </>
 }
 

@@ -8,19 +8,25 @@ import { Box, TableTr, Text, Title } from '@mantine/core'
 import React, { Suspense } from 'react'
 import TableTh from '@/components/_base/table/table-th'
 import DoctorTableSuspense from './_components/doctor-table.suspense'
-import { retriveDoctors } from './_actions/doctor.actions'
 import DoctorTable from './_components/doctor-table'
+import { searchDoctors, countDoctors } from './_actions/doctor.actions'
+import ServerPagination from '@/components/_base/server-pagination'
+import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense'
 
+const take: number = 100;
 interface DoctorPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
 }
-
 const DoctorPage: React.FC<DoctorPageProps> = ({ searchParams }) => {
 
-    const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
+    const field = typeof searchParams.field === 'string' ? searchParams.field : undefined;
     const order = typeof searchParams.order === 'string' ? searchParams.order : undefined;
 
-    const doctorPromise = retriveDoctors();
+    const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
+    const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+
+    const doctorPromise = searchDoctors({ search: search, field: field, page: page - 1, take: take, order: order as any });
+    const pagePromise = countDoctors({ search: search, take: take });
 
     return (
         <>
@@ -37,22 +43,22 @@ const DoctorPage: React.FC<DoctorPageProps> = ({ searchParams }) => {
                     <TableTHead>
                         <TableTr>
                             <TableTh>
-                                <OrderableButton field='dni' order={order}>
+                                <OrderableButton field='dni'>
                                     <Text>Cedula</Text>
                                 </OrderableButton>
                             </TableTh>
                             <TableTh>
-                                <OrderableButton field='name' order={order}>
+                                <OrderableButton field='name'>
                                     <Text>Nombre</Text>
                                 </OrderableButton>
                             </TableTh>
                             <TableTh>
-                                <OrderableButton field='lastname' order={order}>
+                                <OrderableButton field='lastname'>
                                     <Text>Apellido</Text>
                                 </OrderableButton>
                             </TableTh>
                             <TableTh>
-                                <OrderableButton field='email' order={order}>
+                                <OrderableButton field='email'>
                                     <Text>Correo Electronico</Text>
                                 </OrderableButton>
                             </TableTh>
@@ -71,6 +77,18 @@ const DoctorPage: React.FC<DoctorPageProps> = ({ searchParams }) => {
                     </Suspense>
                 </TableRoot>
             </ModularBox>
+            <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
+                <Await promise={pagePromise}>
+                    {(pages) => (
+                        <>{pages > 1 && (
+                            <ModularBox>
+                                <ServerPagination
+                                    page={page}
+                                    total={pages} />
+                            </ModularBox>)}</>
+                    )}
+                </Await>
+            </Suspense>
         </>
     )
 }

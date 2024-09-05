@@ -4,7 +4,7 @@ import { MenuItem, rem } from '@mantine/core'
 import { IconDownload } from '@tabler/icons-react'
 import React from 'react'
 import { blobFile } from '@/lib/utils/blob-to-file'
-import { useActionUser } from '@/contexts/action-user.context'
+import { useActionUser } from '@/contexts/action-menu.context'
 
 const processBlob = async (id: number, exam: string) => {
     const response = await fetch(`/api/medical/file/result/${id}`);

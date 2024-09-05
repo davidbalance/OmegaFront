@@ -1,15 +1,13 @@
-import { Disease } from "@/lib/dtos/disease/base.response.dto";
-import { BaseFormProps } from "@/lib/types/base-form-prop";
-import { Box, TextInput, Button } from "@mantine/core";
+'use client'
+
+import { Box, TextInput, Button, rem } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconSignature } from "@tabler/icons-react";
 import Joi from "joi";
 import { joiResolver } from "mantine-form-joi-resolver";
-import React from "react";
+import React, { FormEvent } from "react";
 
-type DiseaseWithOmittedId = Omit<Disease, 'id'>;
-
-const diseaseSchema = Joi.object<DiseaseWithOmittedId>({
+const diseaseSchema = Joi.object({
     name: Joi
         .string()
         .empty()
@@ -19,40 +17,46 @@ const diseaseSchema = Joi.object<DiseaseWithOmittedId>({
         })
 });
 
-export type DiseaseFormProps = BaseFormProps<DiseaseWithOmittedId>;
-const DiseaseForm = React.forwardRef<HTMLButtonElement, DiseaseFormProps>(({ formData, onFormSubmitted }, ref) => {
+interface DiseaseFormProps {
+    name?: string;
+    onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
+};
+const DiseaseForm = React.forwardRef<HTMLFormElement, DiseaseFormProps>(({
+    name,
+    onSubmit
+}, ref) => {
 
     const form = useForm({
         initialValues: {
-            name: formData?.name || '',
+            name: name || '',
         },
         validate: joiResolver(diseaseSchema)
     });
 
-    const handleFormSubmit = (submittedData: DiseaseWithOmittedId) => {
-        onFormSubmitted?.(submittedData);
+    const handleFormSubmit = (_: any, event: FormEvent<HTMLFormElement> | undefined) => {
+        if (event) {
+            onSubmit?.(event);
+        }
     }
 
     return (
         <Box
+            ref={ref}
             component='form'
-            onSubmit={form.onSubmit(handleFormSubmit)}
-            w='100%'
-            maw={750}
-        >
+            mt={rem(16)}
+            px={rem(16)}
+            onSubmit={form.onSubmit(handleFormSubmit)}>
             <TextInput
+                name="name"
                 label="Nombre de morbilidad"
                 placeholder="Morbilidad"
-                size='xs'
-                leftSection={<IconSignature stroke={1.5} />}
+                leftSection={(<IconSignature stroke={1.5} />)}
                 {...form.getInputProps('name')}
             />
 
-            <Button type='submit' ref={ref} style={{ display: 'none' }}></Button>
+            <Button type='submit' style={{ display: 'none' }} />
         </Box>
     )
 })
 
-DiseaseForm.displayName = 'DiseaseForm';
-
-export { DiseaseForm }
+export default DiseaseForm;

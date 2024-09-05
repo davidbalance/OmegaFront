@@ -4,32 +4,30 @@ import { notifications } from '@mantine/notifications';
 import React, { useState } from 'react'
 import { createContext, useContext } from "react";
 
-interface ActionUserContextProps {
+interface ActionMenuContextProps {
     load: boolean;
     trigger: (promise: Promise<void>) => void;
 }
 
-const ActionUserContext = createContext<ActionUserContextProps | undefined>(undefined);
+const ActionMenuContext = createContext<ActionMenuContextProps | undefined>(undefined);
 
-export const useActionUser = () => {
-    const context = useContext(ActionUserContext);
+export const useActionMenu = () => {
+    const context = useContext(ActionMenuContext);
     if (!context) {
-        throw new Error('useActionUser must be used within a ActionUserProvider');
+        throw new Error('useActionMenu must be used within a ActionMenuProvider');
     }
     return context;
 }
 
 
-const ActionUserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const ActionMenuProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const [load, setLoad] = useState<boolean>(false);
 
     const trigger = async (promise: Promise<void>) => {
         setLoad(true);
         try {
-            console.log(1)
             await promise;
-            console.log(2)
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });
         } finally {
@@ -40,10 +38,10 @@ const ActionUserProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const value = { load, trigger }
 
     return (
-        <ActionUserContext.Provider value={value}>
+        <ActionMenuContext.Provider value={value}>
             {children}
-        </ActionUserContext.Provider>
+        </ActionMenuContext.Provider>
     )
 }
 
-export default ActionUserProvider
+export default ActionMenuProvider

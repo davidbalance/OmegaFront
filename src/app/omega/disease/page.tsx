@@ -11,17 +11,22 @@ import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section';
 import OrderableButton from '@/components/_base/orderable-button';
 import ReloadButton from '@/components/_base/reload-button';
+import RemoveQueryButton from '@/components/_base/remove-query-button';
 import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
+import ActionMenuProvider from '@/contexts/action-menu.context';
 import { Disease } from '@/lib/dtos/disease/base.response.dto';
 import { countDiseaseGroup, searchDiseaseGroup } from '@/server/disease-group.actions';
 import { countDisease, searchDisease } from '@/server/disease.actions';
-import { Box, Group, MenuItem, MenuLabel, rem, Text, Title } from '@mantine/core';
+import { Box, Button, Group, MenuItem, MenuLabel, rem, Text, Title } from '@mantine/core';
 import { IconEdit, IconExchange, IconTrash } from '@tabler/icons-react';
 import React, { Suspense } from 'react'
+import DiseaseGroupActionDelete from './_components/disease-group-action-delete';
+import Link from 'next/link';
+import DiseaseActionDelete from './_components/disease-action-delete';
 
 const take: number = 100;
 interface OmegaDiseasePageProps {
@@ -34,7 +39,7 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = ({ searchParams }) => 
     const order = typeof searchParams.order === 'string' ? searchParams.order : undefined;
 
     const group = typeof searchParams.group === 'string' ? Number(searchParams.group) : undefined;
-    
+
     const groupSearch = typeof searchParams.groupSearch === 'string' ? searchParams.groupSearch : undefined;
     const groupField = owner === 'group' ? field : undefined;
     const groupPage = typeof searchParams.groupPage === 'string' ? Number(searchParams.groupPage) : 1;
@@ -62,7 +67,16 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = ({ searchParams }) => 
                         </Group>
                     </ModularBox>
                     <ModularBox>
-                        <Search queryKey='groupSearch' value={groupSearch} />
+                        <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
+                            <Search queryKey='groupSearch' value={groupSearch} />
+                            <Button
+                                component={Link}
+                                href='disease/group/create'
+                                radius='md'>
+                                Crear grupo
+                            </Button>
+                        </Group>
+
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
@@ -91,22 +105,21 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = ({ searchParams }) => 
                                                             removeQueries={['medicalOrder']}>
                                                             <Title order={6}>{e.name}</Title>
                                                         </AddQueryParam>
-                                                        <ActionMenu>
-                                                            <MenuLabel>Administracion</MenuLabel>
-                                                            <MenuItem
-                                                                leftSection={(
-                                                                    <IconEdit style={{ width: rem(16), height: rem(16) }}
-                                                                    />)}>
-                                                                Editar grupo
-                                                            </MenuItem>
-                                                            <MenuItem
-                                                                color="red"
-                                                                leftSection={(
-                                                                    <IconTrash style={{ width: rem(16), height: rem(16) }} />
-                                                                )}>
-                                                                Eliminar grupo
-                                                            </MenuItem>
-                                                        </ActionMenu>
+                                                        <ActionMenuProvider>
+                                                            <ActionMenu>
+                                                                <MenuLabel>Administracion</MenuLabel>
+                                                                <MenuItem
+                                                                    component={Link}
+                                                                    href={`disease/group/${e.id}/update`}
+                                                                    leftSection={(
+                                                                        <IconEdit style={{ width: rem(16), height: rem(16) }}
+                                                                        />)}>
+                                                                    Editar grupo
+                                                                </MenuItem>
+                                                                <DiseaseGroupActionDelete id={e.id} />
+                                                            </ActionMenu>
+                                                        </ActionMenuProvider>
+
                                                     </Group>
                                                 </ListRow>
                                             ))}
@@ -131,18 +144,32 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = ({ searchParams }) => 
                     </Suspense>
                 </ModularLayout>
             </MultipleLayerSection>
-            <MultipleLayerSection active={!group}>
+            <MultipleLayerSection active={!!group}>
                 <ModularLayout>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
                             <Box style={{ flexShrink: 0 }}>
                                 <Title order={4} component='span'>Morbilidades</Title>
                             </Box>
-                            <ReloadButton />
+                            <Group gap={rem(4)}>
+                                <ReloadButton />
+                                <RemoveQueryButton
+                                    queries={['group']}
+                                    hiddenFrom='md' />
+                            </Group>
                         </Group>
                     </ModularBox>
                     <ModularBox>
-                        <Search queryKey='diseaseSearch' value={groupSearch} />
+                        <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
+                            <Search queryKey='diseaseSearch' value={diseaseSearch} />
+                            {!!group && (
+                                <Button
+                                    component={Link}
+                                    href={`disease/${group}/create`}
+                                    radius='md'>
+                                    Crear morbilidad
+                                </Button>)}
+                        </Group>
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
@@ -165,28 +192,28 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = ({ searchParams }) => 
                                                     key={e.id}>
                                                     <Group justify='space-between' align='center' wrap='nowrap'>
                                                         <Text>{e.name}</Text>
-                                                        <ActionMenu>
-                                                            <MenuLabel>Administracion</MenuLabel>
-                                                            <MenuItem
-                                                                leftSection={(
-                                                                    <IconExchange style={{ width: rem(16), height: rem(16) }} />
-                                                                )}>
-                                                                Cambiar grupo
-                                                            </MenuItem>
-                                                            <MenuItem
-                                                                leftSection={(
-                                                                    <IconEdit style={{ width: rem(16), height: rem(16) }} />
-                                                                )}>
-                                                                Editar morbilidad
-                                                            </MenuItem>
-                                                            <MenuItem
-                                                                color="red"
-                                                                leftSection={(
-                                                                    <IconTrash style={{ width: rem(16), height: rem(16) }} />
-                                                                )}>
-                                                                Eliminar morbilidad
-                                                            </MenuItem>
-                                                        </ActionMenu>
+                                                        <ActionMenuProvider>
+                                                            <ActionMenu>
+                                                                <MenuLabel>Administracion</MenuLabel>
+                                                                <MenuItem
+                                                                    component={Link}
+                                                                    href={`disease/${e.id}/update`}
+                                                                    leftSection={(
+                                                                        <IconEdit style={{ width: rem(16), height: rem(16) }} />
+                                                                    )}>
+                                                                    Editar morbilidad
+                                                                </MenuItem>
+                                                                <MenuItem
+                                                                    href={`disease/${e.id}/change`}
+                                                                    component={Link}
+                                                                    leftSection={(
+                                                                        <IconExchange style={{ width: rem(16), height: rem(16) }} />
+                                                                    )}>
+                                                                    Cambiar grupo
+                                                                </MenuItem>
+                                                                <DiseaseActionDelete id={e.id} />
+                                                            </ActionMenu>
+                                                        </ActionMenuProvider>
                                                     </Group>
                                                 </ListRow>
                                             ))}

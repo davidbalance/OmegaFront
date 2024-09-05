@@ -23,7 +23,7 @@
   height: rem(300px);
 
   @media (min-width: $mantine-breakpoint-md) {
-    height: rem(450px);
+    height: rem(400px);
   }
 }
 

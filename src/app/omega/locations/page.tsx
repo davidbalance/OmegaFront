@@ -10,6 +10,7 @@ import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section';
 import OrderableButton from '@/components/_base/orderable-button';
 import ReloadButton from '@/components/_base/reload-button';
+import RemoveQueryButton from '@/components/_base/remove-query-button';
 import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
@@ -42,7 +43,6 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
     const groupField = owner === 'group' ? field : undefined;
     const groupPage = typeof searchParams.groupPage === 'string' ? Number(searchParams.groupPage) : 1;
 
-
     const companySearch = typeof searchParams.companySearch === 'string' ? searchParams.companySearch : undefined;
     const companyField = owner === 'company' ? field : undefined;
     const companyPage = typeof searchParams.companyPage === 'string' ? Number(searchParams.companyPage) : 1;
@@ -70,7 +70,7 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
 
     return (
         <MultipleLayerRoot>
-            <MultipleLayerSection>
+            <MultipleLayerSection active={!group && !company}>
                 <ModularLayout>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
@@ -134,14 +134,19 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                     </Suspense>
                 </ModularLayout>
             </MultipleLayerSection>
-            <MultipleLayerSection active={!group}>
+            <MultipleLayerSection active={!!group && !company}>
                 <ModularLayout>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
                             <Box style={{ flexShrink: 0 }}>
                                 <Title order={4} component='span'>Empresas</Title>
                             </Box>
-                            <ReloadButton />
+                            <Group gap={rem(4)}>
+                                <ReloadButton />
+                                <RemoveQueryButton
+                                    queries={['group']}
+                                    hiddenFrom='md' />
+                            </Group>
                         </Group>
                     </ModularBox>
                     <ModularBox>
@@ -208,14 +213,19 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                     </Suspense>
                 </ModularLayout>
             </MultipleLayerSection>
-            <MultipleLayerSection active={!group}>
+            <MultipleLayerSection active={!!group && !!company}>
                 <ModularLayout>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
                             <Box style={{ flexShrink: 0 }}>
                                 <Title order={4} component='span'>Sucursales</Title>
                             </Box>
-                            <ReloadButton />
+                            <Group gap={rem(4)}>
+                                <ReloadButton />
+                                <RemoveQueryButton
+                                    queries={['company']}
+                                    hiddenFrom='md' />
+                            </Group>
                         </Group>
                     </ModularBox>
                     <ModularBox>

@@ -1,21 +1,24 @@
+'use client'
+
+import { useActionMenu } from '@/contexts/action-menu.context';
 import { ActionIcon, Menu, MenuDropdown, MenuTarget } from '@mantine/core';
 import { IconDotsVertical } from '@tabler/icons-react';
 import React from 'react'
 
 export interface ActionMenuProps {
-    loading?: boolean;
     children?: React.ReactNode
 }
 
-export type ExtendedActionProps<T> = ActionMenuProps & T;
+const ActionMenu: React.FC<ActionMenuProps> = ({ children }) => {
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ loading = false, children }) => {
+    const { load } = useActionMenu();
+
     return (
         <Menu>
             <MenuTarget>
                 <ActionIcon
                     variant="transparent"
-                    loading={loading}>
+                    loading={load}>
                     <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={1.5} />
                 </ActionIcon>
             </MenuTarget>

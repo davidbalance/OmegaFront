@@ -3,9 +3,30 @@
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import omega from "@/lib/api-client/omega-client/omega";
 import { Area } from "@/lib/dtos/location/area/base.response.dto"
+import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 
-export const retriveAreas = async (): Promise<Area[]> => {
+export const searchArea = async (management: number, filter: FilterMeta): Promise<Area[]> => {
+    const session = await auth();
+    const { data }: ObjectArray<Area> = await omega()
+        .addParams({ management })
+        .addQuery({ ...filter })
+        .addToken(session.access_token)
+        .execute('areaSearch');
+    return data;
+}
+
+export const countArea = async (management: number, filter: CountMeta): Promise<number> => {
+    const session = await auth();
+    const { pages }: PageCount = await omega()
+        .addParams({ management })
+        .addQuery({ ...filter })
+        .addToken(session.access_token)
+        .execute('areaPages');
+    return pages;
+}
+
+/* export const retriveAreas = async (): Promise<Area[]> => {
     const session = await auth();
     if (!session) throw new Error('There is no session found');
     const { data }: ObjectArray<Area> = await omega()
@@ -51,4 +72,4 @@ export const deleteArea = async (id: number): Promise<void> => {
         .addParams({ id })
         .addToken(session.access_token)
         .execute('areaDelete');
-}
+} */

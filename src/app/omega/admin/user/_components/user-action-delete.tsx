@@ -3,16 +3,15 @@
 import { MenuItem, rem } from '@mantine/core'
 import { IconTrash } from '@tabler/icons-react'
 import React from 'react'
-import { useActionUser } from '../../../../../contexts/action-user.context'
-import { deleteUser } from '../../../../../server/user.actions'
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context'
+import { useActionMenu } from '@/contexts/action-menu.context'
 
 interface UserActionDeleteProps {
     id: number
 }
 const UserActionDelete: React.FC<UserActionDeleteProps> = ({ id }) => {
 
-    const { trigger } = useActionUser();
+    const { trigger } = useActionMenu();
     const { show } = useConfirmation();
 
     const handleClick = async (id: number) => {

@@ -1,10 +1,30 @@
+'use server'
+
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import omega from "@/lib/api-client/omega-client/omega";
-import { ExamType, ExamTypeSingle } from "@/lib/dtos/laboratory/exam/type/base.response.dto";
-import { GetExamTypeArrayResponseDto } from "@/lib/dtos/laboratory/exam/type/response.dto";
-import { FilterMeta } from "@/lib/dtos/pagination.dto";
+import { ExamTypeSingle } from "@/lib/dtos/laboratory/exam/type/base.response.dto";
+import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
+import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 
-export const retriveFullExam = async (): Promise<ExamType[]> => {
+export const searchExamTypes = async (filter: FilterMeta): Promise<ExamTypeSingle[]> => {
+    const session = await auth();
+    const { data }: ObjectArray<ExamTypeSingle> = await omega()
+        .addQuery({ ...filter })
+        .addToken(session.access_token)
+        .execute('examTypeSearch');
+    return data;
+}
+
+export const countExamTypes = async (filter: CountMeta): Promise<number> => {
+    const session = await auth();
+    const { pages }: PageCount = await omega()
+        .addQuery({ ...filter })
+        .addToken(session.access_token)
+        .execute('examTypePages');
+    return pages;
+}
+
+/* export const retriveFullExam = async (): Promise<ExamType[]> => {
     const session = await auth();
     if (!session) throw new Error('There is no session found');
     const { data }: GetExamTypeArrayResponseDto = await omega()
@@ -31,4 +51,4 @@ export const countExamtype = async (filter: FilterMeta): Promise<ExamTypeSingle[
         .addToken(session.access_token)
         .execute('examtypeSearch');
     return data;
-}
+} */

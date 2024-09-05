@@ -1,58 +1,46 @@
-import { BaseFormProps } from "@/lib/types/base-form-prop";
-import { Box, Button, ComboboxItem, Select } from "@mantine/core";
-import React, { FormEvent, useEffect, useState } from "react";
+'use client'
 
-type DiseaseFormGroup = { group: number };
+import { Disease } from "@/lib/dtos/disease/base.response.dto";
+import { DiseaseGroup } from "@/lib/dtos/disease/group/base.response.dto";
+import { Box, Button, ComboboxItem, rem, Select } from "@mantine/core";
+import React, { FormEvent, useMemo, useState } from "react";
 
-export interface DiseaseFormGroupProps extends BaseFormProps<DiseaseFormGroup> {
-    /**
-     * Valores que inicializan el selector del formulario.
-     */
-    options: { value: string, label: string }[];
+export interface DiseaseFormGroupProps extends Omit<Disease, 'name' | 'id'> {
+    options: DiseaseGroup[];
+    onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
 };
-const DiseaseFormGroup = React.forwardRef<HTMLButtonElement, DiseaseFormGroupProps>(({ formData, onFormSubmitted, options }, ref) => {
+const DiseaseFormGroup = React.forwardRef<HTMLFormElement, DiseaseFormGroupProps>(({
+    group,
+    options,
+    onSubmit
+}, ref) => {
 
-    const [group, setGroup] = useState<number | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [currentValue, setCurrentValue] = useState<string>(group.toString());
 
-    useEffect(() => {
-        if (formData) {
-            setGroup(formData.group);
-        }
-    }, [formData]);
+    const groupOptions = useMemo(() => options.map(e => ({ value: e.id.toString(), label: e.name })), [options]);
 
-    const handleFormSubmitted = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (group) {
-            onFormSubmitted?.({ group });
-        } else {
-            setError('Debe seleccionar una option');
-        }
-    }
-
-    const handleChangeEventSelector = (_: string | null, options: ComboboxItem) => {
-        setError(null);
-        setGroup(parseInt(options.value));
+    const handleChangeEvent = (_: any, item: ComboboxItem) => {
+        setCurrentValue(item.value);
     }
 
     return (
         <Box
+            ref={ref}
             component='form'
-            onSubmit={handleFormSubmitted}
-            w='100%'
-            maw={750}
-        >
+            mt={rem(16)}
+            px={rem(16)}
+            onSubmit={onSubmit}>
             <Select
-                value={`${group}`}
-                onChange={handleChangeEventSelector}
+                name="group"
+                value={currentValue}
+                onChange={handleChangeEvent}
                 label="Grupo de morbilidades"
                 placeholder="Grupo"
-                data={options}
+                data={groupOptions}
                 allowDeselect={false}
                 searchable
-                error={error}
             />
-            <Button type='submit' ref={ref} style={{ display: 'none' }}></Button>
+            <Button type='submit' style={{ display: 'none' }} />
         </Box>
     )
 })

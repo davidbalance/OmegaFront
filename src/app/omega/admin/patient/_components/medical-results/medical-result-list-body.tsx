@@ -8,7 +8,7 @@ import { IconDownload, IconEye, IconStethoscope, IconUpload, IconVirus } from '@
 import Link from 'next/link'
 import MedicalResultDownload from './medical-result-download'
 import MedicalResultMenu from './medical-result-menu'
-import ActionUserProvider from '@/contexts/action-user.context'
+import ActionUserProvider from '@/contexts/action-menu.context'
 import MedicalResultFileDelete from './medical-result-file-delete'
 import MedicalReportDownload from '../medical-report/medical-report-download'
 

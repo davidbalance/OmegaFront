@@ -9,5 +9,4 @@ export interface ExamSubtype {
 export interface ExamSingleSubtype {
     id: number;
     name: string;
-    exams: Exam[];
 }

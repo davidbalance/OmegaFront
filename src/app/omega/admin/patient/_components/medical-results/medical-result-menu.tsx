@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import ActionMenu from '@/components/_base/action-menu'
-import { useActionUser } from '@/contexts/action-user.context'
+import { useActionUser } from '@/contexts/action-menu.context'
 
 interface MedicalResultMenuProps {
   children: React.ReactNode
