@@ -5,7 +5,7 @@ import { ModularBox } from '@/components/modular/box/ModularBox';
 import { useFetch } from '@/hooks/useFetch';
 import { notifications } from '@mantine/notifications';
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle';
-import { ManagementForm } from './ManagementForm';
+import { ManagementForm } from './management-form';
 import { Management } from '@/lib/dtos/location/management/base.response.dto';
 
 type ManagementFormUpdateProps = {

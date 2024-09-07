@@ -58,7 +58,7 @@ const MedicalOrderLayout: React.FC<MedicalOrderLayoutProps> = ({
                 </Flex>
             </ModularBox>
             <ModularBox>
-                <Search queryKey='morderSearch' value={search} />
+                <Search query='morderSearch' value={search} />
             </ModularBox>
             <ModularBox flex={1}>
                 <ListRoot>

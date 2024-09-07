@@ -5,6 +5,7 @@ import { IconTrash } from '@tabler/icons-react'
 import React from 'react'
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context'
 import { useActionMenu } from '@/contexts/action-menu.context'
+import { deleteUser } from '@/server/user.actions'
 
 interface UserActionDeleteProps {
     id: number

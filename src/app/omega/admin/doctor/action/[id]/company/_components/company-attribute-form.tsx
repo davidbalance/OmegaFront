@@ -3,7 +3,7 @@
 import LoadingOverlay from '@/components/_base/loading-overlay';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { UserFormCompany } from '@/components/user/form/user-form-company';
-import { CorporativeGroup } from '@/lib/dtos/location/corporative/base.response.dto';
+import { LocationResponse } from '@/lib/dtos/location/corporative/base.response.dto';
 import { Button, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
@@ -14,7 +14,7 @@ import { updateUserAttribute } from '../../../../../../../../server/user-attribu
 interface CompanyAttributeFormProps {
     id: number;
     value?: string | undefined;
-    options: CorporativeGroup[];
+    options: LocationResponse[];
 }
 const CompanyAttributeForm: React.FC<CompanyAttributeFormProps> = ({ id, ...props }) => {
 

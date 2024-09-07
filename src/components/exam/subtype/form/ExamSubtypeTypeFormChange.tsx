@@ -9,7 +9,7 @@ import { PatchExamSubtypeRequestDto } from '@/lib/dtos/laboratory/exam/subtype/r
 import { LayoutSubFormTitle } from '@/components/layout/sub/form/LayoutSubFormTitle'
 import { notifications } from '@mantine/notifications'
 import { ExamType } from '@/lib/dtos/laboratory/exam/type/base.response.dto'
-import { ExamSubtypeTypeForm } from './ExamSubtypeTypeForm'
+import { ExamSubtypeTypeForm } from './exam-subtype-type-form'
 
 interface ExamSubtypeTypeFormChangeProps {
     type: number;

@@ -3,11 +3,12 @@
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import omega from "@/lib/api-client/omega-client/omega";
 import { ExamSingleSubtype } from "@/lib/dtos/laboratory/exam/subtype/base.response.dto";
+import { PostExamSubtypeRequestDto } from "@/lib/dtos/laboratory/exam/subtype/request.dto";
 import { FilterMeta, CountMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
+import { revalidatePath } from "next/cache";
 
 export const searchExamSubtypes = async (type: number, filter: FilterMeta): Promise<ExamSingleSubtype[]> => {
-    console.log('search', filter);
     const session = await auth();
     const { data }: ObjectArray<ExamSingleSubtype> = await omega()
         .addParams({ type })
@@ -18,7 +19,6 @@ export const searchExamSubtypes = async (type: number, filter: FilterMeta): Prom
 }
 
 export const countExamSubtypes = async (type: number, filter: CountMeta): Promise<number> => {
-    console.log('count', filter);
     const session = await auth();
     const { pages }: PageCount = await omega()
         .addParams({ type })
@@ -28,12 +28,49 @@ export const countExamSubtypes = async (type: number, filter: CountMeta): Promis
     return pages;
 }
 
-/* export const retriveExamSubtype = async (exam: string): Promise<ExamSingleSubtype[]> => {
+export const retriveExamSubtype = async (id: number): Promise<ExamSingleSubtype> => {
     const session = await auth();
-    if (!session) throw new Error('There is no session found');
-    const { data }: ObjectArray<ExamSingleSubtype> = await omega()
-        .addParams({ exam })
+    const data: ExamSingleSubtype = await omega()
+        .addParams({ id })
         .addToken(session.access_token)
-        .execute('examsubtypeDetails');
+        .execute('examsubtypeDetail');
+    console.log(data);
     return data;
-} */
+}
+
+type ExamSubtypeBody = Omit<ExamSingleSubtype, 'id'>
+export const createExamSubtype = async (body: ExamSubtypeBody): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addBody(body)
+        .addToken(session.access_token)
+        .execute('examsubtypeCreate');
+}
+
+export const updateExamSubtype = async (id: number, body: Partial<ExamSubtypeBody>): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addParams({ id })
+        .addBody(body)
+        .addToken(session.access_token)
+        .execute('examsubtypeUpdate');
+}
+
+export const deleteExamSubtype = async (id: number): Promise<void> => {
+    const session = await auth();
+
+    const { hasExams }: { hasExams: boolean } = await omega()
+        .addParams({ id })
+        .addToken(session.access_token)
+        .execute('examsubtypeHasExams');
+
+    if (hasExams) {
+        throw new Error('Tiene examenes asignados');
+    }
+
+    await omega()
+        .addParams({ id })
+        .addToken(session.access_token)
+        .execute('examsubtypeDelete');
+    revalidatePath('');
+}

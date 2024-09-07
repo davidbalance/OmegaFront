@@ -12,6 +12,7 @@ import DoctorTable from './_components/doctor-table'
 import { searchDoctors, countDoctors } from './_actions/doctor.actions'
 import ServerPagination from '@/components/_base/server-pagination'
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense'
+import TableBodySuspense from '@/components/_base/table/table-body.suspense'
 
 const take: number = 100;
 interface DoctorPageProps {
@@ -67,7 +68,7 @@ const DoctorPage: React.FC<DoctorPageProps> = ({ searchParams }) => {
                             </TableTh>
                         </TableTr>
                     </TableTHead>
-                    <Suspense fallback={<DoctorTableSuspense />}>
+                    <Suspense fallback={<TableBodySuspense columns={4} rows={10} action />}>
                         <Await promise={doctorPromise}>
                             {(doctors) => (
                                 <DoctorTable

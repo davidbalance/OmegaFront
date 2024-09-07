@@ -1,4 +1,4 @@
-import { CorporativeGroup } from '@/lib/dtos/location/corporative/base.response.dto';
+import { LocationResponse } from '@/lib/dtos/location/corporative/base.response.dto';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto';
 import { Box, Button, ComboboxItem, Select, rem } from '@mantine/core';
 import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
@@ -27,7 +27,7 @@ const CustomSelect = ({ onChange, ...props }: {
 }
 
 interface UserFormCompanyProps {
-    options: CorporativeGroup[];
+    options: LocationResponse[];
     value?: string | undefined;
     onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
 }
@@ -37,7 +37,7 @@ const UserFormCompany = React.forwardRef<HTMLFormElement, UserFormCompanyProps>(
     onSubmit
 }, ref) => {
 
-    const [group, setGroup] = useState<CorporativeGroup | null>(null);
+    const [group, setGroup] = useState<LocationResponse | null>(null);
     const [company, setCompany] = useState<SelectorOption<string> | null>(null);
 
     const handleChangeEventGroup = useCallback((value: ComboboxItem) => {
@@ -68,6 +68,8 @@ const UserFormCompany = React.forwardRef<HTMLFormElement, UserFormCompanyProps>(
         <Box
             ref={ref}
             component='form'
+            mt={rem(16)}
+            px={rem(16)}
             onSubmit={onSubmit}>
             <CustomSelect
                 name='group'

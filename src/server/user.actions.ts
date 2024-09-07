@@ -2,9 +2,13 @@
 
 import { auth } from "@/app/api/auth/[...nextauth]/route"
 import omega from "@/lib/api-client/omega-client/omega";
+import { POSTCredentialRequestDto } from "@/lib/dtos/auth/credential/request.dto";
+import { PatchOmegaWebClientResourceRequestDto, PatchOmegaWebClientLogoRequestDto } from "@/lib/dtos/omega/web/client/request.dto";
 import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { User } from "@/lib/dtos/user/user/base.response.dto";
+import { PostUserRequestDto, PatchUserRequestDto } from "@/lib/dtos/user/user/request.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
+import { revalidatePath } from "next/cache";
 
 export const searchUsers = async (filter: FilterMeta): Promise<User[]> => {
     const session = await auth();
@@ -24,17 +28,10 @@ export const countUsers = async (filter: CountMeta): Promise<number> => {
     return pages;
 }
 
-/* export const retriveUsers = async () => {
+export const retriveUser = async (id: number): Promise<User> => {
     const session = await auth();
     if (!session) throw new Error('There is no session found');
-    const { data }: GetUserArrayResponseDto = await omega().addToken(session.access_token).execute('userDetails');
-    return data;
-}
-
-export const retriveUser = async (id: number) => {
-    const session = await auth();
-    if (!session) throw new Error('There is no session found');
-    const data: GetUserResponseDto = await omega().addParams({ id }).addToken(session.access_token).execute('userDetail');
+    const data: User = await omega().addParams({ id }).addToken(session.access_token).execute('userDetail');
     return data;
 }
 
@@ -73,7 +70,7 @@ export const updateUser = async (id: number, data: PatchUserRequestDto) => {
         .addBody(data)
         .addToken(session.access_token)
         .execute('userUpdate');
-    // revalidatePath('omega/admin/user');
+    revalidatePath('omega/admin/user');
 }
 
 export const deleteUser = async (id: number) => {
@@ -84,4 +81,4 @@ export const deleteUser = async (id: number) => {
         .addParams({ id })
         .execute('userDelete');
     revalidatePath('');
-} */
+} 

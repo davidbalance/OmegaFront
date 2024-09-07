@@ -31,6 +31,7 @@ const AddQueryParam: React.FC<AddQueryParamProps> = ({
 
   return (
     <UnstyledButton
+      w='100%'
       component={Link}
       href={{
         pathname: pathname,

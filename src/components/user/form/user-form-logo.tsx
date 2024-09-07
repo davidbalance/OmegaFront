@@ -9,14 +9,20 @@ type UserFormLogoProps = {
     onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
 }
 
+const logos: Record<string, string> = {
+    "1": "omega",
+    "2": "eeq",
+    "3": "ipeges"
+}
+
 const UserFormLogo = React.forwardRef<HTMLFormElement, UserFormLogoProps>(({
     data,
     onSubmit
 }, ref) => {
 
     const [value, setValue] = useState<string>(data?.logo || 'omega');
-    const handleRadioChnageEvent = useCallback((key: string) => setValue(key as any), []);
-    const Logo = useMemo(() => systemLogo(value), [value]);
+    const handleRadioChangeEvent = useCallback((key: string) => setValue(key as any), []);
+    const Logo = useMemo(() => systemLogo(logos[value]), [value]);
 
     return (
         <Box
@@ -31,7 +37,7 @@ const UserFormLogo = React.forwardRef<HTMLFormElement, UserFormLogoProps>(({
                 <Logo style={{ width: rem(80) }} />
                 <RadioGroup
                     value={value}
-                    onChange={handleRadioChnageEvent}
+                    onChange={handleRadioChangeEvent}
                     name="logo"
                     withAsterisk
                 >

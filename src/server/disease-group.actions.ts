@@ -12,7 +12,7 @@ export const retriveFullDiseaseGroups = async (): Promise<DiseaseGroup[]> => {
     if (!session) throw new Error('There is no session found');
     const { data }: ObjectArray<DiseaseGroup> = await omega()
         .addToken(session.access_token)
-        .execute('diseaseGroupFullDetails');
+        .execute('diseaseGroupOptions');
     return data;
 }
 

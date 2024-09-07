@@ -19,7 +19,7 @@ interface OmegaShellLinkProps extends Omit<LinkProps, 'data-active' | 'className
 
 const OmegaShellLink: React.FC<OmegaShellLinkProps> = ({ label, icon, ...props }) => {
 
-    const { opened } = useOmegaShell();
+    const { opened, close } = useOmegaShell();
     const path = usePathname();
 
     const Icon = NavIcon[icon]
@@ -31,6 +31,7 @@ const OmegaShellLink: React.FC<OmegaShellLinkProps> = ({ label, icon, ...props }
             withArrow
             disabled={opened}>
             <Link
+                onClick={close}
                 className={clsx(classes.shellNavbarButton, classes.shellLink, { [classes.open]: opened })}
                 data-active={path === props.href || undefined}
                 {...props}>

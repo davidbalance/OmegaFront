@@ -4,114 +4,101 @@ import { ExamType } from '@/lib/dtos/laboratory/exam/type/base.response.dto'
 import { BaseFormProps } from '@/lib/types/base-form-prop'
 import { ExamSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto';
 import { notifications } from '@mantine/notifications';
+import { Exam } from '@/lib/dtos/laboratory/exam/base.response.dto';
 
-interface ExamSubtypeForm {
-    type: number;
-    subtype: number;
+const CustomSelect = ({ onChange, ...props }: {
+    value: string | null;
+    data: { label: string, value: string }[];
+    nothingFoundMessage: string;
+    label: string;
+    placeholder: string;
+    name: string;
+    onChange: (option: ComboboxItem) => void;
+}) => {
+    return (
+        <Select
+            checkIconPosition="left"
+            pb={rem(16)}
+            searchable
+            defaultDropdownOpened={false}
+            allowDeselect={false}
+            maxDropdownHeight={200}
+            onChange={(_, value) => onChange(value)}
+            {...props}
+        />
+    );
 }
 
-interface ExamSubtypeFormProps extends BaseFormProps<ExamSubtypeForm> {
-    types: ExamType[];
+
+type FormProps = Omit<React.HTMLProps<HTMLFormElement>, 'ref'> & Pick<Exam, 'subtype'>
+interface ExamSubtypeFormProps extends FormProps {
+    options: ExamType[];
 }
 
-const ExamSubtypeForm = React.forwardRef<HTMLButtonElement, ExamSubtypeFormProps>(({ formData, types, onFormSubmitted }, ref) => {
+const ExamSubtypeForm = React.forwardRef<HTMLFormElement, ExamSubtypeFormProps>(({
+    subtype,
+    options,
+    ...props
+}, ref) => {
 
-    const [subtypes, setSubtypes] = useState<ExamSubtype[]>([]);
+    const [typeValue, setTypeValue] = useState<ExamType | null>(null);
+    const [value, setValue] = useState<string | null>(null);
 
-    const [typeSelected, setTypeSelected] = useState<string | null>(null);
-    const [subtypeSelected, setSubtypeSelected] = useState<string | null>(null);
+    const handleChangeEventType = useCallback((option: ComboboxItem) => {
+        setTypeValue(options.find(e => e.id === Number(option.value)) || null);
+        setValue(null);
+    }, [options]);
 
-    const handleFormSubmittionEvent = useCallback((event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (!!subtypeSelected && !!typeSelected) {
-            onFormSubmitted?.({
-                type: parseInt(typeSelected),
-                subtype: parseInt(subtypeSelected),
-            });
-        } else {
-            notifications.show({ message: 'Debe seleccionar al menos un subtipo' });
-        }
-    }, [
-        typeSelected,
-        subtypeSelected,
-        onFormSubmitted
-    ]);
-
-    const handleTypeSelectChange = useCallback((value: string | null, option: ComboboxItem) => {
-        setTypeSelected(value ? option.value : null);
-        setSubtypeSelected(null);
-        if (value) {
-            const found = types.find(e => e.id === parseInt(option.value))
-            setSubtypes(found ? found.subtypes : []);
-        } else {
-            setSubtypes([]);
-        }
-    }, [types]);
-
-    const handleSubtypeSelectChange = useCallback((value: string | null, option: ComboboxItem) => {
-        setSubtypeSelected(value ? option.value : null);
+    const handleChangeEventSubtype = useCallback((option: ComboboxItem) => {
+        setValue(option.value);
     }, []);
 
+    const typeOptions = useMemo(() => options.map(e => ({ value: e.id.toString(10), label: e.name })), [options]);
+    const subtypeOptions = useMemo(() => typeValue?.subtypes.map(e => ({ value: e.id.toString(10), label: e.name })) || [], [typeValue]);
+
     useEffect(() => {
-        if (formData) {
-            for (const type of types) {
-                for (const subtype of type.subtypes) {
-                    if (subtype.id === formData.subtype) {
-                        setSubtypes(type.subtypes);
-                        setTypeSelected(`${type.id}`);
-                        setSubtypeSelected(`${subtype.id}`);
-                        return;
-                    }
+        console.log(options, subtype);
+        for (const type of options) {
+            for (const curr of type.subtypes) {
+                if (curr.id === subtype) {
+                    setTypeValue(type);
+                    setValue(curr.id.toString(10));
+                    return;
                 }
             }
         }
-    }, [formData, types]);
+    }, [options, subtype]);
 
-    const typeOptions = useMemo(() => types.map(e => ({ value: `${e.id}`, label: e.name })), [types]);
-    const subtypeOptions = useMemo(() => subtypes.map(e => ({ value: `${e.id}`, label: e.name })), [subtypes]);
 
     return (
         <Box
+            ref={ref}
             component='form'
-            onSubmit={handleFormSubmittionEvent}
-        >
-            <Select
-                value={typeSelected}
+            mt={rem(16)}
+            px={rem(16)}
+            {...props}>
+            <CustomSelect
+                name='type'
+                value={typeValue?.id.toString() || null}
                 data={typeOptions}
-                checkIconPosition="left"
-                onChange={handleTypeSelectChange}
+                onChange={handleChangeEventType}
                 label="Tipos de examenes"
-                pb={rem(16)}
                 placeholder="Escoge un tipo de examen"
-                searchable
-                clearable
-                defaultDropdownOpened={false}
-                nothingFoundMessage=""
-                allowDeselect={false}
-                maxDropdownHeight={200}
-            />
-            <Select
-                value={subtypeSelected}
+                nothingFoundMessage="Tipo de examenes no encontrados" />
+            <CustomSelect
+                name='subtype'
+                value={value}
                 data={subtypeOptions}
-                checkIconPosition="left"
-                onChange={handleSubtypeSelectChange}
+                onChange={handleChangeEventSubtype}
                 label="Subtipos de examenes"
-                pb={rem(16)}
                 placeholder="Escoge un subtipo de examen"
-                searchable
-                clearable
-                defaultDropdownOpened={false}
-                nothingFoundMessage=""
-                allowDeselect={false}
-                maxDropdownHeight={200}
+                nothingFoundMessage="Subtipo de examen no encontrado"
             />
 
-            <Button type='submit' ref={ref} style={{ display: 'none' }}></Button>
+            <Button type='submit' style={{ display: 'none' }} />
 
         </Box>
     )
 });
 
-ExamSubtypeForm.displayName = 'ExamSubtypeForm';
-
-export { ExamSubtypeForm }
+export default ExamSubtypeForm;

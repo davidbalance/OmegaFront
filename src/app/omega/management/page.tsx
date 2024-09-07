@@ -17,13 +17,16 @@ import ServerPagination from '@/components/_base/server-pagination'
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import ModularLayout from '@/components/modular/layout/ModularLayout'
+import ActionMenuProvider from '@/contexts/action-menu.context'
 import { Area } from '@/lib/dtos/location/area/base.response.dto'
 import { countArea, searchArea } from '@/server/area.actions'
 import { countManagement, searchManagement } from '@/server/management.actions'
-import { Box, Button, Group, MenuDivider, MenuItem, MenuLabel, rem, Text, Title } from '@mantine/core'
-import { IconExchange, IconPencil, IconTrash } from '@tabler/icons-react'
+import { Box, Button, Group, MenuItem, MenuLabel, rem, Text, Title } from '@mantine/core'
+import { IconExchange, IconPencil } from '@tabler/icons-react'
 import Link from 'next/link'
 import React, { Suspense } from 'react'
+import ManagementActionDelete from './_components/management-action-delete'
+import AreaActionDelete from './_components/area-action-delete'
 
 const take: number = 100;
 interface OmegaManagementPageProps {
@@ -71,8 +74,11 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = ({
                     </ModularBox>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
-                            <Search queryKey='managementSearch' value={managementSearch} />
-                            <Button radius='md'>
+                            <Search query='managementSearch' value={managementSearch} />
+                            <Button
+                                component={Link}
+                                href='management/create'
+                                radius='md'>
                                 Crear gerencia
                             </Button>
                         </Group>
@@ -82,7 +88,7 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = ({
                             <ListThead>
                                 <ListTh>
                                     <OrderableButton
-                                        owner='group'
+                                        owner='management'
                                         field='name'>
                                         <Text>Gerencia</Text>
                                     </OrderableButton>
@@ -103,22 +109,20 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = ({
                                                             query='management'>
                                                             <Title order={6}>{e.name}</Title>
                                                         </AddQueryParam>
-                                                        <ActionMenu>
-                                                            <MenuLabel>Administracion</MenuLabel>
-                                                            <MenuItem
-                                                                leftSection={(
-                                                                    <IconPencil style={{ width: rem(16), height: rem(16) }} />
-                                                                )}>
-                                                                Modificacion
-                                                            </MenuItem>
-                                                            <MenuItem
-                                                                color="red"
-                                                                leftSection={(
-                                                                    <IconTrash style={{ width: rem(16), height: rem(16) }} />
-                                                                )}>
-                                                                Eliminar
-                                                            </MenuItem>
-                                                        </ActionMenu>
+                                                        <ActionMenuProvider>
+                                                            <ActionMenu>
+                                                                <MenuLabel>Administracion</MenuLabel>
+                                                                <MenuItem
+                                                                    component={Link}
+                                                                    href={`management/${e.id}/update`}
+                                                                    leftSection={(
+                                                                        <IconPencil style={{ width: rem(16), height: rem(16) }} />
+                                                                    )}>
+                                                                    Modificacion
+                                                                </MenuItem>
+                                                                <ManagementActionDelete id={e.id} />
+                                                            </ActionMenu>
+                                                        </ActionMenuProvider>
                                                     </Group>
                                                 </ListRow>
                                             ))}
@@ -160,9 +164,12 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = ({
                     </ModularBox>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
-                            <Search queryKey='areaSearch' value={areaSearch} />
+                            <Search query='areaSearch' value={areaSearch} />
                             {!!management && (
-                                <Button radius='md'>
+                                <Button
+                                    component={Link}
+                                    href={`management/${management}/area`}
+                                    radius='md'>
                                     Crear area
                                 </Button>)}
                         </Group>
@@ -172,7 +179,7 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = ({
                             <ListThead>
                                 <ListTh>
                                     <OrderableButton
-                                        owner='company'
+                                        owner='area'
                                         field='name'>
                                         <Text>Area</Text>
                                     </OrderableButton>
@@ -188,28 +195,28 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = ({
                                                     key={e.id}>
                                                     <Group justify='space-between' align='center' wrap='nowrap'>
                                                         <Text>{e.name}</Text>
-                                                        <ActionMenu>
-                                                            <MenuLabel>Administracion</MenuLabel>
-                                                            <MenuItem
-                                                                leftSection={(
-                                                                    <IconExchange style={{ width: rem(16), height: rem(16) }} />
-                                                                )}>
-                                                                Cambiar gerencia
-                                                            </MenuItem>
-                                                            <MenuItem
-                                                                leftSection={(
-                                                                    <IconPencil style={{ width: rem(16), height: rem(16) }} />
-                                                                )}>
-                                                                Modificacion
-                                                            </MenuItem>
-                                                            <MenuItem
-                                                                color="red"
-                                                                leftSection={(
-                                                                    <IconTrash style={{ width: rem(16), height: rem(16) }} />
-                                                                )}>
-                                                                Eliminar
-                                                            </MenuItem>
-                                                        </ActionMenu>
+                                                        <ActionMenuProvider>
+                                                            <ActionMenu>
+                                                                <MenuLabel>Administracion</MenuLabel>
+                                                                <MenuItem
+                                                                    component={Link}
+                                                                    href={`area/${e.id}/update`}
+                                                                    leftSection={(
+                                                                        <IconPencil style={{ width: rem(16), height: rem(16) }} />
+                                                                    )}>
+                                                                    Modificacion
+                                                                </MenuItem>
+                                                                <MenuItem
+                                                                    component={Link}
+                                                                    href={`area/${e.id}/change`}
+                                                                    leftSection={(
+                                                                        <IconExchange style={{ width: rem(16), height: rem(16) }} />
+                                                                    )}>
+                                                                    Cambiar gerencia
+                                                                </MenuItem>
+                                                                <AreaActionDelete id={e.id} />
+                                                            </ActionMenu>
+                                                        </ActionMenuProvider>
                                                     </Group>
                                                 </ListRow>
                                             ))}

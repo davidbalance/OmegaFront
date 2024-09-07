@@ -1,10 +1,10 @@
 import { Doctor } from '@/lib/dtos/user/doctor/base.response.dto'
-import { MenuDivider, MenuItem, MenuLabel, rem, TableTbody, TableTd, TableTr } from '@mantine/core';
+import { MenuItem, MenuLabel, rem, TableTbody, TableTd, TableTr } from '@mantine/core';
 import { IconBuilding, IconLock, IconEye, IconUpload } from '@tabler/icons-react';
 import Link from 'next/link';
 import React from 'react'
-import UserActionMenu from '../../user/_components/user-action-menu';
 import ActionUserProvider from '../../../../../contexts/action-menu.context';
+import ActionMenu from '@/components/_base/action-menu';
 
 interface DoctorTableProps {
     doctors: Doctor[];
@@ -20,24 +20,28 @@ const DoctorTable: React.FC<DoctorTableProps> = ({ doctors }) => {
                     <TableTd>{e.email}</TableTd>
                     <TableTd>
                         <ActionUserProvider>
-                            <UserActionMenu>
+                            <ActionMenu>
                                 <MenuLabel>Aplicacion</MenuLabel>
-                                {!e.hasCredential && <MenuItem
-                                    component={Link}
-                                    href={`doctor/action/${e.user}/credential`}
-                                    leftSection={(
-                                        <IconLock style={{ width: rem(16), height: rem(16) }} />
-                                    )}>
-                                    Asignar credenciales
-                                </MenuItem>}
-                                {e.hasFile && <MenuItem
-                                    component={Link}
-                                    href={`doctor/action/${e.id}/signature/view`}
-                                    leftSection={(
-                                        <IconEye style={{ width: rem(16), height: rem(16) }} />
-                                    )}>
-                                    Visualizar firma
-                                </MenuItem>}
+                                {!e.hasCredential && (
+                                    <MenuItem
+                                        component={Link}
+                                        href={`doctor/action/${e.user}/credential`}
+                                        leftSection={(
+                                            <IconLock style={{ width: rem(16), height: rem(16) }} />
+                                        )}>
+                                        Asignar credenciales
+                                    </MenuItem>
+                                )}
+                                {Boolean(e.hasFile) && (
+                                    <MenuItem
+                                        component={Link}
+                                        href={`doctor/action/${e.id}/signature/view`}
+                                        leftSection={(
+                                            <IconEye style={{ width: rem(16), height: rem(16) }} />
+                                        )}>
+                                        Visualizar firma
+                                    </MenuItem>
+                                )}
                                 <MenuItem
                                     component={Link}
                                     href={`doctor/action/${e.id}/signature/upload`}
@@ -55,7 +59,7 @@ const DoctorTable: React.FC<DoctorTableProps> = ({ doctors }) => {
                                     )}>
                                     Asignar Empresa
                                 </MenuItem>
-                            </UserActionMenu>
+                            </ActionMenu>
                         </ActionUserProvider>
                     </TableTd>
                 </TableTr>

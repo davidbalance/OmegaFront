@@ -24,15 +24,6 @@ export const countDoctors = async (filter: CountMeta): Promise<number> => {
     return pages;
 }
 
-/* export const retriveDoctors = async () => {
-    const session = await auth();
-    if (!session) throw new Error('There is no session found');
-    const { data }: GetDoctorArrayResponseDto = await omega()
-        .addToken(session.access_token)
-        .execute('doctorDetails');
-    return data;
-}
-
 export const retriveBlobSignature = async (id: number): Promise<Blob> => {
     const session = await auth();
     if (!session) throw new Error('There is no session found');
@@ -50,4 +41,14 @@ export const uploadSignature = async (id: number, formData: FormData): Promise<v
         .addParams({ id })
         .addBody(formData)
         .execute('doctorSignatureUpload');
-} */
+}
+
+/* export const retriveDoctors = async () => {
+    const session = await auth();
+    if (!session) throw new Error('There is no session found');
+    const { data }: GetDoctorArrayResponseDto = await omega()
+        .addToken(session.access_token)
+        .execute('doctorDetails');
+    return data;
+}
+ */

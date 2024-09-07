@@ -2,7 +2,7 @@
 
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import omega from "@/lib/api-client/omega-client/omega";
-import { ExamTypeSingle } from "@/lib/dtos/laboratory/exam/type/base.response.dto";
+import { ExamType, ExamTypeSingle } from "@/lib/dtos/laboratory/exam/type/base.response.dto";
 import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 
@@ -24,14 +24,15 @@ export const countExamTypes = async (filter: CountMeta): Promise<number> => {
     return pages;
 }
 
-/* export const retriveFullExam = async (): Promise<ExamType[]> => {
+export const retriveFullExam = async (): Promise<ExamType[]> => {
     const session = await auth();
-    if (!session) throw new Error('There is no session found');
-    const { data }: GetExamTypeArrayResponseDto = await omega()
+    const { data }: ObjectArray<ExamType> = await omega()
         .addToken(session.access_token)
         .execute('examtypeFullDetails');
     return data;
 }
+
+/* 
 
 export const searchExamtype = async (filter: FilterMeta): Promise<ExamTypeSingle[]> => {
     const session = await auth();

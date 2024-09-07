@@ -5,7 +5,9 @@ import { createContext, useContext, useState } from "react";
 interface OmegaShellContextProps {
     locked: boolean;
     opened: boolean;
+    open: () => void;
     toggle: () => void;
+    close: () => void;
     lock: () => void;
 }
 
@@ -24,12 +26,16 @@ export const OmegaShellProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     const [opened, setOpened] = useState<boolean>(false);
     const [locked, setLocked] = useState<boolean>(false)
 
+    const open = () => setOpened(true);
+    const close = () => setOpened(false);
     const toggle = () => setOpened(prev => !prev);
     const lock = () => setLocked(prev => !prev);
 
     const value = {
         opened: locked || opened,
         locked,
+        open,
+        close,
         toggle,
         lock
     };

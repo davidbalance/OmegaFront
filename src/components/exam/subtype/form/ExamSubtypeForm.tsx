@@ -1,48 +1,61 @@
-import { ExamSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto'
-import { ExamType } from '@/lib/dtos/laboratory/exam/type/base.response.dto';
-import { BaseFormProps } from '@/lib/types/base-form-prop';
-import { Box, Button, Select, TextInput } from '@mantine/core';
+'use client'
+
+import { ExamSingleSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto'
+import { Box, Button, rem, TextInput } from '@mantine/core';
 import { joiResolver, useForm } from '@mantine/form';
 import { IconSignature } from '@tabler/icons-react';
 import Joi from 'joi';
-import React, { useMemo } from 'react';
+import React, { FormEvent } from 'react';
 
-interface ExamTypeForm extends Omit<ExamSubtype, 'id' | 'exams'> { }
-
-const examTypeSchema = Joi.object<ExamTypeForm>({
+const examTypeSchema = Joi.object({
     name: Joi
         .string()
         .empty()
+        .required()
         .messages({
             "string.empty": 'Especifique un nombre'
         })
 });
 
-interface ExamSubtypeFormProps extends BaseFormProps<ExamTypeForm> { }
+type FormProps = Omit<React.HTMLProps<HTMLFormElement>, 'ref'> & Partial<Omit<ExamSingleSubtype, 'id'>>
+interface ExamSubtypeFormProps extends FormProps { }
+const ExamSubtypeForm = React.forwardRef<HTMLFormElement, ExamSubtypeFormProps>(({
+    name,
+    onSubmit,
+    ...props
+}, ref) => {
 
-const ExamSubtypeForm = React.forwardRef<HTMLButtonElement, ExamSubtypeFormProps>(({ formData, onFormSubmitted }, ref) => {
-
-    const form = useForm<ExamTypeForm>({
+    const form = useForm({
         initialValues: {
-            name: formData?.name || ''
+            name: name || ''
         },
         validate: joiResolver(examTypeSchema)
     });
 
+    const handleSubmit = (_: any, event: FormEvent<HTMLFormElement> | undefined) => {
+        if (event) {
+            onSubmit?.(event);
+        }
+    }
+
     return (
         <Box
+            ref={ref}
             component='form'
-            onSubmit={form.onSubmit(onFormSubmitted)}
-        >
+            mt={rem(16)}
+            px={rem(16)}
+            onSubmit={form.onSubmit(handleSubmit)}
+            {...props}>
+
             <TextInput
-                label="Noombre del subtipo"
+                name='name'
+                label="Nombre del subtipo"
                 placeholder="Subtipo"
-                size='xs'
                 leftSection={<IconSignature stroke={1.5} />}
                 {...form.getInputProps('name')}
             />
 
-            <Button type='submit' ref={ref} style={{ display: 'none' }}></Button>
+            <Button type='submit' style={{ display: 'none' }} />
 
         </Box>
     )

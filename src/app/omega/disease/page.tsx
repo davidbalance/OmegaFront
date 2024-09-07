@@ -68,7 +68,7 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = ({ searchParams }) => 
                     </ModularBox>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
-                            <Search queryKey='groupSearch' value={groupSearch} />
+                            <Search query='groupSearch' value={groupSearch} />
                             <Button
                                 component={Link}
                                 href='disease/group/create'
@@ -101,7 +101,7 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = ({ searchParams }) => 
                                                     <Group justify='space-between' align='center' wrap='nowrap'>
                                                         <AddQueryParam
                                                             value={e.id.toString()}
-                                                            query='group'
+                                                            <Search query='group'
                                                             removeQueries={['medicalOrder']}>
                                                             <Title order={6}>{e.name}</Title>
                                                         </AddQueryParam>
@@ -161,7 +161,7 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = ({ searchParams }) => 
                     </ModularBox>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
-                            <Search queryKey='diseaseSearch' value={diseaseSearch} />
+                            <Search query='diseaseSearch' value={diseaseSearch} />
                             {!!group && (
                                 <Button
                                     component={Link}

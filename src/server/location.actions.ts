@@ -8,6 +8,6 @@ export const retriveLocation = async (): Promise<LocationResponse[]> => {
     if (!session) throw new Error('There is no session found');
     const { data }: ObjectArray<LocationResponse> = await omega()
         .addToken(session.access_token)
-        .execute('locationDetails');
+        .execute('corporativeGroupOptions');
     return data;
 }

@@ -38,15 +38,7 @@ const OmegaJobPositionPage: React.FC<OmegaJobPositionPageProps> = ({
                 </Box>
             </ModularBox>
             <ModularBox>
-                <Flex
-                    justify='space-between'
-                    wrap='nowrap'
-                    gap={rem(16)}>
-                    <Search value={search} />
-                    <Button radius='md'>
-                        Crear puesto de trabajo
-                    </Button>
-                </Flex>
+                <Search value={search} />
             </ModularBox>
             <ModularBox h='100%'>
                 <TableRoot>

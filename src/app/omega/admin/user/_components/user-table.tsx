@@ -4,8 +4,8 @@ import { MenuDivider, MenuItem, MenuLabel, rem, TableTbody, TableTd, TableTr } f
 import { IconBuilding, IconKey, IconPencil, IconSitemap } from '@tabler/icons-react'
 import { User } from '@/lib/dtos/user/user/base.response.dto'
 import UserActionDelete from './user-action-delete'
-import UserActionMenu from './user-action-menu'
 import ActionUserProvider from '../../../../../contexts/action-menu.context'
+import ActionMenu from '@/components/_base/action-menu'
 
 interface UserTableProps {
     users: User[]
@@ -21,7 +21,7 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
                     <TableTd>{e.email}</TableTd>
                     <TableTd>
                         <ActionUserProvider>
-                            <UserActionMenu>
+                            <ActionMenu>
                                 <MenuLabel>Aplicacion</MenuLabel>
                                 <MenuItem
                                     component={Link}
@@ -59,7 +59,7 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
                                     Generar contraseña
                                 </MenuItem>
                                 <UserActionDelete id={e.id} />
-                            </UserActionMenu>
+                            </ActionMenu>
                         </ActionUserProvider>
                     </TableTd>
                 </TableTr>

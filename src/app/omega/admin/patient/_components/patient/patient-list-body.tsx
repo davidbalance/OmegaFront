@@ -7,6 +7,8 @@ import React from 'react'
 import { IconAt, IconBriefcase, IconBuilding, IconBuildingCommunity } from '@tabler/icons-react'
 import Link from 'next/link'
 import AddQueryParam from '../../../../../../components/_base/add-query-param'
+import ActionMenuProvider from '@/contexts/action-menu.context'
+import PatientMenu from './patient-menu'
 
 interface PatientListBodyProps {
     active?: string;
@@ -26,46 +28,14 @@ const PatientListBody: React.FC<PatientListBodyProps> = ({
                     <Flex justify='space-between' align='center'>
                         <AddQueryParam
                             value={e.dni}
-                            queryKey='patient'
+                            query='patient'
                             removeQueries={['medicalOrder']}>
                             <Title order={6}>{`${e.name} ${e.lastname}`}</Title>
                             <Text>{e.dni}</Text>
                         </AddQueryParam>
-                        <ActionMenu>
-                            <MenuLabel>Aplicacion</MenuLabel>
-                            <MenuItem
-                                href={`patient/action/${e.user}/company`}
-                                component={Link}
-                                leftSection={(
-                                    <IconBuilding style={{ width: rem(16), height: rem(16) }} />
-                                )}>
-                                Asignar empresa
-                            </MenuItem>
-                            <MenuItem
-                                href={`patient/action/${e.dni}/email`}
-                                component={Link}
-                                leftSection={(
-                                    <IconAt style={{ width: rem(16), height: rem(16) }} />
-                                )}>
-                                Correos electronicos
-                            </MenuItem>
-                            <MenuItem
-                                href={`patient/action/${e.dni}/area`}
-                                component={Link}
-                                leftSection={(
-                                    <IconBuildingCommunity style={{ width: rem(16), height: rem(16) }} />
-                                )}>
-                                Asignar gerencia y area
-                            </MenuItem>
-                            <MenuItem
-                                href={`patient/action/${e.dni}/job/position`}
-                                component={Link}
-                                leftSection={(
-                                    <IconBriefcase style={{ width: rem(16), height: rem(16) }} />
-                                )}>
-                                Asignar puesto de trabajo
-                            </MenuItem>
-                        </ActionMenu>
+                        <ActionMenuProvider>
+                            <PatientMenu {...e} />
+                        </ActionMenuProvider>
                     </Flex>
                 </ListRow>
             ))}

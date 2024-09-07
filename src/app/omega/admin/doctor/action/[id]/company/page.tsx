@@ -1,8 +1,8 @@
-import { retriveLocation } from '@/app/omega/_actions/corporative-group.actions';
 import { retriveUserAttribute } from '@/server/user-attribute.actions';
 import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
 import CompanyAttributeForm from './_components/company-attribute-form';
+import { retriveLocation } from '@/server/location.actions';
 
 interface UserActionCompanyPageProps {
     params: { id: number }

@@ -81,7 +81,7 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                         </Group>
                     </ModularBox>
                     <ModularBox>
-                        <Search queryKey='groupSearch' value={groupSearch} />
+                        <Search query='groupSearch' value={groupSearch} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
@@ -106,7 +106,7 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                                                     <Group justify='space-between' align='center' wrap='nowrap'>
                                                         <AddQueryParam
                                                             value={e.id.toString()}
-                                                            query='group'
+                                                            <Search query='group'
                                                             removeQueries={['company']}>
                                                             <Title order={6}>{e.name}</Title>
                                                         </AddQueryParam>
@@ -150,7 +150,7 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                         </Group>
                     </ModularBox>
                     <ModularBox>
-                        <Search queryKey='companySearch' value={companySearch} />
+                        <Search query='companySearch' value={companySearch} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
@@ -181,7 +181,7 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                                                     key={e.id}>
                                                     <AddQueryParam
                                                         value={e.id.toString()}
-                                                        query='company'>
+                                                        <Search query='company'>
                                                         <Stack>
                                                             <Title order={6}>{e.name}</Title>
                                                             <Group justify='space-between' align='center' wrap='nowrap'>
@@ -229,7 +229,7 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                         </Group>
                     </ModularBox>
                     <ModularBox>
-                        <Search queryKey='branchSearch' value={branchSearch} />
+                        <Search query='branchSearch' value={branchSearch} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>

@@ -4,7 +4,7 @@ import { uploadSignature } from '@/app/omega/admin/doctor/_actions/doctor.action
 import LoadingOverlay from '@/components/_base/loading-overlay'
 import Dropzone from '@/components/dropzone/dropzone'
 import { useConfirmation } from '@/contexts/confirmation/confirmation.context'
-import { Box, Flex } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { MIME_TYPES } from '@mantine/dropzone'
 import { notifications } from '@mantine/notifications'
 import { useRouter } from 'next/navigation'

@@ -2,28 +2,26 @@
 
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import omega from "@/lib/api-client/omega-client/omega";
-import { MedicalOrder, OrderStatus } from "@/lib/dtos/medical/order/base.response.dto"
-import { GetMedicalOrderArrayResponseDto } from "@/lib/dtos/medical/order/response.dto";
-import { revalidatePath } from "next/cache";
+import { MedicalOrder } from "@/lib/dtos/medical/order/base.response.dto";
+import { FilterMeta, CountMeta, PageCount } from "@/lib/dtos/pagination.dto";
+import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 
-export const retriveMedicalOrder = async (dni: string): Promise<MedicalOrder[]> => {
+export const searchMedicalOrder = async (filter: FilterMeta): Promise<MedicalOrder[]> => {
     const session = await auth();
-    if (!session) throw new Error('There is no session found');
-    const { data }: GetMedicalOrderArrayResponseDto = await omega()
-        .addParams({ dni })
+    const { data }: ObjectArray<MedicalOrder> = await omega()
+        .addQuery({ ...filter })
         .addToken(session.access_token)
-        .execute('medicalOrderDetailsByPatient');
+        .execute('medicalOrderSearch');
 
     return data;
 }
 
-export const validateOrder = async (id: number, action: OrderStatus): Promise<void> => {
+export const countMedicalOrder = async (filter: CountMeta): Promise<number> => {
     const session = await auth();
-    if (!session) throw new Error('There is no session found');
-    await omega()
+    const { pages }: PageCount = await omega()
+        .addQuery({ ...filter })
         .addToken(session.access_token)
-        .addParams({ id })
-        .addFlag('--no-body')
-        .execute(action === 'created' ? 'medicalOrderUpdateStatusValidate' : 'medicalOrderUpdateStatusCreated');
-    revalidatePath('');
+        .execute('medicalOrderPages');
+
+    return pages;
 }

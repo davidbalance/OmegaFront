@@ -17,6 +17,7 @@ import ServerPagination from '@/components/_base/server-pagination';
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
+import ActionMenuProvider from '@/contexts/action-menu.context';
 import { Exam } from '@/lib/dtos/laboratory/exam/base.response.dto';
 import { ExamSingleSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto';
 import { countExamSubtypes, searchExamSubtypes } from '@/server/exam-subtype.actions';
@@ -25,7 +26,9 @@ import { countExams, searchExams } from '@/server/exam.actions';
 import { Group, rem, Box, Title, Stack, Text, Button, MenuItem, MenuLabel } from '@mantine/core';
 import { IconExchange, IconPencil, IconTrash } from '@tabler/icons-react';
 import { group } from 'console';
+import Link from 'next/link';
 import React, { Suspense } from 'react'
+import ExamSubtypeActionDelete from './_components/exam-subtype-action-delete';
 
 const take: number = 100;
 interface OmegaLaboratoryExamPageProps {
@@ -84,7 +87,7 @@ const OmegaLaboratoryExamPage: React.FC<OmegaLaboratoryExamPageProps> = ({
             </Group>
           </ModularBox>
           <ModularBox>
-            <Search queryKey='typeSearch' value={typeSearch} />
+            <Search query='typeSearch' value={typeSearch} />
           </ModularBox>
           <ModularBox flex={1}>
             <ListRoot>
@@ -154,9 +157,12 @@ const OmegaLaboratoryExamPage: React.FC<OmegaLaboratoryExamPageProps> = ({
           </ModularBox>
           <ModularBox>
             <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
-              <Search queryKey='subtypeSearch' value={subtypeSearch} />
-              {!!subtype && (
-                <Button radius='md'>
+              <Search query='subtypeSearch' value={subtypeSearch} />
+              {!!type && (
+                <Button
+                  component={Link}
+                  href={`type/${type}/subtype`}
+                  radius='md'>
                   Crear subtipo
                 </Button>)}
             </Group>
@@ -187,28 +193,28 @@ const OmegaLaboratoryExamPage: React.FC<OmegaLaboratoryExamPageProps> = ({
                               query='subtype'>
                               <Title order={6}>{e.name}</Title>
                             </AddQueryParam>
-                            <ActionMenu>
-                              <MenuLabel>Administracion</MenuLabel>
-                              <MenuItem
-                                leftSection={(
-                                  <IconExchange style={{ width: rem(16), height: rem(16) }} />
-                                )}>
-                                Cambiar tipo de examen
-                              </MenuItem>
-                              <MenuItem
-                                leftSection={(
-                                  <IconPencil style={{ width: rem(16), height: rem(16) }} />
-                                )}>
-                                Modificacion
-                              </MenuItem>
-                              <MenuItem
-                                color="red"
-                                leftSection={(
-                                  <IconTrash style={{ width: rem(16), height: rem(16) }} />
-                                )}>
-                                Eliminar
-                              </MenuItem>
-                            </ActionMenu>
+                            <ActionMenuProvider>
+                              <ActionMenu>
+                                <MenuLabel>Administracion</MenuLabel>
+                                <MenuItem
+                                  component={Link}
+                                  href={`subtype/${e.id}/update`}
+                                  leftSection={(
+                                    <IconPencil style={{ width: rem(16), height: rem(16) }} />
+                                  )}>
+                                  Modificacion
+                                </MenuItem>
+                                <MenuItem
+                                  component={Link}
+                                  href={`subtype/${e.id}/change`}
+                                  leftSection={(
+                                    <IconExchange style={{ width: rem(16), height: rem(16) }} />
+                                  )}>
+                                  Cambiar tipo de examen
+                                </MenuItem>
+                                <ExamSubtypeActionDelete id={e.id} />
+                              </ActionMenu>
+                            </ActionMenuProvider>
                           </Group>
                         </ListRow>
                       ))}
@@ -249,7 +255,7 @@ const OmegaLaboratoryExamPage: React.FC<OmegaLaboratoryExamPageProps> = ({
             </Group>
           </ModularBox>
           <ModularBox>
-            <Search queryKey='examSearch' value={examSearch} />
+            <Search query='examSearch' value={examSearch} />
           </ModularBox>
           <ModularBox flex={1}>
             <ListRoot>
@@ -272,15 +278,19 @@ const OmegaLaboratoryExamPage: React.FC<OmegaLaboratoryExamPageProps> = ({
                           key={e.id}>
                           <Group justify='space-between' gap={rem(8)} wrap='nowrap'>
                             <Title order={6}>{e.name}</Title>
-                            <ActionMenu>
-                              <MenuLabel>Administracion</MenuLabel>
-                              <MenuItem
-                                leftSection={(
-                                  <IconExchange style={{ width: rem(16), height: rem(16) }} />
-                                )}>
-                                Cambiar tipo de examen
-                              </MenuItem>
-                            </ActionMenu>
+                            <ActionMenuProvider>
+                              <ActionMenu>
+                                <MenuLabel>Administracion</MenuLabel>
+                                <MenuItem
+                                  component={Link}
+                                  href={`exam/${e.id}/change`}
+                                  leftSection={(
+                                    <IconExchange style={{ width: rem(16), height: rem(16) }} />
+                                  )}>
+                                  Cambiar tipo de examen
+                                </MenuItem>
+                              </ActionMenu>
+                            </ActionMenuProvider>
                           </Group>
                         </ListRow>
                       ))}

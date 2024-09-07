@@ -1,58 +1,46 @@
-import { BaseFormProps } from "@/lib/types/base-form-prop";
-import { Box, Button, ComboboxItem, Select } from "@mantine/core";
-import React, { FormEvent, useEffect, useState } from "react";
+'use client'
 
-type FormType = { management: number };
+import { Area } from "@/lib/dtos/location/area/base.response.dto";
+import { Management } from "@/lib/dtos/location/management/base.response.dto";
+import { Box, Button, ComboboxItem, rem, Select } from "@mantine/core";
+import React, { useMemo, useState } from "react";
 
-export interface AreaFormManagementProps extends BaseFormProps<FormType> {
-    /**
-     * Valores que inicializan el selector del formulario.
-     */
-    options: { value: string, label: string }[];
-};
-const AreaFormManagement = React.forwardRef<HTMLButtonElement, AreaFormManagementProps>(({ formData, onFormSubmitted, options }, ref) => {
+type BaseProps = Omit<React.HTMLProps<HTMLFormElement>, 'ref'> & Pick<Area, 'management'>;
+interface AreaFormManagementProps extends BaseProps {
+    options: Management[];
+}
+const AreaFormManagement = React.forwardRef<HTMLFormElement, AreaFormManagementProps>(({
+    management,
+    options,
+    ...props
+}, ref) => {
 
-    const [management, setGroup] = useState<number | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [value, setValue] = useState<string>(management.toString(10));
 
-    useEffect(() => {
-        if (formData) {
-            setGroup(formData.management);
-        }
-    }, [formData]);
+    const managementOptions = useMemo(() => options.map<ComboboxItem>(e => ({ label: e.name, value: e.id.toString(10) })), [options]);
 
-    const handleFormSubmitted = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (management) {
-            onFormSubmitted?.({ management });
-        } else {
-            setError('Debe seleccionar una opcion');
-        }
-    }
-
-    const handleChangeEventSelector = (_: string | null, options: ComboboxItem) => {
-        setError(null);
-        setGroup(parseInt(options.value));
-    }
+    const handleSelectorChange = (_: any, item: ComboboxItem) => setValue(item.value);
 
     return (
         <Box
+            ref={ref}
             component='form'
-            onSubmit={handleFormSubmitted}
-            w='100%'
-            maw={750}
+            mt={rem(16)}
+            px={rem(16)}
+            {...props}
         >
             <Select
-                value={`${management}`}
-                onChange={handleChangeEventSelector}
+                name="management"
+                value={value}
                 label="Gerencias"
                 placeholder="Gerencia"
-                data={options}
+                data={managementOptions}
                 allowDeselect={false}
+                onChange={handleSelectorChange}
                 searchable
-                error={error}
+                required
             />
-            <Button type='submit' ref={ref} style={{ display: 'none' }}></Button>
+            <Button type='submit' style={{ display: 'none' }} />
         </Box>
     )
 })
