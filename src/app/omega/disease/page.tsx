@@ -22,7 +22,7 @@ import { Disease } from '@/lib/dtos/disease/base.response.dto';
 import { countDiseaseGroup, searchDiseaseGroup } from '@/server/disease-group.actions';
 import { countDisease, searchDisease } from '@/server/disease.actions';
 import { Box, Button, Group, MenuItem, MenuLabel, rem, Text, Title } from '@mantine/core';
-import { IconEdit, IconExchange, IconTrash } from '@tabler/icons-react';
+import { IconEdit, IconExchange } from '@tabler/icons-react';
 import React, { Suspense } from 'react'
 import DiseaseGroupActionDelete from './_components/disease-group-action-delete';
 import Link from 'next/link';
@@ -101,7 +101,7 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = ({ searchParams }) => 
                                                     <Group justify='space-between' align='center' wrap='nowrap'>
                                                         <AddQueryParam
                                                             value={e.id.toString()}
-                                                            <Search query='group'
+                                                            query='group'
                                                             removeQueries={['medicalOrder']}>
                                                             <Title order={6}>{e.name}</Title>
                                                         </AddQueryParam>

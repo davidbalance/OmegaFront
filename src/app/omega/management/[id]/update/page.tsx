@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import { retriveManagement } from '@/server/management.actions'
 import React from 'react'
-import Form from './_components/form'
+import ManagementForm from './_components/management-form'
 
 interface OmegaManagementUpdatePageProps {
     params: { id: number }
@@ -15,7 +15,7 @@ const OmegaManagementUpdatePage: React.FC<OmegaManagementUpdatePageProps> = asyn
     return (
         <>
             <ReturnableHeader title='Actualizacion de gerencia' />
-            <Form {...data} />
+            <ManagementForm {...data} />
         </>)
 }
 

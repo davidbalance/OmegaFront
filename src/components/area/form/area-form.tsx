@@ -1,5 +1,4 @@
 import { Area } from "@/lib/dtos/location/area/base.response.dto";
-import { BaseFormProps } from "@/lib/types/base-form-prop";
 import { Box, TextInput, Button, rem } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconSignature } from "@tabler/icons-react";
@@ -7,9 +6,7 @@ import Joi from "joi";
 import { joiResolver } from "mantine-form-joi-resolver";
 import React, { FormEvent } from "react";
 
-type AreaWithOmittedId = Omit<Area, 'id'>;
-
-const diseaseSchema = Joi.object<AreaWithOmittedId>({
+const diseaseSchema = Joi.object({
     name: Joi
         .string()
         .empty()
@@ -64,4 +61,4 @@ const AreaForm = React.forwardRef<HTMLFormElement, AreaFormProps>(({
 
 AreaForm.displayName = 'AreaForm';
 
-export { AreaForm }
+export default AreaForm;

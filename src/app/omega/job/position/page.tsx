@@ -1,4 +1,3 @@
-import ActionMenu from '@/components/_base/action-menu';
 import Await from '@/components/_base/await';
 import OrderableButton from '@/components/_base/orderable-button';
 import Search from '@/components/_base/search';
@@ -10,8 +9,10 @@ import TableTh from '@/components/_base/table/table-th';
 import TableTHead from '@/components/_base/table/table-thead';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { countJobPosition, searchJobPosition } from '@/server/job-position.actions';
-import { Box, Button, Flex, rem, TableTbody, TableTd, TableTr, Text, Title } from '@mantine/core';
+import { Box, TableTbody, TableTd, TableTr, Text, Title } from '@mantine/core';
 import React, { Suspense } from 'react'
+import JobPositionHeader from './_components/job-position-header';
+import JobPositionBody from './_components/job-position-body';
 
 const take: number = 100;
 interface OmegaJobPositionPageProps {
@@ -42,27 +43,10 @@ const OmegaJobPositionPage: React.FC<OmegaJobPositionPageProps> = ({
             </ModularBox>
             <ModularBox h='100%'>
                 <TableRoot>
-                    <TableTHead>
-                        <TableTr>
-                            <TableTh>
-                                <OrderableButton
-                                    field='name'>
-                                    <Text>Puesto de trabajo</Text>
-                                </OrderableButton>
-                            </TableTh>
-                        </TableTr>
-                    </TableTHead>
+                    <JobPositionHeader />
                     <Suspense fallback={<TableBodySuspense columns={1} rows={10} />}>
                         <Await promise={jobpositionPromise}>
-                            {(positions) => (
-                                <TableTbody>
-                                    {positions.map(e => (
-                                        <TableTr key={e.id}>
-                                            <TableTd>{e.name}</TableTd>
-                                        </TableTr>
-                                    ))}
-                                </TableTbody>
-                            )}
+                            {(positions) => <JobPositionBody positions={positions} />}
                         </Await>
                     </Suspense>
                 </TableRoot>

@@ -1,6 +1,6 @@
 'use client'
 
-import { AreaForm } from '@/components/area/form/area-form';
+import Form from '@/components/area/form/area-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { parseForm } from '@/lib/utils/form-parse';
 import { createArea } from '@/server/area.actions';
@@ -13,7 +13,7 @@ import React, { FormEvent, useRef, useState } from 'react'
 interface FormProps {
     management: number;
 }
-const Form: React.FC<FormProps> = ({
+const AreaForm: React.FC<FormProps> = ({
     management
 }) => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -46,7 +46,7 @@ const Form: React.FC<FormProps> = ({
         <>
             <LoadingOverlay visible={loading} />
             <ModularBox flex={1}>
-                <AreaForm
+                <Form
                     ref={formRef}
                     onSubmit={handleSubmit} />
             </ModularBox>
@@ -66,4 +66,4 @@ const Form: React.FC<FormProps> = ({
     )
 }
 
-export default Form
+export default AreaForm

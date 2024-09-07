@@ -25,7 +25,7 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
                                 <MenuLabel>Aplicacion</MenuLabel>
                                 <MenuItem
                                     component={Link}
-                                    href={`user/action/${e.id}/update`}
+                                    href={`user/${e.id}/update`}
                                     leftSection={(
                                         <IconPencil style={{ width: rem(16), height: rem(16) }} />
                                     )}>
@@ -33,7 +33,7 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
                                 </MenuItem>
                                 <MenuItem
                                     component={Link}
-                                    href={`user/action/${e.id}/access`}
+                                    href={`user/${e.id}/access`}
                                     leftSection={(
                                         <IconSitemap style={{ width: rem(16), height: rem(16) }} />
                                     )}>
@@ -41,7 +41,7 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
                                 </MenuItem>
                                 <MenuItem
                                     component={Link}
-                                    href={`user/action/${e.id}/company`}
+                                    href={`user/${e.id}/company`}
                                     leftSection={(
                                         <IconBuilding style={{ width: rem(16), height: rem(16) }} />
                                     )}>
@@ -51,7 +51,7 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
                                 <MenuLabel>Danger zone</MenuLabel>
                                 <MenuItem
                                     component={Link}
-                                    href={`user/action/${e.id}/password`}
+                                    href={`user/${e.id}/password`}
                                     color="red"
                                     leftSection={(
                                         <IconKey style={{ width: rem(16), height: rem(16) }} />

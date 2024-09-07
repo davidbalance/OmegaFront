@@ -43,7 +43,7 @@ export const createArea = async (data: AreaBody): Promise<void> => {
         .addBody(data)
         .addToken(session.access_token)
         .execute('areaCreate');
-    revalidatePath('');
+    revalidatePath('/omega/management');
 }
 
 export const updateArea = async (id: number, data: Partial<AreaBody>): Promise<void> => {
@@ -53,7 +53,9 @@ export const updateArea = async (id: number, data: Partial<AreaBody>): Promise<v
         .addBody(data)
         .addToken(session.access_token)
         .execute('areaUpdate');
-    revalidatePath('');
+    revalidatePath(`/omega/area/${id}/update`);
+    revalidatePath(`/omega/area/${id}/change`);
+    revalidatePath('/omega/management');
 }
 
 export const deleteArea = async (id: number): Promise<void> => {
@@ -62,13 +64,5 @@ export const deleteArea = async (id: number): Promise<void> => {
         .addParams({ id })
         .addToken(session.access_token)
         .execute('areaDelete');
-    revalidatePath('');
+    revalidatePath('/omega/management');
 }
-
-/* export const retriveAreas = async (): Promise<Area[]> => {
-    const session = await auth();
-    const { data }: ObjectArray<Area> = await omega()
-        .addToken(session.access_token)
-        .execute('areaDetails');
-    return data;
-} */

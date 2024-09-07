@@ -6,7 +6,7 @@ import { FilterMeta, CountMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { Doctor } from "@/lib/dtos/user/doctor/base.response.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 
-export const searchDoctors = async (filter: FilterMeta): Promise<Doctor[]> => {
+export const searchDoctor = async (filter: FilterMeta): Promise<Doctor[]> => {
     const session = await auth();
     const { data }: ObjectArray<Doctor> = await omega()
         .addQuery({ ...filter })
@@ -15,7 +15,7 @@ export const searchDoctors = async (filter: FilterMeta): Promise<Doctor[]> => {
     return data;
 }
 
-export const countDoctors = async (filter: CountMeta): Promise<number> => {
+export const countDoctor = async (filter: CountMeta): Promise<number> => {
     const session = await auth();
     const { pages }: PageCount = await omega()
         .addQuery({ ...filter })
@@ -42,13 +42,3 @@ export const uploadSignature = async (id: number, formData: FormData): Promise<v
         .addBody(formData)
         .execute('doctorSignatureUpload');
 }
-
-/* export const retriveDoctors = async () => {
-    const session = await auth();
-    if (!session) throw new Error('There is no session found');
-    const { data }: GetDoctorArrayResponseDto = await omega()
-        .addToken(session.access_token)
-        .execute('doctorDetails');
-    return data;
-}
- */

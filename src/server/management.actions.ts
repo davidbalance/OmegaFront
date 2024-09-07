@@ -2,10 +2,19 @@
 
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import omega from "@/lib/api-client/omega-client/omega";
-import { Management } from "@/lib/dtos/location/management/base.response.dto";
+import { Management, ManagementOption } from "@/lib/dtos/location/management/base.response.dto";
 import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
+import { HasValue } from "@/lib/interfaces/has-value.interface";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 import { revalidatePath } from "next/cache";
+
+export const retriveManagementOptions = async (): Promise<ManagementOption[]> => {
+    const session = await auth();
+    const { data }: ObjectArray<ManagementOption> = await omega()
+        .addToken(session.access_token)
+        .execute('managementOptions');
+    return data;
+}
 
 export const searchManagement = async (filter: FilterMeta): Promise<Management[]> => {
     const session = await auth();
@@ -25,14 +34,6 @@ export const countManagement = async (filter: CountMeta): Promise<number> => {
     return pages;
 }
 
-export const retriveManagements = async (): Promise<Management[]> => {
-    const session = await auth();
-    const { data }: ObjectArray<Management> = await omega()
-        .addToken(session.access_token)
-        .execute('managementDetails');
-    return data;
-}
-
 export const retriveManagement = async (id: number): Promise<Management> => {
     const session = await auth();
     const data: Management = await omega()
@@ -49,6 +50,7 @@ export const createManagement = async (data: ManagementBody): Promise<void> => {
         .addBody(data)
         .addToken(session.access_token)
         .execute('managementCreate');
+    revalidatePath('/omega/management');
 }
 
 export const updateManagement = async (id: number, data: ManagementBody): Promise<void> => {
@@ -58,24 +60,25 @@ export const updateManagement = async (id: number, data: ManagementBody): Promis
         .addBody(data)
         .addToken(session.access_token)
         .execute('managementUpdate');
-    revalidatePath('');
+    revalidatePath(`/omega/management/${id}`);
+    revalidatePath('/omega/management');
 }
 
 export const deleteManagement = async (id: number): Promise<void> => {
     const session = await auth();
 
-    const { hasAreas }: { hasAreas: boolean } = await omega()
+    const { hasValue }: HasValue = await omega()
         .addParams({ id })
         .addToken(session.access_token)
         .execute('managementHasAreas');
 
-    if (hasAreas) {
-        throw new Error('El grupo tiene asignadas morbilidades');
+    if (hasValue) {
+        throw new Error('La generecia tiene areas asignadas');
     }
 
     await omega()
         .addParams({ id })
         .addToken(session.access_token)
         .execute('managementDelete');
-    revalidatePath('');
+    revalidatePath('/omega/management');
 }

@@ -11,7 +11,7 @@ import { IconDeviceFloppy } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import React, { FormEvent, useRef, useState } from 'react'
 
-const Form: React.FC = () => {
+const DiseaseGroupForm: React.FC = () => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement | null>(null);
@@ -63,4 +63,4 @@ const Form: React.FC = () => {
     )
 }
 
-export default Form
+export default DiseaseGroupForm

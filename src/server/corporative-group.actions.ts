@@ -2,16 +2,15 @@
 
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import omega from "@/lib/api-client/omega-client/omega";
-import { CorporativeGroup } from "@/lib/dtos/location/corporative/base.response.dto";
+import { CorporativeGroup, CorporativeGroupOption } from "@/lib/dtos/location/corporative/base.response.dto";
 import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 
-export const retriveCorporativeGroups = async (): Promise<CorporativeGroup[]> => {
+export const retriveCorporativeGroupOptions = async (): Promise<CorporativeGroupOption[]> => {
     const session = await auth();
-    if (!session) throw new Error('There is no session found');
-    const { data }: ObjectArray<CorporativeGroup> = await omega()
+    const { data }: ObjectArray<CorporativeGroupOption> = await omega()
         .addToken(session.access_token)
-        .execute('corporativeGroupDetails');
+        .execute('corporativeGroupOptions');
     return data;
 }
 

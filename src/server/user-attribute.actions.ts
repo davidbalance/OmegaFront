@@ -13,15 +13,15 @@ type Attribute = {
 
 const attributes: Attribute = {
     lookFor: {
-        get: "userAttributeLookForCompanyDetails",
+        get: "userAttributeLookForCompanyDetail",
         patch: "userAttributeLookForCompanyUpdate"
     },
     doctorOf: {
-        get: "userAttributeDoctorOfDetails",
+        get: "userAttributeDoctorOfDetail",
         patch: "userAttributeDoctorOfUpdate"
     },
     employeeOf: {
-        get: "userAttributeEmployeeOfDetails",
+        get: "userAttributeEmployeeOfDetail",
         patch: "userAttributeEmployeeOfUpdate"
     }
 }
@@ -46,14 +46,13 @@ export const updateUserAttribute = async (id: number, value: string, attribute: 
     const session = await auth();
     if (!session) throw new Error('There is no session found');
     const key = attributes[attribute].patch;
-    console.log(key);
+
     try {
         await omega()
             .addParams({ id })
             .addBody({ value })
             .addToken(session.access_token)
             .execute(key);
-        revalidatePath('');
     } catch (error) {
         return undefined;
     }

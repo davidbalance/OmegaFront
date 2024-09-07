@@ -1,12 +1,16 @@
+import { Exam } from "../base.response.dto";
 import { ExamSubtype } from "../subtype/base.response.dto";
 
-export interface ExamType {
+interface ExamSubtypeOption extends ExamSubtype {
+    exams: Exam[];
+}
+export interface ExamTypeOption extends ExamType {
     id: number;
     name: string;
-    subtypes: ExamSubtype[]
+    subtypes: ExamSubtypeOption[]
 }
 
-export interface ExamTypeSingle {
+export interface ExamType {
     id: number;
     name: string;
 }

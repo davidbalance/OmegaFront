@@ -1,14 +1,8 @@
-import AddQueryParam from '@/components/_base/add-query-param';
 import Await from '@/components/_base/await';
 import ListBodySuspense from '@/components/_base/list/list-body.suspense';
 import ListRoot from '@/components/_base/list/list-root';
-import ListRow from '@/components/_base/list/list-row';
-import ListTbody from '@/components/_base/list/list-tbody';
-import ListTh from '@/components/_base/list/list-th';
-import ListThead from '@/components/_base/list/list-thead';
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root';
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section';
-import OrderableButton from '@/components/_base/orderable-button';
 import ReloadButton from '@/components/_base/reload-button';
 import RemoveQueryButton from '@/components/_base/remove-query-button';
 import Search from '@/components/_base/search';
@@ -16,13 +10,19 @@ import ServerPagination from '@/components/_base/server-pagination';
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import { BranchSingle } from '@/lib/dtos/location/branch.response.dto';
-import { CompanySingle } from '@/lib/dtos/location/company.response.dto';
+import { Branch } from '@/lib/dtos/location/branch.response.dto';
+import { Company } from '@/lib/dtos/location/company.response.dto';
 import { countBranch, searchBranch } from '@/server/branch.actions';
 import { countCompany, searchCompany } from '@/server/company.actions';
 import { countCorporativeGroup, searchCorporativeGroup } from '@/server/corporative-group.actions';
-import { Group, rem, Box, Title, Text, Stack } from '@mantine/core';
+import { Group, rem, Box, Title } from '@mantine/core';
 import React, { Suspense } from 'react'
+import CorporativeGroupHeader from './_components/corporative-group-header';
+import CorporativeGroupBody from './_components/corporative-group-body';
+import CompanyHeader from './_components/company-header';
+import CompanyBody from './_components/company-body';
+import BranchHeader from './_components/branch-header';
+import BranchBody from './_components/branch-body';
 
 const take: number = 100;
 interface OmegaLocationPageProps {
@@ -56,14 +56,14 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
 
     const companyPromise = group
         ? searchCompany(group, { search: companySearch, field: companyField, page: companyPage - 1, take: take, order: order as any })
-        : new Promise<CompanySingle[]>((resolve) => resolve([]));
+        : new Promise<Company[]>((resolve) => resolve([]));
     const companyPagePromise = group
         ? countCompany(group, { search: branchSearch, take: take })
         : new Promise<number>((resolve) => resolve(0));
 
     const branchPromise = company
         ? searchBranch(company, { search: branchSearch, field: branchField, page: branchPage - 1, take: take, order: order as any })
-        : new Promise<BranchSingle[]>((resolve) => resolve([]));
+        : new Promise<Branch[]>((resolve) => resolve([]));
     const branchPagePromise = company
         ? countBranch(company, { search: branchSearch, take: take })
         : new Promise<number>((resolve) => resolve(0));
@@ -85,36 +85,10 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
-                            <ListThead>
-                                <ListTh>
-                                    <OrderableButton
-                                        owner='group'
-                                        field='name'>
-                                        <Text>Grupo corporativo</Text>
-                                    </OrderableButton>
-                                </ListTh>
-                            </ListThead>
+                            <CorporativeGroupHeader />
                             <Suspense fallback={<ListBodySuspense />}>
                                 <Await promise={groupPromise}>
-                                    {(groups) => (
-                                        <ListTbody>
-                                            {groups.map(e => (
-                                                <ListRow
-                                                    active={group === e.id}
-                                                    hoverable={true}
-                                                    key={e.id}>
-                                                    <Group justify='space-between' align='center' wrap='nowrap'>
-                                                        <AddQueryParam
-                                                            value={e.id.toString()}
-                                                            <Search query='group'
-                                                            removeQueries={['company']}>
-                                                            <Title order={6}>{e.name}</Title>
-                                                        </AddQueryParam>
-                                                    </Group>
-                                                </ListRow>
-                                            ))}
-                                        </ListTbody>
-                                    )}
+                                    {(groups) => <CorporativeGroupBody active={group} groups={groups} />}
                                 </Await>
                             </Suspense>
                         </ListRoot>
@@ -154,46 +128,10 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
-                            <ListThead>
-                                <ListTh>
-                                    <OrderableButton
-                                        owner='company'
-                                        field='name'>
-                                        <Text>Empresa</Text>
-                                    </OrderableButton>
-                                </ListTh>
-                                <ListTh>
-                                    <OrderableButton
-                                        owner='company'
-                                        field='ruc'>
-                                        <Text>Ruc</Text>
-                                    </OrderableButton>
-                                </ListTh>
-                            </ListThead>
+                            <CompanyHeader />
                             <Suspense fallback={<ListBodySuspense />}>
                                 <Await promise={companyPromise}>
-                                    {(companies) => (
-                                        <ListTbody>
-                                            {companies.map(e => (
-                                                <ListRow
-                                                    active={company === e.id}
-                                                    hoverable={true}
-                                                    key={e.id}>
-                                                    <AddQueryParam
-                                                        value={e.id.toString()}
-                                                        <Search query='company'>
-                                                        <Stack>
-                                                            <Title order={6}>{e.name}</Title>
-                                                            <Group justify='space-between' align='center' wrap='nowrap'>
-                                                                <Text>{e.ruc}</Text>
-                                                                <Text>{e.phone}</Text>
-                                                            </Group>
-                                                        </Stack>
-                                                    </AddQueryParam>
-                                                </ListRow>
-                                            ))}
-                                        </ListTbody>
-                                    )}
+                                    {(companies) => <CompanyBody active={company} companies={companies} />}
                                 </Await>
                             </Suspense>
                         </ListRoot>
@@ -233,30 +171,10 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
-                            <ListThead>
-                                <ListTh>
-                                    <OrderableButton
-                                        owner='branch'
-                                        field='name'>
-                                        <Text>Sucursal</Text>
-                                    </OrderableButton>
-                                </ListTh>
-                            </ListThead>
+                            <BranchHeader />
                             <Suspense fallback={<ListBodySuspense />}>
                                 <Await promise={branchPromise}>
-                                    {(branches) => (
-                                        <ListTbody>
-                                            {branches.map(e => (
-                                                <ListRow
-                                                    hoverable={true}
-                                                    key={e.id}>
-                                                    <Stack gap={rem(8)}>
-                                                        <Title order={6}>{e.name}</Title>
-                                                        <Text>{e.city}</Text>
-                                                    </Stack>
-                                                </ListRow>
-                                            ))}
-                                        </ListTbody>)}
+                                    {(branches) => <BranchBody branches={branches} />}
                                 </Await>
                             </Suspense>
                         </ListRoot>

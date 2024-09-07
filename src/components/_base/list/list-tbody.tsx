@@ -11,7 +11,7 @@ const ListTbody: React.FC<ListTbodyProps> = ({
 }) => {
     return (
         <ScrollArea h={height} px={rem(8)}>
-            <Stack gap={rem(8)} h='100%'>
+            <Stack gap={rem(8)} h='100%' mb={rem(8)}>
                 {children}
             </Stack>
         </ScrollArea>

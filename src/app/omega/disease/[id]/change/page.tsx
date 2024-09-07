@@ -1,7 +1,7 @@
 import ReturnableHeader from "@/components/_base/returnable-header";
-import { retriveDiseaseGroup, retriveFullDiseaseGroups } from "@/server/disease-group.actions";
 import { retriveDisease } from "@/server/disease.actions";
 import Form from "./_components/form";
+import { retriveDiseaseOptions } from "@/server/disease-group.actions";
 
 interface OmegaDiseaseChangePageProps {
     params: { id: number }
@@ -11,7 +11,7 @@ const OmegaDiseaseChangePage: React.FC<OmegaDiseaseChangePageProps> = async ({
 }) => {
 
     const data = await retriveDisease(params.id);
-    const options = await retriveFullDiseaseGroups();
+    const options = await retriveDiseaseOptions();
 
     return (
         <>

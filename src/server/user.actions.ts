@@ -2,15 +2,14 @@
 
 import { auth } from "@/app/api/auth/[...nextauth]/route"
 import omega from "@/lib/api-client/omega-client/omega";
-import { POSTCredentialRequestDto } from "@/lib/dtos/auth/credential/request.dto";
-import { PatchOmegaWebClientResourceRequestDto, PatchOmegaWebClientLogoRequestDto } from "@/lib/dtos/omega/web/client/request.dto";
 import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { User } from "@/lib/dtos/user/user/base.response.dto";
-import { PostUserRequestDto, PatchUserRequestDto } from "@/lib/dtos/user/user/request.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 import { revalidatePath } from "next/cache";
+import { WebClientLogo } from "./web-client.actions";
+import { CredentialBody } from "./credential.actions";
 
-export const searchUsers = async (filter: FilterMeta): Promise<User[]> => {
+export const searchUser = async (filter: FilterMeta): Promise<User[]> => {
     const session = await auth();
     const { data }: ObjectArray<User> = await omega()
         .addQuery({ ...filter })
@@ -19,7 +18,7 @@ export const searchUsers = async (filter: FilterMeta): Promise<User[]> => {
     return data;
 }
 
-export const countUsers = async (filter: CountMeta): Promise<number> => {
+export const countUser = async (filter: CountMeta): Promise<number> => {
     const session = await auth();
     const { pages }: PageCount = await omega()
         .addQuery({ ...filter })
@@ -30,31 +29,45 @@ export const countUsers = async (filter: CountMeta): Promise<number> => {
 
 export const retriveUser = async (id: number): Promise<User> => {
     const session = await auth();
-    if (!session) throw new Error('There is no session found');
-    const data: User = await omega().addParams({ id }).addToken(session.access_token).execute('userDetail');
+    const data: User = await omega()
+        .addParams({ id })
+        .addToken(session.access_token)
+        .execute('userDetail');
     return data;
 }
 
-type CreateCredentialWithoutUser = Omit<POSTCredentialRequestDto, 'user'>;
-type UpdateWebClientResource = PatchOmegaWebClientResourceRequestDto;
-type UpdateLogo = PatchOmegaWebClientLogoRequestDto;
-type CreateUserParam = PostUserRequestDto & CreateCredentialWithoutUser & UpdateWebClientResource & UpdateLogo;
-export const createUser = async (data: CreateUserParam) => {
+type UserBody = { name: string; lastname: string; email: string; dni: string; }
+type WebClientResourceBody = { resources: number[]; }
+type WebClientLogoBody = WebClientLogo;
+type CreateUserBody = UserBody & CredentialBody & WebClientResourceBody & WebClientLogoBody;
+export const createUser = async (data: CreateUserBody) => {
     const session = await auth();
+    const userBody = data as UserBody;
+    const credentialBody = data as CredentialBody;
+    const resourcesBody = data as WebClientResourceBody;
+    const logoBody = data as WebClientLogoBody;
     try {
-        if (!session) throw new Error('There is no session found');
-        const userBody: PostUserRequestDto = data;
-        const user = await omega().addToken(session.access_token).addBody(userBody).execute('userCreate');
+        const { id: userId }: User = await omega()
+            .addBody(userBody)
+            .addToken(session.access_token)
+            .execute('userCreate');
 
-        const { ...credentialWithoutUser }: CreateCredentialWithoutUser = data;
-        const credentialBody: POSTCredentialRequestDto = { ...credentialWithoutUser, user: user.id }
-        await omega().addToken(session.access_token).addBody(credentialBody).execute('credentialCreate');
+        await omega()
+            .addBody({ ...credentialBody, user: userId })
+            .addToken(session.access_token)
+            .execute('credentialCreate');
 
-        const { resources }: UpdateWebClientResource = data;
-        await omega().addParams({ id: user.id }).addToken(session.access_token).addBody({ resources }).execute('webClientResourceUpdate');
+        await omega()
+            .addParams({ id: userId })
+            .addBody(resourcesBody)
+            .addToken(session.access_token)
+            .execute('webClientResourceUpdate');
 
-        const { logo }: UpdateLogo = data;
-        await omega().addParams({ id: user.id }).addToken(session.access_token).addBody({ logo: Number(logo) }).execute('webClientLogoUpdate');
+        await omega()
+            .addParams({ id: userId })
+            .addBody(logoBody)
+            .addToken(session.access_token)
+            .execute('webClientLogoUpdate');
         revalidatePath('omega/admin/user')
     } catch (error) {
         console.error(error);
@@ -62,12 +75,11 @@ export const createUser = async (data: CreateUserParam) => {
     }
 }
 
-export const updateUser = async (id: number, data: PatchUserRequestDto) => {
+export const updateUser = async (id: number, body: Partial<Pick<UserBody, 'name' | 'lastname'>>) => {
     const session = await auth();
-    if (!session) throw new Error('There is no session found');
     await omega()
         .addParams({ id })
-        .addBody(data)
+        .addBody(body)
         .addToken(session.access_token)
         .execute('userUpdate');
     revalidatePath('omega/admin/user');
@@ -75,7 +87,6 @@ export const updateUser = async (id: number, data: PatchUserRequestDto) => {
 
 export const deleteUser = async (id: number) => {
     const session = await auth();
-    if (!session) throw new Error('There is no session found');
     await omega()
         .addToken(session.access_token)
         .addParams({ id })

@@ -1,15 +1,8 @@
-import ActionMenu from '@/components/_base/action-menu'
-import AddQueryParam from '@/components/_base/add-query-param'
 import Await from '@/components/_base/await'
 import ListBodySuspense from '@/components/_base/list/list-body.suspense'
 import ListRoot from '@/components/_base/list/list-root'
-import ListRow from '@/components/_base/list/list-row'
-import ListTbody from '@/components/_base/list/list-tbody'
-import ListTh from '@/components/_base/list/list-th'
-import ListThead from '@/components/_base/list/list-thead'
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root'
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section'
-import OrderableButton from '@/components/_base/orderable-button'
 import ReloadButton from '@/components/_base/reload-button'
 import RemoveQueryButton from '@/components/_base/remove-query-button'
 import Search from '@/components/_base/search'
@@ -17,16 +10,16 @@ import ServerPagination from '@/components/_base/server-pagination'
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import ModularLayout from '@/components/modular/layout/ModularLayout'
-import ActionMenuProvider from '@/contexts/action-menu.context'
 import { Area } from '@/lib/dtos/location/area/base.response.dto'
 import { countArea, searchArea } from '@/server/area.actions'
 import { countManagement, searchManagement } from '@/server/management.actions'
-import { Box, Button, Group, MenuItem, MenuLabel, rem, Text, Title } from '@mantine/core'
-import { IconExchange, IconPencil } from '@tabler/icons-react'
+import { Box, Button, Group, rem, Title } from '@mantine/core'
 import Link from 'next/link'
 import React, { Suspense } from 'react'
-import ManagementActionDelete from './_components/management-action-delete'
-import AreaActionDelete from './_components/area-action-delete'
+import ManagementHeader from './_components/management-header'
+import ManagementBody from './_components/management-body'
+import AreaHeader from './_components/area-header'
+import AreaBody from './_components/area-body'
 
 const take: number = 100;
 interface OmegaManagementPageProps {
@@ -85,49 +78,10 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = ({
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
-                            <ListThead>
-                                <ListTh>
-                                    <OrderableButton
-                                        owner='management'
-                                        field='name'>
-                                        <Text>Gerencia</Text>
-                                    </OrderableButton>
-                                </ListTh>
-                            </ListThead>
+                            <ManagementHeader />
                             <Suspense fallback={<ListBodySuspense />}>
                                 <Await promise={managementPromise}>
-                                    {(managements) => (
-                                        <ListTbody>
-                                            {managements.map(e => (
-                                                <ListRow
-                                                    active={management === e.id}
-                                                    hoverable={true}
-                                                    key={e.id}>
-                                                    <Group justify='space-between' align='center' wrap='nowrap'>
-                                                        <AddQueryParam
-                                                            value={e.id.toString()}
-                                                            query='management'>
-                                                            <Title order={6}>{e.name}</Title>
-                                                        </AddQueryParam>
-                                                        <ActionMenuProvider>
-                                                            <ActionMenu>
-                                                                <MenuLabel>Administracion</MenuLabel>
-                                                                <MenuItem
-                                                                    component={Link}
-                                                                    href={`management/${e.id}/update`}
-                                                                    leftSection={(
-                                                                        <IconPencil style={{ width: rem(16), height: rem(16) }} />
-                                                                    )}>
-                                                                    Modificacion
-                                                                </MenuItem>
-                                                                <ManagementActionDelete id={e.id} />
-                                                            </ActionMenu>
-                                                        </ActionMenuProvider>
-                                                    </Group>
-                                                </ListRow>
-                                            ))}
-                                        </ListTbody>
-                                    )}
+                                    {(managements) => <ManagementBody active={management} managements={managements} />}
                                 </Await>
                             </Suspense>
                         </ListRoot>
@@ -176,52 +130,10 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = ({
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
-                            <ListThead>
-                                <ListTh>
-                                    <OrderableButton
-                                        owner='area'
-                                        field='name'>
-                                        <Text>Area</Text>
-                                    </OrderableButton>
-                                </ListTh>
-                            </ListThead>
+                            <AreaHeader />
                             <Suspense fallback={<ListBodySuspense />}>
                                 <Await promise={areaPromise}>
-                                    {(area) => (
-                                        <ListTbody>
-                                            {area.map(e => (
-                                                <ListRow
-                                                    hoverable={true}
-                                                    key={e.id}>
-                                                    <Group justify='space-between' align='center' wrap='nowrap'>
-                                                        <Text>{e.name}</Text>
-                                                        <ActionMenuProvider>
-                                                            <ActionMenu>
-                                                                <MenuLabel>Administracion</MenuLabel>
-                                                                <MenuItem
-                                                                    component={Link}
-                                                                    href={`area/${e.id}/update`}
-                                                                    leftSection={(
-                                                                        <IconPencil style={{ width: rem(16), height: rem(16) }} />
-                                                                    )}>
-                                                                    Modificacion
-                                                                </MenuItem>
-                                                                <MenuItem
-                                                                    component={Link}
-                                                                    href={`area/${e.id}/change`}
-                                                                    leftSection={(
-                                                                        <IconExchange style={{ width: rem(16), height: rem(16) }} />
-                                                                    )}>
-                                                                    Cambiar gerencia
-                                                                </MenuItem>
-                                                                <AreaActionDelete id={e.id} />
-                                                            </ActionMenu>
-                                                        </ActionMenuProvider>
-                                                    </Group>
-                                                </ListRow>
-                                            ))}
-                                        </ListTbody>
-                                    )}
+                                    {(areas) => <AreaBody areas={areas} />}
                                 </Await>
                             </Suspense>
                         </ListRoot>

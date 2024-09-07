@@ -4,7 +4,6 @@ import React, { Suspense } from 'react'
 import Search from '@/components/_base/search'
 import UserTable from './_components/user-table'
 import Await from '@/components/_base/await'
-import { countUsers, searchUsers } from '../../../../server/user.actions'
 import Link from 'next/link'
 import TableRoot from '@/components/_base/table/table-root'
 import TableTHead from '@/components/_base/table/table-thead'
@@ -13,6 +12,7 @@ import OrderableButton from '@/components/_base/orderable-button'
 import ServerPagination from '@/components/_base/server-pagination'
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense'
 import TableBodySuspense from '@/components/_base/table/table-body.suspense'
+import { countUser, searchUser } from '@/server/user.actions'
 
 const take: number = 100;
 interface UserPageProps {
@@ -26,8 +26,8 @@ const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
     const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
     const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
 
-    const userPromise = searchUsers({ search: search, field: field, page: page - 1, take: take, order: order as any });
-    const pagePromise = countUsers({ search: search, take: take });
+    const userPromise = searchUser({ search: search, field: field, page: page - 1, take: take, order: order as any });
+    const pagePromise = countUser({ search: search, take: take });
 
     return <>
         <ModularBox>
@@ -44,7 +44,7 @@ const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
                 <Button
                     component={Link}
                     radius='md'
-                    href={'user/action/create'}>
+                    href={'user/create'}>
                     Crear usuario
                 </Button>
             </Flex>

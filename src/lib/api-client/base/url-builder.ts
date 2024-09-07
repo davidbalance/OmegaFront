@@ -29,7 +29,9 @@ class UrlBuilder {
         }
 
         Object.entries(this._urlParams).forEach(([key, value]) => {
-            url = url.replace(`:${key}`, value.toString());
+            if (value) {
+                url = url.replace(`:${key}`, value.toString());
+            }
         });
 
         const query: URLSearchParams = new URLSearchParams();

@@ -6,19 +6,21 @@ import omega from '@/lib/api-client/omega-client/omega'
 import { GetOmegaWebClientResponseDto } from '@/lib/dtos/omega/web/client/response.dto'
 import { auth } from '@/app/api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
+import { ObjectArray } from '@/lib/interfaces/object-array.interface'
+import { OmegaWebClientResource } from '@/lib/dtos/omega/web/client/base.response.dto'
 
 
 const OmegaNavbarContent: React.FC = async () => {
   try {
     const session = await auth();
     if (!session) redirect('/login');
-    const { resources }: GetOmegaWebClientResponseDto = await omega().addToken(session.access_token).execute('webClientDetails');
+    const { data }: ObjectArray<OmegaWebClientResource> = await omega().addToken(session.access_token).execute('accountResource');
 
     return (
       <OmegaShellSection
         gap={rem(4)}>
         {
-          resources.map((e) => (
+          data.map((e) => (
             <OmegaShellLink
               key={e.label}
               href={e.address}

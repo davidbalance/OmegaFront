@@ -2,13 +2,13 @@
 
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import omega from "@/lib/api-client/omega-client/omega";
-import { BranchSingle } from "@/lib/dtos/location/branch.response.dto";
+import { Branch } from "@/lib/dtos/location/branch.response.dto";
 import { FilterMeta, CountMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 
-export const searchBranch = async (company: number, filter: FilterMeta): Promise<BranchSingle[]> => {
+export const searchBranch = async (company: number, filter: FilterMeta): Promise<Branch[]> => {
     const session = await auth();
-    const { data }: ObjectArray<BranchSingle> = await omega()
+    const { data }: ObjectArray<Branch> = await omega()
         .addParams({ company })
         .addQuery({ ...filter })
         .addToken(session.access_token)

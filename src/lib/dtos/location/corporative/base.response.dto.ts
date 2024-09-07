@@ -1,9 +1,14 @@
+import { Branch } from "../branch.response.dto";
 import { Company } from "../company.response.dto";
 
-export interface LocationResponse {
+interface CompanyOption extends Company {
+    branches: Branch[];
+}
+
+export interface CorporativeGroupOption {
     id: number;
     name: string;
-    companies: Company[];
+    companies: CompanyOption[];
 }
 
 export interface CorporativeGroup {

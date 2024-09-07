@@ -53,4 +53,6 @@ const UserFormLogo = React.forwardRef<HTMLFormElement, UserFormLogoProps>(({
     );
 });
 
+UserFormLogo.displayName = 'UserFormLogo';
+
 export default UserFormLogo;

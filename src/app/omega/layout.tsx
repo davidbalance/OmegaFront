@@ -47,13 +47,13 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             </Suspense>
                         </ScrollAreaAutosize>
                     </Box>
-                    <OmegaShellSection
+                    <Flex
                         mt='sm'
-                        visibleFrom='md'>
-                        <Flex w='100%' justify='flex-end'>
-                            <OmegaShellLock />
-                        </Flex>
-                    </OmegaShellSection>
+                        visibleFrom='md'
+                        w='100%'
+                        justify='flex-end'>
+                        <OmegaShellLock />
+                    </Flex>
                 </Stack>
             </OmegaShellNavbar>
             <OmegaShellMain>

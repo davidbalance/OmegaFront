@@ -2,23 +2,24 @@
 
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import omega from "@/lib/api-client/omega-client/omega";
-import { DiseaseGroup, DiseaseGroupSingle } from "@/lib/dtos/disease/group/base.response.dto"
+import { DiseaseGroup, DiseaseGroupOption } from "@/lib/dtos/disease/group/base.response.dto"
 import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
+import { HasValue } from "@/lib/interfaces/has-value.interface";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 import { revalidatePath } from "next/cache";
 
-export const retriveFullDiseaseGroups = async (): Promise<DiseaseGroup[]> => {
+export const retriveDiseaseOptions = async (): Promise<DiseaseGroupOption[]> => {
     const session = await auth();
     if (!session) throw new Error('There is no session found');
-    const { data }: ObjectArray<DiseaseGroup> = await omega()
+    const { data }: ObjectArray<DiseaseGroupOption> = await omega()
         .addToken(session.access_token)
         .execute('diseaseGroupOptions');
     return data;
 }
 
-export const searchDiseaseGroup = async (filter: FilterMeta): Promise<DiseaseGroupSingle[]> => {
+export const searchDiseaseGroup = async (filter: FilterMeta): Promise<DiseaseGroup[]> => {
     const session = await auth();
-    const { data }: ObjectArray<DiseaseGroupSingle> = await omega()
+    const { data }: ObjectArray<DiseaseGroup> = await omega()
         .addQuery({ ...filter })
         .addToken(session.access_token)
         .execute('diseaseGroupSearch');
@@ -34,16 +35,16 @@ export const countDiseaseGroup = async (filter: CountMeta): Promise<number> => {
     return pages;
 }
 
-export const retriveDiseaseGroup = async (id: number): Promise<DiseaseGroupSingle> => {
+export const retriveDiseaseGroup = async (id: number): Promise<DiseaseGroup> => {
     const session = await auth();
-    const data: DiseaseGroupSingle = await omega()
+    const data: DiseaseGroup = await omega()
         .addParams({ id })
         .addToken(session.access_token)
         .execute('diseaseGroupDetail');
     return data;
 }
 
-type DiseaseGroupBody = Omit<DiseaseGroupSingle, 'id'>
+type DiseaseGroupBody = Omit<DiseaseGroup, 'id'>
 export const createDiseaseGroup = async (body: DiseaseGroupBody): Promise<void> => {
     const session = await auth();
     await omega()
@@ -52,7 +53,7 @@ export const createDiseaseGroup = async (body: DiseaseGroupBody): Promise<void> 
         .execute('diseaseGroupCreate');
 }
 
-export const updateDiseaseGroup = async (id: number, body: DiseaseGroupBody): Promise<void> => {
+export const updateDiseaseGroup = async (id: number, body: Partial<DiseaseGroupBody>): Promise<void> => {
     const session = await auth();
     await omega()
         .addParams({ id })
@@ -64,21 +65,18 @@ export const updateDiseaseGroup = async (id: number, body: DiseaseGroupBody): Pr
 export const deleteDiseaseGroup = async (id: number): Promise<void> => {
     const session = await auth();
 
-    const { hasDiseases }: { hasDiseases: boolean } = await omega()
+    const { hasValue }: HasValue = await omega()
         .addParams({ id })
         .addToken(session.access_token)
         .execute('diseaseGroupHasDiseases');
 
-    if (hasDiseases) {
+    if (hasValue) {
         throw new Error('El grupo tiene asignadas morbilidades');
     }
 
-    console.log(1)
     await omega()
-    .addParams({ id })
-    .addToken(session.access_token)
-    .execute('diseaseGroupDelete');
-    console.log(2)
+        .addParams({ id })
+        .addToken(session.access_token)
+        .execute('diseaseGroupDelete');
     revalidatePath('');
-    console.log(3)
 }

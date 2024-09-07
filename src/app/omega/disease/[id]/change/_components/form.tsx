@@ -2,7 +2,7 @@
 
 import DiseaseFormGroup from '@/components/disease/form/DiseaseFormGroup';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { DiseaseGroup } from '@/lib/dtos/disease/group/base.response.dto';
+import { DiseaseGroupOption } from '@/lib/dtos/disease/group/base.response.dto';
 import { parseForm } from '@/lib/utils/form-parse';
 import { updateDisease } from '@/server/disease.actions';
 import { LoadingOverlay, Button, rem } from '@mantine/core';
@@ -14,7 +14,7 @@ import React, { FormEvent, useRef, useState } from 'react'
 interface FormProps {
     id: number;
     group: number;
-    options: DiseaseGroup[]
+    options: DiseaseGroupOption[]
 }
 const Form: React.FC<FormProps> = ({
     id,

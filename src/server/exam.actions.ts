@@ -7,7 +7,7 @@ import { FilterMeta, CountMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 import { revalidatePath } from "next/cache";
 
-export const searchExams = async (subtype: number, filter: FilterMeta): Promise<Exam[]> => {
+export const searchExam = async (subtype: number, filter: FilterMeta): Promise<Exam[]> => {
     const session = await auth();
     const { data }: ObjectArray<Exam> = await omega()
         .addParams({ subtype })
@@ -17,7 +17,7 @@ export const searchExams = async (subtype: number, filter: FilterMeta): Promise<
     return data;
 }
 
-export const countExams = async (subtype: number, filter: CountMeta): Promise<number> => {
+export const countExam = async (subtype: number, filter: CountMeta): Promise<number> => {
     const session = await auth();
     const { pages }: PageCount = await omega()
         .addParams({ subtype })
@@ -36,7 +36,7 @@ export const retriveExam = async (id: number): Promise<Exam> => {
     return data;
 }
 
-type ExamBody = { subtype: number };
+type ExamBody = Pick<Exam, 'subtype'>;
 export const updateExam = async (id: number, body: ExamBody): Promise<void> => {
     const session = await auth();
     await omega()
