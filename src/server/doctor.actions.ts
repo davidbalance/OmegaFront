@@ -5,6 +5,7 @@ import omega from "@/lib/api-client/omega-client/omega";
 import { FilterMeta, CountMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { Doctor } from "@/lib/dtos/user/doctor/base.response.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
+import { revalidatePath } from "next/cache";
 
 export const searchDoctor = async (filter: FilterMeta): Promise<Doctor[]> => {
     const session = await auth();
@@ -41,4 +42,5 @@ export const uploadSignature = async (id: number, formData: FormData): Promise<v
         .addParams({ id })
         .addBody(formData)
         .execute('doctorSignatureUpload');
+    revalidatePath('/omega/admin/doctor');
 }

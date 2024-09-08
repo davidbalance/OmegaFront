@@ -3,12 +3,12 @@
 import LoadingOverlay from '@/components/_base/loading-overlay';
 import AuthFormPassword from '@/components/authentication/form/auth-form-password';
 import { ModularBox } from '@/components/modular/box/ModularBox';
+import { createCredential } from '@/server/credential.actions';
 import { Button, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useCallback, useRef, useState } from 'react'
-import { addCredential } from '../../../../_actions/auth.actions';
 
 interface CredentialAssignFormProps {
     id: number;
@@ -36,7 +36,7 @@ const CredentialAssignForm: React.FC<CredentialAssignFormProps> = ({
         });
 
         try {
-            await addCredential(id, { email, password: currentValue.password });
+            await createCredential(id, { email, password: currentValue.password });
             router.back();
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });

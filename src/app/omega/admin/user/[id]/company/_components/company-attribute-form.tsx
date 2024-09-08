@@ -16,7 +16,10 @@ interface CompanyAttributeFormProps {
     value?: string | undefined;
     options: CorporativeGroupOption[];
 }
-const CompanyAttributeForm: React.FC<CompanyAttributeFormProps> = ({ id, ...props }) => {
+const CompanyAttributeForm: React.FC<CompanyAttributeFormProps> = ({
+    id,
+    ...props
+}) => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement | null>(null);

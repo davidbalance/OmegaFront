@@ -2,7 +2,7 @@ import { ModularBox } from '@/components/modular/box/ModularBox'
 import { Box, Button, Flex, rem, TableTr, Text, Title } from '@mantine/core'
 import React, { Suspense } from 'react'
 import Search from '@/components/_base/search'
-import UserTable from './_components/user-table'
+import UserBody from './_components/user-table'
 import Await from '@/components/_base/await'
 import Link from 'next/link'
 import TableRoot from '@/components/_base/table/table-root'
@@ -80,10 +80,7 @@ const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
                 </TableTHead>
                 <Suspense fallback={<TableBodySuspense columns={5} rows={10} action />}>
                     <Await promise={userPromise}>
-                        {(user) => (
-                            <UserTable
-                                users={user} />
-                        )}
+                        {(user) => <UserBody users={user} />}
                     </Await>
                 </Suspense>
             </TableRoot>

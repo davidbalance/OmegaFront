@@ -1,9 +1,9 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import React from 'react'
-import { retriveBlobSignature } from '../../../../_actions/doctor.actions'
 import BlobPreview from '@/components/_base/blob-preview'
 import { Box, rem } from '@mantine/core'
+import { retriveBlobSignature } from '@/server/doctor.actions'
 
 interface DoctorActionSignatureViewPageProps {
   params: { id: number }

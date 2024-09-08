@@ -47,13 +47,12 @@ export const updateUserAttribute = async (id: number, value: string, attribute: 
     if (!session) throw new Error('There is no session found');
     const key = attributes[attribute].patch;
 
-    try {
-        await omega()
-            .addParams({ id })
-            .addBody({ value })
-            .addToken(session.access_token)
-            .execute(key);
-    } catch (error) {
-        return undefined;
-    }
+    await omega()
+        .addParams({ id })
+        .addBody({ value })
+        .addToken(session.access_token)
+        .execute(key);
+
+    revalidatePath(`/omega/admin/user/${id}/company`);
+    revalidatePath(`/omega/admin/doctor/${id}/company`);
 }

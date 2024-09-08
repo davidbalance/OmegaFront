@@ -1,5 +1,5 @@
-import { retriveBlobSignature } from '@/app/omega/admin/doctor/_actions/doctor.actions';
 import BlobPreview from '@/components/_base/blob-preview';
+import { retriveBlobSignature } from '@/server/doctor.actions';
 import { Box, ModalBody, ModalCloseButton, ModalHeader, rem } from '@mantine/core';
 import React from 'react'
 

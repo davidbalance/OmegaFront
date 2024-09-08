@@ -6,7 +6,7 @@ import { OmegaWebResource } from "@/lib/dtos/omega/web/resource/base.response.dt
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 import { revalidatePath } from "next/cache";
 
-export type WebClientLogo = { logo: string; }
+export type WebClientLogo = { logo: number; }
 export const retriveClientLogo = async (user: number): Promise<WebClientLogo> => {
     const session = await auth();
     const data: WebClientLogo = await omega()
@@ -44,5 +44,7 @@ export const updateClientResource = async (user: number, body: WebClientResource
         .addToken(session.access_token)
         .addBody(body)
         .execute('webClientResourceUpdate');
-    revalidatePath('');
+
+    revalidatePath(`/omega/admin/user/${user}/access`);
+    revalidatePath('/omega/admin/user');
 }

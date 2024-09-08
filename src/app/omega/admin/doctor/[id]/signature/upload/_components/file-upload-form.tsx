@@ -1,9 +1,9 @@
 'use client'
 
-import { uploadSignature } from '@/app/omega/admin/doctor/_actions/doctor.actions'
 import LoadingOverlay from '@/components/_base/loading-overlay'
 import Dropzone from '@/components/dropzone/dropzone'
-import { useConfirmation } from '@/contexts/confirmation/confirmation.context'
+import { useConfirmation } from '@/contexts/confirmation.context'
+import { uploadSignature } from '@/server/doctor.actions'
 import { Flex } from '@mantine/core'
 import { MIME_TYPES } from '@mantine/dropzone'
 import { notifications } from '@mantine/notifications'

@@ -3,13 +3,13 @@ import { MenuItem, MenuLabel, rem, TableTbody, TableTd, TableTr } from '@mantine
 import { IconBuilding, IconLock, IconEye, IconUpload } from '@tabler/icons-react';
 import Link from 'next/link';
 import React from 'react'
-import ActionUserProvider from '../../../../../contexts/action-menu.context';
 import ActionMenu from '@/components/_base/action-menu';
+import ActionMenuProvider from '@/contexts/action-menu.context';
 
-interface DoctorTableProps {
+interface DoctorBodyProps {
     doctors: Doctor[];
 }
-const DoctorTable: React.FC<DoctorTableProps> = ({ doctors }) => {
+const DoctorBody: React.FC<DoctorBodyProps> = ({ doctors }) => {
     return (
         <TableTbody>
             {doctors.map(e => (
@@ -19,13 +19,13 @@ const DoctorTable: React.FC<DoctorTableProps> = ({ doctors }) => {
                     <TableTd>{e.lastname}</TableTd>
                     <TableTd>{e.email}</TableTd>
                     <TableTd>
-                        <ActionUserProvider>
+                        <ActionMenuProvider>
                             <ActionMenu>
                                 <MenuLabel>Aplicacion</MenuLabel>
                                 {!e.hasCredential && (
                                     <MenuItem
                                         component={Link}
-                                        href={`doctor/action/${e.user}/credential`}
+                                        href={`doctor/${e.user}/credential`}
                                         leftSection={(
                                             <IconLock style={{ width: rem(16), height: rem(16) }} />
                                         )}>
@@ -35,7 +35,7 @@ const DoctorTable: React.FC<DoctorTableProps> = ({ doctors }) => {
                                 {Boolean(e.hasFile) && (
                                     <MenuItem
                                         component={Link}
-                                        href={`doctor/action/${e.id}/signature/view`}
+                                        href={`doctor/${e.id}/signature/view`}
                                         leftSection={(
                                             <IconEye style={{ width: rem(16), height: rem(16) }} />
                                         )}>
@@ -44,7 +44,7 @@ const DoctorTable: React.FC<DoctorTableProps> = ({ doctors }) => {
                                 )}
                                 <MenuItem
                                     component={Link}
-                                    href={`doctor/action/${e.id}/signature/upload`}
+                                    href={`doctor/${e.id}/signature/upload`}
                                     leftSection={(
                                         <IconUpload style={{ width: rem(16), height: rem(16) }} />
                                     )}>
@@ -53,14 +53,14 @@ const DoctorTable: React.FC<DoctorTableProps> = ({ doctors }) => {
                                 </MenuItem>
                                 <MenuItem
                                     component={Link}
-                                    href={`doctor/action/${e.user}/company`}
+                                    href={`doctor/${e.user}/company`}
                                     leftSection={(
                                         <IconBuilding style={{ width: rem(16), height: rem(16) }} />
                                     )}>
                                     Asignar Empresa
                                 </MenuItem>
                             </ActionMenu>
-                        </ActionUserProvider>
+                        </ActionMenuProvider>
                     </TableTd>
                 </TableTr>
             ))}
@@ -68,4 +68,4 @@ const DoctorTable: React.FC<DoctorTableProps> = ({ doctors }) => {
     )
 }
 
-export default DoctorTable
+export default DoctorBody

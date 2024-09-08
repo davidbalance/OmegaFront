@@ -2,19 +2,19 @@
 
 import LoadingOverlay from '@/components/_base/loading-overlay';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { UserFormCompany } from '@/components/user/form/user-form-company';
-import { LocationResponse } from '@/lib/dtos/location/corporative/base.response.dto';
+import UserFormCompany from '@/components/user/form/user-form-company';
+import { CorporativeGroupOption } from '@/lib/dtos/location/corporative/base.response.dto';
+import { updateUserAttribute } from '@/server/user-attribute.actions';
 import { Button, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useCallback, useRef, useState } from 'react'
-import { updateUserAttribute } from '../../../../../../../../server/user-attribute.actions';
 
 interface CompanyAttributeFormProps {
     id: number;
     value?: string | undefined;
-    options: LocationResponse[];
+    options: CorporativeGroupOption[];
 }
 const CompanyAttributeForm: React.FC<CompanyAttributeFormProps> = ({ id, ...props }) => {
 

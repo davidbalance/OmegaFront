@@ -63,6 +63,8 @@ const AuthFormPassword = React.forwardRef<HTMLFormElement, AuthFormPasswordProps
         <Box
             ref={ref}
             component='form'
+            mt={rem(16)}
+            px={rem(16)}
             onSubmit={form.onSubmit(handleSubmit)}>
             <PasswordInput
                 label='Contraseña'

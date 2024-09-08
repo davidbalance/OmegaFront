@@ -156,7 +156,7 @@ const UserForm: React.FC<UserFormProps> = ({
                             : (<Button flex={1} size='xs' onClick={handleNextChange} leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>Guardar</Button>)}
                     </>
                     ) : (
-                        <Button flex={1} size='xs' onClick={() => router.push('../')}>Finalizar</Button>
+                        <Button flex={1} size='xs' onClick={() => router.push('/omega/admin/user')}>Finalizar</Button>
                     )}
             </ModularBox>
         </>

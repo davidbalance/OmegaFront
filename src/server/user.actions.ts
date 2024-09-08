@@ -58,14 +58,14 @@ export const createUser = async (data: CreateUserBody) => {
             .execute('credentialCreate');
 
         await omega()
-            .addParams({ id: userId })
+            .addParams({ user: userId })
             .addBody(resourcesBody)
             .addToken(session.access_token)
             .execute('webClientResourceUpdate');
 
         await omega()
-            .addParams({ id: userId })
-            .addBody(logoBody)
+            .addParams({ user: userId })
+            .addBody({ logo: Number(logoBody.logo) })
             .addToken(session.access_token)
             .execute('webClientLogoUpdate');
         revalidatePath('omega/admin/user')
@@ -82,7 +82,8 @@ export const updateUser = async (id: number, body: Partial<Pick<UserBody, 'name'
         .addBody(body)
         .addToken(session.access_token)
         .execute('userUpdate');
-    revalidatePath('omega/admin/user');
+    revalidatePath(`/omega/admin/user/${id}/update`);
+    revalidatePath('/omega/admin/user');
 }
 
 export const deleteUser = async (id: number) => {
@@ -91,5 +92,5 @@ export const deleteUser = async (id: number) => {
         .addToken(session.access_token)
         .addParams({ id })
         .execute('userDelete');
-    revalidatePath('');
+    revalidatePath('/omega/admin/user');
 } 

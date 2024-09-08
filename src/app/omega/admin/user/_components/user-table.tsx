@@ -7,10 +7,10 @@ import UserActionDelete from './user-action-delete'
 import ActionUserProvider from '../../../../../contexts/action-menu.context'
 import ActionMenu from '@/components/_base/action-menu'
 
-interface UserTableProps {
+interface UserBodyProps {
     users: User[]
 }
-const UserTable: React.FC<UserTableProps> = ({ users }) => {
+const UserBody: React.FC<UserBodyProps> = ({ users }) => {
     return (
         <TableTbody>
             {users.map(e => (
@@ -68,4 +68,4 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
     )
 }
 
-export default UserTable
+export default UserBody

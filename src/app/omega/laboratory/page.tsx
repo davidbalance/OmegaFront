@@ -119,7 +119,7 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = ({
               <Group gap={rem(4)}>
                 <ReloadButton />
                 <RemoveQueryButton
-                  queries={['subtype']}
+                  queries={['type']}
                   hiddenFrom='md' />
               </Group>
             </Group>
@@ -171,7 +171,7 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = ({
               <Group gap={rem(4)}>
                 <ReloadButton />
                 <RemoveQueryButton
-                  queries={['exam']}
+                  queries={['subtype']}
                   hiddenFrom='md' />
               </Group>
             </Group>
