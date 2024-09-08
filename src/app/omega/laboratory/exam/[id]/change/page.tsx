@@ -1,8 +1,8 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
-import { retriveFullExam } from '@/server/exam-type.actions';
 import { retriveExam } from '@/server/exam.actions';
 import React from 'react'
-import Form from './_components/form';
+import ChangeSubtypeForm from './_components/exam-form';
+import { retriveExamTypeOptions } from '@/server/exam-type.actions';
 
 interface OmegaLaboratoryExamChangePageProps {
     params: { id: number }
@@ -11,12 +11,12 @@ const OmegaLaboratoryExamChangePage: React.FC<OmegaLaboratoryExamChangePageProps
     params
 }) => {
     const data = await retriveExam(params.id);
-    const options = await retriveFullExam();
+    const options = await retriveExamTypeOptions();
 
     return (
         <>
             <ReturnableHeader title='Cambiar subtipo de examen' />
-            <Form options={options} {...data} />
+            <ChangeSubtypeForm options={options} {...data} />
         </>)
 }
 

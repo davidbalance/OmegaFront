@@ -1,6 +1,6 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import Form from './_components/form';
+import ExamSubtypeForm from './_components/exam-subtype-form';
 
 interface OmegaLaboratoryTypeSubtypePageProps {
     params: { id: number }
@@ -14,7 +14,7 @@ const OmegaLaboratoryTypeSubtypePage: React.FC<OmegaLaboratoryTypeSubtypePagePro
     return (
         <>
             <ReturnableHeader title='Creacion de subtipo' />
-            <Form type={type} />
+            <ExamSubtypeForm type={type} />
         </>)
 
 }

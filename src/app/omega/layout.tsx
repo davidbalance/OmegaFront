@@ -48,7 +48,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         </ScrollAreaAutosize>
                     </Box>
                     <Flex
-                        mt='sm'
                         visibleFrom='md'
                         w='100%'
                         justify='flex-end'>

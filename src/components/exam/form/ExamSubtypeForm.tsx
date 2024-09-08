@@ -1,9 +1,6 @@
 import { Box, Button, ComboboxItem, rem, Select } from '@mantine/core'
-import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
-import { ExamType } from '@/lib/dtos/laboratory/exam/type/base.response.dto'
-import { BaseFormProps } from '@/lib/types/base-form-prop'
-import { ExamSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto';
-import { notifications } from '@mantine/notifications';
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { ExamTypeOption } from '@/lib/dtos/laboratory/exam/type/base.response.dto'
 import { Exam } from '@/lib/dtos/laboratory/exam/base.response.dto';
 
 const CustomSelect = ({ onChange, ...props }: {
@@ -32,7 +29,7 @@ const CustomSelect = ({ onChange, ...props }: {
 
 type FormProps = Omit<React.HTMLProps<HTMLFormElement>, 'ref'> & Pick<Exam, 'subtype'>
 interface ExamSubtypeFormProps extends FormProps {
-    options: ExamType[];
+    options: ExamTypeOption[];
 }
 
 const ExamSubtypeForm = React.forwardRef<HTMLFormElement, ExamSubtypeFormProps>(({
@@ -41,7 +38,7 @@ const ExamSubtypeForm = React.forwardRef<HTMLFormElement, ExamSubtypeFormProps>(
     ...props
 }, ref) => {
 
-    const [typeValue, setTypeValue] = useState<ExamType | null>(null);
+    const [typeValue, setTypeValue] = useState<ExamTypeOption | null>(null);
     const [value, setValue] = useState<string | null>(null);
 
     const handleChangeEventType = useCallback((option: ComboboxItem) => {

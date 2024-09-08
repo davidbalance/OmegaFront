@@ -1,6 +1,6 @@
 'use client'
 
-import { ExamSingleSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto'
+import { ExamSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto';
 import { Box, Button, rem, TextInput } from '@mantine/core';
 import { joiResolver, useForm } from '@mantine/form';
 import { IconSignature } from '@tabler/icons-react';
@@ -17,7 +17,7 @@ const examTypeSchema = Joi.object({
         })
 });
 
-type FormProps = Omit<React.HTMLProps<HTMLFormElement>, 'ref'> & Partial<Omit<ExamSingleSubtype, 'id'>>
+type FormProps = Omit<React.HTMLProps<HTMLFormElement>, 'ref'> & Partial<Omit<ExamSubtype, 'id'>>
 interface ExamSubtypeFormProps extends FormProps { }
 const ExamSubtypeForm = React.forwardRef<HTMLFormElement, ExamSubtypeFormProps>(({
     name,
@@ -63,4 +63,4 @@ const ExamSubtypeForm = React.forwardRef<HTMLFormElement, ExamSubtypeFormProps>(
 
 ExamSubtypeForm.displayName = 'ExamSubtypeForm';
 
-export { ExamSubtypeForm }
+export default ExamSubtypeForm;

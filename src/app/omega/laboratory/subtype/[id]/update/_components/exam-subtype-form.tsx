@@ -1,21 +1,18 @@
 'use client'
 
-import ExamSubtypeForm from '@/components/exam/form/ExamSubtypeForm';
+import Form from '@/components/exam/subtype/form/ExamSubtypeForm';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { Exam } from '@/lib/dtos/laboratory/exam/base.response.dto';
-import { ExamType } from '@/lib/dtos/laboratory/exam/type/base.response.dto';
+import { ExamSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto';
 import { parseForm } from '@/lib/utils/form-parse';
-import { updateExam } from '@/server/exam.actions';
+import { updateExamSubtype } from '@/server/exam-subtype.actions';
 import { LoadingOverlay, Button, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useRef, useState } from 'react'
 
-interface FormProps extends Pick<Exam, 'subtype' | 'id'> {
-    options: ExamType[];
-}
-const Form: React.FC<FormProps> = ({
+interface FormProps extends Pick<ExamSubtype, 'name' | 'id'> { }
+const ExamSubtypeForm: React.FC<FormProps> = ({
     id,
     ...props
 }) => {
@@ -28,7 +25,7 @@ const Form: React.FC<FormProps> = ({
         const values: any = parseForm(event.currentTarget);
         setLoading(true);
         try {
-            await updateExam(id, { subtype: Number(values.subtype) });
+            await updateExamSubtype(id, { ...values });
             router.back();
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });
@@ -48,9 +45,9 @@ const Form: React.FC<FormProps> = ({
         <>
             <LoadingOverlay visible={loading} />
             <ModularBox flex={1}>
-                <ExamSubtypeForm
-                    onSubmit={handleSubmit}
+                <Form
                     ref={formRef}
+                    onSubmit={handleSubmit}
                     {...props} />
             </ModularBox>
             <ModularBox direction='row'>
@@ -68,4 +65,4 @@ const Form: React.FC<FormProps> = ({
         </>)
 }
 
-export default Form
+export default ExamSubtypeForm

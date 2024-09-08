@@ -45,6 +45,7 @@ export const createExamSubtype = async (body: ExamSubtypeBody): Promise<void> =>
         .addBody(body)
         .addToken(session.access_token)
         .execute('examSubtypeCreate');
+    revalidatePath('/omega/laboratory');
 }
 
 export const updateExamSubtype = async (id: number, body: Partial<ExamSubtypeBody>): Promise<void> => {
@@ -54,6 +55,10 @@ export const updateExamSubtype = async (id: number, body: Partial<ExamSubtypeBod
         .addBody(body)
         .addToken(session.access_token)
         .execute('examSubtypeUpdate');
+    revalidatePath(`/omega/laboratory/subtype/${id}/update`);
+    revalidatePath(`/omega/laboratory/subtype/${id}/change`);
+    revalidatePath('/omega/laboratory');
+
 }
 
 export const deleteExamSubtype = async (id: number): Promise<void> => {
@@ -72,5 +77,5 @@ export const deleteExamSubtype = async (id: number): Promise<void> => {
         .addParams({ id })
         .addToken(session.access_token)
         .execute('examSubtypeDelete');
-    revalidatePath('');
+    revalidatePath('/omega/laboratory');
 }

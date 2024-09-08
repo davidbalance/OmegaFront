@@ -1,20 +1,23 @@
 'use client'
 
-import { ExamSubtypeForm } from '@/components/exam/subtype/form/ExamSubtypeForm';
+import ExamSubtypeForm from '@/components/exam/form/ExamSubtypeForm';
 import { ModularBox } from '@/components/modular/box/ModularBox';
+import { Exam } from '@/lib/dtos/laboratory/exam/base.response.dto';
+import { ExamTypeOption } from '@/lib/dtos/laboratory/exam/type/base.response.dto';
 import { parseForm } from '@/lib/utils/form-parse';
-import { createExamSubtype } from '@/server/exam-subtype.actions';
+import { updateExam } from '@/server/exam.actions';
 import { LoadingOverlay, Button, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useRef, useState } from 'react'
 
-interface FormProps {
-    type: number;
+interface FormProps extends Pick<Exam, 'subtype' | 'id'> {
+    options: ExamTypeOption[];
 }
-const Form: React.FC<FormProps> = ({
-    type
+const ChangeSubtypeForm: React.FC<FormProps> = ({
+    id,
+    ...props
 }) => {
     const [loading, setLoading] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement | null>(null);
@@ -25,7 +28,7 @@ const Form: React.FC<FormProps> = ({
         const values: any = parseForm(event.currentTarget);
         setLoading(true);
         try {
-            await createExamSubtype({ ...values, type });
+            await updateExam(id, { subtype: Number(values.subtype) });
             router.back();
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });
@@ -46,8 +49,9 @@ const Form: React.FC<FormProps> = ({
             <LoadingOverlay visible={loading} />
             <ModularBox flex={1}>
                 <ExamSubtypeForm
+                    onSubmit={handleSubmit}
                     ref={formRef}
-                    onSubmit={handleSubmit} />
+                    {...props} />
             </ModularBox>
             <ModularBox direction='row'>
                 <Button
@@ -64,4 +68,4 @@ const Form: React.FC<FormProps> = ({
         </>)
 }
 
-export default Form
+export default ChangeSubtypeForm

@@ -1,15 +1,8 @@
-import ActionMenu from '@/components/_base/action-menu';
-import AddQueryParam from '@/components/_base/add-query-param';
 import Await from '@/components/_base/await';
 import ListBodySuspense from '@/components/_base/list/list-body.suspense';
 import ListRoot from '@/components/_base/list/list-root';
-import ListRow from '@/components/_base/list/list-row';
-import ListTbody from '@/components/_base/list/list-tbody';
-import ListTh from '@/components/_base/list/list-th';
-import ListThead from '@/components/_base/list/list-thead';
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root';
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section';
-import OrderableButton from '@/components/_base/orderable-button';
 import ReloadButton from '@/components/_base/reload-button';
 import RemoveQueryButton from '@/components/_base/remove-query-button';
 import Search from '@/components/_base/search';
@@ -17,24 +10,26 @@ import ServerPagination from '@/components/_base/server-pagination';
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import ActionMenuProvider from '@/contexts/action-menu.context';
 import { Exam } from '@/lib/dtos/laboratory/exam/base.response.dto';
-import { ExamSingleSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto';
-import { countExamSubtypes, searchExamSubtypes } from '@/server/exam-subtype.actions';
-import { countExamTypes, searchExamTypes } from '@/server/exam-type.actions';
-import { countExams, searchExams } from '@/server/exam.actions';
-import { Group, rem, Box, Title, Stack, Text, Button, MenuItem, MenuLabel } from '@mantine/core';
-import { IconExchange, IconPencil, IconTrash } from '@tabler/icons-react';
-import { group } from 'console';
+import { Group, rem, Box, Title, Button } from '@mantine/core';
 import Link from 'next/link';
 import React, { Suspense } from 'react'
-import ExamSubtypeActionDelete from './_components/exam-subtype-action-delete';
+import ExamTypeHeader from './_components/exam-type-header';
+import ExamTypeBody from './_components/exam-type-body';
+import { countExamType, searchExamType } from '@/server/exam-type.actions';
+import { countExamSubtype, searchExamSubtype } from '@/server/exam-subtype.actions';
+import { ExamSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto';
+import { countExam, searchExam } from '@/server/exam.actions';
+import ExamSubtypeHeader from './_components/exam-subtype-header';
+import ExamSubtypeBody from './_components/exam-subtype-body';
+import ExamHeader from './_components/exam-header';
+import ExamBody from './_components/exam-body';
 
 const take: number = 100;
-interface OmegaLaboratoryExamPageProps {
+interface OmegaLaboratoryPageProps {
   searchParams: { [key: string]: string | string[] | undefined }
 }
-const OmegaLaboratoryExamPage: React.FC<OmegaLaboratoryExamPageProps> = ({
+const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = ({
   searchParams
 }) => {
 
@@ -57,21 +52,21 @@ const OmegaLaboratoryExamPage: React.FC<OmegaLaboratoryExamPageProps> = ({
   const examField = owner === 'exam' ? field : undefined;
   const examPage = typeof searchParams.examPage === 'string' ? Number(searchParams.examPage) : 1;
 
-  const typePromise = searchExamTypes({ search: typeSearch, field: typeField, page: typePage - 1, take: take, order: order as any });
-  const typePagePromise = countExamTypes({ search: typeSearch, take: take });
+  const typePromise = searchExamType({ search: typeSearch, field: typeField, page: typePage - 1, take: take, order: order as any });
+  const typePagePromise = countExamType({ search: typeSearch, take: take });
 
   const subtypePromise = type
-    ? searchExamSubtypes(type, { search: subtypeSearch, field: subtypeField, page: subtypePage - 1, take: take, order: order as any })
-    : new Promise<ExamSingleSubtype[]>((resolve) => resolve([]));
+    ? searchExamSubtype(type, { search: subtypeSearch, field: subtypeField, page: subtypePage - 1, take: take, order: order as any })
+    : new Promise<ExamSubtype[]>((resolve) => resolve([]));
   const subtypePagePromise = type
-    ? countExamSubtypes(type, { search: examSearch, take: take })
+    ? countExamSubtype(type, { search: examSearch, take: take })
     : new Promise<number>((resolve) => resolve(0));
 
   const examPromise = subtype
-    ? searchExams(subtype, { search: examSearch, field: examField, page: examPage - 1, take: take, order: order as any })
+    ? searchExam(subtype, { search: examSearch, field: examField, page: examPage - 1, take: take, order: order as any })
     : new Promise<Exam[]>((resolve) => resolve([]));
   const examPagePromise = subtype
-    ? countExams(subtype, { search: examSearch, take: take })
+    ? countExam(subtype, { search: examSearch, take: take })
     : new Promise<number>((resolve) => resolve(0));
 
   return (
@@ -91,36 +86,10 @@ const OmegaLaboratoryExamPage: React.FC<OmegaLaboratoryExamPageProps> = ({
           </ModularBox>
           <ModularBox flex={1}>
             <ListRoot>
-              <ListThead>
-                <ListTh>
-                  <OrderableButton
-                    owner='type'
-                    field='name'>
-                    <Text>Tipo</Text>
-                  </OrderableButton>
-                </ListTh>
-              </ListThead>
+              <ExamTypeHeader />
               <Suspense fallback={<ListBodySuspense />}>
                 <Await promise={typePromise}>
-                  {(types) => (
-                    <ListTbody>
-                      {types.map(e => (
-                        <ListRow
-                          active={type === e.id}
-                          hoverable={true}
-                          key={e.id}>
-                          <Group justify='space-between' align='center' wrap='nowrap'>
-                            <AddQueryParam
-                              value={e.id.toString()}
-                              query='type'
-                              removeQueries={['subtype']}>
-                              <Title order={6}>{e.name}</Title>
-                            </AddQueryParam>
-                          </Group>
-                        </ListRow>
-                      ))}
-                    </ListTbody>
-                  )}
+                  {(types) => <ExamTypeBody active={type} types={types} />}
                 </Await>
               </Suspense>
             </ListRoot>
@@ -161,7 +130,7 @@ const OmegaLaboratoryExamPage: React.FC<OmegaLaboratoryExamPageProps> = ({
               {!!type && (
                 <Button
                   component={Link}
-                  href={`type/${type}/subtype`}
+                  href={`laboratory/type/${type}/subtype`}
                   radius='md'>
                   Crear subtipo
                 </Button>)}
@@ -169,57 +138,10 @@ const OmegaLaboratoryExamPage: React.FC<OmegaLaboratoryExamPageProps> = ({
           </ModularBox>
           <ModularBox flex={1}>
             <ListRoot>
-              <ListThead>
-                <ListTh>
-                  <OrderableButton
-                    owner='subtype'
-                    field='name'>
-                    <Text>Subtipo</Text>
-                  </OrderableButton>
-                </ListTh>
-              </ListThead>
+              <ExamSubtypeHeader />
               <Suspense fallback={<ListBodySuspense />}>
                 <Await promise={subtypePromise}>
-                  {(subtypes) => (
-                    <ListTbody>
-                      {subtypes.map(e => (
-                        <ListRow
-                          active={subtype === e.id}
-                          hoverable={true}
-                          key={e.id}>
-                          <Group justify='space-between' gap={rem(8)} wrap='nowrap'>
-                            <AddQueryParam
-                              value={e.id.toString()}
-                              query='subtype'>
-                              <Title order={6}>{e.name}</Title>
-                            </AddQueryParam>
-                            <ActionMenuProvider>
-                              <ActionMenu>
-                                <MenuLabel>Administracion</MenuLabel>
-                                <MenuItem
-                                  component={Link}
-                                  href={`subtype/${e.id}/update`}
-                                  leftSection={(
-                                    <IconPencil style={{ width: rem(16), height: rem(16) }} />
-                                  )}>
-                                  Modificacion
-                                </MenuItem>
-                                <MenuItem
-                                  component={Link}
-                                  href={`subtype/${e.id}/change`}
-                                  leftSection={(
-                                    <IconExchange style={{ width: rem(16), height: rem(16) }} />
-                                  )}>
-                                  Cambiar tipo de examen
-                                </MenuItem>
-                                <ExamSubtypeActionDelete id={e.id} />
-                              </ActionMenu>
-                            </ActionMenuProvider>
-                          </Group>
-                        </ListRow>
-                      ))}
-                    </ListTbody>
-                  )}
+                  {(subtypes) => <ExamSubtypeBody active={subtype} subtypes={subtypes} />}
                 </Await>
               </Suspense>
             </ListRoot>
@@ -259,42 +181,10 @@ const OmegaLaboratoryExamPage: React.FC<OmegaLaboratoryExamPageProps> = ({
           </ModularBox>
           <ModularBox flex={1}>
             <ListRoot>
-              <ListThead>
-                <ListTh>
-                  <OrderableButton
-                    owner='exam'
-                    field='name'>
-                    <Text>Examen</Text>
-                  </OrderableButton>
-                </ListTh>
-              </ListThead>
+              <ExamHeader />
               <Suspense fallback={<ListBodySuspense />}>
                 <Await promise={examPromise}>
-                  {(exam) => (
-                    <ListTbody>
-                      {exam.map(e => (
-                        <ListRow
-                          hoverable={true}
-                          key={e.id}>
-                          <Group justify='space-between' gap={rem(8)} wrap='nowrap'>
-                            <Title order={6}>{e.name}</Title>
-                            <ActionMenuProvider>
-                              <ActionMenu>
-                                <MenuLabel>Administracion</MenuLabel>
-                                <MenuItem
-                                  component={Link}
-                                  href={`exam/${e.id}/change`}
-                                  leftSection={(
-                                    <IconExchange style={{ width: rem(16), height: rem(16) }} />
-                                  )}>
-                                  Cambiar tipo de examen
-                                </MenuItem>
-                              </ActionMenu>
-                            </ActionMenuProvider>
-                          </Group>
-                        </ListRow>
-                      ))}
-                    </ListTbody>)}
+                  {(exams) => <ExamBody exams={exams} />}
                 </Await>
               </Suspense>
             </ListRoot>
@@ -317,4 +207,4 @@ const OmegaLaboratoryExamPage: React.FC<OmegaLaboratoryExamPageProps> = ({
     </MultipleLayerRoot>)
 }
 
-export default OmegaLaboratoryExamPage
+export default OmegaLaboratoryPage

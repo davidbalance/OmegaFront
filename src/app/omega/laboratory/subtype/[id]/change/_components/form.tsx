@@ -2,7 +2,7 @@
 
 import ExamSubtypeTypeForm from '@/components/exam/subtype/form/exam-subtype-type-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { ExamSingleSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto';
+import { ExamSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto';
 import { ExamType } from '@/lib/dtos/laboratory/exam/type/base.response.dto';
 import { parseForm } from '@/lib/utils/form-parse';
 import { updateExamSubtype } from '@/server/exam-subtype.actions';
@@ -12,10 +12,10 @@ import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useRef, useState } from 'react'
 
-interface FormProps extends Pick<ExamSingleSubtype, 'type' | 'id'> {
+interface FormProps extends Pick<ExamSubtype, 'type' | 'id'> {
     options: ExamType[];
 }
-const Form: React.FC<FormProps> = ({
+const ChangeTypeForm: React.FC<FormProps> = ({
     id,
     ...props
 }) => {
@@ -68,4 +68,4 @@ const Form: React.FC<FormProps> = ({
         </>)
 }
 
-export default Form
+export default ChangeTypeForm

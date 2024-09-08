@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
 import { retriveExamSubtype } from '@/server/exam-subtype.actions';
 import React from 'react'
-import Form from './_components/form';
+import ExamSubtypeForm from './_components/exam-subtype-form';
 
 interface OmegaLaboratorySubtypePageProps {
     params: { id: number }
@@ -15,7 +15,7 @@ const OmegaLaboratorySubtypePage: React.FC<OmegaLaboratorySubtypePageProps> = as
     return (
         <>
             <ReturnableHeader title='Actualizacion de subtipo' />
-            <Form {...data} />
+            <ExamSubtypeForm {...data} />
         </>)
 }
 
