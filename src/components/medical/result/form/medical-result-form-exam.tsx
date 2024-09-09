@@ -2,7 +2,7 @@
 
 import { Exam } from '@/lib/dtos/laboratory/exam/base.response.dto';
 import { ExamSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto';
-import { ExamType } from '@/lib/dtos/laboratory/exam/type/base.response.dto';
+import { ExamSubtypeOption, ExamType, ExamTypeOption } from '@/lib/dtos/laboratory/exam/type/base.response.dto';
 import { Box, Button, ComboboxItem, rem, Select } from '@mantine/core';
 import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
@@ -30,7 +30,7 @@ const CustomSelect = ({ onChange, ...props }: {
 }
 
 interface MedicalResultFormExamProps {
-    options: ExamType[]
+    options: ExamTypeOption[]
     value?: {
         examType: string;
         examSubtype: string;
@@ -45,8 +45,8 @@ const MedicalResultFormExam = React.forwardRef<HTMLFormElement, MedicalResultFor
     onSubmit
 }, ref) => {
 
-    const [type, setType] = useState<ExamType | null>(null);
-    const [subtype, setSubtype] = useState<ExamSubtype | null>(null);
+    const [type, setType] = useState<ExamTypeOption | null>(null);
+    const [subtype, setSubtype] = useState<ExamSubtypeOption | null>(null);
     const [exam, setExam] = useState<Exam | null>(null);
 
     const handleSelectTypeChange = useCallback((value: ComboboxItem) => {

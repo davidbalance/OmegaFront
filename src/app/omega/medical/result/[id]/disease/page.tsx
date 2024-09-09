@@ -8,7 +8,7 @@ import DiseaseClearButton from './_components/disease-clear-button'
 import ListRoot from '@/components/_base/list/list-root'
 import DiseaseListBody from './_components/disease-list-body'
 import { retriveDiseaseOptions } from '@/server/disease-group.actions'
-import { retriveMedicalDisease } from '@/server/medical-disease.actions'
+import { retriveMedicalDiseases } from '@/server/medical-disease.actions'
 
 interface MedicalResultDiseasePageProps {
   params: { id: number }
@@ -18,7 +18,7 @@ const MedicalResultDiseasePage: React.FC<MedicalResultDiseasePageProps> = async 
 }) => {
 
   const options = await retriveDiseaseOptions();
-  const values = await retriveMedicalDisease(params.id);
+  const values = await retriveMedicalDiseases(params.id);
 
   return (
     <>

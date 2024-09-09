@@ -19,7 +19,6 @@ export async function GET(
         headers.set("Content-Type", "application/pdf");
         return new NextResponse(blob, { status: 200, headers });
     } catch (error) {
-        console.error(error);
         if (error instanceof ApiClientError) {
             return NextResponse.json({ message: error.message }, { status: error.status });
         }

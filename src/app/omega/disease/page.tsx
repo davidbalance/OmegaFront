@@ -27,6 +27,10 @@ import React, { Suspense } from 'react'
 import DiseaseGroupActionDelete from './_components/disease-group-action-delete';
 import Link from 'next/link';
 import DiseaseActionDelete from './_components/disease-action-delete';
+import DiseaseGroupHeader from './_components/disease-group-header';
+import DiseaseGroupListBody from './_components/disease-group-list-body';
+import DiseaseHeader from './_components/disease-header';
+import DiseaseListBody from './_components/disease-list-body';
 
 const take: number = 100;
 interface OmegaDiseasePageProps {
@@ -80,51 +84,10 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = ({ searchParams }) => 
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
-                            <ListThead>
-                                <ListTh>
-                                    <OrderableButton
-                                        owner='group'
-                                        field='name'>
-                                        <Text>Group</Text>
-                                    </OrderableButton>
-                                </ListTh>
-                            </ListThead>
+                            <DiseaseGroupHeader />
                             <Suspense fallback={<ListBodySuspense />}>
                                 <Await promise={groupPromise}>
-                                    {(groups) => (
-                                        <ListTbody>
-                                            {groups.map(e => (
-                                                <ListRow
-                                                    active={group === e.id}
-                                                    hoverable={true}
-                                                    key={e.id}>
-                                                    <Group justify='space-between' align='center' wrap='nowrap'>
-                                                        <AddQueryParam
-                                                            value={e.id.toString()}
-                                                            query='group'
-                                                            removeQueries={['medicalOrder']}>
-                                                            <Title order={6}>{e.name}</Title>
-                                                        </AddQueryParam>
-                                                        <ActionMenuProvider>
-                                                            <ActionMenu>
-                                                                <MenuLabel>Administracion</MenuLabel>
-                                                                <MenuItem
-                                                                    component={Link}
-                                                                    href={`disease/group/${e.id}/update`}
-                                                                    leftSection={(
-                                                                        <IconEdit style={{ width: rem(16), height: rem(16) }}
-                                                                        />)}>
-                                                                    Editar grupo
-                                                                </MenuItem>
-                                                                <DiseaseGroupActionDelete id={e.id} />
-                                                            </ActionMenu>
-                                                        </ActionMenuProvider>
-
-                                                    </Group>
-                                                </ListRow>
-                                            ))}
-                                        </ListTbody>
-                                    )}
+                                    {(groups) => <DiseaseGroupListBody active={group} groups={groups} />}
                                 </Await>
                             </Suspense>
                         </ListRoot>
@@ -173,52 +136,10 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = ({ searchParams }) => 
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
-                            <ListThead>
-                                <ListTh>
-                                    <OrderableButton
-                                        owner='disease'
-                                        field='name'>
-                                        <Text>Morbilidad</Text>
-                                    </OrderableButton>
-                                </ListTh>
-                            </ListThead>
+                            <DiseaseHeader />
                             <Suspense fallback={<ListBodySuspense />}>
                                 <Await promise={diseasePromise}>
-                                    {(diseases) => (
-                                        <ListTbody>
-                                            {diseases.map(e => (
-                                                <ListRow
-                                                    hoverable
-                                                    key={e.id}>
-                                                    <Group justify='space-between' align='center' wrap='nowrap'>
-                                                        <Text>{e.name}</Text>
-                                                        <ActionMenuProvider>
-                                                            <ActionMenu>
-                                                                <MenuLabel>Administracion</MenuLabel>
-                                                                <MenuItem
-                                                                    component={Link}
-                                                                    href={`disease/${e.id}/update`}
-                                                                    leftSection={(
-                                                                        <IconEdit style={{ width: rem(16), height: rem(16) }} />
-                                                                    )}>
-                                                                    Editar morbilidad
-                                                                </MenuItem>
-                                                                <MenuItem
-                                                                    href={`disease/${e.id}/change`}
-                                                                    component={Link}
-                                                                    leftSection={(
-                                                                        <IconExchange style={{ width: rem(16), height: rem(16) }} />
-                                                                    )}>
-                                                                    Cambiar grupo
-                                                                </MenuItem>
-                                                                <DiseaseActionDelete id={e.id} />
-                                                            </ActionMenu>
-                                                        </ActionMenuProvider>
-                                                    </Group>
-                                                </ListRow>
-                                            ))}
-                                        </ListTbody>
-                                    )}
+                                    {(diseases) => <DiseaseListBody diseases={diseases} />}
                                 </Await>
                             </Suspense>
                         </ListRoot>

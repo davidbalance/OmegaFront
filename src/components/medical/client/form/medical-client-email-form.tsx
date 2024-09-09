@@ -1,6 +1,6 @@
 'use client'
 
-import { createEmail } from '@/server/medical-email.actions'
+import { createMedicalClientEmail } from '@/server/medical-email.actions'
 import { Box, TextInput, rem, ActionIcon } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { notifications } from '@mantine/notifications'
@@ -34,7 +34,8 @@ const MedicalClientEmailForm: React.FC<MedicalClientEmailFormProps> = ({
     const handleSubmit = async (data: { email: string }): Promise<void> => {
         setLoading(true);
         try {
-            await createEmail(dni, data.email);
+            await createMedicalClientEmail(dni, data);
+            form.reset();
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });
         } finally {

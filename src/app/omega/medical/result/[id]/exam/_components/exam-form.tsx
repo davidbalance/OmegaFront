@@ -2,7 +2,7 @@
 
 import MedicalResultFormExam from '@/components/medical/result/form/medical-result-form-exam';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { ExamType } from '@/lib/dtos/laboratory/exam/type/base.response.dto';
+import { ExamTypeOption } from '@/lib/dtos/laboratory/exam/type/base.response.dto';
 import { updateMedicalResult } from '@/server/medical-result.actions';
 import { Button, LoadingOverlay, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -12,7 +12,7 @@ import React, { FormEvent, useCallback, useRef, useState } from 'react'
 
 interface ExamFormProps {
     id: number;
-    options: ExamType[];
+    options: ExamTypeOption[];
     value?: {
         examType: string;
         examSubtype: string;

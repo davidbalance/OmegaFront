@@ -1,4 +1,4 @@
-import { Box, TextInput, Button, Flex, rem } from "@mantine/core";
+import { Box, TextInput, Button, rem } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconSignature } from "@tabler/icons-react";
 import Joi from "joi";
@@ -15,13 +15,13 @@ const diseaseSchema = Joi.object({
         })
 });
 
-export type DiseseGroupFormProps = {
+interface DiseseGroupFormProps extends Omit<React.HTMLProps<HTMLFormElement>, 'ref'> {
     name?: string;
-    onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
 };
 const DiseseGroupForm = React.forwardRef<HTMLFormElement, DiseseGroupFormProps>(({
     name,
-    onSubmit
+    onSubmit,
+    ...props
 }, ref) => {
 
     const form = useForm({
@@ -43,7 +43,8 @@ const DiseseGroupForm = React.forwardRef<HTMLFormElement, DiseseGroupFormProps>(
             px={rem(16)}
             ref={ref}
             component='form'
-            onSubmit={form.onSubmit(handleSubmit)}>
+            onSubmit={form.onSubmit(handleSubmit)}
+            {...props}>
             <TextInput
                 name="name"
                 label="Nombre del grupo de morbilidades"

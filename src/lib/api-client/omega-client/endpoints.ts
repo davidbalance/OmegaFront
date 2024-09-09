@@ -60,32 +60,32 @@ const omegaMethodEndpoint = {
     } as ApiResource,
 
     diseaseGroupCreate: {
-        resource: 'diseases/groups',
+        resource: 'disease/groups',
         method: 'post',
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
     diseaseGroupDetail: {
-        resource: 'diseases/groups/:id',
+        resource: 'disease/groups/group/:id',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     diseaseGroupUpdate: {
-        resource: 'diseases/groups/:id',
+        resource: 'disease/groups/group/:id',
         method: 'patch',
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
     diseaseGroupDelete: {
-        resource: 'diseases/groups/:id',
+        resource: 'disease/groups/group/:id',
         method: 'delete',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     diseaseGroupHasDiseases: {
-        resource: 'diseases/groups/:id/has/diseases',
+        resource: 'disease/groups/:id/has/diseases',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     diseaseGroupOptions: {
-        resource: 'diseases/groups/options',
+        resource: 'disease/groups/options',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
@@ -219,6 +219,11 @@ const omegaMethodEndpoint = {
     } as ApiResource,
     jobpositionPages: {
         resource: 'location/jobposition/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    jobpositionOptions: {
+        resource: 'location/jobposition/options',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
@@ -492,7 +497,7 @@ const omegaMethodEndpoint = {
     } as ApiResource,
     medicalClientJobPositionDetail: {
         resource: 'medical/client/job/position/:dni',
-        method: 'patch',
+        method: 'get',
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
     medicalClientJobPositionUpdate: {
@@ -547,12 +552,12 @@ const omegaMethodEndpoint = {
         options: { customHeader: ['auth'] }
     } as ApiResource,
     medicalOrderExpandedSearch: {
-        resource: 'patient/:dni/medical/orders/expanded/paginate',
+        resource: 'medical/orders/expanded/paginate',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     medicalOrderExpandedPages: {
-        resource: 'patient/:dni/medical/orders/expanded/pages',
+        resource: 'medical/orders/expanded/pages',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
@@ -562,12 +567,17 @@ const omegaMethodEndpoint = {
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
     medicalOrderSearch: {
-        resource: '/patient/:dni/medical/orders/paginate',
+        resource: 'patient/:dni/medical/orders/paginate',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     medicalOrderPages: {
-        resource: '/patient/:dni/medical/orders/pages',
+        resource: 'patient/:dni/medical/orders/pages',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    medicalOrderUpdateStatusDetail: {
+        resource: 'medical/orders/:id/status',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,

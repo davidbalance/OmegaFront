@@ -53,6 +53,8 @@ export const updateUserAttribute = async (id: number, value: string, attribute: 
         .addToken(session.access_token)
         .execute(key);
 
+    revalidatePath(`/omega/admin/patient`);
     revalidatePath(`/omega/admin/user/${id}/company`);
     revalidatePath(`/omega/admin/doctor/${id}/company`);
+    revalidatePath(`/omega/admin/patient/${id}/company`);
 }

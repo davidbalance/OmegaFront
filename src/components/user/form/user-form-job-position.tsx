@@ -51,7 +51,9 @@ const UserFormJobPosition = React.forwardRef<HTMLFormElement, UserFormJobPositio
         <Box
             ref={ref}
             component='form'
-            onSubmit={onSubmit}>
+            onSubmit={onSubmit}
+            mt={rem(16)}
+            px={rem(16)}>
             <CustomSelect
                 name='name'
                 value={jobPositionSelected}

@@ -1,6 +1,6 @@
 'use client'
 
-import { Management } from '@/lib/dtos/location/management/base.response.dto';
+import { Management, ManagementOption } from '@/lib/dtos/location/management/base.response.dto';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto'
 import { Box, rem, Select, ComboboxItem, Button } from '@mantine/core'
 import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
@@ -28,20 +28,20 @@ const CustomSelect = ({ onChange, ...props }: {
     );
 }
 
-interface MedicalClientAreaFormProps {
-    options: Management[];
+interface MedicalClientAreaFormProps extends Omit<React.HTMLProps<HTMLFormElement>, 'ref'> {
+    options: ManagementOption[];
     management?: number;
     area?: number;
-    onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
 }
 const MedicalClientAreaForm = React.forwardRef<HTMLFormElement, MedicalClientAreaFormProps>((({
     options,
     management,
     area,
-    onSubmit
+    onSubmit,
+    ...props
 }, ref) => {
 
-    const [selectedManagement, setSelectedManagement] = useState<Management | null>(null);
+    const [selectedManagement, setSelectedManagement] = useState<ManagementOption | null>(null);
     const [selectedArea, setSelectedArea] = useState<SelectorOption<string> | null>(null);
 
     const handleManagementChange = useCallback((option: ComboboxItem) => {
@@ -54,6 +54,7 @@ const MedicalClientAreaForm = React.forwardRef<HTMLFormElement, MedicalClientAre
     }
 
     useEffect(() => {
+        console.log(options);
         for (const currentManagement of options) {
             if (currentManagement.id === management) {
                 setSelectedManagement(currentManagement);
@@ -68,14 +69,17 @@ const MedicalClientAreaForm = React.forwardRef<HTMLFormElement, MedicalClientAre
         }
     }, [management, area, options]);
 
-    const managementOptions = useMemo(() => options.map(e => ({ label: e.name, value: `${e.id}` })), [options]);
-    const areaOptions = useMemo(() => selectedManagement?.areas.map(e => ({ label: e.name, value: `${e.id}` })) || [], [selectedManagement]);
+    const managementOptions = useMemo(() => options.map(e => ({ label: e.name, value: e.id.toString() })), [options]);
+    const areaOptions = useMemo(() => selectedManagement?.areas.map(e => ({ label: e.name, value: e.id.toString() })) || [], [selectedManagement]);
 
     return (
         <Box
             ref={ref}
             component='form'
-            onSubmit={onSubmit}>
+            onSubmit={onSubmit}
+            mt={rem(16)}
+            px={rem(16)}
+            {...props}>
 
             <CustomSelect
                 name='managementId'

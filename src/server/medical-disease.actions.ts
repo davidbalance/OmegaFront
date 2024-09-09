@@ -6,6 +6,7 @@ import { MedicalResult } from "@/lib/dtos/medical/result/base.response.dto";
 import { MedicalResultDisease, MedicalResultDiseaseYear } from "@/lib/dtos/medical/result/disease/base.response.dto";
 import { FilterMeta, CountMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
+import { revalidatePath } from "next/cache";
 
 export const retriveMedicalDiseases = async (result: number): Promise<MedicalResultDisease[]> => {
     const session = await auth();
@@ -24,6 +25,7 @@ export const createMedicalDisease = async (result: number, body: MedicalDiseaseB
         .addBody(body)
         .addToken(session.access_token)
         .execute('medicalDiseaseCreate');
+    revalidatePath(`/omega/medical/result/${result}/disease`);
 }
 
 export const retriveMedicalDisease = async (id: number): Promise<MedicalResultDisease[]> => {
@@ -42,6 +44,7 @@ export const updateMedicalDisease = async (id: number, body: MedicalDiseaseBody)
         .addBody(body)
         .addToken(session.access_token)
         .execute('medicalDiseaseUpdate');
+    revalidatePath('');
 }
 
 export const deleteMedicalDisease = async (id: number): Promise<void> => {
@@ -49,7 +52,8 @@ export const deleteMedicalDisease = async (id: number): Promise<void> => {
     await omega()
         .addParams({ id })
         .addToken(session.access_token)
-        .execute('medicalDiseaseUpdate');
+        .execute('medicalDiseaseDelete');
+    revalidatePath('');
 }
 
 type BlobFilter = { year: number, corporativeName: string, companyRuc: string }

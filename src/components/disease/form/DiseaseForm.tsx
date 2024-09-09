@@ -17,13 +17,13 @@ const diseaseSchema = Joi.object({
         })
 });
 
-interface DiseaseFormProps {
+interface DiseaseFormProps extends Omit<React.HTMLProps<HTMLFormElement>, 'ref'> {
     name?: string;
-    onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
 };
 const DiseaseForm = React.forwardRef<HTMLFormElement, DiseaseFormProps>(({
     name,
-    onSubmit
+    onSubmit,
+    ...props
 }, ref) => {
 
     const form = useForm({
@@ -45,7 +45,8 @@ const DiseaseForm = React.forwardRef<HTMLFormElement, DiseaseFormProps>(({
             component='form'
             mt={rem(16)}
             px={rem(16)}
-            onSubmit={form.onSubmit(handleFormSubmit)}>
+            onSubmit={form.onSubmit(handleFormSubmit)}
+            {...props}>
             <TextInput
                 name="name"
                 label="Nombre de morbilidad"

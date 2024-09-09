@@ -1,8 +1,8 @@
 import { ListRowProps } from "@/components/layout/list-layout/components/row/ListRow";
 import { MedicalOrder, OrderStatus } from "@/lib/dtos/medical/order/base.response.dto";
 import { Flex, rem, Text } from "@mantine/core";
-import { MedicalOrderActionSendButton } from "../../../../app/omega/admin/patient/_components/medical-order/medical-order-mail-button";
-import { MedicalOrderActionValidateButton } from "../../../../app/omega/admin/patient/_components/medical-order/medical-order-validate-button";
+import { MedicalOrderActionSendButton } from "../../../medical-order-mail/medical-email-button";
+import { MedicalOrderActionValidateButton } from "../../../_base/medical-order-validate-button";
 
 type ListRowPropOmittedProps = Omit<ListRowProps, 'rightSection'>
 

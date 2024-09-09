@@ -52,7 +52,6 @@ export const searchPatientEeq = async (filter: FilterMeta): Promise<PatientEeq[]
         .addQuery({ ...filter })
         .addToken(session.access_token)
         .execute('patientEeqSearch');
-
     return data;
 }
 

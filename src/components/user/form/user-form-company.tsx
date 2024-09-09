@@ -26,15 +26,14 @@ const CustomSelect = ({ onChange, ...props }: {
     );
 }
 
-interface UserFormCompanyProps {
+interface UserFormCompanyProps extends Omit<React.HTMLProps<HTMLFormElement>, 'ref'> {
     options: CorporativeGroupOption[];
     value?: string | undefined;
-    onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
 }
 const UserFormCompany = React.forwardRef<HTMLFormElement, UserFormCompanyProps>(({
     value,
     options,
-    onSubmit
+    ...props
 }, ref) => {
 
     const [group, setGroup] = useState<CorporativeGroupOption | null>(null);
@@ -70,7 +69,7 @@ const UserFormCompany = React.forwardRef<HTMLFormElement, UserFormCompanyProps>(
             component='form'
             mt={rem(16)}
             px={rem(16)}
-            onSubmit={onSubmit}>
+            {...props}>
             <CustomSelect
                 name='group'
                 value={group?.id.toString() || null}

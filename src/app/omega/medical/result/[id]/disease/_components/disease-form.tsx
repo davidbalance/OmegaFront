@@ -2,7 +2,7 @@
 
 import LoadingOverlay from '@/components/_base/loading-overlay'
 import { MedicalResultFormDisease } from '@/components/medical/result/form/medical-result-form-disease';
-import { DiseaseGroup } from '@/lib/dtos/disease/group/base.response.dto';
+import { DiseaseGroupOption } from '@/lib/dtos/disease/group/base.response.dto';
 import { MedicalResultDisease } from '@/lib/dtos/medical/result/disease/base.response.dto';
 import { Box, Button, rem, Stack } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
@@ -13,7 +13,7 @@ import { createMedicalDisease, updateMedicalDisease } from '@/server/medical-dis
 
 interface MedicalResultDiseaseFormProps {
     id: number;
-    options: DiseaseGroup[];
+    options: DiseaseGroupOption[];
 }
 const MedicalResultDiseaseForm: React.FC<MedicalResultDiseaseFormProps> = ({
     id,
@@ -36,17 +36,19 @@ const MedicalResultDiseaseForm: React.FC<MedicalResultDiseaseFormProps> = ({
             currentValue[key] = value as string;
         });
 
+        const newValue = {
+            diseaseId: Number(currentValue.diseaseId),
+            diseaseName: currentValue.diseaseName,
+            diseaseGroupId: Number(currentValue.diseaseGroupId),
+            diseaseGroupName: currentValue.diseaseGroupName,
+            diseaseCommentary: currentValue.diseaseCommentary,
+        };
+
         try {
             if (value) {
-                await updateMedicalDisease(value.id, currentValue as any);
+                await updateMedicalDisease(value.id, newValue);
             } else {
-                await createMedicalDisease(id, {
-                    diseaseId: Number(currentValue.diseaseId),
-                    diseaseName: currentValue.diseaseName,
-                    diseaseGroupId: Number(currentValue.diseaseGroupId),
-                    diseaseGroupName: currentValue.diseaseGroupName,
-                    diseaseCommentary: currentValue.diseaseCommentary,
-                });
+                await createMedicalDisease(id, newValue);
             }
             clear();
         } catch (error: any) {
@@ -54,7 +56,7 @@ const MedicalResultDiseaseForm: React.FC<MedicalResultDiseaseFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [id]);
+    }, [id, value]);
 
     const handleClick = () => {
         if (formRef.current) {

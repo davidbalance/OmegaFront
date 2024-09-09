@@ -1,6 +1,6 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
-import Form from './_components/form';
+import DiseaseForm from './_components/form';
 
 interface OmegaDiseaseCreatePageProps {
     params: { id: number }
@@ -14,7 +14,7 @@ const OmegaDiseaseCreatePage: React.FC<OmegaDiseaseCreatePageProps> = ({
     return (
         <>
             <ReturnableHeader title='Creacion de morbilidad' />
-            <Form group={group} />
+            <DiseaseForm group={group} />
         </>)
 }
 

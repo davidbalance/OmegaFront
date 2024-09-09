@@ -5,6 +5,7 @@ import omega from "@/lib/api-client/omega-client/omega";
 import { MedicalResult } from "@/lib/dtos/medical/result/base.response.dto";
 import { FilterMeta, CountMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
+import { revalidatePath } from "next/cache";
 
 export const searchMedicalResultByDoctor = async (order: number, filter: FilterMeta): Promise<MedicalResult[]> => {
     const session = await auth();
@@ -59,6 +60,7 @@ export const retriveMedicalResult = async (id: number): Promise<MedicalResult> =
 
 type MedicalResultUpdateBody = { examType: string, examSubtype: string, examName: string }
 export const updateMedicalResult = async (id: number, body: MedicalResultUpdateBody): Promise<void> => {
+    console.log(body);
     const session = await auth();
     await omega()
         .addParams({ id })
@@ -74,4 +76,5 @@ export const uploadMedicalResult = async (id: number, body: FormData): Promise<v
         .addBody(body)
         .addToken(session.access_token)
         .execute('medicalResultUpload');
+    revalidatePath('/omega/admin/order');
 }

@@ -10,8 +10,8 @@ interface ExamPageProps {
 
 const ExamPage: React.FC<ExamPageProps> = async ({ params }) => {
 
-  const options = await retriveExamTypeOptions();
   const value = await retriveMedicalResult(params.id);
+  const options = await retriveExamTypeOptions();
 
   return (
     <>

@@ -1,6 +1,6 @@
 'use client'
 
-import { DiseaseGroup } from '@/lib/dtos/disease/group/base.response.dto';
+import { DiseaseGroupOption } from '@/lib/dtos/disease/group/base.response.dto';
 import { MedicalResultDisease } from '@/lib/dtos/medical/result/disease/base.response.dto';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto';
 import { ComboboxItem, rem, Box, Select, Button, Textarea } from '@mantine/core';
@@ -30,7 +30,7 @@ const CustomSelect = ({ onChange, ...props }: {
 }
 
 interface MedicalResultFormDiseaseProps {
-    options: DiseaseGroup[];
+    options: DiseaseGroupOption[];
     value?: Omit<MedicalResultDisease, 'id'>;
     onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
 }
@@ -41,7 +41,7 @@ const MedicalResultFormDisease = React.forwardRef<HTMLFormElement, MedicalResult
     onSubmit
 }, ref) => {
 
-    const [group, setGroup] = useState<DiseaseGroup | null>(null);
+    const [group, setGroup] = useState<DiseaseGroupOption | null>(null);
     const [disease, setDisease] = useState<SelectorOption<string> | null>(null);
     const [commentary, setCommentary] = useState<string>("");
 

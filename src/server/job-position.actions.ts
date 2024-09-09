@@ -23,3 +23,11 @@ export const countJobPosition = async (filter: CountMeta): Promise<number> => {
         .execute('jobpositionPages');
     return pages;
 }
+
+export const retriveJobPositionOptions = async (): Promise<JobPosition[]> => {
+    const session = await auth();
+    const { data }: ObjectArray<JobPosition> = await omega()
+        .addToken(session.access_token)
+        .execute('jobpositionOptions');
+    return data;
+}

@@ -1,25 +1,28 @@
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root'
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section'
 import React, { Suspense } from 'react'
-import PatientLayout from './_components/patient/patient-layout'
-import MedicalOrderLayout from './_components/medical-order/medical-order-layout'
-import MedicalResultLayout from './_components/medical-results/medical-result-layout'
 import ModularLayout from '@/components/modular/layout/ModularLayout'
 import { ModularBox } from '@/components/modular/box/ModularBox'
-import { Box, Flex, rem, Title } from '@mantine/core'
+import { Box, Flex, Group, rem, Title } from '@mantine/core'
 import ReloadButton from '@/components/_base/reload-button'
 import Search from '@/components/_base/search'
 import ListRoot from '@/components/_base/list/list-root'
-import PatientHeader from './_components/patient/patient-header'
-import page from '@/app/page'
 import Await from '@/components/_base/await'
 import ListBodySuspense from '@/components/_base/list/list-body.suspense'
-import search from '@/components/_base/search'
 import ServerPagination from '@/components/_base/server-pagination'
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense'
-import PatientListBody from './_components/patient/patient-list-body'
+import PatientListBody from '../../../../components/patient-list-body'
 import { countPatient, searchPatient } from '@/server/patient.actions'
-import { retriveMedicalOrder } from '@/server/medical-order.actions'
+import { MedicalOrder } from '@/lib/dtos/medical/order/base.response.dto'
+import PatientHeader from '@/components/patient-header'
+import RemoveQueryButton from '@/components/_base/remove-query-button'
+import MedicalOrderHeader from '@/components/medical-order-header'
+import MedicalOrderListBody from '@/components/medical-order-list-body'
+import { countMedicalOrder, searchMedicalOrder } from '@/server/medical-order.actions'
+import MedicalResultBody from '@/components/medical-result-body'
+import MedicalResultHeader from '@/components/medical-result-header'
+import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto'
+import { searchMedicalResult, countMedicalResult } from '@/server/medical-result.actions'
 
 const take: number = 100;
 interface PatientPageProps {
@@ -42,75 +45,158 @@ const PatientPage: React.FC<PatientPageProps> = ({ searchParams }) => {
     const medicalOrderField = owner === 'medicalOrder' ? field : undefined;
     const medicalOrderPage = typeof searchParams.medicalOrderPage === 'string' ? Number(searchParams.medicalOrderPage) : 1;
 
+    const medicalResultSearch = typeof searchParams.medicalResultSearch === 'string' ? searchParams.medicalResultSearch : undefined;
+    const medicalResultField = owner === 'medicalResult' ? field : undefined;
+    const medicalResultPage = typeof searchParams.medicalResultPage === 'string' ? Number(searchParams.medicalResultPage) : 1;
+
     const patientPromise = searchPatient({ search: patientSearch, field: patientField, page: patientPage - 1, take: take, order: order as any });
     const patientPagePromise = countPatient({ search: patientSearch, take: take });
 
     const medicalOrderPromise = patient
-        ? retriveMedicalOrder(type, { search: medicalOrderSearch, field: medicalOrderField, page: medicalOrderPage - 1, take: take, order: order as any })
-        : new Promise<ExamSinglemedicalOrder[]>((resolve) => resolve([]));
-    const medicalOrderPagePromise = type
-        ? countExammedicalOrders(type, { search: examSearch, take: take })
+        ? searchMedicalOrder(patient, { search: medicalOrderSearch, field: medicalOrderField, page: medicalOrderPage - 1, take: take, order: order as any })
+        : new Promise<MedicalOrder[]>((resolve) => resolve([]));
+    const medicalOrderPagePromise = patient
+        ? countMedicalOrder(patient, { search: medicalOrderSearch, take: take })
+        : new Promise<number>((resolve) => resolve(0));
+
+    const medicalResultPromise = medicalOrder
+        ? searchMedicalResult(medicalOrder, { search: medicalResultSearch, field: medicalResultField, page: medicalResultPage - 1, take: take, order: order as any })
+        : new Promise<MedicalResult[]>((resolve) => resolve([]));
+    const medicalResultPagePromise = medicalOrder
+        ? countMedicalResult(medicalOrder, { search: medicalResultSearch, take: take })
         : new Promise<number>((resolve) => resolve(0));
 
     return (
-        <>
-            <MultipleLayerRoot>
-                <MultipleLayerSection active={!patient && !medicalOrder}>
-                    <ModularLayout>
-                        <ModularBox>
-                            <Flex
-                                justify='space-between'
-                                wrap='nowrap'
-                                gap={rem(16)}>
-                                <Box style={{ flexShrink: 0 }}>
-                                    <Title order={4} component='span'>Pacientes</Title>
-                                </Box>
+        <MultipleLayerRoot>
+            <MultipleLayerSection active={!patient && !medicalOrder}>
+                <ModularLayout>
+                    <ModularBox>
+                        <Flex
+                            justify='space-between'
+                            wrap='nowrap'
+                            gap={rem(16)}>
+                            <Box style={{ flexShrink: 0 }}>
+                                <Title order={4} component='span'>Pacientes</Title>
+                            </Box>
+                            <ReloadButton />
+                        </Flex>
+                    </ModularBox>
+                    <ModularBox>
+                        <Search query='patientSearch' value={patientSearch} />
+                    </ModularBox>
+                    <ModularBox flex={1}>
+                        <ListRoot>
+                            <PatientHeader />
+                            <Suspense fallback={<ListBodySuspense />}>
+                                <Await promise={patientPromise}>
+                                    {(patients) => <PatientListBody action active={patient} patients={patients} />}
+                                </Await>
+                            </Suspense>
+                        </ListRoot>
+                    </ModularBox>
+                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
+                        <Await promise={patientPagePromise}>
+                            {(pages) => (
+                                <>{pages > 1 && (
+                                    <ModularBox>
+                                        <ServerPagination
+                                            queryKey='managementPage'
+                                            page={patientPage}
+                                            total={pages} />
+                                    </ModularBox>)}
+                                </>)}
+                        </Await>
+                    </Suspense>
+                </ModularLayout>
+            </MultipleLayerSection>
+            <MultipleLayerSection active={!!patient && !medicalOrder}>
+                <ModularLayout>
+                    <ModularBox>
+                        <Flex
+                            justify='space-between'
+                            wrap='nowrap'
+                            gap={rem(16)}>
+                            <Box style={{ flexShrink: 0 }}>
+                                <Title order={4} component='span'>Ordenes medicas</Title>
+                            </Box>
+                            <Group gap={rem(4)}>
                                 <ReloadButton />
-                            </Flex>
-                        </ModularBox>
-                        <ModularBox>
-                            <Search query='patientSearch' value={patientSearch} />
-                        </ModularBox>
-                        <ModularBox flex={1}>
-                            <ListRoot>
-                                <PatientHeader />
-                                <Suspense fallback={<ListBodySuspense />}>
-                                    <Await promise={patientPromise}>
-                                        {(patients) => <PatientListBody active={patient} patients={patients} />}
-                                    </Await>
-                                </Suspense>
-                            </ListRoot>
-                        </ModularBox>
-                        <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-                            <Await promise={patientPagePromise}>
-                                {(pages) => (
-                                    <>{pages > 1 && (
-                                        <ModularBox>
-                                            <ServerPagination
-                                                queryKey='managementPage'
-                                                page={patientPage}
-                                                total={pages} />
-                                        </ModularBox>)}
-                                    </>)}
-                            </Await>
-                        </Suspense>
-                    </ModularLayout>
-                </MultipleLayerSection>
-                <MultipleLayerSection active={!!patient && !medicalOrder}>
-                    <MedicalOrderLayout
-                        medicalOrder={medicalOrder}
-                        order={morderOrder}
-                        patient={patient}
-                        search={morderSearch} />
-                </MultipleLayerSection>
-                <MultipleLayerSection active={!!patient && !!medicalOrder}>
-                    <MedicalResultLayout
-                        medicalOrder={medicalOrder}
-                        order={mresultOrder}
-                        search={mresultSearch} />
-                </MultipleLayerSection>
-            </MultipleLayerRoot >
-        </>
+                                <RemoveQueryButton
+                                    queries={['patient']}
+                                    hiddenFrom='md' />
+                            </Group>
+                        </Flex>
+                    </ModularBox>
+                    <ModularBox>
+                        <Search query='medicalOrderSearch' value={medicalOrderSearch} />
+                    </ModularBox>
+                    <ModularBox flex={1}>
+                        <ListRoot>
+                            <MedicalOrderHeader />
+                            <Suspense fallback={<ListBodySuspense />}>
+                                <Await promise={medicalOrderPromise}>
+                                    {(orders) => patient ? <MedicalOrderListBody active={medicalOrder} orders={orders} dni={patient} /> : <></>}
+                                </Await>
+                            </Suspense>
+                        </ListRoot>
+                    </ModularBox>
+                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
+                        <Await promise={medicalOrderPagePromise}>
+                            {(pages) => (
+                                <>{pages > 1 && (
+                                    <ModularBox>
+                                        <ServerPagination
+                                            queryKey='medicalOrderPage'
+                                            page={medicalOrderPage}
+                                            total={pages} />
+                                    </ModularBox>)}
+                                </>)}
+                        </Await>
+                    </Suspense>
+                </ModularLayout>
+            </MultipleLayerSection>
+            <MultipleLayerSection active={!!patient && !!medicalOrder}>
+                <ModularLayout>
+                    <ModularBox>
+                        <Flex
+                            justify='space-between'
+                            wrap='nowrap'
+                            gap={rem(16)}>
+                            <Box style={{ flexShrink: 0 }}>
+                                <Title order={4} component='span'>Resultados medicos</Title>
+                            </Box>
+                            <ReloadButton />
+                        </Flex>
+                    </ModularBox>
+                    <ModularBox>
+                        <Search query='medicalResultSearch' value={medicalResultSearch} />
+                    </ModularBox>
+                    <ModularBox flex={1}>
+                        <ListRoot>
+                            <MedicalResultHeader />
+                            <Suspense fallback={<ListBodySuspense />}>
+                                <Await promise={medicalResultPromise}>
+                                    {(medicalResult) => <MedicalResultBody medicalResult={medicalResult} order={medicalOrder} />}
+                                </Await>
+                            </Suspense>
+                        </ListRoot>
+                    </ModularBox>
+                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
+                        <Await promise={medicalResultPagePromise}>
+                            {(pages) => (
+                                <>{pages > 1 && (
+                                    <ModularBox>
+                                        <ServerPagination
+                                            queryKey='medicalResultPage'
+                                            page={medicalResultPage}
+                                            total={pages} />
+                                    </ModularBox>)}</>
+                            )}
+                        </Await>
+                    </Suspense>
+                </ModularLayout>
+            </MultipleLayerSection>
+        </MultipleLayerRoot>
     )
 }
 

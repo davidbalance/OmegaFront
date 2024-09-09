@@ -1,6 +1,3 @@
-import { MedicalClientEmail } from "../client/email/base.response.dto";
-import { MedicalResult } from "../result/base.response.dto";
-
 export interface MedicalOrderCloudFile {
     id: number;
     examName: string;

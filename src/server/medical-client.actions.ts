@@ -6,6 +6,7 @@ import { MedicalClientEmail } from "@/lib/dtos/medical/client/email/base.respons
 import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { Patient } from "@/lib/dtos/user/patient/base.response.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
+import { revalidatePath } from "next/cache";
 
 export const searchMedicalClientByDoctor = async (filter: FilterMeta): Promise<Patient[]> => {
     const session = await auth();
@@ -27,7 +28,7 @@ export const countMedicalClientByDoctor = async (filter: CountMeta): Promise<num
     return pages;
 }
 
-export type MedicalClientJobPosition = { jobPositionName: "string" }
+export type MedicalClientJobPosition = { jobPositionName: string }
 export const retriveMedicalClientJobPosition = async (dni: string): Promise<MedicalClientJobPosition> => {
     const session = await auth();
     const data: MedicalClientJobPosition = await omega()
@@ -38,26 +39,26 @@ export const retriveMedicalClientJobPosition = async (dni: string): Promise<Medi
 }
 
 type MedicalClientJobPositionBody = MedicalClientJobPosition;
-export const updateMedicalClientJobPosition = async (dni: string, body: MedicalClientJobPositionBody): Promise<MedicalClientJobPosition> => {
+export const updateMedicalClientJobPosition = async (dni: string, body: MedicalClientJobPositionBody): Promise<void> => {
     const session = await auth();
-    const data: MedicalClientJobPosition = await omega()
+    await omega()
         .addParams({ dni })
         .addBody(body)
         .addToken(session.access_token)
         .execute('medicalClientJobPositionUpdate');
-    return data;
+    revalidatePath(`/omega/admin/patient/${dni}/job/position`);
 }
 
-type MedicalClientManagementArea = { managementId?: number; managementName?: string; areaId?: number; areaName?: string; }
 export const retriveMedicalClientManagement = async (dni: string): Promise<MedicalClientManagementArea> => {
     const session = await auth();
     const data: MedicalClientManagementArea = await omega()
         .addParams({ dni })
         .addToken(session.access_token)
-        .execute('medicalClientManagementCreate');
+        .execute('medicalClientManagementDetail');
     return data;
 }
 
+type MedicalClientManagementArea = { managementId?: number; managementName?: string; areaId?: number; areaName?: string; }
 type MedicalClientManagementAreaBody = MedicalClientManagementArea;
 export const updateMedicalClientManagement = async (dni: string, body: MedicalClientManagementAreaBody): Promise<void> => {
     const session = await auth();
@@ -66,6 +67,7 @@ export const updateMedicalClientManagement = async (dni: string, body: MedicalCl
         .addBody(body)
         .addToken(session.access_token)
         .execute('medicalClientManagementCreate');
+    revalidatePath(`/omega/admin/patient/${dni}/area`);
 }
 
 

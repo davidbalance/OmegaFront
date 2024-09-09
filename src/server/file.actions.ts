@@ -31,4 +31,5 @@ export const deleteFile = async (id: number, type: string): Promise<void> => {
         .addParams({ id, type })
         .addToken(session.access_token)
         .execute('medicalFileDelete');
+    revalidatePath('/omega/admin/order');
 }

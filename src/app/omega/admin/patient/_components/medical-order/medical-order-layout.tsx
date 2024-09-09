@@ -11,7 +11,7 @@ import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
 import { Flex, rem, Box, Title, Group, Text } from '@mantine/core';
 import React, { Suspense } from 'react'
-import MedicalOrderListBody from './medical-order-list-body';
+import MedicalOrderListBody from '../../../../../../components/medical-order-list-body';
 import { MedicalOrder } from '@/lib/dtos/medical/order/base.response.dto';
 import { retriveMedicalOrder } from '../../../../../../server/medical-order.actions';
 import { retriveEmail } from '../../../../../../server/medical-email.actions';

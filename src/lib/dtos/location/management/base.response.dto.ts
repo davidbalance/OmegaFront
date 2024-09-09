@@ -3,7 +3,7 @@ import { Area } from "../area/base.response.dto";
 export interface ManagementOption {
     id: number;
     name: string;
-    area: Area[]
+    areas: Area[]
 }
 
 export interface Management {

@@ -9,14 +9,19 @@ import OmegaShellLock from "./_components/omega-shell/omega-shell-lock"
 import OmegaShellMain from "./_components/omega-shell/omega-shell-main"
 import OmegaShellNavbar from "./_components/omega-shell/omega-shell-navbar"
 import OmegaShellRoot from "./_components/omega-shell/omega-shell-root"
-import OmegaShellSection from "./_components/omega-shell/omega-shell-section"
 import OmegaNavbarContent from "./_components/omega-navbar-content"
 import OmegaLogoSuspense from "./_components/omega-logo.suspense"
 import OmegaHeaderMenu from "./_components/omega-header-menu"
 import OmegaHeaderMenuSuspense from "./_components/omega-header-menu.suspense"
 import OmegaNavbarContentSuspense from "./_components/omega-navbar-content.suspense"
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Layout: React.FC<{
+    children: React.ReactNode,
+    modal: React.ReactNode,
+}> = ({ 
+    children,
+    modal
+ }) => {
 
     return (
         <OmegaShellRoot>
@@ -59,6 +64,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <Box h='100%' w='100%' pos='relative'>
                     <ModularLayout>
                         {children}
+                        {modal}
                     </ModularLayout>
                 </Box>
                 <Footer />

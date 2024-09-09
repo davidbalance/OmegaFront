@@ -44,6 +44,7 @@ export const createDisease = async (body: DiseaseBody): Promise<void> => {
         .addBody(body)
         .addToken(session.access_token)
         .execute('diseaseCreate');
+    revalidatePath('/omega/disease');
 }
 
 export const updateDisease = async (id: number, body: Partial<DiseaseBody>): Promise<void> => {
@@ -53,7 +54,9 @@ export const updateDisease = async (id: number, body: Partial<DiseaseBody>): Pro
         .addBody(body)
         .addToken(session.access_token)
         .execute('diseaseUpdate');
-    revalidatePath('');
+    revalidatePath(`/omega/disease/${id}/update`);
+    revalidatePath(`/omega/disease/${id}/change`);
+    revalidatePath('/omega/disease');
 }
 
 export const deleteDisease = async (id: number): Promise<void> => {
@@ -62,5 +65,5 @@ export const deleteDisease = async (id: number): Promise<void> => {
         .addParams({ id })
         .addToken(session.access_token)
         .execute('diseaseDelete');
-    revalidatePath('');
+    revalidatePath('/omega/disease');
 }

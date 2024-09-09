@@ -51,6 +51,7 @@ export const createDiseaseGroup = async (body: DiseaseGroupBody): Promise<void> 
         .addToken(session.access_token)
         .addBody(body)
         .execute('diseaseGroupCreate');
+    revalidatePath('/omega/disease');
 }
 
 export const updateDiseaseGroup = async (id: number, body: Partial<DiseaseGroupBody>): Promise<void> => {
@@ -60,6 +61,8 @@ export const updateDiseaseGroup = async (id: number, body: Partial<DiseaseGroupB
         .addToken(session.access_token)
         .addBody(body)
         .execute('diseaseGroupUpdate');
+    revalidatePath(`/omega/disease/group/${id}/update`);
+    revalidatePath('/omega/disease');
 }
 
 export const deleteDiseaseGroup = async (id: number): Promise<void> => {
@@ -78,5 +81,5 @@ export const deleteDiseaseGroup = async (id: number): Promise<void> => {
         .addParams({ id })
         .addToken(session.access_token)
         .execute('diseaseGroupDelete');
-    revalidatePath('');
+    revalidatePath('/omega/disease');
 }

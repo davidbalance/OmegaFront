@@ -1,6 +1,6 @@
 'use client'
 
-import DiseaseForm from '@/components/disease/form/DiseaseForm';
+import Form from '@/components/disease/form/DiseaseForm';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { parseForm } from '@/lib/utils/form-parse';
 import { createDisease } from '@/server/disease.actions';
@@ -13,7 +13,7 @@ import React, { FormEvent, useRef, useState } from 'react'
 interface FormProps {
     group: number;
 }
-const Form: React.FC<FormProps> = ({
+const DiseaseForm: React.FC<FormProps> = ({
     group
 }) => {
 
@@ -46,7 +46,7 @@ const Form: React.FC<FormProps> = ({
         <>
             <LoadingOverlay visible={loading} />
             <ModularBox flex={1}>
-                <DiseaseForm
+                <Form
                     onSubmit={handleSubmit}
                     ref={formRef} />
             </ModularBox>
@@ -66,4 +66,4 @@ const Form: React.FC<FormProps> = ({
     )
 }
 
-export default Form
+export default DiseaseForm

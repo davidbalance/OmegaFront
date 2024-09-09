@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import { retriveDiseaseGroup } from '@/server/disease-group.actions'
 import React from 'react'
-import Form from './_components/form'
+import DiseaseFormGroup from './_components/disease-group-form'
 
 interface OmegaDiseaseGroupUpdatePageProps {
     params: { id: number }
@@ -15,7 +15,7 @@ const OmegaDiseaseGroupUpdatePage: React.FC<OmegaDiseaseGroupUpdatePageProps> = 
     return (
         <>
             <ReturnableHeader title='Modificacion del grupo de morbilidades' />
-            <Form id={params.id} name={data.name} />
+            <DiseaseFormGroup id={params.id} name={data.name} />
         </>)
 }
 
