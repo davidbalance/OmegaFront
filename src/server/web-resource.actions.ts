@@ -5,6 +5,7 @@ import omega from "@/lib/api-client/omega-client/omega";
 import { OmegaNavResource } from "@/lib/dtos/omega/nav/resource/base.response.dto";
 import { OmegaWebResource } from "@/lib/dtos/omega/web/resource/base.response.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
+import { revalidatePath } from "next/cache";
 
 export const retriveNavResources = async (): Promise<OmegaNavResource[]> => {
     const session = await auth();
@@ -22,20 +23,41 @@ export const retriveWebResources = async (): Promise<OmegaWebResource[]> => {
     return data;
 }
 
-export const updateWebResource = async (id: number): Promise<OmegaWebResource[]> => {
+export const retriveWebResource = async (id: number): Promise<OmegaWebResource> => {
     const session = await auth();
-    const { data }: ObjectArray<OmegaWebResource> = await omega()
+    const data: OmegaWebResource = await omega()
         .addParams({ id })
         .addToken(session.access_token)
-        .execute('webResourceUpdate');
+        .execute('webResourceDetail');
     return data;
 }
 
-export const deleteWebResource = async (id: number): Promise<OmegaWebResource[]> => {
+type OmegaWebResourceBody = Pick<OmegaWebResource, 'icon' | 'address' | 'label' | 'name'>;
+export const createWebResource = async (body: OmegaWebResourceBody): Promise<void> => {
     const session = await auth();
-    const { data }: ObjectArray<OmegaWebResource> = await omega()
+    await omega()
+        .addBody(body)
+        .addToken(session.access_token)
+        .execute('webResourceCreate');
+    revalidatePath('/omega/developer/navigation');
+}
+
+export const updateWebResource = async (id: number, body: OmegaWebResourceBody): Promise<void> => {
+    const session = await auth();
+    await omega()
         .addParams({ id })
+        .addBody(body)
         .addToken(session.access_token)
         .execute('webResourceUpdate');
-    return data;
+    revalidatePath(`/omega/developer/navigation/${id}/update`);
+    revalidatePath('/omega/developer/navigation');
+}
+
+export const deleteWebResource = async (id: number): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addParams({ id })
+        .addToken(session.access_token)
+        .execute('webResourceDelete');
+    revalidatePath('/omega/developer/navigation');
 }

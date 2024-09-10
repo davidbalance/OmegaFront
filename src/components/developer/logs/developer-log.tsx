@@ -1,22 +1,23 @@
+'use client'
+
 import { ServerLog } from '@/lib/dtos/logs/log.response.dto'
 import { Box, Collapse, Text, UnstyledButton, Grid, Divider, Title, DefaultMantineColor, Flex } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import React, { useMemo } from 'react'
-import classes from './DeveloperLog.module.css'
+import styles from './developer-log.module.css'
 
-interface DeveloperLog {
-    /**
-     * Log del sistema
-     */
-    log: ServerLog
-}
-const DeveloperLog: React.FC<DeveloperLog> = ({ log }) => {
+interface DeveloperLog extends ServerLog { }
+const DeveloperLog: React.FC<DeveloperLog> = ({
+    level,
+    message,
+    timestamp
+}) => {
     const [opened, { toggle }] = useDisclosure(false);
 
     const logColor = useMemo((): DefaultMantineColor => {
-        switch (log.level) {
+        switch (level) {
             case 'warn':
                 return 'orange';
             case 'error':
@@ -24,21 +25,21 @@ const DeveloperLog: React.FC<DeveloperLog> = ({ log }) => {
             default:
                 return 'cyan';
         }
-    }, [log.level]);
+    }, [level]);
 
     return (
-        <Box className={classes.container}>
+        <Box className={styles.container}>
             <UnstyledButton
-                className={classes.control}
+                className={styles.control}
                 onClick={toggle}>
                 <Grid>
                     <Grid.Col span={7}>
                         <Title order={5}>
-                            {dayjs(log.timestamp).format('YYYY-MM-DD HH:mm:ss')}
+                            {dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss')}
                         </Title>
                         <Box maw={500}>
                             <Text truncate="end">
-                                {log.message}
+                                {message}
                             </Text>
                         </Box>
                     </Grid.Col>
@@ -52,7 +53,7 @@ const DeveloperLog: React.FC<DeveloperLog> = ({ log }) => {
                                 c={logColor}
                                 order={6}
                                 tt='uppercase'>
-                                {log.level}
+                                {level}
                             </Title>
                             <Divider size="sm" orientation="vertical" />
                         </Flex>
@@ -67,12 +68,12 @@ const DeveloperLog: React.FC<DeveloperLog> = ({ log }) => {
 
             <Collapse in={opened}>
                 <Divider my="sm" />
-                <Box className={classes.innerLog}>
-                    <Text>{log.message}</Text>
+                <Box className={styles.innerLog}>
+                    <Text>{message}</Text>
                 </Box>
             </Collapse>
         </Box>
     )
 }
 
-export { DeveloperLog }
+export default DeveloperLog

@@ -24,3 +24,19 @@ export const uploadMedicalReport = async (id: number, body: FormData): Promise<v
         .execute('medicalReportUpload');
     revalidatePath('/omega/medical/report');
 }
+
+
+export const generateAllMedicalReport = async (): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addToken(session.access_token)
+        .execute('medicalReportRecreateAll');
+}
+
+export const generateByDniMedicalReport = async (body: { dni: string }): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addParams(body)
+        .addToken(session.access_token)
+        .execute('medicalReportRecreateByPatient');
+}

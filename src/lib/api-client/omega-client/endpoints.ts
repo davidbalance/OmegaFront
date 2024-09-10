@@ -15,15 +15,17 @@ const omegaSessionEnpoint = {
 
 const omegaMethodEndpoint = {
     //#region Logger
-    logDetails: {
-        resource: 'logs',
-        method: 'post',
-        options: { customHeader: ['auth', 'as-json'] }
+    logSearch: {
+        resource: 'logs/paginate',
+        method: 'get',
+    } as ApiResource,
+    logPages: {
+        resource: 'logs/pages',
+        method: 'get',
     } as ApiResource,
     logLevel: {
         resource: 'logs/level',
         method: 'get',
-        options: { customHeader: ['auth'] }
     } as ApiResource,
     //#endregion
 
@@ -464,6 +466,11 @@ const omegaMethodEndpoint = {
     } as ApiResource,
     webResourceDetails: {
         resource: 'omega/web/resources',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    webResourceDetail: {
+        resource: 'omega/web/resources/:id',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,

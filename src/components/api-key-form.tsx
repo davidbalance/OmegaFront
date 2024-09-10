@@ -62,4 +62,6 @@ const ApikeyForm: React.FC<ApikeyFormProps> = React.forwardRef<HTMLFormElement, 
     )
 });
 
+ApikeyForm.displayName = 'ApikeyForm';
+
 export default ApikeyForm

@@ -1,22 +1,29 @@
 'use server'
 
-import { auth } from "@/app/api/auth/[...nextauth]/route"
 import omega from "@/lib/api-client/omega-client/omega";
 import { ServerLog, ServerLogLevel } from "@/lib/dtos/logs/log.response.dto";
+import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 
-export const retriveLogs = async (): Promise<ServerLog[]> => {
-    const session = await auth();
+type LogFilter = { level?: string, toDate?: number, fromDate?: number }
+export const searchLog = async (filter: FilterMeta & LogFilter): Promise<ServerLog[]> => {
+    console.log(filter);
     const { data }: ObjectArray<ServerLog> = await omega()
-        .addToken(session.access_token)
-        .execute('logDetails');
+        .addQuery({ ...filter })
+        .execute('logSearch');
     return data;
 }
 
+export const countLog = async (filter: CountMeta & LogFilter): Promise<number> => {
+    const { pages }: PageCount = await omega()
+        .addQuery({ ...filter })
+        .execute('logPages');
+    return pages;
+}
+
 export const retriveLogLevels = async (): Promise<ServerLogLevel[]> => {
-    const session = await auth();
     const { data }: ObjectArray<ServerLogLevel> = await omega()
-        .addToken(session.access_token)
         .execute('logLevel');
+    console.log(data);
     return data;
 }
