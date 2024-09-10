@@ -1,7 +1,6 @@
 'use client'
 
 import { ModularBox } from '@/components/modular/box/ModularBox'
-import WebResourceFormAssign from '@/components/web/resource/form/web-resource-form-assign'
 import { OmegaNavResource } from '@/lib/dtos/omega/nav/resource/base.response.dto'
 import { Button, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
@@ -10,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import React, { FormEvent, useCallback, useRef, useState } from 'react'
 import LoadingOverlay from '@/components/_base/loading-overlay'
 import { updateClientResource } from '@/server/web-client.actions'
+import WebResourceFormAssign from '@/components/web-resource-form-assign'
 
 interface WebResourceFormProps {
     id: number;

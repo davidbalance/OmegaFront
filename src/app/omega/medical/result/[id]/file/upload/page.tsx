@@ -3,13 +3,13 @@ import { ModularBox } from '@/components/modular/box/ModularBox'
 import React from 'react'
 import FileUploadForm from './_components/file-upload-form'
 
-interface MedicalResultFileUploadProps {
+interface MedicalReportFileUploadProps {
   params: { id: number }
 }
-const MedicalResultFileUpload: React.FC<MedicalResultFileUploadProps> = ({ params }) => {
+const MedicalReportFileUpload: React.FC<MedicalReportFileUploadProps> = ({ params }) => {
   return (
     <>
-      <ReturnableHeader title='Carga de firma' />
+      <ReturnableHeader title='Carga de resultado medico' />
       <ModularBox
         h='100%'
         justify='center'
@@ -20,4 +20,4 @@ const MedicalResultFileUpload: React.FC<MedicalResultFileUploadProps> = ({ param
   )
 }
 
-export default MedicalResultFileUpload
+export default MedicalReportFileUpload

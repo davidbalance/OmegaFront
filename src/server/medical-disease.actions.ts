@@ -70,6 +70,6 @@ export const retriveMedicalDiseaseYear = async (): Promise<MedicalResultDiseaseY
     const session = await auth();
     const { data }: ObjectArray<MedicalResultDiseaseYear> = await omega()
         .addToken(session.access_token)
-        .execute('medicalDiseaseExport');
+        .execute('medicalDiseaseYear');
     return data;
 }

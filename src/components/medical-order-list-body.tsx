@@ -5,18 +5,20 @@ import { Flex, Title, Text, Group } from '@mantine/core'
 import React, { Suspense } from 'react'
 import dayjs from 'dayjs'
 import AddQueryParam from './_base/add-query-param'
-import MedicalOrderValidateButton from './_base/medical-order-validate-button'
+import MedicalOrderValidateButton from './medical-order-validate-button'
 import MedicalOrderEmail from './medical-order-mail/medical-order-email'
 import MedicalOrderEmailSuspense from './medical-order-mail/medical-order-email.suspense'
 
 interface MedicalOrderListBodyProps {
     active?: number;
-    dni: string;
+    action?: boolean;
+    dni?: string;
     orders: MedicalOrder[];
 }
 const MedicalOrderListBody: React.FC<MedicalOrderListBodyProps> = ({
     active,
     dni,
+    action,
     orders
 }) => {
     return (
@@ -33,19 +35,24 @@ const MedicalOrderListBody: React.FC<MedicalOrderListBodyProps> = ({
                             <Title order={6}>{e.process}</Title>
                             <Text>{dayjs(e.createAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
                         </AddQueryParam>
-                        <Group wrap='nowrap'>
-                            <Suspense fallback={<MedicalOrderEmailSuspense />}>
-                                <MedicalOrderEmail
-                                    order={e.id}
-                                    status={e.mailStatus}
-                                    dni={dni} />
-                            </Suspense>
-                            <MedicalOrderValidateButton {...e} />
-                        </Group>
+                        {action ? (
+                            <Group wrap='nowrap'>
+                                {dni
+                                    ? (
+                                        <Suspense fallback={<MedicalOrderEmailSuspense />}>
+                                            <MedicalOrderEmail
+                                                order={e.id}
+                                                status={e.mailStatus}
+                                                dni={dni} />
+                                        </Suspense>
+                                    ) : null}
+                                <MedicalOrderValidateButton {...e} />
+                            </Group>
+                        ) : null}
                     </Flex>
-                </ListRow >
+                </ListRow>
             ))}
-        </ListTbody >
+        </ListTbody>
     )
 }
 

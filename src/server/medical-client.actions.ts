@@ -2,7 +2,6 @@
 
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import omega from "@/lib/api-client/omega-client/omega";
-import { MedicalClientEmail } from "@/lib/dtos/medical/client/email/base.response.dto";
 import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { Patient } from "@/lib/dtos/user/patient/base.response.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";

@@ -1,7 +1,7 @@
 'use client'
 
 import LoadingOverlay from '@/components/_base/loading-overlay';
-import { MedicalClientAreaForm } from '@/components/medical/client/form/medical-client-area-form';
+import MedicalClientAreaForm from '@/components/medical-client-form-change-area';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { ManagementOption } from '@/lib/dtos/location/management/base.response.dto';
 import { updateMedicalClientManagement } from '@/server/medical-client.actions';

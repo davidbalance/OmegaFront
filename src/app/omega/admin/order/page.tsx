@@ -5,7 +5,7 @@ import ReloadButton from '@/components/_base/reload-button';
 import Search from '@/components/_base/search';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import { Box, Flex, rem, Title } from '@mantine/core';
+import { Box, Flex, Group, rem, Title } from '@mantine/core';
 import React, { Suspense } from 'react'
 import MedicalOrderHeader from './_components/medical-order-header';
 import ListBodySuspense from '@/components/_base/list/list-body.suspense';
@@ -18,6 +18,7 @@ import MedicalResultHeader from '@/components/medical-result-header';
 import { countMedicalResult, searchMedicalResult } from '@/server/medical-result.actions';
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import MedicalResultBody from '@/components/medical-result-body';
+import RemoveQueryButton from '@/components/_base/remove-query-button';
 
 const take: number = 100;
 interface OmegaAdminOrderPageProps {
@@ -103,8 +104,12 @@ const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = ({
                             <Box style={{ flexShrink: 0 }}>
                                 <Title order={4} component='span'>Resultados medicos</Title>
                             </Box>
-                            <ReloadButton />
-                        </Flex>
+                            <Group gap={rem(4)}>
+                                <ReloadButton />
+                                <RemoveQueryButton
+                                    queries={['medicalOrder']}
+                                    hiddenFrom='md' />
+                            </Group>                        </Flex>
                     </ModularBox>
                     <ModularBox>
                         <Search query='medicalResultSearch' value={medicalResultSearch} />
@@ -114,7 +119,7 @@ const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = ({
                             <MedicalResultHeader />
                             <Suspense fallback={<ListBodySuspense />}>
                                 <Await promise={medicalResultPromise}>
-                                    {(medicalResult) => <MedicalResultBody medicalResult={medicalResult} order={medicalOrder} />}
+                                    {(medicalResult) => <MedicalResultBody notEditReports medicalResult={medicalResult} order={medicalOrder} />}
                                 </Await>
                             </Suspense>
                         </ListRoot>

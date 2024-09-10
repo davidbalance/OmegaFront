@@ -1,4 +1,4 @@
-import OrderableButton from '@/components/_base/orderable-button'
+import OrderableButton from '@/components/_base/orderable-button/orderable-button'
 import TableTh from '@/components/_base/table/table-th'
 import TableTHead from '@/components/_base/table/table-thead'
 import { TableTr, Text } from '@mantine/core'

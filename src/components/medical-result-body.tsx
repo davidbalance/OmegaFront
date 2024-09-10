@@ -32,6 +32,7 @@ const MedicalResultBody: React.FC<MedicalResultBodyProps> = async ({
         <ListTbody>
             {medicalResult.map((e) => (
                 <ListRow
+                    hoverable
                     key={e.id}>
                     <Flex justify='space-between' align='center'>
                         <Box>
@@ -51,9 +52,12 @@ const MedicalResultBody: React.FC<MedicalResultBodyProps> = async ({
                                         <ActionMenu>
                                             <MedicalResultMenuMiscContent result={e.id} show={status === 'created' && !notShowMisc} />
                                             <MedicalResultMenuFileContent {...e} editable={status === 'created' && !notEditResults} />
-                                            {(!!e.reportId && !!e.reportHasFile) && (
-                                                <MedicalReportMenuFileContent {...e} id={e.reportId} hasFile={e.reportHasFile} editable={status === 'created' && !notEditReports} />
-                                            )}
+                                            <MedicalReportMenuFileContent
+                                                result={e.id}
+                                                {...e}
+                                                id={e.reportId}
+                                                hasFile={e.reportHasFile}
+                                                editable={status === 'created' && !notEditReports} />
                                         </ActionMenu>)}
                                 </Await>
                             </Suspense>

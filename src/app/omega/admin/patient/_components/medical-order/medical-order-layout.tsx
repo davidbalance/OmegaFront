@@ -3,7 +3,7 @@ import ListBodySuspense from '@/components/_base/list/list-body.suspense';
 import ListRoot from '@/components/_base/list/list-root';
 import ListTh from '@/components/_base/list/list-th';
 import ListThead from '@/components/_base/list/list-thead';
-import OrderableButton from '@/components/_base/orderable-button';
+import OrderableButton from '@/components/_base/orderable-button/orderable-button';
 import ReloadButton from '@/components/_base/reload-button';
 import RemoveQueryButton from '@/components/_base/remove-query-button';
 import Search from '@/components/_base/search';

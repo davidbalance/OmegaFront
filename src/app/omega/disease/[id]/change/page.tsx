@@ -1,6 +1,6 @@
 import ReturnableHeader from "@/components/_base/returnable-header";
 import { retriveDisease } from "@/server/disease.actions";
-import Form from "./_components/form";
+import DiseaseGroupForm from "./_components/disease-group-form";
 import { retriveDiseaseOptions } from "@/server/disease-group.actions";
 
 interface OmegaDiseaseChangePageProps {
@@ -16,7 +16,7 @@ const OmegaDiseaseChangePage: React.FC<OmegaDiseaseChangePageProps> = async ({
     return (
         <>
             <ReturnableHeader title='Cambiar de grupo' />
-            <Form options={options} {...data} />
+            <DiseaseGroupForm options={options} {...data} />
         </>)
 }
 

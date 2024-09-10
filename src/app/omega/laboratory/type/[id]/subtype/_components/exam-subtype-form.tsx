@@ -1,6 +1,6 @@
 'use client'
 
-import Form from '@/components/exam/subtype/form/ExamSubtypeForm';
+import Form from '@/components/exam-subtype-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { parseForm } from '@/lib/utils/form-parse';
 import { createExamSubtype } from '@/server/exam-subtype.actions';

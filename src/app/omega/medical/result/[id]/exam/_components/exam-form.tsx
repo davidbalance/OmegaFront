@@ -1,6 +1,6 @@
 'use client'
 
-import MedicalResultFormExam from '@/components/medical/result/form/medical-result-form-exam';
+import MedicalResultFormExam from '@/components/medical-result-form-exam';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { ExamTypeOption } from '@/lib/dtos/laboratory/exam/type/base.response.dto';
 import { updateMedicalResult } from '@/server/medical-result.actions';
@@ -40,7 +40,6 @@ const ExamForm: React.FC<ExamFormProps> = ({
         });
 
         try {
-            console.log(currentValue);
             await updateMedicalResult(id, currentValue as any);
             router.back();
         } catch (error: any) {

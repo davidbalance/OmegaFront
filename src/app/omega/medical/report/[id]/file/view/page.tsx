@@ -1,4 +1,4 @@
-import BlobPreview from '@/components/_base/blob-preview';
+import BlobPreview from '@/components/_base/blob-preview/blob-preview';
 import ReturnableHeader from '@/components/_base/returnable-header';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { retriveFileBlob } from '@/server/file.actions';

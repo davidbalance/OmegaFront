@@ -135,7 +135,7 @@ const PatientPage: React.FC<PatientPageProps> = ({ searchParams }) => {
                             <MedicalOrderHeader />
                             <Suspense fallback={<ListBodySuspense />}>
                                 <Await promise={medicalOrderPromise}>
-                                    {(orders) => patient ? <MedicalOrderListBody active={medicalOrder} orders={orders} dni={patient} /> : <></>}
+                                    {(orders) => patient ? <MedicalOrderListBody action active={medicalOrder} orders={orders} dni={patient} /> : <></>}
                                 </Await>
                             </Suspense>
                         </ListRoot>
@@ -165,7 +165,12 @@ const PatientPage: React.FC<PatientPageProps> = ({ searchParams }) => {
                             <Box style={{ flexShrink: 0 }}>
                                 <Title order={4} component='span'>Resultados medicos</Title>
                             </Box>
-                            <ReloadButton />
+                            <Group gap={rem(4)}>
+                                <ReloadButton />
+                                <RemoveQueryButton
+                                    queries={['medicalOrder']}
+                                    hiddenFrom='md' />
+                            </Group>
                         </Flex>
                     </ModularBox>
                     <ModularBox>

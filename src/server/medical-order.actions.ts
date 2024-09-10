@@ -3,7 +3,7 @@
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import omegaEndpoint from "@/lib/api-client/omega-client/endpoints";
 import omega from "@/lib/api-client/omega-client/omega";
-import { MedicalOrder, MedicalOrderCloud, MedicalOrderExpanded, OrderStatus } from "@/lib/dtos/medical/order/base.response.dto";
+import { MedicalOrder, MedicalOrderCloud, MedicalOrderDoctor, MedicalOrderExpanded, OrderStatus } from "@/lib/dtos/medical/order/base.response.dto";
 import { FilterMeta, CountMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 import { revalidatePath } from "next/cache";
@@ -15,14 +15,13 @@ export const retriveCloud = async (id: number): Promise<MedicalOrderCloud> => {
     return data;
 }
 
-export const searchMedicalOrderByDoctor = async (dni: string, filter: FilterMeta): Promise<MedicalOrder[]> => {
+export const searchMedicalOrderByDoctor = async (dni: string, filter: FilterMeta): Promise<MedicalOrderDoctor[]> => {
     const session = await auth();
-    const { data }: ObjectArray<MedicalOrder> = await omega()
+    const { data }: ObjectArray<MedicalOrderDoctor> = await omega()
         .addQuery({ ...filter })
         .addParams({ dni })
         .addToken(session.access_token)
         .execute('medicalOrderByDoctorSearch');
-
     return data;
 }
 

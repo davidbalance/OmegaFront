@@ -29,7 +29,7 @@ const ActionMenuProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         try {
             await promise;
         } catch (error: any) {
-            console.log(error);
+            console.error(error);
             notifications.show({ message: error.message, color: 'red' });
         } finally {
             setLoad(false);

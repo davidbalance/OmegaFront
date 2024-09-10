@@ -1,7 +1,6 @@
 'use client'
 
 import LoadingOverlay from '@/components/_base/loading-overlay'
-import { MedicalResultFormDisease } from '@/components/medical/result/form/medical-result-form-disease';
 import { DiseaseGroupOption } from '@/lib/dtos/disease/group/base.response.dto';
 import { MedicalResultDisease } from '@/lib/dtos/medical/result/disease/base.response.dto';
 import { Box, Button, rem, Stack } from '@mantine/core'
@@ -10,6 +9,7 @@ import { IconDeviceFloppy } from '@tabler/icons-react';
 import React, { FormEvent, useCallback, useRef, useState } from 'react'
 import { useSelect } from '../_context/select.context';
 import { createMedicalDisease, updateMedicalDisease } from '@/server/medical-disease.actions';
+import { MedicalResultFormDisease } from '@/components/medical-result-form-disease';
 
 interface MedicalResultDiseaseFormProps {
     id: number;

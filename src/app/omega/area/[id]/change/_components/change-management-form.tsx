@@ -1,6 +1,6 @@
 'use client'
 
-import AreaFormManagement from '@/components/area/form/AreaFormManagement';
+import AreaFormManagement from '@/components/area-form-management';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Area } from '@/lib/dtos/location/area/base.response.dto';
 import { Management } from '@/lib/dtos/location/management/base.response.dto';

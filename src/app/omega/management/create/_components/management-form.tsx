@@ -1,6 +1,6 @@
 'use client'
 
-import Form from '@/components/management/form/management-form';
+import Form from '@/components/management-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { parseForm } from '@/lib/utils/form-parse';
 import { createManagement } from '@/server/management.actions';
@@ -18,7 +18,6 @@ const ManagementForm: React.FC = () => {
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const values: any = parseForm(event.currentTarget);
-        console.log(values);
         setLoading(true);
         try {
             await createManagement(values);

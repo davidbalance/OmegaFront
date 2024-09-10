@@ -630,12 +630,12 @@ const omegaMethodEndpoint = {
 
     medicalResultByDoctorSearch: {
         resource: 'medical/:order/results/doctor/paginate',
-        method: 'post',
+        method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     medicalResultByDoctorPages: {
         resource: 'medical/:order/results/doctor/pages',
-        method: 'post',
+        method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     medicalResultUpload: {
@@ -663,16 +663,21 @@ const omegaMethodEndpoint = {
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
-
-    medicalReportUpload: {
-        resource: 'medical/report/file/:id',
-        method: 'patch',
+    medicalResultReportDetail: {
+        resource: 'medical/result/:id/report',
+        method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
+
     medicalReportCreate: {
         resource: 'medical/report',
         method: 'post',
         options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+    medicalReportUpload: {
+        resource: 'medical/report/file/:id',
+        method: 'patch',
+        options: { customHeader: ['auth'] }
     } as ApiResource,
     medicalReportRecreateAll: {
         resource: 'medical/report/recreate/pdf',

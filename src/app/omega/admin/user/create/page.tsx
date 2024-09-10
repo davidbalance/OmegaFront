@@ -1,11 +1,11 @@
 import React from 'react'
-import AuthFormPassword from '@/components/authentication/form/auth-form-password'
 import UserDataForm from '@/components/user/form/user-data-form'
-import WebResourceFormAssign from '@/components/web/resource/form/web-resource-form-assign'
 import UserForm from './_components/user-form'
 import UserFormLogo from '@/components/user/form/user-form-logo'
 import ReturnableHeader from '@/components/_base/returnable-header'
 import { retriveNavResources } from '@/server/web-resource.actions'
+import AuthFormPassword from '@/components/auth-form-password'
+import WebResourceFormAssign from '@/components/web-resource-form-assign'
 
 const UserActionCreatePage: React.FC = async () => {
 

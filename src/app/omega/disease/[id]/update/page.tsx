@@ -1,6 +1,6 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import Form from './_components/form'
+import DiseaseForm from './_components/disease-form'
 import { retriveDisease } from '@/server/disease.actions'
 
 interface OmegaDiseaseUpdatePageProps {
@@ -15,7 +15,7 @@ const OmegaDiseaseUpdatePage: React.FC<OmegaDiseaseUpdatePageProps> = async ({
     return (
         <>
             <ReturnableHeader title='Actualizar de morbilidad' />
-            <Form {...data} />
+            <DiseaseForm {...data} />
         </>)
 }
 

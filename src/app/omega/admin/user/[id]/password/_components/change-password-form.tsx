@@ -1,7 +1,7 @@
 'use client'
 
 import LoadingOverlay from '@/components/_base/loading-overlay';
-import AuthFormPassword from '@/components/authentication/form/auth-form-password';
+import AuthFormPassword from '@/components/auth-form-password';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { changePassword } from '@/server/credential.actions';
 import { Button, rem } from '@mantine/core';

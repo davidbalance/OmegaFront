@@ -1,5 +1,5 @@
 import Await from '@/components/_base/await';
-import OrderableButton from '@/components/_base/orderable-button';
+import OrderableButton from '@/components/_base/orderable-button/orderable-button';
 import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';

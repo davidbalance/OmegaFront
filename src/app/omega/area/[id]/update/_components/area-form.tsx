@@ -1,6 +1,6 @@
 'use client'
 
-import Form from '@/components/area/form/area-form';
+import Form from '@/components/area-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Area } from '@/lib/dtos/location/area/base.response.dto';
 import { parseForm } from '@/lib/utils/form-parse';

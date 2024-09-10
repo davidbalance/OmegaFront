@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 
 import ReturnableHeader from '@/components/_base/returnable-header';
-import { MedicalClientEmailForm } from '@/components/medical/client/form/medical-client-email-form';
+import { MedicalClientEmailForm } from '@/components/medical-client-email-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ListBodySuspense from '@/components/_base/list/list-body.suspense';
 import ListRoot from '@/components/_base/list/list-root';

@@ -1,7 +1,7 @@
 'use client'
 
 import LoadingOverlay from '@/components/_base/loading-overlay'
-import Dropzone from '@/components/dropzone/dropzone'
+import Dropzone from '@/components/_base/dropzone/dropzone'
 import { useConfirmation } from '@/contexts/confirmation.context'
 import { uploadSignature } from '@/server/doctor.actions'
 import { Flex } from '@mantine/core'

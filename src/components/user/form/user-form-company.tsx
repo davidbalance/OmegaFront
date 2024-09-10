@@ -1,3 +1,5 @@
+'use client'
+
 import { CorporativeGroupOption } from '@/lib/dtos/location/corporative/base.response.dto';
 import { SelectorOption } from '@/lib/dtos/selector/response.dto';
 import { Box, Button, ComboboxItem, Select, rem } from '@mantine/core';

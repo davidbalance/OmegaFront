@@ -23,6 +23,10 @@ export interface MedicalOrder {
     orderStatus: OrderStatus;
 }
 
+export interface MedicalOrderDoctor extends MedicalOrder {
+    leftReports: number;
+}
+
 export interface MedicalOrderExpanded extends MedicalOrder {
     name: string;
     lastname: string;

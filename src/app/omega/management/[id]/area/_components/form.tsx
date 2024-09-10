@@ -1,6 +1,6 @@
 'use client'
 
-import Form from '@/components/area/form/area-form';
+import Form from '@/components/area-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { parseForm } from '@/lib/utils/form-parse';
 import { createArea } from '@/server/area.actions';
@@ -23,7 +23,6 @@ const AreaForm: React.FC<FormProps> = ({
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const values: any = parseForm(event.currentTarget);
-        console.log(values);
         setLoading(true);
         try {
             await createArea({ ...values, management: Number(management) });

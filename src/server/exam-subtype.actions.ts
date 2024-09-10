@@ -34,7 +34,6 @@ export const retriveExamSubtype = async (id: number): Promise<ExamSubtype> => {
         .addParams({ id })
         .addToken(session.access_token)
         .execute('examSubtypeDetail');
-    console.log(data);
     return data;
 }
 

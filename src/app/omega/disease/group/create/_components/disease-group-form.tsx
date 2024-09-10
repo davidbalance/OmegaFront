@@ -1,7 +1,7 @@
 'use client'
 
 import LoadingOverlay from '@/components/_base/loading-overlay'
-import DiseseGroupForm from '@/components/disease/group/form/DiseaseGroupForm'
+import DiseseGroupForm from '@/components/disease-group-form'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { parseForm } from '@/lib/utils/form-parse'
 import { createDiseaseGroup } from '@/server/disease-group.actions'
@@ -20,7 +20,6 @@ const DiseaseGroupForm: React.FC = () => {
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const values: any = parseForm(event.currentTarget);
-        console.log(values);
         setLoading(true);
         try {
             await createDiseaseGroup(values);

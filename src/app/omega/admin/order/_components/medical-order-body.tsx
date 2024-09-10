@@ -2,14 +2,13 @@ import AddQueryParam from '@/components/_base/add-query-param'
 import Await from '@/components/_base/await'
 import ListRow from '@/components/_base/list/list-row'
 import ListTbody from '@/components/_base/list/list-tbody'
-import MedicalOrderValidateButton from '@/components/_base/medical-order-validate-button'
 import { MedicalOrderExpanded } from '@/lib/dtos/medical/order/base.response.dto'
-import { retriveMedicalClientEmail } from '@/server/medical-email.actions'
 import { ActionIcon, Group, rem, SimpleGrid, Stack, Text, Title } from '@mantine/core'
 import dayjs from 'dayjs'
 import React, { Suspense } from 'react'
 import MedicalOrderEmail from '@/components/medical-order-mail/medical-order-email'
 import MedicalOrderEmailSuspense from '@/components/medical-order-mail/medical-order-email.suspense'
+import MedicalOrderValidateButton from '@/components/medical-order-validate-button'
 
 interface MedicalOrderBodyProps {
     active: number | undefined;

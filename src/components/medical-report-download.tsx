@@ -7,7 +7,7 @@ import { blobFile } from '@/lib/utils/blob-to-file'
 import { useActionMenu } from '@/contexts/action-menu.context'
 
 const processBlob = async (id: number, exam: string) => {
-    const response = await fetch(`/api/medical/file/result/${id}`);
+    const response = await fetch(`/api/medical/file/report/${id}`);
     if (!response.ok) {
         const reason = await response.json();
         throw new Error(reason);

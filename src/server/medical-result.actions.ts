@@ -1,6 +1,7 @@
 'use server'
 
 import { auth } from "@/app/api/auth/[...nextauth]/route";
+import ApiClientError from "@/lib/api-client/base/api-error";
 import omega from "@/lib/api-client/omega-client/omega";
 import { MedicalResult } from "@/lib/dtos/medical/result/base.response.dto";
 import { FilterMeta, CountMeta, PageCount } from "@/lib/dtos/pagination.dto";
@@ -13,7 +14,7 @@ export const searchMedicalResultByDoctor = async (order: number, filter: FilterM
         .addQuery({ ...filter })
         .addParams({ order })
         .addToken(session.access_token)
-        .execute('medicalOrderByDoctorSearch');
+        .execute('medicalResultByDoctorSearch');
 
     return data;
 }
@@ -24,7 +25,7 @@ export const countMedicalResultByDoctor = async (order: number, filter: CountMet
         .addQuery({ ...filter })
         .addParams({ order })
         .addToken(session.access_token)
-        .execute('medicalOrderByDoctorPages');
+        .execute('medicalResultByDoctorPages');
 
     return pages;
 }
@@ -60,7 +61,6 @@ export const retriveMedicalResult = async (id: number): Promise<MedicalResult> =
 
 type MedicalResultUpdateBody = { examType: string, examSubtype: string, examName: string }
 export const updateMedicalResult = async (id: number, body: MedicalResultUpdateBody): Promise<void> => {
-    console.log(body);
     const session = await auth();
     await omega()
         .addParams({ id })
@@ -77,4 +77,24 @@ export const uploadMedicalResult = async (id: number, body: FormData): Promise<v
         .addToken(session.access_token)
         .execute('medicalResultUpload');
     revalidatePath('/omega/admin/order');
+}
+
+
+export const retriveMedicalResultReport = async (id: number): Promise<{ content: string } | undefined> => {
+    const session = await auth();
+    try {
+        const data: { content: string } = await omega()
+            .addParams({ id })
+            .addToken(session.access_token)
+            .execute('medicalResultReportDetail');
+        return data;
+    } catch (error) {
+        console.error(error);
+        if (error instanceof ApiClientError) {
+            if (error.status === 404) {
+                return undefined;
+            }
+        }
+        throw error;
+    }
 }

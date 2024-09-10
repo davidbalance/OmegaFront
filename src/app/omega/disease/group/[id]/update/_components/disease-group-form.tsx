@@ -1,6 +1,6 @@
 'use client'
 
-import Form from '@/components/disease/group/form/DiseaseGroupForm';
+import Form from '@/components/disease-group-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { DiseaseGroup } from '@/lib/dtos/disease/group/base.response.dto'
 import { parseForm } from '@/lib/utils/form-parse';

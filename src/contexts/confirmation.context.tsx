@@ -1,6 +1,6 @@
 'use client'
 
-import ModalConfirmation from "@/components/modal/confirmation/ModalConfirmation";
+import ModalConfirmation from "@/components/_base/modal-confirmation";
 import { useDisclosure } from "@mantine/hooks";
 import { createContext, useCallback, useContext, useState } from "react";
 
