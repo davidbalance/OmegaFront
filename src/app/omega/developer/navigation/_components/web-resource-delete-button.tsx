@@ -18,7 +18,7 @@ const WebResourceDeleteButton: React.FC<WebResourceDeleteButtonProps> = ({
     const handleClick = useCallback(async () => {
         const deletePromise = deleteWebResource(id);
         trigger(deletePromise);
-    }, [id])
+    }, [id, trigger])
 
     return (
         <MenuItem

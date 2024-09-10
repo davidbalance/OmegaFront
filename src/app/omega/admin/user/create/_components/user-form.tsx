@@ -35,7 +35,7 @@ const UserForm: React.FC<UserFormProps> = ({
 
     const [formValues, setFormValues] = useState<any>({});
 
-    const nextStep = () => setActive(prev => prev < childrenCount ? prev + 1 : prev);
+    const nextStep = useCallback(() => setActive(prev => prev < childrenCount ? prev + 1 : prev), [childrenCount]);
     const prevStep = () => setActive(prev => prev > 0 ? prev - 1 : prev);
 
     const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
@@ -62,7 +62,7 @@ const UserForm: React.FC<UserFormProps> = ({
             setFormValues((prev: any) => ({ ...prev, ...currentValue }));
             setShouldFetch(true);
         }
-    }, [formValues, active, childrenCount]);
+    }, [active, nextStep, childrenCount]);
 
     const handleCreation = async (data: any) => {
         setLoading(true);

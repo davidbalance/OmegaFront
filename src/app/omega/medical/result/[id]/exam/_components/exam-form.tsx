@@ -47,7 +47,7 @@ const ExamForm: React.FC<ExamFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [id]);
+    }, [id, router]);
 
     const handleClick = () => {
         if (formRef.current) {

@@ -42,7 +42,7 @@ const MedicalResultReportForm: React.FC<MedicalResultReportFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [medicalResult]);
+    }, [router, medicalResult]);
 
     const handleClick = () => {
         if (formRef.current) {

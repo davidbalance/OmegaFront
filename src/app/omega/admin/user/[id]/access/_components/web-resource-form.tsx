@@ -45,7 +45,7 @@ const WebResourceForm: React.FC<WebResourceFormProps> = ({ id, ...props }) => {
         } finally {
             setLoading(false);
         }
-    }, [id]);
+    }, [id, router]);
 
     const handleClick = () => {
         if (formRef.current) {

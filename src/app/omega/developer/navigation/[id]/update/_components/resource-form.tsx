@@ -34,7 +34,7 @@ const ResourceForm: React.FC<ResourceFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [id]);
+    }, [id, router]);
 
     const handleClick = () => {
         if (formRef.current) {

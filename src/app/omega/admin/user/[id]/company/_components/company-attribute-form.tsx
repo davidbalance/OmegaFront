@@ -45,7 +45,7 @@ const CompanyAttributeForm: React.FC<CompanyAttributeFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [id]);
+    }, [id, router]);
 
     const handleClick = () => {
         if (formRef.current) {

@@ -9,12 +9,12 @@ import { useClipboard } from '@mantine/hooks'
 const ApikeyModal: React.FC = () => {
 
     const { value, clear } = useApikey();
-    const clipboard = useClipboard();
+    const { copy } = useClipboard();
 
     const handleCopy = useCallback(() => {
-        clipboard.copy(value);
+        copy(value);
         clear();
-    }, [value]);
+    }, [value, copy, clear]);
 
     return (
         <Modal

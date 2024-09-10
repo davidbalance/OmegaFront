@@ -66,12 +66,12 @@ const MedicalResultFormDisease = React.forwardRef<HTMLFormElement, MedicalResult
         } else {
             clearForm();
         }
-    }, [value]);
+    }, [value, options]);
 
     const handleChangeEventGroup = useCallback((option: ComboboxItem) => {
         setGroup(options.find(e => e.id === Number(option.value)) || null);
         setDisease(null);
-    }, [group]);
+    }, [options]);
 
     const handleChangeEventDisease = (option: ComboboxItem) => setDisease({ key: option.value, label: option.label });
 

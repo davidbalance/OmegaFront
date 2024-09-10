@@ -43,7 +43,7 @@ const PatientJobPositionForm: React.FC<PatientJobPositionFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [dni]);
+    }, [dni, router]);
 
     const handleClick = () => {
         if (formRef.current) {

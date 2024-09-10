@@ -47,7 +47,7 @@ const PatientActionAreaForm: React.FC<PatientActionAreaFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [dni]);
+    }, [dni, router]);
 
     const handleClick = () => {
         if (formRef.current) {

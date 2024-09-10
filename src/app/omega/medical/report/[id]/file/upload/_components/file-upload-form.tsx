@@ -41,7 +41,7 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({ id }) => {
                 }
             }
         }
-    }, [id, show]);
+    }, [id, router, show]);
 
     return (
         <>

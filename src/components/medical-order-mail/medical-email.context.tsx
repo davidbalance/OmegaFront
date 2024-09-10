@@ -51,7 +51,7 @@ const MedicalEmailProvider: React.FC<MedicalEmailProviderProps> = ({
                 return;
             }
         }
-    }, []);
+    }, [values]);
 
     const trigger = async (value: MedicalClientEmail | undefined = undefined) => {
         setSelection(false);

@@ -40,7 +40,7 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ email }) => {
             setLoading(false);
         }
 
-    }, [email]);
+    }, [email, router]);
 
     const handleClick = () => {
         if (formRef.current) {

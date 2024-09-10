@@ -56,7 +56,7 @@ const MedicalResultDiseaseForm: React.FC<MedicalResultDiseaseFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [id, value]);
+    }, [id, value, clear]);
 
     const handleClick = () => {
         if (formRef.current) {

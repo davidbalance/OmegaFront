@@ -50,7 +50,7 @@ const UserForm: React.FC<UserFormProps> = ({
             setLoading(false);
         }
 
-    }, [id]);
+    }, [id, router]);
 
     const handleClick = () => {
         if (formRef.current) {

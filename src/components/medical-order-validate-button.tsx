@@ -49,7 +49,7 @@ const MedicalOrderValidateButton: React.FC<MedicalOrderValidateButtonProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [orderStatus])
+  }, [id, orderStatus])
 
   return (
     <Tooltip

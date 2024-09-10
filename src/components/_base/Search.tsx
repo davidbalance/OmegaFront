@@ -41,7 +41,7 @@ const Search: React.FC<SearchProps> = ({
             }
             router.push(`${pathname}?${newQuery.toString()}`);
         }
-    }, [query, search]);
+    }, [query, search, pathname, router, searchParams]);
 
     const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => setText(e.target.value);
 

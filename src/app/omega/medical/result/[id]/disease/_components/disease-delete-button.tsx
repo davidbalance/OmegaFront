@@ -30,7 +30,7 @@ const DiseaseDeleteButton: React.FC<DiseaseDeleteButtonProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [id, value])
+    }, [id, value, clear])
 
     return (
         <ActionIcon

@@ -17,7 +17,7 @@ const DiseaseGroupActionDelete: React.FC<DiseaseGroupActionDeleteProps> = ({
     const handleClick = useCallback(() => {
         const promise = deleteDiseaseGroup(id);
         trigger(promise);
-    }, [id])
+    }, [id, trigger])
 
     return (
         <MenuItem
