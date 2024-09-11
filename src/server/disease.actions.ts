@@ -1,9 +1,8 @@
 'use server'
 
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/app/api/auth/[...nextauth]/auth";
 import omega from "@/lib/api-client/omega-client/omega";
 import { Disease } from "@/lib/dtos/disease/base.response.dto";
-import { GetDiseaseResponseDto } from "@/lib/dtos/disease/response.dto";
 import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 import { revalidatePath } from "next/cache";
@@ -30,7 +29,7 @@ export const countDisease = async (filter: CountMeta, group: number): Promise<nu
 
 export const retriveDisease = async (id: number): Promise<Disease> => {
     const session = await auth();
-    const data: GetDiseaseResponseDto = await omega()
+    const data: Disease = await omega()
         .addParams({ id })
         .addToken(session.access_token)
         .execute('diseaseDetail');

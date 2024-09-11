@@ -25,6 +25,7 @@ import ExamSubtypeBody from './_components/exam-subtype-body';
 import ExamHeader from './_components/exam-header';
 import ExamBody from './_components/exam-body';
 
+export const dynamic = 'force-dynamic'
 const take: number = 100;
 interface OmegaLaboratoryPageProps {
   searchParams: { [key: string]: string | string[] | undefined }

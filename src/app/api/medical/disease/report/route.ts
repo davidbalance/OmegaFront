@@ -1,11 +1,12 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/app/api/auth/[...nextauth]/auth";
 import ApiClientError from "@/lib/api-client/base/api-error";
 import omega from "@/lib/api-client/omega-client/omega";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = 'force-dynamic'
 export async function POST(req: NextRequest) {
-    const session = await auth();
     try {
+        const session = await auth();
         const data = await req.json();
         const blob: Blob = await omega()
             .addBody(data)

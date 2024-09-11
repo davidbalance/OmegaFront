@@ -24,6 +24,7 @@ import CompanyBody from './_components/company-body';
 import BranchHeader from './_components/branch-header';
 import BranchBody from './_components/branch-body';
 
+export const dynamic = 'force-dynamic'
 const take: number = 100;
 interface OmegaLocationPageProps {
     searchParams: { [key: string]: string | string[] | undefined }

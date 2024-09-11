@@ -1,15 +1,15 @@
-import { auth } from '@/app/api/auth/[...nextauth]/route';
+import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import omega from '@/lib/api-client/omega-client/omega';
-import { GetUserResponseDto } from '@/lib/dtos/user/user/response.dto';
 import { Menu, ActionIcon, Avatar, Group, Box, Divider, Text, MenuTarget, MenuDropdown, MenuItem } from '@mantine/core'
 import { redirect } from 'next/navigation';
 import React from 'react'
 import OmegaMenuItemLogout from './omega-menu-item-logout';
+import { User } from '@/lib/dtos/user/user/base.response.dto';
 
 const getUser = async (): Promise<{ lastname: string, name: string, email: string }> => {
     const session = await auth();
     if (!session) redirect('/login');
-    const data: GetUserResponseDto = await omega().addToken(session.access_token).execute('accountDetail');
+    const data: User = await omega().addToken(session.access_token).execute('accountDetail');
     return data;
 }
 

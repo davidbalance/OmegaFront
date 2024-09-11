@@ -1,12 +1,11 @@
 import { NavIcon } from '@/components/navbar/NavIcon';
 import { OmegaWebResource } from '@/lib/dtos/omega/web/resource/base.response.dto';
-import { PostOmegaWebResourceRequestDto } from '@/lib/dtos/omega/web/resource/request.dto';
-import { Box, SimpleGrid, rem, TextInput, Button, Select, Grid, Flex, Stack, Group } from '@mantine/core'
+import { Box, SimpleGrid, rem, TextInput, Button, Select, Stack, Group } from '@mantine/core'
 import { joiResolver, useForm } from '@mantine/form';
 import Joi from 'joi'
-import React, { FormEvent, useCallback, useMemo } from 'react'
+import React, { FormEvent, useMemo } from 'react'
 
-const resourceSchema = Joi.object<PostOmegaWebResourceRequestDto>({
+const resourceSchema = Joi.object({
     name: Joi
         .string()
         .empty()

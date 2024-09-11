@@ -2,8 +2,8 @@ import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import DiseaseGroupForm from './_components/disease-group-form'
 
-interface OmegaDiseaseActionCreatePageProps { }
-const OmegaDiseaseActionCreatePage: React.FC<OmegaDiseaseActionCreatePageProps> = () => {
+export const dynamic = 'force-dynamic'
+const OmegaDiseaseCreatePage: React.FC = () => {
     return (
         <>
             <ReturnableHeader title='Creacion de grupos de morbilidades' />
@@ -11,4 +11,4 @@ const OmegaDiseaseActionCreatePage: React.FC<OmegaDiseaseActionCreatePageProps> 
         </>)
 }
 
-export default OmegaDiseaseActionCreatePage
+export default OmegaDiseaseCreatePage

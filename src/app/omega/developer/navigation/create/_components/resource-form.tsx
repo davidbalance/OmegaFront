@@ -1,7 +1,7 @@
 'use client'
 
 import LoadingOverlay from '@/components/_base/loading-overlay'
-import DeveloperPageForm from '@/components/developer/pages/form/developer-page-form'
+import DeveloperPageForm from '@/components/developer/pages/developer-page-form'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { parseForm } from '@/lib/utils/form-parse'
 import { createWebResource } from '@/server/web-resource.actions'

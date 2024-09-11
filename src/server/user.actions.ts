@@ -1,6 +1,5 @@
 'use server'
 
-import { auth } from "@/app/api/auth/[...nextauth]/route"
 import omega from "@/lib/api-client/omega-client/omega";
 import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { User } from "@/lib/dtos/user/user/base.response.dto";
@@ -8,6 +7,7 @@ import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 import { revalidatePath } from "next/cache";
 import { WebClientLogo } from "./web-client.actions";
 import { CredentialBody } from "./credential.actions";
+import { auth } from "@/app/api/auth/[...nextauth]/auth";
 
 export const searchUser = async (filter: FilterMeta): Promise<User[]> => {
     const session = await auth();

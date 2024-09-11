@@ -10,6 +10,7 @@ import { retriveApikeys } from '@/server/api-key.actions'
 import ApikeyProvider from './_components/apikey.context'
 import ApikeyModal from './_components/api-key-modal'
 
+export const dynamic = 'force-dynamic'
 const OmegaApikey: React.FC = () => {
 
   const apikeyPromise = retriveApikeys();

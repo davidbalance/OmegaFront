@@ -1,9 +1,9 @@
 'use server'
 
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/app/api/auth/[...nextauth]/auth";
 import omega from "@/lib/api-client/omega-client/omega";
 import { OmegaMethod } from "@/lib/api-client/omega-client/omega-api-config";
-import { GetUserAttributeResponseDto } from "@/lib/dtos/user/user/attribute/response.dto";
+import { UserAttribute } from "@/lib/dtos/user/user/attribute/base.response.dto";
 import { revalidatePath } from "next/cache";
 
 type AttributeKey = 'lookFor' | 'doctorOf' | 'employeeOf';
@@ -31,7 +31,7 @@ export const retriveUserAttribute = async (id: number, attribute: AttributeKey):
     if (!session) throw new Error('There is no session found');
     const key = attributes[attribute].get;
     try {
-        const { value }: GetUserAttributeResponseDto = await omega()
+        const { value }: UserAttribute = await omega()
             .addParams({ id })
             .addToken(session.access_token)
             .execute(key);

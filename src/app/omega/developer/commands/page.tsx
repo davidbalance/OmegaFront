@@ -2,6 +2,7 @@ import React from 'react'
 import CommandReportGenerateAll from './_components/command-report-generate-all'
 import CommandReportGenerateByDni from './_components/command-report-generate-dni'
 
+export const dynamic = 'force-dynamic'
 const OmegaDeveloperCommandsPage: React.FC = () => {
   return (
     <>

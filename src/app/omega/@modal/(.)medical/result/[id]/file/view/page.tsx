@@ -1,10 +1,10 @@
 import BlobPreview from '@/components/_base/blob-preview/blob-preview';
-import ParallelModal from '@/components/_base/parallel-modal';
 import NotFoundFileCard from '@/components/_base/not-found-file-card';
 import { retriveFileBlob } from '@/server/file.actions';
 import { ModalHeader, ModalCloseButton, ModalBody, Box, rem } from '@mantine/core';
 import React from 'react'
 
+export const dynamic = 'force-dynamic'
 interface ModalMedicalResultFileViewPageProps {
     params: { id: number }
 }

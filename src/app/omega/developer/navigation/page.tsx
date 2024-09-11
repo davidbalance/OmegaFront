@@ -8,6 +8,7 @@ import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Button } from '@mantine/core';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic'
 const OmegaDeveloperNavigationPage: React.FC = () => {
 
   const resourcePromise = retriveWebResources();

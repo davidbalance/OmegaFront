@@ -2,6 +2,7 @@ import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
 import DiseaseForm from './_components/form';
 
+export const dynamic = 'force-dynamic'
 interface OmegaDiseaseCreatePageProps {
     params: { id: number }
 }

@@ -1,15 +1,8 @@
-import ActionMenu from '@/components/_base/action-menu';
-import AddQueryParam from '@/components/_base/add-query-param';
 import Await from '@/components/_base/await';
 import ListBodySuspense from '@/components/_base/list/list-body.suspense';
 import ListRoot from '@/components/_base/list/list-root';
-import ListRow from '@/components/_base/list/list-row';
-import ListTbody from '@/components/_base/list/list-tbody';
-import ListTh from '@/components/_base/list/list-th';
-import ListThead from '@/components/_base/list/list-thead';
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root';
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section';
-import OrderableButton from '@/components/_base/orderable-button/orderable-button';
 import ReloadButton from '@/components/_base/reload-button';
 import RemoveQueryButton from '@/components/_base/remove-query-button';
 import Search from '@/components/_base/search';
@@ -17,21 +10,18 @@ import ServerPagination from '@/components/_base/server-pagination';
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import ActionMenuProvider from '@/contexts/action-menu.context';
 import { Disease } from '@/lib/dtos/disease/base.response.dto';
 import { countDiseaseGroup, searchDiseaseGroup } from '@/server/disease-group.actions';
 import { countDisease, searchDisease } from '@/server/disease.actions';
-import { Box, Button, Group, MenuItem, MenuLabel, rem, Text, Title } from '@mantine/core';
-import { IconEdit, IconExchange } from '@tabler/icons-react';
+import { Box, Button, Group, rem, Title } from '@mantine/core';
 import React, { Suspense } from 'react'
-import DiseaseGroupActionDelete from './_components/disease-group-action-delete';
 import Link from 'next/link';
-import DiseaseActionDelete from './_components/disease-action-delete';
 import DiseaseGroupHeader from './_components/disease-group-header';
 import DiseaseGroupListBody from './_components/disease-group-list-body';
 import DiseaseHeader from './_components/disease-header';
 import DiseaseListBody from './_components/disease-list-body';
 
+export const dynamic = 'force-dynamic'
 const take: number = 100;
 interface OmegaDiseasePageProps {
     searchParams: { [key: string]: string | string[] | undefined }

@@ -7,6 +7,7 @@ import DiseaseYearSelect from './_components/disease-year-select';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Box, Title } from '@mantine/core';
 
+export const dynamic = 'force-dynamic'
 const OmegaReportDiseasePage: React.FC = async () => {
 
   const yearOptions = await retriveMedicalDiseaseYear();

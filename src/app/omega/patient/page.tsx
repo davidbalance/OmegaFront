@@ -24,6 +24,7 @@ import { countPatientByCompany, searchPatientByCompany } from '@/server/patient.
 import { Flex, rem, Box, Title, Group } from '@mantine/core';
 import React, { Suspense } from 'react'
 
+export const dynamic = 'force-dynamic'
 const take: number = 100;
 interface OmegaPatientPageProps {
     searchParams: { [key: string]: string | string[] | undefined }

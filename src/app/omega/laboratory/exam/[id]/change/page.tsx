@@ -4,6 +4,7 @@ import React from 'react'
 import ChangeSubtypeForm from './_components/exam-form';
 import { retriveExamTypeOptions } from '@/server/exam-type.actions';
 
+export const dynamic = 'force-dynamic'
 interface OmegaLaboratoryExamChangePageProps {
     params: { id: number }
 }

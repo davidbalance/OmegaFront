@@ -12,6 +12,7 @@ import DeveloperLog from '@/components/developer/logs/developer-log';
 import dayjs from 'dayjs';
 import ReloadButton from '@/components/_base/reload-button';
 
+export const dynamic = 'force-dynamic'
 const take = 100;
 interface OmegaDeveloperLogsPageProps {
     searchParams: { [key: string]: string | string[] | undefined }

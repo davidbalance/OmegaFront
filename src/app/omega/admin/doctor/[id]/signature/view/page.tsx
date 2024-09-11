@@ -5,6 +5,7 @@ import BlobPreview from '@/components/_base/blob-preview/blob-preview'
 import { Box, rem } from '@mantine/core'
 import { retriveBlobSignature } from '@/server/doctor.actions'
 
+export const dynamic = 'force-dynamic'
 interface DoctorActionSignatureViewPageProps {
   params: { id: number }
 }

@@ -3,6 +3,7 @@ import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
 import CredentialAssignForm from './_components/credential-assign-form';
 
+export const dynamic = 'force-dynamic'
 interface DoctorActionCredentialPageProps {
     params: { id: number }
 }

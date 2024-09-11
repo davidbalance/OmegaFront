@@ -2,9 +2,7 @@ import 'server-only'
 import ApiClientBase from "../base/api-client.base";
 import omegaEndpoint from "./endpoints";
 import { OmegaMethod } from "./omega-api-config";
-import { cookies } from "next/headers";
 import ApiClientError from "../base/api-error";
-import { tokenOption } from "@/lib/token-option";
 import UrlBuilder from '../base/url-builder';
 
 type OmegaToken = { access: string, refresh: string, expires: string };
@@ -49,14 +47,17 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
     }
 
     public async revokeAuthentication(): Promise<void> {
+        if (!this._token) throw new Error('There is not token set before doing the request');
         try {
             const method = 'POST';
-            const url = `${this._baseUrl}/${omegaEndpoint.authentication.sessionWithLogin}`;
+            const url = `${this._baseUrl}/${omegaEndpoint.authentication.revokeSession}`;
+            const headers = new Headers();
+            headers.set('authorization', `Bearer ${this._token}`);
 
-            const request = new Request(url, { method });
+            const request = new Request(url, { method, headers });
             const response = await fetch(request);
 
-            if (!request) throw new ApiClientError(method, response);
+            if (!response.ok) throw new ApiClientError(method, response);
         } catch (error) {
             throw error;
         }
@@ -189,22 +190,6 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
                 this.addHeader({ [key]: value });
             }
         }
-    }
-
-    private _getToken(key: string): string {
-        const cookie = cookies();
-        return cookie.get(key)?.value || '';
-    }
-
-    private _setToken(key: string, value: string, expires: string): void {
-        const cookie = cookies();
-        const option = tokenOption(expires);
-        cookie.set(key, value, option);
-    }
-
-    private _removeToken(key: string): void {
-        const cookie = cookies();
-        cookie.delete(key);
     }
 }
 

@@ -7,7 +7,6 @@ import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 
 type LogFilter = { level?: string, toDate?: number, fromDate?: number }
 export const searchLog = async (filter: FilterMeta & LogFilter): Promise<ServerLog[]> => {
-    console.log(filter);
     const { data }: ObjectArray<ServerLog> = await omega()
         .addQuery({ ...filter })
         .execute('logSearch');

@@ -1,6 +1,6 @@
 'use server'
 
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/app/api/auth/[...nextauth]/auth";
 import omega from "@/lib/api-client/omega-client/omega";
 import { MedicalClientEmail } from "@/lib/dtos/medical/client/email/base.response.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";

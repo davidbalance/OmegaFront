@@ -11,6 +11,7 @@ import TableBodySuspense from '@/components/_base/table/table-body.suspense'
 import { countDoctor, searchDoctor } from '../../../../server/doctor.actions'
 import DoctorHeader from './_components/doctor-header'
 
+export const dynamic = 'force-dynamic'
 const take: number = 100;
 interface DoctorPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
