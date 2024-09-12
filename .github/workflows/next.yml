@@ -11,13 +11,10 @@ jobs:
       matrix:
         node-version: ["22.x"]
     env:
+      NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      NEXT_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY }}
       NEXT_PUBLIC_ROOT_API: ${{ secrets.NEXT_PUBLIC_ROOT_API }}
-      NEXT_PUBLIC_AUTH_TOKEN_KEY: ${{ secrets.NEXT_PUBLIC_AUTH_TOKEN_KEY }}
-      NEXT_PUBLIC_REFRESH_TOKEN_KEY: ${{ secrets.NEXT_PUBLIC_REFRESH_TOKEN_KEY }}
-      NEXT_PUBLIC_CONFIGURATION_KEY: ${{ secrets.NEXT_PUBLIC_CONFIGURATION_KEY }}
-      NEXT_PUBLIC_LOGO_KEY: ${{ secrets.NEXT_PUBLIC_LOGO_KEY }}
-      NEXT_PUBLIC_RESOURCES_KEY: ${{ secrets.NEXT_PUBLIC_RESOURCES_KEY }}
-      NEXT_PUBLIC_USER_KEY: ${{ secrets.NEXT_PUBLIC_USER_KEY }}
 
     steps:
       - name: Checkout Repository
@@ -25,13 +22,10 @@ jobs:
 
       - name: Create temporary env file
         run: |
+          echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env
+          echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env
+          echo "NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY" >> .env
           echo "NEXT_PUBLIC_ROOT_API=$NEXT_PUBLIC_ROOT_API" >> .env
-          echo "NEXT_PUBLIC_AUTH_TOKEN_KEY=$NEXT_PUBLIC_AUTH_TOKEN_KEY" >> .env
-          echo "NEXT_PUBLIC_REFRESH_TOKEN_KEY=$NEXT_PUBLIC_REFRESH_TOKEN_KEY" >> .env
-          echo "NEXT_PUBLIC_CONFIGURATION_KEY=$NEXT_PUBLIC_CONFIGURATION_KEY" >> .env
-          echo "NEXT_PUBLIC_LOGO_KEY=$NEXT_PUBLIC_LOGO_KEY" >> .env
-          echo "NEXT_PUBLIC_RESOURCES_KEY=$NEXT_PUBLIC_RESOURCES_KEY" >> .env
-          echo "NEXT_PUBLIC_USER_KEY=$NEXT_PUBLIC_USER_KEY" >> .env
 
       - name: Build docker image
         run: docker build -t ${{ secrets.DOCKER_IMAGE }} .
