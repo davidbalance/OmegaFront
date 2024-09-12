@@ -1,16 +1,14 @@
+import React, { Suspense } from 'react'
 import ListRoot from '@/components/_base/list/list-root';
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root';
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section';
 import ReloadButton from '@/components/_base/reload-button';
-import Search from '@/components/_base/search';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
 import { Box, Flex, Group, rem, Title } from '@mantine/core';
-import React, { Suspense } from 'react'
 import MedicalOrderHeader from './_components/medical-order-header';
 import ListBodySuspense from '@/components/_base/list/list-body.suspense';
 import { countMedicalOrderExpanded, searchMedicalOrderExpanded } from '@/server/medical-order.actions';
-import Await from '@/components/_base/await';
 import MedicalOrderBody from './_components/medical-order-body';
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
 import ServerPagination from '@/components/_base/server-pagination';
@@ -19,6 +17,8 @@ import { countMedicalResult, searchMedicalResult } from '@/server/medical-result
 import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import MedicalResultBody from '@/components/medical-result-body';
 import RemoveQueryButton from '@/components/_base/remove-query-button';
+import Await from '@/components/_base/await';
+import Search from '@/components/_base/search';
 
 const take: number = 100;
 interface OmegaAdminOrderPageProps {
