@@ -8,8 +8,8 @@ import ServerPaginationSuspense from '@/components/_base/server-pagination.suspe
 import TableBodySuspense from '@/components/_base/table/table-body.suspense'
 import DoctorHeader from './_components/doctor-header'
 import { searchDoctor, countDoctor } from '@/server/doctor.actions'
-import Await from '@/components/_base/await'
 import Search from '@/components/_base/search'
+import Await from '@/components/_base/await'
 
 export const dynamic = 'force-dynamic'
 const take: number = 100;
