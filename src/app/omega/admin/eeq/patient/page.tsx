@@ -1,11 +1,10 @@
-import Await from '@/components/_base/await';
+import React, { Suspense } from 'react'
 import ListBodySuspense from '@/components/_base/list/list-body.suspense';
 import ListRoot from '@/components/_base/list/list-root';
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root';
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section';
 import ReloadButton from '@/components/_base/reload-button';
 import RemoveQueryButton from '@/components/_base/remove-query-button';
-import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
 import MedicalOrderHeader from '@/components/medical-order-header';
@@ -20,9 +19,10 @@ import { searchMedicalOrder, countMedicalOrder } from '@/server/medical-order.ac
 import { searchMedicalResult, countMedicalResult } from '@/server/medical-result.actions';
 import { countPatientEeq, searchPatientEeq } from '@/server/patient.actions';
 import { Flex, rem, Box, Title, Group } from '@mantine/core';
-import React, { Suspense } from 'react'
 import PatientEeqHeader from './_components/patient-eeq-header';
 import PatientEeqListBody from './_components/patient-eeq-list-body';
+import Await from '@/components/_base/await';
+import Search from '@/components/_base/search';
 
 const take: number = 100;
 interface OmegaAdminEeqPatientPageProps {

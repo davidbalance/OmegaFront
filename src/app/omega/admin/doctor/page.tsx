@@ -1,15 +1,15 @@
-import Await from '@/components/_base/await'
-import Search from '@/components/_base/search'
+import React, { Suspense } from 'react'
 import TableRoot from '@/components/_base/table/table-root'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { Box, Title } from '@mantine/core'
-import React, { Suspense } from 'react'
 import DoctorBody from './_components/doctor-body'
 import ServerPagination from '@/components/_base/server-pagination'
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense'
 import TableBodySuspense from '@/components/_base/table/table-body.suspense'
 import { countDoctor, searchDoctor } from '../../../../server/doctor.actions'
 import DoctorHeader from './_components/doctor-header'
+import Await from '@/components/_base/await'
+import Search from '@/components/_base/search'
 
 export const dynamic = 'force-dynamic'
 const take: number = 100;
