@@ -6,10 +6,10 @@ import DoctorBody from './_components/doctor-body'
 import ServerPagination from '@/components/_base/server-pagination'
 import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense'
 import TableBodySuspense from '@/components/_base/table/table-body.suspense'
-import { countDoctor, searchDoctor } from '../../../../server/doctor.actions'
 import DoctorHeader from './_components/doctor-header'
 import Search from '@/components/_base/search'
 import Await from '@/components/_base/await'
+import { searchDoctor, countDoctor } from '@/server/doctor.actions'
 
 export const dynamic = 'force-dynamic'
 const take: number = 100;
