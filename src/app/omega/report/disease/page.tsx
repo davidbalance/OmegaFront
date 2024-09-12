@@ -1,70 +1,31 @@
-'use client'
+import { retriveCorporativeGroupOptions } from '@/server/corporative-group.actions';
+import { retriveMedicalDiseaseYear } from '@/server/medical-disease.actions'
+import React from 'react'
+import DiseaseReportForm from './_components/disease-report-form';
+import DiseaseLocationForm from './_components/disease-location-form';
+import DiseaseYearSelect from './_components/disease-year-select';
+import { ModularBox } from '@/components/modular/box/ModularBox';
+import { Box, Title } from '@mantine/core';
 
-import { Header } from '@/components/header/Header'
-import MedicalDiseaseReportForm from '@/components/medical/disease/form/MedicalDiseaseReportForm'
-import { ModularBox } from '@/components/modular/box/ModularBox'
-import ModularLayout from '@/components/modular/layout/ModularLayout'
-import { useFetch } from '@/hooks/useFetch'
-import { MedicalResultDiseaseReportRequest } from '@/lib/dtos/medical/result/disease/base.request.dto'
-import { PostMedicalResultDiseaseReportRequestDto } from '@/lib/dtos/medical/result/disease/request.dto'
-import { blobFile } from '@/lib/utils/blob-to-file'
-import { notifications } from '@mantine/notifications'
-import dayjs from 'dayjs'
-import React, { useCallback, useEffect, useState } from 'react'
+export const dynamic = 'force-dynamic'
+const OmegaReportDiseasePage: React.FC = async () => {
 
-const ReportDiseasePage = () => {
-
-  const [shouldRequest, setShouldRequest] = useState<boolean>(false);
-
-  const {
-    data: excelData,
-    body: excelBody,
-    error: excelError,
-    loading: excelLoading,
-    request: excelRequest,
-    reload: excelReload,
-    reset: excelReset
-  } = useFetch<Blob>('/api/medical/results/diseases/report', 'POST', { loadOnMount: false });
-
-  const handleFormSubmittedEvent = useCallback((data: MedicalResultDiseaseReportRequest) => {
-    if (!data.year && !data.corporativeName && !data.companyRuc) {
-      notifications.show({ message: 'Debe colocar al menos un campo de busqueda antes de exportar' })
-      return;
-    }
-    excelRequest<PostMedicalResultDiseaseReportRequestDto>(data);
-    setShouldRequest(true);
-  }, [excelRequest]);
-
-  useEffect(() => {
-    if (excelBody && shouldRequest) {
-      excelReload();
-      setShouldRequest(false);
-    }
-  }, [excelBody, shouldRequest, excelReload]);
-
-  useEffect(() => {
-    if (excelError) notifications.show({ message: excelError.message, color: 'red' });
-  }, [excelError]);
-
-  useEffect(() => {
-    if (excelData) {
-      blobFile(excelData, `reporte-morbilidades-${dayjs().format('YYYY-MM-DD')}.xlsx`)
-      excelReset();
-    }
-  }, [excelData, excelReset])
+  const yearOptions = await retriveMedicalDiseaseYear();
+  const corporativeGroupOptions = await retriveCorporativeGroupOptions();
 
   return (
-    <ModularLayout>
+    <>
       <ModularBox>
-        <Header text={'Reporte de morbilidades'} />
+        <Box style={{ flexShrink: 0 }}>
+          <Title order={4} component='span'>Reporte de morbilidades</Title>
+        </Box>
       </ModularBox>
-      <ModularBox>
-        <MedicalDiseaseReportForm
-          loading={excelLoading}
-          onFormSubmitted={handleFormSubmittedEvent} />
-      </ModularBox>
-    </ModularLayout>
+      <DiseaseReportForm>
+        <DiseaseYearSelect options={yearOptions} />
+        <DiseaseLocationForm options={corporativeGroupOptions} />
+      </DiseaseReportForm>
+    </>
   )
 }
 
-export default ReportDiseasePage
+export default OmegaReportDiseasePage

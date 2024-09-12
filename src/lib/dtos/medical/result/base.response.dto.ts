@@ -7,6 +7,7 @@ export interface MedicalResult {
     examSubtype: string;
     examName: string;
     hasFile: boolean;
-    diseases?: MedicalResultDisease[];
-    report?: MedicalReport;
+    diseases?: string[];
+    reportId?: number;
+    reportHasFile?: boolean;
 }

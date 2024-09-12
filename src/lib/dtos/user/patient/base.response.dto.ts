@@ -1,6 +1,6 @@
 import { User } from "../user/base.response.dto";
 
-export interface Patient extends Omit<User, 'email'> {
+export interface Patient extends Omit<User, 'email' | 'hasCredential'> {
     birthday: Date;
     gender: string;
     user: number;

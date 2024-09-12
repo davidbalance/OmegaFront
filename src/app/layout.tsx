@@ -9,7 +9,7 @@ import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import './globals.css';
 import { omegaTheme } from "@/lib/theme/omega-theme";
-import { Confirmation } from "@/contexts/confirmation/confirmation.context";
+import { Confirmation } from "@/contexts/confirmation.context";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <ColorSchemeScript />
       </head>

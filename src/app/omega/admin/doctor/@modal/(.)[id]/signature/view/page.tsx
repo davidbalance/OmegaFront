@@ -1,0 +1,31 @@
+import BlobPreview from '@/components/_base/blob-preview/blob-preview';
+import { retriveBlobSignature } from '@/server/doctor.actions';
+import { Box, ModalBody, ModalCloseButton, ModalHeader, rem } from '@mantine/core';
+import React from 'react'
+
+export const dynamic = 'force-dynamic'
+interface DoctorModalActionSignatureViewPageProps {
+    params: { id: number }
+}
+const DoctorModalActionSignatureViewPage: React.FC<DoctorModalActionSignatureViewPageProps> = async ({ params }) => {
+
+    const blob = await retriveBlobSignature(params.id);
+    const buffer = await blob.arrayBuffer();
+
+    return (
+        <>
+            <ModalHeader>
+                <ModalCloseButton />
+            </ModalHeader>
+            <ModalBody>
+                <Box
+                    maw={rem(600)}
+                    h='100%'>
+                    <BlobPreview buffer={buffer} fileType={blob.type} />
+                </Box>
+            </ModalBody>
+        </>
+    )
+}
+
+export default DoctorModalActionSignatureViewPage

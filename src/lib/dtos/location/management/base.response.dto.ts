@@ -1,7 +1,12 @@
 import { Area } from "../area/base.response.dto";
 
-export interface Management {
+export interface ManagementOption {
     id: number;
     name: string;
     areas: Area[]
+}
+
+export interface Management {
+    id: number;
+    name: string;
 }
