@@ -1,6 +1,6 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
-import DiseaseForm from './_components/form';
+import DiseaseForm from './_components/disease-form';
 
 export const dynamic = 'force-dynamic'
 interface OmegaDiseaseCreatePageProps {

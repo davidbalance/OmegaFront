@@ -50,8 +50,9 @@ const DiseaseForm: React.FC<FormProps> = ({
                     onSubmit={handleSubmit}
                     ref={formRef} />
             </ModularBox>
-            <ModularBox direction='row'>
+            <ModularBox>
                 <Button
+                    fullWidth
                     flex={1}
                     size='xs'
                     onClick={handleClick}

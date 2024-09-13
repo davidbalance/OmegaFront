@@ -2,7 +2,7 @@ import ReturnableHeader from '@/components/_base/returnable-header'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import React from 'react'
 import BlobPreview from '@/components/_base/blob-preview/blob-preview'
-import { Box, rem } from '@mantine/core'
+import { Box, Flex, rem } from '@mantine/core'
 import { retriveBlobSignature } from '@/server/doctor.actions'
 
 export const dynamic = 'force-dynamic'
@@ -17,15 +17,14 @@ const DoctorActionSignatureViewPage: React.FC<DoctorActionSignatureViewPageProps
   return (
     <>
       <ReturnableHeader title='Visualización en linea de firma' />
-      <ModularBox
-        flex={1}
-        justify='center'
-        align='center'>
-        <Box
+      <ModularBox flex={1}>
+        <Flex
+          justify='center'
+          align='center'
           maw={rem(600)}
           h='100%'>
           <BlobPreview buffer={buffer} fileType={blob.type} />
-        </Box>
+        </Flex>
       </ModularBox>
     </>
   )

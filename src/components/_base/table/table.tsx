@@ -21,7 +21,6 @@ const Table: React.FC<TableRootProps> = ({ children }) => {
                 className={classes.root}
                 horizontalSpacing="md"
                 verticalSpacing="xs"
-                layout='auto'
                 highlightOnHover
                 highlightOnHoverColor={theme.colors['neutral'][1]}
                 withRowBorders={false}>

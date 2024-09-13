@@ -54,15 +54,16 @@ const MedicalResultReportForm: React.FC<MedicalResultReportFormProps> = ({
     return (
         <>
             <LoadingOverlay visible={loading} />
-            <ModularBox flex={1} align='center'>
+            <ModularBox flex={1}>
                 <MedicalReportForm
                     ref={formRef}
                     onSubmit={handleSubmit}
                     {...props} />
             </ModularBox>
 
-            <ModularBox direction='row'>
+            <ModularBox>
                 <Button
+                    fullWidth
                     flex={1}
                     size='xs'
                     onClick={handleClick}

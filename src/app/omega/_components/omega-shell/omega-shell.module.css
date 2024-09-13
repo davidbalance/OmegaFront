@@ -47,10 +47,21 @@
   grid-area: navbar;
   padding: var(--mantine-spacing-sm);
 
-  transition: background-color 0.3s ease-out, padding 0.3s ease-out;
+  transition: background-color 0.3s ease-out, padding 0.3s ease-out,
+    width 0.3s ease-out, padding 0.3s ease-out;
 
   & a {
     text-decoration: none;
+  }
+
+  &.drawer .shellLink {
+    width: 100%;
+  }
+
+  &.closed {
+    width: rem(40px);
+    background-color: transparent;
+    padding: 0;
   }
 
   @media (max-width: $mantine-breakpoint-md) {
@@ -58,11 +69,6 @@
       width: 100% !important;
     }
   }
-}
-
-.shellNavbarRoot.closed {
-  background-color: transparent;
-  padding: 0;
 }
 
 .shellMainRoot {

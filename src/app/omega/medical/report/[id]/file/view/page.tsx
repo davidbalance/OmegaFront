@@ -2,7 +2,7 @@ import BlobPreview from '@/components/_base/blob-preview/blob-preview';
 import ReturnableHeader from '@/components/_base/returnable-header';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { retriveFileBlob } from '@/server/file.actions';
-import { Box, rem } from '@mantine/core';
+import { Box, Flex, rem } from '@mantine/core';
 import React from 'react'
 
 export const dynamic = 'force-dynamic'
@@ -20,15 +20,15 @@ const MedicalReportFileViewPage: React.FC<MedicalReportFileViewPageProps> = asyn
     <>
       <ReturnableHeader title='Visualizacion de documento' />
       <ModularBox
-        flex={1}
-        justify='center'
-        align='center'>
-        <Box
+        flex={1}>
+        <Flex
           maw={rem(600)}
+          justify='center'
+          align='center'
           w='100%'
           h='100%'>
           <BlobPreview buffer={buffer} fileType={blob.type} />
-        </Box>
+        </Flex>
       </ModularBox>
     </>
   )

@@ -53,8 +53,9 @@ const ResourceForm: React.FC<ResourceFormProps> = ({
                     {...props} />
             </ModularBox>
 
-            <ModularBox direction='row'>
+            <ModularBox>
                 <Button
+                    fullWidth
                     flex={1}
                     size='xs'
                     onClick={handleClick}

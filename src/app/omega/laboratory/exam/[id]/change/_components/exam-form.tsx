@@ -53,8 +53,9 @@ const ChangeSubtypeForm: React.FC<FormProps> = ({
                     ref={formRef}
                     {...props} />
             </ModularBox>
-            <ModularBox direction='row'>
+            <ModularBox>
                 <Button
+                    fullWidth
                     flex={1}
                     size='xs'
                     onClick={handleClick}

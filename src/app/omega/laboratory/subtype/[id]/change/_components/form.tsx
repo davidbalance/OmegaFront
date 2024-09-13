@@ -53,9 +53,9 @@ const ChangeTypeForm: React.FC<FormProps> = ({
                     onSubmit={handleSubmit}
                     {...props} />
             </ModularBox>
-            <ModularBox direction='row'>
+            <ModularBox>
                 <Button
-                    flex={1}
+                    fullWidth
                     size='xs'
                     onClick={handleClick}
                     leftSection={(

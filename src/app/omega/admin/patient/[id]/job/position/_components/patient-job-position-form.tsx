@@ -55,7 +55,7 @@ const PatientJobPositionForm: React.FC<PatientJobPositionFormProps> = ({
     return (
         <>
             <LoadingOverlay visible={loading} />
-            <ModularBox flex={1} align='center'>
+            <ModularBox flex={1}>
                 <Box w='100%'>
                     <UserFormJobPosition
                         ref={formRef}
@@ -63,9 +63,9 @@ const PatientJobPositionForm: React.FC<PatientJobPositionFormProps> = ({
                         {...props} />
                 </Box>
             </ModularBox>
-
-            <ModularBox direction='row'>
+            <ModularBox>
                 <Button
+                    fullWidth
                     flex={1}
                     size='xs'
                     onClick={handleClick}

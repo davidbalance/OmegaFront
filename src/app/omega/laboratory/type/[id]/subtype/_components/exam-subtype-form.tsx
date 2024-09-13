@@ -49,8 +49,9 @@ const ExamSubtypeForm: React.FC<FormProps> = ({
                     ref={formRef}
                     onSubmit={handleSubmit} />
             </ModularBox>
-            <ModularBox direction='row'>
+            <ModularBox>
                 <Button
+                    fullWidth
                     flex={1}
                     size='xs'
                     onClick={handleClick}
