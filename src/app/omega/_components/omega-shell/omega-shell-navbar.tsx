@@ -23,7 +23,7 @@ const OmegaShellNavbar: React.FC<OmegaShellNavbarProps> = ({ children }) => {
                 component='nav'
                 opened={opened}
                 onClose={toggle}
-                className={clsx(classes.shellNavbarRoot, classes.closed)}
+                className={clsx(classes.shellNavbarRoot, classes.drawer, classes.closed)}
                 overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
                 size='100%'
                 closeButtonProps={{

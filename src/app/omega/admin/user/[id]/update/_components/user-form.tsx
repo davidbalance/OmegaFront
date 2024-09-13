@@ -70,8 +70,9 @@ const UserForm: React.FC<UserFormProps> = ({
                     disabledDni
                     onSubmit={handleSubmit} />
             </ModularBox>
-            <ModularBox direction='row'>
+            <ModularBox>
                 <Button
+                    fullWidth
                     flex={1}
                     size='xs'
                     onClick={handleClick}

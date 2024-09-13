@@ -1,7 +1,7 @@
 'use client'
 
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { Button, Flex, LoadingOverlay, rem, Stepper, StepperCompleted, StepperStep, Text } from '@mantine/core';
+import { Button, ButtonGroup, Flex, Group, LoadingOverlay, rem, Stepper, StepperCompleted, StepperStep, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconBuilding, IconChevronLeft, IconChevronRight, IconCircleCheck, IconDeviceFloppy, IconLicense, IconLock, IconUserCheck } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
@@ -147,17 +147,19 @@ const UserForm: React.FC<UserFormProps> = ({
                     </StepperCompleted>
                 </Stepper>
             </ModularBox>
-            <ModularBox direction='row'>
-                {active < childrenCount ?
-                    (<>
-                        {active !== 0 && <Button flex={1} size='xs' variant="default" onClick={prevStep} leftSection={<IconChevronLeft style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>Atras</Button>}
-                        {active < childrenCount - 1
-                            ? (<Button flex={1} size='xs' onClick={handleNextChange} rightSection={<IconChevronRight style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>Siguiente</Button>)
-                            : (<Button flex={1} size='xs' onClick={handleNextChange} leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>Guardar</Button>)}
-                    </>
-                    ) : (
-                        <Button flex={1} size='xs' onClick={() => router.push('/omega/admin/user')}>Finalizar</Button>
-                    )}
+            <ModularBox>
+                <ButtonGroup>
+                    {active < childrenCount ?
+                        (<>
+                            {active !== 0 && <Button flex={1} size='xs' variant="default" onClick={prevStep} leftSection={<IconChevronLeft style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>Atras</Button>}
+                            {active < childrenCount - 1
+                                ? (<Button flex={1} size='xs' onClick={handleNextChange} rightSection={<IconChevronRight style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>Siguiente</Button>)
+                                : (<Button flex={1} size='xs' onClick={handleNextChange} leftSection={<IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>Guardar</Button>)}
+                        </>
+                        ) : (
+                            <Button flex={1} size='xs' onClick={() => router.push('/omega/admin/user')}>Finalizar</Button>
+                        )}
+                </ButtonGroup>
             </ModularBox>
         </>
     )

@@ -52,8 +52,9 @@ const ManagementForm: React.FC<FormProps> = ({
                     onSubmit={handleSubmit}
                     {...props} />
             </ModularBox>
-            <ModularBox direction='row'>
+            <ModularBox>
                 <Button
+                    fullWidth
                     flex={1}
                     size='xs'
                     onClick={handleClick}

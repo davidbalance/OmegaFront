@@ -59,7 +59,7 @@ const PatientActionAreaForm: React.FC<PatientActionAreaFormProps> = ({
     return (
         <>
             <LoadingOverlay visible={loading} />
-            <ModularBox flex={1} align='center'>
+            <ModularBox flex={1}>
                 <Box w='100%'>
                     <MedicalClientAreaForm
                         ref={formRef}
@@ -67,9 +67,9 @@ const PatientActionAreaForm: React.FC<PatientActionAreaFormProps> = ({
                         {...props} />
                 </Box>
             </ModularBox>
-
-            <ModularBox direction='row'>
+            <ModularBox>
                 <Button
+                    fullWidth
                     flex={1}
                     size='xs'
                     onClick={handleClick}

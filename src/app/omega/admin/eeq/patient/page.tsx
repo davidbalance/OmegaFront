@@ -182,7 +182,7 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = ({
                             <MedicalResultHeader />
                             <Suspense fallback={<ListBodySuspense />}>
                                 <Await promise={medicalResultPromise}>
-                                    {(medicalResult) => <MedicalResultBody medicalResult={medicalResult} order={medicalOrder} />}
+                                    {(medicalResult) => <MedicalResultBody notEditReports medicalResult={medicalResult} order={medicalOrder} />}
                                 </Await>
                             </Suspense>
                         </ListRoot>

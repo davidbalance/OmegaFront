@@ -2,6 +2,7 @@ import ReturnableHeader from '@/components/_base/returnable-header'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import React from 'react'
 import FileUploadForm from './_components/file-upload-form'
+import { Flex } from '@mantine/core'
 
 interface MedicalResultFileUploadProps {
   params: { id: number }
@@ -12,9 +13,12 @@ const MedicalResultFileUpload: React.FC<MedicalResultFileUploadProps> = ({ param
       <ReturnableHeader title='Carga de resultado medico' />
       <ModularBox
         h='100%'
-        justify='center'
         flex={1}>
-        <FileUploadForm id={params.id} />
+        <Flex
+          h='100%'
+          justify='center'>
+          <FileUploadForm id={params.id} />
+        </Flex>
       </ModularBox>
     </>
   )

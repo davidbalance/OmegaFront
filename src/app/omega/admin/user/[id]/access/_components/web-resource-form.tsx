@@ -63,8 +63,9 @@ const WebResourceForm: React.FC<WebResourceFormProps> = ({ id, ...props }) => {
                     onSubmit={handleSubmit}
                     {...props} />
             </ModularBox>
-            <ModularBox direction='row'>
+            <ModularBox>
                 <Button
+                    fullWidth
                     flex={1}
                     size='xs'
                     onClick={handleClick}

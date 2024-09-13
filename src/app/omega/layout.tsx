@@ -1,4 +1,4 @@
-import { Box, Flex, ScrollAreaAutosize, Stack } from "@mantine/core"
+import { Box, Flex, rem, ScrollAreaAutosize, Stack } from "@mantine/core"
 import Footer from "@/components/footer/Footer"
 import ModularLayout from "@/components/modular/layout/ModularLayout"
 import { Suspense } from "react"
@@ -18,59 +18,59 @@ import OmegaNavbarContentSuspense from "./_components/omega-navbar-content.suspe
 const Layout: React.FC<{
     children: React.ReactNode,
     modal: React.ReactNode,
-}> = ({ 
+}> = ({
     children,
     modal
- }) => {
+}) => {
 
-    return (
-        <OmegaShellRoot>
-            <OmegaShellHeader>
-                <Flex
-                    w='100%'
-                    h='100%'
-                    align='center'>
-                    <OmegaShellBurger />
-                    <Box
-                        maw='100%'
-                        m='auto'>
-                        <Suspense fallback={<OmegaLogoSuspense />}>
-                            <OmegaLogo />
-                        </Suspense>
-                    </Box>
-                    <Suspense fallback={<OmegaHeaderMenuSuspense />}>
-                        <OmegaHeaderMenu />
-                    </Suspense>
-                </Flex>
-            </OmegaShellHeader>
-            <OmegaShellNavbar>
-                <Stack h='100%'>
-                    <Box flex={1}>
-                        <ScrollAreaAutosize mah={500} dir='rtl' w='fit-content'>
-                            <Suspense fallback={<OmegaNavbarContentSuspense />}>
-                                <OmegaNavbarContent />
-                            </Suspense>
-                        </ScrollAreaAutosize>
-                    </Box>
+        return (
+            <OmegaShellRoot>
+                <OmegaShellHeader>
                     <Flex
-                        visibleFrom='md'
                         w='100%'
-                        justify='flex-end'>
-                        <OmegaShellLock />
+                        h='100%'
+                        align='center'>
+                        <OmegaShellBurger />
+                        <Box
+                            maw='100%'
+                            m='auto'>
+                            <Suspense fallback={<OmegaLogoSuspense />}>
+                                <OmegaLogo />
+                            </Suspense>
+                        </Box>
+                        <Suspense fallback={<OmegaHeaderMenuSuspense />}>
+                            <OmegaHeaderMenu />
+                        </Suspense>
                     </Flex>
-                </Stack>
-            </OmegaShellNavbar>
-            <OmegaShellMain>
-                <Box h='100%' w='100%' pos='relative'>
-                    <ModularLayout>
-                        {children}
-                        {modal}
-                    </ModularLayout>
-                </Box>
-                <Footer />
-            </OmegaShellMain>
-        </OmegaShellRoot>
-    );
-}
+                </OmegaShellHeader>
+                <OmegaShellNavbar>
+                    <Stack h='100%'>
+                        <Box flex={1}>
+                            <ScrollAreaAutosize mah={{ base: rem(400), md: rem(500) }} dir='rtl' w='fit-content'>
+                                <Suspense fallback={<OmegaNavbarContentSuspense />}>
+                                    <OmegaNavbarContent />
+                                </Suspense>
+                            </ScrollAreaAutosize>
+                        </Box>
+                        <Flex
+                            visibleFrom='md'
+                            w='100%'
+                            justify='flex-end'>
+                            <OmegaShellLock />
+                        </Flex>
+                    </Stack>
+                </OmegaShellNavbar>
+                <OmegaShellMain>
+                    <Box h='100%' w='100%' pos='relative'>
+                        <ModularLayout>
+                            {children}
+                            {modal}
+                        </ModularLayout>
+                    </Box>
+                    <Footer />
+                </OmegaShellMain>
+            </OmegaShellRoot>
+        );
+    }
 
 export default Layout
