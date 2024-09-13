@@ -49,7 +49,7 @@ const UserPage: React.FC<UserPageProps> = ({ searchParams }) => {
                 </Button>
             </Flex>
         </ModularBox>
-        <ModularBox h='100%'>
+        <ModularBox flex={1}>
             <TableRoot>
                 <TableTHead>
                     <TableTr>

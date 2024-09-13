@@ -19,14 +19,6 @@
   }
 }
 
-.scrollContainer {
-  height: rem(300px);
-
-  @media (min-width: $mantine-breakpoint-md) {
-    height: rem(400px);
-  }
-}
-
 .root td {
   font-size: var(--mantine-font-size-sm);
 }
