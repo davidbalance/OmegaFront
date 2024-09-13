@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Group, rem, Stack } from '@mantine/core'
+import { Button, ButtonGroup, Flex, Group, rem, Stack } from '@mantine/core'
 import React from 'react'
 import HeadUp from './_components/head-up'
 import { retriveCloud } from '@/server/medical-order.actions'
@@ -10,6 +10,7 @@ import OrderDownloadAll from './_components/order-download-all'
 import OrderCloudDownloadForm from './_components/order-cloud-download-form'
 import OrderCloudDownloadProvider from './_components/order-cloud-download.context'
 import OrderDownloadSelected from './_components/order-download-selected'
+import PlaceholderPanel from './_components/placeholder-panel'
 
 interface OrderCloudPageProps {
     params: { id: number }
@@ -21,14 +22,15 @@ const OrderCloudPage: React.FC<OrderCloudPageProps> = async ({
     const data = await retriveCloud(params.id);
 
     return (
-        <Group
+        <Flex
             gap={rem(8)}
             h='100%'
             w='100%'
-            wrap='nowrap'>
-            <Stack h='100%' gap={rem(8)}>
+            wrap='nowrap'
+            direction={{ base: 'column', md: 'row' }}>
+            <Stack h={{ base: 'auto', md: '100%' }} gap={rem(8)}>
                 <HeadUp {...data} />
-                <ModularBox h='100%' />
+                <PlaceholderPanel />
             </Stack>
             <OrderCloudDownloadProvider>
                 <OrderCloudDownloadForm>
@@ -52,7 +54,7 @@ const OrderCloudPage: React.FC<OrderCloudPageProps> = async ({
                     </Stack>
                 </OrderCloudDownloadForm>
             </OrderCloudDownloadProvider>
-        </Group>
+        </Flex>
     )
 }
 

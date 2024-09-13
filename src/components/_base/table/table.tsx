@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { ScrollArea, Table as MantineTable } from '@mantine/core'
+import { ScrollArea, Table as MantineTable, rem, useMantineTheme } from '@mantine/core'
 import { useTable } from './table.context'
 
 import classes from './table.module.css'
@@ -11,16 +11,20 @@ type TableRootProps = {
 }
 const Table: React.FC<TableRootProps> = ({ children }) => {
     const { setScroll } = useTable();
+    const theme = useMantineTheme();
 
     return (
         <ScrollArea
-            className={classes.scrollContainer}
+            h={{ base: rem(350), md: rem(400), xl: rem(500) }}
             onScrollPositionChange={({ y }) => setScroll(y !== 0)}>
             <MantineTable
                 className={classes.root}
                 horizontalSpacing="md"
                 verticalSpacing="xs"
-                layout='auto'>
+                layout='auto'
+                highlightOnHover
+                highlightOnHoverColor={theme.colors['neutral'][1]}
+                withRowBorders={false}>
                 {children}
             </MantineTable>
         </ScrollArea>
