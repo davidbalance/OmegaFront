@@ -102,7 +102,7 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = ({
                                 <>{pages > 1 && (
                                     <ModularBox>
                                         <ServerPagination
-                                            queryKey='managementPage'
+                                            queryKey='patientPage'
                                             page={patientPage}
                                             total={pages} />
                                     </ModularBox>)}

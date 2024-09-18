@@ -100,7 +100,7 @@ const PatientPage: React.FC<PatientPageProps> = ({ searchParams }) => {
                                 <>{pages > 1 && (
                                     <ModularBox>
                                         <ServerPagination
-                                            queryKey='managementPage'
+                                            queryKey='patientPage'
                                             page={patientPage}
                                             total={pages} />
                                     </ModularBox>)}

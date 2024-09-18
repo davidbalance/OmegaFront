@@ -103,7 +103,7 @@ const OmegaPatientPage: React.FC<OmegaPatientPageProps> = ({
                                 <>{pages > 1 && (
                                     <ModularBox>
                                         <ServerPagination
-                                            queryKey='managementPage'
+                                            queryKey='patientPage'
                                             page={patientPage}
                                             total={pages} />
                                     </ModularBox>)}
