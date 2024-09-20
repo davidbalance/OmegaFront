@@ -1,6 +1,3 @@
-import { MedicalReport } from "../report/base.respoonse.dto";
-import { MedicalResultDisease } from "./disease/base.response.dto";
-
 export interface MedicalResult {
     id: number;
     examType: string;
@@ -10,4 +7,5 @@ export interface MedicalResult {
     diseases?: string[];
     reportId?: number;
     reportHasFile?: boolean;
+    orderHasFile?: boolean;
 }

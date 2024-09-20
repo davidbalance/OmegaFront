@@ -8,6 +8,7 @@ import AddQueryParam from './_base/add-query-param'
 import MedicalOrderValidateButton from './medical-order-validate-button'
 import MedicalOrderEmail from './medical-order-mail/medical-order-email'
 import MedicalOrderEmailSuspense from './medical-order-mail/medical-order-email.suspense'
+import MedicalOrderDownloadButton from './medical-order-download-button'
 
 interface MedicalOrderListBodyProps {
     active?: number;
@@ -35,20 +36,23 @@ const MedicalOrderListBody: React.FC<MedicalOrderListBodyProps> = ({
                             <Title order={6}>{e.process}</Title>
                             <Text>{dayjs(e.createAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
                         </AddQueryParam>
-                        {action ? (
-                            <Group wrap='nowrap'>
-                                {dni
-                                    ? (
-                                        <Suspense fallback={<MedicalOrderEmailSuspense />}>
-                                            <MedicalOrderEmail
-                                                order={e.id}
-                                                status={e.mailStatus}
-                                                dni={dni} />
-                                        </Suspense>
-                                    ) : null}
-                                <MedicalOrderValidateButton {...e} />
-                            </Group>
-                        ) : null}
+                        <Group wrap='nowrap'>
+                            {action ? (
+                                <>
+                                    {dni
+                                        ? (
+                                            <Suspense fallback={<MedicalOrderEmailSuspense />}>
+                                                <MedicalOrderEmail
+                                                    order={e.id}
+                                                    status={e.mailStatus}
+                                                    dni={dni} />
+                                            </Suspense>
+                                        ) : null}
+                                    <MedicalOrderValidateButton {...e} />
+                                </>
+                            ) : null}
+                            {e.hasFile && <MedicalOrderDownloadButton {...e} />}
+                        </Group>
                     </Flex>
                 </ListRow>
             ))}

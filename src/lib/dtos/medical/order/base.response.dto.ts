@@ -9,6 +9,7 @@ export interface MedicalOrderCloud {
     dni: string;
     fullname: string;
     email: string;
+    hasFile: boolean;
     fileResults: MedicalOrderCloudFile[];
     fileReports: MedicalOrderCloudFile[];
 }
@@ -18,6 +19,7 @@ export type OrderStatus = "created" | "validated";
 export interface MedicalOrder {
     id: number;
     process: string;
+    hasFile: boolean;
     createAt: Date;
     mailStatus: boolean;
     orderStatus: OrderStatus;

@@ -1,16 +1,16 @@
-import { Button, ButtonGroup, Flex, Group, rem, Stack } from '@mantine/core'
+import { ButtonGroup, Flex, rem, Stack } from '@mantine/core'
 import React from 'react'
 import HeadUp from './_components/head-up'
 import { retriveCloud } from '@/server/medical-order.actions'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import ListRoot from '@/components/_base/list/list-root'
 import OrderCloudBody from './_components/order-cloud-body'
-import { IconDownload, IconSelectAll } from '@tabler/icons-react'
 import OrderDownloadAll from './_components/order-download-all'
 import OrderCloudDownloadForm from './_components/order-cloud-download-form'
 import OrderCloudDownloadProvider from './_components/order-cloud-download.context'
 import OrderDownloadSelected from './_components/order-download-selected'
 import PlaceholderPanel from './_components/placeholder-panel'
+import { MedicalOrderCloudFile } from '@/lib/dtos/medical/order/base.response.dto'
 
 interface OrderCloudPageProps {
     params: { id: number }
@@ -20,6 +20,14 @@ const OrderCloudPage: React.FC<OrderCloudPageProps> = async ({
 }) => {
 
     const data = await retriveCloud(params.id);
+    const orderFile: MedicalOrderCloudFile | undefined = data.hasFile ? {
+        id: params.id,
+        examName: `ORDEN MEDICA ${params.id.toString().padStart(9, '0')}`,
+        type: 'order',
+        hasFile: true
+    } : undefined;
+
+    const files = [orderFile, ...data.fileResults, ...data.fileReports].filter(e => !!e);
 
     return (
         <Flex
@@ -42,12 +50,12 @@ const OrderCloudPage: React.FC<OrderCloudPageProps> = async ({
                             h='100%'
                             py={rem(16)}>
                             <ListRoot>
-                                <OrderCloudBody files={[...data.fileResults, ...data.fileReports]} />
+                                <OrderCloudBody files={files} />
                             </ListRoot>
                         </ModularBox>
                         <ModularBox>
                             <ButtonGroup>
-                                <OrderDownloadAll files={[...data.fileResults, ...data.fileReports]} />
+                                <OrderDownloadAll files={files} />
                                 <OrderDownloadSelected />
                             </ButtonGroup>
                         </ModularBox>

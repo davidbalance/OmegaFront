@@ -1,12 +1,12 @@
-import { Flex, rem, ScrollArea, Stack } from '@mantine/core'
+import { rem, ScrollArea, Stack, StyleProp } from '@mantine/core'
 import React from 'react'
 
 interface ListTbodyProps {
     children: React.ReactNode;
-    height?: number;
+    height?: StyleProp<string | number>;
 }
 const ListTbody: React.FC<ListTbodyProps> = ({
-    height = 350,
+    height = { base: 350, md: 350 },
     children
 }) => {
     return (

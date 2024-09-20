@@ -42,7 +42,7 @@ const MedicalResultBody: React.FC<MedicalResultBodyProps> = async ({
                                     <Text size='xs' c='neutral' truncate='end'>{e}</Text>
                                 </Box>
                             ))}
-                            {!e.hasFile && <Text size='xs' c='red'>Archivo no encontrado</Text>}
+                            {!e.hasFile && <Text size='xs' c={e.orderHasFile ? 'blue' : 'red'}>Archivo no encontrado</Text>}
                             {(!e.reportHasFile && !e.reportId) && <Text size='xs' c='red'>Reporte no realizado</Text>}
                         </Box>
                         <ActionMenuProvider>

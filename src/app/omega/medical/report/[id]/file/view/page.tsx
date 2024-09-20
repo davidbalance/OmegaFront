@@ -2,7 +2,7 @@ import BlobPreview from '@/components/_base/blob-preview/blob-preview';
 import ReturnableHeader from '@/components/_base/returnable-header';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { retriveFileBlob } from '@/server/file.actions';
-import { Box, Flex, rem } from '@mantine/core';
+import { Flex, rem } from '@mantine/core';
 import React from 'react'
 
 export const dynamic = 'force-dynamic'

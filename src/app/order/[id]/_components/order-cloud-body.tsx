@@ -8,6 +8,12 @@ import OrderCloudButton from './order-cloud-button'
 import OrderCloudCheck from './order-cloud-check'
 import OrderDownloadSingle from './order-download-single'
 
+const fileType: Record<string, string> = {
+    'report': 'Reporte Medico',
+    'result': 'Resultado Medico',
+    'order': 'Orden Medica'
+}
+
 interface OrderCloudBodyProps {
     files: MedicalOrderCloudFile[]
 }
@@ -15,7 +21,7 @@ const OrderCloudBody: React.FC<OrderCloudBodyProps> = ({
     files
 }) => {
     return (
-        <ListTbody>
+        <ListTbody height={{ base: 350, md: 450 }}>
             {files.map((e) => (
                 <ListRow
                     key={e.id.toString()}
@@ -25,7 +31,7 @@ const OrderCloudBody: React.FC<OrderCloudBodyProps> = ({
                             {e.hasFile ? <OrderCloudCheck /> : null}
                             <OrderCloudButton>
                                 <Title order={6}>{e.examName}</Title>
-                                <Text>{e.type === 'report' ? 'Reporte Medico' : 'Resultado Medico'}</Text>
+                                <Text>{fileType[e.type]}</Text>
                             </OrderCloudButton>
                             {e.hasFile ? (<OrderDownloadSingle {...e} />) : null}
                         </Group>
