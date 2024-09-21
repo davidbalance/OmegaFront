@@ -20,14 +20,18 @@ const OrderCloudPage: React.FC<OrderCloudPageProps> = async ({
 }) => {
 
     const data = await retriveCloud(params.id);
-    const orderFile: MedicalOrderCloudFile | undefined = data.hasFile ? {
+    const orderFile: MedicalOrderCloudFile | null = data.hasFile ? {
         id: params.id,
         examName: `ORDEN MEDICA ${params.id.toString().padStart(9, '0')}`,
         type: 'order',
         hasFile: true
-    } : undefined;
+    } : null;
 
-    const files = [orderFile, ...data.fileResults, ...data.fileReports].filter(e => !!e);
+    const files: MedicalOrderCloudFile[] = [];
+    if (orderFile) {
+        files.push(orderFile);
+    }
+    files.concat([...data.fileResults, ...data.fileReports])
 
     return (
         <Flex
