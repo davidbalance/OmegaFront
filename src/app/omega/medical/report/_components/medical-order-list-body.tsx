@@ -1,10 +1,14 @@
+import ActionMenu from '@/components/_base/action-menu';
 import AddQueryParam from '@/components/_base/add-query-param';
 import ListRow from '@/components/_base/list/list-row';
 import ListTbody from '@/components/_base/list/list-tbody';
-import MedicalOrderDownloadButton from '@/components/medical-order-download-button';
+import MedicalOrderDownload from '@/components/medical-order-download';
+import ActionMenuProvider from '@/contexts/action-menu.context';
 import { MedicalOrderDoctor } from '@/lib/dtos/medical/order/base.response.dto';
-import { Flex, Title, Group, Text, Stack, rem } from '@mantine/core';
+import { Flex, Title, Group, Text, Stack, rem, MenuItem } from '@mantine/core';
+import { IconEye } from '@tabler/icons-react';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 import React from 'react'
 
 interface MedicalOrderListBodyProps {
@@ -35,7 +39,20 @@ const MedicalOrderListBody: React.FC<MedicalOrderListBodyProps> = ({
                   {!e.leftReports
                     ? <Text>Reportes completos</Text>
                     : <Text c='red'>Reportes faltantes {e.leftReports}</Text>}
-                  {e.hasFile && <MedicalOrderDownloadButton {...e} />}
+                  {e.hasFile ?
+                    <ActionMenuProvider>
+                      <ActionMenu>
+                        <MenuItem
+                          component={Link}
+                          href={`/omega/medical/order/${e.id}/file/view`}
+                          leftSection={(
+                            <IconEye style={{ width: rem(16), height: rem(16) }} />
+                          )}>
+                          Visualizar archivo
+                        </MenuItem>
+                        <MedicalOrderDownload {...e} />
+                      </ActionMenu>
+                    </ActionMenuProvider> : null}
                 </Group>
               </Group>
             </AddQueryParam>
