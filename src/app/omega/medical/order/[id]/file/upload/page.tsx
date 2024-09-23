@@ -10,7 +10,7 @@ interface MedicalResultFileUploadProps {
 const MedicalResultFileUpload: React.FC<MedicalResultFileUploadProps> = ({ params }) => {
   return (
     <>
-      <ReturnableHeader title='Carga de resultado medico' />
+      <ReturnableHeader title='Carga de resultado de orden medica' />
       <ModularBox
         h='100%'
         flex={1}>

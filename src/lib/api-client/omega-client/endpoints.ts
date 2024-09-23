@@ -598,6 +598,11 @@ const omegaMethodEndpoint = {
         method: 'patch',
         options: { customHeader: ['auth'] }
     } as ApiResource,
+    medicalOrderUpload: {
+        resource: 'medical/:id/order/file',
+        method: 'patch',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
 
     medicalDiseaseDetail: {
         resource: 'medical/:id/disease',
