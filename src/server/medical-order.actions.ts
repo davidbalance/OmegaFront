@@ -109,13 +109,3 @@ export const retriveMedicalOrderStatus = async (id: number): Promise<string> => 
         .execute('medicalOrderUpdateStatusDetail');
     return orderStatus;
 }
-
-export const uploadMedicalOrder = async (id: number, body: FormData): Promise<void> => {
-    const session = await auth();
-    await omega()
-        .addParams({ id })
-        .addBody(body)
-        .addToken(session.access_token)
-        .execute('medicalOrderUpload');
-    revalidatePath('/omega/admin/order');
-}
