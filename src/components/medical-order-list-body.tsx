@@ -1,7 +1,7 @@
 import ListRow from '@/components/_base/list/list-row'
 import ListTbody from '@/components/_base/list/list-tbody'
 import { MedicalOrder } from '@/lib/dtos/medical/order/base.response.dto'
-import { Flex, Title, Text, Group } from '@mantine/core'
+import { Flex, Title, Text, Group, MenuItem, rem } from '@mantine/core'
 import React, { Suspense } from 'react'
 import dayjs from 'dayjs'
 import AddQueryParam from './_base/add-query-param'
