@@ -8,11 +8,6 @@ import React, { Suspense } from 'react'
 import MedicalOrderEmail from '@/components/medical-order-mail/medical-order-email'
 import MedicalOrderEmailSuspense from '@/components/medical-order-mail/medical-order-email.suspense'
 import MedicalOrderValidateButton from '@/components/medical-order-validate-button'
-import ActionMenuProvider from '@/contexts/action-menu.context'
-import ActionMenu from '@/components/_base/action-menu'
-import { IconEye, IconUpload } from '@tabler/icons-react'
-import Link from 'next/link'
-import MedicalOrderDownload from '@/components/medical-order-download'
 
 interface MedicalOrderBodyProps {
     active: number | undefined;
@@ -61,27 +56,6 @@ const MedicalOrderBody: React.FC<MedicalOrderBodyProps> = async ({
                             <MedicalOrderValidateButton
                                 id={e.id}
                                 orderStatus={e.orderStatus} />
-                            <ActionMenuProvider>
-                                <ActionMenu>
-                                    <MenuItem
-                                        component={Link}
-                                        href={`/omega/medical/order/${e.id}/file/upload`}
-                                        leftSection={(
-                                            <IconUpload style={{ width: rem(16), height: rem(16) }} />
-                                        )}>
-                                        Subir archivo
-                                    </MenuItem>
-                                    {e.hasFile ? <MenuItem
-                                        component={Link}
-                                        href={`/omega/medical/order/${e.id}/file/view`}
-                                        leftSection={(
-                                            <IconEye style={{ width: rem(16), height: rem(16) }} />
-                                        )}>
-                                        Visualizar archivo
-                                    </MenuItem> : null}
-                                    {e.hasFile ? <MedicalOrderDownload {...e} /> : null}
-                                </ActionMenu>
-                            </ActionMenuProvider>
                         </Group>
                     </Group>
                 </ListRow>
