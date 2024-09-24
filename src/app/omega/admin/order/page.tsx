@@ -67,7 +67,7 @@ const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = ({
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='patientSearch' value={medicalOrderSearch} />
+                        <Search query='medicalOrderSearch' value={medicalOrderSearch} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
