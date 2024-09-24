@@ -1,0 +1,5 @@
+.container {
+  background-color: var(--mantine-color-neutral-light-hover);
+  border-radius: var(--mantine-radius-sm);
+  padding: rem(8px) rem(16px);
+}

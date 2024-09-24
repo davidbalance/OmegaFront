@@ -1,1 +1,0 @@
-export type Role = { name: string; id: number }

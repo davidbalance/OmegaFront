@@ -1,0 +1,8 @@
+.box {
+  position: relative;
+  width: 100%;
+  background-color: var(--mantine-color-white);
+  border-radius: var(--mantine-radius-md);
+  padding: rem(8px) rem(12px);
+  gap: rem(8px);
+}
