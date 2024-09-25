@@ -11,12 +11,12 @@ const DiseaseYearSelect: React.FC<DiseaseYearSelectProps> = ({
     options
 }) => {
 
-    const datOptions = useMemo(() => options.map(e => ({ label: e.year.toString(), value: e.year.toString() })), [options]);
+    const dataOptions = useMemo(() => options.map(e => ({ label: e.year.toString(), value: e.year.toString() })), [options]);
 
     return (
         <Select
             name='year'
-            data={datOptions}
+            data={dataOptions}
             checkIconPosition="left"
             label="Año"
             placeholder="Escoge un año"
