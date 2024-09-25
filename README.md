@@ -3,19 +3,18 @@
 ## Tabla de Contenidos
 
 1. [Introducción](#introduction)
-2. [Autenticación](#used-technologies)
-3. [Guia de Instalacion](#installation-guide)
+2. [Tecnologias usadas](#used-technologies)
+3. [Variables de Entorno](#environment-variables)
+4. [Guia de Instalacion](#installation-guide)
    1. [Desarrollo](#installation-guide-dev)
    2. [Produccion](#installation-guide-prod)
-4. [Estructura de directorios](#directory-structure)
-5. [Scripts](#scripts)
-6. [Variables de Entorno](#environment-variables)
-7. [Documentacion de API](#endpoints)
-   1. [`POST` /api/auth/login](#enpoint-1)
-   2. [`POST` /api/auth/logout](#enpoint-2)
-   3. [`POST` /api/credentials](#enpoint-3)
-   4. [`PATCH` /api/credentials](#enpoint-4)
-8. [Documentacion de Componentes](#components)
+5. [Estructura de directorios](#directory-structure)
+6. [Scripts](#scripts)
+7. [Autenticacion](#authentication)
+7. [Endpoints](#endpoints)
+7. [Server actions](#server-actions)
+7. [Api client](#api-client)
+7. [Components](#components)
 
 <div id='introduction'/>
 
@@ -186,11 +185,13 @@ npm run start
 npm run lint
 ```
 
-<div id='endpoints'/>
+<div id='authentication'/>
 
 ## Autenticacion
 
 Para este proyecto se opto por usar NextAuth para la autenticacion y refrescamiento de tokens. Segun la documentacion, puede encontrar el codigo referente en la ruta `src/app/api/auth/[...nextauth]`.
+
+<div id='endpoints'/>
 
 ## Endpoints
 
@@ -341,13 +342,19 @@ El api retorna un blob que representa un archivo zip
 
 </details>
 
+<div id='server-actions'/>
+
 ## Server actions
 
 Debido al uso de NextJS 14, en lugar de usar endpoints locales, se opto por acciones de servidor para mutar datos cuando sean necesarios. Estas acciones pueden ser encontadas en `src/server`
 
+<div id='api-client'/>
+
 ## Api client
 
-Este es un cliente api, su objetivo es comunicarse con el backend externo, al mismo tiempo que provee de capas de abstracion para procesar y aumentar con facilidad la administracion de los endpoints. Como ejemplos, puede revisar los server actions puesto que estos hacen uso de este api client. 
+Este es un cliente api, su objetivo es comunicarse con el backend externo, al mismo tiempo que provee de capas de abstracion para procesar y aumentar con facilidad la administracion de los endpoints. Como ejemplos, puede revisar los server actions puesto que estos hacen uso de este api client.
+
+<div id='components'/>
 
 ## Componentes
 
