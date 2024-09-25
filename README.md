@@ -15,163 +15,7 @@
    2. [`POST` /api/auth/logout](#enpoint-2)
    3. [`POST` /api/credentials](#enpoint-3)
    4. [`PATCH` /api/credentials](#enpoint-4)
-   5. [`GET` /api/key](#enpoint-5)
-   6. [`POST` /api/key](#enpoint-6)
-   7. [`PATCH` /api/key/_{id}_](#enpoint-7)
-   8. [`GET` /api/corporative/groups](#enpoint-8)
-   9. [`POST` /api/logs](#enpoint-9)
-   10. [`GET` /api/logs/level](#enpoint-10)
-   11. [`GET` /api/doctors](#enpoint-11)
-   12. [`POST` /api/doctors/signature/_{id}_](#enpoint-12)
-   13. [`GET` /api/patients](#enpoint-13)
-   14. [`GET` /api/patients/look/company](#enpoint-14)
-   15. [`GET` /api/users](#enpoint-15)
-   16. [`POST` /api/users](#enpoint-16)
-   17. [`PATCH` /api/users/_{id}_](#enpoint-17)
-   18. [`DELETE` /api/users/_{id}_](#enpoint-18)
-   19. [`GET` /api/users/attribute/doctor/of/_{id}_](#enpoint-19)
-   20. [`PATCH` /api/users/attribute/doctor/of/_{id}_](#enpoint-20)
-   21. [`GET` /api/users/attribute/employee/_{id}_](#enpoint-21)
-   22. [`PATCH` /api/users/attribute/employee/_{id}_](#enpoint-22)
-   23. [`GET` /api/users/attribute/look/for/comapany/_{id}_](#enpoint-23)
-   24. [`PATCH` /api/users/attribute/look/for/comapany/_{id}_](#enpoint-24)
-   25. [`POST` /api/diseases](#enpoint-25)
-   26. [`PATCH` /api/diseases/_{id}_](#enpoint-26)
-   27. [`DELETE` /api/diseases/_{id}_](#enpoint-27)
-   28. [`GET` /api/diseases/groups](#enpoint-28)
-   29. [`POST` /api/diseases/groups](#enpoint-29)
-   30. [`PATCH` /api/diseases/groups/_{id}_](#enpoint-30)
-   31. [`DELETE` /api/diseases/groups/_{id}_](#enpoint-31)
-   32. [`GET` /api/medical/client/_{dni}_/email](#enpoint-32)
-   33. [`POST` /api/medical/client/_{dni}_/email](#enpoint-33)
-   34. [`PATCH` /api/medical/client/_{dni}_/email/_{id}_](#enpoint-34)
-   35. [`DELETE` /api/medical/client/email/_{id}_](#enpoint-35)
-   36. [`GET` /api/medical/orders/files/_{id}_](#enpoint-36)
-   37. [`GET` /api/medical/orders/mail/_{order}_/_{mail}_](#enpoint-37)
-   38. [`GET` /api/medical/orders/patient/_{dni}_](#enpoint-38)
-   39. [`GET` /api/medical/report/recreate/pdf](#enpoint-39)
-   40. [`POST` /api/medical/report/recreate/pdf](#enpoint-40)
-   41. [`PATCH` /api/medical/results/diseases/_{id}_](#enpoint-41)
-   42. [`GET` /api/medical/results/doctor](#enpoint-42)
-   43. [`POST` /api/medical/results/file/_{id}_](#enpoint-43)
-   44. [`GET` /api/medical/file/_{type}_/_{id}_](#enpoint-44)
-   45. [`POST` /api/medical/file/multiple](#enpoint-45)
-   46. [`PATCH` /api/medical/results/report](#enpoint-46)
-   47. [`GET` /api/selector/disease/group](#enpoint-47)
-   48. [`GET` /api/selector/disease/_{group}_](#enpoint-48)
-   49. [`GET` /api/selector/exam](#enpoint-49)
-   50. [`GET` /api/selector/location/branches/_{company}_](#enpoint-50)
-   51. [`GET` /api/selector/location/cities](#enpoint-51)
-   52. [`GET` /api/selector/location/companies/_{group}_](#enpoint-52)
-   53. [`GET` /api/selector/location/corporative/groups](#enpoint-53)
-   54. [`PATCH` /api/web/clients/logos/_{user}_](#enpoint-54)
-   55. [`GET` /api/web/clients/resources/_{user}_](#enpoint-55)
-   56. [`PATCH` /api/web/clients/resources/_{user}_](#enpoint-56)
-   57. [`GET` /api/web/resources](#enpoint-57)
-   58. [`POST` /api/web/resources](#enpoint-58)
-   59. [`PATCH` /api/web/resources/_{id}_](#enpoint-59)
-   60. [`DELETE` /api/web/resources/_{id}_](#enpoint-60)
-   61. [`GET` /api/web/resources/all](#enpoint-61)
-   62. [`GET` /api/management](#enpoint-62)
-   63. [`POST` /api/management](#enpoint-63)
-   64. [`PATCH` /api/management/_{id}_](#enpoint-64)
-   65. [`DELETE` /api/management/_{id}_](#enpoint-65)
-   66. [`GET` /api/area](#enpoint-66)
-   67. [`POST` /api/area](#enpoint-67)
-   68. [`PATCH` /api/area/_{id}_](#enpoint-68)
-   69. [`DELETE` /api/area/_{id}_](#enpoint-69)
-   70. [`POST` /api/medical/orders/company](#enpoint-70)
-   71. [`PATCH` /api/medical/orders/order/_{id}_/status/validate](#enpoint-71)
-   72. [`GET` /api/medical/client/_{dni}_/management/area](#enpoint-72)
-   73. [`POST` /api/medical/client/_{dni}_/management/area](#enpoint-73)
-   74. [`DELETE` /api/medical/client/_{dni}_/management/area](#enpoint-74)
 8. [Documentacion de Componentes](#components)
-   1. [ApiKeyFormCreateProps](#component-1)
-   2. [AuthenticationFormPassword](#component-2)
-   3. [ButtonResponsive](#component-3)
-   4. [CommandsMedicalReportGenerateAllPdf](#component-4)
-   5. [CommandsMedicalReportGeneratePdfByDni](#component-5)
-   6. [DeveloperCommands](#component-6)
-   7. [DeveloperLog](#component-7)
-   8. [DeveloperLogs](#component-8)
-   9. [DevloperLogButtons](#component-9)
-   10. [DeveloperPagesActionMenu](#component-10)
-   11. [DeveloperPageForm](#component-11)
-   12. [DeveloperPageFormCreate](#component-12)
-   13. [DeveloperPageFormCreate](#component-13)
-   14. [DeveloperPages](#component-14)
-   15. [DiseaseActionMenu](#component-15)
-   16. [DiseaseForm](#component-16)
-   17. [DiseaseFormCreate](#component-17)
-   18. [DiseaseFormUpdate](#component-18)
-   19. [DiseaseFormGroup](#component-19)
-   20. [DiseaseFormUpdateGroup](#component-21)
-   21. [DiseseGroupForm](#component-22)
-   22. [DiseaseGroupFormCreate](#component-23)
-   23. [DiseaseGroupFormUpdate](#component-24)
-   24. [DoctorActionMenu](#component-25)
-   25. [DoctorFormCreateCredential](#component-26)
-   26. [DoctorFormUploadSignature](#component-27)
-   27. [DownloadActionButton](#component-28)
-   28. [OmegaDropzone](#component-29)
-   29. [Footer](#component-30)
-   30. [Header](#component-31)
-   31. [InputSearch](#component-32)
-   32. [ListHeaderButton](#component-33)
-   33. [ListLayout](#component-34)
-   34. [ListRowElement](#component-35)
-   35. [MultipleTierLayout](#component-36)
-   36. [LayoutSubFormTitle](#component-37)
-   37. [TableLayout](#component-38)
-   38. [MedicalClientActionDefault](#component-39)
-   39. [MedicalClientActionDelete](#component-40)
-   40. [MedicalClientEmailForm](#component-41)
-   41. [MedicalClientLayoutEmail](#component-42)
-   42. [MedicalClientModalEmailSelection](#component-43)
-   43. [MedicalOrderActionMenu](#component-44)
-   44. [MedicalReportForm](#component-45)
-   45. [MedicalResultActionMenu](#component-46)
-   46. [MedicalResultButtonMenuItem](#component-47)
-   47. [MedicalResultFormDisease](#component-48)
-   48. [MedicalResultFormUploadFile](#component-49)
-   49. [MenuItemSendMail](#component-50)
-   50. [ModalConfirmation](#component-51)
-   51. [ModularBox](#component-52)
-   52. [ModularLayout](#component-53)
-   53. [NavLink](#component-54)
-   54. [NavLogo](#component-55)
-   55. [Topbar](#component-56)
-   56. [TopbarMenu](#component-57)
-   57. [Navbar](#component-58)
-   58. [NavIcon](#component-59)
-   59. [PatientActionButton](#component-60)
-   60. [OmegaTable](#component-61)
-   61. [OmegaTd](#component-62)
-   62. [OmegaTh](#component-63)
-   63. [SortTh](#component-64)
-   64. [UserActionButton](#component-65)
-   65. [UserForm](#component-66)
-   66. [UserFormAssignCompany](#component-67)
-   67. [UserFormAssignCompanyAttribute](#component-68)
-   68. [UserFormChangePassword](#component-69)
-   69. [UserFormCreate](#component-70)
-   70. [UserFormLogo](#component-71)
-   71. [UserFormUpdate](#component-72)
-   72. [UserFormWebResource](#component-73)
-   73. [WebResourceFormAssign](#component-74)
-9. [Documentacion de Hooks](#hooks)
-
-   1. [useAuth](#hook-1)
-   2. [useChunk](#hook-2)
-   3. [useFetch](#hook-3)
-   4. [useFilter](#hook-4)
-   5. [useList](#hook-5)
-   6. [useLocalStorage](#hook-6)
-   7. [useMail](#hook-7)
-   8. [useSort](#hook-8)
-
-10. [Documentacion de Contextos](#context)
-    1. [ConfirmationContext](#context-1)
 
 <div id='introduction'/>
 
@@ -183,14 +27,26 @@ Aplicacion enfocada en el frontend del sistema. Permite la gestion de los datos 
 
 ## Tecnologias usadas
 
-- Next.js
-- React
-- TypeScript
-- MantineUi
-- TipTap
-- Joi
-- Dayjs
-- Docker
+|            |        |
+| ---------- | ------ | -------- |
+| Next.js    | TipTap | Tabler   |
+| React      | Joi    | NextAuth |
+| TypeScript | Dayjs  |          |
+| MantineUi  | Docker |          |
+
+<div id='environment-variables'/>
+
+## Variables de entorno
+
+Crear un archivo `.env.prod`, `.env.dev` o `.env.local` en la raiz del proyecto y añade las siguientes variables:
+
+```env
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_next_auth_secret
+
+NEXT_PUBLIC_API_KEY=your_api_key
+NEXT_PUBLIC_ROOT_API=http://localhost:3001
+```
 
 <div id='installation-guide'/>
 
@@ -600,23 +456,6 @@ npm run start
 
 ```bash
 npm run lint
-```
-
-<div id='environment-variables'/>
-
-## Variables de entorno
-
-Crea un archivo `.env.local` en la raiz del proyecto y añade las variables de entorno necesarias:
-
-```bash
-NEXT_PUBLIC_ROOT_API=http://localhost:3001
-NEXT_PUBLIC_AUTH_TOKEN_KEY=your_auth_token_key
-NEXT_PUBLIC_REFRESH_TOKEN_KEY=your_refresh_token_key
-
-NEXT_PUBLIC_CONFIGURATION_KEY=your_configuration_key
-NEXT_PUBLIC_LOGO_KEY=your_logo_key
-NEXT_PUBLIC_RESOURCES_KEY=your_resource_key
-NEXT_PUBLIC_USER_KEY=your_user_key
 ```
 
 <div id='endpoints'/>
