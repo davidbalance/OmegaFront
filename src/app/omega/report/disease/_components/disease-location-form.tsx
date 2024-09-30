@@ -43,33 +43,33 @@ const DiseaseLocationForm: React.FC<DiseaseLocationFormProps> = ({
     const [company, setCompany] = useState<Company | null>(null);
 
     const handleCorporativeGroup = (item: ComboboxItem) => {
-        setCorporativeGroup(options.find(e => e.id === Number(item.value)) || null);
+        setCorporativeGroup(options.find(e => e.name === item.value) || null);
         setCompany(null);
     }
 
-    const handleCompany = (item: ComboboxItem) => setCompany(corporativeGroup?.companies.find(e => e.id === Number(item.value)) || null);
+    const handleCompany = (item: ComboboxItem) => setCompany(corporativeGroup?.companies.find(e => e.ruc === item.value) || null);
 
-    const groupOptions = useMemo(() => options.map(e => ({ label: e.name, value: e.id.toString() })), [options]);
-    const companyOptions = useMemo(() => corporativeGroup?.companies.map(e => ({ label: e.name, value: e.id.toString() })) || [], [corporativeGroup]);
+    const groupOptions = useMemo(() => options.map(e => ({ label: e.name, value: e.name })), [options]);
+    const companyOptions = useMemo(() => corporativeGroup?.companies.map(e => ({ label: e.name, value: e.ruc })) || [], [corporativeGroup]);
 
     return (
         <>
             <CustomSelect
-                name='group'
+                name='corporativeName'
                 label="Grupo corporativo"
                 placeholder="Escoge un grupo corporativo"
                 nothingFoundMessage="Grupo corporativo no encontrado..."
                 options={groupOptions}
-                value={corporativeGroup?.id.toString() || null}
+                value={corporativeGroup?.name.toString() || null}
                 onChange={handleCorporativeGroup} />
 
             <CustomSelect
-                name='company'
+                name='companyRuc'
                 label="Empresas"
                 placeholder="Escoge una empresa"
                 nothingFoundMessage="Empresa no encontrada..."
                 options={companyOptions}
-                value={company?.id.toString() || null}
+                value={company?.ruc.toString() || null}
                 onChange={handleCompany} />
         </>
     )

@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react'
 
-const processBlob = async (body: any) => {
+const processBlob = async (body: 'any') => {
     const response = await fetch(`/api/medical/disease/report`, {
         method: 'POST',
         body: JSON.stringify(body),
@@ -40,12 +40,8 @@ const DiseaseReportForm: React.FC<DiseaseReportFormProps> = ({
         event.preventDefault();
         const values: any = parseForm(event.currentTarget);
         setLoading(true);
-        const checkedValues: any = Object
-            .entries(values)
-            .filter(e => e[1] !== '')
-            .reduce((prev, curr) => ({ ...prev, [curr[0]]: Number(curr[1]) }), {})
         try {
-            await processBlob(checkedValues);
+            await processBlob(values);
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });
         } finally {
