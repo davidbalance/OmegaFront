@@ -22,13 +22,13 @@ const refreshStrategy = async (token: JWT, current: { token: string, refresh: st
     }
 }
 
+console.log('NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
 export const omegaProvider = Credentials({
     credentials: {
         username: { name: 'username', type: 'email' },
         password: { name: 'password', type: 'password' }
     },
     authorize: async (credentials: Record<string, string> | undefined): Promise<User | null> => {
-        console.log('NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
         if (!credentials) return null;
 
         try {
