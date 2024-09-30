@@ -28,6 +28,7 @@ export const omegaProvider = Credentials({
         password: { name: 'password', type: 'password' }
     },
     authorize: async (credentials: Record<string, string> | undefined): Promise<User | null> => {
+        console.log('NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
         if (!credentials) return null;
 
         try {
@@ -45,7 +46,7 @@ export const omegaProvider = Credentials({
 
 export const authOptions: AuthOptions = {
     providers: [omegaProvider],
-    secret: process.env.NEXT_NEXTAUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: 'jwt'
     },
@@ -53,6 +54,7 @@ export const authOptions: AuthOptions = {
         signIn: '/login'
     },
     callbacks: {
+
         jwt: async ({ token, user }) => {
             if (user) {
                 try {
