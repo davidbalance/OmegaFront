@@ -21,7 +21,8 @@ const ParallelModal: React.FC<ParallelModalProps> = ({ children }) => {
             closeOnEscape={false}
             centered
             transitionProps={{ transition: 'fade', duration: 200 }}
-            onClose={router.back}>
+            onClose={router.back}
+            size='xl'>
             <ModalOverlay backgroundOpacity={0.55} blur={3} />
             <ModalContent style={{ overflow: 'hidden' }}>
                 {children}

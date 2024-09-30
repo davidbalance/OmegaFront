@@ -25,9 +25,7 @@ const ModalMedicalResultFileViewPage: React.FC<ModalMedicalResultFileViewPagePro
                 <ModalCloseButton />
             </ModalHeader>
             <ModalBody>
-                <Box
-                    maw={rem(600)}
-                    h='100%'>
+                <Box h='100%'>
                     <BlobPreview buffer={buffer} fileType={blob.type} />
                 </Box>
             </ModalBody>
