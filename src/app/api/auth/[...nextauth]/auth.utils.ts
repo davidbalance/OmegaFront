@@ -22,7 +22,6 @@ const refreshStrategy = async (token: JWT, current: { token: string, refresh: st
     }
 }
 
-console.log('NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
 export const omegaProvider = Credentials({
     credentials: {
         username: { name: 'username', type: 'email' },

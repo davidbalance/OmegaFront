@@ -20,6 +20,7 @@ const LoginForm: React.FC = () => {
 
     const handleLogin = async (value: LoginCredential) => {
         setLoading(true);
+        console.log('NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
         try {
             const response = await signIn('credentials', { callbackUrl: '/omega', ...value });
             if (response?.error) {
