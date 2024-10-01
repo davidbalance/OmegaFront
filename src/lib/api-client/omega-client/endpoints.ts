@@ -630,12 +630,12 @@ const omegaMethodEndpoint = {
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
     medicalDiseaseYear: {
-        resource: 'medical/results/report/diseases/year',
+        resource: 'medical/result/disease/report/year',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     medicalDiseaseExport: {
-        resource: 'medical/results/report/diseases',
+        resource: 'medical/result/disease/report',
         method: 'post',
         options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
