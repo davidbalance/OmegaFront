@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react'
 
-const processBlob = async (body: 'any') => {
+const processBlob = async (body: any) => {
     const response = await fetch(`/api/medical/disease/report`, {
         method: 'POST',
         body: JSON.stringify(body),
