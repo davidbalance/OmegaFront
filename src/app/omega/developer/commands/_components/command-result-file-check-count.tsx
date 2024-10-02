@@ -4,7 +4,7 @@ import { ModularBox } from '@/components/modular/box/ModularBox'
 import { retriveMedicalResultFileCheckCount } from '@/server/medical-result.actions'
 import { Box, Button, Flex, rem, Text } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import { IconMath, IconTable } from '@tabler/icons-react'
+import { IconMath } from '@tabler/icons-react'
 import React, { useState } from 'react'
 
 const CommandResultFileCheckCount: React.FC = () => {
@@ -20,6 +20,7 @@ const CommandResultFileCheckCount: React.FC = () => {
             const data = await retriveMedicalResultFileCheckCount();
             setCount(data);
         } catch (error: any) {
+            console.log(error);
             notifications.show({ message: error.message, color: 'red' });
         } finally {
             setLoading(false);
