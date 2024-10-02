@@ -98,3 +98,16 @@ export const retriveMedicalResultReport = async (id: number): Promise<{ content:
         throw error;
     }
 }
+
+export const retriveMedicalResultFileCheckCount = async (): Promise<{ total: number; match: number, error: number }> => {
+    const session = await auth();
+    try {
+        const data: { total: number; match: number, error: number } = await omega()
+            .addToken(session.access_token)
+            .execute('medicalResultFileCheckCount');
+        return data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}

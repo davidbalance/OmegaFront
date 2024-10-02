@@ -10,7 +10,7 @@ export async function GET() {
         const session = await auth();
         const blob: Blob = await omega()
             .addToken(session.access_token)
-            .execute('medicalResultFileCheck');
+            .execute('medicalResultFileCheckReport');
         const headers = new Headers();
         headers.set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         return new NextResponse(blob, { status: 200, headers });

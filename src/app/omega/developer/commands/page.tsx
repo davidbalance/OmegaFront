@@ -1,7 +1,8 @@
 import React from 'react'
 import CommandReportGenerateAll from './_components/command-report-generate-all'
 import CommandReportGenerateByDni from './_components/command-report-generate-dni'
-import CommandResultFileCheck from './_components/command-result-file-check'
+import CommandResultFileCheckExcel from './_components/command-result-file-check-excel'
+import CommandResultFileCheckCount from './_components/command-result-file-check-count'
 
 export const dynamic = 'force-dynamic'
 const OmegaDeveloperCommandsPage: React.FC = () => {
@@ -9,7 +10,8 @@ const OmegaDeveloperCommandsPage: React.FC = () => {
     <>
       <CommandReportGenerateAll />
       <CommandReportGenerateByDni />
-      <CommandResultFileCheck />
+      <CommandResultFileCheckCount />
+      <CommandResultFileCheckExcel />
     </>
   )
 }

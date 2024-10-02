@@ -26,8 +26,7 @@ const processBlob = async () => {
     blobFile(blob, `${dayjs().format('YYYY_MM_DD_HH:mm:ss')}.xlsx`)
 }
 
-
-const CommandResultFileCheck: React.FC = () => {
+const CommandResultFileCheckExcel: React.FC = () => {
 
     const [loading, setLoading] = useState(false);
 
@@ -57,4 +56,4 @@ const CommandResultFileCheck: React.FC = () => {
         </ModularBox>)
 }
 
-export default CommandResultFileCheck
+export default CommandResultFileCheckExcel

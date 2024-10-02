@@ -680,8 +680,13 @@ const omegaMethodEndpoint = {
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
-    medicalResultFileCheck: {
-        resource: 'medical/results/file/check',
+    medicalResultFileCheckReport: {
+        resource: 'medical/results/file/check/report',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    medicalResultFileCheckCount: {
+        resource: 'medical/results/file/check/count',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
