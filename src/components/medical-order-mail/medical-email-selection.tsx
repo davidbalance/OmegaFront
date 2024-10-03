@@ -14,9 +14,6 @@ const MedicalEmailSelection: React.FC = () => {
     const { selection, options, cancelSelection, trigger } = useMedicalEmail();
     const { breakpoints } = useMantineTheme();
     const match = useMediaQuery(`(min-width: ${breakpoints.md})`);
-    const { show } = useConfirmation();
-    const theme = useMantineTheme();
-
 
     const handleClick = async (data: MedicalClientEmail) => {
         trigger(data);
