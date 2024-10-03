@@ -51,7 +51,6 @@ const MedicalClientEmailForm: React.FC<MedicalClientEmailFormProps> = ({
                 label='Ingrese un correo'
                 placeholder="hello@email.com"
                 leftSectionPointerEvents='none'
-                size='xs'
                 leftSection={<IconKey style={{ width: rem(16), height: rem(16) }} />}
                 rightSection={
                     <ActionIcon

@@ -3,9 +3,11 @@
 import React from 'react'
 import { useMedicalEmail } from './medical-email.context';
 import { useMediaQuery } from '@mantine/hooks';
-import { Box, Modal, rem, ScrollArea, Stack, UnstyledButton, useMantineTheme } from '@mantine/core';
+import { Box, Modal, rem, Stack, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { MedicalClientEmail } from '@/lib/dtos/medical/client/email/base.response.dto';
 import { useConfirmation } from '@/contexts/confirmation.context';
+import ListRow from '../_base/list/list-row';
+import ListTbody from '../_base/list/list-tbody';
 
 const MedicalEmailSelection: React.FC = () => {
 
@@ -13,15 +15,11 @@ const MedicalEmailSelection: React.FC = () => {
     const { breakpoints } = useMantineTheme();
     const match = useMediaQuery(`(min-width: ${breakpoints.md})`);
     const { show } = useConfirmation();
+    const theme = useMantineTheme();
 
 
     const handleClick = async (data: MedicalClientEmail) => {
-        const state = await show('Enviar correo', `¿Deseas enviar a ${data.email}?`);
-        if (state) {
-            trigger(data);
-        } else {
-            cancelSelection();
-        }
+        trigger(data);
     }
 
     return (
@@ -33,15 +31,21 @@ const MedicalEmailSelection: React.FC = () => {
             onClose={cancelSelection}>
             <Stack gap={rem(8)}>
                 <Box flex={1}>
-                    <ScrollArea h={450}>
+                    <ListTbody>
                         {options.map(e => (
-                            <Box key={e.id} w='100%'>
-                                <UnstyledButton onClick={() => handleClick(e)}>
+                            <ListRow
+                                active={e.default}
+                                key={e.id}
+                                hoverable={true}>
+                                <UnstyledButton
+                                    w='100%'
+                                    mih={rem(50)}
+                                    onClick={() => handleClick(e)}>
                                     {e.email}
                                 </UnstyledButton>
-                            </Box>
+                            </ListRow>
                         ))}
-                    </ScrollArea>
+                    </ListTbody>
                 </Box>
             </Stack>
         </Modal>
