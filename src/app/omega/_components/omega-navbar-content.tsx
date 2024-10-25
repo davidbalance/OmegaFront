@@ -6,8 +6,7 @@ import omega from '@/lib/api-client/omega-client/omega'
 import { redirect } from 'next/navigation'
 import { ObjectArray } from '@/lib/interfaces/object-array.interface'
 import { OmegaWebClientResource } from '@/lib/dtos/omega/web/client/base.response.dto'
-import { auth } from '@/app/api/auth/[...nextauth]/auth'
-
+import auth from '@/lib/auth/auth'
 
 const OmegaNavbarContent: React.FC = async () => {
   try {

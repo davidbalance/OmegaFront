@@ -7,7 +7,7 @@ import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 import { revalidatePath } from "next/cache";
 import { WebClientLogo } from "./web-client.actions";
 import { CredentialBody } from "./credential.actions";
-import { auth } from "@/app/api/auth/[...nextauth]/auth";
+import auth from "@/lib/auth/auth";
 
 export const searchUser = async (filter: FilterMeta): Promise<User[]> => {
     const session = await auth();

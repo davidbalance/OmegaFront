@@ -1,10 +1,10 @@
-import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import omega from '@/lib/api-client/omega-client/omega';
 import { Menu, ActionIcon, Avatar, Group, Box, Divider, Text, MenuTarget, MenuDropdown, MenuItem } from '@mantine/core'
 import { redirect } from 'next/navigation';
 import React from 'react'
 import OmegaMenuItemLogout from './omega-menu-item-logout';
 import { User } from '@/lib/dtos/user/user/base.response.dto';
+import auth from '@/lib/auth/auth';
 
 const getUser = async (): Promise<{ lastname: string, name: string, email: string }> => {
     const session = await auth();

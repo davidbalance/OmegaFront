@@ -1,4 +1,4 @@
-import { auth } from "@/app/api/auth/[...nextauth]/auth";
+import auth from "@/lib/auth/auth";
 import ApiClientError from "@/lib/api-client/base/api-error";
 import omega from "@/lib/api-client/omega-client/omega";
 import { NextRequest, NextResponse } from "next/server";

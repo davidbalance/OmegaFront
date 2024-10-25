@@ -1,4 +1,4 @@
-import { auth } from '@/app/api/auth/[...nextauth]/auth';
+import auth from '@/lib/auth/auth';
 import { systemLogo } from '@/components/navbar/nav/logo/logos';
 import omega from '@/lib/api-client/omega-client/omega';
 import { Flex, rem } from '@mantine/core';

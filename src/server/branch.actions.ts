@@ -1,6 +1,6 @@
 'use server'
 
-import { auth } from "@/app/api/auth/[...nextauth]/auth";
+import auth from "@/lib/auth/auth";
 import omega from "@/lib/api-client/omega-client/omega";
 import { Branch } from "@/lib/dtos/location/branch.response.dto";
 import { FilterMeta, CountMeta, PageCount } from "@/lib/dtos/pagination.dto";

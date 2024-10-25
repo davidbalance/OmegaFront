@@ -1,6 +1,6 @@
 'use server'
 
-import { auth } from "@/app/api/auth/[...nextauth]/auth";
+import auth from "@/lib/auth/auth";
 import omega from "@/lib/api-client/omega-client/omega";
 import { ApiKey } from "@/lib/dtos/auth/api/key/base.response.dto"
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";

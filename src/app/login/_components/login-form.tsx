@@ -8,10 +8,12 @@ import { Box, TextInput, PasswordInput, Button } from '@mantine/core';
 import { LoginCredential } from '../_lib/login-credential.type';
 import { notifications } from '@mantine/notifications';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const LoginForm: React.FC = () => {
 
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     const form = useForm({
         initialValues: { username: '', password: '' },
@@ -21,10 +23,11 @@ const LoginForm: React.FC = () => {
     const handleLogin = async (value: LoginCredential) => {
         setLoading(true);
         try {
-            const response = await signIn('credentials', { callbackUrl: '/omega', ...value });
+            const response = await signIn('credentials', { callbackUrl: '/omega', redirect: false, ...value });
             if (response?.error) {
-                throw new Error(response.error);
+                throw new Error("Credenciales no validas");
             }
+            router.push('/omega');
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });
         } finally {

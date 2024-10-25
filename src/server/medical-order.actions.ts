@@ -1,6 +1,6 @@
 'use server'
 
-import { auth } from "@/app/api/auth/[...nextauth]/auth";
+import auth from "@/lib/auth/auth";
 import omegaEndpoint from "@/lib/api-client/omega-client/endpoints";
 import omega from "@/lib/api-client/omega-client/omega";
 import { MedicalOrder, MedicalOrderCloud, MedicalOrderDoctor, MedicalOrderExpanded, OrderStatus } from "@/lib/dtos/medical/order/base.response.dto";
