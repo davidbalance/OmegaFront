@@ -92,7 +92,7 @@ const LocationInputSelect: React.FC<LocationInputSelectProps> = ({
                     label="Sucursal"
                     placeholder="Escoge una sucursal"
                     nothingFoundMessage="Sucursal no encontrada..."
-                    options={branchOptions}
+                    options={Array.from(new Set(branchOptions))}
                     value={branch?.name || null}
                     onChange={handleChangeBranch} />
             }
