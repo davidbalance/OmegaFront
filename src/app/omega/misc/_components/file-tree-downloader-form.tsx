@@ -17,7 +17,7 @@ const processBlob = async (body: any) => {
   });
   if (!response.ok) {
     const reason = await response.json();
-    console.log(reason);
+    console.error(reason);
     throw new Error('Something went wrong during the download');
   }
   const blob = await response.blob();
