@@ -12,7 +12,6 @@ const OmegaDeveloperNavigationUpdatePage: React.FC<OmegaDeveloperNavigationUpdat
 }) => {
 
     const data = await retriveWebResource(params.id);
-    console.log(data);
 
     return (
         <>

@@ -23,6 +23,5 @@ export const countLog = async (filter: CountMeta & LogFilter): Promise<number> =
 export const retriveLogLevels = async (): Promise<ServerLogLevel[]> => {
     const { data }: ObjectArray<ServerLogLevel> = await omega()
         .execute('logLevel');
-    console.log(data);
     return data;
 }

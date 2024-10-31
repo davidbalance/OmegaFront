@@ -12,7 +12,6 @@ const OmegaMedicalResultReportPage: React.FC<OmegaMedicalResultReportPageProps> 
 }) => {
 
     const value = await retriveMedicalResultReport(params.id);
-    console.log(value);
 
     return (
         <>

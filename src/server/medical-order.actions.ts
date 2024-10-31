@@ -119,3 +119,11 @@ export const uploadMedicalOrder = async (id: number, body: FormData): Promise<vo
         .execute('medicalOrderUpload');
     revalidatePath('/omega/admin/order');
 }
+
+export const retriveMedicalOrderProcesses = async (): Promise<string[]> => {
+    const session = await auth();
+    const { data }: { data: string[] } = await omega()
+        .addToken(session.access_token)
+        .execute('medicalOrderProcess');
+    return data;
+}

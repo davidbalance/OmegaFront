@@ -21,27 +21,28 @@ const MedicalReportMenuFileContent: React.FC<MedicalReportMenuFileContentProps> 
     return (
         <>
             {(hasFile || editable) && <MenuLabel>Reportes medicos</MenuLabel>}
-            {editable && (
-                <MenuItem
+            {editable
+                ? (<MenuItem
                     component={Link}
                     href={`/omega/medical/result/${result}/report`}
                     leftSection={(
                         <IconPencil style={{ width: rem(16), height: rem(16) }} />
                     )}>
                     Elaborar reporte
-                </MenuItem>)}
-            {(id && editable) && (
-                <MenuItem
+                </MenuItem>)
+                : null}
+            {(id && editable)
+                ? (<MenuItem
                     component={Link}
                     href={`/omega/medical/report/${id}/file/upload`}
                     leftSection={(
                         <IconUpload style={{ width: rem(16), height: rem(16) }} />
                     )}>
                     Subir reporte
-                </MenuItem>
-            )}
-            {(id && hasFile) && (
-                <>
+                </MenuItem>)
+                : null}
+            {(id && hasFile)
+                ? (<>
                     <MedicalReportDownload
                         id={id}
                         exam={examName} />
@@ -53,8 +54,7 @@ const MedicalReportMenuFileContent: React.FC<MedicalReportMenuFileContentProps> 
                         )}>
                         Visualizar reporte
                     </MenuItem>
-                </>
-            )}
+                </>) : null}
         </>
     )
 }

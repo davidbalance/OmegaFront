@@ -8,7 +8,6 @@ import { Box, Button, rem, SimpleGrid } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
 import { IconFileSpreadsheet } from '@tabler/icons-react';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react'
 
 const processBlob = async (body: any) => {
@@ -34,7 +33,6 @@ const DiseaseReportForm: React.FC<DiseaseReportFormProps> = ({
 }) => {
 
     const [loading, setLoading] = useState<boolean>(false);
-    const router = useRouter();
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -56,7 +54,7 @@ const DiseaseReportForm: React.FC<DiseaseReportFormProps> = ({
                 onSubmit={handleSubmit}
                 component='form'>
                 <SimpleGrid
-                    cols={3}
+                    cols={{ sm: 1, md: 3 }}
                     spacing={rem(8)}>
                     {children}
                 </SimpleGrid>

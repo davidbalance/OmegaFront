@@ -4,10 +4,10 @@ import { MedicalResultDiseaseYear } from '@/lib/dtos/medical/result/disease/base
 import { Select } from '@mantine/core';
 import React, { useMemo } from 'react'
 
-interface DiseaseYearSelectProps {
+interface YearInputSelectProps {
     options: MedicalResultDiseaseYear[];
 }
-const DiseaseYearSelect: React.FC<DiseaseYearSelectProps> = ({
+const YearInputSelect: React.FC<YearInputSelectProps> = ({
     options
 }) => {
 
@@ -29,4 +29,4 @@ const DiseaseYearSelect: React.FC<DiseaseYearSelectProps> = ({
     )
 }
 
-export default DiseaseYearSelect
+export default YearInputSelect

@@ -20,7 +20,7 @@ const CommandResultFileCheckCount: React.FC = () => {
             const data = await retriveMedicalResultFileCheckCount();
             setCount(data);
         } catch (error: any) {
-            console.log(error);
+            console.error(error);
             notifications.show({ message: error.message, color: 'red' });
         } finally {
             setLoading(false);

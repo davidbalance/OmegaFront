@@ -1,7 +1,7 @@
 import { Branch } from "../branch.response.dto";
 import { Company } from "../company.response.dto";
 
-interface CompanyOption extends Company {
+export interface CompanyOption extends Company {
     branches: Branch[];
 }
 

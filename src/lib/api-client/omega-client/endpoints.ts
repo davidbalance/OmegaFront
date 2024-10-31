@@ -603,6 +603,11 @@ const omegaMethodEndpoint = {
         method: 'patch',
         options: { customHeader: ['auth'] }
     } as ApiResource,
+    medicalOrderProcess: {
+        resource: 'medical/orders/processes',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
 
     medicalDiseaseDetail: {
         resource: 'medical/:id/disease',
@@ -761,6 +766,14 @@ const omegaMethodEndpoint = {
     medicalFileDelete: {
         resource: 'medical/file/:type/:id',
         method: 'delete',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    //#endregion
+    
+    //#region Medical File Tree
+    medicalFileTree: {
+        resource: 'medical/file/tree',
+        method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     //#endregion

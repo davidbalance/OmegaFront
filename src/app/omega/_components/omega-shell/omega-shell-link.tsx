@@ -3,7 +3,6 @@
 import React from 'react'
 import clsx from 'clsx'
 import { Flex, Text, Tooltip } from '@mantine/core'
-import { IconProps } from '@tabler/icons-react'
 import Link, { LinkProps } from 'next/link'
 import { useOmegaShell } from './omega-shell.context'
 
