@@ -5,7 +5,10 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     try {
         const data = await req.json();
-        const blob: Blob = await omega().addBody(data).addHeader({ 'accept': 'application/*' }).execute('medicalFileMultiple');
+        const blob: Blob = await omega()
+            .addBody(data)
+            .addHeader({ 'accept': 'application/*' })
+            .execute('medicalFileMultiple');
         const headers = new Headers();
         headers.set("Content-Type", "application/pdf");
         return new NextResponse(blob, { status: 200, headers });

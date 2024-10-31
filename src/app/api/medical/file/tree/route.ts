@@ -8,12 +8,12 @@ export async function POST(req: NextRequest) {
         const session = await auth();
         const data = await req.json();
         const blob: Blob = await omega()
-            .addHeader({ 'accept': 'application/*' })
             .addQuery({ ...data })
+            .addHeader({ 'accept': 'application/*' })
             .addToken(session.access_token)
             .execute('medicalFileTree');
         const headers = new Headers();
-        headers.set("Content-Type", "application/pdf");
+        headers.set('Content-Type', 'application/zip');
         return new NextResponse(blob, { status: 200, headers });
     } catch (error) {
         console.error(error);
