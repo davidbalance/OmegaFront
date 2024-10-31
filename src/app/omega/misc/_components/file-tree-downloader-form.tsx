@@ -17,7 +17,8 @@ const processBlob = async (body: any) => {
   });
   if (!response.ok) {
     const reason = await response.json();
-    throw new Error(reason);
+    console.log(reason);
+    throw new Error('Something went wrong during the download');
   }
   const blob = await response.blob();
   blobFile(blob, `${dayjs().format('YYYY_MM_DD_HH:mm:ss')}.zip`)
