@@ -63,7 +63,7 @@ const LocationInputSelect: React.FC<LocationInputSelectProps> = ({
 
     const groupOptions = useMemo(() => options.map(e => ({ label: e.name, value: e.name })), [options]);
     const companyOptions = useMemo(() => corporativeGroup?.companies.map(e => ({ label: e.name, value: e.ruc })) || [], [corporativeGroup]);
-    const branchOptions = useMemo(() => company?.branches.map(e => ({ label: e.name, value: e.name })) || [], [company]);
+    const branchOptions = useMemo(() => Array.from(new Set(company?.branches.map(e => e.name))).map(e => ({ label: e, value: e })) || [], [company]);
 
     return (
         <>
