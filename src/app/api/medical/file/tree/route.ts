@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
         headers.set('Content-Type', 'application/zip');
         return new NextResponse(blob, { status: 200, headers });
     } catch (error) {
-        console.error('Server error', error);
+        console.error(error);
         if (error instanceof ApiClientError) {
             return NextResponse.json({ message: error.message }, { status: error.status });
         }
