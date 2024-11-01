@@ -13,7 +13,10 @@ const processBlob = async (body: any) => {
   const response = await fetch(`/api/medical/file/tree`, {
     method: 'POST',
     body: JSON.stringify(body),
-    headers: { 'content-type': 'application/json' }
+    headers: {
+      'content-type': 'application/json',
+      'accept': 'application/zip'
+    }
   });
   if (!response.ok) {
     const reason = await response.json();
