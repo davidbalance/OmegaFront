@@ -14,10 +14,9 @@ export async function POST(req: NextRequest) {
             .execute('medicalFileTree');
         const headers = new Headers();
         headers.set('Content-Type', 'application/zip');
-        console.log(blob);
         return new NextResponse(blob, { status: 200, headers });
     } catch (error) {
-        console.error(error);
+        console.error('Server error', error);
         if (error instanceof ApiClientError) {
             return NextResponse.json({ message: error.message }, { status: error.status });
         }
