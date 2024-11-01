@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
             .addHeader({ 'accept': 'application/*' })
             .execute('medicalFileMultiple');
         const headers = new Headers();
-        headers.set("Content-Type", "application/pdf");
+        headers.set("Content-Type", "application/zip");
         return new NextResponse(blob, { status: 200, headers });
     } catch (error) {
         console.error(error);
