@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
             .execute('medicalFileTree');
         const headers = new Headers();
         headers.set('Content-Type', 'application/zip');
+        console.log(blob);
         return new NextResponse(blob, { status: 200, headers });
     } catch (error) {
         console.error(error);
