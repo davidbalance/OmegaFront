@@ -36,11 +36,14 @@ export const deleteFile = async (id: number, type: string): Promise<void> => {
 
 type TreeMeta = { year?: string, coporativeName?: string, company?: string, branch?: string, process?: string, patient?: string }
 export const startFileTree = async (query: TreeMeta): Promise<Blob> => {
+    console.log('Starting file tree zip')
     const session = await auth();
+    console.log('Sending file tree request')
     const blob: Blob = await omega()
         .addToken(session.access_token)
         .addQuery({ ...query })
         .execute('medicalFileTree');
+    console.log('Job started')
     return blob;
 }
 
