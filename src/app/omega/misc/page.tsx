@@ -34,7 +34,7 @@ const OmegaReportDiseasePage: React.FC = async () => {
               options={corporativeGroupOptions}
               showCompany />
           </DiseaseReportForm>
-          {/* <Box style={{ marginTop: rem(2) }} />
+          <Box style={{ marginTop: rem(2) }} />
           <ModularBox>
             <Box style={{ flexShrink: 0 }}>
               <Title order={4} component='span'>Descarga arbol de archivos</Title>
@@ -68,7 +68,7 @@ const OmegaReportDiseasePage: React.FC = async () => {
               leftSection={
                 <IconId style={{ width: rem(16), height: rem(16) }} />
               } />
-          </FileTreeDownloaderForm> */}
+          </FileTreeDownloaderForm>
         </ModularLayout>
       </ScrollArea>
     </Box>

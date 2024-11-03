@@ -5,11 +5,10 @@ import { IconDownload } from '@tabler/icons-react'
 import React, { FormEvent, useState } from 'react'
 import { ModularBox } from '../../../../components/modular/box/ModularBox'
 import { notifications } from '@mantine/notifications'
-import { blobFile } from '@/lib/utils/blob-to-file'
-import dayjs from 'dayjs'
 import { parseForm } from '@/lib/utils/form-parse'
+import { startFileTree } from '@/server/file.actions'
 
-const processBlob = async (body: any) => {
+/* const processBlob = async (body: any) => {
   const response = await fetch(`/api/medical/file/tree`, {
     method: 'POST',
     body: JSON.stringify(body),
@@ -25,8 +24,7 @@ const processBlob = async (body: any) => {
   }
   const blob = await response.blob();
   blobFile(blob, `${dayjs().format('YYYY_MM_DD_HH:mm:ss')}.zip`)
-}
-
+} */
 
 interface FileTreeDownloaderFormProps {
   children: React.ReactNode
@@ -46,7 +44,8 @@ const FileTreeDownloaderForm: React.FC<FileTreeDownloaderFormProps> = ({
         .entries(values)
         .filter(([, value]: [string, any]) => value.trim() !== '')
         .reduce((prev, [key, value]) => ({ ...prev, [key]: value }), {});
-      await processBlob(processedValue);
+      await startFileTree(processedValue);
+      notifications.show({ message: 'Este proceso puede tardar un tiempo. Se enviara a su correo una notificacion cuando este listo el archivo' });
     } catch (error: any) {
       notifications.show({ message: error.message, color: 'red' });
     } finally {

@@ -769,10 +769,15 @@ const omegaMethodEndpoint = {
         options: { customHeader: ['auth'] }
     } as ApiResource,
     //#endregion
-    
+
     //#region Medical File Tree
     medicalFileTree: {
         resource: 'medical/file/tree',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    medicalFileTreeBlob: {
+        resource: 'medical/file/tree/:code',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
