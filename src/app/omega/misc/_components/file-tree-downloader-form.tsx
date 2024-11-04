@@ -8,24 +8,6 @@ import { notifications } from '@mantine/notifications'
 import { parseForm } from '@/lib/utils/form-parse'
 import { startFileTree } from '@/server/file.actions'
 
-/* const processBlob = async (body: any) => {
-  const response = await fetch(`/api/medical/file/tree`, {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: {
-      'content-type': 'application/json',
-      'accept': 'application/zip'
-    }
-  });
-  if (!response.ok) {
-    const reason = await response.json();
-    console.error(reason);
-    throw new Error('Something went wrong during the download');
-  }
-  const blob = await response.blob();
-  blobFile(blob, `${dayjs().format('YYYY_MM_DD_HH:mm:ss')}.zip`)
-} */
-
 interface FileTreeDownloaderFormProps {
   children: React.ReactNode
 }
