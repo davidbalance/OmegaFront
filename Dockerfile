@@ -23,6 +23,7 @@ COPY --chown=node:node . .
 
 # COPY --chown=node:node .env .env
 
+RUN npx prisma generate
 RUN npm run build
 RUN npm install --production
 RUN npm cache clean --force
