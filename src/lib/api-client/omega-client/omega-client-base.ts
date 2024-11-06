@@ -1,19 +1,18 @@
 import 'server-only'
+
 import ApiClientBase from "../base/api-client.base";
 import omegaEndpoint from "./endpoints";
 import { OmegaMethod } from "./omega-api-config";
 import ApiClientError from "../base/api-error";
-import UrlBuilder from '../base/url-builder';
 
-type OmegaToken = { access: string, refresh: string, expires: string };
+type OmegaToken = { access: string, refresh: string };
 type EnpointOptions = { customHeader: string[] }
 class OmegaClientBase extends ApiClientBase<OmegaMethod> {
 
     private _token: string | undefined = undefined;
 
     constructor(
-        baseUrl: string,
-        private readonly key: string
+        baseUrl: string
     ) {
         super(omegaEndpoint.methods, baseUrl);
     }
@@ -78,82 +77,7 @@ class OmegaClientBase extends ApiClientBase<OmegaMethod> {
                 throw new Error(`(${response.status}) 'Unable to get token`);
             }
             const data = await response.json();
-            const expires = data['expiresAt'];
-            return { ...data, expires };
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    public async retriveSession(session: string): Promise<{ token: string, refresh: string }> {
-        const method: string = 'GET';
-        const url = UrlBuilder.builder(`${this._baseUrl}/${omegaEndpoint.session.sessionDetail}`).param({ session }).build();
-        const headers = new Headers();
-        headers.set('x-client-key', this.key);
-
-        try {
-            const request = new Request(url, { method, headers });
-            const response = await fetch(request);
-            if (!response.ok) {
-                throw new ApiClientError(method, response);
-            }
-            const data = await response.json();
             return data;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    public async createSession(body: { token: string, refresh: string }): Promise<{ session: string }> {
-        const method: string = 'POST';
-        const url = UrlBuilder.builder(`${this._baseUrl}/${omegaEndpoint.session.sessionCreate}`).build();
-        const headers = new Headers();
-        headers.set('x-client-key', this.key);
-        headers.set('content-type', 'application/json');
-
-        try {
-            const request = new Request(url, { method, headers, body: JSON.stringify(body) });
-            const response = await fetch(request);
-            if (!response.ok) {
-                throw new ApiClientError(method, response);
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    public async updateSession(session: string, body: { token: string, refresh: string }): Promise<void> {
-        const method: string = 'PATCH';
-        const url = UrlBuilder.builder(`${this._baseUrl}/${omegaEndpoint.session.sessionUpdate}`).param({ session }).build();
-        const headers = new Headers();
-        headers.set('x-client-key', this.key);
-        headers.set('content-type', 'application/json');
-
-        try {
-            const request = new Request(url, { method, headers, body: JSON.stringify(body) });
-            const response = await fetch(request);
-            if (!response.ok) {
-                throw new ApiClientError(method, response);
-            }
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    public async removeSession(session: string): Promise<void> {
-        const method: string = 'DELETE';
-        const url = UrlBuilder.builder(`${this._baseUrl}/${omegaEndpoint.session.sessionDelete}`).param({ session }).build();
-        const headers = new Headers();
-        headers.set('x-client-key', this.key);
-
-        try {
-            const request = new Request(url, { method, headers });
-            const response = await fetch(request);
-            if (!response.ok) {
-                throw new ApiClientError(method, response);
-            }
         } catch (error) {
             throw error;
         }

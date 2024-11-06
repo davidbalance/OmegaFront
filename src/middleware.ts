@@ -7,12 +7,9 @@ export default async function middleware(req: NextRequest) {
     const { pathname, origin } = req.nextUrl;
 
     if (token && pathname === '/login') return NextResponse.redirect(new URL('/omega', origin));
-    if (!token && pathname === '/omega') return NextResponse.redirect(new URL('/login', origin));
 
     const auth = withAuth(req as any, {
-        callbacks: {
-            authorized: () => true
-        },
+        callbacks: { authorized: (token) => !!token },
         pages: {
             signIn: '/login',
         }
@@ -23,6 +20,6 @@ export default async function middleware(req: NextRequest) {
 
 export const config = {
     matcher: [
-        '/((?!api|_next/static|_next/image|favicon.ico).*)'
+        '/omega/:path*'
     ],
 };

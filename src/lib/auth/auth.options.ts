@@ -1,12 +1,13 @@
 import { AuthOptions } from "next-auth";
 import { omegaProvider } from "./auth.provider";
-import omega from "../api-client/omega-client/omega";
 import { isTokenValid } from "../is-token-valid";
 import { refreshStrategy } from "./auth.utils";
+import { createSession, retriveAccess, retriveRefresh } from "@/server/session.actions";
+import authConfig from "@/config/auth.config";
 
 const authOptions: AuthOptions = {
     providers: [omegaProvider],
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: authConfig.secret,
     session: {
         strategy: 'jwt'
     },
@@ -18,13 +19,10 @@ const authOptions: AuthOptions = {
         jwt: async ({ token, user }) => {
             if (user) {
                 try {
-                    const data = await omega().createSession({
-                        token: user.access_token,
-                        refresh: user.refresh_token
-                    });
+                    const data = await createSession({ access: user.access_token, refresh: user.refresh_token });
                     return {
                         ...user,
-                        ...data
+                        session: data
                     };
                 } catch (error) {
                     console.error(error);
@@ -33,7 +31,9 @@ const authOptions: AuthOptions = {
             }
             let tokens: { token: string, refresh: string };
             try {
-                tokens = await omega().retriveSession(token.session);
+                const access = await retriveAccess(token.session);
+                const refresh = await retriveRefresh(token.session);
+                tokens = { token: access, refresh: refresh };
             } catch (error) {
                 console.error(error);
                 throw error;
@@ -45,7 +45,7 @@ const authOptions: AuthOptions = {
                     refresh_token: tokens.token
                 };
             }
-            return refreshStrategy(token, tokens);
+            return await refreshStrategy(token, tokens);
         },
         session: async ({ session, token }) => {
             if (token) {
