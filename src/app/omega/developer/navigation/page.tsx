@@ -1,32 +1,27 @@
-import Await from '@/components/_base/await';
 import { retriveWebResources } from '@/server/web-resource.actions'
-import React, { Suspense } from 'react'
+import React from 'react'
 import WebResourceListBody from './_components/web-resource-list-body';
-import ListBodySuspense from '@/components/_base/list/list-body.suspense';
 import ListRoot from '@/components/_base/list/list-root';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { Button } from '@mantine/core';
+import { Button, rem } from '@mantine/core';
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic'
-const OmegaDeveloperNavigationPage: React.FC = () => {
+const OmegaDeveloperNavigationPage: React.FC = async () => {
 
-  const resourcePromise = retriveWebResources();
+  const resources = await retriveWebResources();
 
   return (
     <ModularBox flex={1}>
       <Button
         component={Link}
+        fullWidth
         href='navigation/create'
-        size='xs'>
+        size='xs'
+        style={{ marginBottom: rem(4) }}>
         Crear recurso
       </Button>
       <ListRoot>
-        <Suspense fallback={<ListBodySuspense />}>
-          <Await promise={resourcePromise}>
-            {(value) => <WebResourceListBody resources={value} />}
-          </Await>
-        </Suspense>
+        <WebResourceListBody resources={resources} />
       </ListRoot>
     </ModularBox>)
 }
