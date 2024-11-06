@@ -6,13 +6,6 @@ const omegaAuthenticationEndpoint = {
     revokeSession: 'auth/logout'
 }
 
-const omegaSessionEnpoint = {
-    sessionCreate: 'session',
-    sessionDetail: 'session/:session',
-    sessionUpdate: 'session/:session',
-    sessionDelete: 'session/:session',
-}
-
 const omegaMethodEndpoint = {
     //#region Logger
     logSearch: {
@@ -785,7 +778,6 @@ const omegaMethodEndpoint = {
 }
 
 const omegaEndpoint = {
-    session: omegaSessionEnpoint,
     authentication: omegaAuthenticationEndpoint,
     methods: omegaMethodEndpoint
 }

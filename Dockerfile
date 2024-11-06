@@ -46,4 +46,5 @@ EXPOSE 3000
 # Consider environment variable injection for .env files
 # ENV HOSTNAME "0.0.0.0"  # Optional, depending on your needs
 
-CMD ["node", "server.js"]
+# CMD ["node", "server.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy & node server.js"]
