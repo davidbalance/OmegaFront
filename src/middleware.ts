@@ -4,12 +4,15 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export default async function middleware(req: NextRequest) {
     const token = await getToken({ req });
-    const { pathname, origin } = req.nextUrl;
+    const isAuthenticated = !!token;
+    const { origin } = req.nextUrl;
 
-    if (token && pathname === '/login') return NextResponse.redirect(new URL('/omega', origin));
+    if (req.nextUrl.pathname.startsWith('/login') && isAuthenticated) {
+        return NextResponse.redirect(new URL('/omega', origin));
+    }
 
     const auth = withAuth(req as any, {
-        callbacks: { authorized: (token) => !!token },
+        callbacks: { authorized: ({ token }) => !!token },
         pages: {
             signIn: '/login',
         }
@@ -19,7 +22,5 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: [
-        '/omega/:path*'
-    ],
+    matcher: ['/omega/:path*'],
 };
