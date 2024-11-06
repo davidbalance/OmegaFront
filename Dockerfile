@@ -35,8 +35,8 @@ FROM node:22-alpine AS production
 RUN apk add --no-cache libc6-compat
 WORKDIR /usr/src/app
 
+COPY --chown=node:node --from=build /usr/src/app/prisma prisma
 COPY --chown=node:node --from=build /usr/src/app/public ./public
-
 COPY --chown=node:node --from=build /usr/src/app/.next/standalone ./
 COPY --chown=node:node --from=build /usr/src/app/.next/static ./.next/static
 
