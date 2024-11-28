@@ -4,7 +4,6 @@ import React from 'react'
 import CompanyAttributeForm from './_components/company-attribute-form';
 import { retriveCorporativeGroupOptions } from '@/server/corporative-group.actions';
 
-export const dynamic = 'force-dynamic'
 interface UserActionCompanyPageProps {
     params: { id: number }
 }

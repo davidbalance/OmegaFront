@@ -4,7 +4,6 @@ import CommandReportGenerateByDni from './_components/command-report-generate-dn
 import CommandResultFileCheckExcel from './_components/command-result-file-check-excel'
 import CommandResultFileCheckCount from './_components/command-result-file-check-count'
 
-export const dynamic = 'force-dynamic'
 const OmegaDeveloperCommandsPage: React.FC = () => {
   return (
     <>

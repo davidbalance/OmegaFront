@@ -2,7 +2,6 @@ import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import ExamSubtypeForm from './_components/exam-subtype-form';
 
-export const dynamic = 'force-dynamic'
 interface OmegaLaboratoryTypeSubtypePageProps {
     params: { id: number }
 }

@@ -4,7 +4,6 @@ import { retriveFileBlob } from '@/server/file.actions';
 import { ModalHeader, ModalCloseButton, ModalBody, Box, rem } from '@mantine/core';
 import React from 'react'
 
-export const dynamic = 'force-dynamic'
 interface ModalMedicalReportFileViewPageProps {
     params: { id: number }
 }

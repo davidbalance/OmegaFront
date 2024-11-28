@@ -3,7 +3,6 @@ import React from 'react'
 import MedicalResultReportForm from './_components/medical-result-report-form';
 import { retriveMedicalResultReport } from '@/server/medical-result.actions';
 
-export const dynamic = 'force-dynamic'
 interface OmegaMedicalResultReportPageProps {
     params: { id: number; }
 }

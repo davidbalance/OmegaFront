@@ -6,8 +6,8 @@ import omega from "@/lib/api-client/omega-client/omega";
 import { NextResponse } from "next/server";
 
 export async function GET() {
+    const session = await auth();
     try {
-        const session = await auth();
         const blob: Blob = await omega()
             .addToken(session.access_token)
             .execute('medicalResultFileCheckReport');

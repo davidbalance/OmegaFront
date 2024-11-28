@@ -7,14 +7,11 @@ import YearInputSelect from './_components/year-input-select';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Box, ScrollArea, Title } from '@mantine/core';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import { retriveMedicalOrderProcesses } from '@/server/medical-order.actions';
 
-export const dynamic = 'force-dynamic'
 const OmegaReportDiseasePage: React.FC = async () => {
 
   const yearOptions = await retriveMedicalDiseaseYear();
   const corporativeGroupOptions = await retriveCorporativeGroupOptions();
-  const processes = await retriveMedicalOrderProcesses();
 
   return (
     <Box style={{ position: 'relative', width: '100%', height: '100%' }}>

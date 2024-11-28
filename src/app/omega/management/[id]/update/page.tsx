@@ -3,7 +3,6 @@ import { retriveManagement } from '@/server/management.actions'
 import React from 'react'
 import ManagementForm from './_components/management-form'
 
-export const dynamic = 'force-dynamic'
 interface OmegaManagementUpdatePageProps {
     params: { id: number }
 }

@@ -1,5 +1,3 @@
-import Await from '@/components/_base/await';
-import ListBodySuspense from '@/components/_base/list/list-body.suspense';
 import ListRoot from '@/components/_base/list/list-root';
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root';
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section';
@@ -7,16 +5,13 @@ import ReloadButton from '@/components/_base/reload-button';
 import RemoveQueryButton from '@/components/_base/remove-query-button';
 import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
-import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import { Branch } from '@/lib/dtos/location/branch.response.dto';
-import { Company } from '@/lib/dtos/location/company.response.dto';
 import { countBranch, searchBranch } from '@/server/branch.actions';
 import { countCompany, searchCompany } from '@/server/company.actions';
 import { countCorporativeGroup, searchCorporativeGroup } from '@/server/corporative-group.actions';
 import { Group, rem, Box, Title } from '@mantine/core';
-import React, { Suspense } from 'react'
+import React from 'react'
 import CorporativeGroupHeader from './_components/corporative-group-header';
 import CorporativeGroupBody from './_components/corporative-group-body';
 import CompanyHeader from './_components/company-header';
@@ -24,12 +19,11 @@ import CompanyBody from './_components/company-body';
 import BranchHeader from './_components/branch-header';
 import BranchBody from './_components/branch-body';
 
-export const dynamic = 'force-dynamic'
 const take: number = 100;
 interface OmegaLocationPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
 }
-const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
+const OmegaLocationPage: React.FC<OmegaLocationPageProps> = async ({
     searchParams
 }) => {
 
@@ -52,22 +46,22 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
     const branchField = owner === 'branch' ? field : undefined;
     const branchPage = typeof searchParams.branchPage === 'string' ? Number(searchParams.branchPage) : 1;
 
-    const groupPromise = searchCorporativeGroup({ search: groupSearch, field: groupField, page: groupPage - 1, take: take, order: order as any });
-    const groupPagePromise = countCorporativeGroup({ search: groupSearch, take: take });
+    const groups = await searchCorporativeGroup({ search: groupSearch, field: groupField, page: groupPage - 1, take: take, order: order as any });
+    const groupPages = await countCorporativeGroup({ search: groupSearch, take: take });
 
-    const companyPromise = group
-        ? searchCompany(group, { search: companySearch, field: companyField, page: companyPage - 1, take: take, order: order as any })
-        : new Promise<Company[]>((resolve) => resolve([]));
-    const companyPagePromise = group
-        ? countCompany(group, { search: branchSearch, take: take })
-        : new Promise<number>((resolve) => resolve(0));
+    const companies = group
+        ? await searchCompany(group, { search: companySearch, field: companyField, page: companyPage - 1, take: take, order: order as any })
+        : [];
+    const companyPages = group
+        ? await countCompany(group, { search: branchSearch, take: take })
+        : 0;
 
-    const branchPromise = company
-        ? searchBranch(company, { search: branchSearch, field: branchField, page: branchPage - 1, take: take, order: order as any })
-        : new Promise<Branch[]>((resolve) => resolve([]));
-    const branchPagePromise = company
-        ? countBranch(company, { search: branchSearch, take: take })
-        : new Promise<number>((resolve) => resolve(0));
+    const branches = company
+        ? await searchBranch(company, { search: branchSearch, field: branchField, page: branchPage - 1, take: take, order: order as any })
+        : [];
+    const branchPages = company
+        ? await countBranch(company, { search: branchSearch, take: take })
+        : 0;
 
     return (
         <MultipleLayerRoot>
@@ -87,26 +81,16 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <CorporativeGroupHeader />
-                            <Suspense fallback={<ListBodySuspense />}>
-                                <Await promise={groupPromise}>
-                                    {(groups) => <CorporativeGroupBody active={group} groups={groups} />}
-                                </Await>
-                            </Suspense>
+                            <CorporativeGroupBody active={group} groups={groups} />
                         </ListRoot>
                     </ModularBox>
-                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-                        <Await promise={groupPagePromise}>
-                            {(pages) => (
-                                <>{pages > 1 && (
-                                    <ModularBox>
-                                        <ServerPagination
-                                            queryKey='groupPage'
-                                            page={groupPage}
-                                            total={pages} />
-                                    </ModularBox>)}</>
-                            )}
-                        </Await>
-                    </Suspense>
+                    {groupPages > 1 && (
+                        <ModularBox>
+                            <ServerPagination
+                                queryKey='groupPage'
+                                page={groupPage}
+                                total={groupPages} />
+                        </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
             <MultipleLayerSection active={!!group && !company}>
@@ -130,26 +114,16 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <CompanyHeader />
-                            <Suspense fallback={<ListBodySuspense />}>
-                                <Await promise={companyPromise}>
-                                    {(companies) => <CompanyBody active={company} companies={companies} />}
-                                </Await>
-                            </Suspense>
+                            <CompanyBody active={company} companies={companies} />
                         </ListRoot>
                     </ModularBox>
-                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-                        <Await promise={companyPagePromise}>
-                            {(pages) => (
-                                <>{pages > 1 && (
-                                    <ModularBox>
-                                        <ServerPagination
-                                            queryKey='companyPage'
-                                            page={companyPage}
-                                            total={pages} />
-                                    </ModularBox>)}</>
-                            )}
-                        </Await>
-                    </Suspense>
+                    {companyPages > 1 && (
+                        <ModularBox>
+                            <ServerPagination
+                                queryKey='companyPage'
+                                page={companyPage}
+                                total={companyPages} />
+                        </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
             <MultipleLayerSection active={!!group && !!company}>
@@ -173,26 +147,16 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <BranchHeader />
-                            <Suspense fallback={<ListBodySuspense />}>
-                                <Await promise={branchPromise}>
-                                    {(branches) => <BranchBody branches={branches} />}
-                                </Await>
-                            </Suspense>
+                            <BranchBody branches={branches} />
                         </ListRoot>
                     </ModularBox>
-                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-                        <Await promise={branchPagePromise}>
-                            {(pages) => (
-                                <>{pages > 1 && (
-                                    <ModularBox>
-                                        <ServerPagination
-                                            queryKey='branchPage'
-                                            page={groupPage}
-                                            total={pages} />
-                                    </ModularBox>)}</>
-                            )}
-                        </Await>
-                    </Suspense>
+                    {branchPages > 1 && (
+                        <ModularBox>
+                            <ServerPagination
+                                queryKey='branchPage'
+                                page={branchPage}
+                                total={branchPages} />
+                        </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
         </MultipleLayerRoot>)

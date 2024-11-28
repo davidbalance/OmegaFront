@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import ListRoot from '@/components/_base/list/list-root';
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root';
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section';
@@ -7,24 +7,20 @@ import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
 import { Box, Flex, Group, rem, Title } from '@mantine/core';
 import MedicalOrderHeader from './_components/medical-order-header';
-import ListBodySuspense from '@/components/_base/list/list-body.suspense';
 import { countMedicalOrderExpanded, searchMedicalOrderExpanded } from '@/server/medical-order.actions';
 import MedicalOrderBody from './_components/medical-order-body';
-import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
 import ServerPagination from '@/components/_base/server-pagination';
 import MedicalResultHeader from '@/components/medical-result-header';
 import { countMedicalResult, searchMedicalResult } from '@/server/medical-result.actions';
-import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import MedicalResultBody from '@/components/medical-result-body';
 import RemoveQueryButton from '@/components/_base/remove-query-button';
-import Await from '@/components/_base/await';
 import Search from '@/components/_base/search';
 
 const take: number = 100;
 interface OmegaAdminOrderPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
 }
-const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = ({
+const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = async ({
     searchParams
 }) => {
     const field = typeof searchParams.field === 'string' ? searchParams.field : undefined;
@@ -41,15 +37,15 @@ const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = ({
     const medicalResultField = owner === 'medicalResult' ? field : undefined;
     const medicalResultPage = typeof searchParams.medicalResultPage === 'string' ? Number(searchParams.medicalResultPage) : 1;
 
-    const medicalOrderPromise = searchMedicalOrderExpanded({ search: medicalOrderSearch, field: medicalOrderField, page: medicalOrderPage - 1, take: take, order: order as any });
-    const medicalOrderPagePromise = countMedicalOrderExpanded({ search: medicalOrderSearch, take: take });
+    const medicalOrders = await searchMedicalOrderExpanded({ search: medicalOrderSearch, field: medicalOrderField, page: medicalOrderPage - 1, take: take, order: order as any });
+    const medicalOrderPages = await countMedicalOrderExpanded({ search: medicalOrderSearch, take: take });
 
-    const medicalResultPromise = medicalOrder
-        ? searchMedicalResult(medicalOrder, { search: medicalResultSearch, field: medicalResultField, page: medicalResultPage - 1, take: take, order: order as any })
-        : new Promise<MedicalResult[]>((resolve) => resolve([]));
-    const medicalResultPagePromise = medicalOrder
-        ? countMedicalResult(medicalOrder, { search: medicalResultSearch, take: take })
-        : new Promise<number>((resolve) => resolve(0));
+    const medicalResults = medicalOrder
+        ? await searchMedicalResult(medicalOrder, { search: medicalResultSearch, field: medicalResultField, page: medicalResultPage - 1, take: take, order: order as any })
+        : [];
+    const medicalResultPages = medicalOrder
+        ? await countMedicalResult(medicalOrder, { search: medicalResultSearch, take: take })
+        : 0;
 
     return (
         <MultipleLayerRoot>
@@ -72,26 +68,16 @@ const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <MedicalOrderHeader />
-                            <Suspense fallback={<ListBodySuspense />}>
-                                <Await promise={medicalOrderPromise}>
-                                    {(orders) => <MedicalOrderBody active={medicalOrder} medicalOrders={orders} />}
-                                </Await>
-                            </Suspense>
+                            <MedicalOrderBody active={medicalOrder} medicalOrders={medicalOrders} />
                         </ListRoot>
                     </ModularBox>
-                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-                        <Await promise={medicalOrderPagePromise}>
-                            {(pages) => (
-                                <>{pages > 1 && (
-                                    <ModularBox>
-                                        <ServerPagination
-                                            queryKey='medicalOrderPage'
-                                            page={medicalOrderPage}
-                                            total={pages} />
-                                    </ModularBox>)}</>
-                            )}
-                        </Await>
-                    </Suspense>
+                    {medicalOrderPages > 1 && (
+                        <ModularBox>
+                            <ServerPagination
+                                queryKey='medicalOrderPage'
+                                page={medicalOrderPage}
+                                total={medicalOrderPages} />
+                        </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
             <MultipleLayerSection active={!!medicalOrder}>
@@ -117,26 +103,16 @@ const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <MedicalResultHeader />
-                            <Suspense fallback={<ListBodySuspense />}>
-                                <Await promise={medicalResultPromise}>
-                                    {(medicalResult) => <MedicalResultBody notEditReports medicalResult={medicalResult} order={medicalOrder} />}
-                                </Await>
-                            </Suspense>
+                            <MedicalResultBody notEditReports medicalResult={medicalResults} order={medicalOrder} />
                         </ListRoot>
                     </ModularBox>
-                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-                        <Await promise={medicalResultPagePromise}>
-                            {(pages) => (
-                                <>{pages > 1 && (
-                                    <ModularBox>
-                                        <ServerPagination
-                                            queryKey='medicalResultPage'
-                                            page={medicalResultPage}
-                                            total={pages} />
-                                    </ModularBox>)}</>
-                            )}
-                        </Await>
-                    </Suspense>
+                    {medicalResultPages > 1 && (
+                        <ModularBox>
+                            <ServerPagination
+                                queryKey='medicalResultPage'
+                                page={medicalResultPage}
+                                total={medicalResultPages} />
+                        </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
         </MultipleLayerRoot>);

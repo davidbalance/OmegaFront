@@ -1,5 +1,3 @@
-import Await from '@/components/_base/await';
-import ListBodySuspense from '@/components/_base/list/list-body.suspense';
 import ListRoot from '@/components/_base/list/list-root';
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root';
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section';
@@ -7,30 +5,26 @@ import ReloadButton from '@/components/_base/reload-button';
 import RemoveQueryButton from '@/components/_base/remove-query-button';
 import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
-import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import { Exam } from '@/lib/dtos/laboratory/exam/base.response.dto';
 import { Group, rem, Box, Title, Button } from '@mantine/core';
 import Link from 'next/link';
-import React, { Suspense } from 'react'
+import React from 'react'
 import ExamTypeHeader from './_components/exam-type-header';
 import ExamTypeBody from './_components/exam-type-body';
 import { countExamType, searchExamType } from '@/server/exam-type.actions';
 import { countExamSubtype, searchExamSubtype } from '@/server/exam-subtype.actions';
-import { ExamSubtype } from '@/lib/dtos/laboratory/exam/subtype/base.response.dto';
 import { countExam, searchExam } from '@/server/exam.actions';
 import ExamSubtypeHeader from './_components/exam-subtype-header';
 import ExamSubtypeBody from './_components/exam-subtype-body';
 import ExamHeader from './_components/exam-header';
 import ExamBody from './_components/exam-body';
 
-export const dynamic = 'force-dynamic'
 const take: number = 100;
 interface OmegaLaboratoryPageProps {
   searchParams: { [key: string]: string | string[] | undefined }
 }
-const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = ({
+const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = async ({
   searchParams
 }) => {
 
@@ -53,22 +47,22 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = ({
   const examField = owner === 'exam' ? field : undefined;
   const examPage = typeof searchParams.examPage === 'string' ? Number(searchParams.examPage) : 1;
 
-  const typePromise = searchExamType({ search: typeSearch, field: typeField, page: typePage - 1, take: take, order: order as any });
-  const typePagePromise = countExamType({ search: typeSearch, take: take });
+  const types = await searchExamType({ search: typeSearch, field: typeField, page: typePage - 1, take: take, order: order as any });
+  const typePages = await countExamType({ search: typeSearch, take: take });
 
-  const subtypePromise = type
-    ? searchExamSubtype(type, { search: subtypeSearch, field: subtypeField, page: subtypePage - 1, take: take, order: order as any })
-    : new Promise<ExamSubtype[]>((resolve) => resolve([]));
-  const subtypePagePromise = type
-    ? countExamSubtype(type, { search: examSearch, take: take })
-    : new Promise<number>((resolve) => resolve(0));
+  const subtypes = type
+    ? await searchExamSubtype(type, { search: subtypeSearch, field: subtypeField, page: subtypePage - 1, take: take, order: order as any })
+    : [];
+  const subtypePages = type
+    ? await countExamSubtype(type, { search: examSearch, take: take })
+    : 0;
 
-  const examPromise = subtype
-    ? searchExam(subtype, { search: examSearch, field: examField, page: examPage - 1, take: take, order: order as any })
-    : new Promise<Exam[]>((resolve) => resolve([]));
-  const examPagePromise = subtype
-    ? countExam(subtype, { search: examSearch, take: take })
-    : new Promise<number>((resolve) => resolve(0));
+  const exams = subtype
+    ? await searchExam(subtype, { search: examSearch, field: examField, page: examPage - 1, take: take, order: order as any })
+    : [];
+  const examPages = subtype
+    ? await countExam(subtype, { search: examSearch, take: take })
+    : 0;
 
   return (
     <MultipleLayerRoot>
@@ -88,26 +82,16 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = ({
           <ModularBox flex={1}>
             <ListRoot>
               <ExamTypeHeader />
-              <Suspense fallback={<ListBodySuspense />}>
-                <Await promise={typePromise}>
-                  {(types) => <ExamTypeBody active={type} types={types} />}
-                </Await>
-              </Suspense>
+              <ExamTypeBody active={type} types={types} />
             </ListRoot>
           </ModularBox>
-          <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-            <Await promise={typePagePromise}>
-              {(pages) => (
-                <>{pages > 1 && (
-                  <ModularBox>
-                    <ServerPagination
-                      queryKey='typePage'
-                      page={typePage}
-                      total={pages} />
-                  </ModularBox>)}</>
-              )}
-            </Await>
-          </Suspense>
+          {typePages > 1 && (
+            <ModularBox>
+              <ServerPagination
+                queryKey='typePage'
+                page={typePage}
+                total={typePages} />
+            </ModularBox>)}
         </ModularLayout>
       </MultipleLayerSection>
       <MultipleLayerSection active={!!type && !subtype}>
@@ -140,26 +124,16 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = ({
           <ModularBox flex={1}>
             <ListRoot>
               <ExamSubtypeHeader />
-              <Suspense fallback={<ListBodySuspense />}>
-                <Await promise={subtypePromise}>
-                  {(subtypes) => <ExamSubtypeBody active={subtype} subtypes={subtypes} />}
-                </Await>
-              </Suspense>
+              <ExamSubtypeBody active={subtype} subtypes={subtypes} />
             </ListRoot>
           </ModularBox>
-          <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-            <Await promise={subtypePagePromise}>
-              {(pages) => (
-                <>{pages > 1 && (
-                  <ModularBox>
-                    <ServerPagination
-                      queryKey='subtypePage'
-                      page={subtypePage}
-                      total={pages} />
-                  </ModularBox>)}</>
-              )}
-            </Await>
-          </Suspense>
+          {subtypePages > 1 && (
+            <ModularBox>
+              <ServerPagination
+                queryKey='subtypePage'
+                page={subtypePage}
+                total={subtypePages} />
+            </ModularBox>)}
         </ModularLayout>
       </MultipleLayerSection>
       <MultipleLayerSection active={!!type && !!subtype}>
@@ -183,26 +157,16 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = ({
           <ModularBox flex={1}>
             <ListRoot>
               <ExamHeader />
-              <Suspense fallback={<ListBodySuspense />}>
-                <Await promise={examPromise}>
-                  {(exams) => <ExamBody exams={exams} />}
-                </Await>
-              </Suspense>
+              <ExamBody exams={exams} />
             </ListRoot>
           </ModularBox>
-          <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-            <Await promise={examPagePromise}>
-              {(pages) => (
-                <>{pages > 1 && (
-                  <ModularBox>
-                    <ServerPagination
-                      queryKey='examPage'
-                      page={examPage}
-                      total={pages} />
-                  </ModularBox>)}</>
-              )}
-            </Await>
-          </Suspense>
+          {examPages > 1 && (
+            <ModularBox>
+              <ServerPagination
+                queryKey='examPage'
+                page={examPage}
+                total={examPages} />
+            </ModularBox>)}
         </ModularLayout>
       </MultipleLayerSection>
     </MultipleLayerRoot>)

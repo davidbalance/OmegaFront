@@ -3,7 +3,6 @@ import React from 'react'
 import ResourceForm from './_components/resource-form'
 import { retriveWebResource } from '@/server/web-resource.actions'
 
-export const dynamic = 'force-dynamic'
 interface OmegaDeveloperNavigationUpdatePageProps {
     params: { id: number }
 }

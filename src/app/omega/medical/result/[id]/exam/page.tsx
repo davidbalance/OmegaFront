@@ -4,7 +4,6 @@ import ExamForm from './_components/exam-form'
 import { retriveExamTypeOptions } from '@/server/exam-type.actions'
 import { retriveMedicalResult } from '@/server/medical-result.actions'
 
-export const dynamic = 'force-dynamic'
 interface ExamPageProps {
   params: { id: number }
 }

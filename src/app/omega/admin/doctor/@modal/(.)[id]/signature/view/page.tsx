@@ -3,7 +3,6 @@ import { retriveBlobSignature } from '@/server/doctor.actions';
 import { Box, ModalBody, ModalCloseButton, ModalHeader, rem } from '@mantine/core';
 import React from 'react'
 
-export const dynamic = 'force-dynamic'
 interface DoctorModalActionSignatureViewPageProps {
     params: { id: number }
 }

@@ -1,5 +1,3 @@
-import Await from '@/components/_base/await'
-import ListBodySuspense from '@/components/_base/list/list-body.suspense'
 import ListRoot from '@/components/_base/list/list-root'
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root'
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section'
@@ -7,15 +5,13 @@ import ReloadButton from '@/components/_base/reload-button'
 import RemoveQueryButton from '@/components/_base/remove-query-button'
 import Search from '@/components/_base/search'
 import ServerPagination from '@/components/_base/server-pagination'
-import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import ModularLayout from '@/components/modular/layout/ModularLayout'
-import { Area } from '@/lib/dtos/location/area/base.response.dto'
 import { countArea, searchArea } from '@/server/area.actions'
 import { countManagement, searchManagement } from '@/server/management.actions'
 import { Box, Button, Group, rem, Title } from '@mantine/core'
 import Link from 'next/link'
-import React, { Suspense } from 'react'
+import React from 'react'
 import ManagementHeader from './_components/management-header'
 import ManagementBody from './_components/management-body'
 import AreaHeader from './_components/area-header'
@@ -25,7 +21,7 @@ const take: number = 100;
 interface OmegaManagementPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
 }
-const OmegaManagementPage: React.FC<OmegaManagementPageProps> = ({
+const OmegaManagementPage: React.FC<OmegaManagementPageProps> = async ({
     searchParams
 }) => {
 
@@ -43,15 +39,15 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = ({
     const areaField = owner === 'area' ? field : undefined;
     const areaPage = typeof searchParams.areaPage === 'string' ? Number(searchParams.areaPage) : 1;
 
-    const managementPromise = searchManagement({ search: managementSearch, field: managementField, page: managementPage - 1, take: take, order: order as any });
-    const managementPagePromise = countManagement({ search: managementSearch, take: take });
+    const managements = await searchManagement({ search: managementSearch, field: managementField, page: managementPage - 1, take: take, order: order as any });
+    const managementPages = await countManagement({ search: managementSearch, take: take });
 
-    const areaPromise = management
-        ? searchArea(management, { search: areaSearch, field: areaField, page: areaPage - 1, take: take, order: order as any })
-        : new Promise<Area[]>((resolve) => resolve([]));
-    const areaPagePromise = management
-        ? countArea(management, { search: areaSearch, take: take })
-        : new Promise<number>((resolve) => resolve(0));
+    const areas = management
+        ? await searchArea(management, { search: areaSearch, field: areaField, page: areaPage - 1, take: take, order: order as any })
+        : [];
+    const areaPages = management
+        ? await countArea(management, { search: areaSearch, take: take })
+        : 0;
 
     return (
         <MultipleLayerRoot>
@@ -79,26 +75,16 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <ManagementHeader />
-                            <Suspense fallback={<ListBodySuspense />}>
-                                <Await promise={managementPromise}>
-                                    {(managements) => <ManagementBody active={management} managements={managements} />}
-                                </Await>
-                            </Suspense>
+                            <ManagementBody active={management} managements={managements} />
                         </ListRoot>
                     </ModularBox>
-                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-                        <Await promise={managementPagePromise}>
-                            {(pages) => (
-                                <>{pages > 1 && (
-                                    <ModularBox>
-                                        <ServerPagination
-                                            queryKey='managementPage'
-                                            page={managementPage}
-                                            total={pages} />
-                                    </ModularBox>)}</>
-                            )}
-                        </Await>
-                    </Suspense>
+                    {managementPages > 1 && (
+                        <ModularBox>
+                            <ServerPagination
+                                queryKey='managementPage'
+                                page={managementPage}
+                                total={managementPages} />
+                        </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
             <MultipleLayerSection active={!!management}>
@@ -131,26 +117,16 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <AreaHeader />
-                            <Suspense fallback={<ListBodySuspense />}>
-                                <Await promise={areaPromise}>
-                                    {(areas) => <AreaBody areas={areas} />}
-                                </Await>
-                            </Suspense>
+                            <AreaBody areas={areas} />
                         </ListRoot>
                     </ModularBox>
-                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-                        <Await promise={areaPagePromise}>
-                            {(pages) => (
-                                <>{pages > 1 && (
-                                    <ModularBox>
-                                        <ServerPagination
-                                            queryKey='areaPage'
-                                            page={areaPage}
-                                            total={pages} />
-                                    </ModularBox>)}</>
-                            )}
-                        </Await>
-                    </Suspense>
+                    {areaPages > 1 && (
+                        <ModularBox>
+                            <ServerPagination
+                                queryKey='areaPage'
+                                page={areaPage}
+                                total={areaPages} />
+                        </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
         </MultipleLayerRoot>)
