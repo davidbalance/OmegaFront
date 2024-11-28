@@ -323,6 +323,11 @@ const omegaMethodEndpoint = {
         options: { customHeader: ['auth'] }
     } as ApiResource,
 
+    doctorOptions: {
+        resource: 'user/doctors/options',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
     doctorSignatureImage: {
         resource: 'doctors/files/signature/:id',
         method: 'get',
@@ -543,6 +548,10 @@ const omegaMethodEndpoint = {
         options: { customHeader: ['auth'] }
     } as ApiResource,
 
+    medicalOrderCreate: {
+        resource: 'medical/orders/results',
+        method: 'post'
+    } as ApiResource,
     medicalOrderCloudDetails: {
         resource: 'medical/orders/cloud/:id',
         method: 'get'

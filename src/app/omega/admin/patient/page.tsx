@@ -109,7 +109,7 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                                 <Title order={4} component='span'>Ordenes medicas</Title>
                             </Box>
                             <Group gap={rem(4)}>
-                                <CreateButton route='/omega/medical/order/create' />
+                                {!!patient && <CreateButton route={`/omega/medical/order/create?patient=${patient}`} />}
                                 <ReloadButton />
                                 <RemoveQueryButton
                                     queries={['patient']}

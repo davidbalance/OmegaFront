@@ -8,6 +8,30 @@ import { FilterMeta, CountMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 import { revalidatePath } from "next/cache";
 
+export type CreateMedicalResult = {
+    examType: string;
+    examSubtype: string;
+    examName: string;
+    doctorDni: string;
+    doctorFullname: string;
+}
+export type CreateMedicalOrder = {
+    results: CreateMedicalResult[],
+    corporativeName: string,
+    companyName: string,
+    companyRuc: string,
+    branchName: string,
+    patientDni: string,
+    process: string
+}
+export const createMedicalOrder = async (body: CreateMedicalOrder): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addBody(body)
+        .addToken(session.access_token)
+        .execute('medicalOrderCreate');
+}
+
 export const retriveCloud = async (id: number): Promise<MedicalOrderCloud> => {
     const data: MedicalOrderCloud = await omega()
         .addParams({ id })
