@@ -7,6 +7,23 @@ import { Patient } from "@/lib/dtos/user/patient/base.response.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 import { revalidatePath } from "next/cache";
 
+export type CreateMedicalClient = {
+    name: string;
+    lastname: string;
+    dni: string;
+    email: string;
+    gender: string;
+    birthday: Date;
+    role?: string;
+}
+export const createMedicalClient = async (data: CreateMedicalClient): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addToken(session.access_token)
+        .addBody(data)
+        .execute('medicalClientCreate');
+}
+
 export const searchMedicalClientByDoctor = async (filter: FilterMeta): Promise<Patient[]> => {
     const session = await auth();
     const { data }: ObjectArray<Patient> = await omega()

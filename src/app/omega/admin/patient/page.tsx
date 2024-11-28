@@ -18,6 +18,7 @@ import { countMedicalOrder, searchMedicalOrder } from '@/server/medical-order.ac
 import MedicalResultBody from '@/components/medical-result-body'
 import MedicalResultHeader from '@/components/medical-result-header'
 import { searchMedicalResult, countMedicalResult } from '@/server/medical-result.actions'
+import CreateButton from '@/components/_base/create-button'
 
 const take: number = 100;
 interface PatientPageProps {
@@ -73,7 +74,10 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                             <Box style={{ flexShrink: 0 }}>
                                 <Title order={4} component='span'>Pacientes</Title>
                             </Box>
-                            <ReloadButton />
+                            <Group gap={rem(4)}>
+                                <CreateButton route='/omega/admin/patient/create' />
+                                <ReloadButton />
+                            </Group>
                         </Flex>
                     </ModularBox>
                     <ModularBox>
@@ -105,6 +109,7 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                                 <Title order={4} component='span'>Ordenes medicas</Title>
                             </Box>
                             <Group gap={rem(4)}>
+                                <CreateButton route='/omega/medical/order/create' />
                                 <ReloadButton />
                                 <RemoveQueryButton
                                     queries={['patient']}

@@ -485,6 +485,12 @@ const omegaMethodEndpoint = {
     //#endregion
 
     //#region Medical
+    medicalClientCreate: {
+        resource: 'medical/client',
+        method: 'post',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
     medicalClientByDoctorSearch: {
         resource: 'medical/client/doctor/paginate',
         method: 'get',
