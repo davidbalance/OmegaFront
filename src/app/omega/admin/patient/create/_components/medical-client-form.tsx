@@ -5,7 +5,7 @@ import ModularLayout from '@/components/modular/layout/ModularLayout'
 import { Box, Button, Grid, GridCol, rem, Stack, TextInput } from '@mantine/core'
 import { joiResolver, useForm } from '@mantine/form'
 import medicalClientSchema from '../_schema/medical-client.schema'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { createMedicalClient, CreateMedicalClient } from '@/server/medical-client.actions'
 import { useRouter } from 'next/navigation'
 import { notifications } from '@mantine/notifications'
@@ -39,7 +39,7 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
         validate: joiResolver(medicalClientSchema)
     });
 
-    const handleSubmit = async (data: CreateMedicalClient) => {
+    const handleSubmit = useCallback(async (data: CreateMedicalClient) => {
         setLoading(true);
         try {
             await createMedicalClient(data);
@@ -49,14 +49,14 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }
+    }, [router]);
 
     useEffect(() => {
         if (!!dni && dni.trim() !== '') form.setValues(e => ({ ...e, dni: dni }));
         if (!!name && name.trim() !== '') form.setValues(e => ({ ...e, name: name }));
         if (!!lastname && lastname.trim() !== '') form.setValues(e => ({ ...e, lastname: lastname }));
         console.log({ dni, name, lastname })
-    }, [dni, name, lastname]);
+    }, [form, dni, name, lastname]);
 
     return (
         <Box

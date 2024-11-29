@@ -33,4 +33,6 @@ const MedicalOrderLaboratoryTrigger = React.forwardRef<HTMLFormElement, MedicalO
     )
 });
 
+MedicalOrderLaboratoryTrigger.displayName = 'MedicalOrderLaboratoryTrigger'
+
 export default MedicalOrderLaboratoryTrigger

@@ -27,7 +27,7 @@ const MedicalOrderLaboratoryForm: React.FC<MedicalOrderLaboratoryFormProps> = ({
             add({ examName, examSubtype, examType });
             form.reset();
         }
-    }, [form]);
+    }, [form, add]);
 
     return (
         <Box component='form'

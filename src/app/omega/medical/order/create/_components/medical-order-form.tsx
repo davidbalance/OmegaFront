@@ -51,7 +51,7 @@ const MedicalOrderForm: React.FC<MedicalOrderFormProps> = ({
         }
     }, [active, nextStep, childrenCount]);
 
-    const handleCreation = async (data: any) => {
+    const handleCreation = useCallback(async (data: any) => {
         setLoading(true);
         try {
             await createMedicalOrder({ ...data, patientDni: patient });
@@ -61,7 +61,7 @@ const MedicalOrderForm: React.FC<MedicalOrderFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }
+    }, [patient]);
 
     const handleNextChange = useDebounceCallback(() => {
         const formElement = formRefs.current.get(active);
@@ -76,7 +76,7 @@ const MedicalOrderForm: React.FC<MedicalOrderFormProps> = ({
             handleCreation(formValues);
             setShouldFetch(false);
         }
-    }, [shouldFetch, formValues]);
+    }, [shouldFetch, formValues, handleCreation]);
 
     return (
         <>

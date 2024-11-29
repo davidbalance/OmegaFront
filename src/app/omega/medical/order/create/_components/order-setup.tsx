@@ -50,7 +50,7 @@ const OrderSetup = React.forwardRef<HTMLFormElement, OrderSetupProps>(({
             return;
         }
         onSubmit?.({ ...value, companyName });
-    }, [companies, onSubmit]);
+    }, [companies, onSubmit, data]);
 
     return (
         <Box
@@ -108,5 +108,7 @@ const OrderSetup = React.forwardRef<HTMLFormElement, OrderSetupProps>(({
         </Box>
     )
 });
+
+OrderSetup.displayName = 'OrderSetup';
 
 export default OrderSetup

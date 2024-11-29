@@ -32,4 +32,6 @@ const MedicalOrderLaboratoryRoot = React.forwardRef<HTMLFormElement, MedicalOrde
     )
 })
 
+MedicalOrderLaboratoryRoot.displayName = 'MedicalOrderLaboratoryRoot'
+
 export default MedicalOrderLaboratoryRoot

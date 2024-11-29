@@ -37,7 +37,7 @@ const DoctorForm = React.forwardRef<HTMLFormElement, DoctorFormProps>(({
             return;
         }
         onSubmit?.({ ...values, doctorFullname });
-    }, [onSubmit]);
+    }, [onSubmit, data, options]);
 
     return (
         <Box
@@ -58,6 +58,8 @@ const DoctorForm = React.forwardRef<HTMLFormElement, DoctorFormProps>(({
                 name='doctorDni'
                 {...form.getInputProps('doctorDni')} />
         </Box>)
-})
+});
+
+DoctorForm.displayName = 'DoctorForm'
 
 export default DoctorForm
