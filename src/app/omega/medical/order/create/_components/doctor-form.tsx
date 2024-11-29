@@ -4,13 +4,16 @@ import React, { useCallback } from 'react'
 import selectDoctorSchema from '../_schema/select-doctor.schema'
 import { joiResolver, useForm } from '@mantine/form';
 import { Box, Select } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 
-type DoctorFormProps = Omit<React.HTMLProps<HTMLFormElement>, 'ref'> & {
+type DoctorFormValue = {
+    doctorDni: string;
+    doctorFullname: string;
+}
+type DoctorFormProps = Omit<React.HTMLProps<HTMLFormElement>, 'ref' | 'onSubmit'> & {
     options: { value: string, label: string }[];
-    data?: {
-        doctorDni: string;
-        doctorFullname: string;
-    }
+    data?: DoctorFormValue,
+    onSubmit?: (value: DoctorFormValue) => void;
 };
 const DoctorForm = React.forwardRef<HTMLFormElement, DoctorFormProps>(({
     options,
@@ -19,7 +22,6 @@ const DoctorForm = React.forwardRef<HTMLFormElement, DoctorFormProps>(({
     ...props
 }, ref) => {
 
-
     const form = useForm({
         initialValues: {
             doctorDni: data?.doctorDni ?? ''
@@ -27,9 +29,14 @@ const DoctorForm = React.forwardRef<HTMLFormElement, DoctorFormProps>(({
         validate: joiResolver(selectDoctorSchema)
     });
 
-    const handleSubmit = useCallback((data: any, event: any) => {
-        console.log(data);
-        onSubmit?.(event);
+    const handleSubmit = useCallback((values: Omit<DoctorFormValue, 'doctorFullname'>) => {
+
+        const doctorFullname = options.find(e => e.value === values.doctorDni)?.label ?? data?.doctorFullname ?? undefined;
+        if (!doctorFullname) {
+            notifications.show({ message: 'Ha ocurrido un error al enviar la data' });
+            return;
+        }
+        onSubmit?.({ ...values, doctorFullname });
     }, [onSubmit]);
 
     return (
@@ -50,7 +57,6 @@ const DoctorForm = React.forwardRef<HTMLFormElement, DoctorFormProps>(({
                 maxDropdownHeight={200}
                 name='doctorDni'
                 {...form.getInputProps('doctorDni')} />
-            <input type="hidden" name='doctorFullname' value={options.find(e => e.value === form.values.doctorDni)?.label ?? data?.doctorFullname ?? ''} />
         </Box>)
 })
 

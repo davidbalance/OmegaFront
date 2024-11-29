@@ -6,7 +6,7 @@ import { Box, Button, Grid, GridCol, rem, Stack, TextInput } from '@mantine/core
 import { joiResolver, useForm } from '@mantine/form'
 import medicalClientSchema from '../_schema/medical-client.schema'
 import React, { useEffect, useState } from 'react'
-import { CreateMedicalClient } from '@/server/medical-client.actions'
+import { createMedicalClient, CreateMedicalClient } from '@/server/medical-client.actions'
 import { useRouter } from 'next/navigation'
 import { notifications } from '@mantine/notifications'
 import { DateInput } from '@mantine/dates'
@@ -42,7 +42,8 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
     const handleSubmit = async (data: CreateMedicalClient) => {
         setLoading(true);
         try {
-            console.log(data);
+            await createMedicalClient(data);
+            router.back();
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });
         } finally {
@@ -54,6 +55,7 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
         if (!!dni && dni.trim() !== '') form.setValues(e => ({ ...e, dni: dni }));
         if (!!name && name.trim() !== '') form.setValues(e => ({ ...e, name: name }));
         if (!!lastname && lastname.trim() !== '') form.setValues(e => ({ ...e, lastname: lastname }));
+        console.log({ dni, name, lastname })
     }, [dni, name, lastname]);
 
     return (

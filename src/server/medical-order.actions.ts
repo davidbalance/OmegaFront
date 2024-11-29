@@ -24,7 +24,23 @@ export type CreateMedicalOrder = {
     patientDni: string,
     process: string
 }
-export const createMedicalOrder = async (body: CreateMedicalOrder): Promise<void> => {
+export type CreateMedicalOrderPayload = {
+    exams: Omit<CreateMedicalResult, 'doctorDni' | 'doctorFullname'>[],
+    doctorDni: string;
+    doctorFullname: string;
+    corporativeName: string,
+    companyName: string,
+    companyRuc: string,
+    branchName: string,
+    patientDni: string,
+    process: string
+}
+export const createMedicalOrder = async ({ doctorDni, doctorFullname, exams, ...value }: CreateMedicalOrderPayload): Promise<void> => {
+
+    const body: CreateMedicalOrder = { ...value, results: exams.map(e => ({ ...e, doctorDni: doctorDni, doctorFullname: doctorFullname })) };
+
+    console.log(body);
+
     const session = await auth();
     await omega()
         .addBody(body)

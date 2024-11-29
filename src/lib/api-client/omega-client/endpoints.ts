@@ -493,7 +493,7 @@ const omegaMethodEndpoint = {
     medicalClientCreate: {
         resource: 'medical/client',
         method: 'post',
-        options: { customHeader: ['auth'] }
+        options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
 
     medicalClientByDoctorSearch: {
@@ -549,8 +549,9 @@ const omegaMethodEndpoint = {
     } as ApiResource,
 
     medicalOrderCreate: {
-        resource: 'medical/orders/results',
-        method: 'post'
+        resource: 'medical/order/results',
+        method: 'post',
+        options: { customHeader: ['auth', 'as-json'] }
     } as ApiResource,
     medicalOrderCloudDetails: {
         resource: 'medical/orders/cloud/:id',

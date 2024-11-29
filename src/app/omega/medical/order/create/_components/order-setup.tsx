@@ -6,17 +6,21 @@ import createOrderSchema from '../_schema/create-order.schema';
 import { CorporativeGroupOption } from '@/lib/dtos/location/corporative/base.response.dto';
 import { Box, Select, SimpleGrid } from '@mantine/core';
 import { joiResolver, useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 
-type OrderSetupProps = Omit<React.HTMLProps<HTMLFormElement>, 'ref'> & {
+type MedicalOrderFormProp = {
+    branchName: string,
+    companyName: string,
+    companyRuc: string,
+    corporativeName: string,
+    process: string,
+}
+
+type OrderSetupProps = Omit<React.HTMLProps<HTMLFormElement>, 'ref' | 'onSubmit'> & {
     corporativeGroupOptions: CorporativeGroupOption[];
     processOptions: string[];
-    data?: {
-        branchName: string,
-        companyName: string,
-        companyRuc: string,
-        corporativeName: string,
-        process: string,
-    }
+    data?: MedicalOrderFormProp,
+    onSubmit?: (data: MedicalOrderFormProp) => void;
 };
 const OrderSetup = React.forwardRef<HTMLFormElement, OrderSetupProps>(({
     corporativeGroupOptions,
@@ -39,8 +43,13 @@ const OrderSetup = React.forwardRef<HTMLFormElement, OrderSetupProps>(({
     const companies = useMemo(() => corporativeGroupOptions.find(e => e.name === form.values.corporativeName)?.companies || [], [corporativeGroupOptions, form.values.corporativeName]);
     const branches = useMemo(() => companies.find(e => e.ruc === form.values.companyRuc)?.branches || [], [companies, form.values.companyRuc]);
 
-    const handleSubmit = useCallback((data: any, event: any) => {
-        onSubmit?.(event);
+    const handleSubmit = useCallback((value: Omit<MedicalOrderFormProp, 'companyName'>) => {
+        const companyName = companies.find(e => value.companyRuc === e.ruc)?.name ?? data?.companyName ?? undefined;
+        if (!companyName) {
+            notifications.show({ message: 'Ha ocurrido un error al enviar la data' });
+            return;
+        }
+        onSubmit?.({ ...value, companyName });
     }, [companies, onSubmit]);
 
     return (
@@ -74,7 +83,6 @@ const OrderSetup = React.forwardRef<HTMLFormElement, OrderSetupProps>(({
                         maxDropdownHeight={200}
                         name='companyRuc'
                         {...form.getInputProps('companyRuc')} />
-                    <input type='hidden' name='companyName' value={companies.find(e => form.values.companyRuc === e.ruc)?.name ?? data?.companyName ?? ''} />
                     <Select
                         data={branches.map(e => ({ value: e.name, label: e.name }))}
                         label="Sucursales"

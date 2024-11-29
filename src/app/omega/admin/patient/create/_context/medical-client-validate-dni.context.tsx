@@ -35,12 +35,16 @@ const MedicalClientValidateDniProvider: React.FC<MedicalClientValidateDniProvide
 
     const validate = async (dni: string) => {
         try {
-            console.log(dni);
-            await validateDni(dni);
-            setDni(dni);
+            const data = await validateDni(dni);
+            setDni(data.dni);
+            setName(data.name);
+            setLastname(data.lastname);
         } catch (error) {
             console.error(error);
             notifications.show({ message: 'Ha ocurrido un error', color: 'red' });
+            setDni('');
+            setName('');
+            setLastname('');
         }
     }
 

@@ -27,7 +27,6 @@ const MedicalClientValidateDniForm: React.FC = () => {
     });
 
     const handleSubmit = async ({ dni }: { dni: string }) => {
-        console.log(dni);
         setLoading(true);
         await validate(dni);
         setLoading(false);

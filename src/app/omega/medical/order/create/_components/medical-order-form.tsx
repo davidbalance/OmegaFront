@@ -1,29 +1,29 @@
 'use client'
 
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { parseForm } from '@/lib/utils/form-parse';
 import { createMedicalOrder } from '@/server/medical-order.actions';
 import { Button, ButtonGroup, Flex, LoadingOverlay, rem, Stepper, StepperCompleted, StepperStep, Text } from '@mantine/core';
 import { useDebounceCallback } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconBuilding, IconChevronLeft, IconChevronRight, IconCircleCheck, IconDeviceFloppy, IconLicense, IconLock, IconUserCheck } from '@tabler/icons-react';
+import { IconBuilding, IconChevronLeft, IconChevronRight, IconCircleCheck, IconDeviceFloppy, IconMedicineSyrup, IconStethoscope } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 interface MedicalOrderFormProps {
+    patient: string;
     steps?: { description: string; icon: string }[];
-    children: React.ReactNode[]
+    children: React.ReactNode[];
 }
 
 const icon: Record<string, any> = {
-    'user-check': <IconUserCheck style={{ width: rem(16), height: rem(16) }} />,
-    'lock': <IconLock style={{ width: rem(16), height: rem(16) }} />,
-    'license': <IconLicense style={{ width: rem(16), height: rem(16) }} />,
+    'doctor': <IconStethoscope style={{ width: rem(16), height: rem(16) }} />,
     'building': <IconBuilding style={{ width: rem(16), height: rem(16) }} />,
+    'exam': <IconMedicineSyrup style={{ width: rem(16), height: rem(16) }} />,
 }
 
 const MedicalOrderForm: React.FC<MedicalOrderFormProps> = ({
     children,
+    patient,
     steps = []
 }) => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -38,17 +38,15 @@ const MedicalOrderForm: React.FC<MedicalOrderFormProps> = ({
     const nextStep = useCallback(() => setActive(prev => prev < childrenCount ? prev + 1 : prev), [childrenCount]);
     const prevStep = () => setActive(prev => prev > 0 ? prev - 1 : prev);
 
-    const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const currentValue: Record<string, string> = parseForm(event.currentTarget);
+    const handleSubmit = useCallback(async (event: any) => {
 
-        console.log(currentValue);
+        console.log(event);
 
         if (active !== childrenCount - 1) {
-            setFormValues((prev: any) => ({ ...prev, ...currentValue }));
+            setFormValues((prev: any) => ({ ...prev, ...event }));
             nextStep();
         } else {
-            setFormValues((prev: any) => ({ ...prev, ...currentValue }));
+            setFormValues((prev: any) => ({ ...prev, ...event }));
             setShouldFetch(true);
         }
     }, [active, nextStep, childrenCount]);
@@ -56,7 +54,7 @@ const MedicalOrderForm: React.FC<MedicalOrderFormProps> = ({
     const handleCreation = async (data: any) => {
         setLoading(true);
         try {
-            await createMedicalOrder(data);
+            await createMedicalOrder({ ...data, patientDni: patient });
             setActive(prev => prev + 1);
         } catch (error: any) {
             notifications.show({ message: error.message, color: 'red' });
@@ -68,7 +66,6 @@ const MedicalOrderForm: React.FC<MedicalOrderFormProps> = ({
     const handleNextChange = useDebounceCallback(() => {
         const formElement = formRefs.current.get(active);
         if (formElement) {
-            // formElement.submit();
             const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
             formElement.dispatchEvent(submitEvent);
         }
@@ -93,7 +90,10 @@ const MedicalOrderForm: React.FC<MedicalOrderFormProps> = ({
                     h='100%'
                     completedIcon={(
                         <IconCircleCheck style={{ width: rem(16), height: rem(16) }} />
-                    )}>
+                    )}
+                    styles={{
+                        content: { height: '90%' }
+                    }}>
                     {React.Children.map(children, (child, index) => {
                         let newChild = child;
                         if (React.isValidElement(child)) {

@@ -8,15 +8,3 @@ const schema = Joi.object({
 });
 
 export default schema;
-
-
-/* 
- {
-    corporativeName: string,
-    companyName: string,
-    companyRuc: string,
-    branchName: string,
-    process: string
-}
-*/
-
