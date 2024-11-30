@@ -548,6 +548,22 @@ const omegaMethodEndpoint = {
         options: { customHeader: ['auth'] }
     } as ApiResource,
 
+    medicalChecklistDetails: {
+        resource: 'checklist/:id',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    medicalChecklistUpdate: {
+        resource: 'checklist/:id',
+        method: 'patch',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+    medicalChecklistFileDownload: {
+        resource: 'checklist/pdf/:id',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
     medicalOrderCreate: {
         resource: 'medical/order/results',
         method: 'post',
