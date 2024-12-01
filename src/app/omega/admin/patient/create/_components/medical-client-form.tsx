@@ -31,7 +31,7 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
 
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-
+  
     const { data } = useMedicalClientValidateDni();
 
     const form = useForm({
@@ -113,8 +113,8 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
                                     ? (<GridCol span={12}>
                                         <TextInput
                                             label='Rol'
+                                            disabled={!data.dni && !data.lastname && !data.name}
                                             {...form.getInputProps('role')} />
-                                        disabled={!data.dni && !data.lastname && !data.name}
                                     </GridCol>)
                                     : null
                             }
