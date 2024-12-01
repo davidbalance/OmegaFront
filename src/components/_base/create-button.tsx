@@ -2,29 +2,21 @@
 
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
-import React, { useCallback } from 'react'
+import Link from 'next/link';
+import React from 'react'
 
-interface CreateButtonProps {
-    route: string
-}
-const CreateButton: React.FC<CreateButtonProps> = ({
-    route
+const CreateButton: React.FC<{ href: string }> = ({
+    href
 }) => {
-    const router = useRouter();
-
-    const handleClick = useCallback(() => {
-        router.push(route);
-    }, [router, route]);
-
     return (
         <Tooltip
             label='Crear'
             withArrow>
             <ActionIcon
+                component={Link}
+                href={href}
                 size='sm'
-                variant='light'
-                onClick={handleClick}>
+                variant='light'>
                 <IconPlus />
             </ActionIcon>
         </Tooltip>

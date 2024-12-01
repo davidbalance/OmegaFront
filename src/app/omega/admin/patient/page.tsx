@@ -75,7 +75,7 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                                 <Title order={4} component='span'>Pacientes</Title>
                             </Box>
                             <Group gap={rem(4)}>
-                                <CreateButton route='/omega/admin/patient/create' />
+                                <CreateButton href='/omega/admin/patient/create' />
                                 <ReloadButton />
                             </Group>
                         </Flex>
@@ -109,7 +109,7 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                                 <Title order={4} component='span'>Ordenes medicas</Title>
                             </Box>
                             <Group gap={rem(4)}>
-                                {!!patient && <CreateButton route={`/omega/medical/order/create?patient=${patient}`} />}
+                                {!!patient && <CreateButton href={`/omega/medical/order/create?patient=${patient}`} />}
                                 <ReloadButton />
                                 <RemoveQueryButton
                                     queries={['patient']}

@@ -18,6 +18,7 @@ import { Flex, rem, Box, Title, Group } from '@mantine/core';
 import PatientEeqHeader from './_components/patient-eeq-header';
 import PatientEeqListBody from './_components/patient-eeq-list-body';
 import Search from '@/components/_base/search';
+import CreateButton from '@/components/_base/create-button';
 
 const take: number = 100;
 interface OmegaAdminEeqPatientPageProps {
@@ -75,7 +76,10 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                             <Box style={{ flexShrink: 0 }}>
                                 <Title order={4} component='span'>Pacientes</Title>
                             </Box>
-                            <ReloadButton />
+                            <Group gap={rem(4)}>
+                                <CreateButton href='/omega/admin/patient/create' />
+                                <ReloadButton />
+                            </Group>
                         </Flex>
                     </ModularBox>
                     <ModularBox>
@@ -107,10 +111,13 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                                 <Title order={4} component='span'>Ordenes medicas</Title>
                             </Box>
                             <Group gap={rem(4)}>
-                                <ReloadButton />
-                                <RemoveQueryButton
-                                    queries={['patient']}
-                                    hiddenFrom='md' />
+                                <Group gap={rem(4)}>
+                                    {!!patient && <CreateButton href={`/omega/medical/order/create?patient=${patient}`} />}
+                                    <ReloadButton />
+                                    <RemoveQueryButton
+                                        queries={['patient']}
+                                        hiddenFrom='md' />
+                                </Group>
                             </Group>
                         </Flex>
                     </ModularBox>
