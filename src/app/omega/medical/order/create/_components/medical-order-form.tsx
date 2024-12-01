@@ -39,9 +39,6 @@ const MedicalOrderForm: React.FC<MedicalOrderFormProps> = ({
     const prevStep = () => setActive(prev => prev > 0 ? prev - 1 : prev);
 
     const handleSubmit = useCallback(async (event: any) => {
-
-        console.log(event);
-
         if (active !== childrenCount - 1) {
             setFormValues((prev: any) => ({ ...prev, ...event }));
             nextStep();

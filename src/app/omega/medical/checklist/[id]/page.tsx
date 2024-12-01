@@ -15,13 +15,12 @@ const MedicalChecklistPage: React.FC<MedicalChecklistPageProps> = async ({
   params
 }) => {
 
-
   let checklist = null;
 
   try {
     checklist = await retriveChecklist(params.id);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 
   if (!checklist) {

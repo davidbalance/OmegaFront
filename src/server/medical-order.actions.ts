@@ -39,8 +39,6 @@ export const createMedicalOrder = async ({ doctorDni, doctorFullname, exams, ...
 
     const body: CreateMedicalOrder = { ...value, results: exams.map(e => ({ ...e, doctorDni: doctorDni, doctorFullname: doctorFullname })) };
 
-    console.log(body);
-
     const session = await auth();
     await omega()
         .addBody(body)

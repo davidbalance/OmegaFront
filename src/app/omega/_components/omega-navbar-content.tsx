@@ -22,7 +22,8 @@ const OmegaNavbarContent: React.FC = async () => {
             <OmegaShellLink
               key={e.label}
               href={e.address}
-              {...e} />
+              label={e.label}
+              icon={e.icon} />
           ))
         }
       </OmegaShellSection>

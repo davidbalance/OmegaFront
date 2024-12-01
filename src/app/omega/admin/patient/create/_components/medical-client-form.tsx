@@ -55,7 +55,6 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
         if (!!dni && dni.trim() !== '') form.setValues(e => ({ ...e, dni: dni }));
         if (!!name && name.trim() !== '') form.setValues(e => ({ ...e, name: name }));
         if (!!lastname && lastname.trim() !== '') form.setValues(e => ({ ...e, lastname: lastname }));
-        console.log({ dni, name, lastname })
     }, [form, dni, name, lastname]);
 
     return (
