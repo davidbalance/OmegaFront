@@ -31,12 +31,12 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
 
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-  
+
     const { data } = useMedicalClientValidateDni();
 
     const form = useForm({
         initialValues: defaultValues,
-        validate: joiResolver(medicalClientSchema)
+        validate: joiResolver(medicalClientSchema),
     });
 
     const handleSubmit = useCallback(async (data: CreateMedicalClient) => {
@@ -52,9 +52,11 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
     }, [router]);
 
     useEffect(() => {
-        if (!!data.dni && data.dni.trim() !== '') form.setValues(e => ({ ...e, dni: data.dni }));
-        if (!!data.name && data.name.trim() !== '') form.setValues(e => ({ ...e, name: data.name }));
-        if (!!data.lastname && data.lastname.trim() !== '') form.setValues(e => ({ ...e, lastname: data.lastname }));
+        if (data.dni !== form.values.dni && data.lastname !== form.values.lastname && data.name !== form.values.name) {
+            if (!!data.dni && data.dni.trim() !== '') form.setValues(e => ({ ...e, dni: data.dni }));
+            if (!!data.name && data.name.trim() !== '') form.setValues(e => ({ ...e, name: data.name }));
+            if (!!data.lastname && data.lastname.trim() !== '') form.setValues(e => ({ ...e, lastname: data.lastname }));
+        }
     }, [form, data]);
 
     return (
