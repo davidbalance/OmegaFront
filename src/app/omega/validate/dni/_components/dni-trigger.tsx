@@ -16,7 +16,7 @@ const DNITrigger = () => {
         const search = new URLSearchParams();
         search.append('dni', dnis.toString());
         router.push(`${pathname}?${search.toString()}`);
-    }, [data]);
+    }, [data, router, pathname]);
 
     return (
         <Button size='xs' onClick={handleClick}>Validar</Button>

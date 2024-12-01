@@ -2,12 +2,14 @@
 
 import { validateDni } from "@/server/registro-civil.action";
 import { notifications } from "@mantine/notifications";
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 
 interface MedicalClientValidateDniContextPorps {
-    dni: string | undefined;
-    name: string | undefined;
-    lastname: string | undefined;
+    data: {
+        dni: string | undefined,
+        name: string | undefined,
+        lastname: string | undefined,
+    }
     validate: (dni: string) => Promise<void>;
 }
 
@@ -29,30 +31,22 @@ const MedicalClientValidateDniProvider: React.FC<MedicalClientValidateDniProvide
     children
 }) => {
 
-    const [dni, setDni] = useState<string | undefined>(undefined);
-    const [name, setName] = useState<string | undefined>(undefined);
-    const [lastname, setLastname] = useState<string | undefined>(undefined);
+    const [client, setClient] = useState<{ dni: string | undefined, name: string | undefined, lastname: string | undefined }>({ dni: undefined, lastname: undefined, name: undefined });
 
-    const validate = async (dni: string) => {
+    const validate = useCallback(async (dni: string) => {
         try {
             const data = await validateDni(dni);
-            setDni(data.dni);
-            setName(data.name);
-            setLastname(data.lastname);
+            setClient(data);
         } catch (error) {
             console.error(error);
             notifications.show({ message: 'Ha ocurrido un error', color: 'red' });
-            setDni('');
-            setName('');
-            setLastname('');
+            setClient({ dni: '', lastname: '', name: '' });
         }
-    }
+    }, [])
 
     return (
         <MedicalClientValidateDniContext.Provider value={{
-            dni,
-            name,
-            lastname,
+            data: client,
             validate
         }}>
             {children}
