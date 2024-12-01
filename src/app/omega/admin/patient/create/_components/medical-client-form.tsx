@@ -31,8 +31,8 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
 
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-
-    const { dni, lastname, name } = useMedicalClientValidateDni();
+  
+    const { data } = useMedicalClientValidateDni();
 
     const form = useForm({
         initialValues: defaultValues,
@@ -52,10 +52,10 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
     }, [router]);
 
     useEffect(() => {
-        if (!!dni && dni.trim() !== '') form.setValues(e => ({ ...e, dni: dni }));
-        if (!!name && name.trim() !== '') form.setValues(e => ({ ...e, name: name }));
-        if (!!lastname && lastname.trim() !== '') form.setValues(e => ({ ...e, lastname: lastname }));
-    }, [form, dni, name, lastname]);
+        if (!!data.dni && data.dni.trim() !== '') form.setValues(e => ({ ...e, dni: data.dni }));
+        if (!!data.name && data.name.trim() !== '') form.setValues(e => ({ ...e, name: data.name }));
+        if (!!data.lastname && data.lastname.trim() !== '') form.setValues(e => ({ ...e, lastname: data.lastname }));
+    }, [form, data]);
 
     return (
         <Box
@@ -73,39 +73,39 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
                                 <TextInput
                                     label='Nombre'
                                     placeholder='Juan Carlos'
-                                    disabled={!name}
+                                    disabled={!data.name}
                                     {...form.getInputProps('name')} />
                             </GridCol>
                             <GridCol span={6}>
                                 <TextInput
                                     label='Apellido'
                                     placeholder='Gomez Bolaños'
-                                    disabled={!lastname}
+                                    disabled={!data.lastname}
                                     {...form.getInputProps('lastname')} />
                             </GridCol>
                             <GridCol span={6}>
                                 <TextInput
                                     label='Cedula'
                                     placeholder='17XXXXXXXX'
-                                    disabled={!dni}
+                                    disabled={!data.dni}
                                     {...form.getInputProps('dni')} />
                             </GridCol>
                             <GridCol span={6}>
                                 <TextInput
                                     label='Correo electronico'
                                     placeholder='mi-correo@email.com'
-                                    disabled={!dni && !lastname && !name}
+                                    disabled={!data.dni && !data.lastname && !data.name}
                                     {...form.getInputProps('email')} />
                             </GridCol>
                             <GridCol span={6}>
                                 <MedicalClientGenderSelector
-                                    disabled={!dni && !lastname && !name}
+                                    disabled={!data.dni && !data.lastname && !data.name}
                                     {...form.getInputProps('gender')} />
                             </GridCol>
                             <GridCol span={6}>
                                 <DateInput
                                     label='Fecha de nacimiento'
-                                    disabled={!dni && !lastname && !name}
+                                    disabled={!data.dni && !data.lastname && !data.name}
                                     {...form.getInputProps('birthday')} />
                             </GridCol>
                             {
@@ -113,8 +113,8 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
                                     ? (<GridCol span={12}>
                                         <TextInput
                                             label='Rol'
+                                            disabled={!data.dni && !data.lastname && !data.name}
                                             {...form.getInputProps('role')} />
-                                        disabled={!dni && !lastname && !name}
                                     </GridCol>)
                                     : null
                             }
@@ -126,7 +126,7 @@ const MedicalClientForm: React.FC<MedicalClientFormProps> = ({
                         fullWidth
                         type='submit'
                         loading={loading}
-                        disabled={loading || (!dni && !lastname && !name)}>
+                        disabled={loading || (!data.dni && !data.lastname && !data.name)}>
                         Guardar
                     </Button>
                 </ModularBox>
