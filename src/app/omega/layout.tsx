@@ -1,7 +1,6 @@
 import { Box, Flex, rem, ScrollAreaAutosize, Stack } from "@mantine/core"
 import Footer from "@/components/footer/Footer"
 import ModularLayout from "@/components/modular/layout/ModularLayout"
-import { Suspense } from "react"
 import OmegaLogo from "./_components/omega-logo"
 import OmegaShellBurger from "./_components/omega-shell/omega-shell-burger"
 import OmegaShellHeader from "./_components/omega-shell/omega-shell-header"
@@ -10,10 +9,7 @@ import OmegaShellMain from "./_components/omega-shell/omega-shell-main"
 import OmegaShellNavbar from "./_components/omega-shell/omega-shell-navbar"
 import OmegaShellRoot from "./_components/omega-shell/omega-shell-root"
 import OmegaNavbarContent from "./_components/omega-navbar-content"
-import OmegaLogoSuspense from "./_components/omega-logo.suspense"
 import OmegaHeaderMenu from "./_components/omega-header-menu"
-import OmegaHeaderMenuSuspense from "./_components/omega-header-menu.suspense"
-import OmegaNavbarContentSuspense from "./_components/omega-navbar-content.suspense"
 
 const Layout: React.FC<{
     children: React.ReactNode,
@@ -22,7 +18,6 @@ const Layout: React.FC<{
     children,
     modal
 }) => {
-
         return (
             <OmegaShellRoot>
                 <OmegaShellHeader>
@@ -34,22 +29,16 @@ const Layout: React.FC<{
                         <Box
                             maw='100%'
                             m='auto'>
-                            <Suspense fallback={<OmegaLogoSuspense />}>
-                                <OmegaLogo />
-                            </Suspense>
+                            <OmegaLogo />
                         </Box>
-                        <Suspense fallback={<OmegaHeaderMenuSuspense />}>
-                            <OmegaHeaderMenu />
-                        </Suspense>
+                        <OmegaHeaderMenu />
                     </Flex>
                 </OmegaShellHeader>
                 <OmegaShellNavbar>
                     <Stack h='100%'>
                         <Box flex={1}>
                             <ScrollAreaAutosize mah={{ base: rem(400), md: rem(500) }} dir='rtl' w='fit-content'>
-                                <Suspense fallback={<OmegaNavbarContentSuspense />}>
-                                    <OmegaNavbarContent />
-                                </Suspense>
+                                <OmegaNavbarContent />
                             </ScrollAreaAutosize>
                         </Box>
                         <Flex

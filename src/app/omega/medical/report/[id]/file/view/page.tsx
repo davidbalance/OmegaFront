@@ -5,7 +5,6 @@ import { retriveFileBlob } from '@/server/file.actions';
 import { Flex, rem } from '@mantine/core';
 import React from 'react'
 
-export const dynamic = 'force-dynamic'
 interface MedicalReportFileViewPageProps {
   params: { id: number }
 }

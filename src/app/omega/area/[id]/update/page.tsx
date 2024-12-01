@@ -3,7 +3,6 @@ import React from 'react'
 import { retriveArea } from '@/server/area.actions'
 import AreaForm from './_components/area-form'
 
-export const dynamic = 'force-dynamic'
 interface AreaUpdatePageProps {
     params: { id: number }
 }

@@ -3,7 +3,6 @@ import { retriveDisease } from "@/server/disease.actions";
 import DiseaseGroupForm from "./_components/disease-group-form";
 import { retriveDiseaseOptions } from "@/server/disease-group.actions";
 
-export const dynamic = 'force-dynamic'
 interface OmegaDiseaseChangePageProps {
     params: { id: number }
 }

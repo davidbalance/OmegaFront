@@ -323,6 +323,11 @@ const omegaMethodEndpoint = {
         options: { customHeader: ['auth'] }
     } as ApiResource,
 
+    doctorOptions: {
+        resource: 'user/doctors/options',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
     doctorSignatureImage: {
         resource: 'doctors/files/signature/:id',
         method: 'get',
@@ -485,6 +490,12 @@ const omegaMethodEndpoint = {
     //#endregion
 
     //#region Medical
+    medicalClientCreate: {
+        resource: 'medical/client',
+        method: 'post',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+
     medicalClientByDoctorSearch: {
         resource: 'medical/client/doctor/paginate',
         method: 'get',
@@ -537,6 +548,27 @@ const omegaMethodEndpoint = {
         options: { customHeader: ['auth'] }
     } as ApiResource,
 
+    medicalChecklistDetails: {
+        resource: 'checklist/:id',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+    medicalChecklistUpdate: {
+        resource: 'checklist/:id',
+        method: 'patch',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
+    medicalChecklistFileDownload: {
+        resource: 'checklist/pdf/:id',
+        method: 'get',
+        options: { customHeader: ['auth'] }
+    } as ApiResource,
+
+    medicalOrderCreate: {
+        resource: 'medical/order/results',
+        method: 'post',
+        options: { customHeader: ['auth', 'as-json'] }
+    } as ApiResource,
     medicalOrderCloudDetails: {
         resource: 'medical/orders/cloud/:id',
         method: 'get'

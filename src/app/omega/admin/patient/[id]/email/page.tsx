@@ -1,12 +1,9 @@
-import React, { Suspense } from 'react'
-
+import React from 'react'
 import ReturnableHeader from '@/components/_base/returnable-header';
 import { MedicalClientEmailForm } from '@/components/medical-client-email-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import ListBodySuspense from '@/components/_base/list/list-body.suspense';
 import ListRoot from '@/components/_base/list/list-root';
 import ListThead from '@/components/_base/list/list-thead';
-import Await from '@/components/_base/await';
 import ListTh from '@/components/_base/list/list-th';
 import { Text } from '@mantine/core';
 import { retriveMedicalClientEmail } from '@/server/medical-email.actions';
@@ -16,12 +13,12 @@ interface PatientActionEmailPageProps {
   params: { id: string }
 }
 
-const PatientActionEmailPage: React.FC<PatientActionEmailPageProps> = ({
+const PatientActionEmailPage: React.FC<PatientActionEmailPageProps> = async ({
   params
 }) => {
 
   const dni: string = params.id;
-  const emailPromise = retriveMedicalClientEmail(dni);
+  const email = await retriveMedicalClientEmail(dni);
 
   return (
     <>
@@ -36,11 +33,7 @@ const PatientActionEmailPage: React.FC<PatientActionEmailPageProps> = ({
               <Text>Correo electronico</Text>
             </ListTh>
           </ListThead>
-          <Suspense fallback={<ListBodySuspense />}>
-            <Await promise={emailPromise}>
-              {(email) => <MedicalClientEmailListBody email={email} />}
-            </Await>
-          </Suspense>
+          <MedicalClientEmailListBody email={email} />
         </ListRoot>
       </ModularBox>
     </>

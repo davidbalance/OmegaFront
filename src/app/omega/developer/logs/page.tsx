@@ -1,18 +1,15 @@
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { countLog, retriveLogLevels, searchLog } from '@/server/logger.action';
 import { Group, Stack } from '@mantine/core';
-import React, { Suspense } from 'react'
+import React from 'react'
 import LogLevel from './_components/log-level';
 import LogDate from './_components/log-date';
-import Await from '@/components/_base/await';
 import ServerPagination from '@/components/_base/server-pagination';
-import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
 import LogBody from './_components/log-body';
 import DeveloperLog from '@/components/developer/logs/developer-log';
 import dayjs from 'dayjs';
 import ReloadButton from '@/components/_base/reload-button';
 
-export const dynamic = 'force-dynamic'
 const take = 100;
 interface OmegaDeveloperLogsPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -29,8 +26,8 @@ const OmegaDeveloperLogsPage: React.FC<OmegaDeveloperLogsPageProps> = async ({
 
     const levels = await retriveLogLevels();
 
-    const logPromise = searchLog({ page: page - 1, take: take, fromDate, level, toDate });
-    const logPagePromise = countLog({ take: take, fromDate, level, toDate });
+    const logs = await searchLog({ page: page - 1, take: take, fromDate, level, toDate });
+    const logPages = await countLog({ take: take, fromDate, level, toDate });
 
     return (
         <>
@@ -48,26 +45,16 @@ const OmegaDeveloperLogsPage: React.FC<OmegaDeveloperLogsPageProps> = async ({
                 </ModularBox>
             </Group>
             <ModularBox flex={1}>
-                <Suspense>
-                    <Await promise={logPromise}>
-                        {(logs) => <LogBody>{
-                            logs.map(e => <DeveloperLog key={Math.random()} {...e} />)
-                        }</LogBody>}
-                    </Await>
-                </Suspense>
+                <LogBody>{
+                    logs.map(e => <DeveloperLog key={Math.random()} {...e} />)
+                }</LogBody>
             </ModularBox>
-            <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-                <Await promise={logPagePromise}>
-                    {(pages) => (
-                        <>{pages > 1 && (
-                            <ModularBox>
-                                <ServerPagination
-                                    page={page}
-                                    total={pages} />
-                            </ModularBox>)}
-                        </>)}
-                </Await>
-            </Suspense>
+            {logPages > 1 && (
+                <ModularBox>
+                    <ServerPagination
+                        page={page}
+                        total={logPages} />
+                </ModularBox>)}
         </>
     )
 }

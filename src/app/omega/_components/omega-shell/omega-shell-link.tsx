@@ -28,7 +28,7 @@ const OmegaShellLink: React.FC<OmegaShellLinkProps> = ({ label, icon, ...props }
             label={label}
             position="right"
             withArrow
-            disabled={opened}>
+            disabled={opened ? true : false}>
             <Link
                 onClick={close}
                 className={clsx(classes.shellNavbarButton, classes.shellLink, { [classes.open]: opened })}

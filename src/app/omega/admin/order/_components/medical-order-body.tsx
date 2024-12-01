@@ -2,11 +2,10 @@ import AddQueryParam from '@/components/_base/add-query-param'
 import ListRow from '@/components/_base/list/list-row'
 import ListTbody from '@/components/_base/list/list-tbody'
 import { MedicalOrderExpanded } from '@/lib/dtos/medical/order/base.response.dto'
-import { Group, MenuItem, rem, SimpleGrid, Stack, Text, Title } from '@mantine/core'
+import { Group, rem, SimpleGrid, Stack, Text, Title } from '@mantine/core'
 import dayjs from 'dayjs'
-import React, { Suspense } from 'react'
+import React from 'react'
 import MedicalOrderEmail from '@/components/medical-order-mail/medical-order-email'
-import MedicalOrderEmailSuspense from '@/components/medical-order-mail/medical-order-email.suspense'
 import MedicalOrderValidateButton from '@/components/medical-order-validate-button'
 
 interface MedicalOrderBodyProps {
@@ -47,12 +46,10 @@ const MedicalOrderBody: React.FC<MedicalOrderBodyProps> = async ({
                             </Stack>
                         </AddQueryParam>
                         <Group wrap='nowrap'>
-                            <Suspense fallback={<MedicalOrderEmailSuspense />}>
-                                <MedicalOrderEmail
-                                    order={e.id}
-                                    status={e.mailStatus}
-                                    dni={e.dni} />
-                            </Suspense>
+                            <MedicalOrderEmail
+                                order={e.id}
+                                status={e.mailStatus}
+                                dni={e.dni} />
                             <MedicalOrderValidateButton
                                 id={e.id}
                                 orderStatus={e.orderStatus} />

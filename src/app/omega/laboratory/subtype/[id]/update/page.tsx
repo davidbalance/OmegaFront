@@ -3,7 +3,6 @@ import { retriveExamSubtype } from '@/server/exam-subtype.actions';
 import React from 'react'
 import ExamSubtypeForm from './_components/exam-subtype-form';
 
-export const dynamic = 'force-dynamic'
 interface OmegaLaboratorySubtypePageProps {
     params: { id: number }
 }

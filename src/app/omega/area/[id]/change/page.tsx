@@ -3,7 +3,6 @@ import ChangeManagementForm from "./_components/change-management-form";
 import { retriveArea } from "@/server/area.actions";
 import { retriveManagementOptions } from "@/server/management.actions";
 
-export const dynamic = 'force-dynamic'
 interface OmegaAreaChangePageProps {
     params: { id: number }
 }

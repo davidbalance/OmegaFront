@@ -25,6 +25,14 @@ export const countDoctor = async (filter: CountMeta): Promise<number> => {
     return pages;
 }
 
+export const retriveDoctorOptions = async (): Promise<Doctor[]> => {
+    const session = await auth();
+    const { data }: ObjectArray<Doctor> = await omega()
+        .addToken(session.access_token)
+        .execute('doctorOptions');
+    return data;
+}
+
 export const retriveBlobSignature = async (id: number): Promise<Blob> => {
     const session = await auth();
     if (!session) throw new Error('There is no session found');

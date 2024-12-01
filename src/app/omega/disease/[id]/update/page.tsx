@@ -3,7 +3,6 @@ import React from 'react'
 import DiseaseForm from './_components/disease-form'
 import { retriveDisease } from '@/server/disease.actions'
 
-export const dynamic = 'force-dynamic'
 interface OmegaDiseaseUpdatePageProps {
     params: { id: number }
 }

@@ -10,7 +10,6 @@ import DiseaseListBody from './_components/disease-list-body'
 import { retriveDiseaseOptions } from '@/server/disease-group.actions'
 import { retriveMedicalDiseases } from '@/server/medical-disease.actions'
 
-export const dynamic = 'force-dynamic'
 interface MedicalResultDiseasePageProps {
   params: { id: number }
 }

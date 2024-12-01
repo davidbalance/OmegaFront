@@ -1,7 +1,7 @@
 'use client'
 
 import { ServerLog } from '@/lib/dtos/logs/log.response.dto'
-import { Box, Collapse, Text, UnstyledButton, Grid, Divider, Title, DefaultMantineColor, Flex } from '@mantine/core';
+import { Box, Collapse, Text, UnstyledButton, Grid, Divider, Title, DefaultMantineColor, Flex, GridCol } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import dayjs from 'dayjs';
@@ -33,7 +33,7 @@ const DeveloperLog: React.FC<DeveloperLog> = ({
                 className={styles.control}
                 onClick={toggle}>
                 <Grid>
-                    <Grid.Col span={7}>
+                    <GridCol span={7}>
                         <Title order={5}>
                             {dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss')}
                         </Title>
@@ -42,8 +42,8 @@ const DeveloperLog: React.FC<DeveloperLog> = ({
                                 {message}
                             </Text>
                         </Box>
-                    </Grid.Col>
-                    <Grid.Col span={4}>
+                    </GridCol>
+                    <GridCol span={4}>
                         <Flex
                             h='100%'
                             align='center'
@@ -57,12 +57,12 @@ const DeveloperLog: React.FC<DeveloperLog> = ({
                             </Title>
                             <Divider size="sm" orientation="vertical" />
                         </Flex>
-                    </Grid.Col>
-                    <Grid.Col span={1}>
+                    </GridCol>
+                    <GridCol span={1}>
                         <Flex h='100%' align='center'>
                             {opened ? <IconChevronUp /> : <IconChevronDown />}
                         </Flex>
-                    </Grid.Col>
+                    </GridCol>
                 </Grid>
             </UnstyledButton>
 

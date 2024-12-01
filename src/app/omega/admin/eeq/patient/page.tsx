@@ -1,34 +1,30 @@
-import React, { Suspense } from 'react'
-import ListBodySuspense from '@/components/_base/list/list-body.suspense';
+import React from 'react'
 import ListRoot from '@/components/_base/list/list-root';
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root';
 import MultipleLayerSection from '@/components/_base/multiple-layer/multiple-layer-section';
 import ReloadButton from '@/components/_base/reload-button';
 import RemoveQueryButton from '@/components/_base/remove-query-button';
 import ServerPagination from '@/components/_base/server-pagination';
-import ServerPaginationSuspense from '@/components/_base/server-pagination.suspense';
 import MedicalOrderHeader from '@/components/medical-order-header';
 import MedicalOrderListBody from '@/components/medical-order-list-body';
 import MedicalResultBody from '@/components/medical-result-body';
 import MedicalResultHeader from '@/components/medical-result-header';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import { MedicalOrder } from '@/lib/dtos/medical/order/base.response.dto';
-import { MedicalResult } from '@/lib/dtos/medical/result/base.response.dto';
 import { searchMedicalOrder, countMedicalOrder } from '@/server/medical-order.actions';
 import { searchMedicalResult, countMedicalResult } from '@/server/medical-result.actions';
 import { countPatientEeq, searchPatientEeq } from '@/server/patient.actions';
 import { Flex, rem, Box, Title, Group } from '@mantine/core';
 import PatientEeqHeader from './_components/patient-eeq-header';
 import PatientEeqListBody from './_components/patient-eeq-list-body';
-import Await from '@/components/_base/await';
 import Search from '@/components/_base/search';
+import CreateButton from '@/components/_base/create-button';
 
 const take: number = 100;
 interface OmegaAdminEeqPatientPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
 }
-const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = ({
+const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async ({
     searchParams
 }) => {
 
@@ -51,22 +47,22 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = ({
     const medicalResultField = owner === 'medicalResult' ? field : undefined;
     const medicalResultPage = typeof searchParams.medicalResultPage === 'string' ? Number(searchParams.medicalResultPage) : 1;
 
-    const patientPromise = searchPatientEeq({ search: patientSearch, field: patientField, page: patientPage - 1, take: take, order: order as any });
-    const patientPagePromise = countPatientEeq({ search: patientSearch, take: take });
+    const patients = await searchPatientEeq({ search: patientSearch, field: patientField, page: patientPage - 1, take: take, order: order as any });
+    const patientPages = await countPatientEeq({ search: patientSearch, take: take });
 
-    const medicalOrderPromise = patient
-        ? searchMedicalOrder(patient, { search: medicalOrderSearch, field: medicalOrderField, page: medicalOrderPage - 1, take: take, order: order as any })
-        : new Promise<MedicalOrder[]>((resolve) => resolve([]));
-    const medicalOrderPagePromise = patient
-        ? countMedicalOrder(patient, { search: medicalOrderSearch, take: take })
-        : new Promise<number>((resolve) => resolve(0));
+    const medicalOrders = patient
+        ? await searchMedicalOrder(patient, { search: medicalOrderSearch, field: medicalOrderField, page: medicalOrderPage - 1, take: take, order: order as any })
+        : [];
+    const medicalOrderPages = patient
+        ? await countMedicalOrder(patient, { search: medicalOrderSearch, take: take })
+        : 0;
 
-    const medicalResultPromise = medicalOrder
-        ? searchMedicalResult(medicalOrder, { search: medicalResultSearch, field: medicalResultField, page: medicalResultPage - 1, take: take, order: order as any })
-        : new Promise<MedicalResult[]>((resolve) => resolve([]));
-    const medicalResultPagePromise = medicalOrder
-        ? countMedicalResult(medicalOrder, { search: medicalResultSearch, take: take })
-        : new Promise<number>((resolve) => resolve(0));
+    const medicalResults = medicalOrder
+        ? await searchMedicalResult(medicalOrder, { search: medicalResultSearch, field: medicalResultField, page: medicalResultPage - 1, take: take, order: order as any })
+        : [];
+    const medicalResultPages = medicalOrder
+        ? await countMedicalResult(medicalOrder, { search: medicalResultSearch, take: take })
+        : 0;
 
     return (
         <MultipleLayerRoot>
@@ -80,7 +76,10 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = ({
                             <Box style={{ flexShrink: 0 }}>
                                 <Title order={4} component='span'>Pacientes</Title>
                             </Box>
-                            <ReloadButton />
+                            <Group gap={rem(4)}>
+                                <CreateButton href='/omega/admin/patient/create' />
+                                <ReloadButton />
+                            </Group>
                         </Flex>
                     </ModularBox>
                     <ModularBox>
@@ -89,26 +88,16 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <PatientEeqHeader />
-                            <Suspense fallback={<ListBodySuspense />}>
-                                <Await promise={patientPromise}>
-                                    {(patients) => <PatientEeqListBody action active={patient} patients={patients} />}
-                                </Await>
-                            </Suspense>
+                            <PatientEeqListBody action active={patient} patients={patients} />
                         </ListRoot>
                     </ModularBox>
-                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-                        <Await promise={patientPagePromise}>
-                            {(pages) => (
-                                <>{pages > 1 && (
-                                    <ModularBox>
-                                        <ServerPagination
-                                            queryKey='patientPage'
-                                            page={patientPage}
-                                            total={pages} />
-                                    </ModularBox>)}
-                                </>)}
-                        </Await>
-                    </Suspense>
+                    {patientPages > 1 && (
+                        <ModularBox>
+                            <ServerPagination
+                                queryKey='patientPage'
+                                page={patientPage}
+                                total={patientPages} />
+                        </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
             <MultipleLayerSection active={!!patient && !medicalOrder}>
@@ -122,10 +111,13 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = ({
                                 <Title order={4} component='span'>Ordenes medicas</Title>
                             </Box>
                             <Group gap={rem(4)}>
-                                <ReloadButton />
-                                <RemoveQueryButton
-                                    queries={['patient']}
-                                    hiddenFrom='md' />
+                                <Group gap={rem(4)}>
+                                    {!!patient && <CreateButton href={`/omega/medical/order/create?patient=${patient}`} />}
+                                    <ReloadButton />
+                                    <RemoveQueryButton
+                                        queries={['patient']}
+                                        hiddenFrom='md' />
+                                </Group>
                             </Group>
                         </Flex>
                     </ModularBox>
@@ -135,26 +127,16 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <MedicalOrderHeader />
-                            <Suspense fallback={<ListBodySuspense />}>
-                                <Await promise={medicalOrderPromise}>
-                                    {(orders) => patient ? <MedicalOrderListBody action active={medicalOrder} orders={orders} dni={patient} /> : <></>}
-                                </Await>
-                            </Suspense>
+                            {patient ? <MedicalOrderListBody action active={medicalOrder} orders={medicalOrders} dni={patient} /> : <></>}
                         </ListRoot>
                     </ModularBox>
-                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-                        <Await promise={medicalOrderPagePromise}>
-                            {(pages) => (
-                                <>{pages > 1 && (
-                                    <ModularBox>
-                                        <ServerPagination
-                                            queryKey='medicalOrderPage'
-                                            page={medicalOrderPage}
-                                            total={pages} />
-                                    </ModularBox>)}
-                                </>)}
-                        </Await>
-                    </Suspense>
+                    {medicalOrderPages > 1 && (
+                        <ModularBox>
+                            <ServerPagination
+                                queryKey='medicalOrderPage'
+                                page={medicalOrderPage}
+                                total={medicalOrderPages} />
+                        </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
             <MultipleLayerSection active={!!patient && !!medicalOrder}>
@@ -180,26 +162,16 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <MedicalResultHeader />
-                            <Suspense fallback={<ListBodySuspense />}>
-                                <Await promise={medicalResultPromise}>
-                                    {(medicalResult) => <MedicalResultBody notEditReports medicalResult={medicalResult} order={medicalOrder} />}
-                                </Await>
-                            </Suspense>
+                            <MedicalResultBody notEditReports medicalResult={medicalResults} order={medicalOrder} />
                         </ListRoot>
                     </ModularBox>
-                    <Suspense fallback={<ModularBox><ServerPaginationSuspense /></ModularBox>}>
-                        <Await promise={medicalResultPagePromise}>
-                            {(pages) => (
-                                <>{pages > 1 && (
-                                    <ModularBox>
-                                        <ServerPagination
-                                            queryKey='medicalResultPage'
-                                            page={medicalResultPage}
-                                            total={pages} />
-                                    </ModularBox>)}</>
-                            )}
-                        </Await>
-                    </Suspense>
+                    {medicalResultPages > 1 && (
+                        <ModularBox>
+                            <ServerPagination
+                                queryKey='medicalResultPage'
+                                page={medicalResultPage}
+                                total={medicalResultPages} />
+                        </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
         </MultipleLayerRoot>
