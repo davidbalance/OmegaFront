@@ -2,25 +2,31 @@
 
 import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth/auth";
-import { Area } from "@/lib/dtos/location/area/base.response.dto"
+import { Area, AreaOption } from "@/lib/dtos/location/area/base.response.dto"
 import { CountMeta, FilterMeta, PageCount } from "@/lib/dtos/pagination.dto";
 import { ObjectArray } from "@/lib/interfaces/object-array.interface";
 import { revalidatePath } from "next/cache";
 
-export const searchArea = async (management: number, filter: FilterMeta): Promise<Area[]> => {
+export const retriveAreaOptions = async (): Promise<AreaOption[]> => {
+    const session = await auth();
+    const { data }: ObjectArray<AreaOption> = await omega()
+        .addToken(session.access_token)
+        .execute('areaOptions');
+    return data;
+}
+
+export const searchArea = async (filter: FilterMeta): Promise<Area[]> => {
     const session = await auth();
     const { data }: ObjectArray<Area> = await omega()
-        .addParams({ management })
         .addQuery({ ...filter })
         .addToken(session.access_token)
         .execute('areaSearch');
     return data;
 }
 
-export const countArea = async (management: number, filter: CountMeta): Promise<number> => {
+export const countArea = async (filter: CountMeta): Promise<number> => {
     const session = await auth();
     const { pages }: PageCount = await omega()
-        .addParams({ management })
         .addQuery({ ...filter })
         .addToken(session.access_token)
         .execute('areaPages');

@@ -23,11 +23,7 @@ const ManagementBody: React.FC<ManagementBodyProps> = ({ active, managements }) 
                     hoverable={true}
                     key={e.id}>
                     <Group justify='space-between' align='center' wrap='nowrap'>
-                        <AddQueryParam
-                            value={e.id.toString()}
-                            query='management'>
-                            <Title order={6}>{e.name}</Title>
-                        </AddQueryParam>
+                        <Title order={6}>{e.name}</Title>
                         <ActionMenuProvider>
                             <ActionMenu>
                                 <MenuLabel>Administracion</MenuLabel>

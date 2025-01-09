@@ -13,7 +13,8 @@ import React, { FormEvent, useCallback, useRef, useState } from 'react'
 
 interface PatientActionAreaFormProps {
     dni: string;
-    options: ManagementOption[];
+    managementOptions: ManagementOption[];
+    areaOptions: ManagementOption[];
     area?: number;
     management?: number;
 }

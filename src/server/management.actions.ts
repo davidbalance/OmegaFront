@@ -67,15 +67,6 @@ export const updateManagement = async (id: number, data: ManagementBody): Promis
 export const deleteManagement = async (id: number): Promise<void> => {
     const session = await auth();
 
-    const { hasValue }: HasValue = await omega()
-        .addParams({ id })
-        .addToken(session.access_token)
-        .execute('managementHasAreas');
-
-    if (hasValue) {
-        throw new Error('La generecia tiene areas asignadas');
-    }
-
     await omega()
         .addParams({ id })
         .addToken(session.access_token)

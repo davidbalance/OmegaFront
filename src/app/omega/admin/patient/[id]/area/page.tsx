@@ -3,6 +3,7 @@ import { retriveManagementOptions } from '@/server/management.actions'
 import { retriveMedicalClientManagement } from '@/server/medical-client.actions'
 import React from 'react'
 import PatientActionAreaForm from './_components/patient-action-area-form'
+import { retriveAreaOptions } from '@/server/area.actions'
 
 interface PatientActionAreaPageProps {
   params: {
@@ -14,15 +15,20 @@ const PatientActionAreaPage: React.FC<PatientActionAreaPageProps> = async ({
 }) => {
 
   const dni = params.id;
-  const options = await retriveManagementOptions();
+  const managementOptions = await retriveManagementOptions();
+  const areaOptions = await retriveAreaOptions();
   const medicalClient = await retriveMedicalClientManagement(dni);
+
+  console.log(managementOptions);
+  console.log(areaOptions);
 
   return (
     <>
       <ReturnableHeader title='Asignar area y gerencia' />
       <PatientActionAreaForm
         dni={dni}
-        options={options}
+        managementOptions={managementOptions}
+        areaOptions={areaOptions}
         area={medicalClient.areaId}
         management={medicalClient.managementId} />
     </>
