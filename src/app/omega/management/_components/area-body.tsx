@@ -3,7 +3,7 @@ import ListRow from '@/components/_base/list/list-row'
 import ListTbody from '@/components/_base/list/list-tbody'
 import ActionMenuProvider from '@/contexts/action-menu.context'
 import { Area } from '@/lib/dtos/location/area/base.response.dto'
-import { Group, MenuLabel, MenuItem, rem, Text } from '@mantine/core'
+import { Group, MenuLabel, MenuItem, rem, Text, Title } from '@mantine/core'
 import { IconPencil, IconExchange } from '@tabler/icons-react'
 import Link from 'next/link'
 import React from 'react'
@@ -20,7 +20,7 @@ const AreaBody: React.FC<AreaBodyProps> = ({ areas }) => {
                     hoverable={true}
                     key={e.id}>
                     <Group justify='space-between' align='center' wrap='nowrap'>
-                        <Text>{e.name}</Text>
+                        <Title order={6}>{e.name}</Title>
                         <ActionMenuProvider>
                             <ActionMenu>
                                 <MenuLabel>Administracion</MenuLabel>
@@ -31,14 +31,6 @@ const AreaBody: React.FC<AreaBodyProps> = ({ areas }) => {
                                         <IconPencil style={{ width: rem(16), height: rem(16) }} />
                                     )}>
                                     Modificacion
-                                </MenuItem>
-                                <MenuItem
-                                    component={Link}
-                                    href={`area/${e.id}/change`}
-                                    leftSection={(
-                                        <IconExchange style={{ width: rem(16), height: rem(16) }} />
-                                    )}>
-                                    Cambiar gerencia
                                 </MenuItem>
                                 <AreaActionDelete id={e.id} />
                             </ActionMenu>

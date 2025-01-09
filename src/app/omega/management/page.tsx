@@ -42,12 +42,8 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = async ({
     const managements = await searchManagement({ search: managementSearch, field: managementField, page: managementPage - 1, take: take, order: order as any });
     const managementPages = await countManagement({ search: managementSearch, take: take });
 
-    const areas = management
-        ? await searchArea(management, { search: areaSearch, field: areaField, page: areaPage - 1, take: take, order: order as any })
-        : [];
-    const areaPages = management
-        ? await countArea(management, { search: areaSearch, take: take })
-        : 0;
+    const areas = await searchArea({ search: areaSearch, field: areaField, page: areaPage - 1, take: take, order: order as any });
+    const areaPages = await countArea({ search: areaSearch, take: take });
 
     return (
         <MultipleLayerRoot>

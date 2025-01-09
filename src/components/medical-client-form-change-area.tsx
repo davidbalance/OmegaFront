@@ -1,9 +1,9 @@
 'use client'
 
-import { Management, ManagementOption } from '@/lib/dtos/location/management/base.response.dto';
-import { SelectorOption } from '@/lib/dtos/selector/response.dto'
+import { AreaOption } from '@/lib/dtos/location/area/base.response.dto';
+import { ManagementOption } from '@/lib/dtos/location/management/base.response.dto';
 import { Box, rem, Select, ComboboxItem, Button } from '@mantine/core'
-import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 const CustomSelect = ({ onChange, ...props }: {
     value: string | null;
@@ -29,12 +29,14 @@ const CustomSelect = ({ onChange, ...props }: {
 }
 
 interface MedicalClientAreaFormProps extends Omit<React.HTMLProps<HTMLFormElement>, 'ref'> {
-    options: ManagementOption[];
+    managementOptions: ManagementOption[];
+    areaOptions: AreaOption[];
     management?: number;
     area?: number;
 }
 const MedicalClientAreaForm = React.forwardRef<HTMLFormElement, MedicalClientAreaFormProps>((({
-    options,
+    managementOptions,
+    areaOptions,
     management,
     area,
     onSubmit,
@@ -42,34 +44,33 @@ const MedicalClientAreaForm = React.forwardRef<HTMLFormElement, MedicalClientAre
 }, ref) => {
 
     const [selectedManagement, setSelectedManagement] = useState<ManagementOption | null>(null);
-    const [selectedArea, setSelectedArea] = useState<SelectorOption<string> | null>(null);
+    const [selectedArea, setSelectedArea] = useState<AreaOption | null>(null);
 
     const handleManagementChange = useCallback((option: ComboboxItem) => {
-        setSelectedManagement(options.find(e => e.id === Number(option.value)) || null);
-        setSelectedArea(null);
-    }, [options]);
+        setSelectedManagement(managementOptions.find(e => e.id === Number(option.value)) || null);
+    }, [managementOptions]);
 
-    const handleAreaChange = (option: ComboboxItem) => {
-        setSelectedArea({ key: option.value, label: option.label });
-    }
+    const handleAreaChange = useCallback((option: ComboboxItem) => {
+        setSelectedArea(areaOptions.find(e => e.id === Number(option.value)) || null);
+    }, [areaOptions])
 
     useEffect(() => {
-        for (const currentManagement of options) {
+        for (const currentManagement of managementOptions) {
             if (currentManagement.id === management) {
                 setSelectedManagement(currentManagement);
-                for (const currentArea of currentManagement.areas) {
-                    if (currentArea.id === area) {
-                        setSelectedArea({ key: currentArea.id.toString(), label: currentArea.name });
-                        return;
-                    }
-                }
                 return;
             }
         }
-    }, [management, area, options]);
+        for (const currentArea of areaOptions) {
+            if (currentArea.id === area) {
+                setSelectedArea(currentArea);
+                return;
+            }
+        }
+    }, [management, area, managementOptions, areaOptions]);
 
-    const managementOptions = useMemo(() => options.map(e => ({ label: e.name, value: e.id.toString() })), [options]);
-    const areaOptions = useMemo(() => selectedManagement?.areas.map(e => ({ label: e.name, value: e.id.toString() })) || [], [selectedManagement]);
+    const memoizeManagements = useMemo(() => managementOptions.map(e => ({ label: e.name, value: e.id.toString() })), [managementOptions]);
+    const memoizeAreas = useMemo(() => areaOptions.map(e => ({ label: e.name, value: e.id.toString() })), [areaOptions]);
 
     return (
         <Box
@@ -83,7 +84,7 @@ const MedicalClientAreaForm = React.forwardRef<HTMLFormElement, MedicalClientAre
             <CustomSelect
                 name='managementId'
                 value={selectedManagement?.id.toString() || null}
-                data={managementOptions}
+                data={memoizeManagements}
                 onChange={handleManagementChange}
                 label="Gerencias"
                 placeholder="Escoge una gerencia"
@@ -93,14 +94,14 @@ const MedicalClientAreaForm = React.forwardRef<HTMLFormElement, MedicalClientAre
 
             <CustomSelect
                 name='areaId'
-                value={selectedArea?.key || null}
-                data={areaOptions}
+                value={selectedArea?.id.toString() || null}
+                data={memoizeAreas}
                 onChange={handleAreaChange}
                 label="Areas"
                 placeholder="Escoge un area"
                 nothingFoundMessage="Area no encontrada..."
             />
-            <input type='hidden' name='areaName' value={selectedArea?.label} />
+            <input type='hidden' name='areaName' value={selectedArea?.name} />
 
             <Button type='submit' style={{ display: 'none' }}></Button>
 

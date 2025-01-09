@@ -1,5 +1,9 @@
 export interface Area {
     id: number;
     name: string;
-    management: number;
 }
+
+export interface AreaOption {
+    id: number;
+    name: string;
+} 

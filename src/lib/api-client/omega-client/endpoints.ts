@@ -170,12 +170,12 @@ const omegaMethodEndpoint = {
         method: 'delete',
         options: { customHeader: ['auth'] }
     } as ApiResource,
-    managementHasAreas: {
-        resource: 'management/:id/has/areas',
+
+    areaOptions: {
+        resource: 'area/options',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
-
     areaCreate: {
         resource: 'areas',
         method: 'post',
@@ -197,12 +197,12 @@ const omegaMethodEndpoint = {
         options: { customHeader: ['auth'] }
     } as ApiResource,
     areaSearch: {
-        resource: 'location/:management/areas/paginate',
+        resource: 'location/areas/paginate',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
     areaPages: {
-        resource: 'location/:management/areas/pages',
+        resource: 'location/areas/pages',
         method: 'get',
         options: { customHeader: ['auth'] }
     } as ApiResource,
