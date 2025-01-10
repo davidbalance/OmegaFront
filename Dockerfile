@@ -1,7 +1,7 @@
 # ------------------------------DEVELOPMENT STAGE------------------------------
 
 FROM node:22-alpine AS development
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat openssl
 WORKDIR /usr/src/app
 
 COPY ./package*.json ./
@@ -14,7 +14,7 @@ USER node
 
 # ---------------------------------BUILD STAGE---------------------------------
 FROM node:22-alpine AS build
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat openssl
 WORKDIR /usr/src/app
 
 COPY --from=development /usr/src/app/node_modules ./node_modules
@@ -32,7 +32,7 @@ USER node
 
 # -------------------------------PRODUCTION STAGE------------------------------
 FROM node:22-alpine AS production
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat openssl
 WORKDIR /usr/src/app
 
 COPY --chown=node:node --from=build /usr/src/app/prisma prisma
