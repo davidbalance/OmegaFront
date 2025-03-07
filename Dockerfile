@@ -27,9 +27,9 @@ RUN apk add --no-cache libc6-compat openssl
 
 WORKDIR /usr/src/app
 
-COPY --chown=node:node --from=build /usr/src/app/public ./public
-COPY --chown=node:node --from=build /usr/src/app/.next/standalone ./
-COPY --chown=node:node --from=build /usr/src/app/.next/static ./.next/static
+COPY --chown=node:node --from=builder /usr/src/app/public ./public
+COPY --chown=node:node --from=builder /usr/src/app/.next/standalone ./
+COPY --chown=node:node --from=builder /usr/src/app/.next/static ./.next/static
 
 USER node
 
