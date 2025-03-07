@@ -1,25 +1,37 @@
 import React from 'react'
-import UserDataForm from '@/components/user/form/user-data-form'
-import UserForm from './_components/user-form'
-import UserFormLogo from '@/components/user/form/user-form-logo'
+
+import StepperUserForm from './_components/stepper_user_form'
+import LogoSelectForm from '@/components/user/form/logo_select_form'
 import ReturnableHeader from '@/components/_base/returnable-header'
-import { retriveNavResources } from '@/server/web-resource.actions'
-import AuthFormPassword from '@/components/auth-form-password'
-import WebResourceFormAssign from '@/components/web-resource-form-assign'
+import AuthFormPassword from '@/components/auth/auth-password-form'
+import ResourceAssignForm from '@/components/resource_assign_form'
+import ProfileForm from '@/components/user/profile_form'
+import { retriveResources } from '@/server/resource/actions'
+import { retriveLogos } from '@/server/logo/actions'
+import CheckProfileForm from './_components/check_profile_form'
 
 const UserActionCreatePage: React.FC = async () => {
 
-    const resources = await retriveNavResources();
+    const resources = await retriveResources();
+    const logos = await retriveLogos();
 
     return (
         <>
             <ReturnableHeader title='Creacion de usuario' />
-            <UserForm>
-                <UserDataForm />
+            <StepperUserForm
+                headers={[
+                    { description: 'Perfil del usuario', icon: 'user-check' },
+                    { description: 'Credenciales', icon: 'lock' },
+                    { description: 'Asignacion de recursos', icon: 'license' },
+                    { description: 'Logo de la aplicacion', icon: 'building' },
+                    { description: 'Revision de los datos', icon: 'check' },
+                ]}>
+                <ProfileForm />
                 <AuthFormPassword />
-                <WebResourceFormAssign resources={resources} />
-                <UserFormLogo />
-            </UserForm>
+                <ResourceAssignForm resources={resources} />
+                <LogoSelectForm options={logos} />
+                <CheckProfileForm resources={resources} logos={logos} />
+            </StepperUserForm>
         </>
     )
 }

@@ -1,6 +1,5 @@
 'use client'
-
-import { logout } from '@/server/account.actions'
+import { logout } from '@/server/logout'
 import { MenuItem, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 import { IconLogout } from '@tabler/icons-react'

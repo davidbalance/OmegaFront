@@ -1,23 +1,8 @@
-import Joi from "joi";
+import { z } from "zod";
 
-const loginSchema = Joi.object({
-    username: Joi
-        .string()
-        .email({ tlds: { allow: false } })
-        .empty()
-        .required()
-        .messages({
-            'string.email': 'Correo invalido',
-            'string.empty': 'Debe colocar un correo',
-        }),
-    password: Joi
-        .string()
-        .empty()
-        .required()
-        .messages({
-            'string.empty': 'Debe ingresar una contraseña'
-        })
+const schema = z.object({
+    email: z.coerce.string().email().nonempty(),
+    password: z.coerce.string().nonempty()
 });
 
-
-export default loginSchema;
+export default schema;

@@ -10,21 +10,21 @@ const PatientHeader: React.FC = () => {
             <ListTh>
                 <OrderableButton
                     owner='patient'
-                    field='dni'>
+                    field='patientDni'>
                     <Text>Cedula</Text>
                 </OrderableButton>
             </ListTh>
             <ListTh>
                 <OrderableButton
                     owner='patient'
-                    field='name'>
+                    field='patientName'>
                     <Text>Nombre</Text>
                 </OrderableButton>
             </ListTh>
             <ListTh>
                 <OrderableButton
                     owner='patient'
-                    field='lastname'>
+                    field='patientLastname'>
                     <Text>Apellido</Text>
                 </OrderableButton>
             </ListTh>

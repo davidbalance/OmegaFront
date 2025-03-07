@@ -34,8 +34,8 @@ const RemoveQueryButton: React.FC<RemoveQueryButtonProps> = ({
         <ActionIcon
             variant='light'
             size='sm'
-            onClick={handleClick}{
-            ...props}>
+            onClick={handleClick}
+            {...props}>
             <IconX />
         </ActionIcon>
     )

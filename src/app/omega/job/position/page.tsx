@@ -2,11 +2,11 @@ import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
 import TableRoot from '@/components/_base/table/table-root';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { countJobPosition, searchJobPosition } from '@/server/job-position.actions';
-import { Box, Title } from '@mantine/core';
 import React from 'react'
-import JobPositionHeader from './_components/job-position-header';
-import JobPositionBody from './_components/job-position-body';
+import JobPositionHeader from './_components/job_position_header';
+import { retriveJobPositions } from '@/server/job_position/actions';
+import Title from '@/components/_base/mantine/title';
+import JobPositionList from './_components/job_position_list';
 
 const take: number = 100;
 interface OmegaJobPositionPageProps {
@@ -17,20 +17,24 @@ const OmegaJobPositionPage: React.FC<OmegaJobPositionPageProps> = async ({
 }) => {
 
     const field = typeof searchParams.field === 'string' ? searchParams.field : undefined;
-    const order = typeof searchParams.order === 'string' ? searchParams.order : undefined;
+    const orderingValue = typeof searchParams.order === 'string' ? searchParams.order : undefined;
 
     const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
     const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
 
-    const positions = await searchJobPosition({ search: search, field: field, page: page - 1, take: take, order: order as any });
-    const pages = await countJobPosition({ search: search, take: take });
+    const positionValue = await retriveJobPositions({
+        limit: take,
+        skip: page - 1,
+        filter: search,
+        orderField: field as any,
+        orderValue: orderingValue as any
+    });
+    const pages = Math.floor(positionValue.amount / take);
 
     return (
         <>
             <ModularBox>
-                <Box style={{ flexShrink: 0 }}>
-                    <Title order={4} component='span'>Puestos de trabajo</Title>
-                </Box>
+                <Title order={4} component='span'>Puestos de trabajo</Title>
             </ModularBox>
             <ModularBox>
                 <Search value={search} />
@@ -38,7 +42,7 @@ const OmegaJobPositionPage: React.FC<OmegaJobPositionPageProps> = async ({
             <ModularBox h='100%'>
                 <TableRoot>
                     <JobPositionHeader />
-                    <JobPositionBody positions={positions} />
+                    <JobPositionList positions={positionValue.data} />
                 </TableRoot>
             </ModularBox>
             {pages > 1 && (

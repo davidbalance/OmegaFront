@@ -2,23 +2,21 @@ import { rem } from '@mantine/core'
 import React from 'react'
 import OmegaShellLink from './omega-shell/omega-shell-link'
 import OmegaShellSection from './omega-shell/omega-shell-section'
-import omega from '@/lib/api-client/omega-client/omega'
 import { redirect } from 'next/navigation'
-import { ObjectArray } from '@/lib/interfaces/object-array.interface'
-import { OmegaWebClientResource } from '@/lib/dtos/omega/web/client/base.response.dto'
-import auth from '@/lib/auth/auth'
+import auth from '@/lib/auth'
+import { findMe } from '@/server/user/actions'
 
 const OmegaNavbarContent: React.FC = async () => {
   try {
     const session = await auth();
     if (!session) redirect('/login');
-    const { data }: ObjectArray<OmegaWebClientResource> = await omega().addToken(session.access_token).execute('accountResource');
+    const me = await findMe();
 
     return (
       <OmegaShellSection
         gap={rem(4)}>
         {
-          data.map((e) => (
+          me.resources.map((e) => (
             <OmegaShellLink
               key={e.label}
               href={e.address}

@@ -1,9 +1,8 @@
-import { Box, Flex, rem } from '@mantine/core';
+import { Flex, rem } from '@mantine/core';
 import React from 'react'
-import clsx from 'clsx'
 import classes from './multiple-layer.module.css'
 
-interface MultipleLayerRootProps {
+type MultipleLayerRootProps = {
     children: React.ReactNode
 }
 const MultipleLayerRoot: React.FC<MultipleLayerRootProps> = ({ children }) => {
@@ -12,6 +11,7 @@ const MultipleLayerRoot: React.FC<MultipleLayerRootProps> = ({ children }) => {
 
     return (
         <Flex
+            component='div'
             h='100%'
             gap={rem(8)}
             className={classes.root}>

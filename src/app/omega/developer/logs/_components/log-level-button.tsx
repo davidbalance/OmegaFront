@@ -1,13 +1,13 @@
 'use client'
 
 import React from 'react'
-import { ServerLogLevel } from '@/lib/dtos/logs/log.response.dto'
 import { UnstyledButton } from '@mantine/core'
 import { usePathname, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import styles from './log-level-button.module.css'
+import { LoggerLevel } from '@/server/logger/server-types'
 
-interface LogLevelButtonProps extends ServerLogLevel { }
+type LogLevelButtonProps = LoggerLevel;
 const LogLevelButton: React.FC<LogLevelButtonProps> = ({
   level
 }) => {

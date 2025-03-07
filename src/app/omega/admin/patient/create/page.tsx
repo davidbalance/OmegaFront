@@ -1,17 +1,17 @@
 import React from 'react'
-import MedicalClientForm from './_components/medical-client-form'
-import MedicalClientValidateDniForm from './_components/medical-client-validate-dni-form'
-import MedicalClientValidateDniProvider from './_context/medical-client-validate-dni.context'
+import PatientForm from './_components/patient_form'
+import PatientValidateDni from './_components/patient_validate_dni_form'
+import DniValidationContext from './_context/dni_validation.context'
 import ReturnableHeader from '@/components/_base/returnable-header'
 
-const AdminPatientCreate = () => {
+const AdminPatientCreate: React.FC = () => {
     return (
         <>
             <ReturnableHeader title='Creacion paciente' />
-            <MedicalClientValidateDniProvider>
-                <MedicalClientValidateDniForm />
-                <MedicalClientForm />
-            </MedicalClientValidateDniProvider>
+            <DniValidationContext>
+                <PatientValidateDni />
+                <PatientForm />
+            </DniValidationContext>
         </>
     )
 }

@@ -1,21 +1,22 @@
 'use client'
 
 import LoadingOverlay from '@/components/_base/loading-overlay';
-import AuthFormPassword from '@/components/auth-form-password';
+import AuthFormPassword from '@/components/auth/auth-password-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { createCredential } from '@/server/credential.actions';
+import { addAuthUser } from '@/server/user/actions';
+import { AddAuthPayload } from '@/server/user/server_types';
 import { Button, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 interface CredentialAssignFormProps {
-    id: number;
+    userId: string;
     email: string;
 }
 const CredentialAssignForm: React.FC<CredentialAssignFormProps> = ({
-    id,
+    userId,
     email
 }) => {
 
@@ -25,26 +26,19 @@ const CredentialAssignForm: React.FC<CredentialAssignFormProps> = ({
 
     const router = useRouter();
 
-    const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setLoading(true);
-        const formData = new FormData(event.currentTarget);
+    const handleSubmit = useCallback(
+        async (value: Omit<AddAuthPayload, 'userId'>) => {
+            setLoading(true);
+            try {
+                await addAuthUser({ password: value.password, userId: userId });
+                router.back();
+            } catch (error: any) {
+                notifications.show({ message: error.message, color: 'red' });
+            } finally {
+                setLoading(false);
+            }
 
-        const currentValue: Record<string, string> = {};
-        formData.forEach((value, key) => {
-            currentValue[key] = value as string;
-        });
-
-        try {
-            await createCredential(id, { email, password: currentValue.password });
-            router.back();
-        } catch (error: any) {
-            notifications.show({ message: error.message, color: 'red' });
-        } finally {
-            setLoading(false);
-        }
-
-    }, [id, email, router]);
+        }, [userId, router]);
 
     const handleClick = () => {
         if (formRef.current) {

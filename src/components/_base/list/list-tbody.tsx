@@ -1,6 +1,5 @@
 import { rem, ScrollArea, Stack, StyleProp } from '@mantine/core'
 import React from 'react'
-import ListRoot from './list-root';
 
 interface ListTbodyProps {
     children: React.ReactNode;
@@ -11,10 +10,10 @@ const ListTbody: React.FC<ListTbodyProps> = ({
     children
 }) => {
     return (
-        <ScrollArea h={height} px={rem(8)}>
-            <ListRoot>
+        <ScrollArea h={height} px={rem(8)} component='div'>
+            <Stack gap={rem(8)} component='div'>
                 {children}
-            </ListRoot>
+            </Stack>
         </ScrollArea>
     )
 }

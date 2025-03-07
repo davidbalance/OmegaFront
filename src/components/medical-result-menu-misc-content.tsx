@@ -4,35 +4,30 @@ import Link from 'next/link'
 import React from 'react'
 
 interface MedicalResultMenuMiscContentProps {
-  result: number;
-  show?: boolean
+  testId: string;
 }
 const MedicalResultMenuMiscContent: React.FC<MedicalResultMenuMiscContentProps> = ({
-  result,
-  show
+  testId,
 }) => {
-  return (
-    show
-      ? (<>
-        <MenuLabel>Misc.</MenuLabel>
-        <MenuItem
-          component={Link}
-          href={`/omega/medical/result/${result}/disease`}
-          leftSection={(
-            <IconVirus style={{ width: rem(16), height: rem(16) }} />
-          )}>
-          Modificar morbilidades
-        </MenuItem>
-        <MenuItem
-          component={Link}
-          href={`/omega/medical/result/${result}/exam`}
-          leftSection={(
-            <IconStethoscope style={{ width: rem(16), height: rem(16) }} />
-          )}>
-          Modificar tipo de examen
-        </MenuItem>
-      </>)
-      : null)
+  return (<>
+    <MenuLabel>Misc.</MenuLabel>
+    <MenuItem
+      component={Link}
+      href={`/omega/test/${testId}/disease`}
+      leftSection={(
+        <IconVirus style={{ width: rem(16), height: rem(16) }} />
+      )}>
+      Modificar morbilidades
+    </MenuItem>
+    <MenuItem
+      component={Link}
+      href={`/omega/test/${testId}/exam`}
+      leftSection={(
+        <IconStethoscope style={{ width: rem(16), height: rem(16) }} />
+      )}>
+      Modificar tipo de examen
+    </MenuItem>
+  </>)
 }
 
 export default MedicalResultMenuMiscContent

@@ -1,24 +1,25 @@
 'use client'
 
 import { useActionMenu } from '@/contexts/action-menu.context';
-import { deleteArea } from '@/server/area.actions';
+import { removeArea } from '@/server/area/actions';
 import { MenuItem, rem } from '@mantine/core'
 import { IconTrash } from '@tabler/icons-react'
-import React from 'react'
+import React, { useCallback } from 'react'
 
 interface AreaActionDeleteProps {
-    id: number;
+    areaId: string;
 }
 const AreaActionDelete: React.FC<AreaActionDeleteProps> = ({
-    id
+    areaId
 }) => {
 
     const { trigger } = useActionMenu();
 
-    const handleClick = () => {
-        const promise = deleteArea(id);
-        trigger(promise);
-    }
+    const handleClick = useCallback(
+        () => {
+            const promise = removeArea({ areaId });
+            trigger(promise);
+        }, [areaId, trigger])
 
     return (
         <MenuItem

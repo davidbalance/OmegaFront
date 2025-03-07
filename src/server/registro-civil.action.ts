@@ -2,11 +2,12 @@
 
 import registroCivilConfig from "@/config/registro-civil.config";
 
-export const validateDni = async (dni: string): Promise<{
-    name: string,
-    lastname: string,
-    dni: string,
-}> => {
+export type Patient = {
+    patientDni: string,
+    patientName: string,
+    patientLastname: string,
+}
+export const validateDni = async (dni: string): Promise<Patient> => {
     const res = await fetch(registroCivilConfig.uri.replace(':dni', dni), {
         method: 'GET',
         headers: {
@@ -24,8 +25,8 @@ export const validateDni = async (dni: string): Promise<{
     }
 
     return {
-        name: value.data.response.nombres,
-        lastname: value.data.response.apellidos,
-        dni: dni
+        patientName: value.data.response.nombres,
+        patientLastname: value.data.response.apellidos,
+        patientDni: dni
     };
 }

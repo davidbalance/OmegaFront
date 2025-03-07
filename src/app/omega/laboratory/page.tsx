@@ -7,18 +7,22 @@ import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import { Group, rem, Box, Title, Button } from '@mantine/core';
+import { Group, rem, Button } from '@mantine/core';
 import Link from 'next/link';
 import React from 'react'
-import ExamTypeHeader from './_components/exam-type-header';
-import ExamTypeBody from './_components/exam-type-body';
-import { countExamType, searchExamType } from '@/server/exam-type.actions';
-import { countExamSubtype, searchExamSubtype } from '@/server/exam-subtype.actions';
-import { countExam, searchExam } from '@/server/exam.actions';
-import ExamSubtypeHeader from './_components/exam-subtype-header';
-import ExamSubtypeBody from './_components/exam-subtype-body';
-import ExamHeader from './_components/exam-header';
-import ExamBody from './_components/exam-body';
+import ExamTypeHeader from './_components/exam_type_header';
+import ExamSubtypeHeader from './_components/exam_subtype_header';
+import ExamHeader from './_components/exam_header';
+import Title from '@/components/_base/mantine/title';
+import { retriveExamTypes } from '@/server/exam_type/actions';
+import { PaginationResponse } from '@/lib/types/pagination.type';
+import { ExamSubtype } from '@/server/exam_subtype/server_types';
+import { retriveExamSubtypes } from '@/server/exam_subtype/actions';
+import { Exam } from '@/server/exam/server_types';
+import { retriveExams } from '@/server/exam/actions';
+import ExamTypeList from './_components/exam_type_list';
+import ExamSubtypeList from './_components/exam_subtype_list';
+import ExamList from './_components/exam_list';
 
 const take: number = 100;
 interface OmegaLaboratoryPageProps {
@@ -30,49 +34,58 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = async ({
 
   const field = typeof searchParams.field === 'string' ? searchParams.field : undefined;
   const owner = typeof searchParams.owner === 'string' ? searchParams.owner : undefined;
-  const order = typeof searchParams.order === 'string' ? searchParams.order : undefined;
+  const orderingValue = typeof searchParams.order === 'string' ? searchParams.order : undefined;
 
-  const type = typeof searchParams.type === 'string' ? Number(searchParams.type) : undefined;
-  const subtype = typeof searchParams.subtype === 'string' ? Number(searchParams.subtype) : undefined;
 
+  const typeActive = typeof searchParams.type === 'string' ? searchParams.type : undefined;
   const typeSearch = typeof searchParams.typeSearch === 'string' ? searchParams.typeSearch : undefined;
   const typeField = owner === 'type' ? field : undefined;
   const typePage = typeof searchParams.typePage === 'string' ? Number(searchParams.typePage) : 1;
 
+  const subtypeActive = typeof searchParams.subtype === 'string' ? searchParams.subtype : undefined;
   const subtypeSearch = typeof searchParams.subtypeSearch === 'string' ? searchParams.subtypeSearch : undefined;
   const subtypeField = owner === 'subtype' ? field : undefined;
   const subtypePage = typeof searchParams.subtypePage === 'string' ? Number(searchParams.subtypePage) : 1;
 
   const examSearch = typeof searchParams.examSearch === 'string' ? searchParams.examSearch : undefined;
   const examField = owner === 'exam' ? field : undefined;
-  const examPage = typeof searchParams.examPage === 'string' ? Number(searchParams.examPage) : 1;
 
-  const types = await searchExamType({ search: typeSearch, field: typeField, page: typePage - 1, take: take, order: order as any });
-  const typePages = await countExamType({ search: typeSearch, take: take });
+  const typeValue = await retriveExamTypes({
+    filter: typeSearch,
+    orderField: typeField as any,
+    orderValue: orderingValue as any,
+    skip: typePage - 1,
+    limit: take
+  });
+  const totalTypePage = Math.floor(typeValue.amount / take);
 
-  const subtypes = type
-    ? await searchExamSubtype(type, { search: subtypeSearch, field: subtypeField, page: subtypePage - 1, take: take, order: order as any })
-    : [];
-  const subtypePages = type
-    ? await countExamSubtype(type, { search: examSearch, take: take })
-    : 0;
+  const subtypeValue: PaginationResponse<ExamSubtype> = typeActive
+    ? await retriveExamSubtypes({
+      typeId: typeActive,
+      filter: subtypeSearch,
+      orderField: subtypeField as any,
+      orderValue: orderingValue as any,
+      skip: subtypePage - 1,
+      limit: take,
+    }) : { data: [], amount: 0 };
+  const totalSubtypePage = Math.floor(subtypeValue.amount / take);
 
-  const exams = subtype
-    ? await searchExam(subtype, { search: examSearch, field: examField, page: examPage - 1, take: take, order: order as any })
-    : [];
-  const examPages = subtype
-    ? await countExam(subtype, { search: examSearch, take: take })
-    : 0;
+  const examValues: Exam[] = subtypeActive
+    ? await retriveExams({
+      subtypeId: subtypeActive,
+      filter: examSearch,
+      orderField: examField as any,
+      orderValue: orderingValue as any
+    }) : [];
+
 
   return (
     <MultipleLayerRoot>
-      <MultipleLayerSection active={!type && !subtype}>
+      <MultipleLayerSection active={!typeActive && !subtypeActive}>
         <ModularLayout>
           <ModularBox>
             <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
-              <Box style={{ flexShrink: 0 }}>
-                <Title order={4} component='span'>Tipos de examenes</Title>
-              </Box>
+              <Title order={4} component='span'>Tipos de examenes</Title>
               <ReloadButton />
             </Group>
           </ModularBox>
@@ -82,25 +95,26 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = async ({
           <ModularBox flex={1}>
             <ListRoot>
               <ExamTypeHeader />
-              <ExamTypeBody active={type} types={types} />
+              <ExamTypeList
+                active={typeActive}
+                types={typeValue.data} />
             </ListRoot>
           </ModularBox>
-          {typePages > 1 && (
+          {totalTypePage > 1 && (
             <ModularBox>
               <ServerPagination
                 queryKey='typePage'
                 page={typePage}
-                total={typePages} />
+                total={totalTypePage} />
             </ModularBox>)}
         </ModularLayout>
       </MultipleLayerSection>
-      <MultipleLayerSection active={!!type && !subtype}>
+
+      <MultipleLayerSection active={!!typeActive && !subtypeActive}>
         <ModularLayout>
           <ModularBox>
             <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
-              <Box style={{ flexShrink: 0 }}>
-                <Title order={4} component='span'>Subtipos de examenes</Title>
-              </Box>
+              <Title order={4} component='span'>Subtipos de examenes</Title>
               <Group gap={rem(4)}>
                 <ReloadButton />
                 <RemoveQueryButton
@@ -112,10 +126,10 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = async ({
           <ModularBox>
             <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
               <Search query='subtypeSearch' value={subtypeSearch} />
-              {!!type && (
+              {!!typeActive && (
                 <Button
                   component={Link}
-                  href={`laboratory/type/${type}/subtype`}
+                  href={`laboratory/subtype/${typeActive}/create`}
                   radius='md'>
                   Crear subtipo
                 </Button>)}
@@ -124,25 +138,27 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = async ({
           <ModularBox flex={1}>
             <ListRoot>
               <ExamSubtypeHeader />
-              <ExamSubtypeBody active={subtype} subtypes={subtypes} />
+              <ExamSubtypeList
+                active={subtypeActive}
+                typeId={typeActive}
+                subtypes={subtypeValue.data} />
             </ListRoot>
           </ModularBox>
-          {subtypePages > 1 && (
+          {totalSubtypePage > 1 && (
             <ModularBox>
               <ServerPagination
                 queryKey='subtypePage'
                 page={subtypePage}
-                total={subtypePages} />
+                total={totalSubtypePage} />
             </ModularBox>)}
         </ModularLayout>
       </MultipleLayerSection>
-      <MultipleLayerSection active={!!type && !!subtype}>
+
+      <MultipleLayerSection active={!!typeActive && !!subtypeActive}>
         <ModularLayout>
           <ModularBox>
             <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
-              <Box style={{ flexShrink: 0 }}>
-                <Title order={4} component='span'>Examenes</Title>
-              </Box>
+              <Title order={4} component='span'>Examenes</Title>
               <Group gap={rem(4)}>
                 <ReloadButton />
                 <RemoveQueryButton
@@ -157,16 +173,12 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = async ({
           <ModularBox flex={1}>
             <ListRoot>
               <ExamHeader />
-              <ExamBody exams={exams} />
+              <ExamList
+                typeId={typeActive}
+                subtypeId={subtypeActive}
+                exams={examValues} />
             </ListRoot>
           </ModularBox>
-          {examPages > 1 && (
-            <ModularBox>
-              <ServerPagination
-                queryKey='examPage'
-                page={examPage}
-                total={examPages} />
-            </ModularBox>)}
         </ModularLayout>
       </MultipleLayerSection>
     </MultipleLayerRoot>)

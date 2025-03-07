@@ -7,7 +7,7 @@ import { blobFile } from '@/lib/utils/blob-to-file'
 import { useActionMenu } from '@/contexts/action-menu.context'
 import { revalidatePath } from 'next/cache'
 
-const processBlob = async (id: number, exam: string) => {
+const processBlob = async (id: string, exam: string) => {
     const response = await fetch(`/api/medical/file/result/${id}`);
     if (!response.ok) {
         const reason = await response.json();
@@ -18,7 +18,7 @@ const processBlob = async (id: number, exam: string) => {
 }
 
 interface MedicalResultDownloadProps {
-    id: number,
+    id: string,
     exam: string
 }
 const MedicalResultDownload: React.FC<MedicalResultDownloadProps> = ({

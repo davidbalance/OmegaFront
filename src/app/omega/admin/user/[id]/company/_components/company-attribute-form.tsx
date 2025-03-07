@@ -1,81 +1,97 @@
 'use client'
 
 import LoadingOverlay from '@/components/_base/loading-overlay';
+import CorporativeSelect from '@/components/corporative-select';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import UserFormCompany from '@/components/user/form/user-form-company';
-import { CorporativeGroupOption } from '@/lib/dtos/location/corporative/base.response.dto';
-import { updateUserAttribute } from '@/server/user-attribute.actions';
-import { Button, rem } from '@mantine/core';
+import { getErrorMessage } from '@/lib/utils/errors';
+import { addUserAttribute } from '@/server/user_attribute/actions';
+import { AddUserAttributePayload } from '@/server/user_attribute/server_types';
+import { Button, Flex, rem, Stack } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, useCallback, useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
-interface CompanyAttributeFormProps {
-    id: number;
-    value?: string | undefined;
-    options: CorporativeGroupOption[];
+type CompanyAttributeValue = Pick<AddUserAttributePayload, 'attributeValue'>;
+type CompanyAttributeFormProps = Pick<React.ComponentPropsWithRef<typeof CorporativeSelect>, 'options' | 'companyValue' | 'corporativeValue'> & {
+    userId: string;
 }
 const CompanyAttributeForm: React.FC<CompanyAttributeFormProps> = ({
-    id,
-    ...props
+    userId,
+    options,
+    companyValue,
+    corporativeValue
 }) => {
 
     const [loading, setLoading] = useState<boolean>(false);
-    const formRef = useRef<HTMLFormElement | null>(null);
+    const [formValue, setFormValue] = useState<CompanyAttributeValue>({ attributeValue: '' });
     const router = useRouter();
 
-    const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(async (event) => {
         event.preventDefault();
         setLoading(true);
-
-        const formData = new FormData(event.currentTarget);
-
-        const currentValue: Record<string, string> = {};
-        formData.forEach((value, key) => {
-            currentValue[key] = value as string;
-        });
-
         try {
-            const value = currentValue.company;
-            await updateUserAttribute(id, value, 'lookFor');
-            router.back();
+            if (formValue.attributeValue.trim() !== '') {
+                await addUserAttribute({
+                    userId: userId,
+                    attributeName: 'look_for_company',
+                    attributeValue: formValue.attributeValue
+                });
+                router.back();
+            } else {
+                throw new Error('Debe serleccionar una empresa');
+            }
         } catch (error: any) {
-            notifications.show({ message: error.message, color: 'red' });
+            notifications.show({ message: getErrorMessage(error), color: 'red' });
         } finally {
             setLoading(false);
         }
-    }, [id, router]);
-
-    const handleClick = () => {
-        if (formRef.current) {
-            const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
-            formRef.current.dispatchEvent(submitEvent);
-        }
-    }
+    }, [userId, formValue, router]);
 
     return (
-        <>
+        <form onSubmit={handleSubmit}>
             <LoadingOverlay visible={loading} />
-            <ModularBox flex={1}>
-                <UserFormCompany
-                    ref={formRef}
-                    onSubmit={handleSubmit}
-                    {...props} />
-            </ModularBox>
-            <ModularBox>
-                <Button
-                    fullWidth
-                    flex={1}
-                    size='xs'
-                    onClick={handleClick}
-                    leftSection={(
-                        <IconDeviceFloppy style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                    )}>
-                    Guardar
-                </Button>
-            </ModularBox>
-        </>
+            <Flex
+                gap={rem(8)}
+                direction='column'>
+                <ModularBox>
+                    <Stack gap={rem(8)}>
+                        <CorporativeSelect
+                            options={options}
+                            companyValue={companyValue}
+                            corporativeValue={corporativeValue}
+                            useCompany
+                            onChange={(selectedValues) => {
+                                setFormValue((prev) => {
+                                    const updatedForm: any = { ...prev };
+                                    selectedValues.forEach(({ name, value }) => {
+                                        if (name === 'companyId') {
+                                            updatedForm.attributeValue = value;
+                                        }
+                                    });
+                                    return updatedForm;
+                                });
+                            }} />
+                    </Stack>
+                </ModularBox>
+                <ModularBox>
+                    <Button
+                        mt={rem(8)}
+                        size='xs'
+                        fullWidth
+                        type='submit'
+                        loading={loading}
+                        leftSection={(
+                            <IconDeviceFloppy style={{
+                                width: rem(16),
+                                height: rem(16)
+                            }} stroke={1.5} />
+                        )}>
+                        Guardar
+                    </Button>
+                </ModularBox>
+            </Flex>
+        </form>
     )
 }
 

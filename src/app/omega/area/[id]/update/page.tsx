@@ -1,10 +1,10 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import { retriveArea } from '@/server/area.actions'
-import AreaForm from './_components/area-form'
+import { retriveArea } from '@/server/area/actions'
+import EditAreaForm from './_components/edit_area_form'
 
 interface AreaUpdatePageProps {
-    params: { id: number }
+    params: { id: string }
 }
 const AreaUpdatePage: React.FC<AreaUpdatePageProps> = async ({
     params
@@ -14,7 +14,7 @@ const AreaUpdatePage: React.FC<AreaUpdatePageProps> = async ({
     return (
         <>
             <ReturnableHeader title='Actualizacion de area' />
-            <AreaForm {...data} />
+            <EditAreaForm {...data} />
         </>)
 }
 

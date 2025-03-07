@@ -1,17 +1,28 @@
-import { retriveCorporativeGroupOptions } from '@/server/corporative-group.actions';
-import { retriveMedicalDiseaseYear } from '@/server/medical-disease.actions'
 import React from 'react'
-import DiseaseReportForm from './_components/disease-report-form';
-import LocationInputSelect from './_components/location-input-select';
-import YearInputSelect from './_components/year-input-select';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Box, ScrollArea, Title } from '@mantine/core';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
+import { retriveYears } from '@/server/medical_order/actions';
+import { Option } from '@/lib/types/option.type';
+import { retriveCorporativesOptions } from '@/server/corporative/actions';
+import DiseaseReportForm from './_components/disease_report_form';
+import { CorporativeOption } from '@/server/corporative/server_types';
 
 const OmegaReportDiseasePage: React.FC = async () => {
 
-  const yearOptions = await retriveMedicalDiseaseYear();
-  const corporativeGroupOptions = await retriveCorporativeGroupOptions();
+  const years = await retriveYears();
+  const corporative = await retriveCorporativesOptions();
+
+  const yearOptions: Option[] = years.map(e => ({ label: e.orderYear.toString(), value: e.orderYear.toString() }));
+  const corporativeOptions = corporative.map(e => ({
+    ...e,
+    value: e.label,
+    children: e.children.map(x => ({
+      ...x,
+      label: x.label.split('-')[1],
+      value: x.label.split('-')[1]
+    }))
+  }) satisfies CorporativeOption)
 
   return (
     <Box style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -22,13 +33,9 @@ const OmegaReportDiseasePage: React.FC = async () => {
               <Title order={4} component='span'>Reporte de morbilidades</Title>
             </Box>
           </ModularBox>
-          <DiseaseReportForm>
-            <YearInputSelect
-              options={yearOptions} />
-            <LocationInputSelect
-              options={corporativeGroupOptions}
-              showCompany />
-          </DiseaseReportForm>
+          <DiseaseReportForm
+            yearOptions={yearOptions}
+            corporativeOptions={corporativeOptions} />
         </ModularLayout>
       </ScrollArea>
     </Box>

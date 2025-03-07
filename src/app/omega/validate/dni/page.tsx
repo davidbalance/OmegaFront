@@ -21,7 +21,7 @@ const ValidateDNIPage: React.FC<ValidateDNIPageProps> = async ({ searchParams })
             } else {
                 try {
                     const data = await validateDni(dni);
-                    values.push(`${data.name} ${data.lastname}`);
+                    values.push(`${data.patientName} ${data.patientLastname}`);
                 } catch (error) {
                     values.push('No es una cedula valida');
                 }

@@ -1,16 +1,12 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import MedicalOrderForm from './_components/medical-order-form';
-import { Box } from '@mantine/core';
+import StepperOrderForm from './_components/stepper_order_form';
 import OrderSetup from './_components/order-setup';
-import { retriveCorporativeGroupOptions } from '@/server/corporative-group.actions';
-import { retriveMedicalOrderProcesses } from '@/server/medical-order.actions';
-import { retriveDoctorOptions } from '@/server/doctor.actions';
 import DoctorForm from './_components/doctor-form';
-import { retriveExamTypeOptions } from '@/server/exam-type.actions';
-import MedicalOrderLaboratoryRoot from './_components/medical-order-laboratory-root';
-import MedicalOrderLaboratoryList from './_components/medical-order-laboratory-list';
-import MedicalOrderLaboratoryForm from './_components/medical-order-laboratory-form';
+import { retriveCorporativesOptions } from '@/server/corporative/actions';
+import { retriveProcesses } from '@/server/medical_order/actions';
+import { Option } from '@/lib/types/option.type';
+import { retriveDoctorsOptions } from '@/server/doctor/actions';
 
 interface MedicalOrderCreatePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -27,32 +23,34 @@ const MedicalOrderCreatePage: React.FC<MedicalOrderCreatePageProps> = async ({
         </>
     }
 
-    const corporativeGroupOptions = await retriveCorporativeGroupOptions();
-    const processOptions = await retriveMedicalOrderProcesses();
-    const doctors = await retriveDoctorOptions();
-    const doctorOptions = doctors.map(e => ({ value: e.dni, label: `${e.name} ${e.lastname}` }));
+    const corporatives = await retriveCorporativesOptions();
+    const processes = await retriveProcesses();
+    const processOptions: Option[] = processes.map((e) => ({ label: e.orderProcess, value: e.orderProcess }));
+    const doctorOptions = await retriveDoctorsOptions();
 
-    const labOptions = await retriveExamTypeOptions();
+    const corporativeOptions = corporatives.map(e => ({
+        ...e,
+        children: e.children.map(e => ({
+            ...e,
+            value: e.label.split('-')[0],
+            label: e.label.split('-')[1]
+        }))
+    }));
 
     return (
         <>
             <ReturnableHeader title='Creacion de orden medica' />
-            <MedicalOrderForm
-                patient={patient}
-                steps={[
+            <StepperOrderForm
+                patientDni={patient}
+                headers={[
                     { description: 'Asignacion de localidad y proceso', icon: 'building' },
                     { description: 'Asignacion de medico', icon: 'doctor' },
-                    { description: 'Asignacion de pruebas', icon: 'exam' },
                 ]}>
                 <OrderSetup
-                    corporativeGroupOptions={corporativeGroupOptions}
+                    corporativeOptions={corporativeOptions}
                     processOptions={processOptions} />
                 <DoctorForm options={doctorOptions} />
-                <MedicalOrderLaboratoryRoot>
-                    <MedicalOrderLaboratoryForm options={labOptions} />
-                    <MedicalOrderLaboratoryList />
-                </MedicalOrderLaboratoryRoot>
-            </MedicalOrderForm>
+            </StepperOrderForm>
         </>
     )
 }

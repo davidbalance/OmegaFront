@@ -1,0 +1,73 @@
+import ListRow from '@/components/_base/list/list-row'
+import { Flex, Title, Text, Group, MenuItem, rem } from '@mantine/core'
+import React from 'react'
+import dayjs from 'dayjs'
+import AddQueryParam from './_base/add-query-param'
+import Link from 'next/link'
+import { IconChecklist } from '@tabler/icons-react'
+import ActionMenu from './_base/action-menu'
+import ActionMenuProvider from '@/contexts/action-menu.context'
+import { MedicalOrder } from '@/server/medical_order/server_types'
+import OrderChangeStatus from './order_change_status'
+import OrderEmailButton from './medical-order-mail/order_email_button'
+
+type OrderItemProps = MedicalOrder & {
+    patientDni: string;
+    active?: boolean;
+    action?: boolean;
+}
+const OrderItem: React.FC<OrderItemProps> = ({
+    orderId,
+    orderProcess,
+    orderEmissionDate,
+    orderStatus,
+    orderMail,
+    patientDni,
+    active,
+    action
+}) => {
+    return (
+        <ListRow
+            active={active}
+            hoverable={true}>
+            <Flex
+                component='div'
+                justify='space-between'
+                align='center'>
+                <AddQueryParam
+                    value={orderId}
+                    query='medicalOrder'>
+                    <Title order={6}>{orderProcess}</Title>
+                    <Text>{dayjs(orderEmissionDate).format('YYYY-MM-DD HH:mm:ss')}</Text>
+                </AddQueryParam>
+                {action ? (
+                    <Group
+                        component='div'
+                        wrap='nowrap'>
+                        <OrderEmailButton
+                            orderId={orderId}
+                            orderMail={orderMail}
+                            patientDni={patientDni} />
+                        <OrderChangeStatus
+                            orderId={orderId}
+                            orderStatus={orderStatus} />
+                        <ActionMenuProvider>
+                            <ActionMenu>
+                                <MenuItem
+                                    component={Link}
+                                    href={`/omega/medical/order/${orderId}/checklist`}
+                                    leftSection={(
+                                        <IconChecklist style={{ width: rem(16), height: rem(16) }} />
+                                    )}>
+                                    Checklist
+                                </MenuItem>
+                            </ActionMenu>
+                        </ActionMenuProvider>
+                    </Group>
+                ) : null}
+            </Flex>
+        </ListRow>
+    )
+}
+
+export default OrderItem

@@ -1,17 +1,15 @@
 'use client'
 
-import React, { useCallback } from 'react'
-import selectDoctorSchema from '../_schema/select-doctor.schema'
-import { joiResolver, useForm } from '@mantine/form';
-import { Box, Select } from '@mantine/core';
+import React, { useCallback, useState } from 'react'
 import { notifications } from '@mantine/notifications';
+import { CreateMedicalOrderPayload } from '@/server/medical_order/server_types';
+import { Option } from '@/lib/types/option.type';
+import DoctorSelectchema from '../_schema/doctor.schema';
+import DoctorSelect from '@/components/doctor-select';
 
-type DoctorFormValue = {
-    doctorDni: string;
-    doctorFullname: string;
-}
+export type DoctorFormValue = Pick<CreateMedicalOrderPayload, 'doctorDni' | 'doctorFullname'>;
 type DoctorFormProps = Omit<React.HTMLProps<HTMLFormElement>, 'ref' | 'onSubmit'> & {
-    options: { value: string, label: string }[];
+    options: Option[];
     data?: DoctorFormValue,
     onSubmit?: (value: DoctorFormValue) => void;
 };
@@ -22,42 +20,41 @@ const DoctorForm = React.forwardRef<HTMLFormElement, DoctorFormProps>(({
     ...props
 }, ref) => {
 
-    const form = useForm({
-        initialValues: {
-            doctorDni: data?.doctorDni ?? ''
-        },
-        validate: joiResolver(selectDoctorSchema)
+    const [formValue, setFormValue] = useState<DoctorFormValue>({
+        doctorDni: data?.doctorDni ?? '',
+        doctorFullname: data?.doctorFullname ?? '',
     });
 
-    const handleSubmit = useCallback((values: Omit<DoctorFormValue, 'doctorFullname'>) => {
-
-        const doctorFullname = options.find(e => e.value === values.doctorDni)?.label ?? data?.doctorFullname ?? undefined;
-        if (!doctorFullname) {
-            notifications.show({ message: 'Ha ocurrido un error al enviar la data' });
-            return;
-        }
-        onSubmit?.({ ...values, doctorFullname });
-    }, [onSubmit, data, options]);
+    const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
+        (event) => {
+            event.preventDefault();
+            const safeValues = DoctorSelectchema.safeParse(formValue);
+            if (safeValues.error) {
+                notifications.show({ message: JSON.stringify(safeValues.error.errors), color: 'red' });
+                return;
+            }
+            onSubmit?.(safeValues.data);
+        }, [formValue, onSubmit]);
 
     return (
-        <Box
-            component='form'
+        <form
             ref={ref}
-            onSubmit={form.onSubmit(handleSubmit)}
+            onSubmit={handleSubmit}
             {...props}>
-            <Select
-                data={options}
-                label="Medico"
-                placeholder="Escoge a un medico"
-                nothingFoundMessage="Medico no encontrado..."
-                checkIconPosition="left"
-                defaultDropdownOpened={false}
-                searchable
-                clearable
-                maxDropdownHeight={200}
-                name='doctorDni'
-                {...form.getInputProps('doctorDni')} />
-        </Box>)
+            <DoctorSelect
+                options={options}
+                doctorValue={data?.doctorDni}
+                onChange={(selectedValues) => {
+                    setFormValue((prev) => {
+                        const updatedForm: any = { ...prev };
+                        selectedValues.forEach(({ label, value }) => {
+                            updatedForm.doctorDni = value;
+                            updatedForm.doctorFullname = label;
+                        });
+                        return updatedForm;
+                    });
+                }} />
+        </form>)
 });
 
 DoctorForm.displayName = 'DoctorForm'

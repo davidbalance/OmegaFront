@@ -1,22 +1,22 @@
 'use client'
 
 import { useActionMenu } from '@/contexts/action-menu.context';
-import { deleteFile } from '@/server/file.actions';
+import { removeMedicalResult } from '@/server/medical_test/actions';
 import { MenuItem, rem } from '@mantine/core'
 import { IconTrash } from '@tabler/icons-react'
-import React from 'react'
+import React, { useCallback } from 'react'
 
 interface MedicalResultFileDeleteProps {
-    id: number;
+    testId: string;
 }
-const MedicalResultFileDelete: React.FC<MedicalResultFileDeleteProps> = ({ id }) => {
+const MedicalResultFileDelete: React.FC<MedicalResultFileDeleteProps> = ({ testId }) => {
 
     const { trigger } = useActionMenu();
 
-    const handleClick = () => {
-        const promise = deleteFile(id, 'result');
+    const handleClick = useCallback(() => {
+        const promise = removeMedicalResult(testId);
         trigger(promise);
-    }
+    }, [testId, trigger]);
 
     return (
         <MenuItem

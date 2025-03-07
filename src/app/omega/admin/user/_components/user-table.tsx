@@ -2,10 +2,10 @@ import React from 'react'
 import Link from 'next/link'
 import { MenuDivider, MenuItem, MenuLabel, rem, TableTbody, TableTd, TableTr } from '@mantine/core'
 import { IconBuilding, IconKey, IconPencil, IconSitemap } from '@tabler/icons-react'
-import { User } from '@/lib/dtos/user/user/base.response.dto'
 import UserActionDelete from './user-action-delete'
 import ActionUserProvider from '../../../../../contexts/action-menu.context'
 import ActionMenu from '@/components/_base/action-menu'
+import { User } from '@/server/user/server_types'
 
 interface UserBodyProps {
     users: User[]
@@ -14,18 +14,18 @@ const UserBody: React.FC<UserBodyProps> = ({ users }) => {
     return (
         <TableTbody>
             {users.map(e => (
-                <TableTr key={e.id}>
-                    <TableTd>{e.dni}</TableTd>
-                    <TableTd>{e.name}</TableTd>
-                    <TableTd>{e.lastname}</TableTd>
-                    <TableTd>{e.email}</TableTd>
+                <TableTr key={e.userId}>
+                    <TableTd>{e.userDni}</TableTd>
+                    <TableTd>{e.userName}</TableTd>
+                    <TableTd>{e.userLastname}</TableTd>
+                    <TableTd>{e.userEmail}</TableTd>
                     <TableTd>
                         <ActionUserProvider>
                             <ActionMenu>
                                 <MenuLabel>Aplicacion</MenuLabel>
                                 <MenuItem
                                     component={Link}
-                                    href={`user/${e.id}/update`}
+                                    href={`user/${e.userId}/update`}
                                     leftSection={(
                                         <IconPencil style={{ width: rem(16), height: rem(16) }} />
                                     )}>
@@ -33,15 +33,15 @@ const UserBody: React.FC<UserBodyProps> = ({ users }) => {
                                 </MenuItem>
                                 <MenuItem
                                     component={Link}
-                                    href={`user/${e.id}/access`}
+                                    href={`user/${e.userId}/resource`}
                                     leftSection={(
                                         <IconSitemap style={{ width: rem(16), height: rem(16) }} />
                                     )}>
-                                    Asignar pagina
+                                    Asignar paginas
                                 </MenuItem>
                                 <MenuItem
                                     component={Link}
-                                    href={`user/${e.id}/company`}
+                                    href={`user/${e.userId}/company`}
                                     leftSection={(
                                         <IconBuilding style={{ width: rem(16), height: rem(16) }} />
                                     )}>
@@ -51,14 +51,14 @@ const UserBody: React.FC<UserBodyProps> = ({ users }) => {
                                 <MenuLabel>Danger zone</MenuLabel>
                                 <MenuItem
                                     component={Link}
-                                    href={`user/${e.id}/password`}
+                                    href={`user/${e.userId}/password`}
                                     color="red"
                                     leftSection={(
                                         <IconKey style={{ width: rem(16), height: rem(16) }} />
                                     )}>
                                     Generar contraseña
                                 </MenuItem>
-                                <UserActionDelete id={e.id} />
+                                <UserActionDelete id={e.userId} />
                             </ActionMenu>
                         </ActionUserProvider>
                     </TableTd>

@@ -1,39 +1,40 @@
 "use client"
 
-import { useForm } from '@mantine/form';
-import { joiResolver } from 'mantine-form-joi-resolver';
-import React, { useState } from 'react'
+import { useForm, zodResolver } from '@mantine/form';
+import React, { useCallback, useState } from 'react'
 import loginSchema from '../_schema/login.schema';
 import { Box, TextInput, PasswordInput, Button } from '@mantine/core';
-import { LoginCredential } from '../_lib/login-credential.type';
 import { notifications } from '@mantine/notifications';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { z } from 'zod';
+import { getErrorMessage } from '@/lib/utils/errors';
 
 const LoginForm: React.FC = () => {
 
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
-    const form = useForm({
-        initialValues: { username: '', password: '' },
-        validate: joiResolver(loginSchema)
+    const form = useForm<z.infer<typeof loginSchema>>({
+        initialValues: { email: '', password: '' },
+        validate: zodResolver(loginSchema)
     });
 
-    const handleLogin = async (value: LoginCredential) => {
-        setLoading(true);
-        try {
-            const response = await signIn('credentials', { callbackUrl: '/omega', redirect: false, ...value });
-            if (response?.error) {
-                throw new Error("Credenciales no validas");
+    const handleLogin = useCallback(
+        async (value: z.infer<typeof loginSchema>) => {
+            setLoading(true);
+            try {
+                const response = await signIn('credentials', { redirect: false, ...value });
+                if (response?.error) {
+                    throw new Error("Credenciales no validas");
+                }
+                router.push('/omega');
+            } catch (error: any) {
+                notifications.show({ message: getErrorMessage(error), color: 'red' });
+            } finally {
+                setLoading(false);
             }
-            router.push('/omega');
-        } catch (error: any) {
-            notifications.show({ message: error.message, color: 'red' });
-        } finally {
-            setLoading(false);
-        }
-    }
+        }, [router]);
 
     return (
         <Box
@@ -44,7 +45,7 @@ const LoginForm: React.FC = () => {
             <TextInput
                 label='Correo Electronico'
                 placeholder='omega@gmail.com'
-                {...form.getInputProps('username')} />
+                {...form.getInputProps('email')} />
             <PasswordInput
                 label='Contraseña'
                 placeholder='Escribe tu contraseña'

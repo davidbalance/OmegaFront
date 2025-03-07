@@ -27,7 +27,9 @@ const ServerPagination: React.FC<ServerPaginationProps> = ({
     }
 
     return (
-        <Flex justify='center'>
+        <Flex
+            justify='center'
+            component='div'>
             <Pagination
                 value={page}
                 total={total}

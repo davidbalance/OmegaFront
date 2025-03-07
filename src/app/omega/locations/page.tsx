@@ -7,17 +7,19 @@ import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import { countBranch, searchBranch } from '@/server/branch.actions';
-import { countCompany, searchCompany } from '@/server/company.actions';
-import { countCorporativeGroup, searchCorporativeGroup } from '@/server/corporative-group.actions';
-import { Group, rem, Box, Title } from '@mantine/core';
+import { Group, rem } from '@mantine/core';
 import React from 'react'
-import CorporativeGroupHeader from './_components/corporative-group-header';
-import CorporativeGroupBody from './_components/corporative-group-body';
-import CompanyHeader from './_components/company-header';
-import CompanyBody from './_components/company-body';
-import BranchHeader from './_components/branch-header';
-import BranchBody from './_components/branch-body';
+import CorporativeHeader from './_components/corporative_header';
+import CompanyHeader from './_components/company_header';
+import BranchHeader from './_components/branch_header';
+import Title from '@/components/_base/mantine/title';
+import { retriveCorporatives } from '@/server/corporative/actions';
+import { retriveCompanies } from '@/server/company/actions';
+import { Branch } from '@/server/branch/server_types';
+import { retriveBranches } from '@/server/branch/actions';
+import CorporativeList from './_components/corporative_list';
+import CompanyList from './_components/company_list';
+import BranchList from './_components/branch_list';
 
 const take: number = 100;
 interface OmegaLocationPageProps {
@@ -29,14 +31,14 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = async ({
 
     const field = typeof searchParams.field === 'string' ? searchParams.field : undefined;
     const owner = typeof searchParams.owner === 'string' ? searchParams.owner : undefined;
-    const order = typeof searchParams.order === 'string' ? searchParams.order : undefined;
+    const orderingValue = typeof searchParams.order === 'string' ? searchParams.order : undefined;
 
-    const group = typeof searchParams.group === 'string' ? Number(searchParams.group) : undefined;
-    const company = typeof searchParams.company === 'string' ? Number(searchParams.company) : undefined;
+    const corporativeActive = typeof searchParams.corporative === 'string' ? searchParams.corporative : undefined;
+    const companyActive = typeof searchParams.company === 'string' ? searchParams.company : undefined;
 
-    const groupSearch = typeof searchParams.groupSearch === 'string' ? searchParams.groupSearch : undefined;
-    const groupField = owner === 'group' ? field : undefined;
-    const groupPage = typeof searchParams.groupPage === 'string' ? Number(searchParams.groupPage) : 1;
+    const corporativeSearch = typeof searchParams.corporativeSearch === 'string' ? searchParams.corporativeSearch : undefined;
+    const corporativeField = owner === 'corporative' ? field : undefined;
+    const corporativePage = typeof searchParams.corporativePage === 'string' ? Number(searchParams.corporativePage) : 1;
 
     const companySearch = typeof searchParams.companySearch === 'string' ? searchParams.companySearch : undefined;
     const companyField = owner === 'company' ? field : undefined;
@@ -44,66 +46,76 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = async ({
 
     const branchSearch = typeof searchParams.branchSearch === 'string' ? searchParams.branchSearch : undefined;
     const branchField = owner === 'branch' ? field : undefined;
-    const branchPage = typeof searchParams.branchPage === 'string' ? Number(searchParams.branchPage) : 1;
 
-    const groups = await searchCorporativeGroup({ search: groupSearch, field: groupField, page: groupPage - 1, take: take, order: order as any });
-    const groupPages = await countCorporativeGroup({ search: groupSearch, take: take });
+    const corporativeValue = await retriveCorporatives({
+        filter: corporativeSearch,
+        orderField: corporativeField as any,
+        orderValue: orderingValue as any,
+        skip: corporativePage - 1,
+        limit: take
+    });
+    const totalCorporativePage = Math.floor(corporativeValue.amount / take);
 
-    const companies = group
-        ? await searchCompany(group, { search: companySearch, field: companyField, page: companyPage - 1, take: take, order: order as any })
+    const companyValue = corporativeActive
+        ? await retriveCompanies({
+            corporativeId: corporativeActive,
+            filter: companySearch,
+            orderField: companyField as any,
+            orderValue: orderingValue as any,
+            skip: companyPage - 1,
+            limit: take,
+        })
+        : { data: [], amount: 0 };
+    const totalCompanyPage = Math.floor(companyValue.amount / take);
+
+    const branchValues: Branch[] = companyActive
+        ? await retriveBranches({
+            companyId: companyActive,
+            filter: branchSearch,
+            orderField: branchField as any,
+            orderValue: orderingValue as any,
+        })
         : [];
-    const companyPages = group
-        ? await countCompany(group, { search: branchSearch, take: take })
-        : 0;
-
-    const branches = company
-        ? await searchBranch(company, { search: branchSearch, field: branchField, page: branchPage - 1, take: take, order: order as any })
-        : [];
-    const branchPages = company
-        ? await countBranch(company, { search: branchSearch, take: take })
-        : 0;
 
     return (
         <MultipleLayerRoot>
-            <MultipleLayerSection active={!group && !company}>
+            <MultipleLayerSection active={!corporativeActive && !companyActive}>
                 <ModularLayout>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
-                            <Box style={{ flexShrink: 0 }}>
-                                <Title order={4} component='span'>Grupo corporativo</Title>
-                            </Box>
+                            <Title order={4} component='span'>Grupo corporativo</Title>
                             <ReloadButton />
                         </Group>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='groupSearch' value={groupSearch} />
+                        <Search query='corporativeSearch' value={corporativeSearch} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
-                            <CorporativeGroupHeader />
-                            <CorporativeGroupBody active={group} groups={groups} />
+                            <CorporativeHeader />
+                            <CorporativeList
+                                active={corporativeActive}
+                                groups={corporativeValue.data} />
                         </ListRoot>
                     </ModularBox>
-                    {groupPages > 1 && (
+                    {totalCorporativePage > 1 && (
                         <ModularBox>
                             <ServerPagination
-                                queryKey='groupPage'
-                                page={groupPage}
-                                total={groupPages} />
+                                queryKey='corporativePage'
+                                page={corporativePage}
+                                total={totalCorporativePage} />
                         </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
-            <MultipleLayerSection active={!!group && !company}>
+            <MultipleLayerSection active={!!corporativeActive && !companyActive}>
                 <ModularLayout>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
-                            <Box style={{ flexShrink: 0 }}>
-                                <Title order={4} component='span'>Empresas</Title>
-                            </Box>
+                            <Title order={4} component='span'>Empresas</Title>
                             <Group gap={rem(4)}>
                                 <ReloadButton />
                                 <RemoveQueryButton
-                                    queries={['group']}
+                                    queries={['corporative']}
                                     hiddenFrom='md' />
                             </Group>
                         </Group>
@@ -114,25 +126,23 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = async ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <CompanyHeader />
-                            <CompanyBody active={company} companies={companies} />
+                            <CompanyList active={companyActive} companies={companyValue.data} />
                         </ListRoot>
                     </ModularBox>
-                    {companyPages > 1 && (
+                    {totalCompanyPage > 1 && (
                         <ModularBox>
                             <ServerPagination
                                 queryKey='companyPage'
                                 page={companyPage}
-                                total={companyPages} />
+                                total={totalCompanyPage} />
                         </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
-            <MultipleLayerSection active={!!group && !!company}>
+            <MultipleLayerSection active={!!corporativeActive && !!companyActive}>
                 <ModularLayout>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
-                            <Box style={{ flexShrink: 0 }}>
-                                <Title order={4} component='span'>Sucursales</Title>
-                            </Box>
+                            <Title order={4} component='span'>Sucursales</Title>
                             <Group gap={rem(4)}>
                                 <ReloadButton />
                                 <RemoveQueryButton
@@ -147,16 +157,9 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = async ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <BranchHeader />
-                            <BranchBody branches={branches} />
+                            <BranchList branches={branchValues} />
                         </ListRoot>
                     </ModularBox>
-                    {branchPages > 1 && (
-                        <ModularBox>
-                            <ServerPagination
-                                queryKey='branchPage'
-                                page={branchPage}
-                                total={branchPages} />
-                        </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
         </MultipleLayerRoot>)

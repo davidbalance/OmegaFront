@@ -6,18 +6,23 @@ import ReloadButton from '@/components/_base/reload-button';
 import RemoveQueryButton from '@/components/_base/remove-query-button';
 import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
-import MedicalOrderHeader from '@/components/medical-order-header';
-import MedicalResultBody from '@/components/medical-result-body';
-import MedicalResultHeader from '@/components/medical-result-header';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
 import PatientHeader from '@/components/patient-header';
-import PatientListBody from '@/components/patient-list-body';
-import { countMedicalClientByDoctor, searchMedicalClientByDoctor } from '@/server/medical-client.actions';
-import { countMedicalOrderByDoctor, searchMedicalOrderByDoctor } from '@/server/medical-order.actions';
-import { countMedicalResultByDoctor, searchMedicalResultByDoctor } from '@/server/medical-result.actions';
-import { Flex, rem, Box, Title, Group } from '@mantine/core';
-import MedicalOrderListBody from './_components/medical-order-list-body';
+import { Flex, rem, Group } from '@mantine/core';
+import { retriveClientsDoctor } from '@/server/medical_client/actions';
+import { MedicalOrder, MedicalOrderDoctor } from '@/server/medical_order/server_types';
+import { PaginationResponse } from '@/lib/types/pagination.type';
+import { retriveMedicalOrder, retriveMedicalOrdersDoctor } from '@/server/medical_order/actions';
+import { MedicalTest } from '@/server/medical_test/server_types';
+import { retriveMedicalTests } from '@/server/medical_test/actions';
+import PatientList from '@/components/patient_list';
+import OrderList from '@/components/order_list';
+import OrderHeader from '@/components/order_header';
+import TestHeader from '@/components/test_header';
+import TestList from '@/components/test_list';
+import Title from '@/components/_base/mantine/title';
+import OrderDoctorList from './_components/order_doctor_list';
 
 const take: number = 100;
 interface OmegaReportPageProps {
@@ -26,55 +31,66 @@ interface OmegaReportPageProps {
 const OmegaReportPage: React.FC<OmegaReportPageProps> = async ({
     searchParams
 }) => {
-
     const field = typeof searchParams.field === 'string' ? searchParams.field : undefined;
     const owner = typeof searchParams.owner === 'string' ? searchParams.owner : undefined;
-    const order = typeof searchParams.order === 'string' ? searchParams.order : undefined;
+    const orderingValue = typeof searchParams.order === 'string' ? searchParams.order : undefined;
 
-    const patient = typeof searchParams.patient === 'string' ? searchParams.patient : undefined;
-    const medicalOrder = typeof searchParams.medicalOrder === 'string' ? Number(searchParams.medicalOrder) : undefined;
 
+    const patientActive = typeof searchParams.patient === 'string' ? searchParams.patient : undefined;
     const patientSearch = typeof searchParams.patientSearch === 'string' ? searchParams.patientSearch : undefined;
     const patientField = owner === 'patient' ? field : undefined;
     const patientPage = typeof searchParams.patientPage === 'string' ? Number(searchParams.patientPage) : 1;
 
-    const medicalOrderSearch = typeof searchParams.medicalOrderSearch === 'string' ? searchParams.medicalOrderSearch : undefined;
-    const medicalOrderField = owner === 'medicalOrder' ? field : undefined;
-    const medicalOrderPage = typeof searchParams.medicalOrderPage === 'string' ? Number(searchParams.medicalOrderPage) : 1;
+    const orderActive = typeof searchParams.medicalOrder === 'string' ? searchParams.medicalOrder : undefined;
+    const orderSearch = typeof searchParams.medicalOrderSearch === 'string' ? searchParams.medicalOrderSearch : undefined;
+    const orderField = owner === 'medicalOrder' ? field : undefined;
+    const orderPage = typeof searchParams.medicalOrderPage === 'string' ? Number(searchParams.medicalOrderPage) : 1;
 
-    const medicalResultSearch = typeof searchParams.medicalResultSearch === 'string' ? searchParams.medicalResultSearch : undefined;
-    const medicalResultField = owner === 'medicalResult' ? field : undefined;
-    const medicalResultPage = typeof searchParams.medicalResultPage === 'string' ? Number(searchParams.medicalResultPage) : 1;
+    const testSearch = typeof searchParams.medicalTestSearch === 'string' ? searchParams.medicalTestSearch : undefined;
+    const testField = owner === 'medicalTest' ? field : undefined;
 
-    const patients = await searchMedicalClientByDoctor({ search: patientSearch, field: patientField, page: patientPage - 1, take: take, order: order as any });
-    const patientPages = await countMedicalClientByDoctor({ search: patientSearch, take: take });
+    const patientValue = await retriveClientsDoctor({
+        filter: patientSearch,
+        orderField: patientField as any,
+        orderValue: orderingValue as any,
+        skip: patientPage - 1,
+        limit: take
+    });
+    const totalPatientPage = Math.floor(patientValue.amount / take);
 
-    const medicalOrders = patient
-        ? await searchMedicalOrderByDoctor(patient, { search: medicalOrderSearch, field: medicalOrderField, page: medicalOrderPage - 1, take: take, order: order as any })
+    const orderValue: PaginationResponse<MedicalOrderDoctor> = patientActive
+        ? await retriveMedicalOrdersDoctor({
+            patientDni: patientActive,
+            filter: orderSearch,
+            orderField: orderField as any,
+            orderValue: orderingValue as any,
+            skip: orderPage - 1,
+            limit: take,
+        })
+        : { data: [], amount: 0 };
+    const medicalOrder: MedicalOrder | null = orderActive ? await retriveMedicalOrder(orderActive) : null;
+    const totalOrderPage = Math.floor(orderValue.amount / take);
+
+    const testValues: MedicalTest[] = orderActive
+        ? await retriveMedicalTests({
+            orderId: orderActive,
+            filter: testSearch,
+            orderField: testField as any,
+            orderValue: orderingValue as any,
+        })
         : [];
-    const medicalOrderPages = patient
-        ? await countMedicalOrderByDoctor(patient, { search: medicalOrderSearch, take: take })
-        : 0;
 
-    const medicalResults = medicalOrder
-        ? await searchMedicalResultByDoctor(medicalOrder, { search: medicalResultSearch, field: medicalResultField, page: medicalResultPage - 1, take: take, order: order as any })
-        : [];
-    const medicalResultPages = medicalOrder
-        ? await countMedicalResultByDoctor(medicalOrder, { search: medicalResultSearch, take: take })
-        : 0;
 
     return (
         <MultipleLayerRoot>
-            <MultipleLayerSection active={!patient && !medicalOrder}>
+            <MultipleLayerSection active={!patientActive && !orderActive}>
                 <ModularLayout>
                     <ModularBox>
                         <Flex
                             justify='space-between'
                             wrap='nowrap'
                             gap={rem(16)}>
-                            <Box style={{ flexShrink: 0 }}>
-                                <Title order={4} component='span'>Pacientes</Title>
-                            </Box>
+                            <Title order={4} component='span'>Pacientes</Title>
                             <ReloadButton />
                         </Flex>
                     </ModularBox>
@@ -84,28 +100,28 @@ const OmegaReportPage: React.FC<OmegaReportPageProps> = async ({
                     <ModularBox flex={1}>
                         <ListRoot>
                             <PatientHeader />
-                            <PatientListBody active={patient} patients={patients} />
+                            <PatientList
+                                active={patientActive}
+                                patients={patientValue.data} />
                         </ListRoot>
                     </ModularBox>
-                    {patientPages > 1 && (
+                    {totalPatientPage > 1 && (
                         <ModularBox>
                             <ServerPagination
-                                queryKey='managementPage'
+                                queryKey='patientPage'
                                 page={patientPage}
-                                total={patientPages} />
+                                total={totalPatientPage} />
                         </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
-            <MultipleLayerSection active={!!patient && !medicalOrder}>
+            <MultipleLayerSection active={!!patientActive && !orderActive}>
                 <ModularLayout>
                     <ModularBox>
                         <Flex
                             justify='space-between'
                             wrap='nowrap'
                             gap={rem(16)}>
-                            <Box style={{ flexShrink: 0 }}>
-                                <Title order={4} component='span'>Ordenes medicas</Title>
-                            </Box>
+                            <Title order={4} component='span'>Ordenes medicas</Title>
                             <Group gap={rem(4)}>
                                 <ReloadButton />
                                 <RemoveQueryButton
@@ -115,33 +131,33 @@ const OmegaReportPage: React.FC<OmegaReportPageProps> = async ({
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='medicalOrderSearch' value={medicalOrderSearch} />
+                        <Search query='medicalOrderSearch' value={orderSearch} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
-                            <MedicalOrderHeader />
-                            {patient ? <MedicalOrderListBody active={medicalOrder} orders={medicalOrders} /> : <></>}
+                            <OrderHeader />
+                            <OrderDoctorList
+                                active={orderActive}
+                                orders={orderValue.data} />
                         </ListRoot>
                     </ModularBox>
-                    {medicalOrderPages > 1 && (
+                    {totalOrderPage > 1 && (
                         <ModularBox>
                             <ServerPagination
                                 queryKey='medicalOrderPage'
-                                page={medicalOrderPage}
-                                total={medicalOrderPages} />
+                                page={orderPage}
+                                total={totalOrderPage} />
                         </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
-            <MultipleLayerSection active={!!patient && !!medicalOrder}>
+            <MultipleLayerSection active={!!patientActive && !!orderActive}>
                 <ModularLayout>
                     <ModularBox>
                         <Flex
                             justify='space-between'
                             wrap='nowrap'
                             gap={rem(16)}>
-                            <Box style={{ flexShrink: 0 }}>
-                                <Title order={4} component='span'>Resultados medicos</Title>
-                            </Box>
+                            <Title order={4} component='span'>Resultados medicos</Title>
                             <Group gap={rem(4)}>
                                 <ReloadButton />
                                 <RemoveQueryButton
@@ -151,25 +167,18 @@ const OmegaReportPage: React.FC<OmegaReportPageProps> = async ({
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='medicalResultSearch' value={medicalResultSearch} />
+                        <Search query='medicalTestSearch' value={testSearch} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
-                            <MedicalResultHeader />
-                            <MedicalResultBody
+                            <TestHeader />
+                            <TestList
+                                tests={testValues}
                                 notEditResults
                                 notShowMisc
-                                medicalResult={medicalResults}
-                                order={medicalOrder} />
+                                orderStatus={medicalOrder?.orderStatus ?? 'created'} />
                         </ListRoot>
                     </ModularBox>
-                    {medicalResultPages > 1 && (
-                        <ModularBox>
-                            <ServerPagination
-                                queryKey='medicalResultPage'
-                                page={medicalResultPage}
-                                total={medicalResultPages} />
-                        </ModularBox>)}
                 </ModularLayout>
             </MultipleLayerSection>
         </MultipleLayerRoot>)

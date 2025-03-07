@@ -33,7 +33,7 @@ const BlobPreview: React.FC<BlobPreviewProps> = async ({
                     border: 0
                 }} />;
         default:
-            return <Text>Archivo con soportado</Text>
+            return <Text>Archivo no soportado</Text>
     }
 }
 
