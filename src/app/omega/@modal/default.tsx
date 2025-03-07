@@ -1,5 +1,5 @@
-const OmegaAdminOrderDefaultModal: React.FC = () => {
+const OmegaModalSlotDefault: React.FC = () => {
     return null;
 }
 
-export default OmegaAdminOrderDefaultModal
+export default OmegaModalSlotDefault

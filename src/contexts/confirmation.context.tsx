@@ -39,7 +39,8 @@ export const Confirmation: React.FC<{ children: React.ReactNode }> = ({ children
                 onClose={() => handleResponse(false)}
                 title={title}
                 message={message}
-                onConfirm={() => handleResponse(true)} />
+                onConfirm={() => handleResponse(true)}
+                zIndex={1000} />
         </ConfirmationContext.Provider>
     );
 }

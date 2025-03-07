@@ -1,0 +1,29 @@
+import ListTbody from '@/components/_base/list/list-tbody'
+import React from 'react'
+import PatientEeqItem from './patient_eeq_item'
+import { MedicalClient } from '@/server/medical_client/server_types';
+
+interface PatientEeqListProps {
+    active?: string;
+    action?: boolean;
+    patients: MedicalClient[];
+}
+const PatientEeqList: React.FC<PatientEeqListProps> = ({
+    active,
+    action,
+    patients
+}) => {
+    return (
+        <ListTbody>
+            {patients.map((e) => (<PatientEeqItem
+                key={e.patientDni}
+                action={action}
+                active={active === e.patientDni}
+                {...e} />
+
+            ))}
+        </ListTbody>
+    )
+}
+
+export default PatientEeqList

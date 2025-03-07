@@ -1,11 +1,11 @@
-import { ServerLogLevel } from '@/lib/dtos/logs/log.response.dto'
 import { Divider, Flex, Group, rem } from '@mantine/core';
 import React from 'react'
 import LogLevelButton from './log-level-button';
 import LogLevelButtonAll from './log-level-button-all';
+import { LoggerLevel } from '@/server/logger/server-types';
 
 interface LogLevelProps {
-    levels: ServerLogLevel[];
+    levels: LoggerLevel[];
 }
 const LogLevel: React.FC<LogLevelProps> = ({
     levels

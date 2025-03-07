@@ -1,8 +1,8 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import ManagementForm from './_components/management-form'
+import ManagementForm from './_components/create_management_form'
 
-const OmegaManagementPage: React.FC = () => {
+const ManagementPage: React.FC = () => {
     return (
         <>
             <ReturnableHeader title='Creacion de gerencias' />
@@ -10,4 +10,4 @@ const OmegaManagementPage: React.FC = () => {
         </>)
 }
 
-export default OmegaManagementPage
+export default ManagementPage

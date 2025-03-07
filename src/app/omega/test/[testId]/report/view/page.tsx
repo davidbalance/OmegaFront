@@ -1,0 +1,36 @@
+import BlobPreview from '@/components/_base/blob-preview/blob-preview';
+import ReturnableHeader from '@/components/_base/returnable-header';
+import { ModularBox } from '@/components/modular/box/ModularBox';
+import { retriveMedicalReportFile } from '@/server/medical_test/actions';
+import { Flex, rem } from '@mantine/core';
+import React from 'react'
+
+interface MedicalReportFileViewPageProps {
+  params: { testId: string }
+}
+const MedicalReportFileViewPage: React.FC<MedicalReportFileViewPageProps> = async ({
+  params
+}) => {
+
+  const blob = await retriveMedicalReportFile(params.testId);
+  const buffer = await blob.arrayBuffer();
+
+  return (
+    <>
+      <ReturnableHeader title='Visualizacion de documento' />
+      <ModularBox
+        flex={1}>
+        <Flex
+          maw={rem(600)}
+          justify='center'
+          align='center'
+          w='100%'
+          h='100%'>
+          <BlobPreview buffer={buffer} fileType={blob.type} />
+        </Flex>
+      </ModularBox>
+    </>
+  )
+}
+
+export default MedicalReportFileViewPage

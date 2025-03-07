@@ -1,13 +1,13 @@
 'use client'
 
-import React from 'react'
+import React, { useCallback } from 'react'
 import { MenuItem, rem } from '@mantine/core'
 import { IconDownload } from '@tabler/icons-react'
 import { blobFile } from '@/lib/utils/blob-to-file'
 import { useActionMenu } from '@/contexts/action-menu.context'
 
-const processBlob = async (id: number, exam: string) => {
-    const response = await fetch(`/api/medical/file/report/${id}`);
+const processBlob = async (testId: string, exam: string) => {
+    const response = await fetch(`/api/medical/file/report/${testId}`);
     if (!response.ok) {
         const reason = await response.json();
         throw new Error(reason);
@@ -17,20 +17,20 @@ const processBlob = async (id: number, exam: string) => {
 }
 
 interface MedicalReportDownloadProps {
-    id: number,
-    exam: string
+    testId: string,
+    examName: string
 }
 const MedicalReportDownload: React.FC<MedicalReportDownloadProps> = ({
-    id: result,
-    exam
+    testId,
+    examName
 }) => {
 
     const { trigger } = useActionMenu();
 
-    const handleClick = () => {
-        const promise = processBlob(result, exam);
+    const handleClick = useCallback(() => {
+        const promise = processBlob(testId, examName);
         trigger(promise);
-    }
+    }, [trigger, testId, examName])
 
     return (
         <MenuItem

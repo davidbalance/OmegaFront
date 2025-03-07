@@ -1,111 +1,101 @@
 'use client'
 
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import createOrderSchema from '../_schema/create-order.schema';
-import { CorporativeGroupOption } from '@/lib/dtos/location/corporative/base.response.dto';
+import OrderSetupSchema from '../_schema/order_setup.schema';
 import { Box, Select, SimpleGrid } from '@mantine/core';
-import { joiResolver, useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
+import { CreateMedicalOrderPayload } from '@/server/medical_order/server_types';
+import { CorporativeOption } from '@/server/corporative/server_types';
+import { Option } from '@/lib/types/option.type';
+import CoporativeSelect from '@/components/corporative-select';
 
-type MedicalOrderFormProp = {
-    branchName: string,
-    companyName: string,
-    companyRuc: string,
-    corporativeName: string,
-    process: string,
-}
+export type OrderFormSetupValue = Pick<CreateMedicalOrderPayload, 'branchName' | 'companyName' | 'companyRuc' | 'corporativeName' | 'process'>;
 
 type OrderSetupProps = Omit<React.HTMLProps<HTMLFormElement>, 'ref' | 'onSubmit'> & {
-    corporativeGroupOptions: CorporativeGroupOption[];
-    processOptions: string[];
-    data?: MedicalOrderFormProp,
-    onSubmit?: (data: MedicalOrderFormProp) => void;
+    corporativeOptions: CorporativeOption[];
+    processOptions: Option[];
+    data?: OrderFormSetupValue,
+    onSubmit?: (data: OrderFormSetupValue) => void;
 };
 const OrderSetup = React.forwardRef<HTMLFormElement, OrderSetupProps>(({
-    corporativeGroupOptions,
+    corporativeOptions,
     processOptions,
     data,
     onSubmit,
     ...props
 }, ref) => {
 
-    const form = useForm({
-        initialValues: {
-            corporativeName: data?.corporativeName ?? '',
-            companyRuc: data?.companyRuc ?? '',
-            branchName: data?.branchName ?? '',
-            process: data?.process ?? '',
-        },
-        validate: joiResolver(createOrderSchema)
+
+    const [formValue, setFormValue] = useState<OrderFormSetupValue>({
+        corporativeName: data?.corporativeName ?? '',
+        companyName: data?.companyName ?? '',
+        companyRuc: data?.companyRuc ?? '',
+        branchName: data?.branchName ?? '',
+        process: data?.process ?? '',
     });
 
-    const companies = useMemo(() => corporativeGroupOptions.find(e => e.name === form.values.corporativeName)?.companies || [], [corporativeGroupOptions, form.values.corporativeName]);
-    const branches = useMemo(() => companies.find(e => e.ruc === form.values.companyRuc)?.branches || [], [companies, form.values.companyRuc]);
+    const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
+        (event) => {
+            event.preventDefault();
+            const safeValues = OrderSetupSchema.safeParse(formValue);
+            if (safeValues.error) {
+                notifications.show({ message: JSON.stringify(safeValues.error.errors), color: 'red' });
+                return;
+            }
+            onSubmit?.(safeValues.data);
+        }, [formValue, onSubmit]);
 
-    const handleSubmit = useCallback((value: Omit<MedicalOrderFormProp, 'companyName'>) => {
-        const companyName = companies.find(e => value.companyRuc === e.ruc)?.name ?? data?.companyName ?? undefined;
-        if (!companyName) {
-            notifications.show({ message: 'Ha ocurrido un error al enviar la data' });
-            return;
-        }
-        onSubmit?.({ ...value, companyName });
-    }, [companies, onSubmit, data]);
+    const defaultCorporative = useMemo(() => corporativeOptions.find(e => e.label === data?.corporativeName), [data, corporativeOptions]);
+    const defaultCompany = useMemo(() => defaultCorporative?.children.find(e => e.value === data?.companyRuc), [data, defaultCorporative]);
+    const defaultBranch = useMemo(() => defaultCompany?.children.find(e => e.label === data?.branchName), [data, defaultCompany]);
 
     return (
-        <Box
-            component='form'
+        <form
             ref={ref}
-            onSubmit={form.onSubmit(handleSubmit)}
+            onSubmit={handleSubmit}
             {...props}>
             <ModularLayout>
                 <SimpleGrid cols={{ base: 1, sm: 3 }}>
-                    <Select
-                        data={corporativeGroupOptions.map(e => ({ value: e.name, label: e.name }))}
-                        label="Grupo corporativo"
-                        placeholder="Escoge un grupo corporativo"
-                        nothingFoundMessage="Grupo corporativo no encontrado..."
-                        checkIconPosition="left"
-                        defaultDropdownOpened={false}
-                        clearable
-                        maxDropdownHeight={200}
-                        name='corporativeName'
-                        {...form.getInputProps('corporativeName')} />
-                    <Select
-                        data={companies.map(e => ({ value: e.ruc, label: e.name }))}
-                        label="Empresas"
-                        placeholder="Escoge una empresa"
-                        nothingFoundMessage="Empresa no encontrado..."
-                        checkIconPosition="left"
-                        defaultDropdownOpened={false}
-                        searchable
-                        clearable
-                        maxDropdownHeight={200}
-                        name='companyRuc'
-                        {...form.getInputProps('companyRuc')} />
-                    <Select
-                        data={branches.map(e => ({ value: e.name, label: e.name }))}
-                        label="Sucursales"
-                        placeholder="Escoge una sucursal"
-                        nothingFoundMessage="Sucursal no encontrada..."
-                        checkIconPosition="left"
-                        clearable
-                        defaultDropdownOpened={false}
-                        maxDropdownHeight={200}
-                        name='branchName'
-                        {...form.getInputProps('branchName')} />
+                    <CoporativeSelect
+                        options={corporativeOptions}
+                        corporativeValue={defaultCorporative?.value}
+                        companyValue={defaultCompany?.value}
+                        branchValue={defaultBranch?.value}
+                        useCompany
+                        useBranch
+                        onChange={(selectedValues) => {
+                            setFormValue((prev) => {
+                                const updatedForm: any = { ...prev };
+                                selectedValues.forEach(({ name, label, value }) => {
+                                    if (name === 'branchId') {
+                                        updatedForm.branchName = label;
+                                    }
+                                    else if (name === 'companyId') {
+                                        updatedForm.companyRuc = value;
+                                        updatedForm.companyName = label;
+                                    }
+                                    else if (name === 'corporativeId') {
+                                        updatedForm.corporativeName = label;
+                                    }
+                                });
+                                return updatedForm;
+                            });
+                        }} />
                 </SimpleGrid>
                 <Select
-                    data={processOptions.map(e => ({ value: e, label: e }))}
+                    data={processOptions}
                     checkIconPosition="left"
                     label="Proceso"
                     placeholder="Post-Ocupacional"
                     defaultDropdownOpened={false}
                     maxDropdownHeight={200}
                     name='process'
-                    {...form.getInputProps('process')} />
+                    defaultValue={data?.process}
+                    onChange={(_, e) => setFormValue(prev => ({ ...prev, process: e.value }))}
+                />
             </ModularLayout>
-        </Box>
+        </form>
     )
 });
 

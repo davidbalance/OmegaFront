@@ -1,18 +1,18 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import AreaForm from './_components/form'
+import CreateAreaForm from './_components/create-area-form'
 
-interface OmegaManagementAreaPageProps {
+interface CreateAreaFormPageProps {
     params: { id: number }
 }
-const OmegaManagementAreaPage: React.FC<OmegaManagementAreaPageProps> = ({
+const CreateAreaFormPage: React.FC<CreateAreaFormPageProps> = ({
     params
 }) => {
     return (
         <>
             <ReturnableHeader title='Creacion de area' />
-            <AreaForm management={params.id} />
+            <CreateAreaForm />
         </>)
 }
 
-export default OmegaManagementAreaPage
+export default CreateAreaFormPage

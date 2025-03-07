@@ -1,15 +1,15 @@
 'use client'
 
-import { ServerLog } from '@/lib/dtos/logs/log.response.dto'
 import { Box, Collapse, Text, UnstyledButton, Grid, Divider, Title, DefaultMantineColor, Flex, GridCol } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import React, { useMemo } from 'react'
 import styles from './developer-log.module.css'
+import { Logger } from '@/server/logger/server-types';
 
-interface DeveloperLog extends ServerLog { }
-const DeveloperLog: React.FC<DeveloperLog> = ({
+type DeveloperLogProps = Logger;
+const DeveloperLog: React.FC<DeveloperLogProps> = ({
     level,
     message,
     timestamp

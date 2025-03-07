@@ -1,10 +1,10 @@
 import React from 'react'
 import ReturnableHeader from '@/components/_base/returnable-header';
-import ChangePasswordForm from './_components/change-password-form';
-import { retriveUser } from '@/server/user.actions';
+import ChangePasswordForm from './_components/change_password_form';
+import { retriveUser } from '@/server/user/actions';
 
 interface UserActionPasswordPageProps {
-    params: { id: number }
+    params: { id: string }
 }
 
 const UserActionPasswordPage: React.FC<UserActionPasswordPageProps> = async ({ params }) => {
@@ -14,7 +14,7 @@ const UserActionPasswordPage: React.FC<UserActionPasswordPageProps> = async ({ p
     return (
         <>
             <ReturnableHeader title='Cambiar contraseña' />
-            <ChangePasswordForm email={user.email} />
+            <ChangePasswordForm email={user.userEmail} />
         </>
     )
 }

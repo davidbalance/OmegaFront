@@ -7,7 +7,9 @@ interface ListThProps {
 }
 const ListTh: React.FC<ListThProps> = ({ children }) => {
     return (
-        <Box className={classes.th}>
+        <Box
+            component='div'
+            className={classes.th}>
             {children}
         </Box>
     )

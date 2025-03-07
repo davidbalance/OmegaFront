@@ -1,24 +1,25 @@
 'use client'
 
 import { useActionMenu } from '@/contexts/action-menu.context';
-import { deleteManagement } from '@/server/management.actions';
+import { removeManagement } from '@/server/management/actions';
 import { MenuItem, rem } from '@mantine/core'
 import { IconTrash } from '@tabler/icons-react'
-import React from 'react'
+import React, { useCallback } from 'react'
 
 interface ManagementActionDeleteProps {
-    id: number;
+    managementId: string;
 }
 const ManagementActionDelete: React.FC<ManagementActionDeleteProps> = ({
-    id
+    managementId
 }) => {
 
     const { trigger } = useActionMenu();
 
-    const handleClick = () => {
-        const promise = deleteManagement(id);
-        trigger(promise);
-    }
+    const handleClick = useCallback(
+        () => {
+            const promise = removeManagement({ managementId });
+            trigger(promise);
+        }, [managementId, trigger]);
 
     return (
         <MenuItem

@@ -9,6 +9,7 @@ type ModularBoxProps = BoxProps & {
 const ModularBox: React.FC<ModularBoxProps> = ({ children, ...props }) => {
     return (
         <Box
+            component='div'
             className={classes.box}
             {...props}>
             {children}

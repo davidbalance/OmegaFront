@@ -1,10 +1,10 @@
 import ParallelModal from '@/components/_base/parallel-modal';
 import React from 'react'
 
-interface ModalMedicalReportFileViewLayoutProps {
+interface OmegaModalSlotLayoutProps {
     children: React.ReactNode
 }
-const ModalMedicalReportFileViewLayout: React.FC<ModalMedicalReportFileViewLayoutProps> = async ({ children }) => {
+const OmegaModalSlotLayout: React.FC<OmegaModalSlotLayoutProps> = async ({ children }) => {
 
     return (
         <ParallelModal>
@@ -12,4 +12,4 @@ const ModalMedicalReportFileViewLayout: React.FC<ModalMedicalReportFileViewLayou
         </ParallelModal>)
 }
 
-export default ModalMedicalReportFileViewLayout
+export default OmegaModalSlotLayout

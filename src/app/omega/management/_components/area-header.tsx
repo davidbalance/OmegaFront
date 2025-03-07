@@ -10,7 +10,7 @@ const AreaHeader: React.FC = () => {
             <ListTh>
                 <OrderableButton
                     owner='area'
-                    field='name'>
+                    field='areaName'>
                     <Text>Area</Text>
                 </OrderableButton>
             </ListTh>

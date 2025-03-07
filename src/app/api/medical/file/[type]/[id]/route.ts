@@ -1,5 +1,5 @@
-import ApiClientError from "@/lib/api-client/base/api-error";
-import omega from "@/lib/api-client/omega-client/omega";
+import { getErrorMessage } from "@/lib/utils/errors";
+import { retriveMedicalReportFile, retriveMedicalResultFile } from "@/server/medical_test/actions";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -7,17 +7,19 @@ export async function GET(
     { params }: { params: { type: string; id: string } }
 ) {
     try {
-        const data = { ...params, id: parseInt(params.id) };
-        const blob: Blob = await omega()
-            .addBody(data)
-            .execute('medicalFileSingle');
+        const data = { ...params, id: params.id };
+        let blob: Blob;
+        if (data.type === 'result') {
+            blob = await retriveMedicalResultFile(params.id);
+        } else {
+            blob = await retriveMedicalReportFile(params.id)
+        }
+
         const headers = new Headers();
         headers.set("Content-Type", "application/pdf");
         return new NextResponse(blob, { status: 200, headers });
     } catch (error) {
-        if (error instanceof ApiClientError) {
-            return NextResponse.json({ message: error.message }, { status: error.status });
-        }
-        return NextResponse.json({ message: 'Error del servidor' }, { status: 500 });
+        console.error(getErrorMessage(error));
+        return NextResponse.json({ message: getErrorMessage(error) }, { status: 404 });
     }
 }

@@ -1,14 +1,16 @@
-import { retriveWebResources } from '@/server/web-resource.actions'
 import React from 'react'
-import WebResourceListBody from './_components/web-resource-list-body';
 import ListRoot from '@/components/_base/list/list-root';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Button, rem } from '@mantine/core';
 import Link from 'next/link';
+import { retriveResources } from '@/server/resource/actions';
+import ResourceList from './_components/resource_list';
 
-const OmegaDeveloperNavigationPage: React.FC = async () => {
+const DeveloperNavigationPage: React.FC = async () => {
 
-  const resources = await retriveWebResources();
+  const resources = await retriveResources();
+
+  console.log(resources);
 
   return (
     <ModularBox flex={1}>
@@ -21,9 +23,9 @@ const OmegaDeveloperNavigationPage: React.FC = async () => {
         Crear recurso
       </Button>
       <ListRoot>
-        <WebResourceListBody resources={resources} />
+        <ResourceList resources={resources} />
       </ListRoot>
     </ModularBox>)
 }
 
-export default OmegaDeveloperNavigationPage
+export default DeveloperNavigationPage

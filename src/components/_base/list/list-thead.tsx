@@ -9,6 +9,7 @@ const ListThead: React.FC<ListTheadProps> = ({ children }) => {
     return (
         <Group
             gap={0}
+            component='div'
             grow
             className={classes.thead}>
             {children}

@@ -9,13 +9,12 @@ declare module "next-auth" {
 
     interface Session {
         access_token: string;
-        session: string;
+        refresh_token: string;
     }
 }
 
 declare module "next-auth/jwt" {
     interface JWT {
-        session: string;
         access_token: string;
         refresh_token: string;
     }

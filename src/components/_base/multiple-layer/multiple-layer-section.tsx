@@ -1,10 +1,7 @@
-'use client'
-
-import { Box, useMantineTheme } from '@mantine/core'
+import { Box } from '@mantine/core'
 import React from 'react'
 import clsx from 'clsx'
 import classes from './multiple-layer.module.css'
-import { useMediaQuery } from '@mantine/hooks';
 
 interface MultipleLayerSectionProps {
     active?: boolean;
@@ -14,15 +11,11 @@ const MultipleLayerSection: React.FC<MultipleLayerSectionProps> = ({
     active,
     children
 }) => {
-
-    const { breakpoints } = useMantineTheme();
-    const isMobile = useMediaQuery(`min-width: ${breakpoints.md}`);
-
     return (
         <Box
             w='100%'
             h='100%'
-            component='section'
+            component='div'
             className={clsx(classes.layerSection, { [classes.layerShow]: active })}>
             {children}
         </Box>

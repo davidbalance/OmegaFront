@@ -9,7 +9,7 @@ import TableTHead from '@/components/_base/table/table-thead'
 import TableTh from '@/components/_base/table/table-th'
 import OrderableButton from '@/components/_base/orderable-button/orderable-button'
 import ServerPagination from '@/components/_base/server-pagination'
-import { countUser, searchUser } from '@/server/user.actions'
+import { retriveUsers } from '@/server/user/actions'
 
 const take: number = 100;
 interface UserPageProps {
@@ -18,13 +18,19 @@ interface UserPageProps {
 const UserPage: React.FC<UserPageProps> = async ({ searchParams }) => {
 
     const field = typeof searchParams.field === 'string' ? searchParams.field : undefined;
-    const order = typeof searchParams.order === 'string' ? searchParams.order : undefined;
+    const orderingValue = typeof searchParams.order === 'string' ? searchParams.order : undefined;
 
     const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
     const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
 
-    const users = await searchUser({ search: search, field: field, page: page - 1, take: take, order: order as any });
-    const pages = await countUser({ search: search, take: take });
+    const value = await retriveUsers({
+        filter: search,
+        skip: page - 1,
+        limit: take,
+        orderField: field as any,
+        orderValue: orderingValue as any
+    });
+    const pages = Math.floor(value.amount / take);
 
     return <>
         <ModularBox>
@@ -37,7 +43,8 @@ const UserPage: React.FC<UserPageProps> = async ({ searchParams }) => {
                 justify='space-between'
                 wrap='nowrap'
                 gap={rem(16)}>
-                <Search value={search} />
+                <Search
+                    value={search} />
                 <Button
                     component={Link}
                     radius='md'
@@ -51,22 +58,22 @@ const UserPage: React.FC<UserPageProps> = async ({ searchParams }) => {
                 <TableTHead>
                     <TableTr>
                         <TableTh>
-                            <OrderableButton field='dni'>
+                            <OrderableButton field='userDni'>
                                 <Text>Cedula</Text>
                             </OrderableButton>
                         </TableTh>
                         <TableTh>
-                            <OrderableButton field='name'>
+                            <OrderableButton field='userName'>
                                 <Text>Nombre</Text>
                             </OrderableButton>
                         </TableTh>
                         <TableTh>
-                            <OrderableButton field='lastname'>
+                            <OrderableButton field='userLastname'>
                                 <Text>Apellido</Text>
                             </OrderableButton>
                         </TableTh>
                         <TableTh>
-                            <OrderableButton field='email'>
+                            <OrderableButton field='userEmail'>
                                 <Text>Correo Electronico</Text>
                             </OrderableButton>
                         </TableTh>
@@ -75,7 +82,7 @@ const UserPage: React.FC<UserPageProps> = async ({ searchParams }) => {
                         </TableTh>
                     </TableTr>
                 </TableTHead>
-                <UserBody users={users} />
+                <UserBody users={value.data} />
             </TableRoot>
         </ModularBox>
         {pages > 1 && (

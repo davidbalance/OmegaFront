@@ -9,7 +9,8 @@ const ListRoot: React.FC<ListRootProps> = ({ children }) => {
     return (
         <Stack
             className={classes.root}
-            gap={rem(8)}>
+            gap={rem(8)}
+            component='div'>
             {children}
         </Stack>
     )

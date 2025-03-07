@@ -1,14 +1,14 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
-import ResourceForm from './_components/resource-form';
+import CreateResourceForm from './_components/create_resource_form';
 
-const OmegaDeveloperNavigationCreatePage: React.FC = () => {
+const DeveloperNavigationCreatePage: React.FC = () => {
     return (
         <>
             <ReturnableHeader title='Creacion de recursos' />
-            <ResourceForm />
+            <CreateResourceForm />
         </>
     );
 }
 
-export default OmegaDeveloperNavigationCreatePage
+export default DeveloperNavigationCreatePage

@@ -10,7 +10,7 @@ const ManagementHeader: React.FC = () => {
             <ListTh>
                 <OrderableButton
                     owner='management'
-                    field='name'>
+                    field='managementName'>
                     <Text>Gerencia</Text>
                 </OrderableButton>
             </ListTh>

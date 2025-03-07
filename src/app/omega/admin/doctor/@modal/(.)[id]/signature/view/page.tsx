@@ -1,15 +1,17 @@
 import BlobPreview from '@/components/_base/blob-preview/blob-preview';
-import { retriveBlobSignature } from '@/server/doctor.actions';
+import { retriveDoctorFile } from '@/server/doctor/actions';
 import { Box, ModalBody, ModalCloseButton, ModalHeader, rem } from '@mantine/core';
 import React from 'react'
 
 interface DoctorModalActionSignatureViewPageProps {
-    params: { id: number }
+    params: { id: string }
 }
 const DoctorModalActionSignatureViewPage: React.FC<DoctorModalActionSignatureViewPageProps> = async ({ params }) => {
 
-    const blob = await retriveBlobSignature(params.id);
+    const blob = await retriveDoctorFile(params.id);
     const buffer = await blob.arrayBuffer();
+
+    console.log(blob.type);
 
     return (
         <>
