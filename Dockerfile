@@ -18,7 +18,7 @@ RUN npm ci
 COPY --chown=node:node . ./
 
 # Generate Prisma client, build the project, and remove dev dependencies
-RUN npm run build && npm prune --omit=dev
+RUN npm run build
 
 # ---------------------------------BUILD STAGE---------------------------------
 FROM node:23-alpine AS production
