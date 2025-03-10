@@ -6,7 +6,6 @@ import { IconId, IconAt } from '@tabler/icons-react';
 import { useForm, zodResolver } from '@mantine/form';
 import ProfileSchema from './schemas/profile.schema';
 import { z } from 'zod';
-import { User } from '@/server/user/server_types';
 
 type ProfileFormProps = {
     data?: Partial<z.infer<typeof ProfileSchema>>;

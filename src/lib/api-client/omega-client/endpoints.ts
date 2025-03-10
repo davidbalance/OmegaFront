@@ -302,6 +302,10 @@ const endpoints = {
     //#endregion
 
     //#region Medical
+    retriveClientByDni: {
+        resource: 'medical-clients/:patientDni',
+        method: 'get',
+    } as ApiResource,
     retriveClients: {
         resource: 'medical-clients',
         method: 'get',
@@ -371,6 +375,10 @@ const endpoints = {
         resource: 'medical-client/records/record/:recordId',
         method: 'get',
     } as ApiResource,
+    createClientRecord: {
+        resource: 'medical-client/write/:patientDni/record/:type',
+        method: 'post',
+    } as ApiResource,
 
     retriveProcesses: {
         resource: 'processes',
@@ -412,6 +420,10 @@ const endpoints = {
     createMedicalOrder: {
         resource: 'medical-order/write',
         method: 'post',
+    } as ApiResource,
+    removeMedicalOrder: {
+        resource: 'medical-order/write/:orderId',
+        method: 'delete',
     } as ApiResource,
     sendMedicalOrder: {
         resource: 'medical-order/write/send-email',

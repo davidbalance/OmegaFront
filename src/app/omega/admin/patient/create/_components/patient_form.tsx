@@ -8,11 +8,11 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { notifications } from '@mantine/notifications'
 import { DateInput } from '@mantine/dates'
-import MedicalClientGenderSelector from './gender_selector'
 import { useDniValidation } from '../_context/dni_validation.context'
 import PatientSchema from '../_schemas/patient.schema'
 import { z } from 'zod'
 import { createClient } from '@/server/medical_client/actions'
+import GenderSelector from '@/components/gender-selector'
 
 type PatientFormProps = {
     allowRole?: boolean;
@@ -54,7 +54,7 @@ const PatientForm: React.FC<PatientFormProps> = ({
     }, [router]);
 
     useEffect(() => {
-        if (data !== null) {
+        if (data !== null && data.patientDni !== form.values.patientDni) {
             form.setValues(e => ({
                 ...e,
                 patientName: data.patientName,
@@ -63,7 +63,6 @@ const PatientForm: React.FC<PatientFormProps> = ({
             }));
         }
     }, [data, form])
-
 
     return (
         <Box
@@ -106,7 +105,7 @@ const PatientForm: React.FC<PatientFormProps> = ({
                                     {...form.getInputProps('patientEmail')} />
                             </GridCol>
                             <GridCol span={6}>
-                                <MedicalClientGenderSelector
+                                <GenderSelector
                                     disabled={!data}
                                     {...form.getInputProps('patientGender')} />
                             </GridCol>

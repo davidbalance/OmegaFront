@@ -6,6 +6,15 @@ import { AddAreaMedicalClientPayload, AddJobPositionMedicalClientPayload, AddMan
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidatePath, revalidateTag } from "next/cache";
 
+export const retriveClientByDni = async (patientDni: string): Promise<MedicalClient> => {
+    const session = await auth();
+    const data: MedicalClient = await omega()
+        .addToken(session.access_token)
+        .addParams({ patientDni })
+        .execute('retriveClientByDni');
+    return data;
+}
+
 export const retriveClients = async (query: MedicalClientQuery): Promise<PaginationResponse<MedicalClient>> => {
     const session = await auth();
     const data: PaginationResponse<MedicalClient> = await omega()

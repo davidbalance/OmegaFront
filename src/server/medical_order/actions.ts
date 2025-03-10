@@ -100,6 +100,17 @@ export const createMedicalOrder = async (payload: CreateMedicalOrderPayload): Pr
     revalidateTag('retriveMedicalOrdersPatient');
 }
 
+export const removeMedicalOrder = async (orderId: string): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addToken(session.access_token)
+        .addParams({ orderId })
+        .execute('removeMedicalOrder');
+
+    revalidateTag('retriveMedicalOrders');
+    revalidateTag('retriveMedicalOrdersPatient');
+}
+
 export const sendMedicalOrder = async (payload: SendMedicalOrderPayload): Promise<void> => {
     const session = await auth();
     await omega()

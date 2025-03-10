@@ -27,7 +27,7 @@ type StepperFormProps<T = any> = {
     headers?: StepperHeader[];
     buttonLabels?: Partial<ButtonLabel>;
     endMessage?: string;
-    initialData?: T;
+    initialData?: Partial<T>;
 }
 const StepperForm = <T,>({
     children,
@@ -49,7 +49,7 @@ const StepperForm = <T,>({
 
     const [loading, setLoading] = useState<boolean>(false);
     const [active, setActive] = useState<number>(0);
-    const [formValues, setFormValues] = useState<T>(initialData);
+    const [formValues, setFormValues] = useState<Partial<T>>(initialData);
     const formRefs = useRef<Map<number, HTMLFormElement>>(new Map());
     const childrenCount = useMemo(() => React.Children.count(children), [children]);
 
@@ -77,9 +77,7 @@ const StepperForm = <T,>({
             } else {
                 const newValues = { ...formValues, ...value };
                 setFormValues(newValues);
-                handleSubmit(newValues);
-                // setFormValues((prev) => ({ ...prev, ...value }));
-                // setShouldFetch(true);
+                handleSubmit(newValues as T);
             }
         }, [active, formValues, nextStep, childrenCount, handleSubmit]);
 

@@ -10,6 +10,7 @@ import ActionMenuProvider from '@/contexts/action-menu.context'
 import { MedicalOrder } from '@/server/medical_order/server_types'
 import OrderChangeStatus from './order_change_status'
 import OrderEmailButton from './medical-order-mail/order_email_button'
+import OrderRemoveMenuItem from './order-remove-menu-item'
 
 type OrderItemProps = MedicalOrder & {
     patientDni: string;
@@ -61,6 +62,7 @@ const OrderItem: React.FC<OrderItemProps> = ({
                                     )}>
                                     Checklist
                                 </MenuItem>
+                                <OrderRemoveMenuItem orderId={orderId} />
                             </ActionMenu>
                         </ActionMenuProvider>
                     </Group>
