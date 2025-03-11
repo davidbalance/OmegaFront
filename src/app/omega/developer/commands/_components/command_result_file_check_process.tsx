@@ -1,6 +1,7 @@
 'use client'
 
 import { ModularBox } from '@/components/modular/box/ModularBox'
+import { getErrorMessage } from '@/lib/utils/errors'
 import { checkMedicalTestFile } from '@/server/medical_test/actions'
 import { Box, Button, Flex, rem, Text } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
@@ -17,7 +18,7 @@ const CommandResultFileCheckProcess: React.FC = () => {
             await checkMedicalTestFile();
         } catch (error: any) {
             console.error(error);
-            notifications.show({ message: error.message, color: 'red' });
+            notifications.show({ message: getErrorMessage(error), color: 'red' });
         } finally {
             setLoading(false);
         }

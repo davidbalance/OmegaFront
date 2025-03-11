@@ -1,6 +1,7 @@
 'use client'
 
 import AreaForm from '@/components/area/area-form';
+import { getErrorMessage } from '@/lib/utils/errors';
 import { createArea } from '@/server/area/actions';
 import { CreateAreaPayload } from '@/server/area/server_types';
 import { LoadingOverlay } from '@mantine/core';
@@ -20,7 +21,7 @@ const CreateAreaForm: React.FC = () => {
                 await createArea({ ...value });
                 router.back();
             } catch (error: any) {
-                notifications.show({ message: error.message, color: 'red' });
+                notifications.show({ message: getErrorMessage(error), color: 'red' });
             } finally {
                 setLoading(false);
             }

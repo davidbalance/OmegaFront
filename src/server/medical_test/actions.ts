@@ -125,6 +125,8 @@ export const removeMedicalResultDisease = async (payload: { diseaseReportId: str
         .addToken(session.access_token)
         .addParams({ ...payload })
         .execute('removeMedicalResultDisease');
+
+    revalidateTag('retriveMedicalDiseases');
 }
 
 export const addMedicalReport = async (payload: AddMedicalReportPayload): Promise<void> => {

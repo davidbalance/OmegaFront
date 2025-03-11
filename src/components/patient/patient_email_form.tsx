@@ -8,6 +8,7 @@ import React, { useState } from 'react'
 import { z } from 'zod'
 import PatientEmailSchema from './schemas/patient_email.schema'
 import { createClientEmail } from '@/server/medical_client/actions'
+import { getErrorMessage } from '@/lib/utils/errors'
 
 interface PatientEmailFormProps {
     patientDni: string;
@@ -35,7 +36,7 @@ const PatientEmailForm: React.FC<PatientEmailFormProps> = ({
             await createClientEmail({ patientDni, email: data.email });
             form.reset();
         } catch (error: any) {
-            notifications.show({ message: error.message, color: 'red' });
+            notifications.show({ message: getErrorMessage(error), color: 'red' });
         } finally {
             setLoading(false);
         }

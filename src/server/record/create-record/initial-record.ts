@@ -67,8 +67,8 @@ type JobRiskWithPreventiveMeasure = Partial<BiologicalRisk<boolean>> & Partial<E
     name: string;
     activity: string;
     biologicalRiskOther?: string;
-    ergonomicOther?: string;
-    phychosocialOther?: string;
+    ergonomicRiskOther?: string;
+    phychosocialRiskOther?: string;
     preventiveMeasure: string;
 }
 

@@ -13,6 +13,7 @@ import PatientSchema from '../_schemas/patient.schema'
 import { z } from 'zod'
 import { createClient } from '@/server/medical_client/actions'
 import GenderSelector from '@/components/gender-selector'
+import { getErrorMessage } from '@/lib/utils/errors'
 
 type PatientFormProps = {
     allowRole?: boolean;
@@ -47,7 +48,7 @@ const PatientForm: React.FC<PatientFormProps> = ({
             });
             router.back();
         } catch (error: any) {
-            notifications.show({ message: error.message, color: 'red' });
+            notifications.show({ message: getErrorMessage(error), color: 'red' });
         } finally {
             setLoading(false);
         }

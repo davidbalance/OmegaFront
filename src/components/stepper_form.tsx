@@ -6,6 +6,7 @@ import { notifications } from '@mantine/notifications';
 import { IconBook, IconCheck, IconChevronLeft, IconChevronRight, IconCircleCheck, IconImageInPicture } from '@tabler/icons-react';
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { ModularBox } from './modular/box/ModularBox';
+import { getErrorMessage } from '@/lib/utils/errors';
 
 export type StepperIcon = Record<string, React.ReactElement>
 export type StepSubmitEvent<T = any> = (value: Partial<T>) => void;
@@ -65,7 +66,7 @@ const StepperForm = <T,>({
                 await onSubmit(value);
                 setActive((prev) => prev + 1);
             } catch (error: any) {
-                notifications.show({ message: error.message, color: 'red' });
+                notifications.show({ message: getErrorMessage(error), color: 'red' });
             } finally {
                 setLoading(false);
             }

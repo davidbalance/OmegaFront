@@ -3,6 +3,7 @@
 import LoadingOverlay from '@/components/_base/loading-overlay';
 import AuthFormPassword from '@/components/auth/auth-password-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';
+import { getErrorMessage } from '@/lib/utils/errors';
 import { addAuthUser } from '@/server/user/actions';
 import { AddAuthPayload } from '@/server/user/server_types';
 import { Button, rem } from '@mantine/core';
@@ -33,7 +34,7 @@ const CredentialAssignForm: React.FC<CredentialAssignFormProps> = ({
                 await addAuthUser({ password: value.password, userId: userId });
                 router.back();
             } catch (error: any) {
-                notifications.show({ message: error.message, color: 'red' });
+                notifications.show({ message: getErrorMessage(error), color: 'red' });
             } finally {
                 setLoading(false);
             }

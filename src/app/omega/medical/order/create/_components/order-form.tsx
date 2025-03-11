@@ -1,6 +1,7 @@
 'use client'
 
 import { ModularBox } from '@/components/modular/box/ModularBox';
+import { getErrorMessage } from '@/lib/utils/errors';
 import { createMedicalOrder } from '@/server/medical_order/actions';
 import { Button, ButtonGroup, Flex, LoadingOverlay, rem, Stepper, StepperCompleted, StepperStep, Text } from '@mantine/core';
 import { useDebounceCallback } from '@mantine/hooks';
@@ -54,7 +55,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             await createMedicalOrder({ ...data, patientDni: patientDni });
             setActive(prev => prev + 1);
         } catch (error: any) {
-            notifications.show({ message: error.message, color: 'red' });
+            notifications.show({ message: getErrorMessage(error), color: 'red' });
         } finally {
             setLoading(false);
         }

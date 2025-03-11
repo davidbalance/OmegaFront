@@ -1,6 +1,7 @@
 'use client'
 
 import { ModularBox } from '@/components/modular/box/ModularBox';
+import { getErrorMessage } from '@/lib/utils/errors';
 import { useMantineTheme, Stack, Title, Box, Button, Text } from '@mantine/core';
 import React, { useEffect } from 'react'
 
@@ -49,7 +50,7 @@ const OrderError: React.FC<OrderErrorProps> = ({
                                 size='sm'
                                 truncate="end">
                                 <br />
-                                <br />- {error.message}
+                                <br />- {getErrorMessage(error)}
                                 <br />- {error.stack}
                                 {error.digest ? <><br />- {error.digest}</> : null}
                             </Text>

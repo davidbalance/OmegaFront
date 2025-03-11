@@ -7,6 +7,7 @@ import { useSelect } from '../_context/select.context';
 import { notifications } from '@mantine/notifications';
 import { MedicalDisease } from '@/server/medical_test/server_types';
 import { removeMedicalResultDisease } from '@/server/medical_test/actions';
+import { getErrorMessage } from '@/lib/utils/errors';
 
 interface DiseaseDeleteButtonProps {
     diseaseReportId: string;
@@ -31,7 +32,7 @@ const DiseaseDeleteButton: React.FC<DiseaseDeleteButtonProps> = ({
                 clear();
             }
         } catch (error: any) {
-            notifications.show({ message: error.message, color: 'red' });
+            notifications.show({ message: getErrorMessage(error), color: 'red' });
         } finally {
             setLoading(false);
         }

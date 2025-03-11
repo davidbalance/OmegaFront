@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@/lib/utils/errors';
 import { ApiResource } from './api-client.types';
 import urlBuilder, { QueryParams, URLParams } from './url-builder';
 
@@ -28,7 +29,7 @@ const executeRequest = async (url: string, options: RequestInit): Promise<any> =
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(`Error: ${response.status} - ${error.message}`);
+        throw new Error(`Error: ${response.status} - ${getErrorMessage(error)}`);
     }
 
     const contentType = response.headers.get('content-type');

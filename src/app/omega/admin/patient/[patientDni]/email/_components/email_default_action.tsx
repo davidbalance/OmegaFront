@@ -1,5 +1,6 @@
 'use client'
 
+import { getErrorMessage } from '@/lib/utils/errors';
 import { defaultClientEmail } from '@/server/medical_client/actions';
 import { Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -23,7 +24,7 @@ const EmailDefaultAction: React.FC<EmailDefaultActionProps> = ({
       try {
         await defaultClientEmail({ emailId, patientDni });
       } catch (error: any) {
-        notifications.show({ message: error.message, color: 'red' });
+        notifications.show({ message: getErrorMessage(error), color: 'red' });
       } finally {
         setLoading(false);
       }

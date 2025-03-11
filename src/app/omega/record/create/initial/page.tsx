@@ -18,6 +18,12 @@ import JobAccidentForm from '@/components/record/job-accident-form';
 import OccupationalDiseaseForm from '@/components/record/occupational-diseases-form';
 import FamilyHistoryForm from '@/components/record/family-history-form';
 import InitialJobRiskForm from './_components/initial-job-risk-form';
+import InitialJobRiskPreventiveForm from './_components/initial-job-risk-preventive-form';
+import InitialExtraJobActivityForm from './_components/initial-extra-job-activity-form';
+import CurrentDiseaseForm from '@/components/record/current-disease-form';
+import ReviewOfOrgansAndSystemForm from '@/components/record/review-of-organs-and-system-form';
+import VitalSignsAndAnthropometryFormForm from '@/components/record/vital-signs-and-anthropometry-form';
+import PhysicalRegionalExamForm from '@/components/record/physical-regional-exam-form';
 
 interface RecordInitialPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -64,6 +70,10 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
                     { title: 'Antecedentes Familiares', icon: 'tree' },
                     { title: 'Factores de Riesgos del Trabajo Actual', description: 'Riesgos', icon: 'tree' },
                     { title: 'Factores de Riesgos del Trabajo Actual', description: 'Riesgos con medidas preventivas', icon: 'tree' },
+                    { title: 'Actividades Extra Laborales', icon: 'tree' },
+                    { title: 'Enfermedad Actual', icon: 'tree' },
+                    { title: 'Revision Actual de Organos y Sistemas', icon: 'tree' },
+                    { title: 'Constantes Vitales y Antropometria', icon: 'tree' },
                     { title: 'Placeholder', icon: 'check' },
                 ]}
                 initialData={{
@@ -74,7 +84,7 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
                     patientGender: patient.patientGender,
                     patientAge: patientAge
                 }}>
-                <InitialJobRiskForm />
+                <PhysicalRegionalExamForm />
                 <InitialInstitutionForm options={corporativeOptions} />
                 <MedicalConsultationForm />
                 <MedicalAndSurgicalHistoryForm />
@@ -86,6 +96,12 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
                 <JobAccidentForm />
                 <OccupationalDiseaseForm />
                 <FamilyHistoryForm />
+                <InitialJobRiskForm />
+                <InitialJobRiskPreventiveForm />
+                <InitialExtraJobActivityForm />
+                <CurrentDiseaseForm />
+                <ReviewOfOrgansAndSystemForm />
+                <VitalSignsAndAnthropometryFormForm />
 
                 <PlaceholderForm />
             </StepperInitialRecordForm >

@@ -2,6 +2,7 @@
 
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { blobFile } from '@/lib/utils/blob-to-file'
+import { getErrorMessage } from '@/lib/utils/errors'
 import { Button, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 import { IconTable } from '@tabler/icons-react'
@@ -35,7 +36,7 @@ const CommandResultFileCheckExcel: React.FC = () => {
         try {
             await processBlob();
         } catch (error: any) {
-            notifications.show({ message: error.message, color: 'red' });
+            notifications.show({ message: getErrorMessage(error), color: 'red' });
         } finally {
             setLoading(false);
         }

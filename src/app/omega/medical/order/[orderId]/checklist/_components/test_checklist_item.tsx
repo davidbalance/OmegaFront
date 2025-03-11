@@ -27,21 +27,19 @@ const TestChecklistItem: React.FC<TestChecklistItemProps> = ({
         await uncheckMedicalTest(testId);
       }
     } catch (error: any) {
-      console.error(error.message);
-      setChecked(!pendingCheck); // Revert state on error
+      setChecked(!pendingCheck);
     }
   };
 
-  // Debounced function with no parameters
   const debouncedUpdate = useDebounceCallback(() => {
     updateCheckStatus();
   }, 300);
 
   const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.currentTarget.checked;
-    setChecked(isChecked); // Instant UI update
-    setPendingCheck(isChecked); // Store the latest intended value
-    debouncedUpdate(); // Call debounced function
+    setChecked(isChecked);
+    setPendingCheck(isChecked);
+    debouncedUpdate();
   }, [debouncedUpdate]);
 
   return (

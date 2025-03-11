@@ -1,4 +1,5 @@
 'use client'
+import { getErrorMessage } from '@/lib/utils/errors'
 import { logout } from '@/server/logout'
 import { MenuItem, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
@@ -12,7 +13,7 @@ const OmegaMenuItemLogout: React.FC = () => {
             await logout();
             await signOut({ callbackUrl: '/login' });
         } catch (error: any) {
-            notifications.show({ message: error.message, color: 'red' });
+            notifications.show({ message: getErrorMessage(error), color: 'red' });
         }
     }
     return (

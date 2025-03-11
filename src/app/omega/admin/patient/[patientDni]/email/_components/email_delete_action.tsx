@@ -1,4 +1,5 @@
 'use client'
+import { getErrorMessage } from '@/lib/utils/errors';
 import { removeClientEmail } from '@/server/medical_client/actions';
 import { ActionIcon, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -21,7 +22,7 @@ const EmailDeleteAction: React.FC<EmailDeleteActionProps> = ({
     try {
       await removeClientEmail({ emailId, patientDni });
     } catch (error: any) {
-      notifications.show({ message: error.message, color: 'red' });
+      notifications.show({ message: getErrorMessage(error), color: 'red' });
     } finally {
       setLoading(false);
     }

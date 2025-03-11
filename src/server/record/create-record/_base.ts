@@ -196,6 +196,7 @@ export type PhysicalRegionalExam = {
     examColumnFlexibility?: string;
     examColumnDeviation?: string;
     examColumnPain?: string;
+    examPelvis?: string;
     examPelvisGenitals?: string;
     examLimbVascular?: string;
     examLimbUpper?: string;

@@ -1,6 +1,7 @@
 'use client'
 
 import { ModularBox } from '@/components/modular/box/ModularBox';
+import { getErrorMessage } from '@/lib/utils/errors';
 import { Box, Button, Stack, Text, Title, useMantineTheme } from '@mantine/core';
 import React, { useEffect } from 'react'
 
@@ -47,7 +48,7 @@ const OmegaError: React.FC<OmegaErrorProps> = ({
                                 size='sm'
                                 truncate="end">
                                 <br />
-                                <br />- {error.message}
+                                <br />- {getErrorMessage(error)}
                                 <br />- {error.stack}
                                 {error.digest ? <><br />- {error.digest}</> : null}
                             </Text>

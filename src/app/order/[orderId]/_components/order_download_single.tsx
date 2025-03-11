@@ -1,6 +1,7 @@
 'use client'
 
 import { blobFile } from '@/lib/utils/blob-to-file';
+import { getErrorMessage } from '@/lib/utils/errors';
 import { MedicalFileZipPayload } from '@/server/medical_test/server_types';
 import { ActionIcon, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
@@ -38,7 +39,7 @@ const OrderDownloadSingle: React.FC<OrderDownloadSingleProps> = ({
         try {
             await processBlob({ testId, type, examName });
         } catch (error: any) {
-            notifications.show({ message: error.message, color: 'red' });
+            notifications.show({ message: getErrorMessage(error), color: 'red' });
         } finally {
             setLoading(false);
         }

@@ -54,7 +54,7 @@ const DiseaseReportForm: React.FC<DiseaseReportFormProps> = ({
             try {
                 await processBlob(formValues);
             } catch (error: any) {
-                notifications.show({ message: error.message, color: 'red' });
+                notifications.show({ message: getErrorMessage(error), color: 'red' });
             } finally {
                 setLoading(false);
             }

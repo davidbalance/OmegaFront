@@ -1,5 +1,6 @@
 'use client'
 
+import { getErrorMessage } from '@/lib/utils/errors';
 import { notifications } from '@mantine/notifications';
 import React, { useState } from 'react'
 import { createContext, useContext } from "react";
@@ -30,7 +31,7 @@ const ActionMenuProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             await promise;
         } catch (error: any) {
             console.error(error);
-            notifications.show({ message: error.message, color: 'red' });
+            notifications.show({ message: getErrorMessage(error), color: 'red' });
         } finally {
             setLoad(false);
         }
