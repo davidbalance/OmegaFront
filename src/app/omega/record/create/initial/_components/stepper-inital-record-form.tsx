@@ -1,7 +1,7 @@
 'use client'
 
 import { rem } from '@mantine/core';
-import { IconBuilding, IconCheck, IconLicense, IconLock, IconUserCheck } from '@tabler/icons-react';
+import { IconBriefcase, IconBuilding, IconCheck, IconLicense, IconLock, IconTree, IconUserCheck } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper_form';
@@ -14,11 +14,13 @@ const icon: StepperIcon = {
     'license': <IconLicense style={{ width: rem(16), height: rem(16) }} />,
     'building': <IconBuilding style={{ width: rem(16), height: rem(16) }} />,
     'check': <IconCheck style={{ width: rem(16), height: rem(16) }} />,
+    'briefcase': <IconBriefcase style={{ width: rem(16), height: rem(16) }} />,
+    'tree': <IconTree style={{ width: rem(16), height: rem(16) }} />,
 }
 type StepperInitialRecordForm = InitialRecordPayload;
 type StepperInitialRecordFormProps = {
     initialData?: Partial<StepperInitialRecordForm>;
-    headers: { description: string, icon: 'user-check' | 'lock' | 'license' | 'building' | 'check' }[]
+    headers: { title: string; description?: string, icon: 'user-check' | 'lock' | 'license' | 'building' | 'check' | 'briefcase' | 'tree' }[]
 } & Required<Pick<React.ComponentPropsWithoutRef<typeof StepperForm>, 'children'>>
 const StepperInitialRecordForm: React.FC<StepperInitialRecordFormProps> = ({
     ...props
@@ -34,6 +36,7 @@ const StepperInitialRecordForm: React.FC<StepperInitialRecordFormProps> = ({
             onSubmit={handleSubmit}
             icon={icon}
             onFinish={handleFormFinish}
+            orientation='vertical'
             {...props} />
     )
 }

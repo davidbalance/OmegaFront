@@ -23,7 +23,6 @@ export const retriveResource = async (resourceId: string): Promise<Resource> => 
 }
 
 export const createResource = async (payload: CreateResourcePayload): Promise<void> => {
-    console.log(payload);
     const session = await auth();
     await omega()
         .addToken(session.access_token)

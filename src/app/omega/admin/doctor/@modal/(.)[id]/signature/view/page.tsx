@@ -11,8 +11,6 @@ const DoctorModalActionSignatureViewPage: React.FC<DoctorModalActionSignatureVie
     const blob = await retriveDoctorFile(params.id);
     const buffer = await blob.arrayBuffer();
 
-    console.log(blob.type);
-
     return (
         <>
             <ModalHeader>

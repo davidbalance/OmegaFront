@@ -3,8 +3,6 @@ import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRi
 type Religion = 'catholic' | 'evangelical' | "jehovah's witnesses" | 'mormon' | 'other';
 type SexualOrientation = 'lesbian' | 'gay' | 'bisexual' | 'heterosexual' | 'other';
 type GenderIdentity = 'male' | 'female' | 'trans-female' | 'trans-male' | 'other';
-type GynecologicalExam = 'prostateAntigen' | 'colposcopy' | 'breastEcho' | 'mammography';
-type MaleReproductiveExam = 'prostateAntigen' | 'prostateEcho';
 
 type ExamHistoryResult = {
     done: boolean;
@@ -24,11 +22,15 @@ type GynecologicalHistory = {
     gynecologicalLivingChildren: number;
     gynecologicalSexualLife: boolean;
     gynecologicalFamilyPlanningType?: string;
-    gynecologicalExam: Record<GynecologicalExam, ExamHistoryResult>;
+    gynecologicalExamPapanicolau: ExamHistoryResult;
+    gynecologicalExamColposcopy: ExamHistoryResult;
+    gynecologicalExamBreastEcho: ExamHistoryResult;
+    gynecologicalExamMammography: ExamHistoryResult;
 };
 
 type MaleReproductiveHistory = {
-    maleReproductiveExam: Record<MaleReproductiveExam, ExamHistoryResult>;
+    maleReproductiveExamProstateAntigen: ExamHistoryResult;
+    maleReproductiveExamProstateEcho: ExamHistoryResult;
     maleReproductiveFamilyPlanningType?: string;
 };
 
@@ -53,25 +55,25 @@ type JobHistory = {
     lastJobObservation: string;
 }
 
-type JobRisk = {
+type JobRisk = Partial<PhysicalRisk<boolean>> & Partial<MechanicalRisk<boolean>> & Partial<ChemicalRisk<boolean>> & {
     name: string;
     activity: string;
-    physical: Record<PhysicalRisk, boolean> | { other: string };
-    mechanic: Record<MechanicalRisk, boolean> | { other: string };
-    chemical: Record<ChemicalRisk, boolean> | { other: string };
+    physicalRiskOther?: string;
+    mechanicRiskOther?: string;
+    chemicalOther?: string;
 }
 
-type JobRiskWithPreventiveMeasure = {
+type JobRiskWithPreventiveMeasure = Partial<BiologicalRisk<boolean>> & Partial<ErgonomicRisk<boolean>> & Partial<PsychosocialRisk<boolean>> & {
     name: string;
     activity: string;
-    biological: Record<BiologicalRisk, boolean> | { other: string };
-    ergonomic: Record<ErgonomicRisk, boolean> | { other: string };
-    phychosocial: Record<PsychosocialRisk, boolean> | { other: string };
+    biologicalRiskOther?: string;
+    ergonomicOther?: string;
+    phychosocialOther?: string;
     preventiveMeasure: string;
 }
 
 export type InitialRecordPayload = PatientRecord & CompanyRecord &
-    JobInformation & LifeStyle & JobAccident & GeneralExam & OccupationalDisease & JobHistory &
+    JobInformation & LifeStyle & JobAccident & GeneralExam & OccupationalDisease &
     FamilyHistory & GynecologicalHistory & MaleReproductiveHistory & ReviewOfOrgansAndSystem &
     VitalSignsAndAnthropometry & PhysicalRegionalExam & MedicalFitnessForJob & {
         /** Institution & Patient Information */
@@ -97,7 +99,8 @@ export type InitialRecordPayload = PatientRecord & CompanyRecord &
         toxicHabitAlcohol?: ToxicDetail;
         toxicHabitOther?: ToxicDetail;
 
-        /** Job Position Risks */
+        /** Job Position History */
+        jobHistory: JobHistory[];
         jobRisks: JobRisk[];
         jobRiskWithPreventiveMeasure: JobRiskWithPreventiveMeasure[];
 

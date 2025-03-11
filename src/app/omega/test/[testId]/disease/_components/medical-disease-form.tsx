@@ -89,6 +89,7 @@ const MedicalDiseaseForm: React.FC<MedicalDiseaseFormProps> = ({
                     options={options}
                     groupValue={formValue.diseaseGroupId !== '' ? undefined : formValue.diseaseGroupId}
                     diseaseValue={formValue.diseaseId !== '' ? undefined : formValue.diseaseId}
+                    useDisease
                     onChange={(selectedValues) => {
                         setFormValue((prev) => {
                             const updatedForm: any = { ...prev };

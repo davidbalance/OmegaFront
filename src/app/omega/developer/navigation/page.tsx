@@ -9,9 +9,6 @@ import ResourceList from './_components/resource_list';
 const DeveloperNavigationPage: React.FC = async () => {
 
   const resources = await retriveResources();
-
-  console.log(resources);
-
   return (
     <ModularBox flex={1}>
       <Button

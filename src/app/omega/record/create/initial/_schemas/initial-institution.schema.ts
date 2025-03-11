@@ -29,6 +29,6 @@ const schema = z.object({
     .refine((arg) => arg.patientReligion === 'other' ? !!arg.patientOtherReligion : true, { message: 'No se ha indicado otra religion.', path: ['patientOtherReligion'] })
     .refine((arg) => arg.patientSexualOrientation === 'other' ? !!arg.patientOtherSexualOrientation : true, { message: 'No se ha indicado otra orientacion sexual.', path: ['patientOtherSexualOrientation'] })
     .refine((arg) => arg.patientGenderIdentity === 'other' ? !!arg.patientOtherGenderIdentity : true, { message: 'No se ha indicado otra identidad de genero.', path: ['patientOtherGenderIdentity'] })
-    .refine((arg) => arg.patientDisabilityType && !arg.patientDisabilityPercent, { message: 'Debe colocar el porcentaje de discapacidad.', path: ['patientDisabilityPercent'] })
+    .refine((arg) => !!arg.patientDisabilityType && !!arg.patientDisabilityPercent, { message: 'Debe colocar el porcentaje de discapacidad.', path: ['patientDisabilityPercent'] })
 
 export default schema;

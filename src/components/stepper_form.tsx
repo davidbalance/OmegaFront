@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, ButtonGroup, Flex, LoadingOverlay, rem, Stepper, StepperCompleted, StepperStep, Text } from '@mantine/core';
+import { Box, Button, ButtonGroup, Flex, LoadingOverlay, rem, ScrollArea, Stack, Stepper, StepperCompleted, StepperStep, Text } from '@mantine/core';
 import { useDebounceCallback } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconBook, IconCheck, IconChevronLeft, IconChevronRight, IconCircleCheck, IconImageInPicture } from '@tabler/icons-react';
@@ -9,7 +9,7 @@ import { ModularBox } from './modular/box/ModularBox';
 
 export type StepperIcon = Record<string, React.ReactElement>
 export type StepSubmitEvent<T = any> = (value: Partial<T>) => void;
-type StepperHeader = { description: string; icon: string; }
+type StepperHeader = { title?: string; description?: string; icon: string; }
 type ButtonLabel = {
     next: string;
     prev: string;
@@ -28,6 +28,7 @@ type StepperFormProps<T = any> = {
     buttonLabels?: Partial<ButtonLabel>;
     endMessage?: string;
     initialData?: Partial<T>;
+    orientation?: 'vertical' | 'horizontal'
 }
 const StepperForm = <T,>({
     children,
@@ -45,6 +46,7 @@ const StepperForm = <T,>({
     },
     endMessage = 'Proceso completado',
     initialData = {} as T,
+    orientation = 'horizontal'
 }: StepperFormProps<T>) => {
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -92,57 +94,76 @@ const StepperForm = <T,>({
     return (
         <>
             <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
-            <ModularBox flex={1}>
-                <Stepper
-                    active={active}
-                    size="xs"
-                    onStepClick={setActive}
-                    allowNextStepsSelect={false}
-                    h="100%"
-                    completedIcon={<IconCircleCheck style={{ width: rem(16), height: rem(16) }} />}
-                    styles={{ content: { height: '90%' } }}
-                >
-                    {React.Children.map(children, (child, index) => {
-                        let newChild = child;
-                        if (React.isValidElement(child)) {
-                            const formRef = (node: HTMLFormElement) => {
-                                if (node) {
-                                    formRefs.current.set(index, node);
-                                }
-                            };
-                            newChild = React.cloneElement(child as React.ReactElement<HTMLFormElement>, {
-                                data: { ...formValues },
-                                ref: formRef,
-                                onSubmit: handleStepSubmit,
-                            });
-                        }
+            <ModularBox
+                flex={1}>
+                <Box w='100%' h='100%' pos='relative'>
+                    <Stepper
+                        active={active}
+                        size="xs"
+                        onStepClick={setActive}
+                        allowNextStepsSelect={false}
+                        h="100%"
+                        completedIcon={<IconCircleCheck style={{ width: rem(16), height: rem(16) }} />}
+                        styles={{
+                            root: { position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, display: 'flex', flexDirection: orientation === 'horizontal' ? 'column' : 'row-reverse' },
+                            steps: orientation === 'horizontal' ? undefined : { overflowY: 'auto', height: 'auto', paddingRight: rem(8), paddingLeft: rem(8), paddingTop: rem(16) },
+                            content: { flex: 1, height: '100%' }
+                        }}
+                        iconSize={32}
+                        orientation={orientation}
+                    >
+                        {React.Children.map(children, (child, index) => {
+                            let newChild = child;
+                            if (React.isValidElement(child)) {
+                                const formRef = (node: HTMLFormElement) => {
+                                    if (node) {
+                                        formRefs.current.set(index, node);
+                                    }
+                                };
+                                newChild = React.cloneElement(child as React.ReactElement<HTMLFormElement>, {
+                                    data: { ...formValues },
+                                    ref: formRef,
+                                    onSubmit: handleStepSubmit,
+                                });
+                            }
 
-                        const stepperProps = headers[index] ?? { description: defaultHeaderDescription, icon: null };
-                        const stepIcon = stepperProps.icon !== null ? icon[stepperProps.icon] ?? defaultIcon : defaultIcon;
+                            const stepperProps = headers[index] ?? { description: defaultHeaderDescription, icon: null };
+                            const stepIcon = stepperProps.icon !== null ? icon[stepperProps.icon] ?? defaultIcon : defaultIcon;
 
-                        return (
-                            <StepperStep key={index} icon={stepIcon} label={`Paso ${index + 1}`} description={stepperProps.description}>
-                                {newChild}
-                            </StepperStep>
-                        );
-                    })}
-                    <StepperCompleted>
-                        <ModularBox>
-                            <Flex
-                                component='div'
-                                justify="center"
-                                align="center"
-                                direction="column"
-                                wrap="wrap"
-                                c="green">
-                                <IconCircleCheck style={{ width: rem(128), height: rem(128) }} />
-                                <Text size="lg">
-                                    {endMessage}
-                                </Text>
-                            </Flex>
-                        </ModularBox>
-                    </StepperCompleted>
-                </Stepper>
+                            const title = headers[index]?.title ?? `Paso ${index + 1}`;
+                            const description = headers[index]?.description ?? defaultHeaderDescription;
+                            return (
+                                <StepperStep key={index} icon={stepIcon} label={title} description={description}>
+                                    <Box component='div' h='100%' pos='relative'>
+                                        <ScrollArea
+                                            scrollbars='y'
+                                            component='div'
+                                            px={rem(16)}
+                                            style={{ position: 'absolute', top: 0, bottom: 0, right: 0, left: 0 }}>
+                                            {newChild}
+                                        </ScrollArea>
+                                    </Box>
+                                </StepperStep>
+                            );
+                        })}
+                        <StepperCompleted>
+                            <ModularBox>
+                                <Flex
+                                    component='div'
+                                    justify="center"
+                                    align="center"
+                                    direction="column"
+                                    wrap="wrap"
+                                    c="green">
+                                    <IconCircleCheck style={{ width: rem(128), height: rem(128) }} />
+                                    <Text size="lg">
+                                        {endMessage}
+                                    </Text>
+                                </Flex>
+                            </ModularBox>
+                        </StepperCompleted>
+                    </Stepper>
+                </Box>
             </ModularBox>
             <ModularBox>
                 <ButtonGroup>

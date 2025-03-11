@@ -1,21 +1,21 @@
 import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, GeneralExam, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic } from "./_base";
 
-type JobRisk = {
+type JobRisk = Partial<PhysicalRisk<boolean>> & Partial<MechanicalRisk<Boolean>> & Partial<ChemicalRisk<boolean>> & Partial<BiologicalRisk<boolean>> & Partial<ErgonomicRisk<boolean>> & {
     name: string;
     activity: string;
     months: number;
-    physical: Record<PhysicalRisk, boolean> | { other: string };
-    mechanic: Record<MechanicalRisk, boolean> | { other: string };
-    chemical: Record<ChemicalRisk, boolean> | { other: string };
-    biological: Record<BiologicalRisk, boolean> | { other: string };
-    ergonomic: Record<ErgonomicRisk, boolean> | { other: string };
+    physicalRiskOther?: string;
+    mechanicRiskOther?: string;
+    chemicalRiskOther?: string;
+    biologicalRiskOther?: string;
+    ergonomicRiskOther?: string;
 }
 
-type JobRiskWithPreventiveMeasure = {
+type JobRiskWithPreventiveMeasure = Partial<PsychosocialRisk<boolean>> & {
     name: string;
     activity: string;
     months: number;
-    psychosocial: Record<PsychosocialRisk, boolean> | { other: string };
+    psychosocialRiskOther?: string;
     preventiveMeasure: string;
 }
 

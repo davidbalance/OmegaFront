@@ -109,152 +109,147 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
             component='form'
             onSubmit={form.onSubmit(handleSubmit)}
             style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <ScrollArea
-                component='div'
-                px={rem(16)}
-                style={{ position: 'absolute', top: 0, bottom: 0, right: 0, left: 0 }}>
-                <Stack gap={rem(16)}>
-                    <Divider label='Institucion' />
-                    <SimpleGrid cols={{ base: 1, sm: 4 }}>
-                        <CorporativeSelect
-                            options={options}
-                            corporativeValue={defaultCorporative}
-                            companyValue={data?.companyRUC}
-                            useCompany
-                            onChange={handleCorporativeChange} />
-                        <TextInput
-                            label="CIU"
-                            placeholder="CIU"
-                            {...form.getInputProps('companyCIU')} />
-                        <TextInput
-                            disabled
-                            label="ESTABLECIMIENTO DE SALUD"
-                            placeholder="eg. Omega"
-                            {...form.getInputProps('institutionHealthFacility')} />
-                    </SimpleGrid>
+            <Stack gap={rem(16)}>
+                <Divider label='Institucion' />
+                <SimpleGrid cols={{ base: 1, sm: 4 }}>
+                    <CorporativeSelect
+                        options={options}
+                        corporativeValue={defaultCorporative}
+                        companyValue={data?.companyRUC}
+                        useCompany
+                        onChange={handleCorporativeChange} />
+                    <TextInput
+                        label="CIU"
+                        placeholder="CIU"
+                        {...form.getInputProps('companyCIU')} />
+                    <TextInput
+                        disabled
+                        label="ESTABLECIMIENTO DE SALUD"
+                        placeholder="eg. Omega"
+                        {...form.getInputProps('institutionHealthFacility')} />
+                </SimpleGrid>
 
-                    <Divider label='Paciente - Datos Generales' />
-                    <SimpleGrid cols={{ base: 1, sm: 4 }}>
-                        <TextInput
-                            label="PRIMER APELLIDO"
-                            placeholder="eg. Nuñez"
-                            {...form.getInputProps('patientLastName')} />
-                        <TextInput
-                            label="SEGUNDO APELLIDO"
-                            placeholder="eg. Nuñez"
-                            {...form.getInputProps('patientSecondLastName')} />
-                        <TextInput
-                            label="PRIMER NOMBRE"
-                            placeholder="eg. Manuel"
-                            {...form.getInputProps('patientFirstName')} />
-                        <TextInput
-                            label="SEGUNDO NOMBRE"
-                            placeholder="eg. Manuel"
-                            {...form.getInputProps('patientMiddleName')} />
-                    </SimpleGrid>
-                    <SimpleGrid cols={{ base: 1, sm: 4 }}>
-                        <GenderSelector
-                            label='SEXO'
-                            {...form.getInputProps('patientGender')} />
-                        <TextInput
-                            disabled
-                            label="EDAD"
-                            type='number'
-                            {...form.getInputProps('patientAge')} />
+                <Divider label='Paciente - Datos Generales' />
+                <SimpleGrid cols={{ base: 1, sm: 4 }}>
+                    <TextInput
+                        label="PRIMER APELLIDO"
+                        placeholder="eg. Nuñez"
+                        {...form.getInputProps('patientLastName')} />
+                    <TextInput
+                        label="SEGUNDO APELLIDO"
+                        placeholder="eg. Nuñez"
+                        {...form.getInputProps('patientSecondLastName')} />
+                    <TextInput
+                        label="PRIMER NOMBRE"
+                        placeholder="eg. Manuel"
+                        {...form.getInputProps('patientFirstName')} />
+                    <TextInput
+                        label="SEGUNDO NOMBRE"
+                        placeholder="eg. Manuel"
+                        {...form.getInputProps('patientMiddleName')} />
+                </SimpleGrid>
+                <SimpleGrid cols={{ base: 1, sm: 4 }}>
+                    <GenderSelector
+                        label='SEXO'
+                        {...form.getInputProps('patientGender')} />
+                    <TextInput
+                        disabled
+                        label="EDAD"
+                        type='number'
+                        {...form.getInputProps('patientAge')} />
+                    <Select
+                        data={BloodGroupOptions}
+                        checkIconPosition="left"
+                        label="GRUPO SANGUINEO"
+                        placeholder="eg. A"
+                        defaultDropdownOpened={false}
+                        maxDropdownHeight={200}
+                        {...form.getInputProps('patientBloodType')} />
+                    <TextInput
+                        label="LATERALIDAD"
+                        placeholder="eg. Lateralidad"
+                        {...form.getInputProps('patientLaterality')} />
+                </SimpleGrid>
+
+                <Divider label='Paciente' />
+                <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                    <Stack component='div' gap={rem(4)}>
                         <Select
-                            data={BloodGroupOptions}
+                            data={ReligionOptions}
                             checkIconPosition="left"
-                            label="GRUPO SANGUINEO"
-                            placeholder="eg. A"
+                            label="RELIGION"
+                            placeholder="eg. Catologica"
                             defaultDropdownOpened={false}
                             maxDropdownHeight={200}
-                            {...form.getInputProps('patientBloodType')} />
-                        <TextInput
-                            label="LATERALIDAD"
-                            placeholder="eg. Lateralidad"
-                            {...form.getInputProps('patientLaterality')} />
-                    </SimpleGrid>
-
-                    <Divider label='Paciente' />
-                    <SimpleGrid cols={{ base: 1, sm: 3 }}>
-                        <Stack component='div' gap={rem(4)}>
-                            <Select
-                                data={ReligionOptions}
-                                checkIconPosition="left"
-                                label="RELIGION"
-                                placeholder="eg. Catologica"
-                                defaultDropdownOpened={false}
-                                maxDropdownHeight={200}
-                                {...form.getInputProps('patientReligion')} />
-                            {
-                                form.values.patientReligion === 'other' && <TextInput
-                                    label="OTRA RELIGION"
-                                    placeholder="eg. Pastafarianismo"
-                                    {...form.getInputProps('patientOtherReligion')} />
-                            }
-                        </Stack>
-                        <Stack component='div' gap={rem(4)}>
-                            <Select
-                                data={SexualOrientationOptions}
-                                checkIconPosition="left"
-                                label="ORIENTACION SEXUAL"
-                                placeholder="eg. Catologica"
-                                defaultDropdownOpened={false}
-                                maxDropdownHeight={200}
-                                {...form.getInputProps('patientSexualOrientation')} />
-                            {
-                                form.values.patientSexualOrientation === 'other' && <TextInput
-                                    label="OTRA ORIENTACION SEXUAL"
-                                    placeholder="eg. Gay"
-                                    {...form.getInputProps('patientOtherSexualOrientation')} />
-                            }
-                        </Stack>
+                            {...form.getInputProps('patientReligion')} />
+                        {
+                            form.values.patientReligion === 'other' && <TextInput
+                                label="OTRA RELIGION"
+                                placeholder="eg. Pastafarianismo"
+                                {...form.getInputProps('patientOtherReligion')} />
+                        }
+                    </Stack>
+                    <Stack component='div' gap={rem(4)}>
                         <Select
-                            data={GenderIdentityOptions}
+                            data={SexualOrientationOptions}
                             checkIconPosition="left"
-                            label="IDENTIDAD DE GENERO"
-                            placeholder="eg. Masculino"
+                            label="ORIENTACION SEXUAL"
+                            placeholder="eg. Catologica"
                             defaultDropdownOpened={false}
                             maxDropdownHeight={200}
-                            {...form.getInputProps('patientGenderIdentity')} />
-                    </SimpleGrid>
+                            {...form.getInputProps('patientSexualOrientation')} />
+                        {
+                            form.values.patientSexualOrientation === 'other' && <TextInput
+                                label="OTRA ORIENTACION SEXUAL"
+                                placeholder="eg. Gay"
+                                {...form.getInputProps('patientOtherSexualOrientation')} />
+                        }
+                    </Stack>
+                    <Select
+                        data={GenderIdentityOptions}
+                        checkIconPosition="left"
+                        label="IDENTIDAD DE GENERO"
+                        placeholder="eg. Masculino"
+                        defaultDropdownOpened={false}
+                        maxDropdownHeight={200}
+                        {...form.getInputProps('patientGenderIdentity')} />
+                </SimpleGrid>
 
-                    <SimpleGrid cols={{ base: 2 }}>
-                        <TextInput
-                            label="TIPO DE DISCAPACIDAD"
-                            placeholder="eg. Discapacidad..."
-                            {...form.getInputProps('patientDisabilityType')} />
-                        <TextInput
-                            label="PORCENTAJE DE DISCAPACIDAD"
-                            type='number'
-                            step={0.01}
-                            min={0}
-                            max={100}
-                            {...form.getInputProps('patientDisabilityPercent')} />
-                    </SimpleGrid>
+                <SimpleGrid cols={{ base: 2 }}>
+                    <TextInput
+                        label="TIPO DE DISCAPACIDAD"
+                        placeholder="eg. Discapacidad..."
+                        {...form.getInputProps('patientDisabilityType')} />
+                    <TextInput
+                        label="PORCENTAJE DE DISCAPACIDAD"
+                        type='number'
+                        step={0.01}
+                        min={0}
+                        max={100}
+                        {...form.getInputProps('patientDisabilityPercent')} />
+                </SimpleGrid>
 
-                    <Divider label='Trabajo' />
-                    <SimpleGrid cols={{ base: 1, sm: 3 }}>
-                        <DateInput
-                            label='INGRESO AL TRABAJO'
-                            {...form.getInputProps('jobStartDate')} />
-                        <TextInput
-                            label="PUESTO DE TRABAJO"
-                            placeholder='eg. Gerente'
-                            {...form.getInputProps('jobPosition')} />
-                        <TextInput
-                            label="AREA DE TRABAJO"
-                            placeholder='eg. Marketing'
-                            {...form.getInputProps('jobArea')} />
-                    </SimpleGrid>
+                <Divider label='Trabajo' />
+                <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                    <DateInput
+                        label='INGRESO AL TRABAJO'
+                        {...form.getInputProps('jobStartDate')} />
+                    <TextInput
+                        label="PUESTO DE TRABAJO"
+                        placeholder='eg. Gerente'
+                        {...form.getInputProps('jobPosition')} />
+                    <TextInput
+                        label="AREA DE TRABAJO"
+                        placeholder='eg. Marketing'
+                        {...form.getInputProps('jobArea')} />
+                </SimpleGrid>
 
-                    <Textarea
-                        label="ACTIVIDAD DE TRABAJO"
-                        placeholder='eg. Gestion el control...'
-                        {...form.getInputProps('jobActivity')} />
-                </Stack>
-            </ScrollArea>
-        </Box >
+                <Textarea
+                    label="ACTIVIDAD DE TRABAJO"
+                    placeholder='eg. Gestion el control...'
+                    {...form.getInputProps('jobActivity')} />
+            </Stack>
+        </Box>
     )
 });
 

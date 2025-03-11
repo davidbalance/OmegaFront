@@ -8,6 +8,16 @@ import { CorporativeOption } from '@/server/corporative/server_types';
 import { retriveClientByDni } from '@/server/medical_client/actions';
 import dayjs from 'dayjs';
 import MedicalConsultationForm from '@/components/record/medical-consultation-form';
+import MedicalAndSurgicalHistoryForm from '@/components/record/medical-and-surgical-history-form';
+import InitialGynecologicalForm from './_components/initial-gynecological-form';
+import IntialMaleReproductionForm from './_components/initial-male-reproduction-form';
+import InitialToxicHabitsForm from './_components/initial-toxic-habits-form';
+import InitialLifestyleForm from './_components/initial-lifestyle-form';
+import InitialJobHistoryForm from './_components/initial-job-history-form';
+import JobAccidentForm from '@/components/record/job-accident-form';
+import OccupationalDiseaseForm from '@/components/record/occupational-diseases-form';
+import FamilyHistoryForm from '@/components/record/family-history-form';
+import InitialJobRiskForm from './_components/initial-job-risk-form';
 
 interface RecordInitialPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -41,9 +51,20 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
             <ReturnableHeader title='Ficha inicial' />
             <StepperInitialRecordForm
                 headers={[
-                    { description: 'Datos del establecimiento - Empresa y Usuario', icon: 'building' },
-                    { description: 'Motivo de la consulta', icon: 'license' },
-                    { description: 'Placeholder', icon: 'check' },
+                    { title: 'Datos del establecimiento', description: 'Empresa y Usuario', icon: 'building' },
+                    { title: 'Motivo de la consulta', icon: 'license' },
+                    { title: 'Antecedentes personales', description: 'Antecedentes Clinicos y Quirúrgicos', icon: 'user-check' },
+                    { title: 'Antecedentes personales', description: 'Antecedentes Gineco Obstreicos', icon: 'user-check' },
+                    { title: 'Antecedentes personales', description: 'Antecedentes Reproductivos Masculinos', icon: 'user-check' },
+                    { title: 'Antecedentes personales', description: 'Habitos Toxicos', icon: 'user-check' },
+                    { title: 'Antecedentes personales', description: 'Estilo de vida', icon: 'user-check' },
+                    { title: 'Antecedentes de Trabajo', description: 'Antecedentes de Empleos Anteriores', icon: 'briefcase' },
+                    { title: 'Antecedentes de Trabajo', description: 'Accidentes de Trabajo', icon: 'briefcase' },
+                    { title: 'Antecedentes de Trabajo', description: 'Enfermedades Profesionales', icon: 'briefcase' },
+                    { title: 'Antecedentes Familiares', icon: 'tree' },
+                    { title: 'Factores de Riesgos del Trabajo Actual', description: 'Riesgos', icon: 'tree' },
+                    { title: 'Factores de Riesgos del Trabajo Actual', description: 'Riesgos con medidas preventivas', icon: 'tree' },
+                    { title: 'Placeholder', icon: 'check' },
                 ]}
                 initialData={{
                     patientFirstName: patientFirstName,
@@ -53,10 +74,21 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
                     patientGender: patient.patientGender,
                     patientAge: patientAge
                 }}>
+                <InitialJobRiskForm />
                 <InitialInstitutionForm options={corporativeOptions} />
                 <MedicalConsultationForm />
+                <MedicalAndSurgicalHistoryForm />
+                <InitialGynecologicalForm />
+                <IntialMaleReproductionForm />
+                <InitialToxicHabitsForm />
+                <InitialLifestyleForm />
+                <InitialJobHistoryForm />
+                <JobAccidentForm />
+                <OccupationalDiseaseForm />
+                <FamilyHistoryForm />
+
                 <PlaceholderForm />
-            </StepperInitialRecordForm>
+            </StepperInitialRecordForm >
         </>
     )
 }
