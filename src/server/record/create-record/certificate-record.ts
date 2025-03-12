@@ -1,24 +1,22 @@
-import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, MedicalDiagnostic, JobAccident, OccupationalDisease, GeneralExam } from "./_base";
+import { PatientRecord, CompanyRecord, MedicalDiagnostic, MedicalFitnessForJob } from "./_base";
 
-type InstitutionActivity = {
-    activity: string;
-    risk: string;
-}
+type GeneralData = {
+    generalDataEntry: boolean;
+    generalDataPeriodic: boolean;
+    generalDataReintegrate: boolean;
+    generalDataRetirement: boolean;
+};
 
 type RetirementEvaluation = {
-    retirementDone: boolean;
-    retirementobservation: string;
+    retirementEvaluationDone: boolean;
+    retirementEvaluationCondition: 'presuntive' | 'definitive' | 'no-apply';
+    retirementEvaluationConditionWithJob: 'yes' | 'no' | 'no-apply';
 }
 
 export type RetirementRecordPayload = PatientRecord & CompanyRecord &
-    JobAccident & OccupationalDisease & GeneralExam & VitalSignsAndAnthropometry & PhysicalRegionalExam &
-    RetirementEvaluation & {
+    GeneralData & MedicalFitnessForJob & RetirementEvaluation & {
         /** Institution & Patient Information */
         institutionHealthFacility: string;
-        institutionActivities: InstitutionActivity[];
-        workStartDate: Date;
-        workingTime: number;
-        workingEndDate: Date;
         jobPosition: string;
 
         /** Medical Consultation */

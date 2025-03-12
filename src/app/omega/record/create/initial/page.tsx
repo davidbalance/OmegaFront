@@ -11,8 +11,6 @@ import MedicalConsultationForm from '@/components/record/medical-consultation-fo
 import MedicalAndSurgicalHistoryForm from '@/components/record/medical-and-surgical-history-form';
 import InitialGynecologicalForm from './_components/initial-gynecological-form';
 import IntialMaleReproductionForm from './_components/initial-male-reproduction-form';
-import InitialToxicHabitsForm from './_components/initial-toxic-habits-form';
-import InitialLifestyleForm from './_components/initial-lifestyle-form';
 import InitialJobHistoryForm from './_components/initial-job-history-form';
 import JobAccidentForm from '@/components/record/job-accident-form';
 import OccupationalDiseaseForm from '@/components/record/occupational-diseases-form';
@@ -22,8 +20,14 @@ import InitialJobRiskPreventiveForm from './_components/initial-job-risk-prevent
 import InitialExtraJobActivityForm from './_components/initial-extra-job-activity-form';
 import CurrentDiseaseForm from '@/components/record/current-disease-form';
 import ReviewOfOrgansAndSystemForm from '@/components/record/review-of-organs-and-system-form';
-import VitalSignsAndAnthropometryFormForm from '@/components/record/vital-signs-and-anthropometry-form';
+import VitalSignsAndAnthropometryForm from '@/components/record/vital-signs-and-anthropometry-form';
 import PhysicalRegionalExamForm from '@/components/record/physical-regional-exam-form';
+import GeneralExamResultForm from '@/components/record/general-exam-result';
+import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
+import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-job-form';
+import RecommendationForm from '@/components/record/recommendation-form';
+import ToxicHabitsForm from '@/components/record/toxic-habits-form';
+import LifestyleForm from '@/components/record/lifestyle-form';
 
 interface RecordInitialPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -68,12 +72,17 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
                     { title: 'Antecedentes de Trabajo', description: 'Accidentes de Trabajo', icon: 'briefcase' },
                     { title: 'Antecedentes de Trabajo', description: 'Enfermedades Profesionales', icon: 'briefcase' },
                     { title: 'Antecedentes Familiares', icon: 'tree' },
-                    { title: 'Factores de Riesgos del Trabajo Actual', description: 'Riesgos', icon: 'tree' },
-                    { title: 'Factores de Riesgos del Trabajo Actual', description: 'Riesgos con medidas preventivas', icon: 'tree' },
-                    { title: 'Actividades Extra Laborales', icon: 'tree' },
-                    { title: 'Enfermedad Actual', icon: 'tree' },
-                    { title: 'Revision Actual de Organos y Sistemas', icon: 'tree' },
-                    { title: 'Constantes Vitales y Antropometria', icon: 'tree' },
+                    { title: 'Factores de Riesgos del Trabajo Actual', description: 'Riesgos', icon: 'risk' },
+                    { title: 'Factores de Riesgos del Trabajo Actual', description: 'Riesgos con medidas preventivas', icon: 'risk' },
+                    { title: 'Actividades Extra Laborales', icon: 'activity' },
+                    { title: 'Enfermedad Actual', icon: 'disease' },
+                    { title: 'Revision Actual de Organos y Sistemas', icon: 'heart' },
+                    { title: 'Constantes Vitales y Antropometria', icon: 'heart' },
+                    { title: 'Examen Fisico Regional', description: 'Regiones', icon: 'heart' },
+                    { title: 'Resultados de Examenes Generales y Especificos', description: 'Regiones', icon: 'notebook' },
+                    { title: 'M. Diagnostico', icon: 'notebook' },
+                    { title: 'N. Aptitud Medical para el Trabajo', icon: 'notebook' },
+                    { title: 'Recomendacionesy/o Tratamientos', icon: 'notebook' },
                     { title: 'Placeholder', icon: 'check' },
                 ]}
                 initialData={{
@@ -84,14 +93,13 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
                     patientGender: patient.patientGender,
                     patientAge: patientAge
                 }}>
-                <PhysicalRegionalExamForm />
                 <InitialInstitutionForm options={corporativeOptions} />
                 <MedicalConsultationForm />
                 <MedicalAndSurgicalHistoryForm />
                 <InitialGynecologicalForm />
                 <IntialMaleReproductionForm />
-                <InitialToxicHabitsForm />
-                <InitialLifestyleForm />
+                <ToxicHabitsForm />
+                <LifestyleForm />
                 <InitialJobHistoryForm />
                 <JobAccidentForm />
                 <OccupationalDiseaseForm />
@@ -101,7 +109,12 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
                 <InitialExtraJobActivityForm />
                 <CurrentDiseaseForm />
                 <ReviewOfOrgansAndSystemForm />
-                <VitalSignsAndAnthropometryFormForm />
+                <VitalSignsAndAnthropometryForm />
+                <PhysicalRegionalExamForm />
+                <GeneralExamResultForm />
+                <MedicalDiagnosticForm />
+                <MedicalFitnessForJobForm />
+                <RecommendationForm />
 
                 <PlaceholderForm />
             </StepperInitialRecordForm >

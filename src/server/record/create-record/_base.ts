@@ -221,7 +221,10 @@ export type MedicalDiagnostic = {
 };
 
 export type MedicalFitnessForJob = {
-    medicalFitnessType: 'fit' | 'fit-observation' | 'fit-limitation' | 'no-fit';
+    medicalFitnessFit: boolean;
+    medicalFitnessFitObservation: boolean;
+    medicalFitnessFitLimitation: boolean;
+    medicalFitnessNoFit: boolean;
     medicalFitnessObservation: string;
     medicalFitnessLimitation: string;
 };

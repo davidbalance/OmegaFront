@@ -2,21 +2,20 @@
 
 import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
-import InitialLifestyleSchema from '../_schemas/initial-lifestyle.schema'
+import LifestyleSchema from './schemas/lifestyle.schema'
 import { z } from 'zod';
-import { Box, Checkbox, Divider, Group, rem, ScrollArea, SimpleGrid, Stack, TextInput } from '@mantine/core';
-import { DateInput } from '@mantine/dates';
+import { Box, Checkbox, Group, rem, SimpleGrid, Stack, TextInput } from '@mantine/core';
 
-type InitialLifestyleFormProps = {
-    data?: Partial<z.infer<typeof InitialLifestyleSchema>>,
-    onSubmit?: (value: z.infer<typeof InitialLifestyleSchema>) => void;
+type LifestyleFormProps = {
+    data?: Partial<z.infer<typeof LifestyleSchema>>,
+    onSubmit?: (value: z.infer<typeof LifestyleSchema>) => void;
 }
-const InitialLifestyleForm = React.forwardRef<HTMLFormElement, InitialLifestyleFormProps>(({
+const LifestyleForm = React.forwardRef<HTMLFormElement, LifestyleFormProps>(({
     data,
     onSubmit
 }, ref) => {
 
-    const form = useForm<z.infer<typeof InitialLifestyleSchema>>({
+    const form = useForm<z.infer<typeof LifestyleSchema>>({
         initialValues: {
             lifestylePhysicalActivityActive: data?.lifestylePhysicalActivityActive || false,
             lifestylePhysicalActivityType: data?.lifestylePhysicalActivityType || '',
@@ -25,10 +24,10 @@ const InitialLifestyleForm = React.forwardRef<HTMLFormElement, InitialLifestyleF
             lifestyleMedicationName: data?.lifestyleMedicationName || '',
             lifestyleMedicationQuantity: data?.lifestyleMedicationQuantity || 0,
         },
-        validate: zodResolver(InitialLifestyleSchema)
+        validate: zodResolver(LifestyleSchema)
     });
 
-    const handleSubmit = useCallback((value: z.infer<typeof InitialLifestyleSchema>) => {
+    const handleSubmit = useCallback((value: z.infer<typeof LifestyleSchema>) => {
         onSubmit?.(value);
     }, [onSubmit]);
 
@@ -84,6 +83,6 @@ const InitialLifestyleForm = React.forwardRef<HTMLFormElement, InitialLifestyleF
     )
 });
 
-InitialLifestyleForm.displayName = 'InitialLifestyleForm'
+LifestyleForm.displayName = 'LifestyleForm'
 
-export default InitialLifestyleForm
+export default LifestyleForm

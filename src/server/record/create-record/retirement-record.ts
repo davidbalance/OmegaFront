@@ -1,4 +1,4 @@
-import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, MedicalDiagnostic, JobAccident, OccupationalDisease, GeneralExam } from "./_base";
+import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalDiagnostic, JobAccident, OccupationalDisease, GeneralExam } from "./_base";
 
 type InstitutionActivity = {
     activity: string;
@@ -7,7 +7,7 @@ type InstitutionActivity = {
 
 type RetirementEvaluation = {
     retirementDone: boolean;
-    retirementobservation: string;
+    retirementObservation: string;
 }
 
 export type RetirementRecordPayload = PatientRecord & CompanyRecord &

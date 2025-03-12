@@ -4,13 +4,13 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import VitalSignsAndAnthropometryFormSchema from './schemas/vital-signs-and-anthropometry.schema'
 import { z } from 'zod';
-import { rem, SimpleGrid, Stack, Textarea, TextInput } from '@mantine/core';
+import { rem, SimpleGrid, Stack, TextInput } from '@mantine/core';
 
-type VitalSignsAndAnthropometryFormFormProps = {
+type VitalSignsAndAnthropometryFormProps = {
     data?: Partial<z.infer<typeof VitalSignsAndAnthropometryFormSchema>>;
     onSubmit?: (value: z.infer<typeof VitalSignsAndAnthropometryFormSchema>) => void;
 }
-const VitalSignsAndAnthropometryFormForm = React.forwardRef<HTMLFormElement, VitalSignsAndAnthropometryFormFormProps>(({
+const VitalSignsAndAnthropometryForm = React.forwardRef<HTMLFormElement, VitalSignsAndAnthropometryFormProps>(({
     data,
     onSubmit
 }, ref) => {
@@ -95,6 +95,6 @@ const VitalSignsAndAnthropometryFormForm = React.forwardRef<HTMLFormElement, Vit
     )
 });
 
-VitalSignsAndAnthropometryFormForm.displayName = 'VitalSignsAndAnthropometryFormForm';
+VitalSignsAndAnthropometryForm.displayName = 'VitalSignsAndAnthropometryForm';
 
-export default VitalSignsAndAnthropometryFormForm
+export default VitalSignsAndAnthropometryForm

@@ -2,31 +2,30 @@
 
 import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
-import InitialToxicHabitsSchema from '../_schemas/initial-toxic-habits.schema'
+import ToxicHabitsSchema from './schemas/toxic-habits.schema'
 import { z } from 'zod';
-import { Box, Checkbox, Divider, Group, rem, ScrollArea, SimpleGrid, Stack, Textarea, TextInput } from '@mantine/core';
-import { DateInput } from '@mantine/dates';
+import { Box, Checkbox, Group, rem, SimpleGrid, Stack, TextInput } from '@mantine/core';
 
 
-type InitialToxicHabitsFormProps = {
-    data?: Partial<z.infer<typeof InitialToxicHabitsSchema>>,
-    onSubmit?: (value: z.infer<typeof InitialToxicHabitsSchema>) => void;
+type ToxicHabitsFormProps = {
+    data?: Partial<z.infer<typeof ToxicHabitsSchema>>,
+    onSubmit?: (value: z.infer<typeof ToxicHabitsSchema>) => void;
 }
-const InitialToxicHabitsForm = React.forwardRef<HTMLFormElement, InitialToxicHabitsFormProps>(({
+const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(({
     data,
     onSubmit
 }, ref) => {
 
-    const form = useForm<z.infer<typeof InitialToxicHabitsSchema>>({
+    const form = useForm<z.infer<typeof ToxicHabitsSchema>>({
         initialValues: {
-            toxicHabitTobacco: { consumer: false, consumed: false, consumptionTime: 0, other: '', quantity: 0, timeOfAbstinence: 0 },
-            toxicHabitAlcohol: { consumer: false, consumed: false, consumptionTime: 0, other: '', quantity: 0, timeOfAbstinence: 0 },
-            toxicHabitOther: { consumer: false, consumed: false, consumptionTime: 0, other: '', quantity: 0, timeOfAbstinence: 0 },
+            toxicHabitTobacco: data?.toxicHabitTobacco ?? { consumer: false, consumed: false, consumptionTime: 0, other: '', quantity: 0, timeOfAbstinence: 0 },
+            toxicHabitAlcohol: data?.toxicHabitAlcohol ?? { consumer: false, consumed: false, consumptionTime: 0, other: '', quantity: 0, timeOfAbstinence: 0 },
+            toxicHabitOther: data?.toxicHabitOther ?? { consumer: false, consumed: false, consumptionTime: 0, other: '', quantity: 0, timeOfAbstinence: 0 },
         },
-        validate: zodResolver(InitialToxicHabitsSchema)
+        validate: zodResolver(ToxicHabitsSchema)
     });
 
-    const handleSubmit = useCallback((value: z.infer<typeof InitialToxicHabitsSchema>) => {
+    const handleSubmit = useCallback((value: z.infer<typeof ToxicHabitsSchema>) => {
         onSubmit?.(value);
     }, [onSubmit]);
 
@@ -138,6 +137,6 @@ const InitialToxicHabitsForm = React.forwardRef<HTMLFormElement, InitialToxicHab
     )
 });
 
-InitialToxicHabitsForm.displayName = 'InitialToxicHabitsForm'
+ToxicHabitsForm.displayName = 'ToxicHabitsForm'
 
-export default InitialToxicHabitsForm
+export default ToxicHabitsForm

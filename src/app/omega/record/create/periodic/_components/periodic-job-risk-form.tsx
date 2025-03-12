@@ -2,14 +2,15 @@
 
 import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
-import InitialJobRiskSchema from '../_schemas/initial-job-risk.schema'
+import PeriodicJobRiskSchema from '../_schemas/periodic-job-risk.schema'
 import { z } from 'zod';
-import { Button, ButtonGroup, Checkbox, Divider, Group, rem, SimpleGrid, Stack, Textarea, TextInput, Title } from '@mantine/core';
+import { Button, ButtonGroup, Checkbox, Divider, Group, rem, SimpleGrid, Stack, TextInput, Title } from '@mantine/core';
 import { IconMinus, IconPlus } from '@tabler/icons-react';
 
 const defaultJobRisk = {
     name: '',
     activity: '',
+    months: 0,
     physicalRiskHighTemperature: false,
     physicalRiskLowTemperature: false,
     physicalRiskIonicRadiation: false,
@@ -43,26 +44,38 @@ const defaultJobRisk = {
     chemicalAerosol: false,
     chemicalMist: false,
     chemicalGas: false,
-    chemicalOther: ''
+    chemicalOther: '',
+    biologicalRiskVirus: false,
+    biologicalRiskFungus: false,
+    biologicalRiskBacteria: false,
+    biologicalRiskParasites: false,
+    biologicalRiskExposureToVectors: false,
+    biologicalRiskExposureToWildlifeAnimals: false,
+    biologicalRiskOther: '',
+    ergonomicRiskManualHandlingLoads: false,
+    ergonomicRiskRepetitiveMoves: false,
+    ergonomicRiskForcedPostures: false,
+    ergonomicRiskWorkWithPvd: false,
+    ergonomicRiskOther: '',
 }
 
-type InitialJobRiskPreventionFormProps = {
-    data?: Partial<z.infer<typeof InitialJobRiskSchema>>;
-    onSubmit?: (value: z.infer<typeof InitialJobRiskSchema>) => void;
+type PeriodicJobRiskFormProps = {
+    data?: Partial<z.infer<typeof PeriodicJobRiskSchema>>;
+    onSubmit?: (value: z.infer<typeof PeriodicJobRiskSchema>) => void;
 }
-const InitialJobRiskPreventionForm = React.forwardRef<HTMLFormElement, InitialJobRiskPreventionFormProps>(({
+const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFormProps>(({
     data,
     onSubmit
 }, ref) => {
 
-    const form = useForm<z.infer<typeof InitialJobRiskSchema>>({
+    const form = useForm<z.infer<typeof PeriodicJobRiskSchema>>({
         initialValues: {
             jobRisks: data?.jobRisks ?? [defaultJobRisk]
         },
-        validate: zodResolver(InitialJobRiskSchema)
+        validate: zodResolver(PeriodicJobRiskSchema)
     });
 
-    const handleSubmit = useCallback((value: z.infer<typeof InitialJobRiskSchema>) => {
+    const handleSubmit = useCallback((value: z.infer<typeof PeriodicJobRiskSchema>) => {
         onSubmit?.(value);
     }, [onSubmit]);
 
@@ -94,7 +107,7 @@ const InitialJobRiskPreventionForm = React.forwardRef<HTMLFormElement, InitialJo
                                         <IconMinus style={{ width: rem(16), height: rem(16) }} />
                                     </Button>}
                             </ButtonGroup>
-                            <SimpleGrid cols={4} spacing={rem(32)} flex={1}>
+                            <SimpleGrid cols={6} spacing={rem(32)} flex={1}>
                                 <Stack component='div' gap={rem(8)}>
                                     <TextInput
                                         label="PUESTO DE TRABAJO / AREA"
@@ -104,6 +117,11 @@ const InitialJobRiskPreventionForm = React.forwardRef<HTMLFormElement, InitialJo
                                         label="ACTIVIDADES"
                                         placeholder="eg. Desempeña..."
                                         {...form.getInputProps(`jobRisks.${i}.activity`)} />
+                                    <TextInput
+                                        label="TIEMPO DE TRABAJO (MESES)"
+                                        type='number'
+                                        min={0}
+                                        {...form.getInputProps(`jobRisks.${i}.months`)} />
                                 </Stack>
                                 <Stack component='div' gap={rem(8)}>
                                     <Title order={6}>Fisico</Title>
@@ -222,6 +240,52 @@ const InitialJobRiskPreventionForm = React.forwardRef<HTMLFormElement, InitialJo
                                         min={1}
                                         {...form.getInputProps(`jobRisks.${i}.chemicalOther`)} />
                                 </Stack>
+                                <Stack component='div' gap={rem(8)}>
+                                    <Title order={6}>Biologico</Title>
+                                    <Checkbox
+                                        label='VIRUS'
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskVirus`)} />
+                                    <Checkbox
+                                        label='HONGOS'
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskFungus`)} />
+                                    <Checkbox
+                                        label='BACTERIAS'
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskBacteria`)} />
+                                    <Checkbox
+                                        label='PARASITOS'
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskParasites`)} />
+                                    <Checkbox
+                                        label='EXPOSICION A VECTORES'
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskExposureToVectors`)} />
+                                    <Checkbox
+                                        label='EXPOSICION A ANIMALES SELVATICOS'
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskExposureToWildlifeAnimals`)} />
+                                    <TextInput
+                                        label="OTRAS"
+                                        type='number'
+                                        min={1}
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskOther`)} />
+                                </Stack>
+                                <Stack component='div' gap={rem(8)}>
+                                    <Title order={6}>Ergonomico</Title>
+                                    <Checkbox
+                                        label='MANEJO MANUAL DE CARGAS'
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.ergonomicRiskManualHandlingLoads`)} />
+                                    <Checkbox
+                                        label='MOVIMIENTO REPETITIVOS'
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.ergonomicRiskRepetitiveMoves`)} />
+                                    <Checkbox
+                                        label='POSTURAS FORZADAS'
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.ergonomicRiskForcedPostures`)} />
+                                    <Checkbox
+                                        label='TRABAJOS CON PVD'
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.ergonomicRiskWorkWithPvd`)} />
+                                    <TextInput
+                                        label="OTRAS"
+                                        type='number'
+                                        min={1}
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.ergonomicRiskOther`)} />
+                                </Stack>
                             </SimpleGrid>
                         </Group>
                         {form.values.jobRisks.length > 1 && <Divider />}
@@ -232,6 +296,6 @@ const InitialJobRiskPreventionForm = React.forwardRef<HTMLFormElement, InitialJo
     )
 });
 
-InitialJobRiskPreventionForm.displayName = 'InitialJobRiskPreventionForm';
+PeriodicJobRiskForm.displayName = 'PeriodicJobRiskForm';
 
-export default InitialJobRiskPreventionForm
+export default PeriodicJobRiskForm

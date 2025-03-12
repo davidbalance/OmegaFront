@@ -1,9 +1,102 @@
+import ReturnableHeader from '@/components/_base/returnable-header';
+import { retriveCorporativesOptions } from '@/server/corporative/actions';
+import { CorporativeOption } from '@/server/corporative/server_types';
+import { retriveClientByDni } from '@/server/medical_client/actions';
 import React from 'react'
+import StepperRetirementRecordForm from './_components/stepper-retirement-record-form';
+import PlaceholderForm from './_components/place-holder-form';
+import RetirementInstitutionForm from './_components/retirement-institution-form';
+import RetirementActivityAndRiskForm from './_components/retirement-activity-and-risk-form';
+import MedicalAndSurgicalHistoryForm from '@/components/record/medical-and-surgical-history-form';
+import JobAccidentForm from '@/components/record/job-accident-form';
+import OccupationalDiseaseForm from '@/components/record/occupational-diseases-form';
+import VitalSignsAndAnthropometryForm from '@/components/record/vital-signs-and-anthropometry-form';
+import PhysicalRegionalExamForm from '@/components/record/physical-regional-exam-form';
+import GeneralExamResultForm from '@/components/record/general-exam-result';
+import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
+import RetirementEvaluationForm from './_components/retirement-evaluation-form';
+import RecommendationForm from '@/components/record/recommendation-form';
 
-const RecordRetirementPage: React.FC = () => {
+type RecordRetirementPageProps = {
+    searchParams: { [key: string]: string | string[] | undefined }
+}
+const RecordRetirementPage: React.FC<RecordRetirementPageProps> = async ({
+    searchParams
+}) => {
+    const patientDni = typeof searchParams.patientDni === 'string' ? searchParams.patientDni : undefined;
+
+    if (!patientDni) return <>Patient not specified</>
+
+    const corporativeBaseOptions = await retriveCorporativesOptions();
+    const corporativeOptions = corporativeBaseOptions.map<CorporativeOption>((e) => ({
+        ...e,
+        children: e.children.map(x => ({
+            ...x,
+            label: x.label.split('-')[1],
+            value: x.label.split('-')[0],
+        }))
+    }));
+
+    const patient = await retriveClientByDni(patientDni);
+    const patientFirstName = patient.patientName.split(' ')[0] ?? '';
+    const patientMiddleName = patient.patientName.split(' ')[1] ?? '';
+    const patientLastName = patient.patientLastname.split(' ')[0] ?? '';
+    const patientSecondLastName = patient.patientLastname.split(' ')[1] ?? '';
+
     return (
-        <div>RecordRetirementPage</div>
+        <>
+            <ReturnableHeader title='Ficha de retiro' />
+            <StepperRetirementRecordForm
+                headers={[
+                    { title: 'Datos del establecimiento', description: 'Empresa y Usuario', icon: 'building' },
+                    { title: 'Datos del establecimiento', description: 'Actividades y Factores de Riesgo', icon: 'building' },
+                    { title: 'Antecedentes personales', description: 'Antecedentes Clinicos y Quirúrgicos', icon: 'user-check' },
+                    { title: 'Antecedentes personales', description: 'Accidentes de Trabajo', icon: 'briefcase' },
+                    { title: 'Antecedentes personales', description: 'Enfermedades Profesionales', icon: 'briefcase' },
+                    { title: 'Constantes Vitales y Antropometria', icon: 'heart' },
+                    { title: 'Examen Fisico Regional', description: 'Regiones', icon: 'heart' },
+                    { title: 'Resultados de Examenes Generales y Especificos', description: 'Regiones', icon: 'notebook' },
+                    { title: 'F. Diagnostico', icon: 'notebook' },
+                    { title: 'G. Evaluacion Medica de Retiro', icon: 'notebook' },
+                    { title: 'Recomendacionesy/o Tratamientos', icon: 'notebook' },
+
+                    { title: 'Placeholder', icon: 'check' },
+                ]}
+                initialData={{
+                    patientFirstName: patientFirstName,
+                    patientMiddleName: patientMiddleName,
+                    patientLastName: patientLastName,
+                    patientSecondLastName: patientSecondLastName,
+                    patientGender: patient.patientGender,
+                }}>
+                <RetirementEvaluationForm />
+                <RetirementInstitutionForm options={corporativeOptions} />
+                <RetirementActivityAndRiskForm />
+                <MedicalAndSurgicalHistoryForm />
+                <JobAccidentForm />
+                <OccupationalDiseaseForm />
+                <VitalSignsAndAnthropometryForm />
+                <PhysicalRegionalExamForm />
+                <GeneralExamResultForm />
+                <MedicalDiagnosticForm />
+                <RecommendationForm />
+                {/*                 <MedicalConsultationForm />
+                
+                <ToxicHabitsForm />
+                <LifestyleForm />
+                <IncidentForm />
+                <FamilyHistoryForm />
+                <PeriodicJobRiskForm />
+                <PeriodicJobRiskPreventiveForm />
+                <CurrentDiseaseForm />
+                <ReviewOfOrgansAndSystemForm />
+                
+                <MedicalFitnessForJobForm />
+                 */}
+
+                <PlaceholderForm />
+            </StepperRetirementRecordForm >
+        </>
     )
 }
-
 export default RecordRetirementPage

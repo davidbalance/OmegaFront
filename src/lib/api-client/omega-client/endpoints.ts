@@ -303,7 +303,7 @@ const endpoints = {
 
     //#region Medical
     retriveClientByDni: {
-        resource: 'medical-clients/:patientDni',
+        resource: 'medical-clients/:patientDni/patient',
         method: 'get',
     } as ApiResource,
     retriveClients: {

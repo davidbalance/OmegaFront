@@ -5,7 +5,7 @@ import { IconAlertOctagon, IconBriefcase, IconBuilding, IconCheck, IconHeart, Ic
 import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper_form';
-import { InitialRecordPayload } from '@/server/record/create-record/initial-record';
+import { RetirementRecordPayload } from '@/server/record/create-record/retirement-record';
 
 
 const icon: StepperIcon = {
@@ -21,22 +21,22 @@ const icon: StepperIcon = {
     'heart': <IconHeart style={{ width: rem(16), height: rem(16) }} />,
     'notebook': <IconNotebook style={{ width: rem(16), height: rem(16) }} />,
 }
-type StepperInitialRecordForm = InitialRecordPayload;
-type StepperInitialRecordFormProps = {
-    initialData?: Partial<StepperInitialRecordForm>;
+type StepperRetirementRecordForm = RetirementRecordPayload;
+type StepperRetirementRecordFormProps = {
+    initialData?: Partial<StepperRetirementRecordForm>;
     headers: { title: string; description?: string, icon: 'user-check' | 'license' | 'building' | 'check' | 'briefcase' | 'tree' | 'risk' | 'activity' | 'disease' | 'heart' | 'notebook' }[]
 } & Required<Pick<React.ComponentPropsWithoutRef<typeof StepperForm>, 'children'>>
-const StepperInitialRecordForm: React.FC<StepperInitialRecordFormProps> = ({
+const StepperRetirementRecordForm: React.FC<StepperRetirementRecordFormProps> = ({
     ...props
 }) => {
     const router = useRouter();
 
-    const handleSubmit = async (data: StepperInitialRecordForm) => { }
+    const handleSubmit = async (data: StepperRetirementRecordForm) => { }
 
     const handleFormFinish = useCallback(() => router.back(), [router]);
 
     return (
-        <StepperForm<StepperInitialRecordForm>
+        <StepperForm<StepperRetirementRecordForm>
             onSubmit={handleSubmit}
             icon={icon}
             onFinish={handleFormFinish}
@@ -45,4 +45,4 @@ const StepperInitialRecordForm: React.FC<StepperInitialRecordFormProps> = ({
     )
 }
 
-export default StepperInitialRecordForm
+export default StepperRetirementRecordForm

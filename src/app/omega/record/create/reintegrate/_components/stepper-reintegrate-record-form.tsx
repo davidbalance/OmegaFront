@@ -21,22 +21,22 @@ const icon: StepperIcon = {
     'heart': <IconHeart style={{ width: rem(16), height: rem(16) }} />,
     'notebook': <IconNotebook style={{ width: rem(16), height: rem(16) }} />,
 }
-type StepperInitialRecordForm = InitialRecordPayload;
-type StepperInitialRecordFormProps = {
-    initialData?: Partial<StepperInitialRecordForm>;
+type StepperReintegrateForm = InitialRecordPayload;
+type StepperReintegrateFormProps = {
+    initialData?: Partial<StepperReintegrateForm>;
     headers: { title: string; description?: string, icon: 'user-check' | 'license' | 'building' | 'check' | 'briefcase' | 'tree' | 'risk' | 'activity' | 'disease' | 'heart' | 'notebook' }[]
 } & Required<Pick<React.ComponentPropsWithoutRef<typeof StepperForm>, 'children'>>
-const StepperInitialRecordForm: React.FC<StepperInitialRecordFormProps> = ({
+const StepperReintegrateForm: React.FC<StepperReintegrateFormProps> = ({
     ...props
 }) => {
     const router = useRouter();
 
-    const handleSubmit = async (data: StepperInitialRecordForm) => { }
+    const handleSubmit = async (data: StepperReintegrateForm) => { }
 
     const handleFormFinish = useCallback(() => router.back(), [router]);
 
     return (
-        <StepperForm<StepperInitialRecordForm>
+        <StepperForm<StepperReintegrateForm>
             onSubmit={handleSubmit}
             icon={icon}
             onFinish={handleFormFinish}
@@ -45,4 +45,4 @@ const StepperInitialRecordForm: React.FC<StepperInitialRecordFormProps> = ({
     )
 }
 
-export default StepperInitialRecordForm
+export default StepperReintegrateForm

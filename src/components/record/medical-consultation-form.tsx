@@ -39,7 +39,7 @@ const MedicalConsultationForm = React.forwardRef<HTMLFormElement, MedicalConsult
         placeholder='eg. Consulta...'
         rows={10}
         {...form.getInputProps('medicalConsultationDescription')} />
-    </Box >
+    </Box>
   )
 });
 

@@ -1,4 +1,4 @@
-import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, GeneralExam, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic } from "./_base";
+import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, GeneralExam, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic, GeneralExamResult } from "./_base";
 
 type Religion = 'catholic' | 'evangelical' | "jehovah's witnesses" | 'mormon' | 'other';
 type SexualOrientation = 'lesbian' | 'gay' | 'bisexual' | 'heterosexual' | 'other';
@@ -107,6 +107,10 @@ export type InitialRecordPayload = PatientRecord & CompanyRecord &
         /** Extra Activities & Diseases */
         extraActivityDescription: string;
         currentDiseaseDescription: string;
+
+        /** Diagnostics */
+        generalExamResults: GeneralExamResult[];
+        generalExamObservation: string;
 
         /** Diagnostics */
         diagnostics: MedicalDiagnostic[];
