@@ -12,7 +12,7 @@ const OrderCloudFile: React.FC<OrderCloudFileProps> = ({
     return (
         <ListTbody height={{ base: 350, md: 450 }}>
             {files.map((e) => <>
-                <OrderCloudItem key={`result_${e.testId}`} hasFile={e.resultHasFile} type='result' {...e} />
+                {e.resultHasFile && <OrderCloudItem key={`result_${e.testId}`} hasFile={e.resultHasFile} type='result' {...e} />}
                 {e.reportHasContent && <OrderCloudItem key={`report_${e.testId}`} hasFile={e.reportHasContent} type='report' {...e} />}
             </>)}
         </ListTbody>
