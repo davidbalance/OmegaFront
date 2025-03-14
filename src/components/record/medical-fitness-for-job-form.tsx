@@ -4,7 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import MedicalFitnessForJobSchema from './schemas/medical-fitness-for-job.schema'
 import { z } from 'zod';
-import { Group, Radio, RadioGroup, rem, Stack, Textarea, TextInput } from '@mantine/core';
+import { Group, Radio, RadioGroup, rem, Stack, Textarea } from '@mantine/core';
 
 type MedicalFitnessForJobFormProps = {
     data?: Partial<z.infer<typeof MedicalFitnessForJobSchema>>;
@@ -17,10 +17,7 @@ const MedicalFitnessForJobForm = React.forwardRef<HTMLFormElement, MedicalFitnes
 
     const form = useForm<z.infer<typeof MedicalFitnessForJobSchema>>({
         initialValues: {
-            medicalFitnessFit: data?.medicalFitnessFit ?? true,
-            medicalFitnessFitObservation: data?.medicalFitnessFitObservation ?? false,
-            medicalFitnessFitLimitation: data?.medicalFitnessFitLimitation ?? false,
-            medicalFitnessNoFit: data?.medicalFitnessNoFit ?? false,
+            medicalFitnessType: data?.medicalFitnessType ?? 'fit',
             medicalFitnessLimitation: data?.medicalFitnessLimitation ?? '',
             medicalFitnessObservation: data?.medicalFitnessObservation ?? ''
         },
@@ -36,23 +33,15 @@ const MedicalFitnessForJobForm = React.forwardRef<HTMLFormElement, MedicalFitnes
             ref={ref}
             onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap={rem(16)}>
-                <RadioGroup>
+                <RadioGroup {...form.getInputProps('medicalFitnessType')}>
                     <Group
                         gap={rem(32)}
                         justify='center'
                         align='center'>
-                        <Radio
-                            label='APTO'
-                            {...form.getInputProps('medicalFitnessFit')} />
-                        <Radio
-                            label='APTO EN OBSERVACION'
-                            {...form.getInputProps('medicalFitnessFitObservation')} />
-                        <Radio
-                            label='APTO CON LIMITACIONES'
-                            {...form.getInputProps('medicalFitnessFitLimitation')} />
-                        <Radio
-                            label='NO APTO'
-                            {...form.getInputProps('medicalFitnessNoFit')} />
+                        <Radio value='fit' label='APTO' />
+                        <Radio value='fit-observation' label='APTO EN OBSERVACION' />
+                        <Radio value='fit-limitation' label='APTO CON LIMITACIONES' />
+                        <Radio value='no-fit' label='NO APTO' />
                     </Group>
                 </RadioGroup>
                 <Textarea

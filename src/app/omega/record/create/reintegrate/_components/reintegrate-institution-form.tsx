@@ -66,8 +66,16 @@ const ReintegrateInstitutionForm = React.forwardRef<HTMLFormElement, Reintegrate
             component='form'
             onSubmit={form.onSubmit(handleSubmit)}
             style={{ position: 'relative', width: '100%', height: '100%' }}>
+
+            <input type='hidden' {...form.getInputProps('institutionHealthFacility')} />
+            <input type='hidden' {...form.getInputProps('patientFirstName')} />
+            <input type='hidden' {...form.getInputProps('patientMiddleName')} />
+            <input type='hidden' {...form.getInputProps('patientLastName')} />
+            <input type='hidden' {...form.getInputProps('patientSecondLastName')} />
+            <input type='hidden'{...form.getInputProps('patientGender')} />
+            <input type='hidden'{...form.getInputProps('patientAge')} />
+
             <Stack gap={rem(16)}>
-                <Divider label='Institucion' />
                 <SimpleGrid cols={{ base: 1, sm: 4 }}>
                     <CorporativeSelect
                         options={options}
@@ -79,41 +87,6 @@ const ReintegrateInstitutionForm = React.forwardRef<HTMLFormElement, Reintegrate
                         label="CIU"
                         placeholder="CIU"
                         {...form.getInputProps('companyCIU')} />
-                    <TextInput
-                        disabled
-                        label="ESTABLECIMIENTO DE SALUD"
-                        placeholder="eg. Omega"
-                        {...form.getInputProps('institutionHealthFacility')} />
-                </SimpleGrid>
-
-                <Divider label='Paciente - Datos Generales' />
-                <SimpleGrid cols={{ base: 1, sm: 4 }}>
-                    <TextInput
-                        label="PRIMER APELLIDO"
-                        placeholder="eg. Nuñez"
-                        {...form.getInputProps('patientFirstName')} />
-                    <TextInput
-                        label="SEGUNDO APELLIDO"
-                        placeholder="eg. Nuñez"
-                        {...form.getInputProps('patientMiddleName')} />
-                    <TextInput
-                        label="PRIMER NOMBRE"
-                        placeholder="eg. Manuel"
-                        {...form.getInputProps('patientLastName')} />
-                    <TextInput
-                        label="SEGUNDO NOMBRE"
-                        placeholder="eg. Manuel"
-                        {...form.getInputProps('patientSecondLastName')} />
-                </SimpleGrid>
-                <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                    <GenderSelector
-                        label='SEXO'
-                        {...form.getInputProps('patientGender')} />
-                    <TextInput
-                        disabled
-                        label="EDAD"
-                        type='number'
-                        {...form.getInputProps('patientAge')} />
                 </SimpleGrid>
 
                 <SimpleGrid cols={{ base: 1, sm: 4 }}>
@@ -130,11 +103,13 @@ const ReintegrateInstitutionForm = React.forwardRef<HTMLFormElement, Reintegrate
                     <TextInput
                         label="TOTAL (dias)"
                         type='number'
+                        min={0}
                         {...form.getInputProps('workingTime')} />
                 </SimpleGrid>
 
                 <Textarea
                     label="Causa de Salida"
+                    rows={5}
                     {...form.getInputProps('workingLeftCause')} />
             </Stack>
         </Box>

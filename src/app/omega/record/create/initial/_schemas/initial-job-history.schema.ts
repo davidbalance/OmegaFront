@@ -11,7 +11,7 @@ const JobHistorySchema = z.object({
     lastJobRiskBiological: z.coerce.boolean().default(false),
     lastJobRiskErgonomic: z.coerce.boolean().default(false),
     lastJobRiskPsychosocial: z.coerce.boolean().default(false),
-    lastJobObservation: z.coerce.string().nonempty(),
+    lastJobObservation: z.coerce.string().default(''),
 });
 
 const schema = z.object({

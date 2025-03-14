@@ -1,10 +1,7 @@
 import { z } from "zod";
 
 const schema = z.object({
-    medicalFitnessFit: z.coerce.boolean().default(false),
-    medicalFitnessFitObservation: z.coerce.boolean().default(false),
-    medicalFitnessFitLimitation: z.coerce.boolean().default(false),
-    medicalFitnessNoFit: z.coerce.boolean().default(false),
+    medicalFitnessType: z.coerce.string().default('fit').refine(arg => ['fit', 'fit-observation', 'fit-limitation', 'no-fit'].includes(arg), { message: 'No es un valor correcto' }),
     medicalFitnessObservation: z.coerce.string().default(''),
     medicalFitnessLimitation: z.coerce.string().default(''),
 });

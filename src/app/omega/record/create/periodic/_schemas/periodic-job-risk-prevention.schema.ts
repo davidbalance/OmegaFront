@@ -18,7 +18,7 @@ const JobRiskWithPreventionSchema = z.object({
     psychosocialRiskRotativeShift: z.coerce.boolean().default(false),
     psychosocialRiskIntrapersonalRelations: z.coerce.boolean().default(false),
     psychosocialRiskJobInstability: z.coerce.boolean().default(false),
-    phychosocialRiskOther: z.coerce.string().optional(),
+    psychosocialRiskOther: z.coerce.string().optional(),
 });
 
 const schema = z.object({

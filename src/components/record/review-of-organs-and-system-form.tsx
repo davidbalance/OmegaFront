@@ -15,16 +15,16 @@ const ReviewOfOrgansAndSystemForm = React.forwardRef<HTMLFormElement, ReviewOfOr
     onSubmit
 }, ref) => {
 
-    const [reviewOfOrgansSkin, setReviewOfOrgansSkin] = useState<boolean>(false);
-    const [reviewOfOrgansSenseOrgans, setReviewOfOrgansSenseOrgans] = useState<boolean>(false);
-    const [reviewOfOrgansBreath, setReviewOfOrgansBreath] = useState<boolean>(false);
-    const [reviewOfOrgansCardiovascular, setReviewOfOrgansCardiovascular] = useState<boolean>(false);
-    const [reviewOfOrgansDigestive, setReviewOfOrgansDigestive] = useState<boolean>(false);
-    const [reviewOfOrgansUrinary, setReviewOfOrgansUrinary] = useState<boolean>(false);
-    const [reviewOfOrgansSkeletalMuscle, setReviewOfOrgansSkeletalMuscle] = useState<boolean>(false);
-    const [reviewOfOrgansEndocrinic, setReviewOfOrgansEndocrinic] = useState<boolean>(false);
-    const [reviewOfOrgansHemoLymphatic, setReviewOfOrgansHemoLymphatic] = useState<boolean>(false);
-    const [reviewOfOrgansHighlyStrung, setReviewOfOrgansHighlyStrung] = useState<boolean>(false);
+    const [reviewOfOrgansSkin, setReviewOfOrgansSkin] = useState<boolean>(!!data?.reviewOfOrgansSkin);
+    const [reviewOfOrgansSenseOrgans, setReviewOfOrgansSenseOrgans] = useState<boolean>(!!data?.reviewOfOrgansSenseOrgans);
+    const [reviewOfOrgansBreath, setReviewOfOrgansBreath] = useState<boolean>(!!data?.reviewOfOrgansBreath);
+    const [reviewOfOrgansCardiovascular, setReviewOfOrgansCardiovascular] = useState<boolean>(!!data?.reviewOfOrgansCardiovascular);
+    const [reviewOfOrgansDigestive, setReviewOfOrgansDigestive] = useState<boolean>(!!data?.reviewOfOrgansDigestive);
+    const [reviewOfOrgansUrinary, setReviewOfOrgansUrinary] = useState<boolean>(!!data?.reviewOfOrgansUrinary);
+    const [reviewOfOrgansSkeletalMuscle, setReviewOfOrgansSkeletalMuscle] = useState<boolean>(!!data?.reviewOfOrgansSkeletalMuscle);
+    const [reviewOfOrgansEndocrinic, setReviewOfOrgansEndocrinic] = useState<boolean>(!!data?.reviewOfOrgansEndocrinic);
+    const [reviewOfOrgansHemoLymphatic, setReviewOfOrgansHemoLymphatic] = useState<boolean>(!!data?.reviewOfOrgansHemoLymphatic);
+    const [reviewOfOrgansHighlyStrung, setReviewOfOrgansHighlyStrung] = useState<boolean>(!!data?.reviewOfOrgansHighlyStrung);
 
     const form = useForm<z.infer<typeof ReviewOfOrgansAndSystemSchema>>({
         initialValues: {
@@ -53,16 +53,46 @@ const ReviewOfOrgansAndSystemForm = React.forwardRef<HTMLFormElement, ReviewOfOr
             <Grid>
                 <GridCol span={4}>
                     <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                        <Switch label="PIEL - ANEXOS" onChange={e => setReviewOfOrgansSkin(e.target.checked)} />
-                        <Switch label="ORGANOS DE LOS SENTIDOS" onChange={e => setReviewOfOrgansSenseOrgans(e.target.checked)} />
-                        <Switch label="RESPIRATORIO" onChange={e => setReviewOfOrgansBreath(e.target.checked)} />
-                        <Switch label="CADIO-VASCULAR" onChange={e => setReviewOfOrgansCardiovascular(e.target.checked)} />
-                        <Switch label="DIGESTIVO" onChange={e => setReviewOfOrgansDigestive(e.target.checked)} />
-                        <Switch label="GENITO - URINARIO" onChange={e => setReviewOfOrgansUrinary(e.target.checked)} />
-                        <Switch label="MUSCULO ESQUELETICO" onChange={e => setReviewOfOrgansSkeletalMuscle(e.target.checked)} />
-                        <Switch label="ENDOCRINO" onChange={e => setReviewOfOrgansEndocrinic(e.target.checked)} />
-                        <Switch label="HEMO LINFATICO" onChange={e => setReviewOfOrgansHemoLymphatic(e.target.checked)} />
-                        <Switch label="NERVIOSO" onChange={e => setReviewOfOrgansHighlyStrung(e.target.checked)} />
+                        <Switch
+                            label="PIEL - ANEXOS"
+                            checked={reviewOfOrgansSkin}
+                            onChange={e => setReviewOfOrgansSkin(e.target.checked)} />
+                        <Switch
+                            label="ORGANOS DE LOS SENTIDOS"
+                            checked={reviewOfOrgansSenseOrgans}
+                            onChange={e => setReviewOfOrgansSenseOrgans(e.target.checked)} />
+                        <Switch
+                            label="RESPIRATORIO"
+                            checked={reviewOfOrgansBreath}
+                            onChange={e => setReviewOfOrgansBreath(e.target.checked)} />
+                        <Switch
+                            label="CADIO-VASCULAR"
+                            checked={reviewOfOrgansCardiovascular}
+                            onChange={e => setReviewOfOrgansCardiovascular(e.target.checked)} />
+                        <Switch
+                            label="DIGESTIVO"
+                            checked={reviewOfOrgansDigestive}
+                            onChange={e => setReviewOfOrgansDigestive(e.target.checked)} />
+                        <Switch
+                            label="GENITO - URINARIO"
+                            checked={reviewOfOrgansUrinary}
+                            onChange={e => setReviewOfOrgansUrinary(e.target.checked)} />
+                        <Switch
+                            label="MUSCULO ESQUELETICO"
+                            checked={reviewOfOrgansSkeletalMuscle}
+                            onChange={e => setReviewOfOrgansSkeletalMuscle(e.target.checked)} />
+                        <Switch
+                            label="ENDOCRINO"
+                            checked={reviewOfOrgansEndocrinic}
+                            onChange={e => setReviewOfOrgansEndocrinic(e.target.checked)} />
+                        <Switch
+                            label="HEMO LINFATICO"
+                            checked={reviewOfOrgansHemoLymphatic}
+                            onChange={e => setReviewOfOrgansHemoLymphatic(e.target.checked)} />
+                        <Switch
+                            label="NERVIOSO"
+                            checked={reviewOfOrgansHighlyStrung}
+                            onChange={e => setReviewOfOrgansHighlyStrung(e.target.checked)} />
                     </Flex>
                 </GridCol>
                 <GridCol span={8}>

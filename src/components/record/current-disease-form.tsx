@@ -17,7 +17,7 @@ const CurrentDiseaseForm = React.forwardRef<HTMLFormElement, CurrentDiseaseFormP
 
     const form = useForm<z.infer<typeof CurrentDiseaseSchema>>({
         initialValues: {
-            currentDiseaseDescription: ''
+            currentDiseaseDescription: data?.currentDiseaseDescription ?? ''
         },
         validate: zodResolver(CurrentDiseaseSchema)
     });

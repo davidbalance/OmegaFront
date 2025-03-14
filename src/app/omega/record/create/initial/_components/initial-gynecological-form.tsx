@@ -4,7 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import InitialGynecologicalSchema from '../_schemas/initial-gynecological.schema'
 import { z } from 'zod';
-import { Box, Checkbox, rem, ScrollArea, SimpleGrid, Stack, TextInput } from '@mantine/core';
+import { Box, Checkbox, Group, rem, ScrollArea, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 
 
@@ -30,10 +30,10 @@ const InitialGynecologicalForm = React.forwardRef<HTMLFormElement, InitialGyneco
             gynecologicalLivingChildren: data?.gynecologicalLivingChildren || '',
             gynecologicalSexualLife: data?.gynecologicalSexualLife || '',
             gynecologicalFamilyPlanningType: data?.gynecologicalFamilyPlanningType || '',
-            gynecologicalExamPapanicolau: { done: false, result: '', time: 0 },
-            gynecologicalExamColposcopy: { done: false, result: '', time: 0 },
-            gynecologicalExamBreastEcho: { done: false, result: '', time: 0 },
-            gynecologicalExamMammography: { done: false, result: '', time: 0 },
+            gynecologicalExamPapanicolau: data?.gynecologicalExamPapanicolau ?? { done: false, result: '', time: 0 },
+            gynecologicalExamColposcopy: data?.gynecologicalExamColposcopy ?? { done: false, result: '', time: 0 },
+            gynecologicalExamBreastEcho: data?.gynecologicalExamBreastEcho ?? { done: false, result: '', time: 0 },
+            gynecologicalExamMammography: data?.gynecologicalExamMammography ?? { done: false, result: '', time: 0 },
         },
         validate: zodResolver(InitialGynecologicalSchema)
     });
@@ -65,39 +65,135 @@ const InitialGynecologicalForm = React.forwardRef<HTMLFormElement, InitialGyneco
                         label="GESTAS"
                         {...form.getInputProps('gynecologicalDeeds')} />
                     <TextInput
-                        label="CESAREAS"
+                        label="PARTOS"
                         {...form.getInputProps('gynecologicalBirths')} />
                     <TextInput
-                        label='FECHA DE ULTIMA MENSTRUACION'
+                        label='CESAREAS'
                         {...form.getInputProps('gynecologicalCesarean')} />
                     <TextInput
-                        label='FECHA DE ULTIMA MENSTRUACION'
+                        label='ABORTOS'
                         {...form.getInputProps('gynecologicalAbortions')} />
                 </SimpleGrid>
                 <SimpleGrid cols={{ base: 1, sm: 3 }}>
                     <TextInput
-                        label="Hijos vivos"
+                        label="HIJOS VIVOS"
                         min={0}
+                        type='number'
+                        {...form.getInputProps('gynecologicalLivingChildren')} />
+                    <TextInput
+                        label="HIJOS MUERTOS"
+                        min={0}
+                        type='number'
                         {...form.getInputProps('gynecologicalDeadChildren')} />
-                    <TextInput
-                        label="Hijos muertos"
-                        min={0}
-                        {...form.getInputProps('gynecologicalLivingChildren')} />
-                    <TextInput
-                        label="Hijos muertos"
-                        min={0}
-                        {...form.getInputProps('gynecologicalLivingChildren')} />
-                </SimpleGrid>
-                <SimpleGrid cols={{ base: 1, sm: 2 }}>
                     <Stack h='100%' justify='center' align='center'>
                         <Checkbox
                             label="VIDA SEXUAL ACTIVA"
+                            checked={form.values.gynecologicalSexualLife}
                             {...form.getInputProps('gynecologicalSexualLife')}
                         />
                     </Stack>
-                    <TextInput
-                        label="METODO DE PLANIFICACION FAMILIAR"
-                        {...form.getInputProps('gynecologicalFamilyPlanningType')} />
+                </SimpleGrid>
+                <TextInput
+                    label="METODO DE PLANIFICACION FAMILIAR"
+                    {...form.getInputProps('gynecologicalFamilyPlanningType')} />
+
+                <SimpleGrid cols={{ base: 1, sm: 2 }}>
+                    <Group
+                        gap={rem(32)}
+                        h='100%'
+                        justify='flex-start'
+                        align='start'>
+                        <Checkbox
+                            label="PAPANICOULAU"
+                            checked={form.values.gynecologicalExamPapanicolau.done}
+                            {...form.getInputProps('gynecologicalExamPapanicolau.done')}
+                        />
+                        {form.values.gynecologicalExamPapanicolau.done && <Stack
+                            gap={rem(8)}>
+                            <TextInput
+                                disabled={!form.values.gynecologicalExamPapanicolau.done}
+                                label="TIEMPO (AÑOS)"
+                                type='number'
+                                min={1}
+                                {...form.getInputProps('gynecologicalExamPapanicolau.time')} />
+                            <TextInput
+                                label="RESULTADO"
+                                disabled={!form.values.gynecologicalExamPapanicolau.done}
+                                {...form.getInputProps('gynecologicalExamPapanicolau.result')} />
+                        </Stack>}
+                    </Group>
+                    <Group
+                        gap={rem(32)}
+                        h='100%'
+                        justify='flex-start'
+                        align='start'>
+                        <Checkbox
+                            label="COLPOSCOPIA"
+                            checked={form.values.gynecologicalExamColposcopy.done}
+                            {...form.getInputProps('gynecologicalExamColposcopy.done')}
+                        />
+                        {form.values.gynecologicalExamColposcopy.done && <Stack
+                            gap={rem(8)}>
+                            <TextInput
+                                disabled={!form.values.gynecologicalExamColposcopy.done}
+                                label="TIEMPO (AÑOS)"
+                                type='number'
+                                min={1}
+                                {...form.getInputProps('gynecologicalExamColposcopy.time')} />
+                            <TextInput
+                                label="RESULTADO"
+                                disabled={!form.values.gynecologicalExamColposcopy.done}
+                                {...form.getInputProps('gynecologicalExamColposcopy.result')} />
+                        </Stack>}
+                    </Group>
+                    <Group
+                        gap={rem(32)}
+                        h='100%'
+                        justify='flex-start'
+                        align='start'>
+                        <Checkbox
+                            label="ECO MAMARIO"
+                            checked={form.values.gynecologicalExamBreastEcho.done}
+                            {...form.getInputProps('gynecologicalExamBreastEcho.done')}
+                        />
+                        {form.values.gynecologicalExamBreastEcho.done && <Stack
+                            gap={rem(8)}>
+                            <TextInput
+                                disabled={!form.values.gynecologicalExamBreastEcho.done}
+                                label="TIEMPO (AÑOS)"
+                                type='number'
+                                min={1}
+                                {...form.getInputProps('gynecologicalExamBreastEcho.time')} />
+                            <TextInput
+                                label="RESULTADO"
+                                disabled={!form.values.gynecologicalExamBreastEcho.done}
+                                {...form.getInputProps('gynecologicalExamBreastEcho.result')} />
+                        </Stack>}
+                    </Group>
+                    <Group
+                        gap={rem(32)}
+                        h='100%'
+                        justify='flex-start'
+                        align='start'>
+                        <Checkbox
+                            label="MAMOGRAFIA"
+                            checked={form.values.gynecologicalExamMammography.done}
+                            {...form.getInputProps('gynecologicalExamMammography.done')}
+                        />
+                        {form.values.gynecologicalExamMammography.done && <Stack
+                            gap={rem(8)}>
+                            <TextInput
+                                disabled={!form.values.gynecologicalExamMammography.done}
+                                label="TIEMPO (AÑOS)"
+                                type='number'
+                                min={1}
+                                {...form.getInputProps('gynecologicalExamMammography.time')} />
+                            <TextInput
+                                label="RESULTADO"
+                                disabled={!form.values.gynecologicalExamMammography.done}
+                                {...form.getInputProps('gynecologicalExamMammography.result')} />
+                        </Stack>}
+                    </Group>
                 </SimpleGrid>
             </Stack>
         </Box >

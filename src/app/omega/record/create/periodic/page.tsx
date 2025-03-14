@@ -5,7 +5,7 @@ import { retriveCorporativesOptions } from '@/server/corporative/actions';
 import { CorporativeOption } from '@/server/corporative/server_types';
 import { retriveClientByDni } from '@/server/medical_client/actions';
 import PeriodicInstitutionForm from './_components/periodic-institution-form';
-import PlaceholderForm from './_components/place-holder-form';
+import PreviewPeriodicRecord from './_components/preview-periodic-record';
 import MedicalConsultationForm from '@/components/record/medical-consultation-form';
 import MedicalAndSurgicalHistoryForm from '@/components/record/medical-and-surgical-history-form';
 import ToxicHabitsForm from '@/components/record/toxic-habits-form';
@@ -24,6 +24,7 @@ import GeneralExamResultForm from '@/components/record/general-exam-result';
 import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
 import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-job-form';
 import RecommendationForm from '@/components/record/recommendation-form';
+import { PeriodicRecordPayload } from '@/server/record/create-record/periodic-record';
 
 type RecordPeriodicPageProps = {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -104,8 +105,8 @@ const RecordPeriodicPage: React.FC<RecordPeriodicPageProps> = async ({
                 <MedicalDiagnosticForm />
                 <MedicalFitnessForJobForm />
                 <RecommendationForm />
+                <PreviewPeriodicRecord />
 
-                <PlaceholderForm />
             </StepperPeriodicRecordForm >
         </>
     )

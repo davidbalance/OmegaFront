@@ -2,31 +2,31 @@
 
 import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
-import OccupationalDisease from './schemas/occupational-disease.schema'
+import OccupationalDiseaseSchema from './schemas/occupational-disease.schema'
 import { z } from 'zod';
 import { Checkbox, Grid, GridCol, rem, Stack, Textarea, TextInput } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 
 type OccupationalDiseaseFormProps = {
-    data?: Partial<z.infer<typeof OccupationalDisease>>;
-    onSubmit?: (value: z.infer<typeof OccupationalDisease>) => void;
+    data?: Partial<z.infer<typeof OccupationalDiseaseSchema>>;
+    onSubmit?: (value: z.infer<typeof OccupationalDiseaseSchema>) => void;
 }
 const OccupationalDiseaseForm = React.forwardRef<HTMLFormElement, OccupationalDiseaseFormProps>(({
     data,
     onSubmit
 }, ref) => {
 
-    const form = useForm<z.infer<typeof OccupationalDisease>>({
+    const form = useForm<z.infer<typeof OccupationalDiseaseSchema>>({
         initialValues: {
             occupationalDiseaseHappened: data?.occupationalDiseaseHappened ?? false,
             occupationalDiseaseDate: data?.occupationalDiseaseDate ?? new Date(),
             occupationalDiseaseDescription: data?.occupationalDiseaseDescription ?? '',
             occupationalDiseaseObservation: data?.occupationalDiseaseObservation ?? ''
         },
-        validate: zodResolver(OccupationalDisease)
+        validate: zodResolver(OccupationalDiseaseSchema)
     });
 
-    const handleSubmit = useCallback((value: z.infer<typeof OccupationalDisease>) => {
+    const handleSubmit = useCallback((value: z.infer<typeof OccupationalDiseaseSchema>) => {
         onSubmit?.(value);
     }, [onSubmit]);
 
@@ -40,6 +40,7 @@ const OccupationalDiseaseForm = React.forwardRef<HTMLFormElement, OccupationalDi
                 <Checkbox
                     label='FUE CALIFICADO POR EL INSTITUTO DE SEGURIDAD SOCIAL CORRESPONDIENTE'
                     labelPosition="left"
+                    checked={form.values.occupationalDiseaseHappened}
                     {...form.getInputProps(`occupationalDiseaseHappened`)} />
                 {
                     form.values.occupationalDiseaseHappened &&

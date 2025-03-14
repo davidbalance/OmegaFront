@@ -35,7 +35,7 @@ const defaultJobRisk = {
     psychosocialRiskRotativeShift: false,
     psychosocialRiskIntrapersonalRelations: false,
     psychosocialRiskJobInstability: false,
-    phychosocialRiskOther: ''
+    psychosocialRiskOther: ''
 }
 
 type InitialJobRiskPreventiveFormProps = {
@@ -106,91 +106,107 @@ const InitialJobRiskPreventiveForm = React.forwardRef<HTMLFormElement, InitialJo
                                     <Title order={6}>Biologico</Title>
                                     <Checkbox
                                         label='VIRUS'
+                                        checked={e.biologicalRiskVirus}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskVirus`)} />
                                     <Checkbox
                                         label='HONGOS'
+                                        checked={e.biologicalRiskFungus}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskFungus`)} />
                                     <Checkbox
                                         label='BACTERIAS'
+                                        checked={e.biologicalRiskBacteria}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskBacteria`)} />
                                     <Checkbox
                                         label='PARASITOS'
+                                        checked={e.biologicalRiskParasites}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskParasites`)} />
                                     <Checkbox
                                         label='EXPOSICION A VECTORES'
+                                        checked={e.biologicalRiskExposureToVectors}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskExposureToVectors`)} />
                                     <Checkbox
                                         label='EXPOSICION A ANIMALES SELVATICOS'
+                                        checked={e.biologicalRiskExposureToWildlifeAnimals}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskExposureToWildlifeAnimals`)} />
                                     <TextInput
                                         label="OTRAS"
-                                        type='number'
-                                        min={1}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskOther`)} />
                                 </Stack>
                                 <Stack component='div' gap={rem(8)}>
                                     <Title order={6}>Ergonomico</Title>
                                     <Checkbox
                                         label='MANEJO MANUAL DE CARGAS'
+                                        checked={e.ergonomicRiskManualHandlingLoads}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.ergonomicRiskManualHandlingLoads`)} />
                                     <Checkbox
                                         label='MOVIMIENTO REPETITIVOS'
+                                        checked={e.ergonomicRiskRepetitiveMoves}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.ergonomicRiskRepetitiveMoves`)} />
                                     <Checkbox
                                         label='POSTURAS FORZADAS'
+                                        checked={e.ergonomicRiskForcedPostures}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.ergonomicRiskForcedPostures`)} />
                                     <Checkbox
                                         label='TRABAJOS CON PVD'
+                                        checked={e.ergonomicRiskWorkWithPvd}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.ergonomicRiskWorkWithPvd`)} />
                                     <TextInput
                                         label="OTRAS"
-                                        type='number'
-                                        min={1}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.ergonomicRiskOther`)} />
                                 </Stack>
                                 <Stack component='div' gap={rem(8)}>
                                     <Title order={6}>Psicosocial</Title>
                                     <Checkbox
                                         label='MONOTONIA DEL TRABAJO'
+                                        checked={e.psychosocialRiskMonotony}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskMonotony`)} />
                                     <Checkbox
                                         label='SOBRECARGA LABORAL'
+                                        checked={e.psychosocialRiskWorkOverload}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskWorkOverload`)} />
                                     <Checkbox
                                         label='MINUSCIOSIDAD DE LA TAREA'
+                                        checked={e.psychosocialRiskThoroughnessOfTheTask}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskThoroughnessOfTheTask`)} />
                                     <Checkbox
                                         label='ALTA RESPONSABILIDAD'
+                                        checked={e.psychosocialRiskHighResponsibility}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskHighResponsibility`)} />
                                     <Checkbox
                                         label='AUTONOMIA EN LA TOMA DE DECISIONES'
+                                        checked={e.psychosocialRiskTakingResponsibilityAutonomy}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskTakingResponsibilityAutonomy`)} />
                                     <Checkbox
                                         label='SUPERVICION Y ESTILOS DE DIRECCION DEFICIENTE'
+                                        checked={e.psychosocialRiskSupervision}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskSupervision`)} />
                                     <Checkbox
                                         label='CONFLICTO DE ROL'
+                                        checked={e.psychosocialRiskRoleConflict}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskRoleConflict`)} />
                                     <Checkbox
                                         label='FALTA DE CLARIDAD EN LAS FUNCIONES'
+                                        checked={e.psychosocialRiskNonFunctionClarify}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskNonFunctionClarify`)} />
                                     <Checkbox
                                         label='INCORRECTA DISTRIBUCION DEL TRABAJO'
+                                        checked={e.psychosocialRiskBadWorkDistribution}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskBadWorkDistribution`)} />
                                     <Checkbox
                                         label='TURNOS ROTATIVOS'
+                                        checked={e.psychosocialRiskRotativeShift}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskRotativeShift`)} />
                                     <Checkbox
                                         label='RELACIONES INTERPERSONALES'
+                                        checked={e.psychosocialRiskIntrapersonalRelations}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskIntrapersonalRelations`)} />
                                     <Checkbox
                                         label='INESTABILIDAD PERSONAL'
+                                        checked={e.psychosocialRiskJobInstability}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskJobInstability`)} />
                                     <TextInput
                                         label="OTRAS"
-                                        type='number'
-                                        min={1}
-                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.phychosocialRiskOther`)} />
+                                        {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.psychosocialRiskOther`)} />
                                 </Stack>
                             </SimpleGrid>
                         </Group>

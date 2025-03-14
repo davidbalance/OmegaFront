@@ -15,20 +15,16 @@ const schema = z.object({
     patientOtherReligion: z.coerce.string().optional(),
     patientBloodType: z.coerce.string().nonempty(),
     patientLaterality: z.coerce.string().nonempty(),
-    patientSexualOrientation: z.coerce.string().refine(arg => ['lesbian', 'gay', 'bisexual', 'heterosexual', 'other'].includes(arg)),
-    patientOtherSexualOrientation: z.coerce.string().optional(),
-    patientGenderIdentity: z.coerce.string().refine(arg => ['male', 'female', 'trans-female', 'trans-male', 'other'].includes(arg)),
-    patientOtherGenderIdentity: z.coerce.string().optional(),
+    patientSexualOrientation: z.coerce.string().refine(arg => ['lesbian', 'gay', 'bisexual', 'heterosexual', 'unknown'].includes(arg)),
+    patientGenderIdentity: z.coerce.string().refine(arg => ['male', 'female', 'trans-female', 'trans-male', 'unknown'].includes(arg)),
     patientDisabilityType: z.coerce.string().optional(),
-    patientDisabilityPercent: z.coerce.number().min(0).max(100).optional(),
+    patientDisabilityPercent: z.coerce.number().min(0.01).max(100).optional(),
     jobStartDate: z.coerce.date(),
     jobPosition: z.coerce.string().nonempty(),
     jobArea: z.coerce.string().nonempty(),
     jobActivity: z.coerce.string().nonempty(),
 })
     .refine((arg) => arg.patientReligion === 'other' ? !!arg.patientOtherReligion : true, { message: 'No se ha indicado otra religion.', path: ['patientOtherReligion'] })
-    .refine((arg) => arg.patientSexualOrientation === 'other' ? !!arg.patientOtherSexualOrientation : true, { message: 'No se ha indicado otra orientacion sexual.', path: ['patientOtherSexualOrientation'] })
-    .refine((arg) => arg.patientGenderIdentity === 'other' ? !!arg.patientOtherGenderIdentity : true, { message: 'No se ha indicado otra identidad de genero.', path: ['patientOtherGenderIdentity'] })
-    .refine((arg) => !!arg.patientDisabilityType && !!arg.patientDisabilityPercent, { message: 'Debe colocar el porcentaje de discapacidad.', path: ['patientDisabilityPercent'] })
+    .refine((arg) => !arg.patientDisabilityType ? true : !!arg.patientDisabilityPercent, { message: 'Debe colocar el porcentaje de discapacidad.', path: ['patientDisabilityPercent'] })
 
 export default schema;

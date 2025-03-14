@@ -15,7 +15,6 @@ const MedicalResultFileViewPage: React.FC<MedicalResultFileViewPageProps> = asyn
   const blob = await retriveMedicalResultFile(params.testId);
   const buffer = await blob.arrayBuffer();
 
-
   return (
     <>
       <ReturnableHeader title='Visualizacion de documento' />

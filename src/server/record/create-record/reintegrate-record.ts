@@ -1,4 +1,4 @@
-import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, MedicalDiagnostic } from "./_base";
+import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, MedicalDiagnostic, GeneralExamResultAndSpecific } from "./_base";
 
 type ExamResult = {
     exam: string;
@@ -7,7 +7,7 @@ type ExamResult = {
 }
 
 export type ReintegrateRecordPayload = PatientRecord & CompanyRecord &
-    VitalSignsAndAnthropometry & PhysicalRegionalExam & MedicalFitnessForJob & {
+    VitalSignsAndAnthropometry & GeneralExamResultAndSpecific & PhysicalRegionalExam & MedicalFitnessForJob & {
         /** Institution & Patient Information */
         institutionHealthFacility: string;
         patientAge: number;

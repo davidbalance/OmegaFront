@@ -93,21 +93,27 @@ const InitialJobHistoryForm = React.forwardRef<HTMLFormElement, InitialJobHistor
                                     <Title order={6}>Riesgo</Title>
                                     <Checkbox
                                         label='FISICO'
+                                        checked={e.lastJobRiskPhysical}
                                         {...form.getInputProps(`jobHistory.${i}.lastJobRiskPhysical`)} />
                                     <Checkbox
                                         label='MECANICO'
+                                        checked={e.lastJobRiskMechanical}
                                         {...form.getInputProps(`jobHistory.${i}.lastJobRiskMechanical`)} />
                                     <Checkbox
                                         label='QUIMICO'
+                                        checked={e.lastJobRiskChemical}
                                         {...form.getInputProps(`jobHistory.${i}.lastJobRiskChemical`)} />
                                     <Checkbox
                                         label='BIOLOGICO'
+                                        checked={e.lastJobRiskBiological}
                                         {...form.getInputProps(`jobHistory.${i}.lastJobRiskBiological`)} />
                                     <Checkbox
                                         label='ERGONOMICO'
+                                        checked={e.lastJobRiskErgonomic}
                                         {...form.getInputProps(`jobHistory.${i}.lastJobRiskErgonomic`)} />
                                     <Checkbox
                                         label='PSICOSOCIAL'
+                                        checked={e.lastJobRiskPsychosocial}
                                         {...form.getInputProps(`jobHistory.${i}.lastJobRiskPsychosocial`)} />
                                 </Stack>
                                 <Textarea

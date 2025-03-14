@@ -12,12 +12,39 @@ export type CompanyRecord = {
     companyCIU: string;
 };
 
+export type MedicalConsultation = {
+    medicalConsultationDescription: string;
+}
+
+export type ExtraActivity = {
+    extraActivityDescription: string;
+}
+
+export type CurrentDisease = {
+    currentDiseaseDescription: string;
+}
+
+
+export type GeneralExamResultAndSpecific = {
+    generalExamResults: GeneralExamResult[];
+    generalExamObservation: string;
+}
+
+export type MedicalAndSurgicalHistory = {
+    medicalAndSurgicalHistory: string;
+}
+
+export type IndentRecord = {
+    incidentDescription: string;
+}
+
 export type ToxicDetail = {
     consumed: boolean;
     consumptionTime: number;
     quantity: number;
     consumer: boolean;
     timeOfAbstinence: number;
+    other?: string;
 };
 
 export type LifeStyle = {
@@ -27,7 +54,6 @@ export type LifeStyle = {
     lifestyleMedicationTaking: boolean;
     lifestyleMedicationName?: string;
     lifestyleMedicationQuantity?: number;
-    lifestyleMedicationDuration?: number;
 };
 
 export type JobAccident = {
@@ -40,7 +66,7 @@ export type JobAccident = {
 export type OccupationalDisease = {
     occupationalDiseaseHappened: boolean;
     occupationalDiseaseDescription?: string;
-    occupationalDiseaseDate?: string;
+    occupationalDiseaseDate?: Date;
     occupationalDiseaseObservation?: string;
 };
 
@@ -48,13 +74,6 @@ export type GeneralExam = {
     generalExamResults: GeneralExamResult[];
     generalExamObservation: string;
 }
-
-// type PhysicalRiskType = 'high-temperature' | 'low-temperature' | 'ionic-radiation' | 'non-ionic-radiation' | 'noise' | 'vibration' | 'illumination' | 'ventilation' | 'electric-fluid';
-// type MechanicalRiskType = 'entrapment-between-machines' | 'trapping-between-surfaces' | 'entrapment-between-objects' | 'object-falling' | 'same-level-falling' | 'different-level-falling' | 'electric-contact' | 'surfaces-contact' | 'particles-projection' | 'fluid-projection' | 'jab' | 'cut' | 'hit-by-vehicles' | 'vehicle-collision';
-// type ChemicalRiskType = 'solid' | 'dust' | 'smoke' | 'liquid' | 'steam' | 'aerosol' | 'mist' | 'gas';
-// type BiologicalRisk = 'virus' | 'fungus' | 'bacteria' | 'parasites' | 'exposure-to-vectors' | 'exposure-to-wildlife-animals';
-// type ErgonomicRisk = 'manual-handling-loads' | 'repetitive-moves' | 'forced-postures' | 'work-with-pvd';
-// type PsychosocialRisk = 'monotony' | 'work-overload' | 'thoroughness-of-the-task' | 'high-responsibility' | 'taking-responsibility-autonomy' | 'supervision' | 'role-conflict' | 'non-function-clarify' | 'bad-work-distribution' | 'rotative-shift' | 'intrapersonal-relations' | 'job-instability';
 
 export type PhysicalRisk<T> = {
     physicalRiskHighTemperature: T;
@@ -113,18 +132,18 @@ export type ErgonomicRisk<T> = {
 }
 
 export type PsychosocialRisk<T> = {
-   psychosocialRiskMonotony: T;
-   psychosocialRiskWorkOverload: T;
-   psychosocialRiskThoroughnessOfTheTask: T;
-   psychosocialRiskHighResponsibility: T;
-   psychosocialRiskTakingResponsibilityAutonomy: T;
-   psychosocialRiskSupervision: T;
-   psychosocialRiskRoleConflict: T;
-   psychosocialRiskNonFunctionClarify: T;
-   psychosocialRiskBadWorkDistribution: T;
-   psychosocialRiskRotativeShift: T;
-   psychosocialRiskIntrapersonalRelations: T;
-   psychosocialRiskJobInstability: T;
+    psychosocialRiskMonotony: T;
+    psychosocialRiskWorkOverload: T;
+    psychosocialRiskThoroughnessOfTheTask: T;
+    psychosocialRiskHighResponsibility: T;
+    psychosocialRiskTakingResponsibilityAutonomy: T;
+    psychosocialRiskSupervision: T;
+    psychosocialRiskRoleConflict: T;
+    psychosocialRiskNonFunctionClarify: T;
+    psychosocialRiskBadWorkDistribution: T;
+    psychosocialRiskRotativeShift: T;
+    psychosocialRiskIntrapersonalRelations: T;
+    psychosocialRiskJobInstability: T;
 }
 
 
@@ -221,10 +240,11 @@ export type MedicalDiagnostic = {
 };
 
 export type MedicalFitnessForJob = {
-    medicalFitnessFit: boolean;
-    medicalFitnessFitObservation: boolean;
-    medicalFitnessFitLimitation: boolean;
-    medicalFitnessNoFit: boolean;
+    medicalFitnessType: 'fit' | 'fit-observation' | 'fit-limitation' | 'no-fit';
     medicalFitnessObservation: string;
     medicalFitnessLimitation: string;
+};
+
+export type RecordRecommendation = {
+    recommendationDescription: string;
 };

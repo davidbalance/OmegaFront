@@ -1,8 +1,8 @@
-import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, GeneralExam, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic, GeneralExamResult } from "./_base";
+import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, GeneralExam, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic, GeneralExamResult, MedicalConsultation, MedicalAndSurgicalHistory, ExtraActivity, CurrentDisease, GeneralExamResultAndSpecific, RecordRecommendation } from "./_base";
 
 type Religion = 'catholic' | 'evangelical' | "jehovah's witnesses" | 'mormon' | 'other';
-type SexualOrientation = 'lesbian' | 'gay' | 'bisexual' | 'heterosexual' | 'other';
-type GenderIdentity = 'male' | 'female' | 'trans-female' | 'trans-male' | 'other';
+type SexualOrientation = 'lesbian' | 'gay' | 'bisexual' | 'heterosexual' | 'unknown';
+type GenderIdentity = 'male' | 'female' | 'trans-female' | 'trans-male' | 'unknown';
 
 type ExamHistoryResult = {
     done: boolean;
@@ -32,6 +32,8 @@ type MaleReproductiveHistory = {
     maleReproductiveExamProstateAntigen: ExamHistoryResult;
     maleReproductiveExamProstateEcho: ExamHistoryResult;
     maleReproductiveFamilyPlanningType?: string;
+    maleReproductiveDeadChildren: number;
+    maleReproductiveLivingChildren: number;
 };
 
 type JobInformation = {
@@ -55,27 +57,28 @@ type JobHistory = {
     lastJobObservation: string;
 }
 
-type JobRisk = Partial<PhysicalRisk<boolean>> & Partial<MechanicalRisk<boolean>> & Partial<ChemicalRisk<boolean>> & {
+export type JobRisk = Partial<PhysicalRisk<boolean>> & Partial<MechanicalRisk<boolean>> & Partial<ChemicalRisk<boolean>> & {
     name: string;
     activity: string;
     physicalRiskOther?: string;
     mechanicRiskOther?: string;
-    chemicalOther?: string;
+    chemicalRiskOther?: string;
 }
 
-type JobRiskWithPreventiveMeasure = Partial<BiologicalRisk<boolean>> & Partial<ErgonomicRisk<boolean>> & Partial<PsychosocialRisk<boolean>> & {
+export type JobRiskWithPreventiveMeasure = Partial<BiologicalRisk<boolean>> & Partial<ErgonomicRisk<boolean>> & Partial<PsychosocialRisk<boolean>> & {
     name: string;
     activity: string;
     biologicalRiskOther?: string;
     ergonomicRiskOther?: string;
-    phychosocialRiskOther?: string;
+    psychosocialRiskOther?: string;
     preventiveMeasure: string;
 }
 
-export type InitialRecordPayload = PatientRecord & CompanyRecord &
+export type InitialRecordPayload = PatientRecord & CompanyRecord & MedicalConsultation & MedicalAndSurgicalHistory &
     JobInformation & LifeStyle & JobAccident & GeneralExam & OccupationalDisease &
     FamilyHistory & GynecologicalHistory & MaleReproductiveHistory & ReviewOfOrgansAndSystem &
-    VitalSignsAndAnthropometry & PhysicalRegionalExam & MedicalFitnessForJob & {
+    VitalSignsAndAnthropometry & PhysicalRegionalExam & ExtraActivity & CurrentDisease & GeneralExamResultAndSpecific & MedicalFitnessForJob &
+    RecordRecommendation & {
         /** Institution & Patient Information */
         institutionHealthFacility: string;
         patientAge: number;
@@ -84,17 +87,11 @@ export type InitialRecordPayload = PatientRecord & CompanyRecord &
         patientBloodType: string;
         patientLaterality: string;
         patientSexualOrientation: SexualOrientation;
-        patientOtherSexualOrientation?: string;
         patientGenderIdentity: GenderIdentity;
-        patientOtherGenderIdentity?: string;
         patientDisabilityType?: string;
         patientDisabilityPercent?: number;
 
-        /** Medical Consultation */
-        medicalConsultationDescription: string;
-
         /** Patient History */
-        medicalAndSurgicalHistory: string;
         toxicHabitTobacco?: ToxicDetail;
         toxicHabitAlcohol?: ToxicDetail;
         toxicHabitOther?: ToxicDetail;
@@ -104,17 +101,6 @@ export type InitialRecordPayload = PatientRecord & CompanyRecord &
         jobRisks: JobRisk[];
         jobRiskWithPreventiveMeasure: JobRiskWithPreventiveMeasure[];
 
-        /** Extra Activities & Diseases */
-        extraActivityDescription: string;
-        currentDiseaseDescription: string;
-
-        /** Diagnostics */
-        generalExamResults: GeneralExamResult[];
-        generalExamObservation: string;
-
         /** Diagnostics */
         diagnostics: MedicalDiagnostic[];
-
-        /** Medical Recommendations */
-        recommendationDescription: string;
     };

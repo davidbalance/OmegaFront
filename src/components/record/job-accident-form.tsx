@@ -40,6 +40,7 @@ const JobAccidentForm = React.forwardRef<HTMLFormElement, JobAccidentFormProps>(
                 <Checkbox
                     label='FUE CALIFICADO POR EL INSTITUTO DE SEGURIDAD SOCIAL CORRESPONDIENTE'
                     labelPosition="left"
+                    checked={form.values.jobAccidentHappened}
                     {...form.getInputProps(`jobAccidentHappened`)} />
                 {
                     form.values.jobAccidentHappened &&

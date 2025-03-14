@@ -12,9 +12,9 @@ const schema = z.object({
     patientGender: z.coerce.string().refine(arg => ['male', 'female'].includes(arg), { message: 'Solo puede escoger entre Masculino o Femenino' }),
     patientAge: z.coerce.number().min(1),
     jobPosition: z.coerce.string().nonempty(),
-    workingEndDate: z.date().default(new Date()),
-    workingReintegrationDate: z.date().default(new Date()),
-    workingTime: z.number().min(0),
+    workingEndDate: z.coerce.date().default(new Date()),
+    workingReintegrationDate: z.coerce.date().default(new Date()),
+    workingTime: z.coerce.number().min(0),
     workingLeftCause: z.coerce.string().nonempty(),
 });
 

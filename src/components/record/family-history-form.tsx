@@ -15,14 +15,14 @@ const FamilyHistoryForm = React.forwardRef<HTMLFormElement, FamilyHistoryFormPro
     onSubmit
 }, ref) => {
 
-    const [familyHistoryCardioVascular, setFamilyHistoryCardioVascular] = useState<boolean>(false);
-    const [familyHistoryMetabolic, setFamilyHistoryMetabolic] = useState<boolean>(false);
-    const [familyHistoryNeurologic, setFamilyHistoryNeurologic] = useState<boolean>(false);
-    const [familyHistoryOncologic, setFamilyHistoryOncologic] = useState<boolean>(false);
-    const [familyHistoryInfectious, setFamilyHistoryInfectious] = useState<boolean>(false);
-    const [familyHistoryHereditary, setFamilyHistoryHereditary] = useState<boolean>(false);
-    const [familyHistoryDisability, setFamilyHistoryDisability] = useState<boolean>(false);
-    const [familyHistoryOther, setFamilyHistoryOther] = useState<boolean>(false);
+    const [familyHistoryCardioVascular, setFamilyHistoryCardioVascular] = useState<boolean>(!!data?.familyHistoryCardioVascular);
+    const [familyHistoryMetabolic, setFamilyHistoryMetabolic] = useState<boolean>(!!data?.familyHistoryMetabolic);
+    const [familyHistoryNeurologic, setFamilyHistoryNeurologic] = useState<boolean>(!!data?.familyHistoryNeurologic);
+    const [familyHistoryOncologic, setFamilyHistoryOncologic] = useState<boolean>(!!data?.familyHistoryOncologic);
+    const [familyHistoryInfectious, setFamilyHistoryInfectious] = useState<boolean>(!!data?.familyHistoryInfectious);
+    const [familyHistoryHereditary, setFamilyHistoryHereditary] = useState<boolean>(!!data?.familyHistoryHereditary);
+    const [familyHistoryDisability, setFamilyHistoryDisability] = useState<boolean>(!!data?.familyHistoryDisability);
+    const [familyHistoryOther, setFamilyHistoryOther] = useState<boolean>(!!data?.familyHistoryOther);
 
     const form = useForm<z.infer<typeof FamilyHistorySchema>>({
         initialValues: {
@@ -49,14 +49,38 @@ const FamilyHistoryForm = React.forwardRef<HTMLFormElement, FamilyHistoryFormPro
             <Grid>
                 <GridCol span={4}>
                     <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                        <Switch label="ENFERMEDAD CARDIO-VASCULAR" onChange={e => setFamilyHistoryCardioVascular(e.target.checked)} />
-                        <Switch label="ENFERMEDAD METABOLICA" onChange={e => setFamilyHistoryMetabolic(e.target.checked)} />
-                        <Switch label="ENFERMEDAD NEUROLOGICA" onChange={e => setFamilyHistoryNeurologic(e.target.checked)} />
-                        <Switch label="ENFERMEDAD ONCOLOGICA" onChange={e => setFamilyHistoryOncologic(e.target.checked)} />
-                        <Switch label="ENFERMEDAD INFECCIOSA" onChange={e => setFamilyHistoryInfectious(e.target.checked)} />
-                        <Switch label="ENFERMEDAD HEREDITARIA / CONGENITA" onChange={e => setFamilyHistoryHereditary(e.target.checked)} />
-                        <Switch label="DISCAPACIDADES" onChange={e => setFamilyHistoryDisability(e.target.checked)} />
-                        <Switch label="OTROS" onChange={e => setFamilyHistoryOther(e.target.checked)} />
+                        <Switch
+                            label="ENFERMEDAD CARDIO-VASCULAR"
+                            checked={familyHistoryCardioVascular}
+                            onChange={e => setFamilyHistoryCardioVascular(e.target.checked)} />
+                        <Switch
+                            label="ENFERMEDAD METABOLICA"
+                            checked={familyHistoryMetabolic}
+                            onChange={e => setFamilyHistoryMetabolic(e.target.checked)} />
+                        <Switch
+                            label="ENFERMEDAD NEUROLOGICA"
+                            checked={familyHistoryNeurologic}
+                            onChange={e => setFamilyHistoryNeurologic(e.target.checked)} />
+                        <Switch
+                            label="ENFERMEDAD ONCOLOGICA"
+                            checked={familyHistoryOncologic}
+                            onChange={e => setFamilyHistoryOncologic(e.target.checked)} />
+                        <Switch
+                            label="ENFERMEDAD INFECCIOSA"
+                            checked={familyHistoryInfectious}
+                            onChange={e => setFamilyHistoryInfectious(e.target.checked)} />
+                        <Switch
+                            label="ENFERMEDAD HEREDITARIA / CONGENITA"
+                            checked={familyHistoryHereditary}
+                            onChange={e => setFamilyHistoryHereditary(e.target.checked)} />
+                        <Switch
+                            label="DISCAPACIDADES"
+                            checked={familyHistoryDisability}
+                            onChange={e => setFamilyHistoryDisability(e.target.checked)} />
+                        <Switch
+                            label="OTROS"
+                            checked={familyHistoryOther}
+                            onChange={e => setFamilyHistoryOther(e.target.checked)} />
                     </Flex>
                 </GridCol>
                 <GridCol span={8}>

@@ -70,7 +70,7 @@ const MedicalDiagnosticForm = React.forwardRef<HTMLFormElement, MedicalDiagnosti
                                         {...form.getInputProps(`diagnostics.${i}.description`)} />
                                 </GridCol>
                                 <GridCol span={{ base: 6, md: 3 }} component='div'>
-                                    <DateInput
+                                    <TextInput
                                         label='CIE'
                                         {...form.getInputProps(`diagnostics.${i}.cie`)} />
                                 </GridCol>
@@ -78,10 +78,12 @@ const MedicalDiagnosticForm = React.forwardRef<HTMLFormElement, MedicalDiagnosti
                                     <Stack justify='center' align='center'>
                                         <Checkbox
                                             label="PRE"
+                                            checked={e.pre}
                                             labelPosition='left'
                                             {...form.getInputProps(`diagnostics.${i}.pre`)} />
                                         <Checkbox
                                             label="DEF"
+                                            checked={e.def}
                                             labelPosition='left'
                                             {...form.getInputProps(`diagnostics.${i}.def`)} />
                                     </Stack>

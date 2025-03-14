@@ -17,7 +17,7 @@ const InitialExtraJobActivityForm = React.forwardRef<HTMLFormElement, InitialExt
 
     const form = useForm<z.infer<typeof InitialExtraJobActivitySchema>>({
         initialValues: {
-            extraActivityDescription: ''
+            extraActivityDescription: data?.extraActivityDescription ?? ''
         },
         validate: zodResolver(InitialExtraJobActivitySchema)
     });

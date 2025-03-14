@@ -44,6 +44,7 @@ const LifestyleForm = React.forwardRef<HTMLFormElement, LifestyleFormProps>(({
                     align='center'>
                     <Checkbox
                         label="ACTIVIDAD FISICA"
+                        checked={form.values.lifestylePhysicalActivityActive}
                         {...form.getInputProps('lifestylePhysicalActivityActive')}
                     />
                     <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
@@ -63,6 +64,7 @@ const LifestyleForm = React.forwardRef<HTMLFormElement, LifestyleFormProps>(({
                     align='center'>
                     <Checkbox
                         label="MEDICACION HABITUAL"
+                        checked={form.values.lifestyleMedicationTaking}
                         {...form.getInputProps('lifestyleMedicationTaking')}
                     />
                     <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>

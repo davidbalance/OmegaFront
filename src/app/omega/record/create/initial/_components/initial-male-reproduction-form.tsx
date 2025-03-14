@@ -4,8 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import IntialMaleReproductionSchema from '../_schemas/initial-male-reproduction.schema'
 import { z } from 'zod';
-import { Box, Checkbox, Divider, Group, rem, ScrollArea, SimpleGrid, Stack, TextInput, Title } from '@mantine/core';
-import { DateInput } from '@mantine/dates';
+import { Box, Checkbox, Group, rem, SimpleGrid, Stack, TextInput, Title } from '@mantine/core';
 
 
 type IntialMaleReproductionFormProps = {
@@ -19,9 +18,11 @@ const IntialMaleReproductionForm = React.forwardRef<HTMLFormElement, IntialMaleR
 
     const form = useForm<z.infer<typeof IntialMaleReproductionSchema>>({
         initialValues: {
-            maleReproductiveExamProstateAntigen: { done: false, result: '', time: 0 },
-            maleReproductiveExamProstateEcho: { done: false, result: '', time: 0 },
             maleReproductiveFamilyPlanningType: data?.maleReproductiveFamilyPlanningType || '',
+            maleReproductiveExamProstateAntigen: data?.maleReproductiveExamProstateAntigen ?? { done: false, result: '', time: 0 },
+            maleReproductiveExamProstateEcho: data?.maleReproductiveExamProstateEcho ?? { done: false, result: '', time: 0 },
+            maleReproductiveDeadChildren: 0,
+            maleReproductiveLivingChildren: 0
         },
         validate: zodResolver(IntialMaleReproductionSchema)
     });
@@ -36,10 +37,24 @@ const IntialMaleReproductionForm = React.forwardRef<HTMLFormElement, IntialMaleR
             component='form'
             onSubmit={form.onSubmit(handleSubmit)}
             style={{ position: 'relative', width: '100%', height: '100%' }}>
+
             <Stack gap={rem(16)}>
                 <TextInput
                     label="METODO DE PLANIFICACION FAMILIAR"
                     {...form.getInputProps('gynecologicalFamilyPlanningType')} />
+
+                <SimpleGrid cols={{ base: 1, sm: 2 }}>
+                    <TextInput
+                        label="HIJOS VIVOS"
+                        min={0}
+                        type='number'
+                        {...form.getInputProps('maleReproductiveLivingChildren')} />
+                    <TextInput
+                        label="HIJOS MUERTOS"
+                        min={0}
+                        type='number'
+                        {...form.getInputProps('maleReproductiveDeadChildren')} />
+                </SimpleGrid>
 
                 <Title order={5}>Examenes Realizados</Title>
                 <SimpleGrid cols={{ base: 1, sm: 2 }}>
@@ -50,6 +65,7 @@ const IntialMaleReproductionForm = React.forwardRef<HTMLFormElement, IntialMaleR
                         align='start'>
                         <Checkbox
                             label="ANTIGENO PROSTATICO"
+                            checked={form.values.maleReproductiveExamProstateAntigen.done}
                             {...form.getInputProps('maleReproductiveExamProstateAntigen.done')}
                         />
                         {form.values.maleReproductiveExamProstateAntigen.done && <Stack gap={rem(8)}>
@@ -72,6 +88,7 @@ const IntialMaleReproductionForm = React.forwardRef<HTMLFormElement, IntialMaleR
                         align='start'>
                         <Checkbox
                             label="ECO PROSTATICO"
+                            checked={form.values.maleReproductiveExamProstateEcho.done}
                             {...form.getInputProps('maleReproductiveExamProstateEcho.done')}
                         />
                         {form.values.maleReproductiveExamProstateEcho.done && <Stack

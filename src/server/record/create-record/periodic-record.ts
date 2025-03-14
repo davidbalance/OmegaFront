@@ -1,6 +1,6 @@
-import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, GeneralExam, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic } from "./_base";
+import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, GeneralExam, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic, MedicalConsultation, MedicalAndSurgicalHistory, RecordRecommendation, CurrentDisease, IndentRecord } from "./_base";
 
-type JobRisk = Partial<PhysicalRisk<boolean>> & Partial<MechanicalRisk<Boolean>> & Partial<ChemicalRisk<boolean>> & Partial<BiologicalRisk<boolean>> & Partial<ErgonomicRisk<boolean>> & {
+export type JobRisk = Partial<PhysicalRisk<boolean>> & Partial<MechanicalRisk<Boolean>> & Partial<ChemicalRisk<boolean>> & Partial<BiologicalRisk<boolean>> & Partial<ErgonomicRisk<boolean>> & {
     name: string;
     activity: string;
     months: number;
@@ -11,7 +11,7 @@ type JobRisk = Partial<PhysicalRisk<boolean>> & Partial<MechanicalRisk<Boolean>>
     ergonomicRiskOther?: string;
 }
 
-type JobRiskWithPreventiveMeasure = Partial<PsychosocialRisk<boolean>> & {
+export type JobRiskWithPreventiveMeasure = Partial<PsychosocialRisk<boolean>> & {
     name: string;
     activity: string;
     months: number;
@@ -19,33 +19,22 @@ type JobRiskWithPreventiveMeasure = Partial<PsychosocialRisk<boolean>> & {
     preventiveMeasure: string;
 }
 
-export type PeriodicRecordPayload = CompanyRecord & PatientRecord & LifeStyle &
-    JobAccident & OccupationalDisease & GeneralExam & FamilyHistory & ReviewOfOrgansAndSystem & VitalSignsAndAnthropometry &
-    PhysicalRegionalExam & MedicalFitnessForJob & {
+export type PeriodicRecordPayload = PatientRecord & CompanyRecord & MedicalConsultation & MedicalAndSurgicalHistory & LifeStyle &
+    JobAccident & OccupationalDisease & GeneralExam & FamilyHistory & IndentRecord & ReviewOfOrgansAndSystem & VitalSignsAndAnthropometry &
+    PhysicalRegionalExam & CurrentDisease & MedicalFitnessForJob & RecordRecommendation & {
         /** Institution & Patient Information */
         institutionHealthFacility: string;
         jobPosition: string;
 
-        /** Medical Consultation */
-        medicalConsultationDescription: string;
-
         /** Patient History */
-        medicalAndSurgicalHistory: string;
         toxicHabitTobacco?: ToxicDetail;
         toxicHabitAlcohol?: ToxicDetail;
         toxicHabitOther?: ToxicDetail;
-        incidentDescription: string;
 
         /** Job Position Risks */
         jobRisks: JobRisk[];
         jobRiskWithPreventiveMeasure: JobRiskWithPreventiveMeasure[];
 
-        /** Extra Activities & Diseases */
-        currentDiseaseDescription: string;
-
         /** Diagnostics */
         diagnostics: MedicalDiagnostic[];
-
-        /** Medical Recommendations */
-        recommendationDescription: string;
     }

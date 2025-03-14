@@ -115,9 +115,18 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                 <Grid>
                     <GridCol span={4}>
                         <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch label="CICATRICES" onChange={e => setExamSkinScar(e.target.checked)} />
-                            <Switch label="TATUAJES" onChange={e => setExamSkinTattoo(e.target.checked)} />
-                            <Switch label="PIEN Y FANACEAS" onChange={e => setExamSkinLesions(e.target.checked)} />
+                            <Switch
+                                label="CICATRICES"
+                                checked={examSkinScar}
+                                onChange={e => setExamSkinScar(e.target.checked)} />
+                            <Switch
+                                label="TATUAJES"
+                                checked={examSkinTattoo}
+                                onChange={e => setExamSkinTattoo(e.target.checked)} />
+                            <Switch
+                                label="PIEN Y FANACEAS"
+                                checked={examSkinLesions}
+                                onChange={e => setExamSkinLesions(e.target.checked)} />
                         </Flex>
                     </GridCol>
                     <GridCol span={8}>
@@ -147,11 +156,26 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                 <Grid>
                     <GridCol span={4}>
                         <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch label="PARPADOS" onChange={e => setExamEyeEyelids(e.target.checked)} />
-                            <Switch label="CONJUNTIVAS" onChange={e => setExamEyeConjunctiva(e.target.checked)} />
-                            <Switch label="PUPILAS" onChange={e => setExamEyePupils(e.target.checked)} />
-                            <Switch label="CORNEA" onChange={e => setExamEyeCorneas(e.target.checked)} />
-                            <Switch label="MOTILIDAD" onChange={e => setExamEyeMotility(e.target.checked)} />
+                            <Switch
+                                label="PARPADOS"
+                                checked={examEyeEyelids}
+                                onChange={e => setExamEyeEyelids(e.target.checked)} />
+                            <Switch
+                                label="CONJUNTIVAS"
+                                checked={examEyeConjunctiva}
+                                onChange={e => setExamEyeConjunctiva(e.target.checked)} />
+                            <Switch
+                                label="PUPILAS"
+                                checked={examEyePupils}
+                                onChange={e => setExamEyePupils(e.target.checked)} />
+                            <Switch
+                                label="CORNEA"
+                                checked={examEyeCorneas}
+                                onChange={e => setExamEyeCorneas(e.target.checked)} />
+                            <Switch
+                                label="MOTILIDAD"
+                                checked={examEyeMotility}
+                                onChange={e => setExamEyeMotility(e.target.checked)} />
                         </Flex>
                     </GridCol>
                     <GridCol span={8}>
@@ -191,9 +215,18 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                 <Grid>
                     <GridCol span={4}>
                         <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch label="C. AUDITIVO EXTERNO" onChange={e => setExamEarAuditoryExternal(e.target.checked)} />
-                            <Switch label="PABELLON" onChange={e => setExamEarAuricle(e.target.checked)} />
-                            <Switch label="TIMPANOS" onChange={e => setExamEarEardrum(e.target.checked)} />
+                            <Switch
+                                label="C. AUDITIVO EXTERNO"
+                                checked={examEarAuditoryExternal}
+                                onChange={e => setExamEarAuditoryExternal(e.target.checked)} />
+                            <Switch
+                                label="PABELLON"
+                                checked={examEarAuricle}
+                                onChange={e => setExamEarAuricle(e.target.checked)} />
+                            <Switch
+                                label="TIMPANOS"
+                                checked={examEarEardrum}
+                                onChange={e => setExamEarEardrum(e.target.checked)} />
                         </Flex>
                     </GridCol>
                     <GridCol span={8}>
@@ -223,11 +256,26 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                 <Grid>
                     <GridCol span={4}>
                         <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch label="LABIOS" onChange={e => setExamPharynxLips(e.target.checked)} />
-                            <Switch label="LENGUA" onChange={e => setExamPharynxTongue(e.target.checked)} />
-                            <Switch label="FARINGE" onChange={e => setExamPharynxPharynx(e.target.checked)} />
-                            <Switch label="AMIGDALAS" onChange={e => setExamPharynxTonsils(e.target.checked)} />
-                            <Switch label="DENTADURA" onChange={e => setExamPharynxTeeth(e.target.checked)} />
+                            <Switch
+                                label="LABIOS"
+                                checked={examPharynxLips}
+                                onChange={e => setExamPharynxLips(e.target.checked)} />
+                            <Switch
+                                label="LENGUA"
+                                checked={examPharynxTongue}
+                                onChange={e => setExamPharynxTongue(e.target.checked)} />
+                            <Switch
+                                label="FARINGE"
+                                checked={examPharynxPharynx}
+                                onChange={e => setExamPharynxPharynx(e.target.checked)} />
+                            <Switch
+                                label="AMIGDALAS"
+                                checked={examPharynxTonsils}
+                                onChange={e => setExamPharynxTonsils(e.target.checked)} />
+                            <Switch
+                                label="DENTADURA"
+                                checked={examPharynxTeeth}
+                                onChange={e => setExamPharynxTeeth(e.target.checked)} />
                         </Flex>
                     </GridCol>
                     <GridCol span={8}>
@@ -267,10 +315,22 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                 <Grid>
                     <GridCol span={4}>
                         <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch label="TABIQUE" onChange={e => setExamNosePartition(e.target.checked)} />
-                            <Switch label="CORNETES" onChange={e => setExamNoseTurbinates(e.target.checked)} />
-                            <Switch label="MUCOSAS" onChange={e => setExamNoseMucousMembranes(e.target.checked)} />
-                            <Switch label="SENOS PARANASALES" onChange={e => setExamNoseParanasalSinuses(e.target.checked)} />
+                            <Switch
+                                label="TABIQUE"
+                                checked={examNosePartition}
+                                onChange={e => setExamNosePartition(e.target.checked)} />
+                            <Switch
+                                label="CORNETES"
+                                checked={examNoseTurbinates}
+                                onChange={e => setExamNoseTurbinates(e.target.checked)} />
+                            <Switch
+                                label="MUCOSAS"
+                                checked={examNoseMucousMembranes}
+                                onChange={e => setExamNoseMucousMembranes(e.target.checked)} />
+                            <Switch
+                                label="SENOS PARANASALES"
+                                checked={examNoseParanasalSinuses}
+                                onChange={e => setExamNoseParanasalSinuses(e.target.checked)} />
                         </Flex>
                     </GridCol>
                     <GridCol span={8}>
@@ -305,8 +365,14 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                 <Grid>
                     <GridCol span={4}>
                         <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch label="TIROIDES / MASAS" onChange={e => setExamNeckThyroid(e.target.checked)} />
-                            <Switch label="MOVILIDAD" onChange={e => setExamNeckMobility(e.target.checked)} />
+                            <Switch
+                                label="TIROIDES / MASAS"
+                                checked={examNeckThyroid}
+                                onChange={e => setExamNeckThyroid(e.target.checked)} />
+                            <Switch
+                                label="MOVILIDAD"
+                                checked={examNeckMobility}
+                                onChange={e => setExamNeckMobility(e.target.checked)} />
                         </Flex>
                     </GridCol>
                     <GridCol span={8}>
@@ -331,10 +397,22 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                 <Grid>
                     <GridCol span={4}>
                         <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch label="MAMAS" onChange={e => setExamChestBreast(e.target.checked)} />
-                            <Switch label="CORAZON" onChange={e => setExamChestHeart(e.target.checked)} />
-                            <Switch label="PULMONES" onChange={e => setExamChestLungs(e.target.checked)} />
-                            <Switch label="PARILLA COSTAL" onChange={e => setExamChestRibCage(e.target.checked)} />
+                            <Switch
+                                label="MAMAS"
+                                checked={examChestBreast}
+                                onChange={e => setExamChestBreast(e.target.checked)} />
+                            <Switch
+                                label="CORAZON"
+                                checked={examChestHeart}
+                                onChange={e => setExamChestHeart(e.target.checked)} />
+                            <Switch
+                                label="PULMONES"
+                                checked={examChestLungs}
+                                onChange={e => setExamChestLungs(e.target.checked)} />
+                            <Switch
+                                label="PARILLA COSTAL"
+                                checked={examChestRibCage}
+                                onChange={e => setExamChestRibCage(e.target.checked)} />
                         </Flex>
                     </GridCol>
                     <GridCol span={8}>
@@ -369,8 +447,14 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                 <Grid>
                     <GridCol span={4}>
                         <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch label="VISCERAS" onChange={e => setExamAbdomenViscera(e.target.checked)} />
-                            <Switch label="PARED ABDOMINAL" onChange={e => setExamAbdomenAbdominalWall(e.target.checked)} />
+                            <Switch
+                                label="VISCERAS"
+                                checked={examAbdomenViscera}
+                                onChange={e => setExamAbdomenViscera(e.target.checked)} />
+                            <Switch
+                                label="PARED ABDOMINAL"
+                                checked={examAbdomenAbdominalWall}
+                                onChange={e => setExamAbdomenAbdominalWall(e.target.checked)} />
                         </Flex>
                     </GridCol>
                     <GridCol span={8}>
@@ -395,9 +479,18 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                 <Grid>
                     <GridCol span={4}>
                         <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch label="FLEXIBILIDAD" onChange={e => setExamColumnFlexibility(e.target.checked)} />
-                            <Switch label="DESVIACION" onChange={e => setExamColumnDeviation(e.target.checked)} />
-                            <Switch label="DOLOR" onChange={e => setExamColumnPain(e.target.checked)} />
+                            <Switch
+                                label="FLEXIBILIDAD"
+                                checked={examColumnFlexibility}
+                                onChange={e => setExamColumnFlexibility(e.target.checked)} />
+                            <Switch
+                                label="DESVIACION"
+                                checked={examColumnDeviation}
+                                onChange={e => setExamColumnDeviation(e.target.checked)} />
+                            <Switch
+                                label="DOLOR"
+                                checked={examColumnPain}
+                                onChange={e => setExamColumnPain(e.target.checked)} />
                         </Flex>
                     </GridCol>
                     <GridCol span={8}>
@@ -427,8 +520,14 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                 <Grid>
                     <GridCol span={4}>
                         <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch label="PELVIS" onChange={e => setExamPelvis(e.target.checked)} />
-                            <Switch label="GENITALES" onChange={e => setExamPelvisGenitals(e.target.checked)} />
+                            <Switch
+                                label="PELVIS"
+                                checked={examPelvis}
+                                onChange={e => setExamPelvis(e.target.checked)} />
+                            <Switch
+                                label="GENITALES"
+                                checked={examPelvisGenitals}
+                                onChange={e => setExamPelvisGenitals(e.target.checked)} />
                         </Flex>
                     </GridCol>
                     <GridCol span={8}>
@@ -453,9 +552,18 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                 <Grid>
                     <GridCol span={4}>
                         <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch label="VASCULAR" onChange={e => setExamLimbVascular(e.target.checked)} />
-                            <Switch label="MIEMBROS SUPERIORES" onChange={e => setExamLimbUpper(e.target.checked)} />
-                            <Switch label="MIEMBROS INFERIORES" onChange={e => setExamLimbLower(e.target.checked)} />
+                            <Switch
+                                label="VASCULAR"
+                                checked={examLimbVascular}
+                                onChange={e => setExamLimbVascular(e.target.checked)} />
+                            <Switch
+                                label="MIEMBROS SUPERIORES"
+                                checked={examLimbUpper}
+                                onChange={e => setExamLimbUpper(e.target.checked)} />
+                            <Switch
+                                label="MIEMBROS INFERIORES"
+                                checked={examLimbLower}
+                                onChange={e => setExamLimbLower(e.target.checked)} />
                         </Flex>
                     </GridCol>
                     <GridCol span={8}>
@@ -485,10 +593,22 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                 <Grid>
                     <GridCol span={4}>
                         <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch label="FUERZA" onChange={e => setExamNeurologicForce(e.target.checked)} />
-                            <Switch label="SENSIBILIDAD" onChange={e => setExamNeurologicSensitivity(e.target.checked)} />
-                            <Switch label="MARCHA" onChange={e => setExamNeurologicGait(e.target.checked)} />
-                            <Switch label="REFLEJOS" onChange={e => setExamNeurologicReflex(e.target.checked)} />
+                            <Switch
+                                label="FUERZA"
+                                checked={examNeurologicForce}
+                                onChange={e => setExamNeurologicForce(e.target.checked)} />
+                            <Switch
+                                label="SENSIBILIDAD"
+                                checked={examNeurologicSensitivity}
+                                onChange={e => setExamNeurologicSensitivity(e.target.checked)} />
+                            <Switch
+                                label="MARCHA"
+                                checked={examNeurologicGait}
+                                onChange={e => setExamNeurologicGait(e.target.checked)} />
+                            <Switch
+                                label="REFLEJOS"
+                                checked={examNeurologicReflex}
+                                onChange={e => setExamNeurologicReflex(e.target.checked)} />
                         </Flex>
                     </GridCol>
                     <GridCol span={8}>

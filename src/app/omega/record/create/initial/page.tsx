@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
 import StepperInitialRecordForm from './_components/stepper-inital-record-form';
-import PlaceholderForm from './_components/place-holder-form';
+import PreviewInitialRecord from './_components/preview-initial-record';
 import InitialInstitutionForm from './_components/initial-institution-form';
 import { retriveCorporativesOptions } from '@/server/corporative/actions';
 import { CorporativeOption } from '@/server/corporative/server_types';
@@ -80,10 +80,10 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
                     { title: 'Constantes Vitales y Antropometria', icon: 'heart' },
                     { title: 'Examen Fisico Regional', description: 'Regiones', icon: 'heart' },
                     { title: 'Resultados de Examenes Generales y Especificos', description: 'Regiones', icon: 'notebook' },
-                    { title: 'M. Diagnostico', icon: 'notebook' },
-                    { title: 'N. Aptitud Medical para el Trabajo', icon: 'notebook' },
+                    { title: 'Diagnostico', icon: 'notebook' },
+                    { title: 'Aptitud Medical para el Trabajo', icon: 'notebook' },
                     { title: 'Recomendacionesy/o Tratamientos', icon: 'notebook' },
-                    { title: 'Placeholder', icon: 'check' },
+                    { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
                 initialData={{
                     patientFirstName: patientFirstName,
@@ -115,8 +115,7 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
                 <MedicalDiagnosticForm />
                 <MedicalFitnessForJobForm />
                 <RecommendationForm />
-
-                <PlaceholderForm />
+                <PreviewInitialRecord />
             </StepperInitialRecordForm >
         </>
     )

@@ -36,15 +36,15 @@ const defaultJobRisk = {
     mechanicRiskHitByVehicles: false,
     mechanicRiskVehicleCollision: false,
     mechanicRiskOther: '',
-    chemicalSolid: false,
-    chemicalDust: false,
-    chemicalSmoke: false,
-    chemicalLiquid: false,
-    chemicalSteam: false,
-    chemicalAerosol: false,
-    chemicalMist: false,
-    chemicalGas: false,
-    chemicalOther: '',
+    chemicalRiskSolid: false,
+    chemicalRiskDust: false,
+    chemicalRiskSmoke: false,
+    chemicalRiskLiquid: false,
+    chemicalRiskSteam: false,
+    chemicalRiskAerosol: false,
+    chemicalRiskMist: false,
+    chemicalRiskGas: false,
+    chemicalRiskOther: '',
     biologicalRiskVirus: false,
     biologicalRiskFungus: false,
     biologicalRiskBacteria: false,
@@ -154,8 +154,6 @@ const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFor
                                         {...form.getInputProps(`jobRisks.${i}.physicalRiskElectricFluid`)} />
                                     <TextInput
                                         label="OTRAS"
-                                        type='number'
-                                        min={1}
                                         {...form.getInputProps(`jobRisks.${i}.physicalRiskOther`)} />
                                 </Stack>
                                 <Stack component='div' gap={rem(8)}>
@@ -204,41 +202,37 @@ const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFor
                                         {...form.getInputProps(`jobRisks.${i}.mechanicRiskVehicleCollision`)} />
                                     <TextInput
                                         label="OTRAS"
-                                        type='number'
-                                        min={1}
                                         {...form.getInputProps(`jobRisks.${i}.mechanicRiskOther`)} />
                                 </Stack>
                                 <Stack component='div' gap={rem(8)}>
                                     <Title order={6}>Quimico</Title>
                                     <Checkbox
                                         label='SOLIDO'
-                                        {...form.getInputProps(`jobRisks.${i}.chemicalSolid`)} />
+                                        {...form.getInputProps(`jobRisks.${i}.chemicalRiskSolid`)} />
                                     <Checkbox
                                         label='POLVOS'
-                                        {...form.getInputProps(`jobRisks.${i}.chemicalDust`)} />
+                                        {...form.getInputProps(`jobRisks.${i}.chemicalRiskDust`)} />
                                     <Checkbox
                                         label='HUMOS'
-                                        {...form.getInputProps(`jobRisks.${i}.chemicalSmoke`)} />
+                                        {...form.getInputProps(`jobRisks.${i}.chemicalRiskSmoke`)} />
                                     <Checkbox
                                         label='LIQUIDOS'
-                                        {...form.getInputProps(`jobRisks.${i}.chemicalLiquid`)} />
+                                        {...form.getInputProps(`jobRisks.${i}.chemicalRiskLiquid`)} />
                                     <Checkbox
                                         label='VAPORES'
-                                        {...form.getInputProps(`jobRisks.${i}.chemicalSteam`)} />
+                                        {...form.getInputProps(`jobRisks.${i}.chemicalRiskSteam`)} />
                                     <Checkbox
                                         label='AEROSOLES'
-                                        {...form.getInputProps(`jobRisks.${i}.chemicalAerosol`)} />
+                                        {...form.getInputProps(`jobRisks.${i}.chemicalRiskAerosol`)} />
                                     <Checkbox
                                         label='NEBLINAS'
-                                        {...form.getInputProps(`jobRisks.${i}.chemicalMist`)} />
+                                        {...form.getInputProps(`jobRisks.${i}.chemicalRiskMist`)} />
                                     <Checkbox
                                         label='GASEOSAS'
-                                        {...form.getInputProps(`jobRisks.${i}.chemicalGas`)} />
+                                        {...form.getInputProps(`jobRisks.${i}.chemicalRiskGas`)} />
                                     <TextInput
                                         label="OTRAS"
-                                        type='number'
-                                        min={1}
-                                        {...form.getInputProps(`jobRisks.${i}.chemicalOther`)} />
+                                        {...form.getInputProps(`jobRisks.${i}.chemicalRiskOther`)} />
                                 </Stack>
                                 <Stack component='div' gap={rem(8)}>
                                     <Title order={6}>Biologico</Title>
@@ -262,8 +256,6 @@ const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFor
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskExposureToWildlifeAnimals`)} />
                                     <TextInput
                                         label="OTRAS"
-                                        type='number'
-                                        min={1}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.biologicalRiskOther`)} />
                                 </Stack>
                                 <Stack component='div' gap={rem(8)}>
@@ -282,8 +274,6 @@ const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFor
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.ergonomicRiskWorkWithPvd`)} />
                                     <TextInput
                                         label="OTRAS"
-                                        type='number'
-                                        min={1}
                                         {...form.getInputProps(`jobRiskWithPreventiveMeasure.${i}.ergonomicRiskOther`)} />
                                 </Stack>
                             </SimpleGrid>

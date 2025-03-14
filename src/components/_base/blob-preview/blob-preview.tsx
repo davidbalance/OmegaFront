@@ -7,7 +7,7 @@ interface BlobPreviewProps {
     fileType: string;
 }
 
-const BlobPreview: React.FC<BlobPreviewProps> = async ({
+const BlobPreview: React.FC<BlobPreviewProps> = ({
     buffer,
     fileType
 }) => {
@@ -26,6 +26,7 @@ const BlobPreview: React.FC<BlobPreviewProps> = async ({
         case fileType === 'application/pdf':
             return <iframe
                 src={src}
+                title="Embedded example content"
                 style={{
                     width: '100%',
                     height: '100%',

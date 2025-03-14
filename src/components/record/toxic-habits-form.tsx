@@ -42,6 +42,7 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                     align='center'>
                     <Checkbox
                         label="TABACCO"
+                        checked={form.values.toxicHabitTobacco.consumer}
                         {...form.getInputProps('toxicHabitTobacco.consumer')}
                     />
                     <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
@@ -57,6 +58,7 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                             {...form.getInputProps('toxicHabitTobacco.quantity')} />
                         <Checkbox
                             label="EX CONSUMIDOR"
+                            checked={form.values.toxicHabitTobacco.consumed}
                             disabled={!form.values.toxicHabitTobacco.consumer}
                             {...form.getInputProps('toxicHabitTobacco.consumed')}
                         />
@@ -72,6 +74,7 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                     align='center'>
                     <Checkbox
                         label="ALCOHOL"
+                        checked={form.values.toxicHabitAlcohol.consumer}
                         {...form.getInputProps('toxicHabitAlcohol.consumer')}
                     />
                     <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
@@ -87,6 +90,7 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                             {...form.getInputProps('toxicHabitAlcohol.quantity')} />
                         <Checkbox
                             label="EX CONSUMIDOR"
+                            checked={form.values.toxicHabitAlcohol.consumed}
                             disabled={!form.values.toxicHabitAlcohol.consumer}
                             {...form.getInputProps('toxicHabitAlcohol.consumed')}
                         />
@@ -103,6 +107,7 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                     <Stack>
                         <Checkbox
                             label="OTRO"
+                            checked={form.values.toxicHabitOther.consumer}
                             {...form.getInputProps('toxicHabitOther.consumer')}
                         />
                         <TextInput
@@ -123,6 +128,7 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                             {...form.getInputProps('toxicHabitOther.quantity')} />
                         <Checkbox
                             label="EX CONSUMIDOR"
+                            checked={form.values.toxicHabitOther.consumed}
                             disabled={!form.values.toxicHabitOther.consumer}
                             {...form.getInputProps('toxicHabitOther.consumed')}
                         />

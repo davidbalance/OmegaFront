@@ -4,10 +4,9 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback, useMemo } from 'react'
 import InitialInstitutionSchema from '../_schemas/initial-institution.schema'
 import { z } from 'zod';
-import { Box, Button, Divider, rem, ScrollArea, Select, SimpleGrid, Stack, Textarea, TextInput } from '@mantine/core';
+import { Box, Divider, rem, Select, SimpleGrid, Stack, Textarea, TextInput } from '@mantine/core';
 import CorporativeSelect from '@/components/corporative-select';
 import { CorporativeOption } from '@/server/corporative/server_types';
-import GenderSelector from '@/components/gender-selector';
 import { Option } from '@/lib/types/option.type';
 import { DateInput } from '@mantine/dates';
 import { CascadingSelectValue } from '@/components/cascading-select';
@@ -34,7 +33,7 @@ const SexualOrientationOptions: Option[] = [
     { label: 'Gay', value: 'gay' },
     { label: 'Bisexual', value: "bisexual" },
     { label: 'Heterosexual', value: 'heterosexual' },
-    { label: 'Otros', value: 'other' }
+    { label: 'No sabe / No responde', value: 'unknown' }
 ]
 
 const GenderIdentityOptions: Option[] = [
@@ -42,7 +41,7 @@ const GenderIdentityOptions: Option[] = [
     { label: 'Femenino', value: 'female' },
     { label: 'Trans Femenino', value: "trans-female" },
     { label: 'Trans Masculino', value: 'trans-male' },
-    { label: 'No sabe/No response', value: 'other' }
+    { label: 'No sabe / No responde', value: 'unknown' }
 ]
 
 type InitialInstitutionFormProps = {
@@ -73,11 +72,9 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
             patientBloodType: data?.patientBloodType ?? 'A+',
             patientLaterality: data?.patientLaterality ?? '',
             patientSexualOrientation: data?.patientSexualOrientation ?? 'lesbian',
-            patientOtherSexualOrientation: data?.patientOtherSexualOrientation ?? '',
             patientGenderIdentity: data?.patientGenderIdentity ?? 'male',
-            patientOtherGenderIdentity: data?.patientOtherGenderIdentity ?? '',
             patientDisabilityType: data?.patientDisabilityType ?? '',
-            patientDisabilityPercent: data?.patientDisabilityPercent ?? 0,
+            patientDisabilityPercent: data?.patientDisabilityPercent ?? 0.01,
             jobStartDate: data?.jobStartDate ?? new Date(),
             jobPosition: data?.jobPosition ?? '',
             jobArea: data?.jobArea ?? '',
@@ -102,6 +99,7 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
     }), [form]);
 
     const defaultCorporative = useMemo(() => options.find(e => e.children.some(x => x.value === data?.companyRUC))?.value ?? undefined, [options, data?.companyRUC]);
+    const hasDisability = useMemo(() => form.values.patientDisabilityType && form.values.patientDisabilityType.trim().length, [form.values.patientDisabilityType])
 
     return (
         <Box
@@ -110,8 +108,16 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
             onSubmit={form.onSubmit(handleSubmit)}
             style={{ position: 'relative', width: '100%', height: '100%' }}>
             <Stack gap={rem(16)}>
+                <input type='hidden' {...form.getInputProps('institutionHealthFacility')} />
+                <input type='hidden' {...form.getInputProps('patientLastName')} />
+                <input type='hidden' {...form.getInputProps('patientSecondLastName')} />
+                <input type='hidden' {...form.getInputProps('patientFirstName')} />
+                <input type='hidden' {...form.getInputProps('patientMiddleName')} />
+                <input type='hidden' {...form.getInputProps('patientAge')} />
+                <input type='hidden' {...form.getInputProps('patientGender')} />
+
                 <Divider label='Institucion' />
-                <SimpleGrid cols={{ base: 1, sm: 4 }}>
+                <SimpleGrid cols={{ base: 1, sm: 3 }}>
                     <CorporativeSelect
                         options={options}
                         corporativeValue={defaultCorporative}
@@ -122,41 +128,10 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
                         label="CIU"
                         placeholder="CIU"
                         {...form.getInputProps('companyCIU')} />
-                    <TextInput
-                        disabled
-                        label="ESTABLECIMIENTO DE SALUD"
-                        placeholder="eg. Omega"
-                        {...form.getInputProps('institutionHealthFacility')} />
                 </SimpleGrid>
 
-                <Divider label='Paciente - Datos Generales' />
-                <SimpleGrid cols={{ base: 1, sm: 4 }}>
-                    <TextInput
-                        label="PRIMER APELLIDO"
-                        placeholder="eg. Nuñez"
-                        {...form.getInputProps('patientLastName')} />
-                    <TextInput
-                        label="SEGUNDO APELLIDO"
-                        placeholder="eg. Nuñez"
-                        {...form.getInputProps('patientSecondLastName')} />
-                    <TextInput
-                        label="PRIMER NOMBRE"
-                        placeholder="eg. Manuel"
-                        {...form.getInputProps('patientFirstName')} />
-                    <TextInput
-                        label="SEGUNDO NOMBRE"
-                        placeholder="eg. Manuel"
-                        {...form.getInputProps('patientMiddleName')} />
-                </SimpleGrid>
-                <SimpleGrid cols={{ base: 1, sm: 4 }}>
-                    <GenderSelector
-                        label='SEXO'
-                        {...form.getInputProps('patientGender')} />
-                    <TextInput
-                        disabled
-                        label="EDAD"
-                        type='number'
-                        {...form.getInputProps('patientAge')} />
+                <Divider label='Paciente' />
+                <SimpleGrid cols={{ base: 1, sm: 2 }}>
                     <Select
                         data={BloodGroupOptions}
                         checkIconPosition="left"
@@ -171,7 +146,6 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
                         {...form.getInputProps('patientLaterality')} />
                 </SimpleGrid>
 
-                <Divider label='Paciente' />
                 <SimpleGrid cols={{ base: 1, sm: 3 }}>
                     <Stack component='div' gap={rem(4)}>
                         <Select
@@ -198,12 +172,6 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
                             defaultDropdownOpened={false}
                             maxDropdownHeight={200}
                             {...form.getInputProps('patientSexualOrientation')} />
-                        {
-                            form.values.patientSexualOrientation === 'other' && <TextInput
-                                label="OTRA ORIENTACION SEXUAL"
-                                placeholder="eg. Gay"
-                                {...form.getInputProps('patientOtherSexualOrientation')} />
-                        }
                     </Stack>
                     <Select
                         data={GenderIdentityOptions}
@@ -215,18 +183,18 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
                         {...form.getInputProps('patientGenderIdentity')} />
                 </SimpleGrid>
 
-                <SimpleGrid cols={{ base: 2 }}>
+                <SimpleGrid cols={{ base: hasDisability ? 2 : 1 }}>
                     <TextInput
                         label="TIPO DE DISCAPACIDAD"
                         placeholder="eg. Discapacidad..."
                         {...form.getInputProps('patientDisabilityType')} />
-                    <TextInput
+                    {hasDisability && <TextInput
                         label="PORCENTAJE DE DISCAPACIDAD"
                         type='number'
                         step={0.01}
-                        min={0}
+                        min={0.01}
                         max={100}
-                        {...form.getInputProps('patientDisabilityPercent')} />
+                        {...form.getInputProps('patientDisabilityPercent')} />}
                 </SimpleGrid>
 
                 <Divider label='Trabajo' />

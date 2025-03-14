@@ -2,15 +2,17 @@
 
 import { useForm } from '@mantine/form';
 import React, { useCallback } from 'react'
-import { z } from 'zod';
 
-type PlaceholderFormProps = {
+type PreviewReintegrateRecordProps = {
     data?: any;
     onSubmit?: (value: any) => void;
 }
-const PlaceholderForm = React.forwardRef<HTMLFormElement, PlaceholderFormProps>(({
+const PreviewReintegrateRecord = React.forwardRef<HTMLFormElement, PreviewReintegrateRecordProps>(({
+    data,
     onSubmit
 }, ref) => {
+
+    console.log(data);
 
     const form = useForm();
 
@@ -22,11 +24,11 @@ const PlaceholderForm = React.forwardRef<HTMLFormElement, PlaceholderFormProps>(
         <form
             ref={ref}
             onSubmit={form.onSubmit(handleSubmit)}>
-            PlaceholderForm
+            PreviewReintegrateRecord
         </form>
     )
 });
 
-PlaceholderForm.displayName = 'PlaceholderForm';
+PreviewReintegrateRecord.displayName = 'PreviewReintegrateRecord';
 
-export default PlaceholderForm
+export default PreviewReintegrateRecord
