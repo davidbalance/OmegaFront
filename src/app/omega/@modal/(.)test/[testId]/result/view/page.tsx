@@ -16,6 +16,7 @@ const ResultModalSlotTestSegmentViewPage: React.FC<ResultModalSlotTestSegmentVie
         return <NotFoundFileCard />
     }
     const buffer = await blob.arrayBuffer();
+    const base64 = Buffer.from(buffer).toString('base64');
 
     return (
         <>
@@ -24,7 +25,7 @@ const ResultModalSlotTestSegmentViewPage: React.FC<ResultModalSlotTestSegmentVie
             </ModalHeader>
             <ModalBody>
                 <Box h='100%'>
-                    <BlobPreview buffer={buffer} fileType={blob.type} />
+                    <BlobPreview base64={base64} fileType={blob.type} />
                 </Box>
             </ModalBody>
         </>)

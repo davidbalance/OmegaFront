@@ -23,7 +23,6 @@ const RecommendationForm = React.forwardRef<HTMLFormElement, RecommendationFormP
   });
 
   const handleSubmit = useCallback((value: z.infer<typeof RecommendationSchema>) => {
-    console.log('Form submitted with values:', value);
     onSubmit?.(value);
   }, [onSubmit]);
 

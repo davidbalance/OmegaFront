@@ -10,6 +10,7 @@ const DoctorModalActionSignatureViewPage: React.FC<DoctorModalActionSignatureVie
 
     const blob = await retriveDoctorFile(params.id);
     const buffer = await blob.arrayBuffer();
+    const base64 = Buffer.from(buffer).toString('base64');
 
     return (
         <>
@@ -20,7 +21,7 @@ const DoctorModalActionSignatureViewPage: React.FC<DoctorModalActionSignatureVie
                 <Box
                     maw={rem(600)}
                     h='100%'>
-                    <BlobPreview buffer={buffer} fileType={blob.type} />
+                    <BlobPreview base64={base64} fileType={blob.type} />
                 </Box>
             </ModalBody>
         </>

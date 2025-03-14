@@ -23,7 +23,6 @@ const IncidentForm = React.forwardRef<HTMLFormElement, IncidentFormProps>(({
   });
 
   const handleSubmit = useCallback((value: z.infer<typeof IncidentSchema>) => {
-    console.log('Form submitted with values:', value);
     onSubmit?.(value);
   }, [onSubmit]);
 

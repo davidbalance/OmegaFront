@@ -31,7 +31,6 @@ const ReportForm: React.FC<ReportFormProps> = ({
             event.preventDefault();
             setLoading(true);
             try {
-                console.log(reportContent);
                 await addMedicalReport({ testId, content: reportContent });
                 router.back();
             } catch (error) {

@@ -4,8 +4,10 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import MedicalConsultationSchema from './schemas/medical-consultation.schema'
 import { z } from 'zod';
-import { Box, rem
-  , Textarea } from '@mantine/core';
+import {
+  Box, rem
+  , Textarea
+} from '@mantine/core';
 
 type MedicalConsultationFormProps = {
   data?: Partial<z.infer<typeof MedicalConsultationSchema>>,
@@ -24,7 +26,6 @@ const MedicalConsultationForm = React.forwardRef<HTMLFormElement, MedicalConsult
   });
 
   const handleSubmit = useCallback((value: z.infer<typeof MedicalConsultationSchema>) => {
-    console.log('Form submitted with values:', value);
     onSubmit?.(value);
   }, [onSubmit]);
 

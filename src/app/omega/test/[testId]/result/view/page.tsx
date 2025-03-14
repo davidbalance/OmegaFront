@@ -14,6 +14,7 @@ const MedicalResultFileViewPage: React.FC<MedicalResultFileViewPageProps> = asyn
 
   const blob = await retriveMedicalResultFile(params.testId);
   const buffer = await blob.arrayBuffer();
+  const base64 = Buffer.from(buffer).toString('base64');
 
   return (
     <>
@@ -26,7 +27,7 @@ const MedicalResultFileViewPage: React.FC<MedicalResultFileViewPageProps> = asyn
           maw={rem(600)}
           w='100%'
           h='100%'>
-          <BlobPreview buffer={buffer} fileType={blob.type} />
+          <BlobPreview base64={base64} fileType={blob.type} />
         </Flex>
       </ModularBox>
     </>

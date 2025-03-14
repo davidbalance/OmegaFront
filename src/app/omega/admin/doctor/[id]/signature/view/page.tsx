@@ -12,6 +12,8 @@ const DoctorActionSignatureViewPage: React.FC<DoctorActionSignatureViewPageProps
 
   const blob = await retriveDoctorFile(params.id);
   const buffer = await blob.arrayBuffer();
+  const base64 = Buffer.from(buffer).toString('base64');
+
   return (
     <>
       <ReturnableHeader title='Visualización en linea de firma' />
@@ -21,7 +23,7 @@ const DoctorActionSignatureViewPage: React.FC<DoctorActionSignatureViewPageProps
           align='center'
           maw={rem(600)}
           h='100%'>
-          <BlobPreview buffer={buffer} fileType={blob.type} />
+          <BlobPreview base64={base64} fileType={blob.type} />
         </Flex>
       </ModularBox>
     </>
