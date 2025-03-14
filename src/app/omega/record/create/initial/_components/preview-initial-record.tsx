@@ -55,7 +55,7 @@ const PreviewInitialRecord = React.forwardRef<HTMLFormElement, PreviewInitialRec
                         <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
                             <PreviewInititalRecordInstitution {...data} />
                         </PreviewRecordWrapper>
-                        
+
                         <PreviewRecordWrapper title='MOTIVO DE CONSULTA'>
                             <PreviewRecordMedicalConsultation {...data} />
                         </PreviewRecordWrapper>
@@ -128,5 +128,7 @@ const PreviewInitialRecord = React.forwardRef<HTMLFormElement, PreviewInitialRec
         </form>
     )
 });
+
+PreviewInitialRecord.displayName = 'PreviewInitialRecord';
 
 export default PreviewInitialRecord

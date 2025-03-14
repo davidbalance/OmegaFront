@@ -18,6 +18,7 @@ import RecommendationForm from '@/components/record/recommendation-form';
 import { ReintegrateRecordPayload } from '@/server/record/create-record/reintegrate-record';
 
 const testData: ReintegrateRecordPayload = {
+    examResults: [],
     "patientFirstName": "WILLAN",
     "patientMiddleName": "HERNAN",
     "patientLastName": "FERNANDEZ",

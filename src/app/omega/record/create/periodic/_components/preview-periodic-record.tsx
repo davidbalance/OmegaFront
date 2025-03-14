@@ -112,12 +112,14 @@ const PreviewPeriodicRecord = React.forwardRef<HTMLFormElement, PreviewPeriodicR
                         <PreviewRecordWrapper title='RECOMENDACIONES Y/O TRATAMIENTO'>
                             <PreviewRecordRecommendation {...data} />
                         </PreviewRecordWrapper>
-                        
+
                     </Stack>
                 ) : (<>No hay datos disponibles</>)
             }
         </form>
     )
 });
+
+PreviewPeriodicRecord.displayName = 'PreviewPeriodicRecord';
 
 export default PreviewPeriodicRecord
