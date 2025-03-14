@@ -56,7 +56,7 @@ const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
                     }}
                     maxFiles={1}
                     multiple={false}
-                    maxSize={5 * 1024 ** 2}
+                    maxSize={10 * 1024 ** 2}
                     accept={[MIME_TYPES.pdf]}
                     onDrop={handleFileUpload} />
             </Flex>
