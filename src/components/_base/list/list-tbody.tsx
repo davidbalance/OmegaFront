@@ -1,4 +1,4 @@
-import { rem, ScrollArea, Stack, StyleProp } from '@mantine/core'
+import { Box, rem, ScrollArea, Stack, StyleProp } from '@mantine/core'
 import React from 'react'
 
 interface ListTbodyProps {
@@ -10,11 +10,19 @@ const ListTbody: React.FC<ListTbodyProps> = ({
     children
 }) => {
     return (
-        <ScrollArea h={height} px={rem(8)} component='div'>
-            <Stack gap={rem(8)} component='div'>
-                {children}
-            </Stack>
-        </ScrollArea>
+        <Box
+            flex={1}
+            component='div'
+            pos='relative'>
+            <ScrollArea
+                px={rem(8)}
+                component='div'
+                style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+                <Stack gap={rem(8)} component='div'>
+                    {children}
+                </Stack>
+            </ScrollArea>
+        </Box>
     )
 }
 
