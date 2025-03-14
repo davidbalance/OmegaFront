@@ -9,6 +9,7 @@ import Title from '@/components/_base/mantine/title'
 type PatientEeqItemProps = MedicalClient & {
     active?: boolean;
     action?: boolean;
+    removeQueries?: string[];
 }
 const PatientEeqItem: React.FC<PatientEeqItemProps> = ({
     patientDni,
@@ -17,6 +18,7 @@ const PatientEeqItem: React.FC<PatientEeqItemProps> = ({
     patientRole,
     active,
     action,
+    removeQueries = []
 }) => {
     return (
         <ListRow
@@ -28,7 +30,8 @@ const PatientEeqItem: React.FC<PatientEeqItemProps> = ({
                 component='div'>
                 <AddQueryParam
                     value={patientDni}
-                    query='patient'>
+                    query='patient'
+                    removeQueries={removeQueries}>
                     <Stack justify='space-between' gap={rem(8)}>
                         <Title order={6}>{`${patientName} ${patientLastname}`}</Title>
                         <Group>

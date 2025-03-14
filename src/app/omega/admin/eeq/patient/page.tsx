@@ -38,16 +38,16 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
 
 
     const patientActive = typeof searchParams.patient === 'string' ? searchParams.patient : undefined;
-    const patientSearch = typeof searchParams.patientSearch === 'string' ? searchParams.patientSearch : undefined;
+    const patientSearch = typeof searchParams.patientSearch === 'string' ? searchParams.patientSearch : '';
     const patientField = owner === 'patient' ? field : undefined;
     const patientPage = typeof searchParams.patientPage === 'string' ? Number(searchParams.patientPage) : 1;
 
     const orderActive = typeof searchParams.medicalOrder === 'string' ? searchParams.medicalOrder : undefined;
-    const orderSearch = typeof searchParams.medicalOrderSearch === 'string' ? searchParams.medicalOrderSearch : undefined;
+    const orderSearch = typeof searchParams.medicalOrderSearch === 'string' ? searchParams.medicalOrderSearch : '';
     const orderField = owner === 'medicalOrder' ? field : undefined;
     const orderPage = typeof searchParams.medicalOrderPage === 'string' ? Number(searchParams.medicalOrderPage) : 1;
 
-    const testSearch = typeof searchParams.medicalTestSearch === 'string' ? searchParams.medicalTestSearch : undefined;
+    const testSearch = typeof searchParams.medicalTestSearch === 'string' ? searchParams.medicalTestSearch : '';
     const testField = owner === 'medicalTest' ? field : undefined;
 
     const patientValue = await retriveClientsEEQ({
@@ -98,7 +98,10 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='patientSearch' value={patientSearch} />
+                        <Search
+                            query='patientSearch'
+                            defaultValue={patientSearch}
+                            removeQueries={['field', 'owner', 'order', 'patient', 'patientPage', 'medicalOrder']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
@@ -106,7 +109,8 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                             <PatientEeqList
                                 action
                                 active={patientActive}
-                                patients={patientValue.data} />
+                                patients={patientValue.data}
+                                removeQueries={['medicalOrder', 'medicalOrderSearch', 'medicalOrderPage', 'medicalTestSearch']} />
                         </ListRoot>
                     </ModularBox>
                     {totalPatientPage > 1 && (
@@ -138,7 +142,10 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='medicalOrderSearch' value={orderSearch} />
+                        <Search
+                            query='medicalOrderSearch'
+                            defaultValue={orderSearch}
+                            removeQueries={['field', 'owner', 'order', 'medicalOrder', 'medicalOrderPage']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
@@ -147,7 +154,8 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                                 action
                                 active={orderActive}
                                 patientDni={patientActive}
-                                orders={orderValue.data} />
+                                orders={orderValue.data}
+                                removeQueries={['medicalTestSearch']} />
                         </ListRoot>
                     </ModularBox>
                     {totalOrderPage > 1 && (
@@ -172,10 +180,14 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                                 <RemoveQueryButton
                                     queries={['medicalOrder']}
                                     hiddenFrom='md' />
-                            </Group>                        </Flex>
+                            </Group>
+                        </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='medicalTestSearch' value={testSearch} />
+                        <Search
+                            query='medicalTestSearch'
+                            defaultValue={testSearch}
+                            removeQueries={['field', 'owner', 'order']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>

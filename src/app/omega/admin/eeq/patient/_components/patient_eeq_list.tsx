@@ -7,11 +7,13 @@ interface PatientEeqListProps {
     active?: string;
     action?: boolean;
     patients: MedicalClient[];
+    removeQueries?: string[];
 }
 const PatientEeqList: React.FC<PatientEeqListProps> = ({
     active,
     action,
-    patients
+    patients,
+    removeQueries = []
 }) => {
     return (
         <ListTbody>
@@ -19,6 +21,7 @@ const PatientEeqList: React.FC<PatientEeqListProps> = ({
                 key={e.patientDni}
                 action={action}
                 active={active === e.patientDni}
+                removeQueries={removeQueries}
                 {...e} />
 
             ))}

@@ -16,6 +16,7 @@ type OrderItemProps = MedicalOrder & {
     patientDni: string;
     active?: boolean;
     action?: boolean;
+    removeQueries?: string[];
 }
 const OrderItem: React.FC<OrderItemProps> = ({
     orderId,
@@ -25,7 +26,8 @@ const OrderItem: React.FC<OrderItemProps> = ({
     orderMail,
     patientDni,
     active,
-    action
+    action,
+    removeQueries = []
 }) => {
     return (
         <ListRow
@@ -37,7 +39,8 @@ const OrderItem: React.FC<OrderItemProps> = ({
                 align='center'>
                 <AddQueryParam
                     value={orderId}
-                    query='medicalOrder'>
+                    query='medicalOrder'
+                    removeQueries={removeQueries}>
                     <Title order={6}>{orderProcess}</Title>
                     <Text>{dayjs(orderEmissionDate).format('YYYY-MM-DD HH:mm:ss')}</Text>
                 </AddQueryParam>

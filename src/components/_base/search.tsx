@@ -9,11 +9,13 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 interface SearchProps {
     query?: string;
     value?: string;
+    removeQueries?: string[];
 }
 
 const Search: React.FC<SearchProps> = ({
     query = 'search',
     value,
+    removeQueries = []
 }) => {
 
     const router = useRouter();

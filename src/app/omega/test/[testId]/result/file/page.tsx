@@ -3,14 +3,18 @@ import { ModularBox } from '@/components/modular/box/ModularBox'
 import React from 'react'
 import ResultUploadForm from './_components/result_upload_form'
 import { Stack } from '@mantine/core'
+import { retriveMedicalTest } from '@/server/medical_test/actions'
 
 interface MedicalReportFileUploadProps {
   params: { testId: string }
 }
-const MedicalReportFileUpload: React.FC<MedicalReportFileUploadProps> = ({ params }) => {
+const MedicalReportFileUpload: React.FC<MedicalReportFileUploadProps> = async ({ params }) => {
+
+  const test = await retriveMedicalTest(params.testId);
+
   return (
     <>
-      <ReturnableHeader title='Carga de resultado medico' />
+      <ReturnableHeader title={`Carga de examen: ${test.examName}`} />
       <ModularBox flex={1}>
         <Stack h='100%' justify='center'>
           <ResultUploadForm

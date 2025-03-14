@@ -8,6 +8,7 @@ interface OrderListProps {
     action?: boolean;
     patientDni?: string;
     orders: MedicalOrder[];
+    removeQueries?: string[];
 }
 const OrderList: React.FC<OrderListProps> = ({
     patientDni,

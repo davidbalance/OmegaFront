@@ -15,7 +15,7 @@ const AddQueryParam: React.FC<AddQueryParamProps> = ({
   query,
   value,
   children,
-  removeQueries
+  removeQueries = []
 }) => {
 
   const pathname = usePathname()
@@ -23,11 +23,7 @@ const AddQueryParam: React.FC<AddQueryParamProps> = ({
 
   const params = new URLSearchParams(queryParam);
   params.set(query, value);
-  if (removeQueries) {
-    for (const key of removeQueries) {
-      params.delete(key);
-    }
-  }
+  removeQueries.forEach((key) => params.delete(key));
 
   return (
     <UnstyledButton
