@@ -7,6 +7,7 @@ import React from 'react'
 
 type OrderDoctorItemProps = MedicalOrderDoctor & {
   active?: boolean;
+  removeQueries?: string[];
 }
 const OrderDoctorItem: React.FC<OrderDoctorItemProps> = ({
   orderId,
@@ -14,6 +15,7 @@ const OrderDoctorItem: React.FC<OrderDoctorItemProps> = ({
   orderEmissionDate,
   orderLeftReport,
   active,
+  removeQueries = []
 }) => {
   return (
     <ListRow
@@ -25,7 +27,8 @@ const OrderDoctorItem: React.FC<OrderDoctorItemProps> = ({
         align='center'>
         <AddQueryParam
           value={orderId}
-          query='medicalOrder'>
+          query='medicalOrder'
+          removeQueries={removeQueries}>
           <Group justify='space-between'>
             <Stack gap={rem(8)}>
               <Title order={6}>{orderProcess}</Title>

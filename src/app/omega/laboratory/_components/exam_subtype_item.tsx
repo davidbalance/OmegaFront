@@ -12,6 +12,7 @@ import ExamSubtypeRemove from './exam_subtype_remove';
 type ExamSubtypeItemProps = {
     active?: boolean;
     typeId: string;
+    removeQueries?: string[];
 } & ExamSubtype;
 
 const ExamSubtypeItem: React.FC<ExamSubtypeItemProps> = ({
@@ -19,7 +20,8 @@ const ExamSubtypeItem: React.FC<ExamSubtypeItemProps> = ({
     typeId,
     subtypeId,
     subtypeName,
-    hasExams
+    hasExams,
+    removeQueries
 }) => {
     return (
         <ListRow
@@ -29,7 +31,8 @@ const ExamSubtypeItem: React.FC<ExamSubtypeItemProps> = ({
             <Group justify='space-between' gap={rem(8)} wrap='nowrap'>
                 <AddQueryParam
                     value={subtypeId}
-                    query='subtype'>
+                    query='subtype'
+                    removeQueries={removeQueries}>
                     <Title order={6}>{subtypeName}</Title>
                 </AddQueryParam>
                 <ActionMenuProvider>

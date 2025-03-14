@@ -44,7 +44,8 @@ const UserPage: React.FC<UserPageProps> = async ({ searchParams }) => {
                 wrap='nowrap'
                 gap={rem(16)}>
                 <Search
-                    value={search} />
+                    value={search}
+                    removeQueries={['field', 'order', 'page']} />
                 <Button
                     component={Link}
                     radius='md'

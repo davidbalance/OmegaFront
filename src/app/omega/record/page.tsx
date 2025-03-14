@@ -74,7 +74,10 @@ const OmegaRecordPages: React.FC<OmegaRecordPages> = async ({
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='patientSearch' value={patientSearch} />
+                        <Search
+                            query='patientSearch'
+                            value={patientSearch}
+                            removeQueries={['field', 'owner', 'order', 'patient', 'patientPage', 'recordSearch']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
@@ -82,7 +85,8 @@ const OmegaRecordPages: React.FC<OmegaRecordPages> = async ({
                             <PatientList
                                 action
                                 active={patientActive}
-                                patients={patientValue.data} />
+                                patients={patientValue.data}
+                                removeQueries={['recordSearch']} />
                         </ListRoot>
                     </ModularBox>
                     {totalPatientPage > 1 && (
@@ -112,7 +116,9 @@ const OmegaRecordPages: React.FC<OmegaRecordPages> = async ({
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='recordSearch' value={recordSearch} />
+                        <Search
+                            query='recordSearch'
+                            value={recordSearch} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>

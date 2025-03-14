@@ -6,15 +6,21 @@ import { ExamType } from '@/server/exam_type/server_types'
 interface ExamTypeListProps {
     active?: string;
     types: ExamType[];
+    removeQueries?: string[];
 }
 
 const ExamTypeList: React.FC<ExamTypeListProps> = ({
     active,
-    types
+    types,
+    removeQueries
 }) => {
     return (
         <ListTbody>
-            {types.map(e => <ExamTypeItem key={e.typeId} active={active === e.typeId} {...e} />)}
+            {types.map(e => <ExamTypeItem
+                key={e.typeId}
+                active={active === e.typeId}
+                removeQueries={removeQueries}
+                {...e} />)}
         </ListTbody>)
 }
 

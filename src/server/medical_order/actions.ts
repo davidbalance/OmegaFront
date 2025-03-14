@@ -117,6 +117,10 @@ export const sendMedicalOrder = async (payload: SendMedicalOrderPayload): Promis
         .addToken(session.access_token)
         .addBody({ ...payload })
         .execute('sendMedicalOrder');
+
+    revalidateTag('retriveMedicalOrders');
+    revalidateTag('retriveMedicalOrdersPatient');
+    revalidateTag('retriveMedicalOrdersDoctor');
 }
 
 export const validatedStatusMedicalOrder = async (orderId: string): Promise<void> => {

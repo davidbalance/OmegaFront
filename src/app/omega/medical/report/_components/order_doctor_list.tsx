@@ -6,10 +6,12 @@ import OrderDoctorItem from './order_doctor_item';
 interface OrderDoctorListProps {
   active?: string;
   orders: MedicalOrderDoctor[];
+  removeQueries?: string[];
 }
 const OrderDoctorList: React.FC<OrderDoctorListProps> = ({
   active,
-  orders
+  orders,
+  removeQueries
 }) => {
   return (
     <ListTbody>
@@ -17,6 +19,7 @@ const OrderDoctorList: React.FC<OrderDoctorListProps> = ({
         <OrderDoctorItem
           key={e.orderId}
           active={e.orderId === active}
+          removeQueries={removeQueries}
           {...e} />
       ))}
     </ListTbody>)

@@ -6,17 +6,24 @@ import ExamSubtypeItem from './exam_subtype_item';
 type ExamSubtypeListProps = {
     active?: string;
     typeId?: string;
+    removeQueries?: string[];
     subtypes: ExamSubtype[];
 }
 const ExamSubtypeList: React.FC<ExamSubtypeListProps> = ({
     active,
     typeId,
-    subtypes
+    subtypes,
+    removeQueries
 }) => {
 
     return (
         <ListTbody>
-            {subtypes.map(e => typeId && <ExamSubtypeItem key={e.subtypeId} typeId={typeId} active={active === e.subtypeId} {...e} />)}
+            {subtypes.map(e => typeId && <ExamSubtypeItem
+                key={e.subtypeId}
+                typeId={typeId}
+                active={active === e.subtypeId}
+                removeQueries={removeQueries}
+                {...e} />)}
         </ListTbody>
     )
 }

@@ -96,7 +96,10 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='patientSearch' value={patientSearch} />
+                        <Search
+                            query='patientSearch'
+                            value={patientSearch}
+                            removeQueries={['field', 'owner', 'order', 'patient', 'patientPage', 'medicalOrder']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
@@ -104,7 +107,8 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                             <PatientList
                                 action
                                 active={patientActive}
-                                patients={patientValue.data} />
+                                patients={patientValue.data}
+                                removeQueries={['medicalOrder', 'medicalOrderSearch', 'medicalOrderPage', 'medicalTestSearch']} />
                         </ListRoot>
                     </ModularBox>
                     {totalPatientPage > 1 && (
@@ -134,7 +138,10 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='medicalOrderSearch' value={orderSearch} />
+                        <Search
+                            query='medicalOrderSearch'
+                            value={orderSearch}
+                            removeQueries={['field', 'owner', 'order', 'medicalOrder', 'medicalOrderPage']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
@@ -143,7 +150,8 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                                 action
                                 active={orderActive}
                                 patientDni={patientActive}
-                                orders={orderValue.data} />
+                                orders={orderValue.data}
+                                removeQueries={['medicalTestSearch']} />
                         </ListRoot>
                     </ModularBox>
                     {totalOrderPage > 1 && (
@@ -164,7 +172,7 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                             gap={rem(16)}>
                             <Title order={4} component='span'>Resultados medicos</Title>
                             <Group gap={rem(4)}>
-                                {!!orderActive && <CreateButton href={`/omega/medical/test/create?orderId=${orderActive}`} />}
+                                {medicalOrder?.orderStatus !== 'validated' && !!orderActive && <CreateButton href={`/omega/medical/test/create?orderId=${orderActive}`} />}
                                 <ReloadButton />
                                 <RemoveQueryButton
                                     queries={['medicalOrder']}
@@ -173,7 +181,10 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='medicalTestSearch' value={testSearch} />
+                        <Search
+                            query='medicalTestSearch'
+                            value={testSearch}
+                            removeQueries={['field', 'owner', 'order']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>

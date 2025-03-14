@@ -9,6 +9,7 @@ import OrderEmailButton from '@/components/medical-order-mail/order_email_button
 
 type OrderPatientItem = MedicalOrderPatient & {
     active: string | undefined;
+    removeQueries?: string[];
 }
 const OrderPatientItem: React.FC<OrderPatientItem> = async ({
     active,
@@ -21,7 +22,8 @@ const OrderPatientItem: React.FC<OrderPatientItem> = async ({
     patientLastname,
     patientDni,
     locationCompanyRuc,
-    locationCompanyName
+    locationCompanyName,
+    removeQueries = []
 }) => {
 
     return (
@@ -35,7 +37,8 @@ const OrderPatientItem: React.FC<OrderPatientItem> = async ({
                 wrap='nowrap'>
                 <AddQueryParam
                     value={orderId}
-                    query='medicalOrder'>
+                    query='medicalOrder'
+                    removeQueries={removeQueries}>
                     <Stack
                         gap={rem(16)}>
                         <SimpleGrid

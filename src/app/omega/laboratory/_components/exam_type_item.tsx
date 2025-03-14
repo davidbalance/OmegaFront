@@ -6,12 +6,14 @@ import React from 'react'
 
 type ExamTypeItemProps = ExamType & {
     active?: boolean;
+    removeQueries?: string[];
 }
 
 const ExamTypeItem: React.FC<ExamTypeItemProps> = ({
     active,
     typeId,
-    typeName
+    typeName,
+    removeQueries = []
 }) => {
     return (
         <ListRow
@@ -22,7 +24,7 @@ const ExamTypeItem: React.FC<ExamTypeItemProps> = ({
                 <AddQueryParam
                     value={typeId}
                     query='type'
-                    removeQueries={['subtype']}>
+                    removeQueries={removeQueries}>
                     <Title order={6}>{typeName}</Title>
                 </AddQueryParam>
             </Group>

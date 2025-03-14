@@ -17,6 +17,7 @@ import AreaList from './_components/area_list'
 import { retriveAreas } from '@/server/area/actions'
 import { retriveManagements } from '@/server/management/actions'
 import Title from '@/components/_base/mantine/title'
+import CreateButton from '@/components/_base/create-button'
 
 const take: number = 100;
 interface OmegaManagementPageProps {
@@ -64,18 +65,18 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = async ({
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
                             <Title order={4} component='span'>Gerencias</Title>
-                            <ReloadButton />
+                            <Group gap={rem(4)}>
+                                <CreateButton href='/omega/management/create' />
+                                <ReloadButton />
+                            </Group>
                         </Group>
                     </ModularBox>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
-                            <Search query='managementSearch' value={managementSearch} />
-                            <Button
-                                component={Link}
-                                href='/omega/management/create'
-                                radius='md'>
-                                Crear gerencia
-                            </Button>
+                            <Search
+                                query='managementSearch'
+                                value={managementSearch}
+                                removeQueries={['field', 'owner', 'order', 'managementPage']} />
                         </Group>
                     </ModularBox>
                     <ModularBox flex={1}>
@@ -99,22 +100,17 @@ const OmegaManagementPage: React.FC<OmegaManagementPageProps> = async ({
                         <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
                             <Title order={4} component='span'>Areas</Title>
                             <Group gap={rem(4)}>
+                                <CreateButton href='/omega/area/create' />
                                 <ReloadButton />
-                                <RemoveQueryButton
-                                    queries={['management']}
-                                    hiddenFrom='md' />
                             </Group>
                         </Group>
                     </ModularBox>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
-                            <Search query='areaSearch' value={areaSearch} />
-                            <Button
-                                component={Link}
-                                href={`/omega/area/create`}
-                                radius='md'>
-                                Crear area
-                            </Button>
+                            <Search
+                                query='areaSearch'
+                                value={areaSearch}
+                                removeQueries={['field', 'owner', 'order', 'areaPage']} />
                         </Group>
                     </ModularBox>
                     <ModularBox flex={1}>

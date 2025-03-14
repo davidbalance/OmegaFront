@@ -9,8 +9,8 @@ const ExamSubtypeHeader: React.FC = () => {
         <ListThead>
             <ListTh>
                 <OrderableButton
-                    owner='subtypeName'
-                    field='name'>
+                    owner='subtype'
+                    field='subtypeName'>
                     <Text>Subtipo</Text>
                 </OrderableButton>
             </ListTh>

@@ -23,6 +23,7 @@ import { retriveExams } from '@/server/exam/actions';
 import ExamTypeList from './_components/exam_type_list';
 import ExamSubtypeList from './_components/exam_subtype_list';
 import ExamList from './_components/exam_list';
+import CreateButton from '@/components/_base/create-button';
 
 const take: number = 100;
 interface OmegaLaboratoryPageProps {
@@ -90,14 +91,18 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = async ({
             </Group>
           </ModularBox>
           <ModularBox>
-            <Search query='typeSearch' value={typeSearch} />
+            <Search
+              query='typeSearch'
+              value={typeSearch}
+              removeQueries={['field', 'owner', 'order', 'type', 'typePage', 'subtype', 'subtypeSearch', 'subtypePage', 'examSearch']} />
           </ModularBox>
           <ModularBox flex={1}>
             <ListRoot>
               <ExamTypeHeader />
               <ExamTypeList
                 active={typeActive}
-                types={typeValue.data} />
+                types={typeValue.data}
+                removeQueries={['subtype', 'subtypeSearch', 'subtypePage', 'examSearch']} />
             </ListRoot>
           </ModularBox>
           {totalTypePage > 1 && (
@@ -116,6 +121,7 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = async ({
             <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
               <Title order={4} component='span'>Subtipos de examenes</Title>
               <Group gap={rem(4)}>
+                {!!typeActive && <CreateButton href={`laboratory/subtype/${typeActive}/create`} />}
                 <ReloadButton />
                 <RemoveQueryButton
                   queries={['type']}
@@ -125,14 +131,10 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = async ({
           </ModularBox>
           <ModularBox>
             <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
-              <Search query='subtypeSearch' value={subtypeSearch} />
-              {!!typeActive && (
-                <Button
-                  component={Link}
-                  href={`laboratory/subtype/${typeActive}/create`}
-                  radius='md'>
-                  Crear subtipo
-                </Button>)}
+              <Search
+                query='subtypeSearch'
+                value={subtypeSearch}
+                removeQueries={['field', 'owner', 'order', 'subtype', 'subtypePage', 'examSearch']} />
             </Group>
           </ModularBox>
           <ModularBox flex={1}>
@@ -141,7 +143,8 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = async ({
               <ExamSubtypeList
                 active={subtypeActive}
                 typeId={typeActive}
-                subtypes={subtypeValue.data} />
+                subtypes={subtypeValue.data}
+                removeQueries={['examSearch']} />
             </ListRoot>
           </ModularBox>
           {totalSubtypePage > 1 && (
@@ -168,7 +171,10 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = async ({
             </Group>
           </ModularBox>
           <ModularBox>
-            <Search query='examSearch' value={examSearch} />
+            <Search
+              query='examSearch'
+              value={examSearch}
+              removeQueries={['field', 'owner', 'order']} />
           </ModularBox>
           <ModularBox flex={1}>
             <ListRoot>

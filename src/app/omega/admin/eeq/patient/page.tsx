@@ -100,7 +100,7 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                     <ModularBox>
                         <Search
                             query='patientSearch'
-                            defaultValue={patientSearch}
+                            value={patientSearch}
                             removeQueries={['field', 'owner', 'order', 'patient', 'patientPage', 'medicalOrder']} />
                     </ModularBox>
                     <ModularBox flex={1}>
@@ -144,7 +144,7 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                     <ModularBox>
                         <Search
                             query='medicalOrderSearch'
-                            defaultValue={orderSearch}
+                            value={orderSearch}
                             removeQueries={['field', 'owner', 'order', 'medicalOrder', 'medicalOrderPage']} />
                     </ModularBox>
                     <ModularBox flex={1}>
@@ -186,7 +186,7 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                     <ModularBox>
                         <Search
                             query='medicalTestSearch'
-                            defaultValue={testSearch}
+                            value={testSearch}
                             removeQueries={['field', 'owner', 'order']} />
                     </ModularBox>
                     <ModularBox flex={1}>

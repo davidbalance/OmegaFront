@@ -7,11 +7,13 @@ interface PatientListProps {
     active?: string;
     action?: boolean;
     patients: MedicalClient[];
+    removeQueries?: string[];
 }
 const PatientList: React.FC<PatientListProps> = ({
     active,
     action,
-    patients
+    patients,
+    removeQueries
 }) => {
     return (
         <ListTbody>
@@ -19,6 +21,7 @@ const PatientList: React.FC<PatientListProps> = ({
                 key={e.patientDni}
                 action={action}
                 active={active === e.patientDni}
+                removeQueries={removeQueries}
                 {...e} />))}
         </ListTbody>
     )

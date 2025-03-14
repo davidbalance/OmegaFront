@@ -6,13 +6,15 @@ import React from 'react'
 
 type CompanyItemProps = Company & {
     active?: boolean;
+    removeQueries?: string[];
 }
 const CompanyItem: React.FC<CompanyItemProps> = ({
     active,
     companyId,
     companyName,
     companyRuc,
-    companyPhone
+    companyPhone,
+    removeQueries = []
 }) => {
     return (
         <ListRow
@@ -20,7 +22,8 @@ const CompanyItem: React.FC<CompanyItemProps> = ({
             hoverable={true}>
             <AddQueryParam
                 value={companyId}
-                query='company'>
+                query='company'
+                removeQueries={removeQueries}>
                 <Stack>
                     <Title order={6}>{companyName}</Title>
                     <Group justify='space-between' align='center' wrap='nowrap'>

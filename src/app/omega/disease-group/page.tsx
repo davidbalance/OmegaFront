@@ -71,7 +71,10 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = async ({ searchParams 
                     </ModularBox>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
-                            <Search query='groupSearch' value={groupSearch} />
+                            <Search
+                                query='groupSearch'
+                                value={groupSearch}
+                                removeQueries={['field', 'owner', 'order', 'group', 'groupPage']} />
                             <Button
                                 component={Link}
                                 href='/omega/disease/group/create'
@@ -79,12 +82,14 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = async ({ searchParams 
                                 Crear grupo
                             </Button>
                         </Group>
-
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
                             <DiseaseGroupHeader />
-                            <DiseaseGroupList active={groupActive} groups={groupValue.data} />
+                            <DiseaseGroupList
+                                active={groupActive}
+                                groups={groupValue.data}
+                                removeQueries={['field', 'owner', 'order', 'diseaseSearch', 'diseasePage']} />
                         </ListRoot>
                     </ModularBox>
                     {totalGroupPage > 1 && (
@@ -111,7 +116,10 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = async ({ searchParams 
                     </ModularBox>
                     <ModularBox>
                         <Group justify='space-between' wrap='nowrap' gap={rem(8)}>
-                            <Search query='diseaseSearch' value={diseaseSearch} />
+                            <Search
+                                query='diseaseSearch'
+                                value={diseaseSearch}
+                                removeQueries={['field', 'owner', 'order', 'diseasePage']} />
                             {!!groupActive && (
                                 <Button
                                     component={Link}
@@ -124,7 +132,9 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = async ({ searchParams 
                     <ModularBox flex={1}>
                         <ListRoot>
                             <DiseaseHeader />
-                            <DiseaseList groupId={groupActive} diseases={diseaseValue.data} />
+                            <DiseaseList
+                                groupId={groupActive}
+                                diseases={diseaseValue.data} />
                         </ListRoot>
                     </ModularBox>
                     {totalDiseasePage > 1 && (

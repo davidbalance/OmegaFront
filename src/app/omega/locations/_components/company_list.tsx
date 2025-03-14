@@ -6,14 +6,20 @@ import CompanyItem from './company_item';
 interface CompanyListProps {
     active?: string;
     companies: Company[];
+    removeQueries?: string[];
 }
 const CompanyList: React.FC<CompanyListProps> = ({
     active,
-    companies
+    companies,
+    removeQueries
 }) => {
     return (
         <ListTbody>
-            {companies.map(e => <CompanyItem key={e.companyId} active={active === e.companyId} {...e} />)}
+            {companies.map(e => <CompanyItem
+                key={e.companyId}
+                active={active === e.companyId}
+                removeQueries={removeQueries}
+                {...e} />)}
         </ListTbody>
     )
 }

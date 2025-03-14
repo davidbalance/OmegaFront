@@ -4,7 +4,7 @@ import { TextInput, rem } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks';
 import { IconSearch } from '@tabler/icons-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 
 interface SearchProps {
     query?: string;
@@ -14,7 +14,7 @@ interface SearchProps {
 
 const Search: React.FC<SearchProps> = ({
     query = 'search',
-    value,
+    value = '',
     removeQueries = []
 }) => {
 
@@ -22,10 +22,19 @@ const Search: React.FC<SearchProps> = ({
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const [text, setText] = useState<string>(value || '');
+    const [text, setText] = useState<string>(value);
     const [debouncedSearch] = useDebouncedValue(text, 500);
+    const lastUrlRef = useRef<string>("");
+    const prevSearchRef = useRef<string>("");
+
+    useEffect(() => setText(value), [value]);
 
     useEffect(() => {
+
+        if (debouncedSearch === prevSearchRef.current) return;
+
+        prevSearchRef.current = debouncedSearch;
+
         const newQuery = new URLSearchParams(searchParams.toString());
 
         if (debouncedSearch) {
@@ -34,11 +43,14 @@ const Search: React.FC<SearchProps> = ({
             newQuery.delete(query);
         }
 
+        removeQueries.forEach(key => newQuery.delete(key));
+
         const newUrl = `${pathname}?${newQuery.toString()}`;
-        if (newUrl !== window.location.href) {
-            router.push(newUrl);
+        if (newUrl !== lastUrlRef.current) {
+            lastUrlRef.current = newUrl
+            router.replace(newUrl);
         }
-    }, [debouncedSearch, pathname, query, router, searchParams]);
+    }, [debouncedSearch, pathname, query, router, searchParams, removeQueries]);
 
     const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => setText(e.target.value);
 

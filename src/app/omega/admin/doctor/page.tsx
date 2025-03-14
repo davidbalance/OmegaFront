@@ -37,7 +37,9 @@ const DoctorPage: React.FC<DoctorPageProps> = async ({ searchParams }) => {
                 </Box>
             </ModularBox>
             <ModularBox>
-                <Search value={search} />
+                <Search
+                    value={search}
+                    removeQueries={['field', 'order', 'page']} />
             </ModularBox>
             <ModularBox h='100%'>
                 <TableRoot>

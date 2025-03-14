@@ -37,7 +37,9 @@ const OmegaJobPositionPage: React.FC<OmegaJobPositionPageProps> = async ({
                 <Title order={4} component='span'>Puestos de trabajo</Title>
             </ModularBox>
             <ModularBox>
-                <Search value={search} />
+                <Search
+                    value={search}
+                    removeQueries={['field', 'order', 'page']} />
             </ModularBox>
             <ModularBox h='100%'>
                 <TableRoot>

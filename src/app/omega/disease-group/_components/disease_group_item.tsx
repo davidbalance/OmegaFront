@@ -11,12 +11,14 @@ import { DiseaseGroup } from '@/server/disease_group/server_types';
 
 type DiseaseGroupItemProps = DiseaseGroup & {
     active?: boolean;
+    removeQueries?: string[];
 }
 const DiseaseGroupItem: React.FC<DiseaseGroupItemProps> = ({
     groupId,
     groupName,
     hasDiseases,
-    active
+    active,
+    removeQueries = []
 }) => {
     return (
         <ListRow
@@ -29,7 +31,7 @@ const DiseaseGroupItem: React.FC<DiseaseGroupItemProps> = ({
                 <AddQueryParam
                     value={groupId}
                     query='group'
-                    removeQueries={['medicalOrder']}>
+                    removeQueries={removeQueries}>
                     <Title order={6}>
                         {groupName}
                     </Title>

@@ -95,14 +95,18 @@ const OmegaReportPage: React.FC<OmegaReportPageProps> = async ({
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='patientSearch' value={patientSearch} />
+                        <Search
+                            query='patientSearch'
+                            value={patientSearch}
+                            removeQueries={['field', 'owner', 'order', 'patient', 'patientPage', 'medicalOrder']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
                             <PatientHeader />
                             <PatientList
                                 active={patientActive}
-                                patients={patientValue.data} />
+                                patients={patientValue.data}
+                                removeQueries={['medicalOrder', 'medicalOrderSearch', 'medicalOrderPage', 'medicalTestSearch']} />
                         </ListRoot>
                     </ModularBox>
                     {totalPatientPage > 1 && (
@@ -131,14 +135,18 @@ const OmegaReportPage: React.FC<OmegaReportPageProps> = async ({
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='medicalOrderSearch' value={orderSearch} />
+                        <Search
+                            query='medicalOrderSearch'
+                            value={orderSearch}
+                            removeQueries={['field', 'owner', 'order', 'medicalOrder', 'medicalOrderPage']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
                             <OrderHeader />
                             <OrderDoctorList
                                 active={orderActive}
-                                orders={orderValue.data} />
+                                orders={orderValue.data}
+                                removeQueries={['medicalTestSearch']} />
                         </ListRoot>
                     </ModularBox>
                     {totalOrderPage > 1 && (
@@ -167,7 +175,10 @@ const OmegaReportPage: React.FC<OmegaReportPageProps> = async ({
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='medicalTestSearch' value={testSearch} />
+                        <Search
+                            query='medicalTestSearch'
+                            value={testSearch}
+                            removeQueries={['field', 'owner', 'order']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>

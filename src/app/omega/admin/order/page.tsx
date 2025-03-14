@@ -57,6 +57,8 @@ const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = async ({
         })
         : [];
 
+    console.log(orderValues);
+
     return (
         <MultipleLayerRoot>
             <MultipleLayerSection active={!orderActive}>
@@ -73,13 +75,20 @@ const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = async ({
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='medicalOrderSearch' value={orderSearch} />
+                        <Search
+                            query='medicalOrderSearch'
+                            value={orderSearch}
+                            removeQueries={['field', 'owner', 'order', 'medicalOrder', 'medicalOrderPage']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
                             <OrderHeader />
                             <ListTbody>
-                                {orderValues.map(e => <OrderPatientItem key={e.orderId} active={orderActive} {...e} />)}
+                                {orderValues.map(e => <OrderPatientItem
+                                    key={e.orderId}
+                                    active={orderActive}
+                                    removeQueries={['medicalTestSearch']}
+                                    {...e} />)}
                             </ListTbody>
                         </ListRoot>
                     </ModularBox>
@@ -111,7 +120,10 @@ const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = async ({
                         </Flex>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='medicalTestSearch' value={testSearch} />
+                        <Search
+                            query='medicalTestSearch'
+                            value={testSearch}
+                            removeQueries={['field', 'owner', 'order']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>

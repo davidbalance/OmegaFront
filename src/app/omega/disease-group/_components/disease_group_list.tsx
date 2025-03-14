@@ -6,14 +6,20 @@ import DiseaseGroupItem from './disease_group_item';
 interface DiseaseGroupListProps {
     active?: string;
     groups: DiseaseGroup[];
+    removeQueries?: string[];
 }
 const DiseaseGroupList: React.FC<DiseaseGroupListProps> = ({
     active,
-    groups
+    groups,
+    removeQueries
 }) => {
     return (
         <ListTbody>
-            {groups.map(e => <DiseaseGroupItem key={e.groupId} active={active === e.groupId} {...e} />)}
+            {groups.map(e => <DiseaseGroupItem
+                key={e.groupId}
+                active={active === e.groupId}
+                removeQueries={removeQueries}
+                {...e} />)}
         </ListTbody>)
 }
 

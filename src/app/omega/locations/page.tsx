@@ -88,14 +88,18 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = async ({
                         </Group>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='corporativeSearch' value={corporativeSearch} />
+                        <Search
+                            query='corporativeSearch'
+                            value={corporativeSearch}
+                            removeQueries={['field', 'owner', 'order', 'corporative', 'company', 'corporativePage', 'companySearch', 'companyPage', 'branchSearch']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
                             <CorporativeHeader />
                             <CorporativeList
                                 active={corporativeActive}
-                                groups={corporativeValue.data} />
+                                groups={corporativeValue.data}
+                                removeQueries={['company', 'companySearch', 'companyPage', 'branchSearch']} />
                         </ListRoot>
                     </ModularBox>
                     {totalCorporativePage > 1 && (
@@ -121,12 +125,18 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = async ({
                         </Group>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='companySearch' value={companySearch} />
+                        <Search
+                            query='companySearch'
+                            value={companySearch}
+                            removeQueries={['field', 'owner', 'order', 'company', 'companyPage', 'branchSearch']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>
                             <CompanyHeader />
-                            <CompanyList active={companyActive} companies={companyValue.data} />
+                            <CompanyList
+                                active={companyActive}
+                                companies={companyValue.data}
+                                removeQueries={['branchSearch']} />
                         </ListRoot>
                     </ModularBox>
                     {totalCompanyPage > 1 && (
@@ -152,7 +162,10 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = async ({
                         </Group>
                     </ModularBox>
                     <ModularBox>
-                        <Search query='branchSearch' value={branchSearch} />
+                        <Search
+                            query='branchSearch'
+                            value={branchSearch}
+                            removeQueries={['field', 'owner', 'order']} />
                     </ModularBox>
                     <ModularBox flex={1}>
                         <ListRoot>

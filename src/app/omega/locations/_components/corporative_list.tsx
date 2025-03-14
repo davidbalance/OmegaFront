@@ -5,14 +5,20 @@ import CorporativeItem from './corporative_item'
 
 interface CorporativeListProps {
     active?: string;
-    groups: Corporative[]
+    groups: Corporative[];
+    removeQueries?: string[];
 }
-const CorporativeList: React.FC<CorporativeListProps> = ({ active, groups }) => {
+const CorporativeList: React.FC<CorporativeListProps> = ({
+    active,
+    groups,
+    removeQueries
+}) => {
     return (
         <ListTbody>
             {groups.map(e => <CorporativeItem
                 key={e.corporativeId}
                 active={active === e.corporativeId}
+                removeQueries={removeQueries}
                 {...e} />)}
         </ListTbody>
     )

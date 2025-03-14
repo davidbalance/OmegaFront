@@ -6,11 +6,13 @@ import React from 'react'
 
 type CorporativeItemProps = Corporative & {
     active?: boolean;
+    removeQueries?: string[];
 }
 const CorporativeItem: React.FC<CorporativeItemProps> = ({
     active,
     corporativeId,
-    corporativeName
+    corporativeName,
+    removeQueries
 }) => {
     return (
         <ListRow
@@ -21,7 +23,7 @@ const CorporativeItem: React.FC<CorporativeItemProps> = ({
                 <AddQueryParam
                     value={corporativeId}
                     query='corporative'
-                    removeQueries={['company']}>
+                    removeQueries={removeQueries}>
                     <Title order={6}>{corporativeName}</Title>
                 </AddQueryParam>
             </Group>

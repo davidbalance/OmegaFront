@@ -8,13 +8,15 @@ import PatientAction from './patient_action'
 type PatientItemProps = MedicalClient & {
     active?: boolean;
     action?: boolean;
+    removeQueries?: string[];
 }
 const PatientItem: React.FC<PatientItemProps> = ({
     patientDni,
     patientName,
     patientLastname,
     active,
-    action
+    action,
+    removeQueries = []
 }) => {
     return (
         <ListRow
@@ -27,7 +29,7 @@ const PatientItem: React.FC<PatientItemProps> = ({
                 <AddQueryParam
                     value={patientDni}
                     query='patient'
-                    removeQueries={['medicalOrder']}>
+                    removeQueries={removeQueries}>
                     <Title order={6}>{`${patientName} ${patientLastname}`}</Title>
                     <Text>{patientDni}</Text>
                 </AddQueryParam>
