@@ -1,10 +1,7 @@
-import { PatientRecord, CompanyRecord, MedicalDiagnostic, MedicalFitnessForJob } from "./_base";
+import { PatientRecord, CompanyRecord, MedicalFitnessForJob } from "./_base";
 
 type GeneralData = {
-    generalDataEntry: boolean;
-    generalDataPeriodic: boolean;
-    generalDataReintegrate: boolean;
-    generalDataRetirement: boolean;
+    generalData: 'entry' | 'periodic' | 'reintegrate' | 'retirement'
 };
 
 type RetirementEvaluation = {
@@ -13,17 +10,11 @@ type RetirementEvaluation = {
     retirementEvaluationConditionWithJob: 'yes' | 'no' | 'no-apply';
 }
 
-export type RetirementRecordPayload = PatientRecord & CompanyRecord &
+export type CertificateRecordPayload = PatientRecord & CompanyRecord &
     GeneralData & MedicalFitnessForJob & RetirementEvaluation & {
         /** Institution & Patient Information */
         institutionHealthFacility: string;
         jobPosition: string;
-
-        /** Medical Consultation */
-        medicalAndSurgicalHistory: string;
-
-        /** Diagnostics */
-        diagnostics: MedicalDiagnostic[];
 
         /** Medical Recommendations */
         recommendationDescription: string;

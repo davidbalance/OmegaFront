@@ -63,9 +63,17 @@ const RetirementInstitutionForm = React.forwardRef<HTMLFormElement, RetirementIn
             component='form'
             onSubmit={form.onSubmit(handleSubmit)}
             style={{ position: 'relative', width: '100%', height: '100%' }}>
+
+            <input type='hidden' {...form.getInputProps('institutionHealthFacility')} />
+            <input type='hidden' {...form.getInputProps('patientLastName')} />
+            <input type='hidden' {...form.getInputProps('patientSecondLastName')} />
+            <input type='hidden' {...form.getInputProps('patientFirstName')} />
+            <input type='hidden' {...form.getInputProps('patientMiddleName')} />
+            <input type='hidden' {...form.getInputProps('patientGender')} />
+
             <Stack gap={rem(16)}>
                 <Divider label='Institucion' />
-                <SimpleGrid cols={{ base: 1, sm: 4 }}>
+                <SimpleGrid cols={{ base: 1, sm: 3 }}>
                     <CorporativeSelect
                         options={options}
                         corporativeValue={defaultCorporative}
@@ -76,42 +84,12 @@ const RetirementInstitutionForm = React.forwardRef<HTMLFormElement, RetirementIn
                         label="CIU"
                         placeholder="CIU"
                         {...form.getInputProps('companyCIU')} />
-                    <TextInput
-                        disabled
-                        label="ESTABLECIMIENTO DE SALUD"
-                        placeholder="eg. Omega"
-                        {...form.getInputProps('institutionHealthFacility')} />
                 </SimpleGrid>
 
-                <Divider label='Paciente - Datos Generales' />
-                <SimpleGrid cols={{ base: 1, sm: 4 }}>
-                    <TextInput
-                        label="PRIMER APELLIDO"
-                        placeholder="eg. Nuñez"
-                        {...form.getInputProps('patientLastName')} />
-                    <TextInput
-                        label="SEGUNDO APELLIDO"
-                        placeholder="eg. Nuñez"
-                        {...form.getInputProps('patientSecondLastName')} />
-                    <TextInput
-                        label="PRIMER NOMBRE"
-                        placeholder="eg. Manuel"
-                        {...form.getInputProps('patientFirstName')} />
-                    <TextInput
-                        label="SEGUNDO NOMBRE"
-                        placeholder="eg. Manuel"
-                        {...form.getInputProps('patientMiddleName')} />
-                </SimpleGrid>
-                <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                    <GenderSelector
-                        label='SEXO'
-                        {...form.getInputProps('patientGender')} />
-
-                    <TextInput
-                        label="PUESTO DE TRABAJO"
-                        placeholder='eg. Gerente'
-                        {...form.getInputProps('jobPosition')} />
-                </SimpleGrid>
+                <TextInput
+                    label="PUESTO DE TRABAJO"
+                    placeholder='eg. Gerente'
+                    {...form.getInputProps('jobPosition')} />
             </Stack>
         </Box>
     )

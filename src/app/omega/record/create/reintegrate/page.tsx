@@ -15,114 +15,6 @@ import GeneralExamResultForm from '@/components/record/general-exam-result';
 import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
 import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-job-form';
 import RecommendationForm from '@/components/record/recommendation-form';
-import { ReintegrateRecordPayload } from '@/server/record/create-record/reintegrate-record';
-
-const testData: ReintegrateRecordPayload = {
-    "patientFirstName": "WILLAN",
-    "patientMiddleName": "HERNAN",
-    "patientLastName": "FERNANDEZ",
-    "patientSecondLastName": "FLORES",
-    "patientGender": "male",
-    "patientAge": 39,
-    "companyName": "COLEGIO MENOR",
-    "companyRUC": "1791754794001",
-    "companyCIU": "CIU",
-    "institutionHealthFacility": "Omega Salud Ocupacional",
-    "jobPosition": "SAMPLE",
-    "workingEndDate": new Date("2025-03-14T14:19:32.013Z"),
-    "workingReintegrationDate": new Date("2025-03-14T14:19:32.013Z"),
-    "workingTime": 45,
-    "workingLeftCause": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget massa ex. Praesent posuere tempus risus, eu mattis turpis. Curabitur cursus orci massa, et gravida ipsum tincidunt tristique. Pellentesque fermentum quis augue non commodo. Phasellus a pellentesque ex. Vivamus diam nibh, rutrum vitae ligula vitae, iaculis consectetur neque. Suspendisse ut laoreet erat, non porta lorem. Curabitur euismod nisi dolor, vitae faucibus sapien consectetur fermentum.",
-    "medicalConsultationDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget massa ex. Praesent posuere tempus risus, eu mattis turpis. Curabitur cursus orci massa, et gravida ipsum tincidunt tristique. Pellentesque fermentum quis augue non commodo. Phasellus a pellentesque ex. Vivamus diam nibh, rutrum vitae ligula vitae, iaculis consectetur neque. Suspendisse ut laoreet erat, non porta lorem. Curabitur euismod nisi dolor, vitae faucibus sapien consectetur fermentum.",
-    "currentDiseaseDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget massa ex. Praesent posuere tempus risus, eu mattis turpis. Curabitur cursus orci massa, et gravida ipsum tincidunt tristique. Pellentesque fermentum quis augue non commodo. Phasellus a pellentesque ex. Vivamus diam nibh, rutrum vitae ligula vitae, iaculis consectetur neque. Suspendisse ut laoreet erat, non porta lorem. Curabitur euismod nisi dolor, vitae faucibus sapien consectetur fermentum.",
-    "vitalSignsBloodPressure": 0,
-    "vitalSignsTemperature": 45,
-    "vitalSignsHeartRate": 45,
-    "vitalSignsOxygenSaturation": 45,
-    "vitalSignsRespiratoryRate": 0,
-    "vitalSignsWeight": 45,
-    "vitalSignsSize": 45,
-    "vitalSignsMassIndex": 45,
-    "vitalSignsAbdominalPerimeter": 45,
-    "examSkinScar": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examSkinTattoo": "",
-    "examSkinLesions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examEyeEyelids": "",
-    "examEyeConjunctiva": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examEyePupils": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examEyeCorneas": "",
-    "examEyeMotility": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examEarAuditoryExternal": "",
-    "examEarAuricle": "",
-    "examEarEardrum": "",
-    "examPharynxLips": "",
-    "examPharynxTongue": "",
-    "examPharynxPharynx": "",
-    "examPharynxTonsils": "",
-    "examPharynxTeeth": "",
-    "examNosePartition": "",
-    "examNoseTurbinates": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examNoseMucousMembranes": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examNoseParanasalSinuses": "",
-    "examNeckThyroid": "",
-    "examNeckMobility": "",
-    "examChestBreast": "",
-    "examChestHeart": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examChestLungs": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examChestRibCage": "",
-    "examAbdomenViscera": "",
-    "examAbdomenAbdominalWall": "",
-    "examColumnFlexibility": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examColumnDeviation": "",
-    "examColumnPain": "",
-    "examPelvis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examPelvisGenitals": "",
-    "examLimbVascular": "",
-    "examLimbUpper": "",
-    "examLimbLower": "",
-    "examNeurologicForce": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examNeurologicSensitivity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "examNeurologicGait": "",
-    "examNeurologicReflex": "",
-    "generalExamResults": [
-        {
-            "date": new Date("2025-03-14T14:19:30.764Z"),
-            "exam": "SAMPLE",
-            "result": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        }
-    ],
-    "generalExamObservation": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget massa ex. Praesent posuere tempus risus, eu mattis turpis. Curabitur cursus orci massa, et gravida ipsum tincidunt tristique. Pellentesque fermentum quis augue non commodo. Phasellus a pellentesque ex. Vivamus diam nibh, rutrum vitae ligula vitae, iaculis consectetur neque. Suspendisse ut laoreet erat, non porta lorem. Curabitur euismod nisi dolor, vitae faucibus sapien consectetur fermentum.",
-    "diagnostics": [
-        {
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            "cie": "CIE",
-            "pre": true,
-            "def": true
-        },
-        {
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            "cie": "CIE",
-            "pre": false,
-            "def": true
-        },
-        {
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            "cie": "CIE",
-            "pre": true,
-            "def": false
-        },
-        {
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            "cie": "CIE",
-            "pre": false,
-            "def": false
-        }
-    ],
-    "medicalFitnessType": "fit-observation",
-    "medicalFitnessLimitation": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget massa ex. Praesent posuere tempus risus, eu mattis turpis. Curabitur cursus orci massa, et gravida ipsum tincidunt tristique. Pellentesque fermentum quis augue non commodo. Phasellus a pellentesque ex. Vivamus diam nibh, rutrum vitae ligula vitae, iaculis consectetur neque. Suspendisse ut laoreet erat, non porta lorem. Curabitur euismod nisi dolor, vitae faucibus sapien consectetur fermentum.",
-    "medicalFitnessObservation": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget massa ex. Praesent posuere tempus risus, eu mattis turpis. Curabitur cursus orci massa, et gravida ipsum tincidunt tristique. Pellentesque fermentum quis augue non commodo. Phasellus a pellentesque ex. Vivamus diam nibh, rutrum vitae ligula vitae, iaculis consectetur neque. Suspendisse ut laoreet erat, non porta lorem. Curabitur euismod nisi dolor, vitae faucibus sapien consectetur fermentum.",
-    "recommendationDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget massa ex. Praesent posuere tempus risus, eu mattis turpis. Curabitur cursus orci massa, et gravida ipsum tincidunt tristique. Pellentesque fermentum quis augue non commodo. Phasellus a pellentesque ex. Vivamus diam nibh, rutrum vitae ligula vitae, iaculis consectetur neque. Suspendisse ut laoreet erat, non porta lorem. Curabitur euismod nisi dolor, vitae faucibus sapien consectetur fermentum."
-}
 
 interface RecordReintegratePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -165,10 +57,9 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
                     { title: 'Diagnostico', icon: 'notebook' },
                     { title: 'Aptitud Medical para el Trabajo', icon: 'notebook' },
                     { title: 'Recomendacionesy/o Tratamientos', icon: 'notebook' },
-                    { title: 'Placeholder', icon: 'check' },
+                    { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
                 initialData={{
-                    ...testData,
                     patientFirstName: patientFirstName,
                     patientMiddleName: patientMiddleName,
                     patientLastName: patientLastName,
@@ -176,7 +67,6 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
                     patientGender: patient.patientGender,
                     patientAge: patientAge
                 }}>
-                <PreviewReintegrateRecord />
                 <ReintegrateInstitutionForm options={corporativeOptions} />
                 <MedicalConsultationForm />
                 <CurrentDiseaseForm />
@@ -186,6 +76,7 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
                 <MedicalDiagnosticForm />
                 <MedicalFitnessForJobForm />
                 <RecommendationForm />
+                <PreviewReintegrateRecord />
 
             </StepperReintegrateForm>
         </>

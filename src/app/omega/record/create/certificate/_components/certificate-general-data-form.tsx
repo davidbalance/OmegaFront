@@ -17,10 +17,7 @@ const CertificateGeneralDataForm = React.forwardRef<HTMLFormElement, Certificate
 
     const form = useForm<z.infer<typeof CertificateGeneralDataSchema>>({
         initialValues: {
-            generalDataEntry: data?.generalDataEntry ?? true,
-            generalDataPeriodic: data?.generalDataPeriodic ?? false,
-            generalDataReintegrate: data?.generalDataReintegrate ?? false,
-            generalDataRetirement: data?.generalDataRetirement ?? false,
+            generalData: data?.generalData ?? 'entry'
         },
         validate: zodResolver(CertificateGeneralDataSchema)
     });
@@ -36,24 +33,23 @@ const CertificateGeneralDataForm = React.forwardRef<HTMLFormElement, Certificate
             component='form'
             onSubmit={form.onSubmit(handleSubmit)}
             style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <RadioGroup>
+            <RadioGroup {...form.getInputProps('generalData')}>
                 <Group
                     gap={rem(32)}
                     justify='center'
                     align='center'>
                     <Radio
-                        defaultChecked={true}
                         label='INGRESO'
-                        {...form.getInputProps('generalDataEntry')} />
+                        value='entry' />
                     <Radio
                         label='PERIODICO'
-                        {...form.getInputProps('generalDataPeriodic')} />
+                        value='periodic' />
                     <Radio
                         label='REINTEGRO'
-                        {...form.getInputProps('generalDataReintegrate')} />
+                        value='reintegrate' />
                     <Radio
                         label='RETIRO'
-                        {...form.getInputProps('generalDataRetirement')} />
+                        value='retirement' />
                 </Group>
             </RadioGroup>
         </Box>

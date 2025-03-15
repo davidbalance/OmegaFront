@@ -24,7 +24,6 @@ import GeneralExamResultForm from '@/components/record/general-exam-result';
 import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
 import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-job-form';
 import RecommendationForm from '@/components/record/recommendation-form';
-import { PeriodicRecordPayload } from '@/server/record/create-record/periodic-record';
 
 type RecordPeriodicPageProps = {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -77,7 +76,7 @@ const RecordPeriodicPage: React.FC<RecordPeriodicPageProps> = async ({
                     { title: 'N. Aptitud Medical para el Trabajo', icon: 'notebook' },
                     { title: 'Recomendacionesy/o Tratamientos', icon: 'notebook' },
 
-                    { title: 'Placeholder', icon: 'check' },
+                    { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
                 initialData={{
                     patientFirstName: patientFirstName,

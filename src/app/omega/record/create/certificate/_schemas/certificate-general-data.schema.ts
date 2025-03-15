@@ -1,10 +1,8 @@
 import { z } from "zod";
 
 const schema = z.object({
-    generalDataEntry: z.coerce.boolean().default(false),
-    generalDataPeriodic: z.coerce.boolean().default(false),
-    generalDataReintegrate: z.coerce.boolean().default(false),
-    generalDataRetirement: z.coerce.boolean().default(false),
+    generalData: z.coerce.string().refine(arg => ['entry', 'periodic', 'reintegrate', 'retirement'].includes(arg)),
+
 });
 
 export default schema;

@@ -4,7 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import RetirementEvaluationSchema from '../_schemas/retirement-evaluation.schema'
 import { z } from 'zod';
-import { Box, Checkbox, Group, rem, TextInput } from '@mantine/core';
+import { Box, Checkbox, Group, rem, Textarea, TextInput } from '@mantine/core';
 
 type RetirementEvaluationFormProps = {
     data?: Partial<z.infer<typeof RetirementEvaluationSchema>>,
@@ -37,10 +37,10 @@ const RetirementEvaluationForm = React.forwardRef<HTMLFormElement, RetirementEva
                 <Checkbox
                     label="SE REALIZO AL EVALUACION"
                     {...form.getInputProps('retirementDone')} />
-                <TextInput
+                <Textarea
                     flex={1}
-                    label="ESTABLECIMIENTO DE SALUD"
-                    placeholder="eg. Omega"
+                    label="Observaciones"
+                    rows={5}
                     {...form.getInputProps('retirementObservation')} />
             </Group>
         </Box>

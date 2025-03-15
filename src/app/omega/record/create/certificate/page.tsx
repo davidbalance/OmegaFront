@@ -4,12 +4,34 @@ import { CorporativeOption } from '@/server/corporative/server_types';
 import { retriveClientByDni } from '@/server/medical_client/actions';
 import React from 'react'
 import CertificateInstitutionForm from './_components/certificate-institution-form';
-import PlaceholderForm from './_components/place-holder-form';
 import StepperCertificateForm from './_components/stepper-certificate-record-form';
 import CertificateGeneralDataForm from './_components/certificate-general-data-form';
 import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-job-form';
 import RecommendationForm from '@/components/record/recommendation-form';
 import CertificateRetirementEvaluationForm from './_components/certificate-retirement-evaluation';
+import PreviewCertificateRecord from './_components/preview-certificate-record';
+import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
+
+const testData: CertificateRecordPayload = {
+    "patientFirstName": "WILLAN",
+    "patientMiddleName": "HERNAN",
+    "patientLastName": "FERNANDEZ",
+    "patientSecondLastName": "FLORES",
+    "patientGender": "male",
+    "companyName": "COLEGIO MENOR",
+    "companyRUC": "1791754794001",
+    "companyCIU": "CIU",
+    "institutionHealthFacility": "Omega Salud Ocupacional",
+    "jobPosition": "SAMPLE",
+    "generalData": "reintegrate",
+    "medicalFitnessType": "fit-observation",
+    "medicalFitnessLimitation": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec purus ut lacus mollis vestibulum. Morbi sagittis risus sem, nec vestibulum lectus vestibulum in. Praesent iaculis quam nisi, ut ultrices leo volutpat vel. Cras aliquam elit nec neque egestas, a varius lacus cursus. Vestibulum fermentum suscipit lacus eget cursus. Etiam eu molestie mi. Sed non aliquam neque. Aenean pellentesque lorem eleifend egestas tincidunt. Vestibulum eleifend leo id augue commodo gravida. Donec ultrices eros ut ligula dignissim, in ultricies erat pellentesque. Ut accumsan purus a egestas molestie. Nam fringilla a turpis sit amet eleifend.",
+    "medicalFitnessObservation": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec purus ut lacus mollis vestibulum. Morbi sagittis risus sem, nec vestibulum lectus vestibulum in. Praesent iaculis quam nisi, ut ultrices leo volutpat vel. Cras aliquam elit nec neque egestas, a varius lacus cursus. Vestibulum fermentum suscipit lacus eget cursus. Etiam eu molestie mi. Sed non aliquam neque. Aenean pellentesque lorem eleifend egestas tincidunt. Vestibulum eleifend leo id augue commodo gravida. Donec ultrices eros ut ligula dignissim, in ultricies erat pellentesque. Ut accumsan purus a egestas molestie. Nam fringilla a turpis sit amet eleifend.",
+    "retirementEvaluationDone": true,
+    "retirementEvaluationCondition": "presuntive",
+    "retirementEvaluationConditionWithJob": "yes",
+    "recommendationDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec purus ut lacus mollis vestibulum. Morbi sagittis risus sem, nec vestibulum lectus vestibulum in. Praesent iaculis quam nisi, ut ultrices leo volutpat vel. Cras aliquam elit nec neque egestas, a varius lacus cursus. Vestibulum fermentum suscipit lacus eget cursus. Etiam eu molestie mi. Sed non aliquam neque. Aenean pellentesque lorem eleifend egestas tincidunt. Vestibulum eleifend leo id augue commodo gravida. Donec ultrices eros ut ligula dignissim, in ultricies erat pellentesque. Ut accumsan purus a egestas molestie. Nam fringilla a turpis sit amet eleifend."
+}
 
 interface RecordCertificatePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -47,10 +69,10 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
                     { title: 'Aptitud Medical Laboral', icon: 'notebook' },
                     { title: 'Evaluacion medica de retiro', icon: 'notebook' },
                     { title: 'Recomendacionesy/o Tratamientos', icon: 'notebook' },
-                    
-                    { title: 'Placeholder', icon: 'check' },
+                    { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
                 initialData={{
+                    ...testData,
                     patientFirstName: patientFirstName,
                     patientMiddleName: patientMiddleName,
                     patientLastName: patientLastName,
@@ -62,8 +84,7 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
                 <MedicalFitnessForJobForm />
                 <CertificateRetirementEvaluationForm />
                 <RecommendationForm />
-
-                <PlaceholderForm />
+                <PreviewCertificateRecord />
             </StepperCertificateForm>
         </>
     )
