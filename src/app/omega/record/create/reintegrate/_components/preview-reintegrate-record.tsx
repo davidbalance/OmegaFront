@@ -2,6 +2,17 @@
 
 import { useForm } from '@mantine/form';
 import React, { useCallback } from 'react'
+import PreviewReintegrateRecordInstitution from './preview-reintegrate-record-institution';
+import PreviewRecordWrapper from '@/components/record/preview-record-wrapper';
+import { rem, Stack } from '@mantine/core';
+import PreviewRecordMedicalConsultation from '@/components/record/preview-record-medical-consultation';
+import PreviewRecordCurrentDisease from '@/components/record/preview-record-current-disease';
+import PreviewRecordVitalSignsAndAnthropometry from '@/components/record/preview-record-vital-signs-and-anthropometry';
+import PreviewRecordPhysicalRegionalExam from '@/components/record/preview-record-physical-regional-exam';
+import PreviewRecordGeneralExamResultAndSpecific from '@/components/record/preview-record-general-exam-result-and-specific';
+import PreviewRecordDiagnostic from '@/components/record/preview-record-diagnostic';
+import PreviewRecordMedicalFitnessForJob from '@/components/record/preview-record-medical-fitness-for-job';
+import PreviewRecordRecommendation from '@/components/record/preview-record-recommendation';
 
 type PreviewReintegrateRecordProps = {
     data?: any;
@@ -11,8 +22,6 @@ const PreviewReintegrateRecord = React.forwardRef<HTMLFormElement, PreviewReinte
     data,
     onSubmit
 }, ref) => {
-
-    console.log(data);
 
     const form = useForm();
 
@@ -24,7 +33,48 @@ const PreviewReintegrateRecord = React.forwardRef<HTMLFormElement, PreviewReinte
         <form
             ref={ref}
             onSubmit={form.onSubmit(handleSubmit)}>
-            PreviewReintegrateRecord
+            {
+                data ? (
+                    <Stack gap={rem(32)}>
+                        <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
+                            <PreviewReintegrateRecordInstitution {...data} />
+                        </PreviewRecordWrapper>
+
+                        <PreviewRecordWrapper title='MOTIVO DE CONSULTA'>
+                            <PreviewRecordMedicalConsultation {...data} />
+                        </PreviewRecordWrapper>
+
+                        <PreviewRecordWrapper title='ENFERMEDAD ACTUAL'>
+                            <PreviewRecordCurrentDisease {...data} />
+                        </PreviewRecordWrapper>
+
+                        <PreviewRecordWrapper title='CONSTANTES VITALES Y ANTROPOMETRIA'>
+                            <PreviewRecordVitalSignsAndAnthropometry {...data} />
+                        </PreviewRecordWrapper>
+
+                        <PreviewRecordWrapper title='EXAMEN FISICO REGIONAL'>
+                            <PreviewRecordPhysicalRegionalExam {...data} />
+                        </PreviewRecordWrapper>
+
+                        <PreviewRecordWrapper title='RESULTADOS DE EXAMENES GENERALES Y ESPECIFICOS'>
+                            <PreviewRecordGeneralExamResultAndSpecific {...data} />
+                        </PreviewRecordWrapper>
+
+                        <PreviewRecordWrapper title='DIAGNOSTICO'>
+                            <PreviewRecordDiagnostic {...data} />
+                        </PreviewRecordWrapper>
+
+                        <PreviewRecordWrapper title='APTITUD MEDICA PARA EL TRABAJO'>
+                            <PreviewRecordMedicalFitnessForJob {...data} />
+                        </PreviewRecordWrapper>
+
+                        <PreviewRecordWrapper title='RECOMENDACIONES Y/O TRATAMIENTO'>
+                            <PreviewRecordRecommendation {...data} />
+                        </PreviewRecordWrapper>
+
+                    </Stack>
+                ) : (<>No hay datos disponibles</>)
+            }
         </form>
     )
 });
