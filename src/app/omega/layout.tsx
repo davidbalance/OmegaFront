@@ -71,7 +71,7 @@ const Layout: React.FC<{
                                 {children}
                             </ModularLayout>
                         </Box>
-                        <Footer />
+                        {/* <Footer /> */}
                     </OmegaShellMain>
                 </OmegaShellRoot>
                 {modal}
