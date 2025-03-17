@@ -10,6 +10,7 @@ import ListTbody from '@/components/_base/list/list-tbody'
 import DiseaseReportItem from './_components/disease-report-item'
 import DiseaseClearButton from './_components/disease-clear-button'
 import MedicalDiseaseForm from '@/app/omega/test/[testId]/disease/_components/medical-disease-form'
+import { Option } from '@/lib/types/option.type'
 
 type TestDiseasePageProps = {
     params: { testId: string }
@@ -19,7 +20,12 @@ const TestDiseasePage: React.FC<TestDiseasePageProps> = async ({
 }) => {
 
     const items = await retriveMedicalDiseases(params.testId);
-    const options = await retriveDiseaseGroupOptions();
+    const diseaseOptions = await retriveDiseaseGroupOptions();
+
+    const options: Option[] = diseaseOptions.map((e) => e.children.map<Option>(x => ({
+        label: `${e.label} - ${x.label}`,
+        value: `${e.value} - ${x.value}`
+    }))).reduce((prev, curr) => [...prev, ...curr], []);
 
     return (
         <>
@@ -30,12 +36,12 @@ const TestDiseasePage: React.FC<TestDiseasePageProps> = async ({
                     cols={{ base: 1, md: 2 }}
                     h='100%'>
                     <ModularBox flex={1}>
-                        <Stack>
+                        <Stack h='100%'>
                             <DiseaseClearButton />
                             <ListRoot>
                                 <ListTbody>
-                                    {items.map(e => (
-                                        <DiseaseReportItem
+                                    {items.map((e, i) => {
+                                        return <DiseaseReportItem
                                             key={e.diseaseReportId}
                                             disease={e}
                                             testId={params.testId}>
@@ -45,7 +51,8 @@ const TestDiseasePage: React.FC<TestDiseasePageProps> = async ({
                                             <Text size='xs'>
                                                 {e.diseaseGroupName}
                                             </Text>
-                                        </DiseaseReportItem>))}
+                                        </DiseaseReportItem>
+                                    })}
                                 </ListTbody>
                             </ListRoot>
                         </Stack>

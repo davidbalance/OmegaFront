@@ -2,7 +2,7 @@
 
 import { DiseaseGroupOption } from '@/server/disease_group/server_types';
 import { CreateMedicalDiseasePayload, MedicalDisease } from '@/server/medical_test/server_types';
-import { Box, Button, Flex, Textarea, rem } from '@mantine/core';
+import { Box, Button, Flex, Select, Textarea, rem } from '@mantine/core';
 import React, { useCallback, useEffect, useState } from 'react'
 import DiseaseSelect from '../../../../../../components/disease-select';
 import { IconDeviceFloppy } from '@tabler/icons-react';
@@ -10,12 +10,13 @@ import { createMedicalResultDisease, editMedicalResultDisease } from '@/server/m
 import { notifications } from '@mantine/notifications';
 import { getErrorMessage } from '@/lib/utils/errors';
 import { useSelect } from '../_context/select.context';
+import { Option } from '@/lib/types/option.type';
 
 type DiseaseFormValue = Omit<CreateMedicalDiseasePayload, 'testId'>;
 type MedicalDiseaseFormProps = {
-    options: DiseaseGroupOption[];
-    testId: string;
+    options: Option[];
     diseaseReportId?: string;
+    testId: string;
 }
 const MedicalDiseaseForm: React.FC<MedicalDiseaseFormProps> = ({
     options,
@@ -43,6 +44,8 @@ const MedicalDiseaseForm: React.FC<MedicalDiseaseFormProps> = ({
                 diseaseGroupId: value.diseaseGroupId,
                 diseaseGroupName: value.diseaseGroupName,
             });
+        } else {
+            resetForm();
         }
     }, [value]);
 
@@ -85,22 +88,23 @@ const MedicalDiseaseForm: React.FC<MedicalDiseaseFormProps> = ({
             onSubmit={handleSubmit}
             pos='relative'>
             <Flex gap={rem(8)} direction='column'>
-                <DiseaseSelect
-                    options={options}
-                    groupValue={formValue.diseaseGroupId !== '' ? undefined : formValue.diseaseGroupId}
-                    diseaseValue={formValue.diseaseId !== '' ? undefined : formValue.diseaseId}
-                    useDisease
-                    onChange={(selectedValues) => {
-                        setFormValue((prev) => {
-                            const updatedForm: any = { ...prev };
-                            selectedValues.forEach(({ name, value, label }) => {
-                                updatedForm[name] = value;
-                                if (name === 'diseaseGroupId') updatedForm.diseaseGroupName = label;
-                                if (name === 'diseaseId') updatedForm.diseaseName = label;
-                            });
-                            return updatedForm;
-                        });
-                    }}
+                <Select
+                    value={formValue.diseaseGroupId.trim() !== '' && formValue.diseaseId.trim() !== ''
+                        ? `${formValue.diseaseGroupId} - ${formValue.diseaseId}`
+                        : null}
+                    label='Morbilidades'
+                    placeholder='Escoge una morbilidad'
+                    data={options}
+                    searchable
+                    onChange={(value, option) =>
+                        value ? setFormValue((prev) => ({
+                            ...prev,
+                            diseaseGroupId: value.split(' - ')[0],
+                            diseaseId: value.split(' - ')[1],
+                            diseaseGroupName: option.label.split(' - ')[0],
+                            diseaseName: option.label.split(' - ')[1],
+                        })) : undefined
+                    }
                 />
 
                 <Textarea
