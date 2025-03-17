@@ -40,10 +40,10 @@ const PreviewInitialRecordGinecological: React.FC<PreviewInitialRecordGinecologi
                         <PreviewRecordElement title='FECHA DE ULTIMA MENSTRUACION' text={dayjs(gynecologicalLastMenstruationDate).format('YYYY/MM/DD')} />
                     </Stack>
                     <Stack gap={16}>
-                        <PreviewRecordElement title='GESTAS' text={gynecologicalDeeds} />
-                        <PreviewRecordElement title='PARTOS' text={gynecologicalBirths} />
-                        <PreviewRecordElement title='CESAREAS' text={gynecologicalCesarean} />
-                        <PreviewRecordElement title='ABORTOS' text={gynecologicalAbortions} />
+                        <PreviewRecordElement title='GESTAS' text={gynecologicalDeeds.toString()} />
+                        <PreviewRecordElement title='PARTOS' text={gynecologicalBirths.toString()} />
+                        <PreviewRecordElement title='CESAREAS' text={gynecologicalCesarean.toString()} />
+                        <PreviewRecordElement title='ABORTOS' text={gynecologicalAbortions.toString()} />
                     </Stack>
                     <Stack gap={16}>
                         <Stack gap={rem(2)}>

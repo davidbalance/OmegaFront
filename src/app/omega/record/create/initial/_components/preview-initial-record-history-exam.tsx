@@ -7,8 +7,8 @@ type PreviewInitialHistoryExamProps = {
   exams: {
     exam: string;
     done: boolean;
-    time: number;
-    result: string;
+    time?: number;
+    result?: string;
   }[]
 }
 const PreviewInitialHistoryExam: React.FC<PreviewInitialHistoryExamProps> = ({
@@ -19,7 +19,7 @@ const PreviewInitialHistoryExam: React.FC<PreviewInitialHistoryExamProps> = ({
     <TableTr key={e.exam}>
       <TableTd>{e.exam}</TableTd>
       <TableTd>{e.done ? 'Si' : 'No'}</TableTd>
-      <TableTd>{e.time.toString()}</TableTd>
+      <TableTd>{e.time?.toString()}</TableTd>
       <TableTd>{e.result}</TableTd>
     </TableTr>
 
