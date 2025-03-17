@@ -18,9 +18,9 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
 
     const form = useForm<z.infer<typeof ToxicHabitsSchema>>({
         initialValues: {
-            toxicHabitTobacco: data?.toxicHabitTobacco ?? { consumer: false, consumed: false, consumptionTime: 0, other: '', quantity: 0, timeOfAbstinence: 0 },
-            toxicHabitAlcohol: data?.toxicHabitAlcohol ?? { consumer: false, consumed: false, consumptionTime: 0, other: '', quantity: 0, timeOfAbstinence: 0 },
-            toxicHabitOther: data?.toxicHabitOther ?? { consumer: false, consumed: false, consumptionTime: 0, other: '', quantity: 0, timeOfAbstinence: 0 },
+            toxicHabitTobacco: data?.toxicHabitTobacco ?? { consumer: false, consumed: false, consumptionTime: 0, other: '', quantity: 1, timeOfAbstinence: 0 },
+            toxicHabitAlcohol: data?.toxicHabitAlcohol ?? { consumer: false, consumed: false, consumptionTime: 0, other: '', quantity: 1, timeOfAbstinence: 0 },
+            toxicHabitOther: data?.toxicHabitOther ?? { consumer: false, consumed: false, consumptionTime: 0, other: '', quantity: 1, timeOfAbstinence: 0 },
         },
         validate: zodResolver(ToxicHabitsSchema)
     });

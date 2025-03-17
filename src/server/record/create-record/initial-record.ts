@@ -1,4 +1,4 @@
-import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, GeneralExam, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic, GeneralExamResult, MedicalConsultation, MedicalAndSurgicalHistory, ExtraActivity, CurrentDisease, GeneralExamResultAndSpecific, RecordRecommendation } from "./_base";
+import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic, GeneralExamResult, MedicalConsultation, MedicalAndSurgicalHistory, ExtraActivity, CurrentDisease, GeneralExamResultAndSpecific, RecordRecommendation } from "./_base";
 
 type Religion = 'catholic' | 'evangelical' | "jehovah's witnesses" | 'mormon' | 'other';
 type SexualOrientation = 'lesbian' | 'gay' | 'bisexual' | 'heterosexual' | 'unknown';
@@ -6,18 +6,18 @@ type GenderIdentity = 'male' | 'female' | 'trans-female' | 'trans-male' | 'unkno
 
 type ExamHistoryResult = {
     done: boolean;
-    time: number;
-    result: string;
+    time?: number;
+    result?: string;
 };
 
 type GynecologicalHistory = {
     gynecologicalMenarche: string;
     gynecologicalCycle: string;
     gynecologicalLastMenstruationDate: Date;
-    gynecologicalDeeds: string;
-    gynecologicalBirths: string;
-    gynecologicalCesarean: string;
-    gynecologicalAbortions: string;
+    gynecologicalDeeds: number;
+    gynecologicalBirths: number;
+    gynecologicalCesarean: number;
+    gynecologicalAbortions: number;
     gynecologicalDeadChildren: number;
     gynecologicalLivingChildren: number;
     gynecologicalSexualLife: boolean;
@@ -41,7 +41,7 @@ type JobInformation = {
     jobPosition: string;
     jobArea: string;
     jobActivity: string;
-}
+};
 
 type JobHistory = {
     lastJobCompany: string;
@@ -75,7 +75,7 @@ export type JobRiskWithPreventiveMeasure = Partial<BiologicalRisk<boolean>> & Pa
 }
 
 export type InitialRecordPayload = PatientRecord & CompanyRecord & MedicalConsultation & MedicalAndSurgicalHistory &
-    JobInformation & LifeStyle & JobAccident & GeneralExam & OccupationalDisease &
+    JobInformation & LifeStyle & JobAccident & OccupationalDisease &
     FamilyHistory & GynecologicalHistory & MaleReproductiveHistory & ReviewOfOrgansAndSystem &
     VitalSignsAndAnthropometry & PhysicalRegionalExam & ExtraActivity & CurrentDisease & GeneralExamResultAndSpecific & MedicalFitnessForJob &
     RecordRecommendation & {

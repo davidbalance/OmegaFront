@@ -24,7 +24,7 @@ const Search: React.FC<SearchProps> = ({
 
     const [text, setText] = useState<string>(value);
     const [debouncedSearch] = useDebouncedValue(text, 500);
-    const lastUrlRef = useRef<string>("");
+    const lastUrlRef = useRef<string>(`${pathname}?${searchParams.toString()}`);
     const prevSearchRef = useRef<string>("");
 
     useEffect(() => setText(value), [value]);
@@ -42,6 +42,9 @@ const Search: React.FC<SearchProps> = ({
         } else {
             newQuery.delete(query);
         }
+        const actualQuery = `${pathname}?${newQuery.toString()}`;
+
+        if (actualQuery === lastUrlRef.current) return;
 
         removeQueries.forEach(key => newQuery.delete(key));
 

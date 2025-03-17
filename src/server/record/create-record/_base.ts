@@ -70,11 +70,6 @@ export type OccupationalDisease = {
     occupationalDiseaseObservation?: string;
 };
 
-export type GeneralExam = {
-    generalExamResults: GeneralExamResult[];
-    generalExamObservation: string;
-}
-
 export type PhysicalRisk<T> = {
     physicalRiskHighTemperature: T;
     physicalRiskLowTemperature: T;

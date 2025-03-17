@@ -37,6 +37,8 @@ const PreviewInitialRecord = React.forwardRef<HTMLFormElement, PreviewInitialRec
     onSubmit
 }, ref) => {
 
+    console.log(data);
+
     const form = useForm<InitialRecordPayload>({
         initialValues: data
     });

@@ -41,7 +41,7 @@ const IntialMaleReproductionForm = React.forwardRef<HTMLFormElement, IntialMaleR
             <Stack gap={rem(16)}>
                 <TextInput
                     label="METODO DE PLANIFICACION FAMILIAR"
-                    {...form.getInputProps('gynecologicalFamilyPlanningType')} />
+                    {...form.getInputProps('maleReproductiveFamilyPlanningType')} />
 
                 <SimpleGrid cols={{ base: 1, sm: 2 }}>
                     <TextInput

@@ -22,13 +22,13 @@ const InitialGynecologicalForm = React.forwardRef<HTMLFormElement, InitialGyneco
             gynecologicalMenarche: data?.gynecologicalMenarche || '',
             gynecologicalCycle: data?.gynecologicalCycle || '',
             gynecologicalLastMenstruationDate: new Date(),
-            gynecologicalDeeds: data?.gynecologicalDeeds || '',
-            gynecologicalBirths: data?.gynecologicalBirths || '',
-            gynecologicalCesarean: data?.gynecologicalCesarean || '',
-            gynecologicalAbortions: data?.gynecologicalAbortions || '',
-            gynecologicalDeadChildren: data?.gynecologicalDeadChildren || '',
-            gynecologicalLivingChildren: data?.gynecologicalLivingChildren || '',
-            gynecologicalSexualLife: data?.gynecologicalSexualLife || '',
+            gynecologicalDeeds: data?.gynecologicalDeeds || 0,
+            gynecologicalBirths: data?.gynecologicalBirths || 0,
+            gynecologicalCesarean: data?.gynecologicalCesarean || 0,
+            gynecologicalAbortions: data?.gynecologicalAbortions || 0,
+            gynecologicalDeadChildren: data?.gynecologicalDeadChildren || 0,
+            gynecologicalLivingChildren: data?.gynecologicalLivingChildren || 0,
+            gynecologicalSexualLife: data?.gynecologicalSexualLife || false,
             gynecologicalFamilyPlanningType: data?.gynecologicalFamilyPlanningType || '',
             gynecologicalExamPapanicolau: data?.gynecologicalExamPapanicolau ?? { done: false, result: '', time: 0 },
             gynecologicalExamColposcopy: data?.gynecologicalExamColposcopy ?? { done: false, result: '', time: 0 },
@@ -63,15 +63,23 @@ const InitialGynecologicalForm = React.forwardRef<HTMLFormElement, InitialGyneco
                 <SimpleGrid cols={{ base: 1, sm: 4 }}>
                     <TextInput
                         label="GESTAS"
+                        min={0}
+                        type='number'
                         {...form.getInputProps('gynecologicalDeeds')} />
                     <TextInput
                         label="PARTOS"
+                        min={0}
+                        type='number'
                         {...form.getInputProps('gynecologicalBirths')} />
                     <TextInput
                         label='CESAREAS'
+                        min={0}
+                        type='number'
                         {...form.getInputProps('gynecologicalCesarean')} />
                     <TextInput
                         label='ABORTOS'
+                        min={0}
+                        type='number'
                         {...form.getInputProps('gynecologicalAbortions')} />
                 </SimpleGrid>
                 <SimpleGrid cols={{ base: 1, sm: 3 }}>

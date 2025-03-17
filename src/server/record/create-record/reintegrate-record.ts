@@ -1,8 +1,9 @@
-import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, MedicalDiagnostic, GeneralExamResultAndSpecific } from "./_base";
+import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, MedicalDiagnostic, GeneralExamResultAndSpecific, RecordRecommendation, CurrentDisease, MedicalConsultation } from "./_base";
 
 
-export type ReintegrateRecordPayload = PatientRecord & CompanyRecord &
-    VitalSignsAndAnthropometry & GeneralExamResultAndSpecific & PhysicalRegionalExam & GeneralExamResultAndSpecific & MedicalFitnessForJob & {
+export type ReintegrateRecordPayload = PatientRecord & CompanyRecord & MedicalConsultation &
+    VitalSignsAndAnthropometry & PhysicalRegionalExam & GeneralExamResultAndSpecific & MedicalFitnessForJob &
+    CurrentDisease & RecordRecommendation & {
         /** Institution & Patient Information */
         institutionHealthFacility: string;
         patientAge: number;
@@ -12,15 +13,6 @@ export type ReintegrateRecordPayload = PatientRecord & CompanyRecord &
         workingTime: number;
         workingLeftCause: string;
 
-        /** Medical Consultation */
-        medicalConsultationDescription: string;
-
-        /** Current disease */
-        currentDiseaseDescription: string;
-
         /** Diagnostics */
         diagnostics: MedicalDiagnostic[];
-
-        /** Medical Recommendations */
-        recommendationDescription: string;
     }

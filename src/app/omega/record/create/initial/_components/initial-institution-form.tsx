@@ -215,6 +215,7 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
                 <Textarea
                     label="ACTIVIDAD DE TRABAJO"
                     placeholder='eg. Gestion el control...'
+                    rows={5}
                     {...form.getInputProps('jobActivity')} />
             </Stack>
         </Box>

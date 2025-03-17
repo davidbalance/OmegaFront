@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper_form';
 import { InitialRecordPayload } from '@/server/record/create-record/initial-record';
+import { createClientRecordInitial } from '@/server/record/actions';
 
 
 const icon: StepperIcon = {
@@ -23,15 +24,20 @@ const icon: StepperIcon = {
 }
 type StepperInitialRecordForm = InitialRecordPayload;
 type StepperInitialRecordFormProps = {
+    patientDni: string;
     initialData?: Partial<StepperInitialRecordForm>;
     headers: { title: string; description?: string, icon: 'user-check' | 'license' | 'building' | 'check' | 'briefcase' | 'tree' | 'risk' | 'activity' | 'disease' | 'heart' | 'notebook' }[]
 } & Required<Pick<React.ComponentPropsWithoutRef<typeof StepperForm>, 'children'>>
 const StepperInitialRecordForm: React.FC<StepperInitialRecordFormProps> = ({
+    patientDni,
     ...props
 }) => {
     const router = useRouter();
 
-    const handleSubmit = async (data: StepperInitialRecordForm) => { }
+    const handleSubmit = useCallback(async (data: StepperInitialRecordForm) => {
+        await createClientRecordInitial({ ...data, patientDni });
+        throw new Error("Testing error...");
+    }, [patientDni]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);
 
