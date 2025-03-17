@@ -22,6 +22,7 @@ type CascadingSelectProps = {
     nothingFoundMessages?: string[];
     defaultValues?: CascadingSelectValue[] | undefined;
     clean?: boolean;
+    searchable?: boolean
 }
 const CascadingSelect: React.FC<CascadingSelectProps> = ({
     options,
@@ -31,7 +32,8 @@ const CascadingSelect: React.FC<CascadingSelectProps> = ({
     labels,
     defaultValues = [],
     placeholders,
-    nothingFoundMessages
+    nothingFoundMessages,
+    searchable
 }) => {
 
     const [values, setValues] = useState<CascadingSelectValue[]>(defaultValues);
@@ -57,6 +59,7 @@ const CascadingSelect: React.FC<CascadingSelectProps> = ({
                     onChange={(_, value) => handleChange(level, value ? { name, label: value.label, value: value.value } : null)}
                     placeholder={placeholders?.[level]}
                     nothingFoundMessage={nothingFoundMessages?.[level]}
+                    searchable={searchable}
                 />
                 {values[level] &&
                     renderSelects(

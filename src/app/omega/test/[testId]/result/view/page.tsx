@@ -24,7 +24,6 @@ const MedicalResultFileViewPage: React.FC<MedicalResultFileViewPageProps> = asyn
         <Flex
           justify='center'
           align='center'
-          maw={rem(600)}
           w='100%'
           h='100%'>
           <BlobPreview base64={base64} fileType={blob.type} />

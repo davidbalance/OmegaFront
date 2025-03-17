@@ -22,7 +22,6 @@ const MedicalReportFileViewPage: React.FC<MedicalReportFileViewPageProps> = asyn
       <ModularBox
         flex={1}>
         <Flex
-          maw={rem(600)}
           justify='center'
           align='center'
           w='100%'

@@ -4,7 +4,7 @@ import { DiseaseGroupOption } from '@/server/disease_group/server_types'
 import React, { useMemo } from 'react'
 import CascadingSelect, { CascadingSelectValue } from './cascading-select';
 
-type DiseaseSelectProps = Pick<React.ComponentProps<typeof CascadingSelect>, 'onChange' | 'clean'> & {
+type DiseaseSelectProps = Pick<React.ComponentProps<typeof CascadingSelect>, 'onChange' | 'clean' | 'searchable'> & {
     options: DiseaseGroupOption[];
     groupValue?: string;
     diseaseValue?: string;
