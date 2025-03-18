@@ -152,7 +152,7 @@ const testData: InitialRecordPayload = {
     jobRisks: [
         {
             name: 'SAMPLE',
-            activity: 'SAMPLE',
+            activity: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel dolor id diam pretium ornare. ',
             physicalRiskHighTemperature: false,
             physicalRiskLowTemperature: false,
             physicalRiskIonicRadiation: true,
