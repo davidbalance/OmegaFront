@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper_form';
 import { InitialRecordPayload } from '@/server/record/create-record/initial-record';
+import { createClientRecordCertificate } from '@/server/record/actions';
+import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
 
 
 const icon: StepperIcon = {
@@ -21,17 +23,21 @@ const icon: StepperIcon = {
     'heart': <IconHeart style={{ width: rem(16), height: rem(16) }} />,
     'notebook': <IconNotebook style={{ width: rem(16), height: rem(16) }} />,
 }
-type StepperCertificateForm = InitialRecordPayload;
+type StepperCertificateForm = CertificateRecordPayload;
 type StepperCertificateFormProps = {
+    patientDni: string;
     initialData?: Partial<StepperCertificateForm>;
     headers: { title: string; description?: string, icon: 'user-check' | 'license' | 'building' | 'check' | 'briefcase' | 'tree' | 'risk' | 'activity' | 'disease' | 'heart' | 'notebook' }[]
 } & Required<Pick<React.ComponentPropsWithoutRef<typeof StepperForm>, 'children'>>
 const StepperCertificateForm: React.FC<StepperCertificateFormProps> = ({
+    patientDni,
     ...props
 }) => {
     const router = useRouter();
 
-    const handleSubmit = async (data: StepperCertificateForm) => { }
+    const handleSubmit = useCallback(async (data: StepperCertificateForm) => {
+        await createClientRecordCertificate({ ...data, patientDni });
+    }, [patientDni]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);
 

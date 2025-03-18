@@ -1,4 +1,3 @@
-import CreateButton from '@/components/_base/create-button';
 import ListRoot from '@/components/_base/list/list-root';
 import Title from '@/components/_base/mantine/title';
 import MultipleLayerRoot from '@/components/_base/multiple-layer/multiple-layer-root';
@@ -14,12 +13,10 @@ import PatientList from '@/components/patient_list';
 import { retriveClients } from '@/server/medical_client/actions';
 import { retriveClientRecords } from '@/server/record/actions';
 import { ClientRecord } from '@/server/record/server-types';
-import { ActionIcon, Flex, Group, Menu, MenuDropdown, MenuItem, MenuTarget, rem } from '@mantine/core';
+import { Flex, Group, rem } from '@mantine/core';
 import React from 'react'
 import RecordHeader from './_components/record-header';
 import RecordList from './_components/record-list';
-import { IconPlus } from '@tabler/icons-react';
-import Link from 'next/link';
 import RecordCreate from './_components/record-create';
 
 const take: number = 100;

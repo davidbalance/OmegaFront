@@ -4,10 +4,9 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback, useMemo } from 'react'
 import ReintegrateInstitutionSchema from '../_schemas/reintegrate-institution.schema'
 import { z } from 'zod';
-import { Box, Divider, rem, Select, SimpleGrid, Stack, Textarea, TextInput } from '@mantine/core';
+import { Box, rem, SimpleGrid, Stack, Textarea, TextInput } from '@mantine/core';
 import CorporativeSelect from '@/components/corporative-select';
 import { CorporativeOption } from '@/server/corporative/server_types';
-import GenderSelector from '@/components/gender-selector';
 import { DateInput } from '@mantine/dates';
 import { CascadingSelectValue } from '@/components/cascading-select';
 
@@ -35,10 +34,10 @@ const ReintegrateInstitutionForm = React.forwardRef<HTMLFormElement, Reintegrate
             patientGender: data?.patientGender ?? 'male',
             patientAge: data?.patientAge ?? 0,
             jobPosition: data?.jobPosition ?? '',
-            workingEndDate: new Date(),
-            workingReintegrationDate: new Date(),
-            workingTime: 0,
-            workingLeftCause: ''
+            workingEndDate: data?.workingEndDate ?? new Date(),
+            workingReintegrationDate: data?.workingReintegrationDate ?? new Date(),
+            workingTime: data?.workingTime ?? 0,
+            workingLeftCause: data?.workingLeftCause ?? '',
         },
         validate: zodResolver(ReintegrateInstitutionSchema)
     });
@@ -76,7 +75,7 @@ const ReintegrateInstitutionForm = React.forwardRef<HTMLFormElement, Reintegrate
             <input type='hidden'{...form.getInputProps('patientAge')} />
 
             <Stack gap={rem(16)}>
-                <SimpleGrid cols={{ base: 1, sm: 4 }}>
+                <SimpleGrid cols={{ base: 1, sm: 3 }}>
                     <CorporativeSelect
                         options={options}
                         corporativeValue={defaultCorporative}

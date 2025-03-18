@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper_form';
 import { PeriodicRecordPayload } from '@/server/record/create-record/periodic-record';
+import { createClientRecordPeriodic } from '@/server/record/actions';
 
 
 const icon: StepperIcon = {
@@ -23,15 +24,19 @@ const icon: StepperIcon = {
 }
 type StepperPeriodicRecordForm = PeriodicRecordPayload;
 type StepperPeriodicRecordFormProps = {
+    patientDni: string;
     initialData?: Partial<StepperPeriodicRecordForm>;
     headers: { title: string; description?: string, icon: 'user-check' | 'license' | 'building' | 'check' | 'briefcase' | 'tree' | 'risk' | 'activity' | 'disease' | 'heart' | 'notebook' }[]
 } & Required<Pick<React.ComponentPropsWithoutRef<typeof StepperForm>, 'children'>>
 const StepperPeriodicRecordForm: React.FC<StepperPeriodicRecordFormProps> = ({
+    patientDni,
     ...props
 }) => {
     const router = useRouter();
 
-    const handleSubmit = async (data: StepperPeriodicRecordForm) => { }
+    const handleSubmit = useCallback(async (data: StepperPeriodicRecordForm) => {
+        await createClientRecordPeriodic({ ...data, patientDni });
+    }, [patientDni]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);
 

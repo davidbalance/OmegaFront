@@ -7,6 +7,8 @@ import { InitialRecordPayload } from "./create-record/initial-record";
 import { PeriodicRecordPayload } from "./create-record/periodic-record";
 import { ReintegrateRecordPayload } from "./create-record/reintegrate-record";
 import { RetirementRecordPayload } from "./create-record/retirement-record";
+import { CertificateRecordPayload } from "./create-record/certificate-record";
+import { revalidateTag } from "next/cache";
 
 export const retriveClientRecords = async (payload: ClientRecordQuery): Promise<ClientRecord[]> => {
     const { patientDni, ...query } = payload;
@@ -36,6 +38,8 @@ export const createClientRecordInitial = async (payload: InitialRecordPayload & 
         .addParams({ patientDni: payload.patientDni, type })
         .addBody({ ...payload })
         .execute('createClientRecord');
+
+    revalidateTag('retriveClientRecords');
 }
 
 export const createClientRecordPeriodic = async (payload: PeriodicRecordPayload & { patientDni: string }): Promise<void> => {
@@ -46,6 +50,8 @@ export const createClientRecordPeriodic = async (payload: PeriodicRecordPayload 
         .addParams({ patientDni: payload.patientDni, type })
         .addBody({ ...payload })
         .execute('createClientRecord');
+
+    revalidateTag('retriveClientRecords');
 }
 
 export const createClientRecordReintegrate = async (payload: ReintegrateRecordPayload & { patientDni: string }): Promise<void> => {
@@ -56,6 +62,8 @@ export const createClientRecordReintegrate = async (payload: ReintegrateRecordPa
         .addParams({ patientDni: payload.patientDni, type })
         .addBody({ ...payload })
         .execute('createClientRecord');
+
+    revalidateTag('retriveClientRecords');
 }
 
 export const createClientRecordRetirement = async (payload: RetirementRecordPayload & { patientDni: string }): Promise<void> => {
@@ -66,9 +74,11 @@ export const createClientRecordRetirement = async (payload: RetirementRecordPayl
         .addParams({ patientDni: payload.patientDni, type })
         .addBody({ ...payload })
         .execute('createClientRecord');
+
+    revalidateTag('retriveClientRecords');
 }
 
-export const createClientRecordCertificate = async (payload: RetirementRecordPayload & { patientDni: string }): Promise<void> => {
+export const createClientRecordCertificate = async (payload: CertificateRecordPayload & { patientDni: string }): Promise<void> => {
     const type: string = 'certificate';
     const session = await auth();
     await omega()
@@ -76,4 +86,6 @@ export const createClientRecordCertificate = async (payload: RetirementRecordPay
         .addParams({ patientDni: payload.patientDni, type })
         .addBody({ ...payload })
         .execute('createClientRecord');
+
+    revalidateTag('retriveClientRecords');
 }

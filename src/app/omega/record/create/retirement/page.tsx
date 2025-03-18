@@ -189,6 +189,7 @@ const RecordRetirementPage: React.FC<RecordRetirementPageProps> = async ({
 
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
+                patientDni={patientDni}
                 initialData={{
                     ...testData,
                     patientFirstName: patientFirstName,

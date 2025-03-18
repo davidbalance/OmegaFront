@@ -4,6 +4,9 @@ import { ClientRecord } from '@/server/record/server-types'
 import dayjs from 'dayjs'
 import Title from '@/components/_base/mantine/title'
 import ListRow from '@/components/_base/list/list-row'
+import RecordDownload from './record-download'
+import ActionMenu from '@/components/_base/action-menu'
+import ActionMenuProvider from '@/contexts/action-menu.context'
 
 type RecordItemProps = ClientRecord;
 const RecordItem: React.FC<RecordItemProps> = async ({
@@ -18,24 +21,16 @@ const RecordItem: React.FC<RecordItemProps> = async ({
                 justify='space-between'
                 align='center'>
                 <Box component='div'>
-                    <Title order={6}>{recordName}</Title>
+                    <Title order={6}>{`${recordName.slice(0, 1).toUpperCase()}${recordName.slice(1)}`}</Title>
                     <Text>{dayjs(recordEmissionDate).format('YYYY-MM-DD HH:mm:ss')}</Text>
                 </Box>
-                {/* <ActionMenuProvider>
+                <ActionMenuProvider>
                     <ActionMenu>
-                        {(orderStatus === 'created' && !notShowMisc) && <MedicalResultMenuMiscContent testId={testId} />}
-                        <ResultMenu
-                            hasFile={resultHasFile}
-                            testId={testId}
-                            examName={examName}
-                            editable={orderStatus === 'created' && !notEditResults} />
-                        <ReportMenu
-                            testId={testId}
-                            examName={examName}
-                            reportHasContent={reportHasContent}
-                            editable={orderStatus === 'created' && !notEditReports} />
+                        <RecordDownload
+                            recordId={recordId}
+                            recordName={recordName} />
                     </ActionMenu>
-                </ActionMenuProvider> */}
+                </ActionMenuProvider>
             </Flex>
         </ListRow>
     )

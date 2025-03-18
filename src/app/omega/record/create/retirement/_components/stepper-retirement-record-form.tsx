@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper_form';
 import { RetirementRecordPayload } from '@/server/record/create-record/retirement-record';
+import { createClientRecordRetirement } from '@/server/record/actions';
 
 
 const icon: StepperIcon = {
@@ -23,15 +24,19 @@ const icon: StepperIcon = {
 }
 type StepperRetirementRecordForm = RetirementRecordPayload;
 type StepperRetirementRecordFormProps = {
+    patientDni: string;
     initialData?: Partial<StepperRetirementRecordForm>;
     headers: { title: string; description?: string, icon: 'user-check' | 'license' | 'building' | 'check' | 'briefcase' | 'tree' | 'risk' | 'activity' | 'disease' | 'heart' | 'notebook' }[]
 } & Required<Pick<React.ComponentPropsWithoutRef<typeof StepperForm>, 'children'>>
 const StepperRetirementRecordForm: React.FC<StepperRetirementRecordFormProps> = ({
+    patientDni,
     ...props
 }) => {
     const router = useRouter();
 
-    const handleSubmit = async (data: StepperRetirementRecordForm) => { }
+    const handleSubmit = useCallback(async (data: StepperRetirementRecordForm) => {
+        await createClientRecordRetirement({ ...data, patientDni });
+    }, [patientDni]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);
 

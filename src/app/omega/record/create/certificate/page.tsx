@@ -71,6 +71,7 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
                     { title: 'Recomendacionesy/o Tratamientos', icon: 'notebook' },
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
+                patientDni={patientDni}
                 initialData={{
                     ...testData,
                     patientFirstName: patientFirstName,

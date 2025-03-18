@@ -42,7 +42,7 @@ const RecordCreate: React.FC<RecordCreateProps> = ({
                 <MenuItem
                     href={`/omega/record/create/certificate?patientDni=${patientDni}`}
                     component={Link}>
-                    Certificate
+                    Certificado
                 </MenuItem>
             </MenuDropdown>
         </Menu>

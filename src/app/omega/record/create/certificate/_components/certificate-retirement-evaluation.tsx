@@ -50,6 +50,7 @@ const CertificateRetirementEvaluationForm = React.forwardRef<HTMLFormElement, Ce
             style={{ position: 'relative', width: '100%', height: '100%' }}>
             <Stack gap={rem(32)}>
                 <Checkbox
+                    checked={form.values.retirementEvaluationDone}
                     label='EL USUARIO SE REALIZO LA EVALUACION MEDICA DE RETIRO'
                     {...form.getInputProps('retirementEvaluationDone')} />
 
