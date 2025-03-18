@@ -59,7 +59,7 @@ const Search: React.FC<SearchProps> = ({
 
     return (
         <TextInput
-            key={value || 'default'}
+            key={value ? 'search-key' : 'default'}
             w='100%'
             defaultValue={value}
             placeholder='Buscar'
