@@ -30,7 +30,7 @@ const PatientMassiveLoadForm: React.FC = () => {
                 form.append('file', currentFile);
                 try {
                     await massiveLoadClient(form);
-                    // router.back();
+                    router.back();
                 } catch (error: any) {
                     notifications.show({ message: getErrorMessage(error), color: 'red' });
                 } finally {

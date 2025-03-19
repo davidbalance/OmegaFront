@@ -8,7 +8,7 @@ function isUnknownError(value: unknown): value is { message: string } {
 
 export const getErrorMessage = (response: unknown) => {
     if (response instanceof Error || isUnknownError(response)) {
-        return formatError(JSON.stringify(response.message));
+        return formatError(typeof response.message === 'object' ? JSON.stringify(response.message) : response.message);
     }
     return 'Unknown error.'
 }
