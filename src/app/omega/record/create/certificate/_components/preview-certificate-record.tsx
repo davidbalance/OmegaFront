@@ -20,8 +20,6 @@ const PreviewCertificateRecord = React.forwardRef<HTMLFormElement, PreviewCertif
     onSubmit
 }, ref) => {
 
-    console.log(data);
-
     const form = useForm<CertificateRecordPayload>({
         initialValues: data
     });

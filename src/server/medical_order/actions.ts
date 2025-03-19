@@ -146,3 +146,14 @@ export const createdStatusMedicalOrder = async (orderId: string): Promise<void> 
     revalidateTag('retriveMedicalOrders');
     revalidateTag('retriveMedicalOrdersPatient');
 }
+
+export const massiveLoadOrder = async (formData: FormData): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addToken(session.access_token)
+        .addBody(formData)
+        .execute('massiveLoadOrder');
+
+    revalidateTag('retriveMedicalOrders');
+    revalidateTag('retriveMedicalOrdersPatient');
+}

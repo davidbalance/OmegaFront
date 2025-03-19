@@ -437,6 +437,10 @@ const endpoints = {
         resource: 'medical-order/write/:orderId/:status',
         method: 'put',
     } as ApiResource,
+    massiveLoadOrder: {
+        resource: 'medical-order/write/massive-load/excel',
+        method: 'post',
+    } as ApiResource,
 
     retriveMedicalDiseases: {
         resource: 'medical-tests/:testId/diseases',

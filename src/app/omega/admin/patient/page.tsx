@@ -131,6 +131,7 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                             gap={rem(16)}>
                             <Title order={4} component='span'>Ordenes medicas</Title>
                             <Group gap={rem(8)}>
+                                <MassiveLoadButton href='/omega/medical/order/massive-load' />
                                 {!!patientActive && <CreateButton href={`/omega/medical/order/create?patient=${patientActive}`} />}
                                 <ReloadButton />
                                 <RemoveQueryButton
