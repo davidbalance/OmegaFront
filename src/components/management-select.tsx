@@ -26,6 +26,7 @@ const ManagementSelect: React.FC<ManagementSelectProps> = ({
             labels={['Gerencias']}
             placeholders={["Escoge una gerencia"]}
             defaultValues={[managementSelectOption].filter(e => e !== undefined) as CascadingSelectValue[]}
+            searchable
             {...props}
         />
     )

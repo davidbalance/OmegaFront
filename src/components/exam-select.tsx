@@ -51,6 +51,7 @@ const ExamSelect: React.FC<ExamSelectProps> = ({
             labels={['Tipo de examen', 'Subtipo de exam', 'Examen Medico']}
             placeholders={["Escoge un tipo de examen", "Escoge un subtipo de examen", "Escoge un examen"]}
             defaultValues={defaultValues}
+            searchable
             {...props}
         />
     )

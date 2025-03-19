@@ -37,6 +37,7 @@ const DiseaseSelect: React.FC<DiseaseSelectProps> = ({
             labels={['Grupo de morbilidades', 'Morbilidades']}
             placeholders={["Escoge un grupo de morbilidades", "Escoge una morbilidad"]}
             defaultValues={[groupSelectOption, diseaseSelectOption].filter(e => e !== undefined) as CascadingSelectValue[]}
+            searchable
             {...props}
         />
     )
