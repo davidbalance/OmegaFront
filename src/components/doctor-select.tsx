@@ -27,6 +27,7 @@ const DoctorSelect: React.FC<DoctorSelectProps> = ({
             labels={['Medico']}
             placeholders={["Escoge un medico"]}
             defaultValues={[doctorSelectOption].filter(e => e !== undefined) as CascadingSelectValue[]}
+            searchable
             {...props}
         />
     )

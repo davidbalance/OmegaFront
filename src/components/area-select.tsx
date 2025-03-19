@@ -26,6 +26,7 @@ const AreaSelect: React.FC<AreaSelectProps> = ({
             labels={['Areas']}
             placeholders={["Escoge un area"]}
             defaultValues={areaSelectOption ? [areaSelectOption].filter(e => !!e) : []}
+            searchable
             {...props}
         />
     )

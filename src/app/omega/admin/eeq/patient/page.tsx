@@ -92,7 +92,7 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                             gap={rem(16)}>
                             <Title order={4} component='span'>Pacientes</Title>
                             <Group gap={rem(4)}>
-                                <CreateButton href='/omega/admin/patient/create' />
+                                <CreateButton href='/omega/admin/patient/create?eeq=true' />
                                 <ReloadButton />
                             </Group>
                         </Flex>

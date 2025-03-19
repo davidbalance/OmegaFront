@@ -51,6 +51,7 @@ const CoporativeSelect: React.FC<CoporativeSelectProps> = ({
             labels={['Grupo corporativo', 'Empresa', 'Sucursal']}
             placeholders={["Escoge un grupo corporativo", "Escoge una empresa", "Escoge una sucursal"]}
             defaultValues={defaultValues}
+            searchable
             {...props}
         />
     )

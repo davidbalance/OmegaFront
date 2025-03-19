@@ -25,6 +25,7 @@ const JobPositionSelect: React.FC<JobPositionSelectProps> = ({
             names={['jobPositionId']}
             labels={['Posiciones de trabajo']}
             placeholders={["Escoge una posicion"]}
+            searchable
             defaultValues={[jobPositionSelectOption].filter(e => e !== undefined) as CascadingSelectValue[]}
             {...props}
         />

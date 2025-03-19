@@ -11,6 +11,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({ ...props }) => {
             placeholder="Masculino"
             defaultDropdownOpened={false}
             maxDropdownHeight={200}
+            searchable
             {...props}
         />)
 }
