@@ -366,6 +366,10 @@ const endpoints = {
         resource: 'medical-client/write/:patientDni/email/:emailId',
         method: 'delete',
     } as ApiResource,
+    massiveLoadClient: {
+        resource: 'medical-client/write/massive-load/excel',
+        method: 'post',
+    } as ApiResource,
 
     retriveClientRecords: {
         resource: 'medical-client/records/:patientDni',

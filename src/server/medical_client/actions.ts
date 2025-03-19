@@ -99,6 +99,19 @@ export const createClient = async (payload: CreateMedicalClientPayload): Promise
     revalidateTag('retriveClientsDoctor');
 }
 
+export const massiveLoadClient = async (formData: FormData): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addToken(session.access_token)
+        .addBody(formData)
+        .execute('massiveLoadClient');
+
+    revalidateTag('retriveClients');
+    revalidateTag('retriveClientsEEQ');
+    revalidateTag('retriveClientsDoctor');
+}
+
+
 export const addAreaClient = async (payload: AddAreaMedicalClientPayload): Promise<void> => {
     const { dni, ...body } = payload;
     const session = await auth();

@@ -23,6 +23,7 @@ import OrderList from '@/components/order_list'
 import PatientList from '@/components/patient_list'
 import TestList from '@/components/test_list'
 import Title from '@/components/_base/mantine/title'
+import MassiveLoadButton from '@/components/_base/massive-load-button'
 
 const take: number = 100;
 interface PatientPageProps {
@@ -89,7 +90,8 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                             wrap='nowrap'
                             gap={rem(16)}>
                             <Title order={4} component='span'>Pacientes</Title>
-                            <Group gap={rem(4)}>
+                            <Group gap={rem(8)}>
+                                <MassiveLoadButton href='/omega/admin/patient/massive-load' />
                                 <CreateButton href='/omega/admin/patient/create' />
                                 <ReloadButton />
                             </Group>
@@ -128,7 +130,7 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                             wrap='nowrap'
                             gap={rem(16)}>
                             <Title order={4} component='span'>Ordenes medicas</Title>
-                            <Group gap={rem(4)}>
+                            <Group gap={rem(8)}>
                                 {!!patientActive && <CreateButton href={`/omega/medical/order/create?patient=${patientActive}`} />}
                                 <ReloadButton />
                                 <RemoveQueryButton
