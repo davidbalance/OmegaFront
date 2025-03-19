@@ -4,13 +4,21 @@ import PatientValidateDni from './_components/patient_validate_dni_form'
 import DniValidationContext from './_context/dni_validation.context'
 import ReturnableHeader from '@/components/_base/returnable-header'
 
-const AdminPatientCreate: React.FC = () => {
+type AdminPatientCreateProps = {
+    searchParams: { [key: string]: string | string[] | undefined }
+}
+const AdminPatientCreate: React.FC<AdminPatientCreateProps> = ({
+    searchParams
+}) => {
+
+    const allowRole = typeof searchParams.eeq === 'string' ? searchParams.eeq === 'true' : false;
+
     return (
         <>
             <ReturnableHeader title='Creacion paciente' />
             <DniValidationContext>
                 <PatientValidateDni />
-                <PatientForm />
+                <PatientForm allowRole={allowRole} />
             </DniValidationContext>
         </>
     )

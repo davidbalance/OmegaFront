@@ -19,7 +19,7 @@ const PatientActionJobPositionPage: React.FC<PatientActionJobPositionPageProps> 
 
   return (
     <>
-      <ReturnableHeader title='Asignar area y gerencia' />
+      <ReturnableHeader title='Asignar puesto de trabajo' />
       <JobPositionForm
         patientDni={params.patientDni}
         jobPositionValue={jobPositionValue?.value}
