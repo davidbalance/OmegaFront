@@ -176,6 +176,7 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                             gap={rem(16)}>
                             <Title order={4} component='span'>Resultados medicos</Title>
                             <Group gap={rem(4)}>
+                                {medicalOrder?.orderStatus !== 'validated' && !!orderActive && <CreateButton href={`/omega/medical/test/create?orderId=${orderActive}`} />}
                                 <ReloadButton />
                                 <RemoveQueryButton
                                     queries={['medicalOrder']}
