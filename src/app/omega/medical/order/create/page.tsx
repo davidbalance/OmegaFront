@@ -42,6 +42,7 @@ const MedicalOrderCreatePage: React.FC<MedicalOrderCreatePageProps> = async ({
             <ReturnableHeader title='Creacion de orden medica' />
             <StepperOrderForm
                 patientDni={patient}
+                initialData={{ doctorFullname: 'NO ESPECIFICA', doctorDni: '0000000000' }}
                 headers={[
                     { description: 'Asignacion de localidad y proceso', icon: 'building' },
                     { description: 'Asignacion de medico', icon: 'doctor' },
@@ -49,7 +50,7 @@ const MedicalOrderCreatePage: React.FC<MedicalOrderCreatePageProps> = async ({
                 <OrderSetup
                     corporativeOptions={corporativeOptions}
                     processOptions={processOptions} />
-                <DoctorForm options={doctorOptions} />
+                <DoctorForm options={[{ label: 'NO ESPECIFICA', value: '0000000000' }, ...doctorOptions]} />
             </StepperOrderForm>
         </>
     )

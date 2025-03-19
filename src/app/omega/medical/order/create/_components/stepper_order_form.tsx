@@ -15,11 +15,13 @@ const icon: StepperIcon = {
 }
 type StepperOrderForm = Omit<CreateMedicalOrderPayload, 'patientDni'>;
 type StepperOrderFormProps = {
+    initialData?: Partial<StepperOrderForm>,
     patientDni: string,
     headers: { description: string, icon: 'doctor' | 'building' | 'exam' }[]
 } & Required<Pick<React.ComponentPropsWithoutRef<typeof StepperForm>, 'children'>>
 const StepperOrderForm: React.FC<StepperOrderFormProps> = ({
     patientDni,
+    initialData,
     ...props
 }) => {
 
@@ -45,7 +47,8 @@ const StepperOrderForm: React.FC<StepperOrderFormProps> = ({
                 doctorDni: '',
                 doctorFullname: '',
                 process: '',
-                year: dayjs().year()
+                year: dayjs().year(),
+                ...initialData
             }}
             {...props} />
     )
