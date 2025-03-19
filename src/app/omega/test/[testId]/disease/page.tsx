@@ -4,7 +4,7 @@ import { ModularBox } from '@/components/modular/box/ModularBox'
 import { SimpleGrid, rem, Stack, Title, Text } from '@mantine/core'
 import React from 'react'
 import SelectProvider from './_context/select.context'
-import { retriveMedicalDiseases } from '@/server/medical_test/actions'
+import { retriveMedicalDiseases, retriveMedicalTest } from '@/server/medical_test/actions'
 import { retriveDiseaseGroupOptions } from '@/server/disease_group/actions'
 import ListTbody from '@/components/_base/list/list-tbody'
 import DiseaseReportItem from './_components/disease-report-item'
@@ -19,6 +19,7 @@ const TestDiseasePage: React.FC<TestDiseasePageProps> = async ({
     params
 }) => {
 
+    const test = await retriveMedicalTest(params.testId);
     const items = await retriveMedicalDiseases(params.testId);
     const diseaseOptions = await retriveDiseaseGroupOptions();
 
@@ -29,7 +30,7 @@ const TestDiseasePage: React.FC<TestDiseasePageProps> = async ({
 
     return (
         <>
-            <ReturnableHeader title='Administracion de morbilidades' />
+            <ReturnableHeader title={`Administracion de morbilidades: ${test.examName}`} />
             <SelectProvider>
                 <SimpleGrid
                     spacing={rem(8)}
