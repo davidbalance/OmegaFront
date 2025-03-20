@@ -89,6 +89,14 @@ export const retriveMedicalOrdersDoctor = async (payload: MedicalOrderQuery): Pr
     return data;
 }
 
+export const retriveMedicalOrderMassiveLoadTemplate = async (): Promise<Blob> => {
+    const session = await auth();
+    const data: Blob = await omega()
+        .addToken(session.access_token)
+        .execute('retriveMedicalOrderMassiveLoadTemplate');
+    return data;
+}
+
 export const createMedicalOrder = async (payload: CreateMedicalOrderPayload): Promise<void> => {
     const session = await auth();
     await omega()
@@ -142,6 +150,17 @@ export const createdStatusMedicalOrder = async (orderId: string): Promise<void> 
         .addParams({ orderId, status: 'status-created' })
         .addFlags(['--no-body'])
         .execute('changeStatusMedicalOrder');
+
+    revalidateTag('retriveMedicalOrders');
+    revalidateTag('retriveMedicalOrdersPatient');
+}
+
+export const massiveLoadOrder = async (formData: FormData): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addToken(session.access_token)
+        .addBody(formData)
+        .execute('massiveLoadOrder');
 
     revalidateTag('retriveMedicalOrders');
     revalidateTag('retriveMedicalOrdersPatient');

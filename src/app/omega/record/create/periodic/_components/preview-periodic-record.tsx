@@ -34,8 +34,6 @@ const PreviewPeriodicRecord = React.forwardRef<HTMLFormElement, PreviewPeriodicR
     onSubmit
 }, ref) => {
 
-    console.log(data);
-
     const form = useForm<PeriodicRecordPayload>({
         initialValues: data
     });

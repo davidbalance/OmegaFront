@@ -338,6 +338,10 @@ const endpoints = {
         resource: 'medical-clients/:dni/management',
         method: 'get',
     } as ApiResource,
+    retriveClientMassiveLoadTemplate: {
+        resource: 'medical-clients/massive-load/template',
+        method: 'get',
+    } as ApiResource,
     createClient: {
         resource: 'medical-client/write',
         method: 'post',
@@ -365,6 +369,10 @@ const endpoints = {
     removeClientEmail: {
         resource: 'medical-client/write/:patientDni/email/:emailId',
         method: 'delete',
+    } as ApiResource,
+    massiveLoadClient: {
+        resource: 'medical-client/write/massive-load/excel',
+        method: 'post',
     } as ApiResource,
 
     retriveClientRecords: {
@@ -417,6 +425,10 @@ const endpoints = {
         resource: 'medical-orders/doctor/:patientDni',
         method: 'get',
     } as ApiResource,
+    retriveMedicalOrderMassiveLoadTemplate: {
+        resource: 'medical-orders/massive-load/template',
+        method: 'get',
+    } as ApiResource,
     createMedicalOrder: {
         resource: 'medical-order/write',
         method: 'post',
@@ -432,6 +444,10 @@ const endpoints = {
     changeStatusMedicalOrder: {
         resource: 'medical-order/write/:orderId/:status',
         method: 'put',
+    } as ApiResource,
+    massiveLoadOrder: {
+        resource: 'medical-order/write/massive-load/excel',
+        method: 'post',
     } as ApiResource,
 
     retriveMedicalDiseases: {

@@ -87,6 +87,14 @@ export const retriveClientManagement = async (dni: string): Promise<MedicalManag
     return data;
 }
 
+export const retriveClientMassiveLoadTemplate = async (): Promise<Blob> => {
+    const session = await auth();
+    const data: Blob = await omega()
+        .addToken(session.access_token)
+        .execute('retriveClientMassiveLoadTemplate');
+    return data;
+}
+
 export const createClient = async (payload: CreateMedicalClientPayload): Promise<void> => {
     const session = await auth();
     await omega()
@@ -98,6 +106,19 @@ export const createClient = async (payload: CreateMedicalClientPayload): Promise
     revalidateTag('retriveClientsEEQ');
     revalidateTag('retriveClientsDoctor');
 }
+
+export const massiveLoadClient = async (formData: FormData): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addToken(session.access_token)
+        .addBody(formData)
+        .execute('massiveLoadClient');
+
+    revalidateTag('retriveClients');
+    revalidateTag('retriveClientsEEQ');
+    revalidateTag('retriveClientsDoctor');
+}
+
 
 export const addAreaClient = async (payload: AddAreaMedicalClientPayload): Promise<void> => {
     const { dni, ...body } = payload;

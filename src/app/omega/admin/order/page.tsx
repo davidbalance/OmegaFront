@@ -57,8 +57,6 @@ const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = async ({
         })
         : [];
 
-    console.log(orderValues);
-
     return (
         <MultipleLayerRoot>
             <MultipleLayerSection active={!orderActive}>
