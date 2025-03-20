@@ -65,6 +65,11 @@ export type AddManagementMedicalClientPayload = {
     managementName: string;
 }
 
+export type ChangeRoleClientPayload = {
+    dni: string;
+    patientRole: string;
+}
+
 export type CreateClientEmailPayload = {
     patientDni: string;
     email: string;

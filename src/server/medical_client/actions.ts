@@ -2,7 +2,7 @@
 
 import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth";
-import { AddAreaMedicalClientPayload, AddJobPositionMedicalClientPayload, AddManagementMedicalClientPayload, CreateClientEmailPayload, CreateMedicalClientPayload, DefaultClientEmailPayload, MedicalAreaClient, MedicalClient, MedicalClientEmail, MedicalClientQuery, MedicalJobPositionClient, MedicalManagementClient, RemoveClientEmailPayload } from "./server_types";
+import { AddAreaMedicalClientPayload, AddJobPositionMedicalClientPayload, AddManagementMedicalClientPayload, ChangeRoleClientPayload, CreateClientEmailPayload, CreateMedicalClientPayload, DefaultClientEmailPayload, MedicalAreaClient, MedicalClient, MedicalClientEmail, MedicalClientQuery, MedicalJobPositionClient, MedicalManagementClient, RemoveClientEmailPayload } from "./server_types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidatePath, revalidateTag } from "next/cache";
 
@@ -150,6 +150,19 @@ export const addManagementClient = async (payload: AddManagementMedicalClientPay
         .addParams({ dni })
         .addBody({ ...body })
         .execute('addManagementClient');
+}
+
+export const changeRoleClient = async (payload: ChangeRoleClientPayload): Promise<void> => {
+    const { dni, ...body } = payload;
+    const session = await auth();
+    await omega()
+        .addToken(session.access_token)
+        .addParams({ dni })
+        .addBody({ ...body })
+        .execute('changeRoleClient');
+
+    revalidateTag('retriveClientByDni');
+    revalidateTag('retriveClientsEEQ');
 }
 
 export const createClientEmail = async (payload: CreateClientEmailPayload): Promise<void> => {

@@ -358,6 +358,10 @@ const endpoints = {
         resource: 'medical-client/write/:dni/management',
         method: 'put',
     } as ApiResource,
+    changeRoleClient: {
+        resource: 'medical-client/write/:dni/role',
+        method: 'put',
+    } as ApiResource,
     createClientEmail: {
         resource: 'medical-client/write/email',
         method: 'post',
