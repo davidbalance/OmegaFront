@@ -122,7 +122,7 @@ const PatientForm: React.FC<PatientFormProps> = ({
                                         <TextInput
                                             label='Rol'
                                             disabled={!data}
-                                            {...form.getInputProps('role')} />
+                                            {...form.getInputProps('patientRole')} />
                                     </GridCol>)
                                     : null
                             }
