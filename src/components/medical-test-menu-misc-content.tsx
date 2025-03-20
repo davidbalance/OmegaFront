@@ -2,32 +2,36 @@ import { MenuLabel, MenuItem, rem } from '@mantine/core'
 import { IconVirus, IconStethoscope } from '@tabler/icons-react'
 import Link from 'next/link'
 import React from 'react'
+import MedicalTestRemove from './medical-test-remove';
 
-interface MedicalResultMenuMiscContentProps {
+interface MedicalTestMenuMiscContentProps {
   testId: string;
+  editable?: boolean;
 }
-const MedicalResultMenuMiscContent: React.FC<MedicalResultMenuMiscContentProps> = ({
+const MedicalTestMenuMiscContent: React.FC<MedicalTestMenuMiscContentProps> = ({
   testId,
+  editable = false
 }) => {
   return (<>
-    <MenuLabel>Misc.</MenuLabel>
-    <MenuItem
+    {editable ? <MenuLabel>Misc.</MenuLabel> : null}
+    {editable && <MenuItem
       component={Link}
       href={`/omega/test/${testId}/disease`}
       leftSection={(
         <IconVirus style={{ width: rem(16), height: rem(16) }} />
       )}>
       Modificar morbilidades
-    </MenuItem>
-    <MenuItem
+    </MenuItem>}
+    {editable && <MenuItem
       component={Link}
       href={`/omega/test/${testId}/exam`}
       leftSection={(
         <IconStethoscope style={{ width: rem(16), height: rem(16) }} />
       )}>
       Modificar tipo de examen
-    </MenuItem>
+    </MenuItem>}
+    {editable && <MedicalTestRemove testId={testId} />}
   </>)
 }
 
-export default MedicalResultMenuMiscContent
+export default MedicalTestMenuMiscContent

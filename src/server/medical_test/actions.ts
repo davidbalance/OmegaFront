@@ -194,6 +194,16 @@ export const checkMedicalTest = async (testId: string): Promise<void> => {
         .execute('checkMedicalTest');
 }
 
+export const removeMedicalTest = async (testId: string): Promise<void> => {
+    const session = await auth();
+    await omega()
+        .addToken(session.access_token)
+        .addParams({ testId })
+        .execute('removeMedicalTest');
+
+    revalidateTag('retriveMedicalTests');
+}
+
 export const createMedicalTest = async (payload: CreateMedicalTestPayload): Promise<void> => {
     const session = await auth();
     await omega()

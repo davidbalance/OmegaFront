@@ -25,8 +25,6 @@ const PreviewRetirementRecord = React.forwardRef<HTMLFormElement, PreviewRetirem
     onSubmit
 }, ref) => {
 
-    console.log(data);
-
     const form = useForm<RetirementRecordPayload>({
         initialValues: data
     });

@@ -3,7 +3,7 @@ import { Box, Flex, Text, Title } from '@mantine/core'
 import ListRow from './_base/list/list-row'
 import ActionMenuProvider from '@/contexts/action-menu.context'
 import ActionMenu from './_base/action-menu'
-import MedicalResultMenuMiscContent from './medical-result-menu-misc-content';
+import MedicalTestMenuMiscContent from './medical-test-menu-misc-content';
 import ResultMenu from './result_menu';
 import { MedicalTest } from '@/server/medical_test/server_types'
 import { OrderStatus } from '@/server/medical_order/server_types'
@@ -46,7 +46,9 @@ const TestItem: React.FC<TestItemProps> = async ({
                 </Box>
                 <ActionMenuProvider>
                     <ActionMenu>
-                        {(orderStatus === 'created' && !notShowMisc) && <MedicalResultMenuMiscContent testId={testId} />}
+                        <MedicalTestMenuMiscContent
+                            testId={testId}
+                            editable={orderStatus === 'created' && !notShowMisc} />
                         <ResultMenu
                             hasFile={resultHasFile}
                             testId={testId}

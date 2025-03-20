@@ -534,6 +534,10 @@ const endpoints = {
         resource: 'medical-test/write/:testId/uncheck',
         method: 'put',
     } as ApiResource,
+    removeMedicalTest: {
+        resource: 'medical-test/write/:testId/test',
+        method: 'delete',
+    } as ApiResource,
 
     retriveMedicalTestFileReport: {
         resource: 'medical-tests/found-file/report',
