@@ -338,6 +338,10 @@ const endpoints = {
         resource: 'medical-clients/:dni/management',
         method: 'get',
     } as ApiResource,
+    retriveClientMassiveLoadTemplate: {
+        resource: 'medical-clients/massive-load/template',
+        method: 'get',
+    } as ApiResource,
     createClient: {
         resource: 'medical-client/write',
         method: 'post',
@@ -419,6 +423,10 @@ const endpoints = {
     } as ApiResource,
     retriveMedicalOrdersDoctor: {
         resource: 'medical-orders/doctor/:patientDni',
+        method: 'get',
+    } as ApiResource,
+    retriveMedicalOrderMassiveLoadTemplate: {
+        resource: 'medical-orders/massive-load/template',
         method: 'get',
     } as ApiResource,
     createMedicalOrder: {

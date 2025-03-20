@@ -89,6 +89,14 @@ export const retriveMedicalOrdersDoctor = async (payload: MedicalOrderQuery): Pr
     return data;
 }
 
+export const retriveMedicalOrderMassiveLoadTemplate = async (): Promise<Blob> => {
+    const session = await auth();
+    const data: Blob = await omega()
+        .addToken(session.access_token)
+        .execute('retriveMedicalOrderMassiveLoadTemplate');
+    return data;
+}
+
 export const createMedicalOrder = async (payload: CreateMedicalOrderPayload): Promise<void> => {
     const session = await auth();
     await omega()
