@@ -11,7 +11,7 @@ import MedicalConsultationForm from '@/components/record/medical-consultation-fo
 import CurrentDiseaseForm from '@/components/record/current-disease-form';
 import VitalSignsAndAnthropometryForm from '@/components/record/vital-signs-and-anthropometry-form';
 import PhysicalRegionalExamForm from '@/components/record/physical-regional-exam-form';
-import GeneralExamResultForm from '@/components/record/general-exam-result';
+import GeneralExamResultForm from '@/components/record/general-exam-result-form';
 import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
 import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-job-form';
 import RecommendationForm from '@/components/record/recommendation-form';

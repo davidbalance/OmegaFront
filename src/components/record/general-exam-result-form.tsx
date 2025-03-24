@@ -49,8 +49,8 @@ const GeneralExamResultForm = React.forwardRef<HTMLFormElement, GeneralExamResul
             onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap={rem(32)}>
                 {form.values.generalExamResults.map((e, i) =>
-                    <>
-                        <Group key={i} component='div' w='100%'>
+                    <div key={crypto.randomUUID()}>
+                        <Group component='div' w='100%'>
                             <ButtonGroup>
                                 {form.values.generalExamResults.length - 1 === i && <Button
                                     variant='white'
@@ -82,7 +82,7 @@ const GeneralExamResultForm = React.forwardRef<HTMLFormElement, GeneralExamResul
                             </Grid>
                         </Group>
                         {form.values.generalExamResults.length > 1 && <Divider />}
-                    </>
+                    </div>
                 )}
                 <Textarea
                     label="Observaciones"

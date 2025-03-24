@@ -55,8 +55,8 @@ const InitialJobHistoryForm = React.forwardRef<HTMLFormElement, InitialJobHistor
             onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap={rem(32)}>
                 {form.values.jobHistory.map((e, i) =>
-                    <>
-                        <Group key={i} component='div' w='100%'>
+                    <div key={crypto.randomUUID()}>
+                        <Group component='div' w='100%'>
                             <ButtonGroup>
                                 {form.values.jobHistory.length - 1 === i && <Button
                                     variant='white'
@@ -123,7 +123,7 @@ const InitialJobHistoryForm = React.forwardRef<HTMLFormElement, InitialJobHistor
                             </SimpleGrid>
                         </Group>
                         {form.values.jobHistory.length > 1 && <Divider />}
-                    </>
+                    </div>
                 )}
             </Stack>
         </form >

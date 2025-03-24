@@ -49,8 +49,8 @@ const MedicalDiagnosticForm = React.forwardRef<HTMLFormElement, MedicalDiagnosti
             onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap={rem(32)}>
                 {form.values.diagnostics.map((e, i) =>
-                    <>
-                        <Group key={i} component='div' w='100%'>
+                    <Stack key={crypto.randomUUID()}>
+                        <Group component='div' w='100%'>
                             <ButtonGroup>
                                 {form.values.diagnostics.length - 1 === i && <Button
                                     variant='white'
@@ -91,7 +91,7 @@ const MedicalDiagnosticForm = React.forwardRef<HTMLFormElement, MedicalDiagnosti
                             </Grid>
                         </Group>
                         {form.values.diagnostics.length > 1 && <Divider />}
-                    </>
+                    </Stack>
                 )}
             </Stack>
         </form >

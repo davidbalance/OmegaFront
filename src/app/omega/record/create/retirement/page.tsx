@@ -11,7 +11,7 @@ import JobAccidentForm from '@/components/record/job-accident-form';
 import OccupationalDiseaseForm from '@/components/record/occupational-diseases-form';
 import VitalSignsAndAnthropometryForm from '@/components/record/vital-signs-and-anthropometry-form';
 import PhysicalRegionalExamForm from '@/components/record/physical-regional-exam-form';
-import GeneralExamResultForm from '@/components/record/general-exam-result';
+import GeneralExamResultForm from '@/components/record/general-exam-result-form';
 import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
 import RetirementEvaluationForm from './_components/retirement-evaluation-form';
 import RecommendationForm from '@/components/record/recommendation-form';

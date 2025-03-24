@@ -72,8 +72,8 @@ const InitialJobRiskPreventiveForm = React.forwardRef<HTMLFormElement, InitialJo
             onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap={rem(32)}>
                 {form.values.jobRiskWithPreventiveMeasure.map((e, i) =>
-                    <>
-                        <Group key={i} component='div' w='100%'>
+                    <div key={crypto.randomUUID()}>
+                        <Group component='div' w='100%'>
                             <ButtonGroup>
                                 {form.values.jobRiskWithPreventiveMeasure.length - 1 === i && <Button
                                     variant='white'
@@ -211,7 +211,7 @@ const InitialJobRiskPreventiveForm = React.forwardRef<HTMLFormElement, InitialJo
                             </SimpleGrid>
                         </Group>
                         {form.values.jobRiskWithPreventiveMeasure.length > 1 && <Divider />}
-                    </>
+                    </div>
                 )}
             </Stack>
         </form >
