@@ -93,7 +93,7 @@ const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFor
             onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap={rem(32)}>
                 {form.values.jobRisks.map((e, i) =>
-                    <>
+                    <div key={i}>
                         <Group key={i} component='div' w='100%'>
                             <ButtonGroup>
                                 {form.values.jobRisks.length - 1 === i && <Button
@@ -320,7 +320,7 @@ const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFor
                             </SimpleGrid>
                         </Group>
                         {form.values.jobRisks.length > 1 && <Divider />}
-                    </>
+                    </div>
                 )}
             </Stack>
         </form >

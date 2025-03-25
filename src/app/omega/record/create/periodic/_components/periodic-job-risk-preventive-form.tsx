@@ -61,7 +61,7 @@ const PeriodicJobRiskPreventiveForm = React.forwardRef<HTMLFormElement, Periodic
             onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap={rem(32)}>
                 {form.values.jobRiskWithPreventiveMeasure.map((e, i) =>
-                    <>
+                    <div key={i}>
                         <Group key={i} component='div' w='100%'>
                             <ButtonGroup>
                                 {form.values.jobRiskWithPreventiveMeasure.length - 1 === i && <Button
@@ -153,7 +153,7 @@ const PeriodicJobRiskPreventiveForm = React.forwardRef<HTMLFormElement, Periodic
                             </SimpleGrid>
                         </Group>
                         {form.values.jobRiskWithPreventiveMeasure.length > 1 && <Divider />}
-                    </>
+                    </div>
                 )}
             </Stack>
         </form >

@@ -49,7 +49,7 @@ const GeneralExamResultForm = React.forwardRef<HTMLFormElement, GeneralExamResul
             onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap={rem(32)}>
                 {form.values.generalExamResults.map((e, i) =>
-                    <div key={crypto.randomUUID()}>
+                    <div key={i}>
                         <Group component='div' w='100%'>
                             <ButtonGroup>
                                 {form.values.generalExamResults.length - 1 === i && <Button
