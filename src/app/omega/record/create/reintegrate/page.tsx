@@ -15,6 +15,124 @@ import GeneralExamResultForm from '@/components/record/general-exam-result-form'
 import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
 import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-job-form';
 import RecommendationForm from '@/components/record/recommendation-form';
+import { ReintegrateRecordPayload } from '@/server/record/create-record/reintegrate-record';
+
+const testData: ReintegrateRecordPayload = {
+    patientFirstName: 'sample',
+    patientMiddleName: ' ',
+    patientLastName: 'sample',
+    patientSecondLastName: ' ',
+    patientGender: 'male',
+    patientAge: 1,
+    companyName: 'FABRICABLES S.A.',
+    companyRUC: '1790312518001',
+    companyCIU: 'CIU',
+    institutionHealthFacility: 'Omega Salud Ocupacional',
+    jobPosition: 'SAMPLE',
+    workingEndDate: new Date("2025-03-25T20:16:49.740Z"),
+    workingReintegrationDate: new Date("2025-03-25T20:16:49.740Z"),
+    workingTime: 45,
+    workingLeftCause: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a nunc eget arcu rhoncus pretium sit amet sed lacus. Curabitur non dui venenatis, finibus arcu non, vestibulum risus. Nam al                                                                                                                                                                                      liquam augue vel consectetur congue.Donec congue mi vel quam tempus, eget venenatis dolor rhoncus.Sed at accumsan nibh.Curabitur eget lacinia quam, a finibus erat.Nulla blandit finibus arcu eget laoreet.Suspendisse nunc eros, sollicitudin id pellentesque eget, dictum vel purus.Vestibulum est risus, dignissim laoreet nibh eu, luctus vulputate mi.Praesent feugiat nulla lorem, eget dignissim dolor porta eu.Aliquam a magna a metus consequat pellentesque in nec nulla.Praesent pulvinar arcu pretium mattis hendrerit.Duis nibh sem, consequat vel consequat vel, laoreet quis nulla.Ut eget venenatis eros, quis ornare leo.In leo diam, convallis at libero eget, posuere condimentum orci.',
+    medicalConsultationDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a nunc eget arcu rhoncus pretium sit amet sed lacus. Curabitur non dui venenatis, finibus arcu non, vestibulum risus. Nam aliquam augue vel consectetur congue. Donec congue mi vel quam tempus, eget venenatis dolor rhoncus. Sed at accumsan nibh. Curabitur eget lacinia quam, a finibus erat. Nulla blandit finibus arcu eget laoreet. Suspendisse nunc eros, sollicitudin id pellentesque eget, dictum vel purus. Vestibulum est risus, dignissim laoreet nibh eu, luctus vulputate mi. Praesent feugiat nulla lorem, eget dignissim dolor porta eu. Aliquam a magna a metus consequat pellentesque in nec nulla. Praesent pulvinar arcu pretium mattis hendrerit. Duis nibh sem, consequat vel consequat vel, laoreet quis nulla. Ut eget venenatis eros, quis ornare leo. In leo diam, convallis at libero eget, posuere condimentum orci.',
+    currentDiseaseDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a nunc eget arcu rhoncus pretium sit amet sed lacus. Curabitur non dui venenatis, finibus arcu non, vestibulum risus. Nam aliquam augue vel consectetur congue. Donec congue mi vel quam tempus, eget venenatis dolor rhoncus. Sed at accumsan nibh. Curabitur eget lacinia quam, a finibus erat. Nulla blandit finibus arcu eget laoreet. Suspendisse nunc eros, sollicitudin id pellentesque eget, dictum vel purus. Vestibulum est risus, dignissim laoreet nibh eu, luctus vulputate mi. Praesent feugiat nulla lorem, eget dignissim dolor porta eu. Aliquam a magna a metus consequat pellentesque in nec nulla. Praesent pulvinar arcu pretium mattis hendrerit. Duis nibh sem, consequat vel consequat vel, laoreet quis nulla. Ut eget venenatis eros, quis ornare leo. In leo diam, convallis at libero eget, posuere condimentum orci.',
+    vitalSignsBloodPressure: 45,
+    vitalSignsTemperature: 0,
+    vitalSignsHeartRate: 45,
+    vitalSignsOxygenSaturation: 0,
+    vitalSignsRespiratoryRate: 45,
+    vitalSignsWeight: 45,
+    vitalSignsSize: 45,
+    vitalSignsMassIndex: 0,
+    vitalSignsAbdominalPerimeter: 45,
+    examSkinScar: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examSkinTattoo: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examSkinLesions: '',
+    examEyeEyelids: '',
+    examEyeConjunctiva: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examEyePupils: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examEyeCorneas: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examEyeMotility: '',
+    examEarAuditoryExternal: '',
+    examEarAuricle: '',
+    examEarEardrum: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examPharynxLips: '',
+    examPharynxTongue: '',
+    examPharynxPharynx: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examPharynxTonsils: '',
+    examPharynxTeeth: '',
+    examNosePartition: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examNoseTurbinates: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examNoseMucousMembranes: '',
+    examNoseParanasalSinuses: '',
+    examNeckThyroid: '',
+    examNeckMobility: '',
+    examChestBreast: '',
+    examChestHeart: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examChestLungs: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examChestRibCage: '',
+    examAbdomenViscera: '',
+    examAbdomenAbdominalWall: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examColumnFlexibility: '',
+    examColumnDeviation: '',
+    examColumnPain: '',
+    examPelvis: '',
+    examPelvisGenitals: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examLimbVascular: '',
+    examLimbUpper: '',
+    examLimbLower: '',
+    examNeurologicForce: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examNeurologicSensitivity: '',
+    examNeurologicGait: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    examNeurologicReflex: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    generalExamResults: [
+        {
+            date: new Date("2025-03-25T20:16:49.007Z"),
+            exam: 'SAMPLE',
+            result: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+        },
+        {
+            date: new Date("2025-03-25T20:16:49.007Z"),
+            exam: 'SAMPLE',
+            result: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+        },
+        {
+            date: new Date("2025-03-25T20:16:49.007Z"),
+            exam: 'SAMPLE',
+            result: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+        }
+    ],
+    generalExamObservation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a nunc eget arcu rhoncus pretium sit amet sed lacus. Curabitur non dui venenatis, finibus arcu non, vestibulum risus. Nam aliquam augue vel consectetur congue. Donec congue mi vel quam tempus, eget venenatis dolor rhoncus. Sed at accumsan nibh. Curabitur eget lacinia quam, a finibus erat. Nulla blandit finibus arcu eget laoreet. Suspendisse nunc eros, sollicitudin id pellentesque eget, dictum vel purus. Vestibulum est risus, dignissim laoreet nibh eu, luctus vulputate mi. Praesent feugiat nulla lorem, eget dignissim dolor porta eu. Aliquam a magna a metus consequat pellentesque in nec nulla. Praesent pulvinar arcu pretium mattis hendrerit. Duis nibh sem, consequat vel consequat vel, laoreet quis nulla. Ut eget venenatis eros, quis ornare leo. In leo diam, convallis at libero eget, posuere condimentum orci.',
+    diagnostics: [
+        {
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            cie: 'CIE',
+            pre: true,
+            def: true
+        },
+        {
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            cie: 'CIE',
+            pre: true,
+            def: false
+        },
+        {
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            cie: 'CIE',
+            pre: false,
+            def: true
+        },
+        {
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            cie: 'CIE',
+            pre: false,
+            def: false
+        }
+    ],
+    medicalFitnessType: 'fit',
+    medicalFitnessLimitation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a nunc eget arcu rhoncus pretium sit amet sed lacus. Curabitur non dui venenatis, finibus arcu non, vestibulum risus. Nam aliquam augue vel consectetur congue. Donec congue mi vel quam tempus, eget venenatis dolor rhoncus. Sed at accumsan nibh. Curabitur eget lacinia quam, a finibus erat. Nulla blandit finibus arcu eget laoreet. Suspendisse nunc eros, sollicitudin id pellentesque eget, dictum vel purus. Vestibulum est risus, dignissim laoreet nibh eu, luctus vulputate mi. Praesent feugiat nulla lorem, eget dignissim dolor porta eu. Aliquam a magna a metus consequat pellentesque in nec nulla. Praesent pulvinar arcu pretium mattis hendrerit. Duis nibh sem, consequat vel consequat vel, laoreet quis nulla. Ut eget venenatis eros, quis ornare leo. In leo diam, convallis at libero eget, posuere condimentum orci.',
+    medicalFitnessObservation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a nunc eget arcu rhoncus pretium sit amet sed lacus. Curabitur non dui venenatis, finibus arcu non, vestibulum risus. Nam aliquam augue vel consectetur congue. Donec congue mi vel quam tempus, eget venenatis dolor rhoncus. Sed at accumsan nibh. Curabitur eget lacinia quam, a finibus erat. Nulla blandit finibus arcu eget laoreet. Suspendisse nunc eros, sollicitudin id pellentesque eget, dictum vel purus. Vestibulum est risus, dignissim laoreet nibh eu, luctus vulputate mi. Praesent feugiat nulla lorem, eget dignissim dolor porta eu. Aliquam a magna a metus consequat pellentesque in nec nulla. Praesent pulvinar arcu pretium mattis hendrerit. Duis nibh sem, consequat vel consequat vel, laoreet quis nulla. Ut eget venenatis eros, quis ornare leo. In leo diam, convallis at libero eget, posuere condimentum orci.',
+    recommendationDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a nunc eget arcu rhoncus pretium sit amet sed lacus. Curabitur non dui venenatis, finibus arcu non, vestibulum risus. Nam aliquam augue vel consectetur congue. Donec congue mi vel quam tempus, eget venenatis dolor rhoncus. Sed at accumsan nibh. Curabitur eget lacinia quam, a finibus erat. Nulla blandit finibus arcu eget laoreet. Suspendisse nunc eros, sollicitudin id pellentesque eget, dictum vel purus. Vestibulum est risus, dignissim laoreet nibh eu, luctus vulputate mi. Praesent feugiat nulla lorem, eget dignissim dolor porta eu. Aliquam a magna a metus consequat pellentesque in nec nulla. Praesent pulvinar arcu pretium mattis hendrerit. Duis nibh sem, consequat vel consequat vel, laoreet quis nulla. Ut eget venenatis eros, quis ornare leo. In leo diam, convallis at libero eget, posuere condimentum orci.',
+}
 
 interface RecordReintegratePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -37,10 +155,10 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
     }));
 
     const patient = await retriveClientByDni(patientDni);
-    const patientFirstName = patient.patientName.split(' ')[0] ?? '';
-    const patientMiddleName = patient.patientName.split(' ')[1] ?? '';
-    const patientLastName = patient.patientLastname.split(' ')[0] ?? '';
-    const patientSecondLastName = patient.patientLastname.split(' ')[1] ?? '';
+    const patientFirstName = patient.patientName.split(' ')[0] ?? ' ';
+    const patientMiddleName = patient.patientName.split(' ')[1] ?? ' ';
+    const patientLastName = patient.patientLastname.split(' ')[0] ?? ' ';
+    const patientSecondLastName = patient.patientLastname.split(' ')[1] ?? ' ';
     const patientAge = dayjs().diff(patient.patientBirthday, 'year');
 
     return (
@@ -61,6 +179,7 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
                 ]}
                 patientDni={patientDni}
                 initialData={{
+                    ...testData,
                     patientFirstName: patientFirstName,
                     patientMiddleName: patientMiddleName,
                     patientLastName: patientLastName,

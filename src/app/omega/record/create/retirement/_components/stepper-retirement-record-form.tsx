@@ -36,6 +36,7 @@ const StepperRetirementRecordForm: React.FC<StepperRetirementRecordFormProps> = 
 
     const handleSubmit = useCallback(async (data: StepperRetirementRecordForm) => {
         await createClientRecordRetirement({ ...data, patientDni });
+        throw new Error('Testing error...');
     }, [patientDni]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);

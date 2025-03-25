@@ -5,7 +5,6 @@ import { IconAlertOctagon, IconBriefcase, IconBuilding, IconCheck, IconHeart, Ic
 import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper_form';
-import { InitialRecordPayload } from '@/server/record/create-record/initial-record';
 import { createClientRecordReintegrate } from '@/server/record/actions';
 import { ReintegrateRecordPayload } from '@/server/record/create-record/reintegrate-record';
 
@@ -37,6 +36,7 @@ const StepperReintegrateForm: React.FC<StepperReintegrateFormProps> = ({
 
     const handleSubmit = useCallback(async (data: StepperReintegrateForm) => {
         await createClientRecordReintegrate({ ...data, patientDni });
+        throw new Error('Testing error...');
     }, [patientDni]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);

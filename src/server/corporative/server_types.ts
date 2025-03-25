@@ -18,3 +18,7 @@ export type CompanyOption = Option & {
 export type CorporativeOption = Option & {
     children: CompanyOption[]
 }
+
+export type CorporativeCreatePayload = {
+    name: string;
+}

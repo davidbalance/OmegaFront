@@ -128,6 +128,39 @@ const endpoints = {
         method: 'get',
     } as ApiResource,
 
+    createCorporative: {
+        resource: 'corporative/write',
+        method: 'post',
+    } as ApiResource,
+    removeCorporative: {
+        resource: 'corporative/write/:corporativeId',
+        method: 'delete',
+    } as ApiResource,
+    createCompany: {
+        resource: 'company/write',
+        method: 'post',
+    } as ApiResource,
+    moveCompany: {
+        resource: 'company/write/:corporativeId/:companyId/move',
+        method: 'put',
+    } as ApiResource,
+    removeCompany: {
+        resource: 'company/write/:corporativeId/:companyId',
+        method: 'delete',
+    } as ApiResource,
+    createBranch: {
+        resource: 'branch/write',
+        method: 'post',
+    } as ApiResource,
+    moveBranch: {
+        resource: 'branch/write/:corporativeId/:companyId/:branchId/move',
+        method: 'put',
+    } as ApiResource,
+    removeBranch: {
+        resource: 'branch/write/:corporativeId/:companyId/:branchId',
+        method: 'delete',
+    } as ApiResource,
+
     retriveBranches: {
         resource: 'branches/:companyId',
         method: 'get',

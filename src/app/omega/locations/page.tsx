@@ -7,7 +7,7 @@ import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import { Group, rem } from '@mantine/core';
+import { Flex, Group, rem } from '@mantine/core';
 import React from 'react'
 import CorporativeHeader from './_components/corporative_header';
 import CompanyHeader from './_components/company_header';
@@ -20,6 +20,7 @@ import { retriveBranches } from '@/server/branch/actions';
 import CorporativeList from './_components/corporative_list';
 import CompanyList from './_components/company_list';
 import BranchList from './_components/branch_list';
+import CreateButton from '@/components/_base/create-button';
 
 const take: number = 100;
 interface OmegaLocationPageProps {
@@ -82,10 +83,16 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = async ({
             <MultipleLayerSection active={!corporativeActive && !companyActive}>
                 <ModularLayout>
                     <ModularBox>
-                        <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
+                        <Flex
+                            justify='space-between'
+                            wrap='nowrap'
+                            gap={rem(16)}>
                             <Title order={4} component='span'>Grupo corporativo</Title>
-                            <ReloadButton />
-                        </Group>
+                            <Group gap={rem(4)}>
+                                <CreateButton href={`/omega/locations/corporative/create`} />
+                                <ReloadButton />
+                            </Group>
+                        </Flex>
                     </ModularBox>
                     <ModularBox>
                         <Search
@@ -117,6 +124,7 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = async ({
                         <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
                             <Title order={4} component='span'>Empresas</Title>
                             <Group gap={rem(4)}>
+                                {!!corporativeActive && <CreateButton href={`/omega/locations/company/create?corporativeId=${corporativeActive}`} />}
                                 <ReloadButton />
                                 <RemoveQueryButton
                                     queries={['corporative']}
@@ -154,6 +162,7 @@ const OmegaLocationPage: React.FC<OmegaLocationPageProps> = async ({
                         <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
                             <Title order={4} component='span'>Sucursales</Title>
                             <Group gap={rem(4)}>
+                                {!!corporativeActive && !!companyActive && <CreateButton href={`/omega/locations/branch/create?corporativeId=${corporativeActive}&companyId=${companyActive}`} />}
                                 <ReloadButton />
                                 <RemoveQueryButton
                                     queries={['company']}
