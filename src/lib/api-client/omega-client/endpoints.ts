@@ -500,11 +500,11 @@ const endpoints = {
         method: 'get',
     } as ApiResource,
     retriveMedicalReportFile: {
-        resource: 'medical-tests/:testId/report/file',
+        resource: 'medical-files/:testId/report',
         method: 'get',
     } as ApiResource,
     retriveMedicalResultFile: {
-        resource: 'medical-tests/:testId/result/file',
+        resource: 'medical-files/:testId/result',
         method: 'get',
     } as ApiResource,
     retriveMedicalTests: {
@@ -586,7 +586,7 @@ const endpoints = {
     } as ApiResource,
 
     retriveMedicalTestZip: {
-        resource: 'medical-tests/zip/file',
+        resource: 'medical-files/zip',
         method: 'post',
     } as ApiResource,
     //#endregion

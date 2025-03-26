@@ -33,18 +33,14 @@ export const retriveMedicalReport = async (testId: string): Promise<MedicalRepor
 }
 
 export const retriveMedicalReportFile = async (testId: string): Promise<Blob> => {
-    const session = await auth();
     const data: Blob = await omega()
-        .addToken(session.access_token)
         .addParams({ testId })
         .execute('retriveMedicalReportFile');
     return data;
 }
 
 export const retriveMedicalResultFile = async (testId: string): Promise<Blob> => {
-    const session = await auth();
     const data: Blob = await omega()
-        .addToken(session.access_token)
         .addParams({ testId })
         .execute('retriveMedicalResultFile');
     return data;
@@ -246,9 +242,7 @@ export const editMedicalTestExam = async (payload: EditMedicalTestExamPayload): 
 }
 
 export const retriveMedicalTestZip = async (payload: MedicalFileZipPayload[]): Promise<Blob> => {
-    const session = await auth();
     const data: Blob = await omega()
-        .addToken(session.access_token)
         .addBody({ values: payload })
         .execute('retriveMedicalTestZip');
     return data;
