@@ -447,7 +447,7 @@ const endpoints = {
         method: 'get',
     } as ApiResource,
     retriveMedicalCloud: {
-        resource: 'medical-orders/cloud/:orderId',
+        resource: 'medical-order-cloud/:orderId',
         method: 'get',
     } as ApiResource,
     retriveMedicalChecklist: {

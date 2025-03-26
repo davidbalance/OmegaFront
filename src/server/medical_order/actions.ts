@@ -52,9 +52,9 @@ export const retriveMedicalOrdersPatient = async (query: MedicalOrderPatientQuer
 }
 
 export const retriveMedicalCloud = async (orderId: string): Promise<MedicalCloudFile[]> => {
-    const session = await auth();
+    // const session = await auth();
     const data: MedicalCloudFile[] = await omega()
-        .addToken(session.access_token)
+        // .addToken(session.access_token)
         .addParams({ orderId })
         .execute('retriveMedicalCloud');
     return data;
