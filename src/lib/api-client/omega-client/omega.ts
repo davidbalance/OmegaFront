@@ -10,6 +10,7 @@ type OmegaState = ApiClientState;
 
 const defaultState: OmegaState = {
     body: undefined,
+    cache: undefined,
     flags: [],
     headers: {},
     params: {},
@@ -54,6 +55,7 @@ const omegaClient = (baseUrl: string) =>
             addHeaders: (headers: HeadersInit) => updateState({ headers: { ...state.headers, ...headers } }),
             addFlags: (flags: string[]) => updateState({ flags: Array.from(new Set([...state.flags, ...flags])) }),
             addBody: (body: RequestBody) => updateState({ body }),
+            addCache: (cache: RequestCache) => updateState({ cache }),
             execute
         }
     }

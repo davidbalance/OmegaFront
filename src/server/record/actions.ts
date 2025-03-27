@@ -26,6 +26,7 @@ export const retriveClientRecordFile = async (recordId: string): Promise<Blob> =
     const data: Blob = await omega()
         .addToken(session.access_token)
         .addParams({ recordId })
+        .addCache('no-cache')
         .execute('retriveClientRecordFile');
     return data;
 }

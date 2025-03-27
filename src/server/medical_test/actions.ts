@@ -33,15 +33,21 @@ export const retriveMedicalReport = async (testId: string): Promise<MedicalRepor
 }
 
 export const retriveMedicalReportFile = async (testId: string): Promise<Blob> => {
+    const timestamp = Date.now();
     const data: Blob = await omega()
         .addParams({ testId })
+        .addQuery({ _cb: timestamp })
+        .addCache('no-cache')
         .execute('retriveMedicalReportFile');
     return data;
 }
 
 export const retriveMedicalResultFile = async (testId: string): Promise<Blob> => {
+    const timestamp = Date.now();
     const data: Blob = await omega()
         .addParams({ testId })
+        .addQuery({ _cb: timestamp })
+        .addCache('no-cache')
         .execute('retriveMedicalResultFile');
     return data;
 }
@@ -67,19 +73,25 @@ export const retriveMedicalTest = async (testId: string): Promise<MedicalTest> =
 }
 
 export const retriveMedicalDiseaseReportFile = async (query: MedicalDiseaseReportQuery): Promise<Blob> => {
+    const timestamp = Date.now();
     const session = await auth();
     const data: Blob = await omega()
         .addToken(session.access_token)
         .addQuery({ ...query })
+        .addQuery({ _cb: timestamp })
+        .addCache('no-cache')
         .execute('retriveMedicalDiseaseReportFile');
     return data;
 }
 
 
 export const retriveMedicalTestFileReport = async (): Promise<Blob> => {
+    const timestamp = Date.now();
     const session = await auth();
     const data: Blob = await omega()
         .addToken(session.access_token)
+        .addQuery({ _cb: timestamp })
+        .addCache('no-cache')
         .execute('retriveMedicalTestFileReport');
     return data;
 }
@@ -242,8 +254,11 @@ export const editMedicalTestExam = async (payload: EditMedicalTestExamPayload): 
 }
 
 export const retriveMedicalTestZip = async (payload: MedicalFileZipPayload[]): Promise<Blob> => {
+    const timestamp = Date.now();
     const data: Blob = await omega()
         .addBody({ values: payload })
+        .addQuery({ _cb: timestamp })
+        .addCache('no-cache')
         .execute('retriveMedicalTestZip');
     return data;
 }

@@ -34,10 +34,13 @@ export const retriveDoctorsOptions = async (): Promise<DoctorOption[]> => {
 }
 
 export const retriveDoctorFile = async (userId: string): Promise<Blob> => {
+    const timestamp = Date.now();
     const session = await auth();
     const data: Blob = await omega()
         .addToken(session.access_token)
         .addParams({ userId })
+        .addQuery({ _cb: timestamp })
+        .addCache('no-cache')
         .execute('retriveDoctorFile');
     return data;
 }

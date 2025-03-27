@@ -70,10 +70,13 @@ export const retriveMedicalChecklist = async (orderId: string): Promise<MedicalC
 }
 
 export const retriveMedicalChecklistFile = async (orderId: string): Promise<Blob> => {
+    const timestamp = Date.now();
     const session = await auth();
     const data: Blob = await omega()
         .addToken(session.access_token)
         .addParams({ orderId })
+        .addQuery({ _cb: timestamp })
+        .addCache('no-cache')
         .execute('retriveMedicalChecklistFile');
     return data;
 }

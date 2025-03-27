@@ -45,6 +45,7 @@ export type ApiClientState = {
     query: QueryParams,
     headers: HeadersInit,
     flags: string[],
+    cache: RequestCache | undefined,
     body: RequestBody | undefined,
 }
 const defaultApiClientState: ApiClientState = {
@@ -52,6 +53,7 @@ const defaultApiClientState: ApiClientState = {
     query: {},
     headers: {},
     flags: [],
+    cache: undefined,
     body: undefined
 }
 const apiClient = <T extends { [key: string]: ApiResource }>(baseUrl: string) =>
@@ -77,6 +79,7 @@ const apiClient = <T extends { [key: string]: ApiResource }>(baseUrl: string) =>
                 addHeaders: (headers: HeadersInit) => updateState({ headers: { ...state.headers, ...headers } }),
                 addFlags: (flags: string[]) => updateState({ flags: Array.from(new Set(...state.flags, ...flags)) }),
                 addBody: (body: RequestBody) => updateState({ body }),
+                addCache: (cache: RequestCache) => updateState({ cache }),
                 execute,
             };
         }

@@ -88,9 +88,12 @@ export const retriveClientManagement = async (dni: string): Promise<MedicalManag
 }
 
 export const retriveClientMassiveLoadTemplate = async (): Promise<Blob> => {
+    const timestamp = Date.now();
     const session = await auth();
     const data: Blob = await omega()
         .addToken(session.access_token)
+        .addQuery({ _cb: timestamp })
+        .addCache('no-cache')
         .execute('retriveClientMassiveLoadTemplate');
     return data;
 }
