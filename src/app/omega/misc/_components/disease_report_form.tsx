@@ -52,6 +52,7 @@ const DiseaseReportForm: React.FC<DiseaseReportFormProps> = ({
             }
             setLoading(true);
             try {
+                console.log(formValues);
                 await processBlob(formValues);
             } catch (error: any) {
                 notifications.show({ message: getErrorMessage(error), color: 'red' });
@@ -83,10 +84,14 @@ const DiseaseReportForm: React.FC<DiseaseReportFormProps> = ({
 
                     <CorporativeSelect
                         onChange={(selectedValues) => {
+                            console.log(selectedValues);
                             setFormValues(prev => {
                                 const updatedForm: any = { ...prev };
                                 selectedValues.forEach(({ name, label }) => {
-                                    if (name === 'corporativeId') updatedForm.locationCorporative = label;
+                                    if (name === 'corporativeId') {
+                                        updatedForm.locationCorporative = label;
+                                        updatedForm.locationCompany = undefined;
+                                    }
                                     if (name === 'companyId') updatedForm.locationCompany = label;
                                 });
                                 return updatedForm;
