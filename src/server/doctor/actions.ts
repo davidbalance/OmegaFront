@@ -53,5 +53,6 @@ export const uploadDoctorSignature = async (userId: string, formData: FormData):
         .addBody(formData)
         .execute('uploadDoctorSignature');
 
+    revalidateTag('retriveDoctorFile');
     revalidateTag('retriveDoctorsOptions');
 }

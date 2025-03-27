@@ -113,6 +113,7 @@ export const createMedicalResultDisease = async (payload: CreateMedicalDiseasePa
         .execute('createMedicalResultDisease');
 
     revalidateTag('retriveMedicalDiseases');
+    revalidateTag('retriveMedicalDiseaseReportFile');
 }
 
 export const editMedicalResultDisease = async (payload: EditMedicalDiseasePayload): Promise<void> => {
@@ -125,6 +126,7 @@ export const editMedicalResultDisease = async (payload: EditMedicalDiseasePayloa
         .execute('editMedicalResultDisease');
 
     revalidateTag('retriveMedicalDiseases');
+    revalidateTag('retriveMedicalDiseaseReportFile');
 }
 
 export const removeMedicalResultDisease = async (payload: { diseaseReportId: string; testId: string; }): Promise<void> => {
@@ -135,6 +137,7 @@ export const removeMedicalResultDisease = async (payload: { diseaseReportId: str
         .execute('removeMedicalResultDisease');
 
     revalidateTag('retriveMedicalDiseases');
+    revalidateTag('retriveMedicalDiseaseReportFile');
 }
 
 export const addMedicalReport = async (payload: AddMedicalReportPayload): Promise<void> => {
@@ -160,6 +163,9 @@ export const addMedicalReportFile = async (testId: string, formData: FormData): 
 
     revalidateTag('retriveMedicalTests');
     revalidateTag('retriveMedicalOrdersDoctor');
+
+    revalidateTag('retriveMedicalTestZip');
+    revalidateTag('retriveMedicalReportFile');
 }
 
 export const removeMedicalReport = async (testId: string): Promise<void> => {
@@ -181,6 +187,8 @@ export const addMedicalResult = async (testId: string, formData: FormData): Prom
         .execute('addMedicalResult');
 
     revalidateTag('retriveMedicalTests');
+    revalidateTag('retriveMedicalTestZip');
+    revalidateTag('retriveMedicalResultFile');
 }
 
 export const removeMedicalResult = async (testId: string): Promise<void> => {
