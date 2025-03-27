@@ -163,7 +163,6 @@ export const addMedicalReportFile = async (testId: string, formData: FormData): 
 
     revalidateTag('retriveMedicalTests');
     revalidateTag('retriveMedicalOrdersDoctor');
-
     revalidateTag('retriveMedicalTestZip');
     revalidateTag('retriveMedicalReportFile');
 }
@@ -176,6 +175,8 @@ export const removeMedicalReport = async (testId: string): Promise<void> => {
         .execute('removeMedicalReport');
 
     revalidateTag('retriveMedicalTests');
+    revalidateTag('retriveMedicalTestZip');
+    revalidateTag('retriveMedicalReportFile');
 }
 
 export const addMedicalResult = async (testId: string, formData: FormData): Promise<void> => {
@@ -199,6 +200,8 @@ export const removeMedicalResult = async (testId: string): Promise<void> => {
         .execute('removeMedicalResult');
 
     revalidateTag('retriveMedicalTests');
+    revalidateTag('retriveMedicalTestZip');
+    revalidateTag('retriveMedicalResultFile');
 }
 
 export const checkMedicalTest = async (testId: string): Promise<void> => {
