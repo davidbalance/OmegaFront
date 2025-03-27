@@ -4,7 +4,7 @@ import React, { useMemo } from 'react'
 import CascadingSelect, { CascadingSelectValue } from './cascading-select';
 import { CorporativeOption } from '@/server/corporative/server_types';
 
-type CoporativeSelectProps = Pick<React.ComponentProps<typeof CascadingSelect>, 'onChange' | 'clean'> & {
+type CoporativeSelectProps = Pick<React.ComponentProps<typeof CascadingSelect>, 'onChange' | 'clean' | 'clearable'> & {
     options: CorporativeOption[];
     corporativeValue?: string;
     companyValue?: string;

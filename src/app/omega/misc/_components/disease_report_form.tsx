@@ -46,11 +46,11 @@ const DiseaseReportForm: React.FC<DiseaseReportFormProps> = ({
         async (event) => {
             event.preventDefault();
 
-            setLoading(true);
             if (Object.values(formValues).filter(Boolean).length <= 0) {
                 notifications.show({ message: 'Debe seleccionar al menos una opcion para descargar el archivo.', color: 'red' });
                 return;
             }
+            setLoading(true);
             try {
                 await processBlob(formValues);
             } catch (error: any) {
@@ -93,7 +93,8 @@ const DiseaseReportForm: React.FC<DiseaseReportFormProps> = ({
                             })
                         }}
                         useCompany
-                        options={corporativeOptions} />
+                        options={corporativeOptions}
+                        clearable />
                 </SimpleGrid>
                 <Button
                     mt='sm'
