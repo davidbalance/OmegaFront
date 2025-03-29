@@ -65,7 +65,7 @@ const OrderItem: React.FC<OrderItemProps> = ({
                                     )}>
                                     Checklist
                                 </MenuItem>
-                                <OrderRemoveMenuItem orderId={orderId} />
+                                {orderStatus !== 'validated' && <OrderRemoveMenuItem orderId={orderId} />}
                             </ActionMenu>
                         </ActionMenuProvider>
                     </Group>
