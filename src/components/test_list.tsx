@@ -10,10 +10,12 @@ interface TestListProps {
     notShowMisc?: boolean;
     notEditResults?: boolean;
     notEditReports?: boolean;
+    showReportLabel?: boolean;
 }
 const TestList: React.FC<TestListProps> = ({
     tests,
     orderStatus,
+    showReportLabel,
     ...props
 }) => {
     return (
@@ -21,6 +23,7 @@ const TestList: React.FC<TestListProps> = ({
             {tests.map(e => <TestItem
                 key={e.testId}
                 orderStatus={orderStatus}
+                showReportLabel
                 {...e}
                 {...props} />)}
         </ListTbody>

@@ -14,6 +14,7 @@ type TestItemProps = MedicalTest & {
     notShowMisc?: boolean;
     notEditResults?: boolean;
     notEditReports?: boolean;
+    showReportLabel?: boolean;
 }
 const TestItem: React.FC<TestItemProps> = async ({
     testId,
@@ -24,7 +25,8 @@ const TestItem: React.FC<TestItemProps> = async ({
     orderStatus,
     notShowMisc,
     notEditResults,
-    notEditReports
+    notEditReports,
+    showReportLabel
 }) => {
     return (
         <ListRow
@@ -42,7 +44,7 @@ const TestItem: React.FC<TestItemProps> = async ({
                         </Box>
                     ))}
                     {!resultHasFile && <Text size='xs' c={resultHasFile ? 'blue' : 'red'}>Archivo no encontrado</Text>}
-                    {!reportHasContent && <Text size='xs' c='red'>Reporte no realizado</Text>}
+                    {showReportLabel && !reportHasContent && <Text size='xs' c='red'>Reporte no realizado</Text>}
                 </Box>
                 <ActionMenuProvider>
                     <ActionMenu>
