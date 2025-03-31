@@ -23,7 +23,7 @@ const TestList: React.FC<TestListProps> = ({
             {tests.map(e => <TestItem
                 key={e.testId}
                 orderStatus={orderStatus}
-                showReportLabel
+                showReportLabel={showReportLabel}
                 {...e}
                 {...props} />)}
         </ListTbody>
