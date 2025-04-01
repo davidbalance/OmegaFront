@@ -14,7 +14,7 @@ import CreateButton from '@/components/_base/create-button';
 import { retriveClientsEEQ } from '@/server/medical_client/actions';
 import { PaginationResponse } from '@/lib/types/pagination.type';
 import { MedicalOrder } from '@/server/medical_order/server_types';
-import { retriveMedicalOrder, retriveMedicalOrders } from '@/server/medical_order/actions';
+import { retriveMedicalOrder, retriveMedicalOrders, retriveMedicalOrdersEEQ } from '@/server/medical_order/actions';
 import { MedicalTest } from '@/server/medical_test/server_types';
 import { retriveMedicalTests } from '@/server/medical_test/actions';
 import Title from '@/components/_base/mantine/title';
@@ -60,7 +60,7 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
     const totalPatientPage = Math.floor(patientValue.amount / take);
 
     const orderValue: PaginationResponse<MedicalOrder> = patientActive
-        ? await retriveMedicalOrders({
+        ? await retriveMedicalOrdersEEQ({
             patientDni: patientActive,
             filter: orderSearch,
             orderField: orderField as any,

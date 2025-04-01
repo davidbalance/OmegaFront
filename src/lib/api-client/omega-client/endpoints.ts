@@ -438,6 +438,14 @@ const endpoints = {
         resource: 'medical-orders/:patientDni',
         method: 'get',
     } as ApiResource,
+    retriveMedicalOrdersEEQ: {
+        resource: 'medical-orders/:patientDni/eeq',
+        method: 'get',
+    } as ApiResource,
+    retriveMedicalOrdersCompany: {
+        resource: 'medical-orders/:patientDni/company',
+        method: 'get',
+    } as ApiResource,
     retriveMedicalOrder: {
         resource: 'medical-orders/order/:orderId',
         method: 'get',

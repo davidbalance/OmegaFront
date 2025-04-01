@@ -33,6 +33,28 @@ export const retriveMedicalOrders = async (payload: MedicalOrderQuery): Promise<
     return data;
 }
 
+export const retriveMedicalOrdersEEQ = async (payload: MedicalOrderQuery): Promise<PaginationResponse<MedicalOrder>> => {
+    const { patientDni, ...query } = payload;
+    const session = await auth();
+    const data: PaginationResponse<MedicalOrder> = await omega()
+        .addToken(session.access_token)
+        .addParams({ patientDni })
+        .addQuery({ ...query })
+        .execute('retriveMedicalOrdersEEQ');
+    return data;
+}
+
+export const retriveMedicalOrdersCompany = async (payload: MedicalOrderQuery): Promise<PaginationResponse<MedicalOrder>> => {
+    const { patientDni, ...query } = payload;
+    const session = await auth();
+    const data: PaginationResponse<MedicalOrder> = await omega()
+        .addToken(session.access_token)
+        .addParams({ patientDni })
+        .addQuery({ ...query })
+        .execute('retriveMedicalOrdersCompany');
+    return data;
+}
+
 export const retriveMedicalOrder = async (orderId: string): Promise<MedicalOrder> => {
     const session = await auth();
     const data: MedicalOrder = await omega()

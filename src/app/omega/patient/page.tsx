@@ -14,7 +14,7 @@ import React from 'react'
 import { retriveClientsCompany } from '@/server/medical_client/actions';
 import { MedicalOrder } from '@/server/medical_order/server_types';
 import { PaginationResponse } from '@/lib/types/pagination.type';
-import { retriveMedicalOrder, retriveMedicalOrders } from '@/server/medical_order/actions';
+import { retriveMedicalOrder, retriveMedicalOrders, retriveMedicalOrdersCompany } from '@/server/medical_order/actions';
 import { MedicalTest } from '@/server/medical_test/server_types';
 import { retriveMedicalTests } from '@/server/medical_test/actions';
 import Title from '@/components/_base/mantine/title';
@@ -59,7 +59,7 @@ const OmegaPatientPage: React.FC<OmegaPatientPageProps> = async ({
     const totalPatientPage = Math.floor(patientValue.amount / take);
 
     const orderValue: PaginationResponse<MedicalOrder> = patientActive
-        ? await retriveMedicalOrders({
+        ? await retriveMedicalOrdersCompany({
             patientDni: patientActive,
             filter: orderSearch,
             orderField: orderField as any,
