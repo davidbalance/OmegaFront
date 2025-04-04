@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionMenu } from "@/contexts/action-menu.context";
+import { useConfirmation } from "@/contexts/confirmation.context";
 import { removeMedicalOrder } from "@/server/medical_order/actions";
 import { MenuItem, rem } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
@@ -18,6 +19,7 @@ const OrderRemoveMenuItem: React.FC<OrderRemoveMenuItemProps> = ({
 
     const { trigger } = useActionMenu();
     const router = useRouter();
+    const { show } = useConfirmation();
 
     const pathname = usePathname()
     const queryParam = useSearchParams();
@@ -35,10 +37,15 @@ const OrderRemoveMenuItem: React.FC<OrderRemoveMenuItemProps> = ({
     }, [query, router, pathname, queryParam]);
 
     const handleClick = useCallback(
-        () => {
-            const promise = removeMedicalOrder(orderId);
-            checkSelection();
-            if (query) trigger(promise);
+        async () => {
+            const response = await show('¿Esta seguro?', 'Se va a eliminar una orden medica, ¿Está seguro?');
+            if (response) {
+                const promise = removeMedicalOrder(orderId);
+                checkSelection();
+                if (query) {
+                    trigger(promise);
+                }
+            }
         }, [trigger, orderId, checkSelection]);
 
     return (
