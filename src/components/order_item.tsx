@@ -16,6 +16,8 @@ type OrderItemProps = MedicalOrder & {
     patientDni: string;
     active?: boolean;
     action?: boolean;
+    checklist?: boolean;
+    remove?: boolean;
     removeQueries?: string[];
 }
 const OrderItem: React.FC<OrderItemProps> = ({
@@ -27,6 +29,8 @@ const OrderItem: React.FC<OrderItemProps> = ({
     patientDni,
     active,
     action,
+    checklist,
+    remove,
     removeQueries = []
 }) => {
     return (
@@ -44,30 +48,32 @@ const OrderItem: React.FC<OrderItemProps> = ({
                     <Title order={6}>{orderProcess}</Title>
                     <Text>{dayjs(orderEmissionDate).format('YYYY-MM-DD HH:mm:ss')}</Text>
                 </AddQueryParam>
-                {action ? (
+                {(checklist || remove || action) ? (
                     <Group
                         component='div'
                         wrap='nowrap'>
-                        <OrderEmailButton
-                            orderId={orderId}
-                            orderMail={orderMail}
-                            patientDni={patientDni} />
-                        <OrderChangeStatus
-                            orderId={orderId}
-                            orderStatus={orderStatus} />
-                        <ActionMenuProvider>
+                        {action && <>
+                            <OrderEmailButton
+                                orderId={orderId}
+                                orderMail={orderMail}
+                                patientDni={patientDni} />
+                            <OrderChangeStatus
+                                orderId={orderId}
+                                orderStatus={orderStatus} />
+                        </>}
+                        {(checklist || (orderStatus !== 'validated' && remove)) && <ActionMenuProvider>
                             <ActionMenu>
-                                <MenuItem
+                                {checklist && <MenuItem
                                     component={Link}
                                     href={`/omega/medical/order/${orderId}/checklist`}
                                     leftSection={(
                                         <IconChecklist style={{ width: rem(16), height: rem(16) }} />
                                     )}>
                                     Checklist
-                                </MenuItem>
-                                {orderStatus !== 'validated' && <OrderRemoveMenuItem query='medicalOrder' orderId={orderId} />}
+                                </MenuItem>}
+                                {(orderStatus !== 'validated' && remove) && <OrderRemoveMenuItem query='medicalOrder' orderId={orderId} />}
                             </ActionMenu>
-                        </ActionMenuProvider>
+                        </ActionMenuProvider>}
                     </Group>
                 ) : null}
             </Flex>

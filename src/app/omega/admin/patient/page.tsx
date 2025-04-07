@@ -150,6 +150,8 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                         <ListRoot>
                             <OrderHeader />
                             <OrderList
+                                checklist
+                                remove
                                 action
                                 active={orderActive}
                                 patientDni={patientActive}

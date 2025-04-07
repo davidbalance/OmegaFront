@@ -146,7 +146,8 @@ const OmegaPatientDirectoryPage: React.FC<OmegaPatientDirectoryPageProps> = asyn
                                 active={orderActive}
                                 patientDni={patientActive}
                                 orders={orderValue.data}
-                                removeQueries={['medicalTestSearch']} />
+                                removeQueries={['medicalTestSearch']}
+                                checklist />
                         </ListRoot>
                     </ModularBox>
                     {totalOrderPage > 1 && (

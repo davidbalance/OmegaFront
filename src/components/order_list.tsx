@@ -6,6 +6,8 @@ import OrderItem from './order_item'
 interface OrderListProps {
     active?: string;
     action?: boolean;
+    checklist?: boolean;
+    remove?: boolean;
     patientDni?: string;
     orders: MedicalOrder[];
     removeQueries?: string[];

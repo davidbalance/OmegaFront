@@ -17,7 +17,6 @@ import { retriveMedicalOrder, retriveMedicalOrdersDoctor } from '@/server/medica
 import { MedicalTest } from '@/server/medical_test/server_types';
 import { retriveMedicalTests } from '@/server/medical_test/actions';
 import PatientList from '@/components/patient_list';
-import OrderList from '@/components/order_list';
 import OrderHeader from '@/components/order_header';
 import TestHeader from '@/components/test_header';
 import TestList from '@/components/test_list';
