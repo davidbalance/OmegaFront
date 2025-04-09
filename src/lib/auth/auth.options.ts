@@ -24,7 +24,6 @@ const options: AuthOptions = {
             const data = await refresh(currentSession.refresh ?? '');
             const updatedSession = addAccessToken({ ...currentSession })({ access: data.access_token, refresh: data.refresh_token });
             await saveSessionAsync(updatedSession);
-            console.log(updatedSession);
             return {
                 ...token,
                 access_token: updatedSession.access!,
