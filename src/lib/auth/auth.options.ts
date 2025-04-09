@@ -1,6 +1,8 @@
 import { AuthOptions } from "next-auth";
 import { omegaCredentialProvider } from "./auth.providers";
 import { isTokenValid, refresh } from "./auth.utils";
+import { findOneSession, saveSessionAsync } from "../session-token";
+import { addAccessToken } from "../session-token/domain/session-token.domain";
 
 const options: AuthOptions = {
     providers: [omegaCredentialProvider],
@@ -16,9 +18,18 @@ const options: AuthOptions = {
             if (user) {
                 return { ...token, ...user }
             }
-            if (isTokenValid(token.access_token)) return token;
-            const data = await refresh(token.refresh_token);
-            return { ...token, ...data };
+            const currentSession = await findOneSession(token.session);
+            if (!currentSession) throw new Error('Token not found.');
+            if (isTokenValid(currentSession.access ?? '')) return token;
+            const data = await refresh(currentSession.refresh ?? '');
+            const updatedSession = addAccessToken({ ...currentSession })({ access: data.access_token, refresh: data.refresh_token });
+            await saveSessionAsync(updatedSession);
+            console.log(updatedSession);
+            return {
+                ...token,
+                access_token: updatedSession.access!,
+                refresh_token: updatedSession.refresh!
+            };
         },
         session: async ({ session, token }) => {
             if (token) {
