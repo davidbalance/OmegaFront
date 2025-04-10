@@ -8,7 +8,6 @@ import { createApiKey } from '@/server/apikey/actions';
 import { CreateApiKeyPayload } from '@/server/apikey/server_types';
 import { getErrorMessage } from '@/lib/utils/errors';
 import ApiKeyForm from '@/components/api_key/api_key_form';
-import { getResult } from '@/lib/utils/server-action.utils';
 
 const CreateApiKeyForm: React.FC = () => {
 
@@ -18,9 +17,8 @@ const CreateApiKeyForm: React.FC = () => {
     const handleSubmit = async (value: CreateApiKeyPayload) => {
         setLoading(true);
         try {
-            const result = await createApiKey(value);
-            // const data = getResult(result);
-            setApiKey(result);
+            const data = await createApiKey(value);
+            setApiKey(data);
         } catch (error: any) {
             notifications.show({ message: getErrorMessage(error), color: 'red' });
         } finally {
