@@ -10,8 +10,8 @@ import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
 import PatientHeader from '@/components/patient-header';
 import PatientList from '@/components/patient_list';
-import { retriveClients } from '@/server/medical_client/actions';
-import { retriveClientRecords } from '@/server/record/actions';
+import { retriveClients } from '@/server';
+import { retriveClientRecords } from '@/server';
 import { ClientRecord } from '@/server/record/server-types';
 import { Flex, Group, rem } from '@mantine/core';
 import React from 'react'

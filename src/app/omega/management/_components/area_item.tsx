@@ -8,7 +8,7 @@ import Link from 'next/link'
 import React from 'react'
 import AreaActionDelete from './area-action-delete'
 import Title from '@/components/_base/mantine/title'
-import { Area } from '@/server/area/server_types'
+import { Area } from '@/server/area/server-types'
 
 type AreaItemProps = Area;
 const AreaItem: React.FC<AreaItemProps> = ({

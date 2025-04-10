@@ -8,7 +8,7 @@ import { MIME_TYPES } from '@mantine/dropzone'
 import { notifications } from '@mantine/notifications'
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
-import { uploadDoctorSignature } from '@/server/doctor/actions'
+import { uploadDoctorSignature } from '@/server'
 import { getErrorMessage } from '@/lib/utils/errors'
 
 interface SignatureUploadFormProps {

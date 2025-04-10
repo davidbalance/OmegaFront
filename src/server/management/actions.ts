@@ -2,11 +2,11 @@
 
 import auth from "@/lib/auth";
 import omega from "@/lib/api-client/omega-client/omega";
-import { CreateManagementPayload, EditManagementPayload, Management, ManagementOption, ManagementQuery, RemoveManagementPayload } from "./server_types";
+import { CreateManagementPayload, EditManagementPayload, Management, ManagementOption, ManagementQuery, RemoveManagementPayload } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
 
-export const retriveManagements = async (query: ManagementQuery): Promise<PaginationResponse<Management>> => {
+export const serverActionRetriveManagements = async (query: ManagementQuery): Promise<PaginationResponse<Management>> => {
     const session = await auth();
     const data: PaginationResponse<Management> = await omega()
         .addToken(session.access_token)
@@ -15,7 +15,7 @@ export const retriveManagements = async (query: ManagementQuery): Promise<Pagina
     return data;
 }
 
-export const retriveManagement = async (managementId: string): Promise<Management> => {
+export const serverActionRetriveManagement = async (managementId: string): Promise<Management> => {
     const session = await auth();
     const data: Management = await omega()
         .addToken(session.access_token)
@@ -24,7 +24,7 @@ export const retriveManagement = async (managementId: string): Promise<Managemen
     return data;
 }
 
-export const retriveManagementOptions = async (): Promise<ManagementOption[]> => {
+export const serverActionRetriveManagementOptions = async (): Promise<ManagementOption[]> => {
     const session = await auth();
     const data: ManagementOption[] = await omega()
         .addToken(session.access_token)
@@ -32,7 +32,7 @@ export const retriveManagementOptions = async (): Promise<ManagementOption[]> =>
     return data;
 }
 
-export const createManagement = async (payload: CreateManagementPayload): Promise<void> => {
+export const serverActionCreateManagement = async (payload: CreateManagementPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -42,7 +42,7 @@ export const createManagement = async (payload: CreateManagementPayload): Promis
     revalidateTag('retriveManagements');
 }
 
-export const editManagement = async (payload: EditManagementPayload): Promise<void> => {
+export const serverActionEditManagement = async (payload: EditManagementPayload): Promise<void> => {
     const { managementId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -54,7 +54,7 @@ export const editManagement = async (payload: EditManagementPayload): Promise<vo
     revalidateTag('retriveManagements');
 }
 
-export const removeManagement = async (payload: RemoveManagementPayload): Promise<void> => {
+export const serverActionRemoveManagement = async (payload: RemoveManagementPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)

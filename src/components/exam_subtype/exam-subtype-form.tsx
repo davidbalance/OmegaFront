@@ -1,6 +1,6 @@
 'use client'
 
-import { ExamSubtype } from '@/server/exam_subtype/server_types';
+import { ExamSubtype } from '@/server/exam-subtype/server-types';
 import { Box, Button, rem, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { IconDeviceFloppy, IconSignature } from '@tabler/icons-react';

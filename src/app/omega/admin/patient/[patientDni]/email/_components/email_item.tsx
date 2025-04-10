@@ -1,7 +1,7 @@
 import ListRow from '@/components/_base/list/list-row'
 import { Box, Flex, Text } from '@mantine/core'
 import React from 'react'
-import { MedicalClientEmail } from '@/server/medical_client/server_types'
+import { MedicalClientEmail } from '@/server/medical-client/server-types'
 import EmailDefaultAction from './email_default_action'
 import EmailDeleteAction from './email_delete_action'
 

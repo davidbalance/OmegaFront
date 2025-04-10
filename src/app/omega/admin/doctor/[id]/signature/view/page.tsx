@@ -3,7 +3,7 @@ import { ModularBox } from '@/components/modular/box/ModularBox'
 import React from 'react'
 import BlobPreview from '@/components/_base/blob-preview/blob-preview'
 import { Flex, rem } from '@mantine/core'
-import { retriveDoctorFile } from '@/server/doctor/actions'
+import { retriveDoctorFile } from '@/server'
 
 interface DoctorActionSignatureViewPageProps {
   params: { id: string }

@@ -71,7 +71,7 @@ const CascadingSelect: React.FC<CascadingSelectProps> = ({
                     )}
             </>
         );
-    }, [values, maxDepth, names, labels, placeholders, nothingFoundMessages, searchable, handleChange])
+    }, [values, maxDepth, names, labels, placeholders, nothingFoundMessages, searchable, clearable, handleChange])
 
     return (
         <>{renderSelects(options)}</>

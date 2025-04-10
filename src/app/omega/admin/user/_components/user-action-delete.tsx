@@ -5,7 +5,7 @@ import { IconTrash } from '@tabler/icons-react'
 import React, { useCallback } from 'react'
 import { useActionMenu } from '@/contexts/action-menu.context'
 import { useConfirmation } from '@/contexts/confirmation.context'
-import { removeUser } from '@/server/user/actions'
+import { removeUser } from '@/server'
 
 interface UserActionDeleteProps {
     id: string

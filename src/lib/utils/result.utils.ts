@@ -25,9 +25,3 @@ export const withResult = <T, P extends any[]>(action: (...params: P) => Promise
             return { error: 'Unknown Error.', value: null }
         }
     }
-
-export const processResult = async <T>(value: Promise<Result<T>>): Promise<T> => {
-    const result = await value;
-    const data = getResult(result);
-    return data;
-}

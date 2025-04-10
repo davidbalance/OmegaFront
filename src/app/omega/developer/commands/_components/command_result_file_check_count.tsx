@@ -2,8 +2,8 @@
 
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { getErrorMessage } from '@/lib/utils/errors'
-import { retriveMedicalTestFileCount } from '@/server/medical_test/actions'
-import { MedicalFileResult } from '@/server/medical_test/server_types'
+import { retriveMedicalTestFileCount } from '@/server'
+import { MedicalFileResult } from '@/server/medical-test/server-types'
 import { Box, Button, Flex, rem, Text } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 import { IconMath } from '@tabler/icons-react'

@@ -1,10 +1,10 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import ManagementForm from './_components/management-form'
-import { retriveClientManagement } from '@/server/medical_client/actions'
+import { retriveClientManagement } from '@/server'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import Title from '@/components/_base/mantine/title'
-import { retriveManagementOptions } from '@/server/management/actions'
+import { retriveManagementOptions } from '@/server'
 
 interface ManagementFormPageProps {
   params: {

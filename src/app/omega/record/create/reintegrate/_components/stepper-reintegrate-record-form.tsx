@@ -5,7 +5,7 @@ import { IconAlertOctagon, IconBriefcase, IconBuilding, IconCheck, IconHeart, Ic
 import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper_form';
-import { createClientRecordReintegrate } from '@/server/record/actions';
+import { createClientRecordReintegrate } from '@/server';
 import { ReintegrateRecordPayload } from '@/server/record/create-record/reintegrate-record';
 
 

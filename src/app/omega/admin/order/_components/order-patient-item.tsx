@@ -3,7 +3,7 @@ import ListRow from '@/components/_base/list/list-row'
 import { Group, rem, SimpleGrid, Stack, Text, Title } from '@mantine/core'
 import dayjs from 'dayjs'
 import React from 'react'
-import { MedicalOrderPatient } from '@/server/medical_order/server_types'
+import { MedicalOrderPatient } from '@/server/medical-order/server-types'
 import OrderChangeStatus from '@/components/order_change_status'
 import OrderEmailButton from '@/components/medical-order-mail/order_email_button'
 

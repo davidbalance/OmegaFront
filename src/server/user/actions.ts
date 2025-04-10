@@ -4,11 +4,11 @@ import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth";
 import { register } from "@/lib/auth/auth.utils";
 import { AuthRegisterPayload } from "@/lib/auth/auth.types";
-import { AddAuthPayload, AddUserResourcesPayload, EditUserPayload, User, UserAuthResource, UserInstrospect, UserQuery } from "./server_types";
+import { AddAuthPayload, AddUserResourcesPayload, EditUserPayload, User, UserAuthResource, UserInstrospect, UserQuery } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
 
-export const findMe = async (): Promise<UserInstrospect> => {
+export const serverActionFindMe = async (): Promise<UserInstrospect> => {
     const session = await auth();
     const data: UserInstrospect = await omega()
         .addToken(session.access_token)
@@ -16,7 +16,7 @@ export const findMe = async (): Promise<UserInstrospect> => {
     return data;
 }
 
-export const retriveUsers = async (query: UserQuery): Promise<PaginationResponse<User>> => {
+export const serverActionRetriveUsers = async (query: UserQuery): Promise<PaginationResponse<User>> => {
     const session = await auth();
     const data: PaginationResponse<User> = await omega()
         .addToken(session.access_token)
@@ -25,7 +25,7 @@ export const retriveUsers = async (query: UserQuery): Promise<PaginationResponse
     return data;
 }
 
-export const retriveUser = async (userId: string): Promise<User> => {
+export const serverActionRetriveUser = async (userId: string): Promise<User> => {
     const session = await auth();
     const data: User = await omega()
         .addToken(session.access_token)
@@ -34,7 +34,7 @@ export const retriveUser = async (userId: string): Promise<User> => {
     return data;
 }
 
-export const retriveUserResources = async (userId: string): Promise<UserAuthResource[]> => {
+export const serverActionRetriveUserResources = async (userId: string): Promise<UserAuthResource[]> => {
     const session = await auth();
     const data: UserAuthResource[] = await omega()
         .addToken(session.access_token)
@@ -43,12 +43,12 @@ export const retriveUserResources = async (userId: string): Promise<UserAuthReso
     return data;
 }
 
-export const createUser = async (payload: AuthRegisterPayload): Promise<void> => {
+export const serverActionCreateUser = async (payload: AuthRegisterPayload): Promise<void> => {
     const session = await auth();
     await register(payload, session.access_token);
 }
 
-export const editUser = async (payload: EditUserPayload): Promise<void> => {
+export const serverActionEditUser = async (payload: EditUserPayload): Promise<void> => {
     const { userId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -60,7 +60,7 @@ export const editUser = async (payload: EditUserPayload): Promise<void> => {
     revalidateTag('retriveUsers');
 }
 
-export const addAuthUser = async (payload: AddAuthPayload): Promise<void> => {
+export const serverActionAddAuthUser = async (payload: AddAuthPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -68,7 +68,7 @@ export const addAuthUser = async (payload: AddAuthPayload): Promise<void> => {
         .execute('addAuthUser');
 }
 
-export const addUserResource = async (payload: AddUserResourcesPayload): Promise<void> => {
+export const serverActionAddUserResource = async (payload: AddUserResourcesPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -78,7 +78,7 @@ export const addUserResource = async (payload: AddUserResourcesPayload): Promise
     revalidateTag('retriveUserResources');
 }
 
-export const removeUser = async (userId: string): Promise<void> => {
+export const serverActionRemoveUser = async (userId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)

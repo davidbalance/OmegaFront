@@ -2,10 +2,10 @@
 
 import auth from "@/lib/auth";
 import omega from "@/lib/api-client/omega-client/omega";
-import { ExamType, ExamTypeOption, ExamTypeQuery } from "./server_types";
+import { ExamType, ExamTypeOption, ExamTypeQuery } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 
-export const retriveExamTypes = async (query: ExamTypeQuery): Promise<PaginationResponse<ExamType>> => {
+export const serverActionRetriveExamTypes = async (query: ExamTypeQuery): Promise<PaginationResponse<ExamType>> => {
     const session = await auth();
     const data: PaginationResponse<ExamType> = await omega()
         .addToken(session.access_token)
@@ -14,7 +14,7 @@ export const retriveExamTypes = async (query: ExamTypeQuery): Promise<Pagination
     return data;
 }
 
-export const retriveExamTypesOptions = async (): Promise<ExamTypeOption[]> => {
+export const serverActionRetriveExamTypesOptions = async (): Promise<ExamTypeOption[]> => {
     const session = await auth();
     const data: ExamTypeOption[] = await omega()
         .addToken(session.access_token)

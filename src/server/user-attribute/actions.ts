@@ -2,10 +2,10 @@
 
 import auth from "@/lib/auth";
 import omega from "@/lib/api-client/omega-client/omega";
-import { FindUserAttributePayload, AddUserAttributePayload, RemoveUserAttributePayload, UserAttribute } from "./server_types";
+import { FindUserAttributePayload, AddUserAttributePayload, RemoveUserAttributePayload, UserAttribute } from "./server-types";
 import { revalidateTag } from "next/cache";
 
-export const retriveUserAttribute = async (payload: FindUserAttributePayload): Promise<UserAttribute | null> => {
+export const serverActionRetriveUserAttribute = async (payload: FindUserAttributePayload): Promise<UserAttribute | null> => {
     const session = await auth();
     try {
         const data: UserAttribute = await omega()
@@ -19,7 +19,7 @@ export const retriveUserAttribute = async (payload: FindUserAttributePayload): P
     }
 }
 
-export const addUserAttribute = async (payload: AddUserAttributePayload): Promise<void> => {
+export const serverActionAddUserAttribute = async (payload: AddUserAttributePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -29,7 +29,7 @@ export const addUserAttribute = async (payload: AddUserAttributePayload): Promis
     revalidateTag('retriveUserAttribute');
 }
 
-export const removeUserAttribute = async (payload: RemoveUserAttributePayload): Promise<void> => {
+export const serverActionRemoveUserAttribute = async (payload: RemoveUserAttributePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)

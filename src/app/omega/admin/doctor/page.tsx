@@ -5,7 +5,7 @@ import { Box, Title } from '@mantine/core'
 import ServerPagination from '@/components/_base/server-pagination'
 import DoctorHeader from './_components/doctor_header'
 import Search from '@/components/_base/search'
-import { retriveDoctors } from '@/server/doctor/actions'
+import { retriveDoctors } from '@/server'
 import DoctorList from './_components/doctor_list'
 
 const take: number = 100;

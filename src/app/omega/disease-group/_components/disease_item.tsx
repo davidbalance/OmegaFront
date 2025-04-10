@@ -5,7 +5,7 @@ import { Group, MenuLabel, MenuItem, rem, Text } from '@mantine/core'
 import { IconEdit, IconExchange } from '@tabler/icons-react'
 import Link from 'next/link'
 import React from 'react'
-import { Disease } from '@/server/disease/server_types'
+import { Disease } from '@/server/disease/server-types'
 import DiseaseDelete from './disease_delete'
 
 type DiseaseItemProps = Disease & {

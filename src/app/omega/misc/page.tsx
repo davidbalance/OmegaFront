@@ -2,11 +2,11 @@ import React from 'react'
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Box, ScrollArea, Title } from '@mantine/core';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import { retriveYears } from '@/server/medical_order/actions';
+import { retriveYears } from '@/server';
 import { Option } from '@/lib/types/option.type';
-import { retriveCorporativesOptions } from '@/server/corporative/actions';
+import { retriveCorporativesOptions } from '@/server';
 import DiseaseReportForm from './_components/disease_report_form';
-import { CorporativeOption } from '@/server/corporative/server_types';
+import { CorporativeOption } from '@/server/corporative/server-types';
 
 const OmegaReportDiseasePage: React.FC = async () => {
 

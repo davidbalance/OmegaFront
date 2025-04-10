@@ -7,15 +7,15 @@ import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import { retriveDiseaseGroups } from '@/server/disease_group/actions';
+import { retriveDiseaseGroups } from '@/server';
 import { Button, Group, rem } from '@mantine/core';
 import React from 'react'
 import Link from 'next/link';
 import DiseaseGroupHeader from './_components/disease_group_header';
 import DiseaseHeader from './_components/disease_header';
-import { retriveDiseases } from '@/server/disease/actions';
+import { retriveDiseases } from '@/server';
 import { PaginationResponse } from '@/lib/types/pagination.type';
-import { Disease } from '@/server/disease/server_types';
+import { Disease } from '@/server/disease/server-types';
 import Title from '@/components/_base/mantine/title';
 import DiseaseGroupList from './_components/disease_group_list';
 import DiseaseList from './_components/disease_list';

@@ -2,11 +2,11 @@
 
 import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth";
-import { Area, AreaOption, AreaQuery, CreateAreaPayload, EditAreaPayload, RemoveAreaPayload } from "./server_types";
+import { Area, AreaOption, AreaQuery, CreateAreaPayload, EditAreaPayload, RemoveAreaPayload } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
 
-export const retriveAreas = async (query: AreaQuery): Promise<PaginationResponse<Area>> => {
+export const serverActionRetriveAreas = async (query: AreaQuery): Promise<PaginationResponse<Area>> => {
     const session = await auth();
     const data: PaginationResponse<Area> = await omega()
         .addToken(session.access_token)
@@ -15,7 +15,7 @@ export const retriveAreas = async (query: AreaQuery): Promise<PaginationResponse
     return data;
 }
 
-export const retriveArea = async (areaId: string): Promise<Area> => {
+export const serverActionRetriveArea = async (areaId: string): Promise<Area> => {
     const session = await auth();
     const data: Area = await omega()
         .addToken(session.access_token)
@@ -24,7 +24,7 @@ export const retriveArea = async (areaId: string): Promise<Area> => {
     return data;
 }
 
-export const retriveAreaOptions = async (): Promise<AreaOption[]> => {
+export const serverActionRetriveAreaOptions = async (): Promise<AreaOption[]> => {
     const session = await auth();
     const data: AreaOption[] = await omega()
         .addToken(session.access_token)
@@ -32,7 +32,7 @@ export const retriveAreaOptions = async (): Promise<AreaOption[]> => {
     return data;
 }
 
-export const createArea = async (payload: CreateAreaPayload): Promise<void> => {
+export const serverActionCreateArea = async (payload: CreateAreaPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -42,7 +42,7 @@ export const createArea = async (payload: CreateAreaPayload): Promise<void> => {
     revalidateTag('retriveAreas');
 }
 
-export const editArea = async (payload: EditAreaPayload): Promise<void> => {
+export const serverActionEditArea = async (payload: EditAreaPayload): Promise<void> => {
     const { areaId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -54,7 +54,7 @@ export const editArea = async (payload: EditAreaPayload): Promise<void> => {
     revalidateTag('retriveAreas');
 }
 
-export const removeArea = async (payload: RemoveAreaPayload): Promise<void> => {
+export const serverActionRemoveArea = async (payload: RemoveAreaPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)

@@ -1,6 +1,6 @@
 import { getErrorMessage } from "@/lib/utils/errors";
-import { retriveClientMassiveLoadTemplate } from "@/server/medical_client/actions";
-import { retriveMedicalOrderMassiveLoadTemplate } from "@/server/medical_order/actions";
+import { serverActionRetriveClientMassiveLoadTemplate } from "@/server/medical-client/actions";
+import { serverActionRetriveMedicalOrderMassiveLoadTemplate } from "@/server/medical-order/actions";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -10,9 +10,9 @@ export async function GET(
     try {
         let blob: Blob;
         if (params.type === 'patient') {
-            blob = await retriveClientMassiveLoadTemplate();
+            blob = await serverActionRetriveClientMassiveLoadTemplate();
         } else {
-            blob = await retriveMedicalOrderMassiveLoadTemplate();
+            blob = await serverActionRetriveMedicalOrderMassiveLoadTemplate();
         }
 
         const headers = new Headers();

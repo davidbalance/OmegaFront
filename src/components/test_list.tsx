@@ -1,7 +1,7 @@
 import ListTbody from '@/components/_base/list/list-tbody'
 import React from 'react'
-import { OrderStatus } from '@/server/medical_order/server_types'
-import { MedicalTest } from '@/server/medical_test/server_types'
+import { OrderStatus } from '@/server/medical-order/server-types'
+import { MedicalTest } from '@/server/medical-test/server-types'
 import TestItem from './test_item'
 
 interface TestListProps {

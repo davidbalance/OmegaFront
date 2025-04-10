@@ -3,7 +3,7 @@ import { ModularBox } from '@/components/modular/box/ModularBox'
 import React from 'react'
 import ReportUploadForm from './_components/report_upload_form'
 import { Stack } from '@mantine/core'
-import { retriveMedicalTest } from '@/server/medical_test/actions'
+import { retriveMedicalTest } from '@/server'
 
 interface MedicalResultFileUploadProps {
   params: { testId: string }

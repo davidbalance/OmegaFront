@@ -1,10 +1,10 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import CompanyAttributeForm from './_components/company-attribute-form'
-import { retriveCorporativesOptions } from '@/server/corporative/actions'
-import { retriveUserAttribute } from '@/server/user_attribute/actions'
+import { retriveCorporativesOptions } from '@/server'
+import { retriveUserAttribute } from '@/server'
 import { Option } from '@/lib/types/option.type'
-import { CorporativeOption } from '@/server/corporative/server_types'
+import { CorporativeOption } from '@/server/corporative/server-types'
 
 interface UserActionCompanyPageProps {
     params: { id: string }

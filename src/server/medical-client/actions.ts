@@ -2,11 +2,11 @@
 
 import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth";
-import { AddAreaMedicalClientPayload, AddJobPositionMedicalClientPayload, AddManagementMedicalClientPayload, ChangeRoleClientPayload, CreateClientEmailPayload, CreateMedicalClientPayload, DefaultClientEmailPayload, MedicalAreaClient, MedicalClient, MedicalClientEmail, MedicalClientQuery, MedicalJobPositionClient, MedicalManagementClient, RemoveClientEmailPayload } from "./server_types";
+import { AddAreaMedicalClientPayload, AddJobPositionMedicalClientPayload, AddManagementMedicalClientPayload, ChangeRoleClientPayload, CreateClientEmailPayload, CreateMedicalClientPayload, DefaultClientEmailPayload, MedicalAreaClient, MedicalClient, MedicalClientEmail, MedicalClientQuery, MedicalJobPositionClient, MedicalManagementClient, RemoveClientEmailPayload } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidatePath, revalidateTag } from "next/cache";
 
-export const retriveClientByDni = async (patientDni: string): Promise<MedicalClient> => {
+export const serverActionRetriveClientByDni = async (patientDni: string): Promise<MedicalClient> => {
     const session = await auth();
     const data: MedicalClient = await omega()
         .addToken(session.access_token)
@@ -15,7 +15,7 @@ export const retriveClientByDni = async (patientDni: string): Promise<MedicalCli
     return data;
 }
 
-export const retriveClients = async (query: MedicalClientQuery): Promise<PaginationResponse<MedicalClient>> => {
+export const serverActionRetriveClients = async (query: MedicalClientQuery): Promise<PaginationResponse<MedicalClient>> => {
     const session = await auth();
     const data: PaginationResponse<MedicalClient> = await omega()
         .addToken(session.access_token)
@@ -24,7 +24,7 @@ export const retriveClients = async (query: MedicalClientQuery): Promise<Paginat
     return data;
 }
 
-export const retriveClientsCompany = async (query: MedicalClientQuery): Promise<PaginationResponse<MedicalClient>> => {
+export const serverActionRetriveClientsCompany = async (query: MedicalClientQuery): Promise<PaginationResponse<MedicalClient>> => {
     const session = await auth();
     const data: PaginationResponse<MedicalClient> = await omega()
         .addToken(session.access_token)
@@ -33,7 +33,7 @@ export const retriveClientsCompany = async (query: MedicalClientQuery): Promise<
     return data;
 }
 
-export const retriveClientsEEQ = async (query: MedicalClientQuery): Promise<PaginationResponse<MedicalClient>> => {
+export const serverActionRetriveClientsEEQ = async (query: MedicalClientQuery): Promise<PaginationResponse<MedicalClient>> => {
     const session = await auth();
     const data: PaginationResponse<MedicalClient> = await omega()
         .addToken(session.access_token)
@@ -42,7 +42,7 @@ export const retriveClientsEEQ = async (query: MedicalClientQuery): Promise<Pagi
     return data;
 }
 
-export const retriveClientsDoctor = async (query: MedicalClientQuery): Promise<PaginationResponse<MedicalClient>> => {
+export const serverActionRetriveClientsDoctor = async (query: MedicalClientQuery): Promise<PaginationResponse<MedicalClient>> => {
     const session = await auth();
     const data: PaginationResponse<MedicalClient> = await omega()
         .addToken(session.access_token)
@@ -51,7 +51,7 @@ export const retriveClientsDoctor = async (query: MedicalClientQuery): Promise<P
     return data;
 }
 
-export const retriveClientEmails = async (dni: string): Promise<MedicalClientEmail[]> => {
+export const serverActionRetriveClientEmails = async (dni: string): Promise<MedicalClientEmail[]> => {
     const session = await auth();
     const data: MedicalClientEmail[] = await omega()
         .addToken(session.access_token)
@@ -60,7 +60,7 @@ export const retriveClientEmails = async (dni: string): Promise<MedicalClientEma
     return data;
 }
 
-export const retriveClientArea = async (dni: string): Promise<MedicalAreaClient> => {
+export const serverActionRetriveClientArea = async (dni: string): Promise<MedicalAreaClient> => {
     const session = await auth();
     const data: MedicalAreaClient = await omega()
         .addToken(session.access_token)
@@ -69,7 +69,7 @@ export const retriveClientArea = async (dni: string): Promise<MedicalAreaClient>
     return data;
 }
 
-export const retriveClientJobPosition = async (dni: string): Promise<MedicalJobPositionClient> => {
+export const serverActionRetriveClientJobPosition = async (dni: string): Promise<MedicalJobPositionClient> => {
     const session = await auth();
     const data: MedicalJobPositionClient = await omega()
         .addToken(session.access_token)
@@ -78,7 +78,7 @@ export const retriveClientJobPosition = async (dni: string): Promise<MedicalJobP
     return data;
 }
 
-export const retriveClientManagement = async (dni: string): Promise<MedicalManagementClient> => {
+export const serverActionRetriveClientManagement = async (dni: string): Promise<MedicalManagementClient> => {
     const session = await auth();
     const data: MedicalManagementClient = await omega()
         .addToken(session.access_token)
@@ -87,7 +87,7 @@ export const retriveClientManagement = async (dni: string): Promise<MedicalManag
     return data;
 }
 
-export const retriveClientMassiveLoadTemplate = async (): Promise<Blob> => {
+export const serverActionRetriveClientMassiveLoadTemplate = async (): Promise<Blob> => {
     const timestamp = Date.now();
     const session = await auth();
     const data: Blob = await omega()
@@ -98,7 +98,7 @@ export const retriveClientMassiveLoadTemplate = async (): Promise<Blob> => {
     return data;
 }
 
-export const createClient = async (payload: CreateMedicalClientPayload): Promise<void> => {
+export const serverActionCreateClient = async (payload: CreateMedicalClientPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -110,7 +110,7 @@ export const createClient = async (payload: CreateMedicalClientPayload): Promise
     revalidateTag('retriveClientsDoctor');
 }
 
-export const massiveLoadClient = async (formData: FormData): Promise<void> => {
+export const serverActionMassiveLoadClient = async (formData: FormData): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -123,7 +123,7 @@ export const massiveLoadClient = async (formData: FormData): Promise<void> => {
 }
 
 
-export const addAreaClient = async (payload: AddAreaMedicalClientPayload): Promise<void> => {
+export const serverActionAddAreaClient = async (payload: AddAreaMedicalClientPayload): Promise<void> => {
     const { dni, ...body } = payload;
     const session = await auth();
     await omega()
@@ -133,7 +133,7 @@ export const addAreaClient = async (payload: AddAreaMedicalClientPayload): Promi
         .execute('addAreaClient');
 }
 
-export const addJobPositionClient = async (payload: AddJobPositionMedicalClientPayload): Promise<void> => {
+export const serverActionAddJobPositionClient = async (payload: AddJobPositionMedicalClientPayload): Promise<void> => {
     const { dni, ...body } = payload;
     const session = await auth();
     await omega()
@@ -145,7 +145,7 @@ export const addJobPositionClient = async (payload: AddJobPositionMedicalClientP
     revalidateTag('retriveClientJobPosition');
 }
 
-export const addManagementClient = async (payload: AddManagementMedicalClientPayload): Promise<void> => {
+export const serverActionAddManagementClient = async (payload: AddManagementMedicalClientPayload): Promise<void> => {
     const { dni, ...body } = payload;
     const session = await auth();
     await omega()
@@ -155,7 +155,7 @@ export const addManagementClient = async (payload: AddManagementMedicalClientPay
         .execute('addManagementClient');
 }
 
-export const changeRoleClient = async (payload: ChangeRoleClientPayload): Promise<void> => {
+export const serverActionChangeRoleClient = async (payload: ChangeRoleClientPayload): Promise<void> => {
     const { dni, ...body } = payload;
     const session = await auth();
     await omega()
@@ -168,7 +168,7 @@ export const changeRoleClient = async (payload: ChangeRoleClientPayload): Promis
     revalidateTag('retriveClientsEEQ');
 }
 
-export const createClientEmail = async (payload: CreateClientEmailPayload): Promise<void> => {
+export const serverActionCreateClientEmail = async (payload: CreateClientEmailPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -178,7 +178,7 @@ export const createClientEmail = async (payload: CreateClientEmailPayload): Prom
     revalidatePath('retriveClientEmails');
 }
 
-export const defaultClientEmail = async (payload: DefaultClientEmailPayload): Promise<void> => {
+export const serverActionDefaultClientEmail = async (payload: DefaultClientEmailPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -189,7 +189,7 @@ export const defaultClientEmail = async (payload: DefaultClientEmailPayload): Pr
     revalidatePath('retriveClientEmails');
 }
 
-export const removeClientEmail = async (payload: RemoveClientEmailPayload): Promise<void> => {
+export const serverActionRemoveClientEmail = async (payload: RemoveClientEmailPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)

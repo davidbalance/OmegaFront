@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
 import MoveExamForm from './_components/move_exam_form';
-import { retriveExamTypesOptions } from '@/server/exam_type/actions';
+import { retriveExamTypesOptions } from '@/server';
 
 interface OmegaLaboratoryExamChangePageProps {
     params: {

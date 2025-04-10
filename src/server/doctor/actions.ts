@@ -2,12 +2,12 @@
 
 import auth from "@/lib/auth";
 import omega from "@/lib/api-client/omega-client/omega";
-import { Doctor, DoctorOption, DoctorQuery } from "./server_types";
+import { Doctor, DoctorOption, DoctorQuery } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
 
 
-export const retriveDoctors = async (query: DoctorQuery): Promise<PaginationResponse<Doctor>> => {
+export const serverActionRetriveDoctors = async (query: DoctorQuery): Promise<PaginationResponse<Doctor>> => {
     const session = await auth();
     const data: PaginationResponse<Doctor> = await omega()
         .addToken(session.access_token)
@@ -16,7 +16,7 @@ export const retriveDoctors = async (query: DoctorQuery): Promise<PaginationResp
     return data;
 }
 
-export const retriveDoctor = async (userDni: string): Promise<Doctor> => {
+export const serverActionRetriveDoctor = async (userDni: string): Promise<Doctor> => {
     const session = await auth();
     const data: Doctor = await omega()
         .addToken(session.access_token)
@@ -25,7 +25,7 @@ export const retriveDoctor = async (userDni: string): Promise<Doctor> => {
     return data;
 }
 
-export const retriveDoctorsOptions = async (): Promise<DoctorOption[]> => {
+export const serverActionRetriveDoctorsOptions = async (): Promise<DoctorOption[]> => {
     const session = await auth();
     const data: DoctorOption[] = await omega()
         .addToken(session.access_token)
@@ -33,7 +33,7 @@ export const retriveDoctorsOptions = async (): Promise<DoctorOption[]> => {
     return data;
 }
 
-export const retriveDoctorFile = async (userId: string): Promise<Blob> => {
+export const serverActionRetriveDoctorFile = async (userId: string): Promise<Blob> => {
     const timestamp = Date.now();
     const session = await auth();
     const data: Blob = await omega()
@@ -45,7 +45,7 @@ export const retriveDoctorFile = async (userId: string): Promise<Blob> => {
     return data;
 }
 
-export const uploadDoctorSignature = async (userId: string, formData: FormData): Promise<void> => {
+export const serverActionUploadDoctorSignature = async (userId: string, formData: FormData): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)

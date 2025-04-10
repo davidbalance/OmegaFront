@@ -7,7 +7,7 @@ import { IconEdit } from '@tabler/icons-react';
 import Link from 'next/link';
 import React from 'react'
 import DiseaseGroupDelete from './disease_group_delete';
-import { DiseaseGroup } from '@/server/disease_group/server_types';
+import { DiseaseGroup } from '@/server/disease-group/server-types';
 
 type DiseaseGroupItemProps = DiseaseGroup & {
     active?: boolean;

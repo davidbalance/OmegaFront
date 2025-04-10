@@ -7,10 +7,10 @@ import { IconDeviceFloppy } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useRef, useState } from 'react'
 import LoadingOverlay from '@/components/_base/loading-overlay'
-import { Resource } from '@/server/resource/server_types'
-import { UserAuthResource } from '@/server/user/server_types'
+import { Resource } from '@/server/resource/server-types'
+import { UserAuthResource } from '@/server/user/server-types'
 import ResourceAssignForm from '@/components/resource_assign_form'
-import { addUserResource } from '@/server/user/actions'
+import { addUserResource } from '@/server'
 import { getErrorMessage } from '@/lib/utils/errors'
 
 interface ResourceFormProps {

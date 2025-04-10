@@ -1,7 +1,7 @@
 import ListTbody from '@/components/_base/list/list-tbody'
 import React from 'react'
 import ExamTypeItem from './exam_type_item'
-import { ExamType } from '@/server/exam_type/server_types'
+import { ExamType } from '@/server/exam-type/server-types'
 
 interface ExamTypeListProps {
     active?: string;

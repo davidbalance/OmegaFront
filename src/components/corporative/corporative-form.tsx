@@ -8,7 +8,7 @@ import { ModularBox } from "../modular/box/ModularBox";
 import { z } from "zod";
 import CorporativeSchema from './schema/corporative.schema'
 import ModularLayout from "../modular/layout/ModularLayout";
-import { Corporative } from "@/server/corporative/server_types";
+import { Corporative } from "@/server/corporative/server-types";
 
 type CorporativeFormProps = Partial<Omit<Corporative, 'corporativeId' | 'hasCompanies'>> & {
     loading?: boolean

@@ -5,8 +5,8 @@ import ModularLayout from '@/components/modular/layout/ModularLayout';
 import OrderSetupSchema from '../_schema/order_setup.schema';
 import { Box, Select, SimpleGrid } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { CreateMedicalOrderPayload } from '@/server/medical_order/server_types';
-import { CorporativeOption } from '@/server/corporative/server_types';
+import { CreateMedicalOrderPayload } from '@/server/medical-order/server-types';
+import { CorporativeOption } from '@/server/corporative/server-types';
 import { Option } from '@/lib/types/option.type';
 import CoporativeSelect from '@/components/corporative-select';
 

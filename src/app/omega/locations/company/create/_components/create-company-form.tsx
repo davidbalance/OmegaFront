@@ -3,8 +3,8 @@
 import LoadingOverlay from '@/components/_base/loading-overlay';
 import CompanyForm from '@/components/company/company-form';
 import { getErrorMessage } from '@/lib/utils/errors';
-import { createCompany } from '@/server/company/actions';
-import { CompanyCreatePayload } from '@/server/company/server_types';
+import { createCompany } from '@/server';
+import { CompanyCreatePayload } from '@/server/company/server-types';
 import { notifications } from '@mantine/notifications';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useState } from 'react'

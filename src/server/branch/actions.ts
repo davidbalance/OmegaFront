@@ -2,10 +2,10 @@
 
 import auth from "@/lib/auth";
 import omega from "@/lib/api-client/omega-client/omega";
-import { Branch, BranchCreatePayload, BranchMovePayload, BranchQuery, BranchRemovePayload } from "./server_types";
+import { Branch, BranchCreatePayload, BranchMovePayload, BranchQuery, BranchRemovePayload } from "./server-types";
 import { revalidateTag } from "next/cache";
 
-export const retriveBranches = async (payload: BranchQuery): Promise<Branch[]> => {
+export const serverActionRetriveBranches = async (payload: BranchQuery): Promise<Branch[]> => {
     const { companyId, ...query } = payload;
     const session = await auth();
     const data: Branch[] = await omega()
@@ -16,7 +16,7 @@ export const retriveBranches = async (payload: BranchQuery): Promise<Branch[]> =
     return data;
 }
 
-export const createBranch = async (payload: BranchCreatePayload): Promise<void> => {
+export const serverActionCreateBranch = async (payload: BranchCreatePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -26,7 +26,7 @@ export const createBranch = async (payload: BranchCreatePayload): Promise<void> 
     revalidateTag('retriveBranches');
 }
 
-export const moveBranch = async (payload: BranchMovePayload): Promise<void> => {
+export const serverActionMoveBranch = async (payload: BranchMovePayload): Promise<void> => {
     const { branchId, fromCompanyId, fromCorporativeId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -42,7 +42,7 @@ export const moveBranch = async (payload: BranchMovePayload): Promise<void> => {
     revalidateTag('retriveBranches');
 }
 
-export const removeBranch = async (payload: BranchRemovePayload): Promise<void> => {
+export const serverActionRemoveBranch = async (payload: BranchRemovePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)

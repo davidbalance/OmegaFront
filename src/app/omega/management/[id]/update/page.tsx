@@ -1,5 +1,5 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
-import { retriveManagement } from '@/server/management/actions'
+import { retriveManagement } from '@/server'
 import React from 'react'
 import EditManagementForm from './_components/edit_management_form'
 

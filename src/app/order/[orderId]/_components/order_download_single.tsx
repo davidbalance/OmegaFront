@@ -2,7 +2,7 @@
 
 import { blobFile } from '@/lib/utils/blob-to-file';
 import { getErrorMessage } from '@/lib/utils/errors';
-import { MedicalFileZipPayload } from '@/server/medical_test/server_types';
+import { MedicalFileZipPayload } from '@/server/medical-test/server-types';
 import { ActionIcon, rem } from '@mantine/core'
 import { notifications } from '@mantine/notifications';
 import { IconDownload } from '@tabler/icons-react'

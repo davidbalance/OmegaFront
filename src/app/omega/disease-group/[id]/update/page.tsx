@@ -1,5 +1,5 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
-import { retriveDiseaseGroup } from '@/server/disease_group/actions'
+import { retriveDiseaseGroup } from '@/server'
 import React from 'react'
 import EditDiseaseGroupForm from './_components/disease-group-form'
 

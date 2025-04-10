@@ -9,7 +9,7 @@ import { notifications } from '@mantine/notifications'
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { getErrorMessage } from '@/lib/utils/errors'
-import { massiveLoadOrder } from '@/server/medical_order/actions'
+import { massiveLoadOrder } from '@/server'
 
 const OrderMassiveLoadForm: React.FC = () => {
 

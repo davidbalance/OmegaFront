@@ -1,6 +1,6 @@
 import ListRow from '@/components/_base/list/list-row'
 import Title from '@/components/_base/mantine/title';
-import { ApiKey } from '@/server/apikey/server_types'
+import { ApiKey } from '@/server/apikey/server-types'
 import { Group } from '@mantine/core'
 import React from 'react'
 

@@ -2,7 +2,7 @@
 
 import { useActionMenu } from "@/contexts/action-menu.context";
 import { useConfirmation } from "@/contexts/confirmation.context";
-import { removeMedicalOrder } from "@/server/medical_order/actions";
+import { removeMedicalOrder } from "@/server";
 import { MenuItem, rem } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -34,7 +34,7 @@ const OrderRemoveMenuItem: React.FC<OrderRemoveMenuItemProps> = ({
                 router.replace(newUrl);
             }
         }
-    }, [query, router, pathname, queryParam]);
+    }, [query, orderId, router, pathname, queryParam]);
 
     const handleClick = useCallback(
         async () => {
@@ -46,7 +46,7 @@ const OrderRemoveMenuItem: React.FC<OrderRemoveMenuItemProps> = ({
                     trigger(promise);
                 }
             }
-        }, [trigger, orderId, checkSelection]);
+        }, [trigger, query, show, orderId, checkSelection]);
 
     return (
         <MenuItem

@@ -1,6 +1,6 @@
 'use client'
 
-import { DiseaseGroupOption } from '@/server/disease_group/server_types'
+import { DiseaseGroupOption } from '@/server/disease-group/server-types'
 import React, { useMemo } from 'react'
 import CascadingSelect, { CascadingSelectValue } from './cascading-select';
 

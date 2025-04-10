@@ -1,6 +1,6 @@
 import ListRow from '@/components/_base/list/list-row'
 import Title from '@/components/_base/mantine/title'
-import { Branch } from '@/server/branch/server_types'
+import { Branch } from '@/server/branch/server-types'
 import { Stack, rem, Text } from '@mantine/core'
 import React from 'react'
 

@@ -2,7 +2,7 @@
 
 import LoadingOverlay from '@/components/_base/loading-overlay';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { AddMedicalReportPayload } from '@/server/medical_test/server_types';
+import { AddMedicalReportPayload } from '@/server/medical-test/server-types';
 import { rem, Button } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
@@ -11,7 +11,7 @@ import ReportTextArea from '@/components/report_text_area';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
 import { notifications } from '@mantine/notifications';
 import { getErrorMessage } from '@/lib/utils/errors';
-import { addMedicalReport } from '@/server/medical_test/actions';
+import { addMedicalReport } from '@/server';
 
 interface ReportFormProps extends Partial<Pick<AddMedicalReportPayload, 'content'>> {
     testId: string;

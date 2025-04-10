@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import EditProfileForm from './_components/edit-profile-form'
-import { retriveUser } from '@/server/user/actions'
+import { retriveUser } from '@/server'
 
 interface UserActionUpdatePageProps {
     params: { id: string }

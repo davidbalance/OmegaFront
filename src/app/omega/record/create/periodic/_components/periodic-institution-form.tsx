@@ -6,7 +6,7 @@ import PeridicInstitutionSchema from '../_schemas/periodic-institution.schema'
 import { z } from 'zod';
 import { Box, Divider, rem, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import CorporativeSelect from '@/components/corporative-select';
-import { CorporativeOption } from '@/server/corporative/server_types';
+import { CorporativeOption } from '@/server/corporative/server-types';
 import GenderSelector from '@/components/gender-selector';
 import { CascadingSelectValue } from '@/components/cascading-select';
 

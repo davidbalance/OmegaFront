@@ -2,11 +2,11 @@
 
 import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth";
-import { CreateMedicalOrderPayload, MedicalChecklist, MedicalCloudFile, MedicalOrder, MedicalOrderDoctor, MedicalOrderPatient, MedicalOrderPatientQuery, MedicalOrderQuery, Process, SendMedicalOrderPayload, Year } from "./server_types";
+import { CreateMedicalOrderPayload, MedicalChecklist, MedicalCloudFile, MedicalOrder, MedicalOrderDoctor, MedicalOrderPatient, MedicalOrderPatientQuery, MedicalOrderQuery, Process, SendMedicalOrderPayload, Year } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
 
-export const retriveProcesses = async (): Promise<Process[]> => {
+export const serverActionRetriveProcesses = async (): Promise<Process[]> => {
     const session = await auth();
     const data: Process[] = await omega()
         .addToken(session.access_token)
@@ -14,7 +14,7 @@ export const retriveProcesses = async (): Promise<Process[]> => {
     return data;
 }
 
-export const retriveYears = async (): Promise<Year[]> => {
+export const serverActionRetriveYears = async (): Promise<Year[]> => {
     const session = await auth();
     const data: Year[] = await omega()
         .addToken(session.access_token)
@@ -22,7 +22,7 @@ export const retriveYears = async (): Promise<Year[]> => {
     return data;
 }
 
-export const retriveMedicalOrders = async (payload: MedicalOrderQuery): Promise<PaginationResponse<MedicalOrder>> => {
+export const serverActionRetriveMedicalOrders = async (payload: MedicalOrderQuery): Promise<PaginationResponse<MedicalOrder>> => {
     const { patientDni, ...query } = payload;
     const session = await auth();
     const data: PaginationResponse<MedicalOrder> = await omega()
@@ -33,7 +33,7 @@ export const retriveMedicalOrders = async (payload: MedicalOrderQuery): Promise<
     return data;
 }
 
-export const retriveMedicalOrdersEEQ = async (payload: MedicalOrderQuery): Promise<PaginationResponse<MedicalOrder>> => {
+export const serverActionRetriveMedicalOrdersEEQ = async (payload: MedicalOrderQuery): Promise<PaginationResponse<MedicalOrder>> => {
     const { patientDni, ...query } = payload;
     const session = await auth();
     const data: PaginationResponse<MedicalOrder> = await omega()
@@ -44,7 +44,7 @@ export const retriveMedicalOrdersEEQ = async (payload: MedicalOrderQuery): Promi
     return data;
 }
 
-export const retriveMedicalOrdersCompany = async (payload: MedicalOrderQuery): Promise<PaginationResponse<MedicalOrder>> => {
+export const serverActionRetriveMedicalOrdersCompany = async (payload: MedicalOrderQuery): Promise<PaginationResponse<MedicalOrder>> => {
     const { patientDni, ...query } = payload;
     const session = await auth();
     const data: PaginationResponse<MedicalOrder> = await omega()
@@ -55,7 +55,7 @@ export const retriveMedicalOrdersCompany = async (payload: MedicalOrderQuery): P
     return data;
 }
 
-export const retriveMedicalOrder = async (orderId: string): Promise<MedicalOrder> => {
+export const serverActionRetriveMedicalOrder = async (orderId: string): Promise<MedicalOrder> => {
     const session = await auth();
     const data: MedicalOrder = await omega()
         .addToken(session.access_token)
@@ -64,7 +64,7 @@ export const retriveMedicalOrder = async (orderId: string): Promise<MedicalOrder
     return data;
 }
 
-export const retriveMedicalOrdersPatient = async (query: MedicalOrderPatientQuery): Promise<PaginationResponse<MedicalOrderPatient>> => {
+export const serverActionRetriveMedicalOrdersPatient = async (query: MedicalOrderPatientQuery): Promise<PaginationResponse<MedicalOrderPatient>> => {
     const session = await auth();
     const data: PaginationResponse<MedicalOrderPatient> = await omega()
         .addToken(session.access_token)
@@ -73,16 +73,14 @@ export const retriveMedicalOrdersPatient = async (query: MedicalOrderPatientQuer
     return data;
 }
 
-export const retriveMedicalCloud = async (orderId: string): Promise<MedicalCloudFile[]> => {
-    // const session = await auth();
+export const serverActionRetriveMedicalCloud = async (orderId: string): Promise<MedicalCloudFile[]> => {
     const data: MedicalCloudFile[] = await omega()
-        // .addToken(session.access_token)
         .addParams({ orderId })
         .execute('retriveMedicalCloud');
     return data;
 }
 
-export const retriveMedicalChecklist = async (orderId: string): Promise<MedicalChecklist[]> => {
+export const serverActionRetriveMedicalChecklist = async (orderId: string): Promise<MedicalChecklist[]> => {
     const session = await auth();
     const data: MedicalChecklist[] = await omega()
         .addToken(session.access_token)
@@ -91,7 +89,7 @@ export const retriveMedicalChecklist = async (orderId: string): Promise<MedicalC
     return data;
 }
 
-export const retriveMedicalChecklistFile = async (orderId: string): Promise<Blob> => {
+export const serverActionRetriveMedicalChecklistFile = async (orderId: string): Promise<Blob> => {
     const timestamp = Date.now();
     const session = await auth();
     const data: Blob = await omega()
@@ -103,7 +101,7 @@ export const retriveMedicalChecklistFile = async (orderId: string): Promise<Blob
     return data;
 }
 
-export const retriveMedicalOrdersDoctor = async (payload: MedicalOrderQuery): Promise<PaginationResponse<MedicalOrderDoctor>> => {
+export const serverActionRetriveMedicalOrdersDoctor = async (payload: MedicalOrderQuery): Promise<PaginationResponse<MedicalOrderDoctor>> => {
     const { patientDni, ...query } = payload;
     const session = await auth();
     const data: PaginationResponse<MedicalOrderDoctor> = await omega()
@@ -114,7 +112,7 @@ export const retriveMedicalOrdersDoctor = async (payload: MedicalOrderQuery): Pr
     return data;
 }
 
-export const retriveMedicalOrderMassiveLoadTemplate = async (): Promise<Blob> => {
+export const serverActionRetriveMedicalOrderMassiveLoadTemplate = async (): Promise<Blob> => {
     const session = await auth();
     const data: Blob = await omega()
         .addToken(session.access_token)
@@ -122,7 +120,7 @@ export const retriveMedicalOrderMassiveLoadTemplate = async (): Promise<Blob> =>
     return data;
 }
 
-export const createMedicalOrder = async (payload: CreateMedicalOrderPayload): Promise<void> => {
+export const serverActionCreateMedicalOrder = async (payload: CreateMedicalOrderPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -133,7 +131,7 @@ export const createMedicalOrder = async (payload: CreateMedicalOrderPayload): Pr
     revalidateTag('retriveMedicalOrdersPatient');
 }
 
-export const removeMedicalOrder = async (orderId: string): Promise<void> => {
+export const serverActionRemoveMedicalOrder = async (orderId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -144,7 +142,7 @@ export const removeMedicalOrder = async (orderId: string): Promise<void> => {
     revalidateTag('retriveMedicalOrdersPatient');
 }
 
-export const sendMedicalOrder = async (payload: SendMedicalOrderPayload): Promise<void> => {
+export const serverActionSendMedicalOrder = async (payload: SendMedicalOrderPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -156,7 +154,7 @@ export const sendMedicalOrder = async (payload: SendMedicalOrderPayload): Promis
     revalidateTag('retriveMedicalOrdersDoctor');
 }
 
-export const validatedStatusMedicalOrder = async (orderId: string): Promise<void> => {
+export const serverActionValidatedStatusMedicalOrder = async (orderId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -168,7 +166,7 @@ export const validatedStatusMedicalOrder = async (orderId: string): Promise<void
     revalidateTag('retriveMedicalOrdersPatient');
 }
 
-export const createdStatusMedicalOrder = async (orderId: string): Promise<void> => {
+export const serverActionCreatedStatusMedicalOrder = async (orderId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -180,7 +178,7 @@ export const createdStatusMedicalOrder = async (orderId: string): Promise<void> 
     revalidateTag('retriveMedicalOrdersPatient');
 }
 
-export const massiveLoadOrder = async (formData: FormData): Promise<void> => {
+export const serverActionMassiveLoadOrder = async (formData: FormData): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper_form';
 import { AuthRegisterPayload } from '@/lib/auth/auth.types';
-import { createUser } from '@/server/user/actions';
+import { createUser } from '@/server';
 
 
 const icon: StepperIcon = {

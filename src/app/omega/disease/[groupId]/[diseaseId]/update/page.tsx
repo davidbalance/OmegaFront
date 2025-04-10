@@ -1,6 +1,6 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import { retriveDisease } from '@/server/disease/actions'
+import { retriveDisease } from '@/server'
 import EditDiseaseForm from './_components/edit_disease_form'
 
 interface OmegaDiseaseUpdatePageProps {

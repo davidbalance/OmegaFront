@@ -1,6 +1,6 @@
 import BlobPreview from '@/components/_base/blob-preview/blob-preview';
 import NotFoundFileCard from '@/components/_base/not-found-file-card';
-import { retriveMedicalReportFile } from '@/server/medical_test/actions';
+import { retriveMedicalReportFile } from '@/server';
 import { ModalHeader, ModalCloseButton, ModalBody, Box } from '@mantine/core';
 import React from 'react'
 

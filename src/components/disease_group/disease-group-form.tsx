@@ -8,7 +8,7 @@ import { ModularBox } from "../modular/box/ModularBox";
 import { z } from "zod";
 import DiseaseGroupSchema from './schemas/disease_group.schema'
 import ModularLayout from "../modular/layout/ModularLayout";
-import { DiseaseGroup } from "@/server/disease_group/server_types";
+import { DiseaseGroup } from "@/server/disease-group/server-types";
 
 type DiseaseGroupFormProps = Partial<Omit<DiseaseGroup, 'groupId'>> & {
     loading?: boolean

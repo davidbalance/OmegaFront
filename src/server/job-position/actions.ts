@@ -2,10 +2,10 @@
 
 import auth from "@/lib/auth";
 import omega from "@/lib/api-client/omega-client/omega";
-import { JobPosition, JobPositionOption, JobPositionQuery } from "./server_types";
+import { JobPosition, JobPositionOption, JobPositionQuery } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 
-export const retriveJobPositions = async (query: JobPositionQuery): Promise<PaginationResponse<JobPosition>> => {
+export const serverActionRetriveJobPositions = async (query: JobPositionQuery): Promise<PaginationResponse<JobPosition>> => {
     const session = await auth();
     const data: PaginationResponse<JobPosition> = await omega()
         .addToken(session.access_token)
@@ -14,7 +14,7 @@ export const retriveJobPositions = async (query: JobPositionQuery): Promise<Pagi
     return data;
 }
 
-export const retriveJobPosition = async (): Promise<JobPosition> => {
+export const serverActionRetriveJobPosition = async (): Promise<JobPosition> => {
     const session = await auth();
     const data: JobPosition = await omega()
         .addToken(session.access_token)
@@ -22,7 +22,7 @@ export const retriveJobPosition = async (): Promise<JobPosition> => {
     return data;
 }
 
-export const retriveJobPositionsOptions = async (): Promise<JobPositionOption[]> => {
+export const serverActionRetriveJobPositionsOptions = async (): Promise<JobPositionOption[]> => {
     const session = await auth();
     const data: JobPositionOption[] = await omega()
         .addToken(session.access_token)

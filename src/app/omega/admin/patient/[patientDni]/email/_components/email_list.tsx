@@ -1,6 +1,6 @@
 import ListTbody from '@/components/_base/list/list-tbody'
 import React from 'react'
-import { MedicalClientEmail } from '@/server/medical_client/server_types'
+import { MedicalClientEmail } from '@/server/medical-client/server-types'
 import EmailItem from './email_item'
 
 interface EmailListProps {

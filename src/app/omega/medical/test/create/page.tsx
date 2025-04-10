@@ -2,9 +2,9 @@ import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
 import LaboratoryRoot from './_components/laboratory_root';
 import LaboratoryForm from './_components/laboratory_form';
-import { retriveExamTypesOptions } from '@/server/exam_type/actions';
+import { retriveExamTypesOptions } from '@/server';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { retriveMedicalTests } from '@/server/medical_test/actions';
+import { retriveMedicalTests } from '@/server';
 import LaboratoryList from './_components/laboratory_list';
 
 interface MedicalTestCreateProps {

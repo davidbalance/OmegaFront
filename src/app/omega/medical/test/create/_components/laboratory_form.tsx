@@ -1,12 +1,12 @@
 'use client'
 
 import React, { useCallback, useState } from 'react'
-import { ExamTypeOption } from '@/server/exam_type/server_types';
-import { CreateMedicalTestPayload, MedicalTest } from '@/server/medical_test/server_types';
+import { ExamTypeOption } from '@/server/exam-type/server-types';
+import { CreateMedicalTestPayload, MedicalTest } from '@/server/medical-test/server-types';
 import ExamSelect from '@/components/exam-select';
 import ExamSchema from '../_schema/exam.schema';
 import { notifications } from '@mantine/notifications';
-import { createMedicalTest } from '@/server/medical_test/actions';
+import { createMedicalTest } from '@/server';
 import { getErrorMessage } from '@/lib/utils/errors';
 import { Button, Flex, rem } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';

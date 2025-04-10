@@ -1,12 +1,12 @@
 'use client'
 
-import { DiseaseGroupOption } from '@/server/disease_group/server_types';
-import { CreateMedicalDiseasePayload, MedicalDisease } from '@/server/medical_test/server_types';
+import { DiseaseGroupOption } from '@/server/disease-group/server-types';
+import { CreateMedicalDiseasePayload, MedicalDisease } from '@/server/medical-test/server-types';
 import { Box, Button, Flex, Select, Textarea, rem } from '@mantine/core';
 import React, { useCallback, useEffect, useState } from 'react'
 import DiseaseSelect from '../../../../../../components/disease-select';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import { createMedicalResultDisease, editMedicalResultDisease } from '@/server/medical_test/actions';
+import { createMedicalResultDisease, editMedicalResultDisease } from '@/server';
 import { notifications } from '@mantine/notifications';
 import { getErrorMessage } from '@/lib/utils/errors';
 import { useSelect } from '../_context/select.context';

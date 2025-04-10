@@ -1,6 +1,6 @@
 import React from 'react'
 import { Group, rem, Stack, Text } from '@mantine/core';
-import { MedicalTest } from '@/server/medical_test/server_types';
+import { MedicalTest } from '@/server/medical-test/server-types';
 
 type LaboratoryItemProps = MedicalTest;
 const LaboratoryItem: React.FC<LaboratoryItemProps> = ({

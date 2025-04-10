@@ -2,8 +2,8 @@
 
 import AreaForm from '@/components/area/area-form';
 import { getErrorMessage } from '@/lib/utils/errors';
-import { editArea } from '@/server/area/actions';
-import { Area, EditAreaPayload } from '@/server/area/server_types';
+import { editArea } from '@/server';
+import { Area, EditAreaPayload } from '@/server/area/server-types';
 import { LoadingOverlay } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useRouter } from 'next/navigation';

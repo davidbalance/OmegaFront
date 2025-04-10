@@ -8,7 +8,7 @@ import { ModularBox } from "../modular/box/ModularBox";
 import { z } from "zod";
 import AreaSchema from './schema/area.schema'
 import ModularLayout from "../modular/layout/ModularLayout";
-import { Area } from "@/server/area/server_types";
+import { Area } from "@/server/area/server-types";
 
 type AreaFormProps = Partial<Omit<Area, 'areaId'>> & {
     loading?: boolean

@@ -10,7 +10,7 @@ import { RetirementRecordPayload } from "./create-record/retirement-record";
 import { CertificateRecordPayload } from "./create-record/certificate-record";
 import { revalidateTag } from "next/cache";
 
-export const retriveClientRecords = async (payload: ClientRecordQuery): Promise<ClientRecord[]> => {
+export const serverActionRetriveClientRecords = async (payload: ClientRecordQuery): Promise<ClientRecord[]> => {
     const { patientDni, ...query } = payload;
     const session = await auth();
     const data: ClientRecord[] = await omega()
@@ -21,7 +21,7 @@ export const retriveClientRecords = async (payload: ClientRecordQuery): Promise<
     return data;
 }
 
-export const retriveClientRecordFile = async (recordId: string): Promise<Blob> => {
+export const serverActionRetriveClientRecordFile = async (recordId: string): Promise<Blob> => {
     const session = await auth();
     const data: Blob = await omega()
         .addToken(session.access_token)
@@ -31,7 +31,7 @@ export const retriveClientRecordFile = async (recordId: string): Promise<Blob> =
     return data;
 }
 
-export const createClientRecordInitial = async (payload: InitialRecordPayload & { patientDni: string }): Promise<void> => {
+export const serverActionCreateClientRecordInitial = async (payload: InitialRecordPayload & { patientDni: string }): Promise<void> => {
     const type: string = 'initial';
     const session = await auth();
     await omega()
@@ -43,7 +43,7 @@ export const createClientRecordInitial = async (payload: InitialRecordPayload & 
     revalidateTag('retriveClientRecords');
 }
 
-export const createClientRecordPeriodic = async (payload: PeriodicRecordPayload & { patientDni: string }): Promise<void> => {
+export const serverActionCreateClientRecordPeriodic = async (payload: PeriodicRecordPayload & { patientDni: string }): Promise<void> => {
     const type: string = 'periodic';
     const session = await auth();
     await omega()
@@ -55,7 +55,7 @@ export const createClientRecordPeriodic = async (payload: PeriodicRecordPayload 
     revalidateTag('retriveClientRecords');
 }
 
-export const createClientRecordReintegrate = async (payload: ReintegrateRecordPayload & { patientDni: string }): Promise<void> => {
+export const serverActionCreateClientRecordReintegrate = async (payload: ReintegrateRecordPayload & { patientDni: string }): Promise<void> => {
     const type: string = 'reintegrate';
     const session = await auth();
     await omega()
@@ -67,7 +67,7 @@ export const createClientRecordReintegrate = async (payload: ReintegrateRecordPa
     revalidateTag('retriveClientRecords');
 }
 
-export const createClientRecordRetirement = async (payload: RetirementRecordPayload & { patientDni: string }): Promise<void> => {
+export const serverActionCreateClientRecordRetirement = async (payload: RetirementRecordPayload & { patientDni: string }): Promise<void> => {
     const type: string = 'retirement';
     const session = await auth();
     await omega()
@@ -79,7 +79,7 @@ export const createClientRecordRetirement = async (payload: RetirementRecordPayl
     revalidateTag('retriveClientRecords');
 }
 
-export const createClientRecordCertificate = async (payload: CertificateRecordPayload & { patientDni: string }): Promise<void> => {
+export const serverActionCreateClientRecordCertificate = async (payload: CertificateRecordPayload & { patientDni: string }): Promise<void> => {
     const type: string = 'certificate';
     const session = await auth();
     await omega()

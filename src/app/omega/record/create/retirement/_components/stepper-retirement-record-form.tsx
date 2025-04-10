@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper_form';
 import { RetirementRecordPayload } from '@/server/record/create-record/retirement-record';
-import { createClientRecordRetirement } from '@/server/record/actions';
+import { createClientRecordRetirement } from '@/server';
 
 
 const icon: StepperIcon = {

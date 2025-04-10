@@ -5,7 +5,7 @@ import { useForm, zodResolver } from "@mantine/form";
 import { IconDeviceFloppy, IconSignature } from "@tabler/icons-react";
 import React, { useCallback } from "react";
 import { ModularBox } from "../modular/box/ModularBox";
-import { Management } from "@/server/management/server_types";
+import { Management } from "@/server/management/server-types";
 import { z } from "zod";
 import ManagementSchema from './schema/management.schema'
 import ModularLayout from "../modular/layout/ModularLayout";

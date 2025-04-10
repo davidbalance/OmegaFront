@@ -1,6 +1,6 @@
 'use client'
 
-import { checkMedicalTest, uncheckMedicalTest } from '@/server/medical_test/actions';
+import { checkMedicalTest, uncheckMedicalTest } from '@/server';
 import { Checkbox } from '@mantine/core';
 import { useDebounceCallback } from '@mantine/hooks';
 import React, { useCallback, useState } from 'react'

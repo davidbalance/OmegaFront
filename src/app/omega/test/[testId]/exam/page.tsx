@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import { retriveExamTypesOptions } from '@/server/exam_type/actions'
-import { retriveMedicalTest } from '@/server/medical_test/actions'
+import { retriveExamTypesOptions } from '@/server'
+import { retriveMedicalTest } from '@/server'
 import ExamForm from './_components/exam-form'
 
 interface ExamPageProps {

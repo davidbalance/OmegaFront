@@ -1,6 +1,6 @@
 import { getErrorMessage } from "@/lib/utils/errors";
-import { retriveMedicalReportFile, retriveMedicalResultFile } from "@/server/medical_test/actions";
-import { retriveClientRecordFile } from "@/server/record/actions";
+import { serverActionRetriveMedicalReportFile, serverActionRetriveMedicalResultFile } from "@/server/medical-test/actions";
+import { serverActionRetriveClientRecordFile } from "@/server/record/actions";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -11,11 +11,11 @@ export async function GET(
         const data = { ...params, id: params.id };
         let blob: Blob;
         if (data.type === 'result') {
-            blob = await retriveMedicalResultFile(params.id);
+            blob = await serverActionRetriveMedicalResultFile(params.id);
         } else if (data.type === 'result') {
-            blob = await retriveMedicalReportFile(params.id)
+            blob = await serverActionRetriveMedicalReportFile(params.id)
         } else {
-            blob = await retriveClientRecordFile(params.id)
+            blob = await serverActionRetriveClientRecordFile(params.id)
         }
 
         const headers = new Headers();

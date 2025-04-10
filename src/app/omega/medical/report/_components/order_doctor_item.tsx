@@ -1,6 +1,6 @@
 import AddQueryParam from '@/components/_base/add-query-param';
 import ListRow from '@/components/_base/list/list-row';
-import { MedicalOrderDoctor } from '@/server/medical_order/server_types';
+import { MedicalOrderDoctor } from '@/server/medical-order/server-types';
 import { Flex, Title, Group, Text, Stack, rem } from '@mantine/core';
 import dayjs from 'dayjs';
 import React from 'react'

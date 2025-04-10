@@ -3,8 +3,8 @@
 import LoadingOverlay from "@/components/_base/loading-overlay";
 import DiseaseGroupForm from "@/components/disease_group/disease-group-form";
 import { getErrorMessage } from "@/lib/utils/errors";
-import { editDiseaseGroup } from "@/server/disease_group/actions";
-import { DiseaseGroup, EditDiseaseGroupPayload } from "@/server/disease_group/server_types";
+import { editDiseaseGroup } from "@/server";
+import { DiseaseGroup, EditDiseaseGroupPayload } from "@/server/disease-group/server-types";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";

@@ -2,10 +2,10 @@
 
 import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth";
-import { AddMedicalReportPayload, CreateMedicalDiseasePayload, CreateMedicalTestPayload, EditMedicalDiseasePayload, EditMedicalTestExamPayload, MedicalDisease, MedicalDiseaseReportQuery, MedicalFileResult, MedicalFileZipPayload, MedicalReport, MedicalTest, MedicalTestQuery } from "./server_types";
+import { AddMedicalReportPayload, CreateMedicalDiseasePayload, CreateMedicalTestPayload, EditMedicalDiseasePayload, EditMedicalTestExamPayload, MedicalDisease, MedicalDiseaseReportQuery, MedicalFileResult, MedicalFileZipPayload, MedicalReport, MedicalTest, MedicalTestQuery } from "./server-types";
 import { revalidateTag } from "next/cache";
 
-export const retriveMedicalDiseases = async (testId: string): Promise<MedicalDisease[]> => {
+export const serverActionRetriveMedicalDiseases = async (testId: string): Promise<MedicalDisease[]> => {
     const session = await auth();
     const data: MedicalDisease[] = await omega()
         .addToken(session.access_token)
@@ -14,7 +14,7 @@ export const retriveMedicalDiseases = async (testId: string): Promise<MedicalDis
     return data;
 }
 
-export const retriveMedicalDisease = async (testId: string, diseaseId: string): Promise<MedicalDisease> => {
+export const serverActionRetriveMedicalDisease = async (testId: string, diseaseId: string): Promise<MedicalDisease> => {
     const session = await auth();
     const data: MedicalDisease = await omega()
         .addToken(session.access_token)
@@ -23,7 +23,7 @@ export const retriveMedicalDisease = async (testId: string, diseaseId: string): 
     return data;
 }
 
-export const retriveMedicalReport = async (testId: string): Promise<MedicalReport> => {
+export const serverActionRetriveMedicalReport = async (testId: string): Promise<MedicalReport> => {
     const session = await auth();
     const data: MedicalReport = await omega()
         .addToken(session.access_token)
@@ -32,7 +32,7 @@ export const retriveMedicalReport = async (testId: string): Promise<MedicalRepor
     return data;
 }
 
-export const retriveMedicalReportFile = async (testId: string): Promise<Blob> => {
+export const serverActionRetriveMedicalReportFile = async (testId: string): Promise<Blob> => {
     const timestamp = Date.now();
     const data: Blob = await omega()
         .addParams({ testId })
@@ -42,7 +42,7 @@ export const retriveMedicalReportFile = async (testId: string): Promise<Blob> =>
     return data;
 }
 
-export const retriveMedicalResultFile = async (testId: string): Promise<Blob> => {
+export const serverActionRetriveMedicalResultFile = async (testId: string): Promise<Blob> => {
     const timestamp = Date.now();
     const data: Blob = await omega()
         .addParams({ testId })
@@ -52,7 +52,7 @@ export const retriveMedicalResultFile = async (testId: string): Promise<Blob> =>
     return data;
 }
 
-export const retriveMedicalTests = async (payload: MedicalTestQuery): Promise<MedicalTest[]> => {
+export const serverActionRetriveMedicalTests = async (payload: MedicalTestQuery): Promise<MedicalTest[]> => {
     const { orderId, ...query } = payload;
     const session = await auth();
     const data: MedicalTest[] = await omega()
@@ -63,7 +63,7 @@ export const retriveMedicalTests = async (payload: MedicalTestQuery): Promise<Me
     return data;
 }
 
-export const retriveMedicalTest = async (testId: string): Promise<MedicalTest> => {
+export const serverActionRetriveMedicalTest = async (testId: string): Promise<MedicalTest> => {
     const session = await auth();
     const data: MedicalTest = await omega()
         .addToken(session.access_token)
@@ -72,7 +72,7 @@ export const retriveMedicalTest = async (testId: string): Promise<MedicalTest> =
     return data;
 }
 
-export const retriveMedicalDiseaseReportFile = async (query: MedicalDiseaseReportQuery): Promise<Blob> => {
+export const serverActionRetriveMedicalDiseaseReportFile = async (query: MedicalDiseaseReportQuery): Promise<Blob> => {
     const timestamp = Date.now();
     const session = await auth();
     const data: Blob = await omega()
@@ -85,7 +85,7 @@ export const retriveMedicalDiseaseReportFile = async (query: MedicalDiseaseRepor
 }
 
 
-export const retriveMedicalTestFileReport = async (): Promise<Blob> => {
+export const serverActionRetriveMedicalTestFileReport = async (): Promise<Blob> => {
     const timestamp = Date.now();
     const session = await auth();
     const data: Blob = await omega()
@@ -97,7 +97,7 @@ export const retriveMedicalTestFileReport = async (): Promise<Blob> => {
 }
 
 
-export const retriveMedicalTestFileCount = async (): Promise<MedicalFileResult> => {
+export const serverActionRetriveMedicalTestFileCount = async (): Promise<MedicalFileResult> => {
     const session = await auth();
     const data: MedicalFileResult = await omega()
         .addToken(session.access_token)
@@ -105,7 +105,7 @@ export const retriveMedicalTestFileCount = async (): Promise<MedicalFileResult> 
     return data;
 }
 
-export const createMedicalResultDisease = async (payload: CreateMedicalDiseasePayload): Promise<void> => {
+export const serverActionCreateMedicalResultDisease = async (payload: CreateMedicalDiseasePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -116,7 +116,7 @@ export const createMedicalResultDisease = async (payload: CreateMedicalDiseasePa
     revalidateTag('retriveMedicalDiseaseReportFile');
 }
 
-export const editMedicalResultDisease = async (payload: EditMedicalDiseasePayload): Promise<void> => {
+export const serverActionEditMedicalResultDisease = async (payload: EditMedicalDiseasePayload): Promise<void> => {
     const { testId, diseaseReportId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -129,7 +129,7 @@ export const editMedicalResultDisease = async (payload: EditMedicalDiseasePayloa
     revalidateTag('retriveMedicalDiseaseReportFile');
 }
 
-export const removeMedicalResultDisease = async (payload: { diseaseReportId: string; testId: string; }): Promise<void> => {
+export const serverActionRemoveMedicalResultDisease = async (payload: { diseaseReportId: string; testId: string; }): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -140,7 +140,7 @@ export const removeMedicalResultDisease = async (payload: { diseaseReportId: str
     revalidateTag('retriveMedicalDiseaseReportFile');
 }
 
-export const addMedicalReport = async (payload: AddMedicalReportPayload): Promise<void> => {
+export const serverActionAddMedicalReport = async (payload: AddMedicalReportPayload): Promise<void> => {
     const { testId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -153,7 +153,7 @@ export const addMedicalReport = async (payload: AddMedicalReportPayload): Promis
     revalidateTag('retriveMedicalOrdersDoctor');
 }
 
-export const addMedicalReportFile = async (testId: string, formData: FormData): Promise<void> => {
+export const serverActionAddMedicalReportFile = async (testId: string, formData: FormData): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -167,7 +167,7 @@ export const addMedicalReportFile = async (testId: string, formData: FormData): 
     revalidateTag('retriveMedicalReportFile');
 }
 
-export const removeMedicalReport = async (testId: string): Promise<void> => {
+export const serverActionRemoveMedicalReport = async (testId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -179,7 +179,7 @@ export const removeMedicalReport = async (testId: string): Promise<void> => {
     revalidateTag('retriveMedicalReportFile');
 }
 
-export const addMedicalResult = async (testId: string, formData: FormData): Promise<void> => {
+export const serverActionAddMedicalResult = async (testId: string, formData: FormData): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -192,7 +192,7 @@ export const addMedicalResult = async (testId: string, formData: FormData): Prom
     revalidateTag('retriveMedicalResultFile');
 }
 
-export const removeMedicalResult = async (testId: string): Promise<void> => {
+export const serverActionRemoveMedicalResult = async (testId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -204,7 +204,7 @@ export const removeMedicalResult = async (testId: string): Promise<void> => {
     revalidateTag('retriveMedicalResultFile');
 }
 
-export const checkMedicalTest = async (testId: string): Promise<void> => {
+export const serverActionCheckMedicalTest = async (testId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -213,7 +213,7 @@ export const checkMedicalTest = async (testId: string): Promise<void> => {
         .execute('checkMedicalTest');
 }
 
-export const removeMedicalTest = async (testId: string): Promise<void> => {
+export const serverActionRemoveMedicalTest = async (testId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -223,7 +223,7 @@ export const removeMedicalTest = async (testId: string): Promise<void> => {
     revalidateTag('retriveMedicalTests');
 }
 
-export const createMedicalTest = async (payload: CreateMedicalTestPayload): Promise<void> => {
+export const serverActionCreateMedicalTest = async (payload: CreateMedicalTestPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -234,7 +234,7 @@ export const createMedicalTest = async (payload: CreateMedicalTestPayload): Prom
     revalidateTag('retriveMedicalTest');
 }
 
-export const uncheckMedicalTest = async (testId: string): Promise<void> => {
+export const serverActionUncheckMedicalTest = async (testId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -243,7 +243,7 @@ export const uncheckMedicalTest = async (testId: string): Promise<void> => {
         .execute('uncheckMedicalTest');
 }
 
-export const checkMedicalTestFile = async (): Promise<void> => {
+export const serverActionCheckMedicalTestFile = async (): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -251,7 +251,7 @@ export const checkMedicalTestFile = async (): Promise<void> => {
         .execute('checkMedicalTestFile');
 }
 
-export const editMedicalTestExam = async (payload: EditMedicalTestExamPayload): Promise<void> => {
+export const serverActionEditMedicalTestExam = async (payload: EditMedicalTestExamPayload): Promise<void> => {
     const { testId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -264,7 +264,7 @@ export const editMedicalTestExam = async (payload: EditMedicalTestExamPayload): 
     revalidateTag('retriveMedicalTest');
 }
 
-export const retriveMedicalTestZip = async (payload: MedicalFileZipPayload[]): Promise<Blob> => {
+export const serverActionRetriveMedicalTestZip = async (payload: MedicalFileZipPayload[]): Promise<Blob> => {
     const timestamp = Date.now();
     const data: Blob = await omega()
         .addBody({ values: payload })

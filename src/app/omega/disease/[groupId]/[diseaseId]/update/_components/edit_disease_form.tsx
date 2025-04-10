@@ -2,8 +2,8 @@
 
 import DiseaseForm from '@/components/disease/disease-form';
 import { getErrorMessage } from '@/lib/utils/errors';
-import { editDisease } from '@/server/disease/actions';
-import { Disease, EditDiseasePayload } from '@/server/disease/server_types';
+import { editDisease } from '@/server';
+import { Disease, EditDiseasePayload } from '@/server/disease/server-types';
 import { LoadingOverlay } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useRouter } from 'next/navigation';
