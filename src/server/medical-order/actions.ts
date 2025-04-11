@@ -5,6 +5,7 @@ import auth from "@/lib/auth";
 import { CreateMedicalOrderPayload, MedicalChecklist, MedicalCloudFile, MedicalOrder, MedicalOrderDoctor, MedicalOrderPatient, MedicalOrderPatientQuery, MedicalOrderQuery, Process, SendMedicalOrderPayload, Year } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionRetriveProcesses = async (): Promise<Process[]> => {
     const session = await auth();
@@ -120,7 +121,7 @@ export const serverActionRetriveMedicalOrderMassiveLoadTemplate = async (): Prom
     return data;
 }
 
-export const serverActionCreateMedicalOrder = async (payload: CreateMedicalOrderPayload): Promise<void> => {
+const createMedicalOrder = async (payload: CreateMedicalOrderPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -131,7 +132,7 @@ export const serverActionCreateMedicalOrder = async (payload: CreateMedicalOrder
     revalidateTag('retriveMedicalOrdersPatient');
 }
 
-export const serverActionRemoveMedicalOrder = async (orderId: string): Promise<void> => {
+const removeMedicalOrder = async (orderId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -142,7 +143,7 @@ export const serverActionRemoveMedicalOrder = async (orderId: string): Promise<v
     revalidateTag('retriveMedicalOrdersPatient');
 }
 
-export const serverActionSendMedicalOrder = async (payload: SendMedicalOrderPayload): Promise<void> => {
+const sendMedicalOrder = async (payload: SendMedicalOrderPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -154,7 +155,7 @@ export const serverActionSendMedicalOrder = async (payload: SendMedicalOrderPayl
     revalidateTag('retriveMedicalOrdersDoctor');
 }
 
-export const serverActionValidatedStatusMedicalOrder = async (orderId: string): Promise<void> => {
+const validatedStatusMedicalOrder = async (orderId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -166,7 +167,7 @@ export const serverActionValidatedStatusMedicalOrder = async (orderId: string): 
     revalidateTag('retriveMedicalOrdersPatient');
 }
 
-export const serverActionCreatedStatusMedicalOrder = async (orderId: string): Promise<void> => {
+const createdStatusMedicalOrder = async (orderId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -178,7 +179,7 @@ export const serverActionCreatedStatusMedicalOrder = async (orderId: string): Pr
     revalidateTag('retriveMedicalOrdersPatient');
 }
 
-export const serverActionMassiveLoadOrder = async (formData: FormData): Promise<void> => {
+const massiveLoadOrder = async (formData: FormData): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -188,3 +189,10 @@ export const serverActionMassiveLoadOrder = async (formData: FormData): Promise<
     revalidateTag('retriveMedicalOrders');
     revalidateTag('retriveMedicalOrdersPatient');
 }
+
+export const serverActionCreateMedicalOrder = withResult(createMedicalOrder);
+export const serverActionRemoveMedicalOrder = withResult(removeMedicalOrder);
+export const serverActionSendMedicalOrder = withResult(sendMedicalOrder);
+export const serverActionValidatedStatusMedicalOrder = withResult(validatedStatusMedicalOrder);
+export const serverActionCreatedStatusMedicalOrder = withResult(createdStatusMedicalOrder);
+export const serverActionMassiveLoadOrder = withResult(massiveLoadOrder);

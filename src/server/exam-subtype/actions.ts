@@ -5,6 +5,7 @@ import omega from "@/lib/api-client/omega-client/omega";
 import { CreateExamSubtypePayload, EditExamSubtypePayload, ExamSubtype, ExamSubtypeQuery, MoveExamSubtypePayload, RemoveExamSubtypePayload } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionRetriveExamSubtypes = async (payload: ExamSubtypeQuery): Promise<PaginationResponse<ExamSubtype>> => {
     const { typeId, ...query } = payload;
@@ -26,7 +27,7 @@ export const serverActionRetriveExamSubtype = async (subtypeId: string): Promise
     return data;
 }
 
-export const serverActionCreateExamSubtype = async (payload: CreateExamSubtypePayload): Promise<void> => {
+const createExamSubtype = async (payload: CreateExamSubtypePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -36,7 +37,7 @@ export const serverActionCreateExamSubtype = async (payload: CreateExamSubtypePa
     revalidateTag('retriveExamSubtypes');
 }
 
-export const serverActionEditExamSubtype = async (payload: EditExamSubtypePayload): Promise<void> => {
+const editExamSubtype = async (payload: EditExamSubtypePayload): Promise<void> => {
     const { subtypeId, typeId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -48,7 +49,7 @@ export const serverActionEditExamSubtype = async (payload: EditExamSubtypePayloa
     revalidateTag('retriveExamSubtypes');
 }
 
-export const serverActionMoveExamSubtype = async (payload: MoveExamSubtypePayload): Promise<void> => {
+const moveExamSubtype = async (payload: MoveExamSubtypePayload): Promise<void> => {
     const { typeId, subtypeId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -60,7 +61,7 @@ export const serverActionMoveExamSubtype = async (payload: MoveExamSubtypePayloa
     revalidateTag('retriveExamSubtypes');
 }
 
-export const serverActionRemoveExamSubtype = async (payload: RemoveExamSubtypePayload): Promise<void> => {
+const removeExamSubtype = async (payload: RemoveExamSubtypePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -69,3 +70,8 @@ export const serverActionRemoveExamSubtype = async (payload: RemoveExamSubtypePa
 
     revalidateTag('retriveExamSubtypes');
 }
+
+export const serverActionCreateExamSubtype = withResult(createExamSubtype);
+export const serverActionEditExamSubtype = withResult(editExamSubtype);
+export const serverActionMoveExamSubtype = withResult(moveExamSubtype);
+export const serverActionRemoveExamSubtype = withResult(removeExamSubtype);

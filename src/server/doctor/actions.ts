@@ -5,6 +5,7 @@ import omega from "@/lib/api-client/omega-client/omega";
 import { Doctor, DoctorOption, DoctorQuery } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 
 export const serverActionRetriveDoctors = async (query: DoctorQuery): Promise<PaginationResponse<Doctor>> => {
@@ -45,7 +46,7 @@ export const serverActionRetriveDoctorFile = async (userId: string): Promise<Blo
     return data;
 }
 
-export const serverActionUploadDoctorSignature = async (userId: string, formData: FormData): Promise<void> => {
+const uploadDoctorSignature = async (userId: string, formData: FormData): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -56,3 +57,5 @@ export const serverActionUploadDoctorSignature = async (userId: string, formData
     revalidateTag('retriveDoctorFile');
     revalidateTag('retriveDoctorsOptions');
 }
+
+export const serverActionUploadDoctorSignature = withResult(uploadDoctorSignature);

@@ -5,6 +5,7 @@ import omega from "@/lib/api-client/omega-client/omega";
 import { CreateManagementPayload, EditManagementPayload, Management, ManagementOption, ManagementQuery, RemoveManagementPayload } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionRetriveManagements = async (query: ManagementQuery): Promise<PaginationResponse<Management>> => {
     const session = await auth();
@@ -32,7 +33,7 @@ export const serverActionRetriveManagementOptions = async (): Promise<Management
     return data;
 }
 
-export const serverActionCreateManagement = async (payload: CreateManagementPayload): Promise<void> => {
+const createManagement = async (payload: CreateManagementPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -42,7 +43,7 @@ export const serverActionCreateManagement = async (payload: CreateManagementPayl
     revalidateTag('retriveManagements');
 }
 
-export const serverActionEditManagement = async (payload: EditManagementPayload): Promise<void> => {
+const editManagement = async (payload: EditManagementPayload): Promise<void> => {
     const { managementId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -54,7 +55,7 @@ export const serverActionEditManagement = async (payload: EditManagementPayload)
     revalidateTag('retriveManagements');
 }
 
-export const serverActionRemoveManagement = async (payload: RemoveManagementPayload): Promise<void> => {
+const removeManagement = async (payload: RemoveManagementPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -63,3 +64,7 @@ export const serverActionRemoveManagement = async (payload: RemoveManagementPayl
 
     revalidateTag('retriveManagements');
 }
+
+export const serverActionCreateManagement = withResult(createManagement);
+export const serverActionEditManagement = withResult(editManagement);
+export const serverActionRemoveManagement = withResult(removeManagement);

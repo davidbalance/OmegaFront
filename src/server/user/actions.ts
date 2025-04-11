@@ -7,6 +7,7 @@ import { AuthRegisterPayload } from "@/lib/auth/auth.types";
 import { AddAuthPayload, AddUserResourcesPayload, EditUserPayload, User, UserAuthResource, UserInstrospect, UserQuery } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionFindMe = async (): Promise<UserInstrospect> => {
     const session = await auth();
@@ -43,12 +44,12 @@ export const serverActionRetriveUserResources = async (userId: string): Promise<
     return data;
 }
 
-export const serverActionCreateUser = async (payload: AuthRegisterPayload): Promise<void> => {
+const createUser = async (payload: AuthRegisterPayload): Promise<void> => {
     const session = await auth();
     await register(payload, session.access_token);
 }
 
-export const serverActionEditUser = async (payload: EditUserPayload): Promise<void> => {
+const editUser = async (payload: EditUserPayload): Promise<void> => {
     const { userId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -60,7 +61,7 @@ export const serverActionEditUser = async (payload: EditUserPayload): Promise<vo
     revalidateTag('retriveUsers');
 }
 
-export const serverActionAddAuthUser = async (payload: AddAuthPayload): Promise<void> => {
+const addAuthUser = async (payload: AddAuthPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -68,7 +69,7 @@ export const serverActionAddAuthUser = async (payload: AddAuthPayload): Promise<
         .execute('addAuthUser');
 }
 
-export const serverActionAddUserResource = async (payload: AddUserResourcesPayload): Promise<void> => {
+const addUserResource = async (payload: AddUserResourcesPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -78,7 +79,7 @@ export const serverActionAddUserResource = async (payload: AddUserResourcesPaylo
     revalidateTag('retriveUserResources');
 }
 
-export const serverActionRemoveUser = async (userId: string): Promise<void> => {
+const removeUser = async (userId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -87,3 +88,9 @@ export const serverActionRemoveUser = async (userId: string): Promise<void> => {
 
     revalidateTag('retriveUsers');
 }
+
+export const serverActionCreateUser = withResult(createUser);
+export const serverActionEditUser = withResult(editUser);
+export const serverActionAddAuthUser = withResult(addAuthUser);
+export const serverActionAddUserResource = withResult(addUserResource);
+export const serverActionRemoveUser = withResult(removeUser);

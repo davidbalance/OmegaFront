@@ -4,6 +4,7 @@ import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth";
 import { CreateResourcePayload, EditResourcePayload, RemoveResourcePayload, Resource } from "./server-types";
 import { revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionRetriveResources = async (): Promise<Resource[]> => {
     const session = await auth();
@@ -22,7 +23,7 @@ export const serverActionRetriveResource = async (resourceId: string): Promise<R
     return data;
 }
 
-export const serverActionCreateResource = async (payload: CreateResourcePayload): Promise<void> => {
+const createResource = async (payload: CreateResourcePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -32,7 +33,7 @@ export const serverActionCreateResource = async (payload: CreateResourcePayload)
     revalidateTag('retriveResources');
 }
 
-export const serverActionEditResource = async (payload: EditResourcePayload): Promise<void> => {
+const editResource = async (payload: EditResourcePayload): Promise<void> => {
     const { resourceId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -44,7 +45,7 @@ export const serverActionEditResource = async (payload: EditResourcePayload): Pr
     revalidateTag('retriveResources');
 }
 
-export const serverActionRemoveResource = async (payload: RemoveResourcePayload): Promise<void> => {
+const removeResource = async (payload: RemoveResourcePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -53,3 +54,7 @@ export const serverActionRemoveResource = async (payload: RemoveResourcePayload)
 
     revalidateTag('retriveResources');
 }
+
+export const serverActionCreateResource = withResult(createResource);
+export const serverActionEditResource = withResult(editResource);
+export const serverActionRemoveResource = withResult(removeResource);

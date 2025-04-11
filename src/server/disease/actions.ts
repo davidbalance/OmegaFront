@@ -5,6 +5,7 @@ import { CreateDiseasePayload, Disease, DiseaseQuery, EditDiseasePayload, MoveDi
 import omega from "@/lib/api-client/omega-client/omega";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionRetriveDiseases = async (payload: DiseaseQuery): Promise<PaginationResponse<Disease>> => {
     const { groupId, ...query } = payload;
@@ -26,7 +27,7 @@ export const serverActionRetriveDisease = async (diseaseId: string): Promise<Dis
     return diseases;
 }
 
-export const serverActionCreateDisease = async (payload: CreateDiseasePayload): Promise<void> => {
+const createDisease = async (payload: CreateDiseasePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -36,7 +37,7 @@ export const serverActionCreateDisease = async (payload: CreateDiseasePayload): 
     revalidateTag('retriveDiseases');
 }
 
-export const serverActionEditDisease = async (payload: EditDiseasePayload): Promise<void> => {
+const editDisease = async (payload: EditDiseasePayload): Promise<void> => {
     const { diseaseId, groupId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -48,7 +49,7 @@ export const serverActionEditDisease = async (payload: EditDiseasePayload): Prom
     revalidateTag('retriveDiseases');
 }
 
-export const serverActionMoveDiseaseToGroup = async (payload: MoveDiseasePayload): Promise<void> => {
+const moveDiseaseToGroup = async (payload: MoveDiseasePayload): Promise<void> => {
     const { diseaseId, fromGroupId, toGroupId } = payload;
     const session = await auth();
     await omega()
@@ -60,7 +61,7 @@ export const serverActionMoveDiseaseToGroup = async (payload: MoveDiseasePayload
     revalidateTag('retriveDiseases');
 }
 
-export const serverActionRemoveDisease = async (payload: RemoveDiseasePayload): Promise<void> => {
+const removeDisease = async (payload: RemoveDiseasePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -69,3 +70,9 @@ export const serverActionRemoveDisease = async (payload: RemoveDiseasePayload): 
 
     revalidateTag('retriveDiseases');
 }
+
+
+export const serverActionCreateDisease = withResult(createDisease);
+export const serverActionEditDisease = withResult(editDisease);
+export const serverActionMoveDiseaseToGroup = withResult(moveDiseaseToGroup);
+export const serverActionRemoveDisease = withResult(removeDisease);

@@ -27,10 +27,12 @@ RUN apk add --no-cache libc6-compat openssl bash
 
 WORKDIR /usr/src/app
 
+ENV NODE_ENV=production
+
 COPY --from=builder --chown=node:node /usr/src/app/public ./public
 COPY --from=builder --chown=node:node /usr/src/app/.next/standalone ./
 COPY --from=builder --chown=node:node /usr/src/app/.next/static ./.next/static
-COPY --from=builder --chown=node:node /usr/src/app/prisma ./prisma/
+COPY --from=builder --chown=node:node /usr/src/app/prisma ./prisma
 
 USER node
 

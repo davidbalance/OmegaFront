@@ -5,6 +5,7 @@ import omega from "@/lib/api-client/omega-client/omega";
 import { CorporativeQuery, Corporative, CorporativeOption, CorporativeCreatePayload } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionRetriveCorporatives = async (query: CorporativeQuery): Promise<PaginationResponse<Corporative>> => {
     const session = await auth();
@@ -25,7 +26,7 @@ export const serverActionRetriveCorporativesOptions = async (): Promise<Corporat
     return data;
 }
 
-export const serverActionCreateCorporative = async (payload: CorporativeCreatePayload): Promise<void> => {
+const createCorporative = async (payload: CorporativeCreatePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -35,7 +36,7 @@ export const serverActionCreateCorporative = async (payload: CorporativeCreatePa
     revalidateTag('retriveCorporatives');
 }
 
-export const serverActionRemoveCorporative = async (corporativeId: string): Promise<void> => {
+const removeCorporative = async (corporativeId: string): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -44,3 +45,6 @@ export const serverActionRemoveCorporative = async (corporativeId: string): Prom
 
     revalidateTag('retriveCorporatives');
 }
+
+export const serverActionCreateCorporative = withResult(createCorporative);
+export const serverActionRemoveCorporative = withResult(removeCorporative);

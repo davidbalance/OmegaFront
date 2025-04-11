@@ -5,6 +5,7 @@ import auth from "@/lib/auth";
 import { AddAreaMedicalClientPayload, AddJobPositionMedicalClientPayload, AddManagementMedicalClientPayload, ChangeRoleClientPayload, CreateClientEmailPayload, CreateMedicalClientPayload, DefaultClientEmailPayload, MedicalAreaClient, MedicalClient, MedicalClientEmail, MedicalClientQuery, MedicalJobPositionClient, MedicalManagementClient, RemoveClientEmailPayload } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionRetriveClientByDni = async (patientDni: string): Promise<MedicalClient> => {
     const session = await auth();
@@ -98,7 +99,7 @@ export const serverActionRetriveClientMassiveLoadTemplate = async (): Promise<Bl
     return data;
 }
 
-export const serverActionCreateClient = async (payload: CreateMedicalClientPayload): Promise<void> => {
+const createClient = async (payload: CreateMedicalClientPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -110,7 +111,7 @@ export const serverActionCreateClient = async (payload: CreateMedicalClientPaylo
     revalidateTag('retriveClientsDoctor');
 }
 
-export const serverActionMassiveLoadClient = async (formData: FormData): Promise<void> => {
+const massiveLoadClient = async (formData: FormData): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -123,7 +124,7 @@ export const serverActionMassiveLoadClient = async (formData: FormData): Promise
 }
 
 
-export const serverActionAddAreaClient = async (payload: AddAreaMedicalClientPayload): Promise<void> => {
+const addAreaClient = async (payload: AddAreaMedicalClientPayload): Promise<void> => {
     const { dni, ...body } = payload;
     const session = await auth();
     await omega()
@@ -133,7 +134,7 @@ export const serverActionAddAreaClient = async (payload: AddAreaMedicalClientPay
         .execute('addAreaClient');
 }
 
-export const serverActionAddJobPositionClient = async (payload: AddJobPositionMedicalClientPayload): Promise<void> => {
+const addJobPositionClient = async (payload: AddJobPositionMedicalClientPayload): Promise<void> => {
     const { dni, ...body } = payload;
     const session = await auth();
     await omega()
@@ -145,7 +146,7 @@ export const serverActionAddJobPositionClient = async (payload: AddJobPositionMe
     revalidateTag('retriveClientJobPosition');
 }
 
-export const serverActionAddManagementClient = async (payload: AddManagementMedicalClientPayload): Promise<void> => {
+const addManagementClient = async (payload: AddManagementMedicalClientPayload): Promise<void> => {
     const { dni, ...body } = payload;
     const session = await auth();
     await omega()
@@ -155,7 +156,7 @@ export const serverActionAddManagementClient = async (payload: AddManagementMedi
         .execute('addManagementClient');
 }
 
-export const serverActionChangeRoleClient = async (payload: ChangeRoleClientPayload): Promise<void> => {
+const changeRoleClient = async (payload: ChangeRoleClientPayload): Promise<void> => {
     const { dni, ...body } = payload;
     const session = await auth();
     await omega()
@@ -168,7 +169,7 @@ export const serverActionChangeRoleClient = async (payload: ChangeRoleClientPayl
     revalidateTag('retriveClientsEEQ');
 }
 
-export const serverActionCreateClientEmail = async (payload: CreateClientEmailPayload): Promise<void> => {
+const createClientEmail = async (payload: CreateClientEmailPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -178,7 +179,7 @@ export const serverActionCreateClientEmail = async (payload: CreateClientEmailPa
     revalidatePath('retriveClientEmails');
 }
 
-export const serverActionDefaultClientEmail = async (payload: DefaultClientEmailPayload): Promise<void> => {
+const defaultClientEmail = async (payload: DefaultClientEmailPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -189,7 +190,7 @@ export const serverActionDefaultClientEmail = async (payload: DefaultClientEmail
     revalidatePath('retriveClientEmails');
 }
 
-export const serverActionRemoveClientEmail = async (payload: RemoveClientEmailPayload): Promise<void> => {
+const removeClientEmail = async (payload: RemoveClientEmailPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -198,3 +199,13 @@ export const serverActionRemoveClientEmail = async (payload: RemoveClientEmailPa
 
     revalidatePath('retriveClientEmails');
 }
+
+export const serverActionCreateClient = withResult(createClient);
+export const serverActionMassiveLoadClient = withResult(massiveLoadClient);
+export const serverActionAddAreaClient = withResult(addAreaClient);
+export const serverActionAddJobPositionClient = withResult(addJobPositionClient);
+export const serverActionAddManagementClient = withResult(addManagementClient);
+export const serverActionChangeRoleClient = withResult(changeRoleClient);
+export const serverActionCreateClientEmail = withResult(createClientEmail);
+export const serverActionDefaultClientEmail = withResult(defaultClientEmail);
+export const serverActionRemoveClientEmail = withResult(removeClientEmail);

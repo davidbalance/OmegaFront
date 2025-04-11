@@ -5,6 +5,7 @@ import omega from "@/lib/api-client/omega-client/omega";
 import { Company, CompanyCreatePayload, CompanyMovePayload, CompanyQuery, CompanyRemovePayload } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionRetriveCompanies = async (payload: CompanyQuery): Promise<PaginationResponse<Company>> => {
     const { corporativeId, ...query } = payload;
@@ -18,7 +19,7 @@ export const serverActionRetriveCompanies = async (payload: CompanyQuery): Promi
     return data;
 }
 
-export const serverActionCreateCompany = async (payload: CompanyCreatePayload): Promise<void> => {
+const createCompany = async (payload: CompanyCreatePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -28,7 +29,7 @@ export const serverActionCreateCompany = async (payload: CompanyCreatePayload): 
     revalidateTag('retriveCompanies');
 }
 
-export const serverActionMoveCompany = async (payload: CompanyMovePayload): Promise<void> => {
+const moveCompany = async (payload: CompanyMovePayload): Promise<void> => {
     const { companyId, fromCorporativeId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -43,7 +44,7 @@ export const serverActionMoveCompany = async (payload: CompanyMovePayload): Prom
     revalidateTag('retriveCompanies');
 }
 
-export const serverActionRemoveCompany = async (payload: CompanyRemovePayload): Promise<void> => {
+const removeCompany = async (payload: CompanyRemovePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -52,3 +53,7 @@ export const serverActionRemoveCompany = async (payload: CompanyRemovePayload): 
 
     revalidateTag('retriveCompanies');
 }
+
+export const serverActionCreateCompany = withResult(createCompany);
+export const serverActionMoveCompany = withResult(moveCompany);
+export const serverActionRemoveCompany = withResult(removeCompany);

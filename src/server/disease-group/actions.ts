@@ -5,6 +5,7 @@ import omega from "@/lib/api-client/omega-client/omega";
 import { CreateDiseaseGroupPayload, DiseaseGroup, DiseaseGroupOption, DiseaseGroupQuery, EditDiseaseGroupPayload, RemoveDiseaseGroupPayload } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionRetriveDiseaseGroups = async (query: DiseaseGroupQuery): Promise<PaginationResponse<DiseaseGroup>> => {
     const session = await auth();
@@ -32,7 +33,7 @@ export const serverActionRetriveDiseaseGroupOptions = async (): Promise<DiseaseG
     return data;
 }
 
-export const serverActionCreateDiseaseGroup = async (payload: CreateDiseaseGroupPayload): Promise<void> => {
+const createDiseaseGroup = async (payload: CreateDiseaseGroupPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -42,7 +43,7 @@ export const serverActionCreateDiseaseGroup = async (payload: CreateDiseaseGroup
     revalidateTag('retriveDiseaseGroups');
 }
 
-export const serverActionEditDiseaseGroup = async (payload: EditDiseaseGroupPayload): Promise<void> => {
+const editDiseaseGroup = async (payload: EditDiseaseGroupPayload): Promise<void> => {
     const { groupId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -54,7 +55,7 @@ export const serverActionEditDiseaseGroup = async (payload: EditDiseaseGroupPayl
     revalidateTag('retriveDiseaseGroups');
 }
 
-export const serverActionRemoveDiseaseGroup = async (payload: RemoveDiseaseGroupPayload): Promise<void> => {
+const removeDiseaseGroup = async (payload: RemoveDiseaseGroupPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -63,3 +64,7 @@ export const serverActionRemoveDiseaseGroup = async (payload: RemoveDiseaseGroup
 
     revalidateTag('retriveDiseaseGroups');
 }
+
+export const serverActionCreateDiseaseGroup = withResult(createDiseaseGroup);
+export const serverActionEditDiseaseGroup = withResult(editDiseaseGroup);
+export const serverActionRemoveDiseaseGroup = withResult(removeDiseaseGroup);

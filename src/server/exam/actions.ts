@@ -3,6 +3,7 @@
 import auth from "@/lib/auth";
 import omega from "@/lib/api-client/omega-client/omega";
 import { EditExamPayload, Exam, ExamQuery, MoveExamPayload } from "./server-types";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionRetriveExams = async (payload: ExamQuery): Promise<Exam[]> => {
     const { subtypeId, ...query } = payload;
@@ -24,7 +25,7 @@ export const serverActionRetriveExam = async (examId: string): Promise<Exam> => 
     return data;
 }
 
-export const serverActionEditExam = async (payload: EditExamPayload): Promise<void> => {
+const editExam = async (payload: EditExamPayload): Promise<void> => {
     const { typeId, subtypeId, examId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -34,7 +35,7 @@ export const serverActionEditExam = async (payload: EditExamPayload): Promise<vo
         .execute('editExam');
 }
 
-export const serverActionMoveExam = async (payload: MoveExamPayload): Promise<void> => {
+const moveExam = async (payload: MoveExamPayload): Promise<void> => {
     const { typeId, subtypeId, examId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -43,3 +44,6 @@ export const serverActionMoveExam = async (payload: MoveExamPayload): Promise<vo
         .addBody({ ...body })
         .execute('moveExam');
 }
+
+export const serverActionEditExam = withResult(editExam);
+export const serverActionMoveExam = withResult(moveExam);

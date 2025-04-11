@@ -4,6 +4,7 @@ import auth from "@/lib/auth";
 import omega from "@/lib/api-client/omega-client/omega";
 import { Branch, BranchCreatePayload, BranchMovePayload, BranchQuery, BranchRemovePayload } from "./server-types";
 import { revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionRetriveBranches = async (payload: BranchQuery): Promise<Branch[]> => {
     const { companyId, ...query } = payload;
@@ -16,7 +17,7 @@ export const serverActionRetriveBranches = async (payload: BranchQuery): Promise
     return data;
 }
 
-export const serverActionCreateBranch = async (payload: BranchCreatePayload): Promise<void> => {
+const createBranch = async (payload: BranchCreatePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -26,7 +27,7 @@ export const serverActionCreateBranch = async (payload: BranchCreatePayload): Pr
     revalidateTag('retriveBranches');
 }
 
-export const serverActionMoveBranch = async (payload: BranchMovePayload): Promise<void> => {
+const moveBranch = async (payload: BranchMovePayload): Promise<void> => {
     const { branchId, fromCompanyId, fromCorporativeId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -42,7 +43,7 @@ export const serverActionMoveBranch = async (payload: BranchMovePayload): Promis
     revalidateTag('retriveBranches');
 }
 
-export const serverActionRemoveBranch = async (payload: BranchRemovePayload): Promise<void> => {
+const removeBranch = async (payload: BranchRemovePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -51,3 +52,8 @@ export const serverActionRemoveBranch = async (payload: BranchRemovePayload): Pr
 
     revalidateTag('retriveBranches');
 }
+
+
+export const serverActionCreateBranch = withResult(createBranch);
+export const serverActionMoveBranch = withResult(moveBranch);
+export const serverActionRemoveBranch = withResult(removeBranch);

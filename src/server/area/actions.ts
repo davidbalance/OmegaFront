@@ -5,6 +5,7 @@ import auth from "@/lib/auth";
 import { Area, AreaOption, AreaQuery, CreateAreaPayload, EditAreaPayload, RemoveAreaPayload } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
+import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionRetriveAreas = async (query: AreaQuery): Promise<PaginationResponse<Area>> => {
     const session = await auth();
@@ -32,7 +33,7 @@ export const serverActionRetriveAreaOptions = async (): Promise<AreaOption[]> =>
     return data;
 }
 
-export const serverActionCreateArea = async (payload: CreateAreaPayload): Promise<void> => {
+const createArea = async (payload: CreateAreaPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -42,7 +43,7 @@ export const serverActionCreateArea = async (payload: CreateAreaPayload): Promis
     revalidateTag('retriveAreas');
 }
 
-export const serverActionEditArea = async (payload: EditAreaPayload): Promise<void> => {
+const editArea = async (payload: EditAreaPayload): Promise<void> => {
     const { areaId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -54,7 +55,7 @@ export const serverActionEditArea = async (payload: EditAreaPayload): Promise<vo
     revalidateTag('retriveAreas');
 }
 
-export const serverActionRemoveArea = async (payload: RemoveAreaPayload): Promise<void> => {
+const removeArea = async (payload: RemoveAreaPayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -63,3 +64,8 @@ export const serverActionRemoveArea = async (payload: RemoveAreaPayload): Promis
 
     revalidateTag('retriveAreas');
 }
+
+
+export const serverActionCreateArea = withResult(createArea);
+export const serverActionEditArea = withResult(editArea);
+export const serverActionRemoveArea = withResult(removeArea);
