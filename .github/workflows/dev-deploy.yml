@@ -40,7 +40,7 @@ jobs:
           echo "REGISTRO_CIVIL_TOKEN=$REGISTRO_CIVIL_TOKEN" >> .env
 
       - name: Build docker image
-        run: docker build -t ${{ secrets.DOCKER_IMAGE }} .
+        run: docker build -t ${{ secrets.DOCKER_IMAGE }}:${{ secrets.DOCKER_DEV_TAG }} .
         working-directory: .
 
       - name: Login to Docker Hub
@@ -50,7 +50,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push Docker image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_IMAGE }}
+        run: docker push ${{ secrets.DOCKER_IMAGE }}:${{ secrets.DOCKER_DEV_TAG }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -65,13 +65,9 @@ jobs:
       - name: SSH into server and deploy application
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
+          host: ${{ secrets.SERVER_DEV_HOST }}
+          username: ${{ secrets.SERVER_DEV_USERNAME }}
+          password: ${{ secrets.SERVER_DEV_PASSWORD }}
           script: |
             cd ${{ secrets.DOCKER_COMPOSE_DIRECTORY }}
-            docker-compose stop ${{ secrets.DOCKER_SERVICE }} || true
-            docker-compose rm -f ${{ secrets.DOCKER_SERVICE }}
-            docker-compose pull ${{ secrets.DOCKER_SERVICE }}
-            docker-compose up -d --build ${{ secrets.DOCKER_SERVICE }}
-            docker rmi $(docker images -f "dangling=true" -q) || true
+            sh ./${{ secrets.DEPLOY_SCRIPT }}.sh
