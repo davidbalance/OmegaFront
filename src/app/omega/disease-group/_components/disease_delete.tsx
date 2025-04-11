@@ -1,7 +1,7 @@
 'use client'
 
 import { useActionMenu } from '@/contexts/action-menu.context';
-import { removeDisease } from '@/server/disease/actions';
+import { removeDisease } from '@/server';
 import { MenuItem, rem } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import React, { useCallback } from 'react'

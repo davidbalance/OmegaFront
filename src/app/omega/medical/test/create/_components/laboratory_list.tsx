@@ -3,7 +3,7 @@
 import React, { } from 'react'
 import { Box, rem, ScrollArea, Stack } from '@mantine/core';
 import LaboratoryItem from './laboratory_item';
-import { MedicalTest } from '@/server/medical_test/server_types';
+import { MedicalTest } from '@/server/medical-test/server-types';
 
 type LaboratoryListProps = {
     tests: MedicalTest[];

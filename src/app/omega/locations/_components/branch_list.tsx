@@ -1,7 +1,7 @@
 import ListTbody from '@/components/_base/list/list-tbody'
 import React from 'react'
 import BranchItem from './branch_item'
-import { Branch } from '@/server/branch/server_types'
+import { Branch } from '@/server/branch/server-types'
 
 interface BranchListProps {
     branches: Branch[]

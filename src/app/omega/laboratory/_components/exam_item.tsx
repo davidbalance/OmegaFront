@@ -1,7 +1,7 @@
 import ActionMenu from '@/components/_base/action-menu';
 import ListRow from '@/components/_base/list/list-row';
 import ActionMenuProvider from '@/contexts/action-menu.context';
-import { Exam } from '@/server/exam/server_types';
+import { Exam } from '@/server/exam/server-types';
 import { Group, rem, Title, MenuLabel, MenuItem } from '@mantine/core';
 import { IconExchange } from '@tabler/icons-react';
 import Link from 'next/link';

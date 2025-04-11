@@ -2,9 +2,9 @@
 
 import auth from "@/lib/auth";
 import omega from "@/lib/api-client/omega-client/omega";
-import { EditExamPayload, Exam, ExamQuery, MoveExamPayload } from "./server_types";
+import { EditExamPayload, Exam, ExamQuery, MoveExamPayload } from "./server-types";
 
-export const retriveExams = async (payload: ExamQuery): Promise<Exam[]> => {
+export const serverActionRetriveExams = async (payload: ExamQuery): Promise<Exam[]> => {
     const { subtypeId, ...query } = payload;
     const session = await auth();
     const data: Exam[] = await omega()
@@ -15,7 +15,7 @@ export const retriveExams = async (payload: ExamQuery): Promise<Exam[]> => {
     return data;
 }
 
-export const retriveExam = async (examId: string): Promise<Exam> => {
+export const serverActionRetriveExam = async (examId: string): Promise<Exam> => {
     const session = await auth();
     const data: Exam = await omega()
         .addToken(session.access_token)
@@ -24,7 +24,7 @@ export const retriveExam = async (examId: string): Promise<Exam> => {
     return data;
 }
 
-export const editExam = async (payload: EditExamPayload): Promise<void> => {
+export const serverActionEditExam = async (payload: EditExamPayload): Promise<void> => {
     const { typeId, subtypeId, examId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -34,7 +34,7 @@ export const editExam = async (payload: EditExamPayload): Promise<void> => {
         .execute('editExam');
 }
 
-export const moveExam = async (payload: MoveExamPayload): Promise<void> => {
+export const serverActionMoveExam = async (payload: MoveExamPayload): Promise<void> => {
     const { typeId, subtypeId, examId, ...body } = payload;
     const session = await auth();
     await omega()

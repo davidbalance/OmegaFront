@@ -2,7 +2,7 @@
 
 import { useConfirmation } from '@/contexts/confirmation.context';
 import { getErrorMessage } from '@/lib/utils/errors';
-import { sendMedicalOrder } from '@/server/medical_order/actions';
+import { sendMedicalOrder } from '@/server';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useEffect, useState } from 'react'
 import { useForm, zodResolver } from '@mantine/form';

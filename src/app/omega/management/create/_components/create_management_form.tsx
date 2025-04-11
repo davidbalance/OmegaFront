@@ -2,8 +2,8 @@
 
 import ManagementForm from '@/components/management/management-form';
 import { getErrorMessage } from '@/lib/utils/errors';
-import { createManagement } from '@/server/management/actions';
-import { CreateManagementPayload } from '@/server/management/server_types';
+import { createManagement } from '@/server';
+import { CreateManagementPayload } from '@/server/management/server-types';
 import { LoadingOverlay } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useRouter } from 'next/navigation';

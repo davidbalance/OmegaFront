@@ -1,5 +1,5 @@
 import React from 'react'
-import { ExamSubtype } from '@/server/exam_subtype/server_types'
+import { ExamSubtype } from '@/server/exam-subtype/server-types'
 import ActionMenu from '@/components/_base/action-menu';
 import AddQueryParam from '@/components/_base/add-query-param';
 import ListRow from '@/components/_base/list/list-row';

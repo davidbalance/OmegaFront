@@ -9,7 +9,7 @@ import OmegaShellMain from "./_components/omega-shell/omega-shell-main"
 import OmegaShellNavbar from "./_components/omega-shell/omega-shell-navbar"
 import OmegaShellRoot from "./_components/omega-shell/omega-shell-root"
 import OmegaHeaderMenu from "./_components/omega-header-menu"
-import { findMe } from "@/server/user/actions"
+import { findMe } from "@/server"
 import OmegaShellSection from "./_components/omega-shell/omega-shell-section"
 import OmegaShellLink from "./_components/omega-shell/omega-shell-link"
 

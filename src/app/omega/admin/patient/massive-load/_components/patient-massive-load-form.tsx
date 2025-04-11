@@ -9,7 +9,7 @@ import { notifications } from '@mantine/notifications'
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { getErrorMessage } from '@/lib/utils/errors'
-import { massiveLoadClient } from '@/server/medical_client/actions'
+import { massiveLoadClient } from '@/server'
 
 const PatientMassiveLoadForm: React.FC = () => {
 

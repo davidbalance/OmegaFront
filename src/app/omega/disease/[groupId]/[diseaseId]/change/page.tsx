@@ -1,6 +1,6 @@
 import ReturnableHeader from "@/components/_base/returnable-header";
 import MoveDiseaseForm from "./_components/move_disease_form";
-import { retriveDiseaseGroupOptions } from "@/server/disease_group/actions";
+import { retriveDiseaseGroupOptions } from "@/server";
 
 interface OmegaDiseaseChangePageProps {
     params: {

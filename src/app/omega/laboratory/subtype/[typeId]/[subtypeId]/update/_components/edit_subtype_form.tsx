@@ -2,8 +2,8 @@
 
 import ExamSubtypeForm from '@/components/exam_subtype/exam-subtype-form';
 import { getErrorMessage } from '@/lib/utils/errors';
-import { editExamSubtype } from '@/server/exam_subtype/actions';
-import { EditExamSubtypePayload, ExamSubtype } from '@/server/exam_subtype/server_types';
+import { editExamSubtype } from '@/server';
+import { EditExamSubtypePayload, ExamSubtype } from '@/server/exam-subtype/server-types';
 import { LoadingOverlay } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useRouter } from 'next/navigation';

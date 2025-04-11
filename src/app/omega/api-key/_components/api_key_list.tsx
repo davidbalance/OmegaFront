@@ -1,5 +1,5 @@
 import ListTbody from '@/components/_base/list/list-tbody'
-import { ApiKey } from '@/server/apikey/server_types'
+import { ApiKey } from '@/server/apikey/server-types'
 import React from 'react'
 import ApiKeyItem from './api_key_item'
 

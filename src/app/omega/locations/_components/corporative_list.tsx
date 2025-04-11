@@ -1,5 +1,5 @@
 import ListTbody from '@/components/_base/list/list-tbody'
-import { Corporative } from '@/server/corporative/server_types'
+import { Corporative } from '@/server/corporative/server-types'
 import React from 'react'
 import CorporativeItem from './corporative_item'
 

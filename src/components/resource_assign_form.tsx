@@ -1,5 +1,5 @@
 'use client'
-import { Resource } from '@/server/resource/server_types';
+import { Resource } from '@/server/resource/server-types';
 import { Box, Table, TextInput, Checkbox, ScrollArea, Button } from '@mantine/core';
 import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react'
 

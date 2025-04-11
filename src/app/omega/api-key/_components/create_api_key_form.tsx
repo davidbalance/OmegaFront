@@ -4,8 +4,8 @@ import React, { useState } from 'react'
 import { notifications } from '@mantine/notifications';
 import LoadingOverlay from '@/components/_base/loading-overlay';
 import { useApiKey } from '../_context/api_key.context';
-import { createApiKey } from '@/server/apikey/actions';
-import { CreateApiKeyPayload } from '@/server/apikey/server_types';
+import { createApiKey } from '@/server';
+import { CreateApiKeyPayload } from '@/server/apikey/server-types';
 import { getErrorMessage } from '@/lib/utils/errors';
 import ApiKeyForm from '@/components/api_key/api_key_form';
 

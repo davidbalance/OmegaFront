@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
-import { retriveCorporativesOptions } from '@/server/corporative/actions';
-import { CorporativeOption } from '@/server/corporative/server_types';
-import { retriveClientByDni } from '@/server/medical_client/actions';
+import { retriveCorporativesOptions } from '@/server';
+import { CorporativeOption } from '@/server/corporative/server-types';
+import { retriveClientByDni } from '@/server';
 import React from 'react'
 import CertificateInstitutionForm from './_components/certificate-institution-form';
 import StepperCertificateForm from './_components/stepper-certificate-record-form';

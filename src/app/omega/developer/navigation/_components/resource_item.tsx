@@ -7,7 +7,7 @@ import { IconPencil } from '@tabler/icons-react'
 import Link from 'next/link'
 import React from 'react'
 import WebResourceDeleteButton from './resource_delete_button'
-import { Resource } from '@/server/resource/server_types'
+import { Resource } from '@/server/resource/server-types'
 
 type ResourceItemProps = Resource;
 const ResourceItem: React.FC<ResourceItemProps> = ({

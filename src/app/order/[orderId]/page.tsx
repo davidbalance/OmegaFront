@@ -8,7 +8,7 @@ import OrderDownloadAll from './_components/order_download_all'
 import OrderCloudDownloadProvider from './_context/order_cloud_download.context'
 import OrderDownloadSelected from './_components/order_download_selected'
 import PlaceholderPanel from './_components/placeholder_panel'
-import { retriveMedicalCloud } from '@/server/medical_order/actions'
+import { retriveMedicalCloud } from '@/server'
 
 interface OrderCloudPageProps {
     params: {

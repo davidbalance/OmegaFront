@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import RoleForm from './_components/role-form'
-import { retriveClientByDni } from '@/server/medical_client/actions'
+import { retriveClientByDni } from '@/server'
 
 type PatientRoleFormPageProps = {
     params: { patientDni: string }

@@ -1,7 +1,7 @@
 'use client'
 
 import { NavIcon } from '@/components/navbar/NavIcon';
-import { CreateResourcePayload } from '@/server/resource/server_types';
+import { CreateResourcePayload } from '@/server/resource/server-types';
 import { SimpleGrid, rem, TextInput, Button, Select, Stack, Group } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback, useMemo } from 'react'

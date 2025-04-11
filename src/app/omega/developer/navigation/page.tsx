@@ -3,7 +3,7 @@ import ListRoot from '@/components/_base/list/list-root';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Button, rem } from '@mantine/core';
 import Link from 'next/link';
-import { retriveResources } from '@/server/resource/actions';
+import { retriveResources } from '@/server';
 import ResourceList from './_components/resource_list';
 
 const DeveloperNavigationPage: React.FC = async () => {

@@ -2,7 +2,7 @@ import ReturnableHeader from '@/components/_base/returnable-header';
 import OrderEmailOnCompleteReturn from '@/components/medical-order-mail/order_email_on_complete_return';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import { retriveClientEmails } from '@/server/medical_client/actions';
+import { retriveClientEmails } from '@/server';
 import React from 'react'
 
 type OrderEmailPageProps = {

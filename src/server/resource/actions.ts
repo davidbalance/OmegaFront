@@ -2,10 +2,10 @@
 
 import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth";
-import { CreateResourcePayload, EditResourcePayload, RemoveResourcePayload, Resource } from "./server_types";
+import { CreateResourcePayload, EditResourcePayload, RemoveResourcePayload, Resource } from "./server-types";
 import { revalidateTag } from "next/cache";
 
-export const retriveResources = async (): Promise<Resource[]> => {
+export const serverActionRetriveResources = async (): Promise<Resource[]> => {
     const session = await auth();
     const data: Resource[] = await omega()
         .addToken(session.access_token)
@@ -13,7 +13,7 @@ export const retriveResources = async (): Promise<Resource[]> => {
     return data;
 }
 
-export const retriveResource = async (resourceId: string): Promise<Resource> => {
+export const serverActionRetriveResource = async (resourceId: string): Promise<Resource> => {
     const session = await auth();
     const data: Resource = await omega()
         .addParams({ resourceId })
@@ -22,7 +22,7 @@ export const retriveResource = async (resourceId: string): Promise<Resource> => 
     return data;
 }
 
-export const createResource = async (payload: CreateResourcePayload): Promise<void> => {
+export const serverActionCreateResource = async (payload: CreateResourcePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -32,7 +32,7 @@ export const createResource = async (payload: CreateResourcePayload): Promise<vo
     revalidateTag('retriveResources');
 }
 
-export const editResource = async (payload: EditResourcePayload): Promise<void> => {
+export const serverActionEditResource = async (payload: EditResourcePayload): Promise<void> => {
     const { resourceId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -44,7 +44,7 @@ export const editResource = async (payload: EditResourcePayload): Promise<void> 
     revalidateTag('retriveResources');
 }
 
-export const removeResource = async (payload: RemoveResourcePayload): Promise<void> => {
+export const serverActionRemoveResource = async (payload: RemoveResourcePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)

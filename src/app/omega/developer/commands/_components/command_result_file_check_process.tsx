@@ -2,7 +2,7 @@
 
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { getErrorMessage } from '@/lib/utils/errors'
-import { checkMedicalTestFile } from '@/server/medical_test/actions'
+import { checkMedicalTestFile } from '@/server'
 import { Box, Button, Flex, rem, Text } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 import { IconMath } from '@tabler/icons-react'

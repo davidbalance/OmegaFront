@@ -2,7 +2,7 @@ import ListRow from '@/components/_base/list/list-row'
 import { Flex, Title, Text } from '@mantine/core'
 import React from 'react'
 import AddQueryParam from './_base/add-query-param'
-import { MedicalClient } from '@/server/medical_client/server_types'
+import { MedicalClient } from '@/server/medical-client/server-types'
 import PatientAction from './patient_action'
 
 type PatientItemProps = MedicalClient & {

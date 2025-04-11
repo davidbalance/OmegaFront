@@ -1,5 +1,5 @@
 import ListTbody from '@/components/_base/list/list-tbody';
-import { Exam } from '@/server/exam/server_types';
+import { Exam } from '@/server/exam/server-types';
 import React from 'react'
 import ExamItem from './exam_item';
 

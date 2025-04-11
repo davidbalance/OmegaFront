@@ -6,7 +6,7 @@ import { IconPencil } from '@tabler/icons-react'
 import Link from 'next/link'
 import React from 'react'
 import ManagementActionDelete from './management-action-delete'
-import { Management } from '@/server/management/server_types'
+import { Management } from '@/server/management/server-types'
 
 type ManagementItemProps = Management & {
     active?: boolean;

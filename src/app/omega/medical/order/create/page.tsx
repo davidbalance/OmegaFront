@@ -3,10 +3,10 @@ import React from 'react'
 import StepperOrderForm from './_components/stepper_order_form';
 import OrderSetup from './_components/order-setup';
 import DoctorForm from './_components/doctor-form';
-import { retriveCorporativesOptions } from '@/server/corporative/actions';
-import { retriveProcesses } from '@/server/medical_order/actions';
+import { retriveCorporativesOptions } from '@/server';
+import { retriveProcesses } from '@/server';
 import { Option } from '@/lib/types/option.type';
-import { retriveDoctorsOptions } from '@/server/doctor/actions';
+import { retriveDoctorsOptions } from '@/server';
 
 interface MedicalOrderCreatePageProps {
     searchParams: { [key: string]: string | string[] | undefined }

@@ -1,5 +1,5 @@
 import ListTbody from '@/components/_base/list/list-tbody';
-import { MedicalOrderDoctor } from '@/server/medical_order/server_types';
+import { MedicalOrderDoctor } from '@/server/medical-order/server-types';
 import React from 'react'
 import OrderDoctorItem from './order_doctor_item';
 

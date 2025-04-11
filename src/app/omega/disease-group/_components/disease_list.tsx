@@ -1,7 +1,7 @@
 import ListTbody from '@/components/_base/list/list-tbody'
 import React from 'react'
 import DiseaseItem from './disease_item'
-import { Disease } from '@/server/disease/server_types';
+import { Disease } from '@/server/disease/server-types';
 
 interface DiseaseListProps {
     groupId?: string;

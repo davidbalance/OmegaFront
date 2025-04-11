@@ -1,12 +1,12 @@
 'use server'
 
 import auth from "@/lib/auth";
-import { CreateDiseasePayload, Disease, DiseaseQuery, EditDiseasePayload, MoveDiseasePayload, RemoveDiseasePayload } from "./server_types"
+import { CreateDiseasePayload, Disease, DiseaseQuery, EditDiseasePayload, MoveDiseasePayload, RemoveDiseasePayload } from "./server-types"
 import omega from "@/lib/api-client/omega-client/omega";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
 
-export const retriveDiseases = async (payload: DiseaseQuery): Promise<PaginationResponse<Disease>> => {
+export const serverActionRetriveDiseases = async (payload: DiseaseQuery): Promise<PaginationResponse<Disease>> => {
     const { groupId, ...query } = payload;
     const session = await auth();
     const diseases: PaginationResponse<Disease> = await omega()
@@ -17,7 +17,7 @@ export const retriveDiseases = async (payload: DiseaseQuery): Promise<Pagination
     return diseases;
 }
 
-export const retriveDisease = async (diseaseId: string): Promise<Disease> => {
+export const serverActionRetriveDisease = async (diseaseId: string): Promise<Disease> => {
     const session = await auth();
     const diseases: Disease = await omega()
         .addToken(session.access_token)
@@ -26,7 +26,7 @@ export const retriveDisease = async (diseaseId: string): Promise<Disease> => {
     return diseases;
 }
 
-export const createDisease = async (payload: CreateDiseasePayload): Promise<void> => {
+export const serverActionCreateDisease = async (payload: CreateDiseasePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -36,7 +36,7 @@ export const createDisease = async (payload: CreateDiseasePayload): Promise<void
     revalidateTag('retriveDiseases');
 }
 
-export const editDisease = async (payload: EditDiseasePayload): Promise<void> => {
+export const serverActionEditDisease = async (payload: EditDiseasePayload): Promise<void> => {
     const { diseaseId, groupId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -48,7 +48,7 @@ export const editDisease = async (payload: EditDiseasePayload): Promise<void> =>
     revalidateTag('retriveDiseases');
 }
 
-export const moveDiseaseToGroup = async (payload: MoveDiseasePayload): Promise<void> => {
+export const serverActionMoveDiseaseToGroup = async (payload: MoveDiseasePayload): Promise<void> => {
     const { diseaseId, fromGroupId, toGroupId } = payload;
     const session = await auth();
     await omega()
@@ -60,7 +60,7 @@ export const moveDiseaseToGroup = async (payload: MoveDiseasePayload): Promise<v
     revalidateTag('retriveDiseases');
 }
 
-export const removeDisease = async (payload: RemoveDiseasePayload): Promise<void> => {
+export const serverActionRemoveDisease = async (payload: RemoveDiseasePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)

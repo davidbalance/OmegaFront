@@ -1,7 +1,7 @@
 'use client'
 
 import { useActionMenu } from '@/contexts/action-menu.context';
-import { removeManagement } from '@/server/management/actions';
+import { removeManagement } from '@/server';
 import { MenuItem, rem } from '@mantine/core'
 import { IconTrash } from '@tabler/icons-react'
 import React, { useCallback } from 'react'

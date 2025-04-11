@@ -1,7 +1,7 @@
 import { TableTbody } from '@mantine/core';
 import React from 'react'
 import DoctorItem from './doctor_item';
-import { Doctor } from '@/server/doctor/server_types';
+import { Doctor } from '@/server/doctor/server-types';
 
 interface DoctorListProps {
     doctors: Doctor[];

@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react'
 import CascadingSelect, { CascadingSelectValue } from './cascading-select'
-import { ExamTypeOption } from '@/server/exam_type/server_types'
+import { ExamTypeOption } from '@/server/exam-type/server-types'
 
 type ExamSelectProps = Pick<React.ComponentProps<typeof CascadingSelect>, 'onChange'> & {
     options: ExamTypeOption[]

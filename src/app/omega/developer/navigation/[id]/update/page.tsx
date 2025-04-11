@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import EditResourceForm from './_components/edit_resource_form'
-import { retriveResource } from '@/server/resource/actions'
+import { retriveResource } from '@/server'
 
 interface DeveloperNavigationUpdatePageProps {
     params: { id: string }

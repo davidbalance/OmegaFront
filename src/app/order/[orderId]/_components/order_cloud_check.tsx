@@ -2,7 +2,7 @@
 
 import { Checkbox, rem, Stack } from '@mantine/core'
 import React from 'react'
-import { MedicalFileZipPayload } from '@/server/medical_test/server_types'
+import { MedicalFileZipPayload } from '@/server/medical-test/server-types'
 import { useCloudDownload } from '../_context/order_cloud_download.context'
 
 type OrderCloudCheckProps = MedicalFileZipPayload & {

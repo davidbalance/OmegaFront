@@ -6,7 +6,7 @@ import ServerPagination from '@/components/_base/server-pagination';
 import LogBody from './_components/log-body';
 import DeveloperLog from '@/components/developer/logs/developer-log';
 import ReloadButton from '@/components/_base/reload-button';
-import { retriveLogger, retriveLoggerLevels } from '@/server/logger/actions';
+import { retriveLogger, retriveLoggerLevels } from '@/server';
 
 const take = 100;
 interface OmegaDeveloperLogsPageProps {

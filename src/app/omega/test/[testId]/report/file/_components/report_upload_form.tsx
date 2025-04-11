@@ -8,7 +8,7 @@ import { MIME_TYPES } from '@mantine/dropzone'
 import { notifications } from '@mantine/notifications'
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
-import { addMedicalReportFile } from '@/server/medical_test/actions'
+import { addMedicalReportFile } from '@/server'
 import { getErrorMessage } from '@/lib/utils/errors'
 
 interface ReportUploadFormProps {

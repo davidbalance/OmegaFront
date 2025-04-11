@@ -3,7 +3,7 @@ import { Box, Group, Text, Title } from '@mantine/core'
 import React from 'react'
 import OrderCloudCheck from './order_cloud_check'
 import OrderDownloadSingle from './order_download_single'
-import { MedicalCloudFile } from '@/server/medical_order/server_types'
+import { MedicalCloudFile } from '@/server/medical-order/server-types'
 
 const fileType: Record<string, string> = {
     'report': 'Reporte Medico',

@@ -4,7 +4,7 @@ import TableRoot from '@/components/_base/table/table-root';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import React from 'react'
 import JobPositionHeader from './_components/job_position_header';
-import { retriveJobPositions } from '@/server/job_position/actions';
+import { retriveJobPositions } from '@/server';
 import Title from '@/components/_base/mantine/title';
 import JobPositionList from './_components/job_position_list';
 

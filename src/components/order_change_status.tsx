@@ -1,8 +1,8 @@
 'use client'
 
 import { getErrorMessage } from '@/lib/utils/errors';
-import { createdStatusMedicalOrder, validatedStatusMedicalOrder } from '@/server/medical_order/actions';
-import { OrderStatus } from '@/server/medical_order/server_types';
+import { createdStatusMedicalOrder, validatedStatusMedicalOrder } from '@/server';
+import { OrderStatus } from '@/server/medical-order/server-types';
 import { ActionIcon, ActionIconProps, rem, Tooltip } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconLock, IconLockOpen2 } from '@tabler/icons-react';

@@ -5,7 +5,7 @@ import { IconBuilding, IconKey, IconPencil, IconSitemap } from '@tabler/icons-re
 import UserActionDelete from './user-action-delete'
 import ActionUserProvider from '../../../../../contexts/action-menu.context'
 import ActionMenu from '@/components/_base/action-menu'
-import { User } from '@/server/user/server_types'
+import { User } from '@/server/user/server-types'
 
 interface UserBodyProps {
     users: User[]

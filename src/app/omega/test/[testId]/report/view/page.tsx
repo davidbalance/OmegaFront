@@ -1,7 +1,7 @@
 import BlobPreview from '@/components/_base/blob-preview/blob-preview';
 import ReturnableHeader from '@/components/_base/returnable-header';
 import { ModularBox } from '@/components/modular/box/ModularBox';
-import { retriveMedicalReportFile } from '@/server/medical_test/actions';
+import { retriveMedicalReportFile } from '@/server';
 import { Flex, rem } from '@mantine/core';
 import React from 'react'
 

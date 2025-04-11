@@ -7,7 +7,7 @@ import { IconKey, IconDeviceFloppy } from '@tabler/icons-react'
 import React, { useState } from 'react'
 import { z } from 'zod'
 import PatientEmailSchema from './schemas/patient_email.schema'
-import { createClientEmail } from '@/server/medical_client/actions'
+import { createClientEmail } from '@/server'
 import { getErrorMessage } from '@/lib/utils/errors'
 
 interface PatientEmailFormProps {

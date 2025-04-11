@@ -1,4 +1,4 @@
-import { JobPosition } from '@/server/job_position/server_types';
+import { JobPosition } from '@/server/job-position/server-types';
 import { TableTbody, TableTd, TableTr } from '@mantine/core';
 import React from 'react'
 import JobPositionItem from './job_position_item';

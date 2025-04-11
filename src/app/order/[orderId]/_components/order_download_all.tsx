@@ -1,7 +1,7 @@
 'use client'
 
-import { MedicalCloudFile } from '@/server/medical_order/server_types'
-import { MedicalFileZipPayload } from '@/server/medical_test/server_types'
+import { MedicalCloudFile } from '@/server/medical-order/server-types'
+import { MedicalFileZipPayload } from '@/server/medical-test/server-types'
 import { Button, rem } from '@mantine/core'
 import { IconDownload } from '@tabler/icons-react'
 import React, { useCallback, useMemo } from 'react'

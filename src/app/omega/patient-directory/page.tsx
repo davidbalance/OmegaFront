@@ -11,12 +11,12 @@ import ModularLayout from '@/components/modular/layout/ModularLayout';
 import PatientHeader from '@/components/patient-header';
 import { Flex, rem, Group } from '@mantine/core';
 import React from 'react'
-import { retriveClients, retriveClientsCompany } from '@/server/medical_client/actions';
-import { MedicalOrder } from '@/server/medical_order/server_types';
+import { retriveClients, retriveClientsCompany } from '@/server';
+import { MedicalOrder } from '@/server/medical-order/server-types';
 import { PaginationResponse } from '@/lib/types/pagination.type';
-import { retriveMedicalOrder, retriveMedicalOrders } from '@/server/medical_order/actions';
-import { MedicalTest } from '@/server/medical_test/server_types';
-import { retriveMedicalTests } from '@/server/medical_test/actions';
+import { retriveMedicalOrder, retriveMedicalOrders } from '@/server';
+import { MedicalTest } from '@/server/medical-test/server-types';
+import { retriveMedicalTests } from '@/server';
 import Title from '@/components/_base/mantine/title';
 import PatientList from '@/components/patient_list';
 import OrderList from '@/components/order_list';

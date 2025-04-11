@@ -1,6 +1,6 @@
 import AddQueryParam from '@/components/_base/add-query-param'
 import ListRow from '@/components/_base/list/list-row'
-import { Corporative } from '@/server/corporative/server_types'
+import { Corporative } from '@/server/corporative/server-types'
 import { Group, Title } from '@mantine/core'
 import React from 'react'
 

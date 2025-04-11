@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react'
 import ActionMenu from '@/components/_base/action-menu';
 import ActionMenuProvider from '@/contexts/action-menu.context';
-import { Doctor } from '@/server/doctor/server_types';
+import { Doctor } from '@/server/doctor/server-types';
 
 type DoctorItemProps = Doctor;
 const DoctorItem: React.FC<DoctorItemProps> = ({

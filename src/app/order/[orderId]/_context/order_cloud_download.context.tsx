@@ -1,7 +1,7 @@
 'use client'
 
 import { getErrorMessage } from '@/lib/utils/errors';
-import { MedicalFileZipPayload } from '@/server/medical_test/server_types';
+import { MedicalFileZipPayload } from '@/server/medical-test/server-types';
 import { notifications } from '@mantine/notifications';
 import React, { createContext, useCallback, useContext, useState } from 'react'
 import { processBlob } from '../_helpers/process_blob.helper';

@@ -11,7 +11,7 @@ import { DateInput } from '@mantine/dates'
 import { useDniValidation } from '../_context/dni_validation.context'
 import PatientSchema from '../_schemas/patient.schema'
 import { z } from 'zod'
-import { createClient } from '@/server/medical_client/actions'
+import { createClient } from '@/server'
 import GenderSelector from '@/components/gender-selector'
 import { getErrorMessage } from '@/lib/utils/errors'
 

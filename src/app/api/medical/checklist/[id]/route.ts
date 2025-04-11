@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { retriveMedicalChecklistFile } from "@/server/medical_order/actions";
 import { getErrorMessage } from "@/lib/utils/errors";
+import { serverActionRetriveMedicalChecklistFile } from "@/server/medical-order/actions";
 
 export async function GET(
     _: NextRequest,
@@ -9,7 +9,7 @@ export async function GET(
     }
 ) {
     try {
-        const blob: Blob = await retriveMedicalChecklistFile(params.id);
+        const blob: Blob = await serverActionRetriveMedicalChecklistFile(params.id);
         const headers = new Headers();
         headers.set("Content-Type", "application/pdf");
         return new NextResponse(blob, { status: 200, headers });

@@ -1,7 +1,7 @@
 'use client'
 
 import { systemLogo } from '@/components/navbar/nav/logo/logos';
-import { Logo } from '@/server/logo/server_types';
+import { Logo } from '@/server/logo/server-types';
 import { Button, Flex, Radio, RadioGroup, rem, Stack } from '@mantine/core'
 import React, { useCallback, useMemo, useState } from 'react'
 

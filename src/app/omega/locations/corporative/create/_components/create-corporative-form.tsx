@@ -3,8 +3,8 @@
 import LoadingOverlay from '@/components/_base/loading-overlay';
 import CorporativeForm from '@/components/corporative/corporative-form'
 import { getErrorMessage } from '@/lib/utils/errors';
-import { createCorporative } from '@/server/corporative/actions';
-import { CorporativeCreatePayload } from '@/server/corporative/server_types';
+import { createCorporative } from '@/server';
+import { CorporativeCreatePayload } from '@/server/corporative/server-types';
 import { notifications } from '@mantine/notifications';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useState } from 'react'

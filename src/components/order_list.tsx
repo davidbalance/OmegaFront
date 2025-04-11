@@ -1,6 +1,6 @@
 import ListTbody from '@/components/_base/list/list-tbody'
 import React from 'react'
-import { MedicalOrder } from '@/server/medical_order/server_types'
+import { MedicalOrder } from '@/server/medical-order/server-types'
 import OrderItem from './order_item'
 
 interface OrderListProps {

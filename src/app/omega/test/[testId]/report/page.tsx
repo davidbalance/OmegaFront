@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
 import ReportForm from './_components/report_form';
-import { retriveMedicalReport } from '@/server/medical_test/actions';
+import { retriveMedicalReport } from '@/server';
 
 interface ReportFormPageProps {
     params: { testId: string; }

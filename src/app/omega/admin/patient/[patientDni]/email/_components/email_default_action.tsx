@@ -1,7 +1,7 @@
 'use client'
 
 import { getErrorMessage } from '@/lib/utils/errors';
-import { defaultClientEmail } from '@/server/medical_client/actions';
+import { defaultClientEmail } from '@/server';
 import { Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import React, { useCallback, useState } from 'react'

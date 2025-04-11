@@ -6,7 +6,7 @@ import ReintegrateInstitutionSchema from '../_schemas/reintegrate-institution.sc
 import { z } from 'zod';
 import { Box, rem, SimpleGrid, Stack, Textarea, TextInput } from '@mantine/core';
 import CorporativeSelect from '@/components/corporative-select';
-import { CorporativeOption } from '@/server/corporative/server_types';
+import { CorporativeOption } from '@/server/corporative/server-types';
 import { DateInput } from '@mantine/dates';
 import { CascadingSelectValue } from '@/components/cascading-select';
 

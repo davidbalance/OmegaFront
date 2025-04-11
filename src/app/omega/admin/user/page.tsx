@@ -9,7 +9,7 @@ import TableTHead from '@/components/_base/table/table-thead'
 import TableTh from '@/components/_base/table/table-th'
 import OrderableButton from '@/components/_base/orderable-button/orderable-button'
 import ServerPagination from '@/components/_base/server-pagination'
-import { retriveUsers } from '@/server/user/actions'
+import { retriveUsers } from '@/server'
 
 const take: number = 100;
 interface UserPageProps {

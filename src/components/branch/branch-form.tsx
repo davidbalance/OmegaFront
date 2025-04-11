@@ -8,8 +8,8 @@ import { ModularBox } from "../modular/box/ModularBox";
 import { z } from "zod";
 import BranchSchema from './schema/branch.schema'
 import ModularLayout from "../modular/layout/ModularLayout";
-import { Area } from "@/server/area/server_types";
-import { Branch } from "@/server/branch/server_types";
+import { Area } from "@/server/area/server-types";
+import { Branch } from "@/server/branch/server-types";
 
 type BranchFormProps = Partial<Omit<Branch, 'branchId' | 'companyId' | 'cityName'>> & {
     loading?: boolean

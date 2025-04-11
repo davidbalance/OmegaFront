@@ -3,8 +3,8 @@
 import LoadingOverlay from '@/components/_base/loading-overlay';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Option } from '@/lib/types/option.type';
-import { CorporativeOption } from '@/server/corporative/server_types';
-import { MedicalDiseaseReportQuery } from '@/server/medical_test/server_types';
+import { CorporativeOption } from '@/server/corporative/server-types';
+import { MedicalDiseaseReportQuery } from '@/server/medical-test/server-types';
 import { Box, Button, rem, Select, SimpleGrid } from '@mantine/core'
 import { IconFileSpreadsheet } from '@tabler/icons-react';
 import React, { useCallback, useState } from 'react'

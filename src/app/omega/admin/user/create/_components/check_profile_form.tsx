@@ -3,8 +3,8 @@
 import React, { useCallback } from 'react'
 import { Button, Flex, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { AuthRegisterPayload } from '@/lib/auth/auth.types';
-import { Resource } from '@/server/resource/server_types';
-import { Logo } from '@/server/logo/server_types';
+import { Resource } from '@/server/resource/server-types';
+import { Logo } from '@/server/logo/server-types';
 import Title from '@/components/_base/mantine/title';
 
 type CheckProfileFormProps = {

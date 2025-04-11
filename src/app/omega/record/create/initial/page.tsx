@@ -3,9 +3,9 @@ import React from 'react'
 import StepperInitialRecordForm from './_components/stepper-inital-record-form';
 import PreviewInitialRecord from './_components/preview-initial-record';
 import InitialInstitutionForm from './_components/initial-institution-form';
-import { retriveCorporativesOptions } from '@/server/corporative/actions';
-import { CorporativeOption } from '@/server/corporative/server_types';
-import { retriveClientByDni } from '@/server/medical_client/actions';
+import { retriveCorporativesOptions } from '@/server';
+import { CorporativeOption } from '@/server/corporative/server-types';
+import { retriveClientByDni } from '@/server';
 import dayjs from 'dayjs';
 import MedicalConsultationForm from '@/components/record/medical-consultation-form';
 import MedicalAndSurgicalHistoryForm from '@/components/record/medical-and-surgical-history-form';

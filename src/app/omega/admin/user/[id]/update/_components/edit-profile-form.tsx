@@ -6,10 +6,10 @@ import { IconDeviceFloppy } from '@tabler/icons-react'
 import React, { useCallback, useRef, useState } from 'react'
 import LoadingOverlay from '@/components/_base/loading-overlay'
 import { useRouter } from 'next/navigation'
-import { EditUserPayload, User } from '@/server/user/server_types'
+import { EditUserPayload, User } from '@/server/user/server-types'
 import ProfileForm from '@/components/user/profile_form'
 import { getErrorMessage } from '@/lib/utils/errors'
-import { editUser } from '@/server/user/actions'
+import { editUser } from '@/server'
 import { notifications } from '@mantine/notifications'
 
 type EditProfileFormProps = User;

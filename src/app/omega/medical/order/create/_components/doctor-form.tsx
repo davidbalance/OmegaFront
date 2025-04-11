@@ -2,7 +2,7 @@
 
 import React, { useCallback, useState } from 'react'
 import { notifications } from '@mantine/notifications';
-import { CreateMedicalOrderPayload } from '@/server/medical_order/server_types';
+import { CreateMedicalOrderPayload } from '@/server/medical-order/server-types';
 import { Option } from '@/lib/types/option.type';
 import DoctorSelectchema from '../_schema/doctor.schema';
 import DoctorSelect from '@/components/doctor-select';

@@ -1,9 +1,9 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
 import StepperPeriodicRecordForm from './_components/stepper-periodic-record-form';
-import { retriveCorporativesOptions } from '@/server/corporative/actions';
-import { CorporativeOption } from '@/server/corporative/server_types';
-import { retriveClientByDni } from '@/server/medical_client/actions';
+import { retriveCorporativesOptions } from '@/server';
+import { CorporativeOption } from '@/server/corporative/server-types';
+import { retriveClientByDni } from '@/server';
 import PeriodicInstitutionForm from './_components/periodic-institution-form';
 import PreviewPeriodicRecord from './_components/preview-periodic-record';
 import MedicalConsultationForm from '@/components/record/medical-consultation-form';

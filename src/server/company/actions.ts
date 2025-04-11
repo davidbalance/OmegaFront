@@ -2,11 +2,11 @@
 
 import auth from "@/lib/auth";
 import omega from "@/lib/api-client/omega-client/omega";
-import { Company, CompanyCreatePayload, CompanyMovePayload, CompanyQuery, CompanyRemovePayload } from "./server_types";
+import { Company, CompanyCreatePayload, CompanyMovePayload, CompanyQuery, CompanyRemovePayload } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
 
-export const retriveCompanies = async (payload: CompanyQuery): Promise<PaginationResponse<Company>> => {
+export const serverActionRetriveCompanies = async (payload: CompanyQuery): Promise<PaginationResponse<Company>> => {
     const { corporativeId, ...query } = payload;
     const session = await auth();
     const data: PaginationResponse<Company> = await omega()
@@ -18,7 +18,7 @@ export const retriveCompanies = async (payload: CompanyQuery): Promise<Paginatio
     return data;
 }
 
-export const createCompany = async (payload: CompanyCreatePayload): Promise<void> => {
+export const serverActionCreateCompany = async (payload: CompanyCreatePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
@@ -28,7 +28,7 @@ export const createCompany = async (payload: CompanyCreatePayload): Promise<void
     revalidateTag('retriveCompanies');
 }
 
-export const moveCompany = async (payload: CompanyMovePayload): Promise<void> => {
+export const serverActionMoveCompany = async (payload: CompanyMovePayload): Promise<void> => {
     const { companyId, fromCorporativeId, ...body } = payload;
     const session = await auth();
     await omega()
@@ -43,7 +43,7 @@ export const moveCompany = async (payload: CompanyMovePayload): Promise<void> =>
     revalidateTag('retriveCompanies');
 }
 
-export const removeCompany = async (payload: CompanyRemovePayload): Promise<void> => {
+export const serverActionRemoveCompany = async (payload: CompanyRemovePayload): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)

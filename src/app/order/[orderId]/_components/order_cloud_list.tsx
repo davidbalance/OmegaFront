@@ -1,6 +1,6 @@
 import ListTbody from '@/components/_base/list/list-tbody'
 import React from 'react'
-import { MedicalCloudFile } from '@/server/medical_order/server_types'
+import { MedicalCloudFile } from '@/server/medical-order/server-types'
 import OrderCloudItem from './order_cloud_item'
 
 interface OrderCloudFileProps {

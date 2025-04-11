@@ -5,7 +5,7 @@ import { useSelect } from '../_context/select.context'
 import ListRow from '@/components/_base/list/list-row'
 import { Group, UnstyledButton } from '@mantine/core'
 import DiseaseDeleteButton from './disease-delete-button'
-import { MedicalDisease } from '@/server/medical_test/server_types'
+import { MedicalDisease } from '@/server/medical-test/server-types'
 
 type DiseaseReportItemProps = {
     disease: MedicalDisease;

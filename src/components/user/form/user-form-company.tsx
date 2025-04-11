@@ -1,7 +1,7 @@
 'use client'
 import OmegaSelect from '@/components/omega_select';
 import { Option } from '@/lib/types/option.type';
-import { CorporativeOption } from '@/server/corporative/server_types';
+import { CorporativeOption } from '@/server/corporative/server-types';
 import { Box, Button, ComboboxItem, rem } from '@mantine/core';
 import React, { useCallback, useEffect, useState } from 'react'
 

@@ -5,8 +5,7 @@ import { IconAlertOctagon, IconBriefcase, IconBuilding, IconCheck, IconHeart, Ic
 import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper_form';
-import { InitialRecordPayload } from '@/server/record/create-record/initial-record';
-import { createClientRecordCertificate } from '@/server/record/actions';
+import { createClientRecordCertificate } from '@/server';
 import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
 
 

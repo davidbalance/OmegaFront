@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import { retriveResources } from '@/server/resource/actions'
-import { retriveUserResources } from '@/server/user/actions'
+import { retriveResources } from '@/server'
+import { retriveUserResources } from '@/server'
 import ResourceForm from './_components/resource_form'
 
 interface UserActionAccessPageProps {

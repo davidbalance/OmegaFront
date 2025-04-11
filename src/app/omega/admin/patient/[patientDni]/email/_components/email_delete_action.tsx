@@ -1,6 +1,6 @@
 'use client'
 import { getErrorMessage } from '@/lib/utils/errors';
-import { removeClientEmail } from '@/server/medical_client/actions';
+import { removeClientEmail } from '@/server';
 import { ActionIcon, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconTrash } from '@tabler/icons-react';

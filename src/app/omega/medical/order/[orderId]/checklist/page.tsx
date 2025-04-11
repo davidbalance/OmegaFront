@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import React from 'react'
 import ChecklistItem from './_components/test_checklist_item';
 import ChecklistDownload from './_components/checklist-download';
-import { retriveMedicalChecklist } from '@/server/medical_order/actions';
+import { retriveMedicalChecklist } from '@/server';
 
 interface MedicalChecklistPageProps {
   params: { orderId: string }

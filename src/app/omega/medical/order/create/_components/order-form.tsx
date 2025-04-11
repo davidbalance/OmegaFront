@@ -2,7 +2,7 @@
 
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import { getErrorMessage } from '@/lib/utils/errors';
-import { createMedicalOrder } from '@/server/medical_order/actions';
+import { createMedicalOrder } from '@/server';
 import { Button, ButtonGroup, Flex, LoadingOverlay, rem, Stepper, StepperCompleted, StepperStep, Text } from '@mantine/core';
 import { useDebounceCallback } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';

@@ -1,6 +1,6 @@
 import AddQueryParam from '@/components/_base/add-query-param';
 import ListRow from '@/components/_base/list/list-row';
-import { Company } from '@/server/company/server_types';
+import { Company } from '@/server/company/server-types';
 import { Stack, Title, Group, Text } from '@mantine/core';
 import React from 'react'
 

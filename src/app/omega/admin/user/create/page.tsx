@@ -6,8 +6,8 @@ import ReturnableHeader from '@/components/_base/returnable-header'
 import AuthFormPassword from '@/components/auth/auth-password-form'
 import ResourceAssignForm from '@/components/resource_assign_form'
 import ProfileForm from '@/components/user/profile_form'
-import { retriveResources } from '@/server/resource/actions'
-import { retriveLogos } from '@/server/logo/actions'
+import { retriveResources } from '@/server'
+import { retriveLogos } from '@/server'
 import CheckProfileForm from './_components/check_profile_form'
 
 const UserActionCreatePage: React.FC = async () => {

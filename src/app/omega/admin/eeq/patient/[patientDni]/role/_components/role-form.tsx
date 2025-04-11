@@ -1,7 +1,7 @@
 'use client'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import ModularLayout from '@/components/modular/layout/ModularLayout'
-import { MedicalClient } from '@/server/medical_client/server_types'
+import { MedicalClient } from '@/server/medical-client/server-types'
 import { Button, LoadingOverlay, rem, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { IconDeviceFloppy } from '@tabler/icons-react'
@@ -11,7 +11,7 @@ import RoleSchema from '../_schemas/role.schema'
 import { useRouter } from 'next/navigation'
 import { notifications } from '@mantine/notifications'
 import { getErrorMessage } from '@/lib/utils/errors'
-import { changeRoleClient } from '@/server/medical_client/actions'
+import { changeRoleClient } from '@/server'
 
 type RoleFormProps = Pick<MedicalClient, 'patientRole' | 'patientDni'>
 const RoleForm: React.FC<RoleFormProps> = ({
@@ -40,7 +40,7 @@ const RoleForm: React.FC<RoleFormProps> = ({
             } finally {
                 setLoading(false);
             }
-        }, [patientDni]);
+        }, [patientDni, router]);
 
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>

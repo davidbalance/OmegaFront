@@ -1,7 +1,7 @@
 import ListTbody from '@/components/_base/list/list-tbody'
 import React from 'react'
 import PatientEeqItem from './patient_eeq_item'
-import { MedicalClient } from '@/server/medical_client/server_types';
+import { MedicalClient } from '@/server/medical-client/server-types';
 
 interface PatientEeqListProps {
     active?: string;

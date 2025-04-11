@@ -1,7 +1,7 @@
 import ListTbody from '@/components/_base/list/list-tbody'
 import React from 'react'
 import ResourceItem from './resource_item'
-import { Resource } from '@/server/resource/server_types'
+import { Resource } from '@/server/resource/server-types'
 
 interface ResourceListProps {
     resources: Resource[]

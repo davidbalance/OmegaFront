@@ -6,7 +6,7 @@ import ListRoot from '@/components/_base/list/list-root';
 import ListThead from '@/components/_base/list/list-thead';
 import ListTh from '@/components/_base/list/list-th';
 import { Text } from '@mantine/core';
-import { retriveClientEmails } from '@/server/medical_client/actions';
+import { retriveClientEmails } from '@/server';
 import EmailList from './_components/email_list';
 
 interface PatientActionEmailPageProps {

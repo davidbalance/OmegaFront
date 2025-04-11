@@ -5,8 +5,8 @@ import ActionMenuProvider from '@/contexts/action-menu.context'
 import ActionMenu from './_base/action-menu'
 import MedicalTestMenuMiscContent from './medical-test-menu-misc-content';
 import ResultMenu from './result_menu';
-import { MedicalTest } from '@/server/medical_test/server_types'
-import { OrderStatus } from '@/server/medical_order/server_types'
+import { MedicalTest } from '@/server/medical-test/server-types'
+import { OrderStatus } from '@/server/medical-order/server-types'
 import ReportMenu from './report_menu'
 import { IconDownload } from '@tabler/icons-react'
 

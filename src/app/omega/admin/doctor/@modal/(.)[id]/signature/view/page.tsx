@@ -1,5 +1,5 @@
 import BlobPreview from '@/components/_base/blob-preview/blob-preview';
-import { retriveDoctorFile } from '@/server/doctor/actions';
+import { retriveDoctorFile } from '@/server';
 import { Box, ModalBody, ModalCloseButton, ModalHeader, rem } from '@mantine/core';
 import React from 'react'
 

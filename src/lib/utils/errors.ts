@@ -12,3 +12,7 @@ export const getErrorMessage = (response: unknown) => {
     }
     return 'Unknown error.'
 }
+
+export type ErrorResponse = {
+    error: string | null;
+}

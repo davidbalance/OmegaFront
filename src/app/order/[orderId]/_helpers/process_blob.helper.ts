@@ -1,5 +1,5 @@
 import { blobFile } from "@/lib/utils/blob-to-file";
-import { MedicalFileZipPayload } from "@/server/medical_test/server_types";
+import { MedicalFileZipPayload } from "@/server/medical-test/server-types";
 import dayjs from "dayjs";
 
 export const processBlob = async (body: MedicalFileZipPayload[]) => {

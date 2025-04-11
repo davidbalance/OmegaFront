@@ -4,7 +4,7 @@ import OmegaShellLink from './omega-shell/omega-shell-link'
 import OmegaShellSection from './omega-shell/omega-shell-section'
 import { redirect } from 'next/navigation'
 import auth from '@/lib/auth'
-import { findMe } from '@/server/user/actions'
+import { findMe } from '@/server'
 
 const OmegaNavbarContent: React.FC = async () => {
   try {

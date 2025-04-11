@@ -1,6 +1,6 @@
 import ListTbody from '@/components/_base/list/list-tbody'
 import React from 'react'
-import { Management } from '@/server/management/server_types'
+import { Management } from '@/server/management/server-types'
 import ManagementItem from './management_item'
 
 interface ManagementListProps {

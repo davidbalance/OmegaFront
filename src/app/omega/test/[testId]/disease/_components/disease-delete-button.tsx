@@ -5,8 +5,8 @@ import { IconTrash } from '@tabler/icons-react'
 import React, { useCallback, useState } from 'react'
 import { useSelect } from '../_context/select.context';
 import { notifications } from '@mantine/notifications';
-import { MedicalDisease } from '@/server/medical_test/server_types';
-import { removeMedicalResultDisease } from '@/server/medical_test/actions';
+import { MedicalDisease } from '@/server/medical-test/server-types';
+import { removeMedicalResultDisease } from '@/server';
 import { getErrorMessage } from '@/lib/utils/errors';
 
 interface DiseaseDeleteButtonProps {

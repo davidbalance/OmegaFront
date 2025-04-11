@@ -1,8 +1,8 @@
 'use client'
 
 import StepperForm, { StepperIcon } from '@/components/stepper_form';
-import { createMedicalOrder } from '@/server/medical_order/actions';
-import { CreateMedicalOrderPayload } from '@/server/medical_order/server_types';
+import { createMedicalOrder } from '@/server';
+import { CreateMedicalOrderPayload } from '@/server/medical-order/server-types';
 import { rem } from '@mantine/core';
 import { IconBuilding, IconStethoscope } from '@tabler/icons-react';
 import dayjs from 'dayjs';

@@ -8,7 +8,7 @@ import { ModularBox } from "../modular/box/ModularBox";
 import { z } from "zod";
 import DiseaseSchema from './schemas/disease.schema'
 import ModularLayout from "../modular/layout/ModularLayout";
-import { Disease } from "@/server/disease/server_types";
+import { Disease } from "@/server/disease/server-types";
 
 type DiseaseFormProps = Partial<Omit<Disease, 'diseaseId'>> & {
     loading?: boolean
