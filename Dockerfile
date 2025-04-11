@@ -1,7 +1,7 @@
 # ------------------------------DEVELOPMENT STAGE------------------------------
 FROM node:23-alpine AS builder
 
-RUN apk add --no-cache libc6-compat openssl
+RUN apk add --no-cache libc6-compat openssl bash
 
 WORKDIR /usr/src/app
 
@@ -23,7 +23,7 @@ RUN npx prisma generate && npm run build && npm prune --omit=dev
 # ---------------------------------BUILD STAGE---------------------------------
 FROM node:23-alpine AS production
     
-RUN apk add --no-cache libc6-compat openssl
+RUN apk add --no-cache libc6-compat openssl bash
 
 WORKDIR /usr/src/app
 
