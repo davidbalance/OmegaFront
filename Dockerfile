@@ -18,7 +18,7 @@ RUN npm ci
 COPY --chown=node:node . ./
 
 # Generate Prisma client, build the project, and remove dev dependencies
-RUN npm run build && npm prune --omit=dev
+RUN npx prisma generate && npm run build && npm prune --omit=dev
 
 # ---------------------------------BUILD STAGE---------------------------------
 FROM node:23-alpine AS production
@@ -27,9 +27,10 @@ RUN apk add --no-cache libc6-compat openssl
 
 WORKDIR /usr/src/app
 
-COPY --chown=node:node --from=builder /usr/src/app/public ./public
-COPY --chown=node:node --from=builder /usr/src/app/.next/standalone ./
-COPY --chown=node:node --from=builder /usr/src/app/.next/static ./.next/static
+COPY --from=builder --chown=node:node /usr/src/app/public ./public
+COPY --from=builder --chown=node:node /usr/src/app/.next/standalone ./
+COPY --from=builder --chown=node:node /usr/src/app/.next/static ./.next/static
+COPY --from=builder --chown=node:node /usr/src/app/prisma ./prisma/
 
 USER node
 
