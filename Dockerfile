@@ -5,15 +5,11 @@ RUN apk add --no-cache libc6-compat openssl bash
 
 WORKDIR /usr/src/app
 
-<<<<<<< HEAD
 # Set environment variable for build stage
 ENV NODE_ENV=build
 
 # Copy only the package.json and package-lock.json first to leverage Docker cache for dependencies
 COPY --chown=node:node package*.json ./
-=======
-COPY ./package*.json ./
->>>>>>> main
 
 # Install dependencies 
 RUN npm ci
@@ -31,36 +27,12 @@ RUN apk add --no-cache libc6-compat openssl bash
 
 WORKDIR /usr/src/app
 
-<<<<<<< HEAD
 ENV NODE_ENV=production
 
 COPY --from=builder --chown=node:node /usr/src/app/public ./public
 COPY --from=builder --chown=node:node /usr/src/app/.next/standalone ./
 COPY --from=builder --chown=node:node /usr/src/app/.next/static ./.next/static
 COPY --from=builder --chown=node:node /usr/src/app/prisma ./prisma
-=======
-COPY --from=development /usr/src/app/node_modules ./node_modules
-
-COPY --chown=node:node . .
-
-COPY --chown=node:node .env .env
-
-RUN npm run build
-RUN npm install --production
-RUN npm cache clean --force
-
-USER node
-
-# -------------------------------PRODUCTION STAGE------------------------------
-FROM node:22-alpine AS production
-RUN apk add --no-cache libc6-compat
-WORKDIR /usr/src/app
-
-COPY --chown=node:node --from=build /usr/src/app/public ./public
-
-COPY --chown=node:node --from=build /usr/src/app/.next/standalone ./
-COPY --chown=node:node --from=build /usr/src/app/.next/static ./.next/static
->>>>>>> main
 
 USER node
 

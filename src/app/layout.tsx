@@ -9,11 +9,7 @@ import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import './globals.css';
 import { omegaTheme } from "@/lib/theme/omega-theme";
-<<<<<<< HEAD
 import { Confirmation } from "@/contexts/confirmation.context";
-=======
-import { Confirmation } from "@/contexts/confirmation/confirmation.context";
->>>>>>> main
 
 const rubik = Rubik({ subsets: ["latin"] });
 
