@@ -1,0 +1,31 @@
+.navbar {
+  background-color: var(--mantine-color-grayBlue-1);
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--mantine-radius-md);
+  padding: 0;
+  transition: background, padding 0.2s ease-in;
+}
+
+.navbar.open {
+  background-color: var(--mantine-color-white);
+  padding: var(--mantine-spacing-sm);
+}
+
+.links {
+  flex: 1;
+}
+
+.lock {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+
+  transition: justify-content .3s ease-in;
+}
+
+.lock.open {
+  justify-content: flex-end;
+}

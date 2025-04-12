@@ -5,9 +5,15 @@ import React, { useRef } from 'react'
 import classes from './dropzone.module.css';
 import { useMediaQuery } from '@mantine/hooks';
 
+<<<<<<< HEAD:src/components/_base/dropzone/dropzone.tsx
 interface DropzoneProps extends Partial<MantineDropzoneProps> {
     /**
      * Objeto que permite modificar las etiquetas del dropzone
+=======
+interface OmegaDropzoneProps extends Partial<DropzoneProps> {
+    /**
+     * Objeto que permite modificar las etiquetas del dropzone.
+>>>>>>> main:src/components/dropzone/omega-dropzone/OmegaDropzone.tsx
      */
     labels?: {
         helper: React.ReactNode;
