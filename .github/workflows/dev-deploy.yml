@@ -11,33 +11,14 @@ jobs:
       matrix:
         node-version: ["22.x"]
     env:
-        NEXTAUTH_URL: 'http://worflow-url.com/'
-        NEXTAUTH_SECRET: 'workflow-secret'
-        BACKEND_API: 'http://workflow-url.com/'
-        AUTH_SIGNIN_URI: 'http://workflow-url.com/'
-        AUTH_LOGIN_URI: 'http://workflow-url.com/'
-        AUTH_LOGOUT_URI: 'http://workflow-url.com/'
-        AUTH_REFRESH_URI: 'http://workflow-url.com/'
-        AUTH_CHANGE_PASSWORD_URI: 'http://workflow-url.com/'
-        REGISTRO_CIVIL_URI: 'http://workflow-url.com/'
-        REGISTRO_CIVIL_TOKEN: 'workflow-secret'
-
+      TEST_ENV: ${{ secrets.TEST_ENV }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Create temporary env file
+      - name: Create test env file
         run: |
-          echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env
-          echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env
-          echo "BACKEND_API=$BACKEND_API" >> .env
-          echo "AUTH_SIGNIN_URI=$AUTH_SIGNIN_URI" >> .env
-          echo "AUTH_LOGIN_URI=$AUTH_LOGIN_URI" >> .env
-          echo "AUTH_LOGOUT_URI=$AUTH_LOGOUT_URI" >> .env
-          echo "AUTH_REFRESH_URI=$AUTH_REFRESH_URI" >> .env
-          echo "AUTH_CHANGE_PASSWORD_URI=$AUTH_CHANGE_PASSWORD_URI" >> .env
-          echo "REGISTRO_CIVIL_URI=$REGISTRO_CIVIL_URI" >> .env
-          echo "REGISTRO_CIVIL_TOKEN=$REGISTRO_CIVIL_TOKEN" >> .env
+          echo "$TEST_ENV" >> .env
 
       - name: Build docker image
         run: docker build -t ${{ secrets.DOCKER_IMAGE }}:${{ secrets.DOCKER_DEV_TAG }} .
