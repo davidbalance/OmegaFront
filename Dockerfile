@@ -12,8 +12,7 @@ ENV NODE_ENV=build
 COPY --chown=node:node package*.json ./
 
 # Install dependencies 
-# Use Prisma CLI as dependency
-RUN npm ci && npm install prisma --save
+RUN npm ci
 
 # Copy the rest of the application files
 COPY --chown=node:node . ./
@@ -23,7 +22,7 @@ RUN npx prisma generate && npm run build && npm prune --omit=dev
 
 # ---------------------------------BUILD STAGE---------------------------------
 FROM node:23-alpine AS production
-
+    
 RUN apk add --no-cache libc6-compat openssl bash
 
 WORKDIR /usr/src/app
