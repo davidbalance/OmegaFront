@@ -1,4 +1,3 @@
-# ------------------------------DEVELOPMENT STAGE------------------------------
 FROM node:23-alpine
 
 RUN apk add --no-cache libc6-compat openssl bash
