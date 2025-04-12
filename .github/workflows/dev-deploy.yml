@@ -21,7 +21,7 @@ jobs:
           echo "$TEST_ENV" >> .env
 
       - name: Build docker image
-        run: docker build -f Dockerfile.migrate -t ${{ secrets.DOCKER_IMAGE }}:migrate
+        run: docker build -f Dockerfile.migrate -t ${{ secrets.DOCKER_IMAGE }}:migrate .
         working-directory: .
 
       - name: Login to Docker Hub
