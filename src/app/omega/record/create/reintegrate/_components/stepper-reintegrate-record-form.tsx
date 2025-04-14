@@ -36,7 +36,6 @@ const StepperReintegrateForm: React.FC<StepperReintegrateFormProps> = ({
 
     const handleSubmit = useCallback(async (data: StepperReintegrateForm) => {
         await createClientRecordReintegrate({ ...data, patientDni });
-        throw new Error('Testing error...');
     }, [patientDni]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);

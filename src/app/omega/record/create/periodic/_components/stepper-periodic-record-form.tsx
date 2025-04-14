@@ -36,7 +36,6 @@ const StepperPeriodicRecordForm: React.FC<StepperPeriodicRecordFormProps> = ({
 
     const handleSubmit = useCallback(async (data: StepperPeriodicRecordForm) => {
         await createClientRecordPeriodic({ ...data, patientDni });
-        throw new Error("Testing error...");
     }, [patientDni]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);

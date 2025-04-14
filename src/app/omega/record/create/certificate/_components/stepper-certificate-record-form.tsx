@@ -36,7 +36,6 @@ const StepperCertificateForm: React.FC<StepperCertificateFormProps> = ({
 
     const handleSubmit = useCallback(async (data: StepperCertificateForm) => {
         await createClientRecordCertificate({ ...data, patientDni });
-        throw new Error('Testing error...');
     }, [patientDni]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);

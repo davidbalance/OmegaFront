@@ -10,28 +10,6 @@ import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-jo
 import RecommendationForm from '@/components/record/recommendation-form';
 import CertificateRetirementEvaluationForm from './_components/certificate-retirement-evaluation';
 import PreviewCertificateRecord from './_components/preview-certificate-record';
-import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
-
-const testData: CertificateRecordPayload = {
-    patientFirstName: 'sample',
-    patientMiddleName: ' ',
-    patientLastName: 'sample',
-    patientSecondLastName: ' ',
-    patientGender: 'male',
-    companyName: 'FABRICABLES S.A.',
-    companyRUC: '1790312518001',
-    companyCIU: 'CIU',
-    institutionHealthFacility: 'Omega Salud Ocupacional',
-    jobPosition: 'SAMPLE',
-    generalData: 'periodic',
-    medicalFitnessType: 'fit',
-    medicalFitnessLimitation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a nunc eget arcu rhoncus pretium sit amet sed lacus. Curabitur non dui venenatis, finibus arcu non, vestibulum risus. Nam aliquam augue vel consectetur congue. Donecc congue mi vel quam tempus, eget venenatis dolor rhoncus.Sed at accumsan nibh.Curabitur eget lacinia quam, a finibus erat.Nulla blandit finibus arcu eget laoreet.Suspendisse nunc eros, sollicitudin id pellentesque eget, dictum vel purus.Vestibulum est risus, dignissim laoreet nibh eu, luctus vulputate mi.Praesent feugiat nulla lorem, eget dignissim dolor porta eu.Aliquam a magna a metus consequat pellentesque in nec nulla.Praesent pulvinar arcu pretium mattis hendrerit.Duis nibh sem, consequat vel consequat vel, laoreet quis nulla.Ut eget venenatis eros, quis ornare leo.In leo diam, convallis at libero eget, posuere condimentum orci.',
-    medicalFitnessObservation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a nunc eget arcu rhoncus pretium sit amet sed lacus. Curabitur non dui venenatis, finibus arcu non, vestibulum risus. Nam aliquam augue vel consectetur congue. Donec congue mi vel quam tempus, eget venenatis dolor rhoncus. Sed at accumsan nibh. Curabitur eget lacinia quam, a finibus erat. Nulla blandit finibus arcu eget laoreet. Suspendisse nunc eros, sollicitudin id pellentesque eget, dictum vel purus. Vestibulum est risus, dignissim laoreet nibh eu, luctus vulputate mi. Praesent feugiat nulla lorem, eget dignissim dolor porta eu. Aliquam a magna a metus consequat pellentesque in nec nulla. Praesent pulvinar arcu pretium mattis hendrerit. Duis nibh sem, consequat vel consequat vel, laoreet quis nulla. Ut eget venenatis eros, quis ornare leo. In leo diam, convallis at libero eget, posuere condimentum orci.',
-    retirementEvaluationDone: true,
-    retirementEvaluationCondition: 'presuntive',
-    retirementEvaluationConditionWithJob: 'yes',
-    recommendationDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a nunc eget arcu rhoncus pretium sit amet sed lacus. Curabitur non dui venenatis, finibus arcu non, vestibulum risus. Nam aliquam augue vel consectetur congue. Donec congue mi vel quam tempus, eget venenatis dolor rhoncus. Sed at accumsan nibh. Curabitur eget lacinia quam, a finibus erat. Nulla blandit finibus arcu eget laoreet. Suspendisse nunc eros, sollicitudin id pellentesque eget, dictum vel purus. Vestibulum est risus, dignissim laoreet nibh eu, luctus vulputate mi. Praesent feugiat nulla lorem, eget dignissim dolor porta eu. Aliquam a magna a metus consequat pellentesque in nec nulla. Praesent pulvinar arcu pretium mattis hendrerit. Duis nibh sem, consequat vel consequat vel, laoreet quis nulla. Ut eget venenatis eros, quis ornare leo. In leo diam, convallis at libero eget, posuere condimentum orci.',
-}
 
 interface RecordCertificatePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -73,7 +51,6 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
                 ]}
                 patientDni={patientDni}
                 initialData={{
-                    ...testData,
                     patientFirstName: patientFirstName,
                     patientMiddleName: patientMiddleName,
                     patientLastName: patientLastName,
