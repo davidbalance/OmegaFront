@@ -1,1 +1,0 @@
-export const root: string = process.env.NEXT_PUBLIC_ROOT_API || 'http://localhost';

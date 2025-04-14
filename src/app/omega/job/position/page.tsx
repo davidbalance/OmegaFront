@@ -1,47 +1,60 @@
-'use client'
+import Search from '@/components/_base/search';
+import ServerPagination from '@/components/_base/server-pagination';
+import TableRoot from '@/components/_base/table/table-root';
+import { ModularBox } from '@/components/modular/box/ModularBox';
+import React from 'react'
+import JobPositionHeader from './_components/job_position_header';
+import { retriveJobPositions } from '@/server';
+import Title from '@/components/_base/mantine/title';
+import JobPositionList from './_components/job_position_list';
 
-import { ColumnOptions, TableLayout } from '@/components/layout/table-layout/TableLayout'
-import ModularLayout from '@/components/modular/layout/ModularLayout'
-import { useFetch } from '@/hooks/useFetch'
-import { useList } from '@/hooks/useList'
-import { JobPosition } from '@/lib/dtos/location/job/position/base.response.dto'
-import { notifications } from '@mantine/notifications'
-import React, { useEffect, useState } from 'react'
+const take: number = 100;
+interface OmegaJobPositionPageProps {
+    searchParams: { [key: string]: string | string[] | undefined }
+}
+const OmegaJobPositionPage: React.FC<OmegaJobPositionPageProps> = async ({
+    searchParams
+}) => {
 
-const columns: ColumnOptions<JobPosition>[] = [
-    { name: 'Puesto', key: 'name' },
-]
-const JobPositionPage = () => {
+    const field = typeof searchParams.field === 'string' ? searchParams.field : undefined;
+    const orderingValue = typeof searchParams.order === 'string' ? searchParams.order : undefined;
 
-    const {
-        data: jobPositionData,
-        loading: jobPositionLoading,
-        error: jobPositionError
-    } = useFetch<JobPosition[]>('/api/job/position', 'GET');
+    const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
+    const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
 
-    const [jobPositions, {
-        override: overrideJobPosition
-    }] = useList<JobPosition>([]);
-
-    useEffect(() => {
-        if (jobPositionData) {
-            overrideJobPosition(jobPositionData);
-        }
-    }, [jobPositionData, overrideJobPosition]);
-
-    useEffect(() => {
-        if (jobPositionError) notifications.show({ message: jobPositionError.message, color: 'red' });
-    }, [jobPositionError]);
+    const positionValue = await retriveJobPositions({
+        limit: take,
+        skip: page - 1,
+        filter: search,
+        orderField: field as any,
+        orderValue: orderingValue as any
+    });
+    const pages = Math.floor(positionValue.amount / take);
 
     return (
-        <ModularLayout>
-            <TableLayout<JobPosition>
-                title={'Puestos de trabajo'}
-                columns={columns}
-                data={jobPositions}
-                isLoading={jobPositionLoading} />
-        </ModularLayout>
+        <>
+            <ModularBox>
+                <Title order={4} component='span'>Puestos de trabajo</Title>
+            </ModularBox>
+            <ModularBox>
+                <Search
+                    value={search}
+                    removeQueries={['field', 'order', 'page']} />
+            </ModularBox>
+            <ModularBox h='100%'>
+                <TableRoot>
+                    <JobPositionHeader />
+                    <JobPositionList positions={positionValue.data} />
+                </TableRoot>
+            </ModularBox>
+            {pages > 1 && (
+                <ModularBox>
+                    <ServerPagination
+                        page={page}
+                        total={pages} />
+                </ModularBox>)}
+        </>
     )
 }
 
-export default JobPositionPage
+export default OmegaJobPositionPage
