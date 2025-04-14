@@ -1,7 +1,0 @@
-.wrapper {
-  width: 100%;
-  height: auto;
-  background-color: var(--mantine-color-white);
-  padding: rem(4px) rem(12px);
-  border-radius: var(--mantine-radius-md);
-}

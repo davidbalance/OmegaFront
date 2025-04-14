@@ -1,0 +1,16 @@
+.layerShow {
+  width: 100%;
+  height: 100%;
+}
+
+.layerSection {
+  display: none;
+
+  &.layerShow {
+    display: block;
+  }
+
+  @media (min-width: $mantine-breakpoint-md) {
+    display: block;
+  }
+}
