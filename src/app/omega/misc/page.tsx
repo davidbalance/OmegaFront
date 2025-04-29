@@ -5,7 +5,7 @@ import ModularLayout from '@/components/modular/layout/ModularLayout';
 import { retriveYears } from '@/server';
 import { Option } from '@/lib/types/option.type';
 import { retriveCorporativesOptions } from '@/server';
-import DiseaseReportForm from './_components/disease_report_form';
+import DiseaseReportForm from './_components/disease-report-form';
 import { CorporativeOption } from '@/server/corporative/server-types';
 
 const OmegaReportDiseasePage: React.FC = async () => {

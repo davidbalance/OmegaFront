@@ -1,6 +1,6 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
-import MoveSubtypeForm from './_components/move_subtype_form';
+import MoveSubtypeForm from './_components/move-subtype-form';
 import { retriveExamTypesOptions } from '@/server';
 
 interface OmegaLaboratorySubtypeChangePageProps {

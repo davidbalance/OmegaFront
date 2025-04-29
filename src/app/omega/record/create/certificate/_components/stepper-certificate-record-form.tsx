@@ -4,7 +4,7 @@ import { rem } from '@mantine/core';
 import { IconAlertOctagon, IconBriefcase, IconBuilding, IconCheck, IconHeart, IconLicense, IconNotebook, IconPick, IconTree, IconUserCheck, IconVirus } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
-import StepperForm, { StepperIcon } from '@/components/stepper_form';
+import StepperForm, { StepperIcon } from '@/components/stepper-form';
 import { createClientRecordCertificate } from '@/server';
 import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
 
@@ -36,7 +36,6 @@ const StepperCertificateForm: React.FC<StepperCertificateFormProps> = ({
 
     const handleSubmit = useCallback(async (data: StepperCertificateForm) => {
         await createClientRecordCertificate({ ...data, patientDni });
-        throw new Error('Testing error...');
     }, [patientDni]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);

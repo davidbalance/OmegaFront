@@ -1,5 +1,5 @@
 'use client'
-import OmegaSelect from '@/components/omega_select';
+import OmegaSelect from '@/components/omega-select';
 import { Option } from '@/lib/types/option.type';
 import { CorporativeOption } from '@/server/corporative/server-types';
 import { Box, Button, ComboboxItem, rem } from '@mantine/core';

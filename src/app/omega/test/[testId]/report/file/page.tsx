@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import React from 'react'
-import ReportUploadForm from './_components/report_upload_form'
+import ReportUploadForm from './_components/report-upload-form'
 import { Stack } from '@mantine/core'
 import { retriveMedicalTest } from '@/server'
 

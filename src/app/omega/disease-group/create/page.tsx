@@ -1,6 +1,6 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import CreateDiseaseGroupForm from './_components/create_disease_group_form'
+import CreateDiseaseGroupForm from './_components/create-disease-group-form'
 
 const DiseaseGroupCreatePage: React.FC = () => {
     return (

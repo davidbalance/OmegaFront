@@ -4,7 +4,7 @@ import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Button, rem } from '@mantine/core';
 import Link from 'next/link';
 import { retriveResources } from '@/server';
-import ResourceList from './_components/resource_list';
+import ResourceList from './_components/resource-list';
 
 const DeveloperNavigationPage: React.FC = async () => {
 

@@ -11,14 +11,14 @@ import { retriveDiseaseGroups } from '@/server';
 import { Button, Group, rem } from '@mantine/core';
 import React from 'react'
 import Link from 'next/link';
-import DiseaseGroupHeader from './_components/disease_group_header';
-import DiseaseHeader from './_components/disease_header';
+import DiseaseGroupHeader from './_components/disease-group-header';
+import DiseaseHeader from './_components/disease-header';
 import { retriveDiseases } from '@/server';
 import { PaginationResponse } from '@/lib/types/pagination.type';
 import { Disease } from '@/server/disease/server-types';
 import Title from '@/components/_base/mantine/title';
-import DiseaseGroupList from './_components/disease_group_list';
-import DiseaseList from './_components/disease_list';
+import DiseaseGroupList from './_components/disease-group-list';
+import DiseaseList from './_components/disease-list';
 
 const take: number = 100;
 interface OmegaDiseasePageProps {

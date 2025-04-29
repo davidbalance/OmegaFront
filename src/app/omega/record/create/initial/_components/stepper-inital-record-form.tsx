@@ -4,7 +4,7 @@ import { rem } from '@mantine/core';
 import { IconAlertOctagon, IconBriefcase, IconBuilding, IconCheck, IconHeart, IconLicense, IconNotebook, IconPick, IconTree, IconUserCheck, IconVirus } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
-import StepperForm, { StepperIcon } from '@/components/stepper_form';
+import StepperForm, { StepperIcon } from '@/components/stepper-form';
 import { InitialRecordPayload } from '@/server/record/create-record/initial-record';
 import { createClientRecordInitial } from '@/server';
 
@@ -36,7 +36,6 @@ const StepperInitialRecordForm: React.FC<StepperInitialRecordFormProps> = ({
 
     const handleSubmit = useCallback(async (data: StepperInitialRecordForm) => {
         await createClientRecordInitial({ ...data, patientDni });
-        throw new Error('Testing error...')
     }, [patientDni]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);

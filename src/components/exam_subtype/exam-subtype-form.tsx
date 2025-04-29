@@ -4,7 +4,7 @@ import { ExamSubtype } from '@/server/exam-subtype/server-types';
 import { Box, Button, rem, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { IconDeviceFloppy, IconSignature } from '@tabler/icons-react';
-import ExamSubtypeSchema from './schemas/exam_subtype.schema';
+import ExamSubtypeSchema from './schemas/exam-subtype.schema';
 import React, { useCallback } from 'react';
 import { z } from 'zod';
 import ModularLayout from '../modular/layout/ModularLayout';

@@ -1,6 +1,6 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import AreaForm from './_components/area_form'
+import AreaForm from './_components/area-form'
 import { retriveAreaOptions } from '@/server'
 import { retriveClientArea } from '@/server'
 import { ModularBox } from '@/components/modular/box/ModularBox'

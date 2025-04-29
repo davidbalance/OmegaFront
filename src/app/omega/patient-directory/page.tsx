@@ -5,7 +5,7 @@ import ReloadButton from '@/components/_base/reload-button';
 import RemoveQueryButton from '@/components/_base/remove-query-button';
 import Search from '@/components/_base/search';
 import ServerPagination from '@/components/_base/server-pagination';
-import OrderHeader from '@/components/order_header';
+import OrderHeader from '@/components/order-header';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
 import PatientHeader from '@/components/patient-header';
@@ -18,10 +18,10 @@ import { retriveMedicalOrder, retriveMedicalOrders } from '@/server';
 import { MedicalTest } from '@/server/medical-test/server-types';
 import { retriveMedicalTests } from '@/server';
 import Title from '@/components/_base/mantine/title';
-import PatientList from '@/components/patient_list';
-import OrderList from '@/components/order_list';
-import TestList from '@/components/test_list';
-import TestHeader from '@/components/test_header';
+import PatientList from '@/components/patient-list';
+import OrderList from '@/components/order-list';
+import TestList from '@/components/test-list';
+import TestHeader from '@/components/test-header';
 
 const take: number = 100;
 interface OmegaPatientDirectoryPageProps {

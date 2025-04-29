@@ -1,14 +1,14 @@
 import React from 'react'
 
-import StepperUserForm from './_components/stepper_user_form'
-import LogoSelectForm from '@/components/user/form/logo_select_form'
+import StepperUserForm from './_components/stepper-user-form'
+import LogoSelectForm from '@/components/user/form/logo-select-form'
 import ReturnableHeader from '@/components/_base/returnable-header'
 import AuthFormPassword from '@/components/auth/auth-password-form'
-import ResourceAssignForm from '@/components/resource_assign_form'
-import ProfileForm from '@/components/user/profile_form'
+import ResourceAssignForm from '@/components/resource-assign-form'
+import ProfileForm from '@/components/user/profile-form'
 import { retriveResources } from '@/server'
 import { retriveLogos } from '@/server'
-import CheckProfileForm from './_components/check_profile_form'
+import CheckProfileForm from './_components/check-profile-form'
 
 const UserActionCreatePage: React.FC = async () => {
 

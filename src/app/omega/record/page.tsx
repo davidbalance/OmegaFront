@@ -9,7 +9,7 @@ import ServerPagination from '@/components/_base/server-pagination';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
 import PatientHeader from '@/components/patient-header';
-import PatientList from '@/components/patient_list';
+import PatientList from '@/components/patient-list';
 import { retriveClients } from '@/server';
 import { retriveClientRecords } from '@/server';
 import { ClientRecord } from '@/server/record/server-types';

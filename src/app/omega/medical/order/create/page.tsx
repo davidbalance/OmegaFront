@@ -1,6 +1,6 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
-import StepperOrderForm from './_components/stepper_order_form';
+import StepperOrderForm from './_components/stepper-order-form';
 import OrderSetup from './_components/order-setup';
 import DoctorForm from './_components/doctor-form';
 import { retriveCorporativesOptions } from '@/server';

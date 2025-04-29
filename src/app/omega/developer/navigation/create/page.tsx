@@ -1,6 +1,6 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
-import CreateResourceForm from './_components/create_resource_form';
+import CreateResourceForm from './_components/create-resource-form';
 
 const DeveloperNavigationCreatePage: React.FC = () => {
     return (

@@ -8,7 +8,7 @@ import ServerPagination from '@/components/_base/server-pagination';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
 import { Flex, rem, Group } from '@mantine/core';
-import PatientEeqHeader from './_components/patient_eeq_header';
+import PatientEeqHeader from './_components/patient-eeq-header';
 import Search from '@/components/_base/search';
 import CreateButton from '@/components/_base/create-button';
 import { retriveClientsEEQ } from '@/server';
@@ -18,11 +18,11 @@ import { retriveMedicalOrder, retriveMedicalOrdersEEQ } from '@/server';
 import { MedicalTest } from '@/server/medical-test/server-types';
 import { retriveMedicalTests } from '@/server';
 import Title from '@/components/_base/mantine/title';
-import PatientEeqList from './_components/patient_eeq_list';
-import OrderList from '@/components/order_list';
-import OrderHeader from '@/components/order_header';
-import TestHeader from '@/components/test_header';
-import TestList from '@/components/test_list';
+import PatientEeqList from './_components/patient-eeq-list';
+import OrderList from '@/components/order-list';
+import OrderHeader from '@/components/order-header';
+import TestHeader from '@/components/test-header';
+import TestList from '@/components/test-list';
 
 const take: number = 100;
 interface OmegaAdminEeqPatientPageProps {

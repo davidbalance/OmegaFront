@@ -2,7 +2,7 @@ import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import { retriveResources } from '@/server'
 import { retriveUserResources } from '@/server'
-import ResourceForm from './_components/resource_form'
+import ResourceForm from './_components/resource-form'
 
 interface UserActionAccessPageProps {
     params: { id: string }

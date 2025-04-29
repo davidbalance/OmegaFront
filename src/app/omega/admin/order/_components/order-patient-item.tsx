@@ -4,8 +4,8 @@ import { Group, rem, SimpleGrid, Stack, Text, Title } from '@mantine/core'
 import dayjs from 'dayjs'
 import React from 'react'
 import { MedicalOrderPatient } from '@/server/medical-order/server-types'
-import OrderChangeStatus from '@/components/order_change_status'
-import OrderEmailButton from '@/components/medical-order-mail/order_email_button'
+import OrderChangeStatus from '@/components/order-change-status'
+import OrderEmailButton from '@/components/medical-order-mail/order-email-button'
 
 type OrderPatientItem = MedicalOrderPatient & {
     active: string | undefined;

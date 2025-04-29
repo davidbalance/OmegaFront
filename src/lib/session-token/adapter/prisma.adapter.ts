@@ -20,10 +20,8 @@ const domainToPrisma = (value: SessionToken): Prisma.TokenCreateInput => ({
 
 const createSession = async (value: SessionToken): Promise<void> => {
     try {
-        console.log('Saving session...');
         const data = domainToPrisma(value);
         await prisma.token.create({ data });
-        console.log('Sucessfully session saved...');
     } catch (error) {
         if (error instanceof Error) throw new Error(error.message);
         throw new Error('Unknown error.')
@@ -32,9 +30,7 @@ const createSession = async (value: SessionToken): Promise<void> => {
 
 const addToken = async (value: { id: string; access: string; refresh: string }): Promise<void> => {
     try {
-        console.log('Saving token...');
         await prisma.token.update({ where: { id: value.id }, data: { access: value.access, refresh: value.refresh } });
-        console.log('Sucessfully token saved...');
     } catch (error) {
         if (error instanceof Error) throw new Error(error.message);
         throw new Error('Unknown error.')
