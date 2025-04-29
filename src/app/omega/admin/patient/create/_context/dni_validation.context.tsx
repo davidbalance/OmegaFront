@@ -31,8 +31,17 @@ const DniValidationProvider: React.FC<DniValidationProviderProps> = ({
 
     const validate = useCallback(async (dni: string) => {
         try {
-            const data = await validateDni(dni);
-            setPatient(data);
+            if (dni.length > 9) {
+                const data = await validateDni(dni);
+                setPatient(data);
+            } else {
+                notifications.show({ message: 'Passportes no soportados por el registro civil.', color: 'red' });
+                setPatient({
+                    patientDni: dni,
+                    patientLastname: '',
+                    patientName: '',
+                });
+            }
         } catch (error) {
             console.error(error);
             notifications.show({ message: 'Ha ocurrido un error', color: 'red' });
