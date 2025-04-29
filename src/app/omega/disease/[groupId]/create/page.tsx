@@ -1,6 +1,6 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
 import React from 'react'
-import CreateDiseaseForm from './_components/create_disease_form';
+import CreateDiseaseForm from './_components/create-disease-form';
 
 interface OmegaDiseaseCreatePageProps {
     params: { id: string }

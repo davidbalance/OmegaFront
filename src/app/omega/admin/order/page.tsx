@@ -13,10 +13,10 @@ import Search from '@/components/_base/search';
 import { retriveMedicalOrder, retriveMedicalOrdersPatient } from '@/server';
 import ListTbody from '@/components/_base/list/list-tbody';
 import OrderPatientItem from './_components/order-patient-item';
-import TestHeader from '@/components/test_header';
+import TestHeader from '@/components/test-header';
 import { MedicalOrder } from '@/server/medical-order/server-types';
 import { retriveMedicalTests } from '@/server';
-import TestItem from '@/components/test_item';
+import TestItem from '@/components/test-item';
 
 const take: number = 100;
 interface OmegaAdminOrderPageProps {

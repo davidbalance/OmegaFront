@@ -1,13 +1,13 @@
 import React from 'react'
 import ReturnableHeader from '@/components/_base/returnable-header';
-import { PatientEmailForm } from '@/components/patient/patient_email_form';
+import { PatientEmailForm } from '@/components/patient/patient-email-form';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ListRoot from '@/components/_base/list/list-root';
 import ListThead from '@/components/_base/list/list-thead';
 import ListTh from '@/components/_base/list/list-th';
 import { Text } from '@mantine/core';
 import { retriveClientEmails } from '@/server';
-import EmailList from './_components/email_list';
+import EmailList from './_components/email-list';
 
 interface PatientActionEmailPageProps {
   params: { patientDni: string }

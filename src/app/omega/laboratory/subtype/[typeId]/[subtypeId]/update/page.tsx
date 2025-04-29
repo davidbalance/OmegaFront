@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
 import { retriveExamSubtype } from '@/server';
 import React from 'react'
-import EditSubtypeForm from './_components/edit_subtype_form';
+import EditSubtypeForm from './_components/edit-subtype-form';
 
 interface EditSubtypeFormPageProps {
     params: {

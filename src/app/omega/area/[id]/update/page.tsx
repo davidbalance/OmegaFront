@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import React from 'react'
 import { retriveArea } from '@/server'
-import EditAreaForm from './_components/edit_area_form'
+import EditAreaForm from './_components/edit-area-form'
 
 interface AreaUpdatePageProps {
     params: { id: string }

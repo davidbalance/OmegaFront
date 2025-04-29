@@ -1,7 +1,7 @@
 import ReturnableHeader from '@/components/_base/returnable-header'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import React from 'react'
-import SignatureUploadForm from './_components/signature_upload_form'
+import SignatureUploadForm from './_components/signature-upload-form'
 import { Flex, Stack } from '@mantine/core'
 
 interface UploadDoctorSignaturePageProps {

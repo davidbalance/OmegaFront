@@ -2,7 +2,7 @@
 
 import React, { useCallback, useMemo, useState } from 'react'
 import ModularLayout from '@/components/modular/layout/ModularLayout';
-import OrderSetupSchema from '../_schema/order_setup.schema';
+import OrderSetupSchema from '../_schema/order-setup.schema';
 import { Box, Select, SimpleGrid } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { CreateMedicalOrderPayload } from '@/server/medical-order/server-types';

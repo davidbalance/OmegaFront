@@ -9,17 +9,17 @@ import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
 import { Flex, Group, rem } from '@mantine/core';
 import React from 'react'
-import CorporativeHeader from './_components/corporative_header';
-import CompanyHeader from './_components/company_header';
-import BranchHeader from './_components/branch_header';
+import CorporativeHeader from './_components/corporative-header';
+import CompanyHeader from './_components/company-header';
+import BranchHeader from './_components/branch-header';
 import Title from '@/components/_base/mantine/title';
 import { retriveCorporatives } from '@/server';
 import { retriveCompanies } from '@/server';
 import { Branch } from '@/server/branch/server-types';
 import { retriveBranches } from '@/server';
-import CorporativeList from './_components/corporative_list';
-import CompanyList from './_components/company_list';
-import BranchList from './_components/branch_list';
+import CorporativeList from './_components/corporative-list';
+import CompanyList from './_components/company-list';
+import BranchList from './_components/branch-list';
 import CreateButton from '@/components/_base/create-button';
 
 const take: number = 100;

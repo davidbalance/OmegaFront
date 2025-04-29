@@ -3,10 +3,10 @@ import TableRoot from '@/components/_base/table/table-root'
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import { Box, Title } from '@mantine/core'
 import ServerPagination from '@/components/_base/server-pagination'
-import DoctorHeader from './_components/doctor_header'
+import DoctorHeader from './_components/doctor-header'
 import Search from '@/components/_base/search'
 import { retriveDoctors } from '@/server'
-import DoctorList from './_components/doctor_list'
+import DoctorList from './_components/doctor-list'
 
 const take: number = 100;
 interface DoctorPageProps {

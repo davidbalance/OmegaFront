@@ -6,7 +6,7 @@ import { IconDeviceFloppy, IconSignature } from "@tabler/icons-react";
 import React, { useCallback } from "react";
 import { ModularBox } from "../modular/box/ModularBox";
 import { z } from "zod";
-import DiseaseGroupSchema from './schemas/disease_group.schema'
+import DiseaseGroupSchema from './schemas/disease-group.schema'
 import ModularLayout from "../modular/layout/ModularLayout";
 import { DiseaseGroup } from "@/server/disease-group/server-types";
 

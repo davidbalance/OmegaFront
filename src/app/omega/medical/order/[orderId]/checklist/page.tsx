@@ -3,7 +3,7 @@ import { ModularBox } from '@/components/modular/box/ModularBox';
 import { Box, Group, rem, ScrollArea, SimpleGrid, Stack, Text } from '@mantine/core';
 import dayjs from 'dayjs';
 import React from 'react'
-import ChecklistItem from './_components/test_checklist_item';
+import ChecklistItem from './_components/test-checklist-item';
 import ChecklistDownload from './_components/checklist-download';
 import { retriveMedicalChecklist } from '@/server';
 

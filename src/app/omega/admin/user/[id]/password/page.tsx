@@ -1,6 +1,6 @@
 import React from 'react'
 import ReturnableHeader from '@/components/_base/returnable-header';
-import ChangePasswordForm from './_components/change_password_form';
+import ChangePasswordForm from './_components/change-password-form';
 import { retriveUser } from '@/server';
 
 interface UserActionPasswordPageProps {

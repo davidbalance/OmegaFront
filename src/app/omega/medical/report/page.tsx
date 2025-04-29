@@ -16,12 +16,12 @@ import { PaginationResponse } from '@/lib/types/pagination.type';
 import { retriveMedicalOrder, retriveMedicalOrdersDoctor } from '@/server';
 import { MedicalTest } from '@/server/medical-test/server-types';
 import { retriveMedicalTests } from '@/server';
-import PatientList from '@/components/patient_list';
-import OrderHeader from '@/components/order_header';
-import TestHeader from '@/components/test_header';
-import TestList from '@/components/test_list';
+import PatientList from '@/components/patient-list';
+import OrderHeader from '@/components/order-header';
+import TestHeader from '@/components/test-header';
+import TestList from '@/components/test-list';
 import Title from '@/components/_base/mantine/title';
-import OrderDoctorList from './_components/order_doctor_list';
+import OrderDoctorList from './_components/order-doctor-list';
 
 const take: number = 100;
 interface OmegaReportPageProps {

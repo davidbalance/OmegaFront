@@ -3,10 +3,10 @@ import ServerPagination from '@/components/_base/server-pagination';
 import TableRoot from '@/components/_base/table/table-root';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import React from 'react'
-import JobPositionHeader from './_components/job_position_header';
+import JobPositionHeader from './_components/job-position-header';
 import { retriveJobPositions } from '@/server';
 import Title from '@/components/_base/mantine/title';
-import JobPositionList from './_components/job_position_list';
+import JobPositionList from './_components/job-position-list';
 
 const take: number = 100;
 interface OmegaJobPositionPageProps {
