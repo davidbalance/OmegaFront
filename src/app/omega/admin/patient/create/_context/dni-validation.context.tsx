@@ -46,7 +46,7 @@ const DniValidationProvider: React.FC<DniValidationProviderProps> = ({
             console.error(error);
             notifications.show({ message: 'Ha ocurrido un error', color: 'red' });
             setPatient({
-                patientDni: '',
+                patientDni: dni,
                 patientLastname: '',
                 patientName: '',
             });

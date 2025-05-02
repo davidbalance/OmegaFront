@@ -27,6 +27,8 @@ const PatientForm: React.FC<PatientFormProps> = ({
 
     const { data } = useDniValidation();
 
+    const [lastData, setLastData] = useState(data);
+
     const form = useForm<z.infer<typeof PatientSchema>>({
         initialValues: {
             patientName: '',
@@ -55,15 +57,16 @@ const PatientForm: React.FC<PatientFormProps> = ({
     }, [router]);
 
     useEffect(() => {
-        if (data !== null && data.patientDni !== form.values.patientDni) {
+        if (data && data !== lastData) {
             form.setValues(e => ({
                 ...e,
                 patientName: data.patientName,
                 patientLastname: data.patientLastname,
                 patientDni: data.patientDni,
             }));
+            setLastData(data);
         }
-    }, [data, form])
+    }, [data, lastData, form])
 
     return (
         <Box
