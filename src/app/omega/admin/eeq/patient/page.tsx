@@ -153,7 +153,7 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                             <OrderList
                                 action
                                 checklist
-                                remove
+                                editable
                                 active={orderActive}
                                 patientDni={patientActive}
                                 orders={orderValue.data}

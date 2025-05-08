@@ -7,7 +7,7 @@ interface OrderListProps {
     active?: string;
     action?: boolean;
     checklist?: boolean;
-    remove?: boolean;
+    editable?: boolean;
     patientDni?: string;
     orders: MedicalOrder[];
     removeQueries?: string[];

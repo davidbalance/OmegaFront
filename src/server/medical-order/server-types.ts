@@ -82,6 +82,11 @@ export type CreateMedicalOrderPayload = {
     year: number;
 }
 
+export type UpdateMedicalOrderProcessPayload = {
+    orderId: string;
+    process: string;
+}
+
 export type SendMedicalOrderPayload = {
     orderId: string;
     email: string;

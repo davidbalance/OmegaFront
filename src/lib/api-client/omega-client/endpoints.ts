@@ -478,6 +478,10 @@ const endpoints = {
         resource: 'medical-order/write',
         method: 'post',
     } as ApiResource,
+    updateMedicalOrderProcess: {
+        resource: 'medical-order/write/:orderId/process',
+        method: 'put',
+    } as ApiResource,
     removeMedicalOrder: {
         resource: 'medical-order/write/:orderId',
         method: 'delete',

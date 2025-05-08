@@ -4,7 +4,7 @@ import React from 'react'
 import dayjs from 'dayjs'
 import AddQueryParam from './_base/add-query-param'
 import Link from 'next/link'
-import { IconChecklist } from '@tabler/icons-react'
+import { IconChecklist, IconProgressCheck } from '@tabler/icons-react'
 import ActionMenu from './_base/action-menu'
 import ActionMenuProvider from '@/contexts/action-menu.context'
 import { MedicalOrder } from '@/server/medical-order/server-types'
@@ -17,7 +17,8 @@ type OrderItemProps = MedicalOrder & {
     active?: boolean;
     action?: boolean;
     checklist?: boolean;
-    remove?: boolean;
+    edit?: boolean;
+    editable?: boolean;
     removeQueries?: string[];
 }
 const OrderItem: React.FC<OrderItemProps> = ({
@@ -30,7 +31,7 @@ const OrderItem: React.FC<OrderItemProps> = ({
     active,
     action,
     checklist,
-    remove,
+    editable,
     removeQueries = []
 }) => {
     return (
@@ -48,7 +49,7 @@ const OrderItem: React.FC<OrderItemProps> = ({
                     <Title order={6}>{orderProcess}</Title>
                     <Text>{dayjs(orderEmissionDate).format('YYYY-MM-DD HH:mm:ss')}</Text>
                 </AddQueryParam>
-                {(checklist || remove || action) ? (
+                {(checklist || editable || action) ? (
                     <Group
                         component='div'
                         wrap='nowrap'>
@@ -61,7 +62,7 @@ const OrderItem: React.FC<OrderItemProps> = ({
                                 orderId={orderId}
                                 orderStatus={orderStatus} />
                         </>}
-                        {(checklist || (orderStatus !== 'validated' && remove)) && <ActionMenuProvider>
+                        {(checklist || (orderStatus !== 'validated' && editable)) && <ActionMenuProvider>
                             <ActionMenu>
                                 {checklist && <MenuItem
                                     component={Link}
@@ -71,7 +72,16 @@ const OrderItem: React.FC<OrderItemProps> = ({
                                     )}>
                                     Checklist
                                 </MenuItem>}
-                                {(orderStatus !== 'validated' && remove) && <OrderRemoveMenuItem query='medicalOrder' orderId={orderId} />}
+                                {(orderStatus !== 'validated' && editable) &&
+                                    <MenuItem
+                                        component={Link}
+                                        href={`/omega/medical/order/${orderId}/edit-process`}
+                                        leftSection={(
+                                            <IconProgressCheck style={{ width: rem(16), height: rem(16) }} />
+                                        )}>
+                                        Cambiar Proceso
+                                    </MenuItem>}
+                                {(orderStatus !== 'validated' && editable) && <OrderRemoveMenuItem query='medicalOrder' orderId={orderId} />}
                             </ActionMenu>
                         </ActionMenuProvider>}
                     </Group>
