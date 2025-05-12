@@ -15,9 +15,9 @@ import React, { useCallback, useState } from 'react'
 
 type ExamFormValue = Omit<EditMedicalTestExamPayload, 'testId'>;
 const mappedKeys: Record<string, keyof ExamFormValue> = {
-    typeId: 'examName',
+    typeId: 'examType',
     subtypeId: 'examSubtype',
-    examId: 'examType',
+    examId: 'examName',
 }
 interface ExamFormProps {
     testId: string;
@@ -48,6 +48,7 @@ const ExamForm: React.FC<ExamFormProps> = ({
             event.preventDefault();
             setLoading(true);
             try {
+                console.log({ testId, ...formValue });
                 await editMedicalTestExam({ testId, ...formValue });
                 router.back();
             } catch (error: any) {
