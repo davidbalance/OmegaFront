@@ -3,10 +3,10 @@ import React from 'react'
 import StepperOrderForm from './_components/stepper-order-form';
 import OrderSetup from './_components/order-setup';
 import DoctorForm from './_components/doctor-form';
-import { retriveCorporativesOptions } from '@/server';
-import { retriveProcesses } from '@/server';
+import { retriveCorporativesOptions, retriveProcessOptions } from '@/server';
 import { Option } from '@/lib/types/option.type';
 import { retriveDoctorsOptions } from '@/server';
+import { Process } from '@/server/medical-order/server-types';
 
 interface MedicalOrderCreatePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -24,7 +24,7 @@ const MedicalOrderCreatePage: React.FC<MedicalOrderCreatePageProps> = async ({
     }
 
     const corporatives = await retriveCorporativesOptions();
-    const processes = await retriveProcesses();
+    const processes: Process[] = await retriveProcessOptions();
     const processOptions: Option[] = processes.map((e) => ({ label: e.orderProcess, value: e.orderProcess }));
     const doctorOptions = await retriveDoctorsOptions();
 

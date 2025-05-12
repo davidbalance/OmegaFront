@@ -2,10 +2,20 @@
 
 import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth";
-import { CreateMedicalOrderPayload, MedicalChecklist, MedicalCloudFile, MedicalOrder, MedicalOrderDoctor, MedicalOrderPatient, MedicalOrderPatientQuery, MedicalOrderQuery, Process, SendMedicalOrderPayload, Year } from "./server-types";
+import { CreateMedicalOrderPayload, MedicalChecklist, MedicalCloudFile, MedicalOrder, MedicalOrderDoctor, MedicalOrderPatient, MedicalOrderPatientQuery, MedicalOrderQuery, Process, SendMedicalOrderPayload, UpdateMedicalOrderProcessPayload, Year } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
 import { withResult } from "@/lib/utils/result.utils";
+
+export const serverActionProcessOptions = async (): Promise<Process[]> => {
+    return new Promise((resolver) => resolver([
+        { orderProcess: "Post-Ocupacional" },
+        { orderProcess: "Periodico" },
+        { orderProcess: "Pre-Ocupacional" },
+        { orderProcess: "Especial" },
+        { orderProcess: "Consulta Externa" },
+    ]));
+}
 
 export const serverActionRetriveProcesses = async (): Promise<Process[]> => {
     const session = await auth();
@@ -132,6 +142,19 @@ const createMedicalOrder = async (payload: CreateMedicalOrderPayload): Promise<v
     revalidateTag('retriveMedicalOrdersPatient');
 }
 
+const updateMedicalOrderProcess = async (payload: UpdateMedicalOrderProcessPayload): Promise<void> => {
+    const { orderId, process } = payload;
+    const session = await auth();
+    await omega()
+        .addToken(session.access_token)
+        .addParams({ orderId })
+        .addBody({ process })
+        .execute('updateMedicalOrderProcess');
+
+    revalidateTag('retriveMedicalOrders');
+    revalidateTag('retriveMedicalOrdersPatient');
+}
+
 const removeMedicalOrder = async (orderId: string): Promise<void> => {
     const session = await auth();
     await omega()
@@ -191,6 +214,7 @@ const massiveLoadOrder = async (formData: FormData): Promise<void> => {
 }
 
 export const serverActionCreateMedicalOrder = withResult(createMedicalOrder);
+export const serverActionUpdateMedicalOrderProcess = withResult(updateMedicalOrderProcess);
 export const serverActionRemoveMedicalOrder = withResult(removeMedicalOrder);
 export const serverActionSendMedicalOrder = withResult(sendMedicalOrder);
 export const serverActionValidatedStatusMedicalOrder = withResult(validatedStatusMedicalOrder);

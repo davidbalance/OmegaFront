@@ -151,7 +151,7 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                             <OrderHeader />
                             <OrderList
                                 checklist
-                                remove
+                                editable
                                 action
                                 active={orderActive}
                                 patientDni={patientActive}
