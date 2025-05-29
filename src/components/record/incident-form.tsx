@@ -4,7 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import IncidentSchema from './schemas/incident.schema'
 import { z } from 'zod';
-import { Box, rem, Textarea } from '@mantine/core';
+import { Box, rem, Textarea, Title } from '@mantine/core';
 
 type IncidentFormProps = {
   data?: Partial<z.infer<typeof IncidentSchema>>,
@@ -27,17 +27,22 @@ const IncidentForm = React.forwardRef<HTMLFormElement, IncidentFormProps>(({
   }, [onSubmit]);
 
   return (
-    <Box
-      ref={ref}
-      component='form'
-      onSubmit={form.onSubmit(handleSubmit)}
-      style={{ position: 'relative', width: '100%', height: '100%' }}>
-      <Textarea
-        label="DESCRIPCION"
-        placeholder='eg. Consulta...'
-        rows={10}
-        {...form.getInputProps('incidentDescription')} />
-    </Box>
+    <>
+      <Title order={3}>Antecedentes personales</Title>
+      <Title order={5} c="dimmed">Incidentes</Title>
+      <Box
+        mt={rem(16)}
+        ref={ref}
+        component='form'
+        onSubmit={form.onSubmit(handleSubmit)}
+        style={{ position: 'relative', width: '100%', height: '100%' }}>
+        <Textarea
+          label="DESCRIPCION"
+          placeholder='eg. Consulta...'
+          rows={10}
+          {...form.getInputProps('incidentDescription')} />
+      </Box>
+    </>
   )
 });
 

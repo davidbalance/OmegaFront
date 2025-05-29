@@ -7,7 +7,6 @@ import React from 'react'
 import PreviewReintegrateRecord from './_components/preview-reintegrate-record';
 import StepperReintegrateForm from './_components/stepper-reintegrate-record-form';
 import ReintegrateInstitutionForm from './_components/reintegrate-institution-form';
-import MedicalConsultationForm from '@/components/record/medical-consultation-form';
 import CurrentDiseaseForm from '@/components/record/current-disease-form';
 import VitalSignsAndAnthropometryForm from '@/components/record/vital-signs-and-anthropometry-form';
 import PhysicalRegionalExamForm from '@/components/record/physical-regional-exam-form';
@@ -15,6 +14,95 @@ import GeneralExamResultForm from '@/components/record/general-exam-result-form'
 import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
 import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-job-form';
 import RecommendationForm from '@/components/record/recommendation-form';
+import { REINTEGRATION_MEDICAL_CONSULTATION } from './_libs/constants';
+import { ReintegrateRecordPayload } from '@/server/record/create-record/reintegrate-record';
+
+const defaultValues: Partial<ReintegrateRecordPayload> = {
+    companyName: "EMPRESA ELECTRICA QUITO E.E.Q S.A.",
+    companyRUC: "1790053881001",
+    companyCIIU: "",
+    institutionHealthFacility: "Omega Salud Ocupacional",
+    patientFirstName: "MARIO",
+    patientMiddleName: "ALFONSO",
+    patientLastName: "NOBOA",
+    patientSecondLastName: "CORONEL",
+    patientGender: "male",
+    patientAge: 45,
+    jobPosition: "SAMPLE",
+    workingEndDate: new Date("2025-05-29T13:18:00.817Z"),
+    workingReintegrationDate: new Date("2025-05-29T13:18:00.817Z"),
+    workingTime: 1,
+    workingLeftCause: "SAMPLE",
+    currentDiseaseDescription: "",
+    vitalSignsBloodPressure: "10",
+    vitalSignsTemperature: "10",
+    vitalSignsHeartRate: "10",
+    vitalSignsOxygenSaturation: "10",
+    vitalSignsRespiratoryRate: "10",
+    vitalSignsWeight: "10",
+    vitalSignsSize: "10",
+    vitalSignsMassIndex: "10",
+    vitalSignsAbdominalPerimeter: "10",
+    examSkinScar: "SAMPLE",
+    examSkinTattoo: "",
+    examSkinLesions: "",
+    examEyeEyelids: "",
+    examEyeConjunctiva: "",
+    examEyePupils: "",
+    examEyeCorneas: "",
+    examEyeMotility: "",
+    examEarAuditoryExternal: "",
+    examEarAuricle: "",
+    examEarEardrum: "",
+    examPharynxLips: "",
+    examPharynxTongue: "",
+    examPharynxPharynx: "",
+    examPharynxTonsils: "",
+    examPharynxTeeth: "",
+    examNosePartition: "",
+    examNoseTurbinates: "",
+    examNoseMucousMembranes: "",
+    examNoseParanasalSinuses: "",
+    examNeckThyroid: "",
+    examNeckMobility: "",
+    examChestBreast: "",
+    examChestHeart: "",
+    examChestLungs: "",
+    examChestRibCage: "",
+    examAbdomenViscera: "",
+    examAbdomenAbdominalWall: "",
+    examColumnFlexibility: "",
+    examColumnDeviation: "",
+    examColumnPain: "",
+    examPelvis: "",
+    examPelvisGenitals: "",
+    examLimbVascular: "",
+    examLimbUpper: "",
+    examLimbLower: "",
+    examNeurologicForce: "",
+    examNeurologicSensitivity: "",
+    examNeurologicGait: "",
+    examNeurologicReflex: "",
+    generalExamResults: [],
+    generalExamObservation: "SAMPLE",
+    diagnostics: [
+        {
+            description: "SAMPLE",
+            cie: "SAMPLE",
+            flag: "def"
+        },
+        {
+            description: "SAMPLE",
+            cie: "SAMPLE",
+            flag: "pre"
+        }
+    ],
+    medicalFitnessType: "no-fit",
+    medicalFitnessLimitation: "",
+    medicalFitnessObservation: "",
+    medicalFitnessReubication: "SAMPLE",
+    recommendationDescription: "SAMPLE"
+}
 
 interface RecordReintegratePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -49,14 +137,13 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
             <StepperReintegrateForm
                 headers={[
                     { title: 'Datos del establecimiento', description: 'Empresa y Usuario', icon: 'building' },
-                    { title: 'Motivo de la consulta / Condicion de Reintegro', icon: 'license' },
                     { title: 'Enfermedad Actual', icon: 'disease' },
                     { title: 'Constantes Vitales y Antropometria', icon: 'heart' },
                     { title: 'Examen Fisico Regional', description: 'Regiones', icon: 'heart' },
                     { title: 'Resultados de Examenes', icon: 'notebook' },
                     { title: 'Diagnostico', icon: 'notebook' },
                     { title: 'Aptitud Medical para el Trabajo', icon: 'notebook' },
-                    { title: 'Recomendacionesy/o Tratamientos', icon: 'notebook' },
+                    { title: 'Recomendaciones y/o Tratamientos', icon: 'notebook' },
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
                 patientDni={patientDni}
@@ -67,15 +154,16 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
                     patientSecondLastName: patientSecondLastName,
                     patientGender: patient.patientGender,
                     patientAge: patientAge,
+                    medicalConsultationDescription: REINTEGRATION_MEDICAL_CONSULTATION,
+                    ...defaultValues
                 }}>
                 <ReintegrateInstitutionForm options={corporativeOptions} />
-                <MedicalConsultationForm />
                 <CurrentDiseaseForm />
                 <VitalSignsAndAnthropometryForm />
                 <PhysicalRegionalExamForm />
                 <GeneralExamResultForm />
                 <MedicalDiagnosticForm />
-                <MedicalFitnessForJobForm />
+                <MedicalFitnessForJobForm showReubication />
                 <RecommendationForm />
                 <PreviewReintegrateRecord />
 

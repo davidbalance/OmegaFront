@@ -3,7 +3,7 @@ import PreviewRecordElement from '@/components/record/preview-record-element';
 import { InitialRecordPayload } from '@/server/record/create-record/initial-record';
 import { Group, rem, SimpleGrid, Stack, Text } from '@mantine/core';
 import dayjs from 'dayjs';
-import React, { useMemo } from 'react'
+import React from 'react'
 import PreviewInitialHistoryExam from './preview-initial-record-history-exam';
 import PreviewRecordContent from '@/components/record/preview-record-content';
 

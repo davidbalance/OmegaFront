@@ -13,8 +13,8 @@ const PreviewRecordDiagnostic: React.FC<PreviewRecordDiagnosticProps> = ({
         <TableTr key={crypto.randomUUID()}>
             <TableTd>{e.description}</TableTd>
             <TableTd>{e.cie}</TableTd>
-            <TableTd>{e.pre ? 'Si' : 'No'}</TableTd>
-            <TableTd>{e.def ? 'Si' : 'No'}</TableTd>
+            <TableTd>{e.flag === 'pre' ? 'Si' : 'No'}</TableTd>
+            <TableTd>{e.flag === 'def' ? 'Si' : 'No'}</TableTd>
         </TableTr>
 
     ), [diagnostics]);

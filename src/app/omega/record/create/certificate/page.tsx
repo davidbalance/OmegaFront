@@ -6,10 +6,31 @@ import React from 'react'
 import CertificateInstitutionForm from './_components/certificate-institution-form';
 import StepperCertificateForm from './_components/stepper-certificate-record-form';
 import CertificateGeneralDataForm from './_components/certificate-general-data-form';
-import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-job-form';
 import RecommendationForm from '@/components/record/recommendation-form';
-import CertificateRetirementEvaluationForm from './_components/certificate-retirement-evaluation';
 import PreviewCertificateRecord from './_components/preview-certificate-record';
+import CertificateEvaluation from './_components/certificate-evaluation';
+import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
+
+const defaultValues: Partial<CertificateRecordPayload> = {
+    companyName: "ENVAGRIF",
+    companyRUC: "1724317191001",
+    companyCIIU: "",
+    institutionHealthFacility: "Omega Salud Ocupacional",
+    patientFirstName: "MARIO",
+    patientMiddleName: "ALFONSO",
+    patientLastName: "NOBOA",
+    patientSecondLastName: "CORONEL",
+    patientGender: "male",
+    jobPosition: "SAMPLE",
+    generalData: "retirement",
+    retirementEvaluationDone: true,
+    retirementEvaluationCondition: "presuntive",
+    retirementEvaluationConditionWithJob: "yes",
+    /* generalData: "entry",
+    medicalFitnessType: "fit",
+    medicalFitnessObservation: "SAMPLE", */
+    recommendationDescription: "SAMPLE"
+}
 
 interface RecordCertificatePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -44,9 +65,8 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
                 headers={[
                     { title: 'Datos del establecimiento', description: 'Empresa y Usuario', icon: 'building' },
                     { title: 'Datos Generales', icon: 'license' },
-                    { title: 'Aptitud Medical Laboral', icon: 'notebook' },
-                    { title: 'Evaluacion medica de retiro', icon: 'notebook' },
-                    { title: 'Recomendacionesy/o Tratamientos', icon: 'notebook' },
+                    { title: 'Evaluacion', icon: 'notebook' },
+                    { title: 'Recomendaciones y/o Tratamientos', icon: 'notebook' },
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
                 patientDni={patientDni}
@@ -56,11 +76,11 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
                     patientLastName: patientLastName,
                     patientSecondLastName: patientSecondLastName,
                     patientGender: patient.patientGender,
+                    ...defaultValues
                 }}>
                 <CertificateInstitutionForm options={corporativeOptions} />
                 <CertificateGeneralDataForm />
-                <MedicalFitnessForJobForm />
-                <CertificateRetirementEvaluationForm />
+                <CertificateEvaluation />
                 <RecommendationForm />
                 <PreviewCertificateRecord />
             </StepperCertificateForm>

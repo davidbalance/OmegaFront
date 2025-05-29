@@ -1,11 +1,27 @@
-import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, MedicalDiagnostic, GeneralExamResultAndSpecific, RecordRecommendation, CurrentDisease, MedicalConsultation } from "./_base";
+import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, MedicalDiagnostic, GeneralExamResultAndSpecific, RecordRecommendation, CurrentDisease, MedicalConsultation, InstitutionHealthRecord } from "./_base";
 
 
-export type ReintegrateRecordPayload = PatientRecord & CompanyRecord & MedicalConsultation &
-    VitalSignsAndAnthropometry & PhysicalRegionalExam & GeneralExamResultAndSpecific & MedicalFitnessForJob &
-    CurrentDisease & RecordRecommendation & {
-        /** Institution & Patient Information */
-        institutionHealthFacility: string;
+export type ReintegrateRecordPayload =
+    // Institution & Patient Information
+    & InstitutionHealthRecord
+    & CompanyRecord
+    & PatientRecord
+    // Medical Consultation
+    & MedicalConsultation
+    // Current Disease
+    & CurrentDisease
+    // Vital Signs and Anthropometry
+    & VitalSignsAndAnthropometry
+    // Physical Regional Exam
+    & PhysicalRegionalExam
+    // General Exam Result and Specific
+    & GeneralExamResultAndSpecific
+    // Medical Fitness for Job
+    & MedicalFitnessForJob
+    // Recommendation
+    & RecordRecommendation
+    & {
+        /* ------------------------------------------- Institution & Patient Information ------------------------------------------- */
         patientAge: number;
         jobPosition: string;
         workingEndDate: Date;
@@ -13,6 +29,6 @@ export type ReintegrateRecordPayload = PatientRecord & CompanyRecord & MedicalCo
         workingTime: number;
         workingLeftCause: string;
 
-        /** Diagnostics */
+        /* ------------------------------------------- Diagnostics ------------------------------------------- */
         diagnostics: MedicalDiagnostic[];
     }

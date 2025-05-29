@@ -16,7 +16,7 @@ type PreviewReintegrateRecordInstitutionProps = Pick<ReintegrateRecordPayload,
     | 'patientAge'
     | 'companyName'
     | 'companyRUC'
-    | 'companyCIU'
+    | 'companyCIIU'
     | 'institutionHealthFacility'
     | 'jobPosition'
     | 'workingEndDate'
@@ -33,7 +33,7 @@ const PreviewReintegrateRecordInstitution: React.FC<PreviewReintegrateRecordInst
     patientAge,
     companyName,
     companyRUC,
-    companyCIU,
+    companyCIIU,
     institutionHealthFacility,
     jobPosition,
     workingEndDate,
@@ -48,7 +48,7 @@ const PreviewReintegrateRecordInstitution: React.FC<PreviewReintegrateRecordInst
                 <Stack gap={rem(16)}>
                     <PreviewRecordElement title='NOMBRE DE LA EMPRESA' text={companyName} />
                     <PreviewRecordElement title='RUC' text={companyRUC} />
-                    <PreviewRecordElement title='CIU' text={companyCIU} />
+                    <PreviewRecordElement title='CIIU' text={companyCIIU ?? ''} />
                     <PreviewRecordElement title='ESTABLECIMIENTO DE SALUD' text={institutionHealthFacility} />
                 </Stack>
                 <Stack gap={rem(16)}>

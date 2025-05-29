@@ -1,8 +1,9 @@
-import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic, GeneralExamResult, MedicalConsultation, MedicalAndSurgicalHistory, ExtraActivity, CurrentDisease, GeneralExamResultAndSpecific, RecordRecommendation } from "./_base";
+import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic, GeneralExamResult, MedicalConsultation, MedicalAndSurgicalHistory, ExtraActivity, CurrentDisease, GeneralExamResultAndSpecific, RecordRecommendation, InstitutionHealthRecord } from "./_base";
 
-type Religion = 'catholic' | 'evangelical' | "jehovah's witnesses" | 'mormon' | 'other';
+type ReligionRecord = 'catholic' | 'evangelical' | "jehovah's witnesses" | 'mormon' | 'other';
 type SexualOrientation = 'lesbian' | 'gay' | 'bisexual' | 'heterosexual' | 'unknown';
 type GenderIdentity = 'male' | 'female' | 'trans-female' | 'trans-male' | 'unknown';
+type PatientLaterality = 'right' | 'left';
 
 type ExamHistoryResult = {
     done: boolean;
@@ -36,71 +37,101 @@ type MaleReproductiveHistory = {
     maleReproductiveLivingChildren: number;
 };
 
-type JobInformation = {
-    jobStartDate: Date;
-    jobPosition: string;
-    jobArea: string;
-    jobActivity: string;
-};
-
 type JobHistory = {
-    lastJobCompany: string;
-    lastJobPosition: string;
-    lastJobActivity: string;
-    lastJobTime: number;
-    lastJobRiskPhysical: boolean;
-    lastJobRiskMechanical: boolean;
-    lastJobRiskChemical: boolean;
-    lastJobRiskBiological: boolean;
-    lastJobRiskErgonomic: boolean;
-    lastJobRiskPsychosocial: boolean;
-    lastJobObservation: string;
+    jobHistoryCompany: string;
+    jobHistoryPosition: string;
+    jobHistoryActivity: string;
+    jobHistoryTime: number;
+    jobHistoryRiskPhysical: boolean;
+    jobHistoryRiskMechanical: boolean;
+    jobHistoryRiskChemical: boolean;
+    jobHistoryRiskBiological: boolean;
+    jobHistoryRiskErgonomic: boolean;
+    jobHistoryRiskPsychosocial: boolean;
+    jobHistoryObservation: string;
 }
 
-export type JobRisk = Partial<PhysicalRisk<boolean>> & Partial<MechanicalRisk<boolean>> & Partial<ChemicalRisk<boolean>> & {
-    name: string;
-    activity: string;
-    physicalRiskOther?: string;
-    mechanicRiskOther?: string;
-    chemicalRiskOther?: string;
+export type JobRisk = Partial<PhysicalRisk<boolean>>
+    & Partial<MechanicalRisk<boolean>>
+    & Partial<ChemicalRisk<boolean>>
+    & Partial<BiologicalRisk<boolean>>
+    & Partial<ErgonomicRisk<boolean>>
+    & Partial<PsychosocialRisk<boolean>>
+    & {
+        name: string;
+        activity: string;
+        physicalRiskOther?: boolean;
+        mechanicRiskOther?: boolean;
+        chemicalRiskOther?: boolean;
+        biologicalRiskOther?: boolean;
+        ergonomicRiskOther?: boolean;
+        psychosocialRiskOther?: boolean;
+        preventiveMeasure: string;
+    }
+
+type InstitutionJobInformation = {
+    institutionJobStartDate: Date;
+    institutionJobPosition: string;
+    institutionJobArea: string;
+    institutionJobActivities: string;
 }
 
-export type JobRiskWithPreventiveMeasure = Partial<BiologicalRisk<boolean>> & Partial<ErgonomicRisk<boolean>> & Partial<PsychosocialRisk<boolean>> & {
-    name: string;
-    activity: string;
-    biologicalRiskOther?: string;
-    ergonomicRiskOther?: string;
-    psychosocialRiskOther?: string;
-    preventiveMeasure: string;
-}
-
-export type InitialRecordPayload = PatientRecord & CompanyRecord & MedicalConsultation & MedicalAndSurgicalHistory &
-    JobInformation & LifeStyle & JobAccident & OccupationalDisease &
-    FamilyHistory & GynecologicalHistory & MaleReproductiveHistory & ReviewOfOrgansAndSystem &
-    VitalSignsAndAnthropometry & PhysicalRegionalExam & ExtraActivity & CurrentDisease & GeneralExamResultAndSpecific & MedicalFitnessForJob &
-    RecordRecommendation & {
-        /** Institution & Patient Information */
-        institutionHealthFacility: string;
+export type InitialRecordPayload =
+    // ---------------------------- Institution & Patient Information
+    & CompanyRecord
+    & InstitutionHealthRecord
+    & PatientRecord
+    & InstitutionJobInformation
+    // ---------------------------- Medical Consultation
+    & MedicalConsultation
+    // ---------------------------- Patient History
+    & MedicalAndSurgicalHistory
+    & GynecologicalHistory
+    & MaleReproductiveHistory
+    & LifeStyle
+    // ---------------------------- Job history
+    & JobAccident
+    & OccupationalDisease
+    // ---------------------------- Family history
+    & FamilyHistory
+    // ---------------------------- Job Extra Activities
+    & ExtraActivity
+    // ---------------------------- Current disease
+    & CurrentDisease
+    // ---------------------------- Review of Organs and System
+    & ReviewOfOrgansAndSystem
+    // ---------------------------- Vital Signs and Anthropometry
+    & VitalSignsAndAnthropometry
+    // ---------------------------- Physical Regional Exam
+    & PhysicalRegionalExam
+    // ---------------------------- General Exam Result and Specific
+    & GeneralExamResultAndSpecific
+    // ---------------------------- Medical Fitness for Job
+    & MedicalFitnessForJob
+    // ---------------------------- Recommendation
+    & RecordRecommendation
+    & {
+        /* ---------------------------- Institution & Patient Information ---------------------------- */
         patientAge: number;
-        patientReligion: Religion;
-        patientOtherReligion?: string;
+        patientReligion: ReligionRecord;
         patientBloodType: string;
-        patientLaterality: string;
+        patientLaterality: PatientLaterality;
         patientSexualOrientation: SexualOrientation;
         patientGenderIdentity: GenderIdentity;
         patientDisabilityType?: string;
         patientDisabilityPercent?: number;
 
-        /** Patient History */
-        toxicHabitTobacco?: ToxicDetail;
-        toxicHabitAlcohol?: ToxicDetail;
-        toxicHabitOther?: ToxicDetail;
+        /* ---------------------------- Patient History ---------------------------- */
+        toxicHabitTobacco: ToxicDetail;
+        toxicHabitAlcohol: ToxicDetail;
+        toxicHabitOther: ToxicDetail;
 
-        /** Job Position History */
+        /* ---------------------------- Job Position History ---------------------------- */
         jobHistory: JobHistory[];
-        jobRisks: JobRisk[];
-        jobRiskWithPreventiveMeasure: JobRiskWithPreventiveMeasure[];
 
-        /** Diagnostics */
+        /* ---------------------------- Job Position Risks ---------------------------- */
+        jobRisks: JobRisk[];
+
+        /* ---------------------------- Diagnostics ---------------------------- */
         diagnostics: MedicalDiagnostic[];
     };

@@ -16,6 +16,110 @@ import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
 import RetirementEvaluationForm from './_components/retirement-evaluation-form';
 import RecommendationForm from '@/components/record/recommendation-form';
 import PreviewRetirementRecord from './_components/preview-retirement-record';
+import { RetirementRecordPayload } from '@/server/record/create-record/retirement-record';
+
+const defaultValues: Partial<RetirementRecordPayload> = {
+    companyName: "ENVAGRIF",
+    companyRUC: "1724317191001",
+    companyCIIU: "",
+    institutionHealthFacility: "Omega Salud Ocupacional",
+    patientFirstName: "MARIO",
+    patientMiddleName: "ALFONSO",
+    patientLastName: "NOBOA",
+    patientSecondLastName: "CORONEL",
+    patientGender: "male",
+    workStartDate: new Date("2025-01-25T14:42:11.489Z"),
+    workingTime: 4,
+    workingEndDate: new Date("2025-05-29T14:42:11.489Z"),
+    jobPosition: "SAMPLE",
+    institutionActivities: [
+        {
+            activity: "SAMPLE",
+            risk: "SAMPLE"
+        }
+    ],
+    medicalAndSurgicalHistory: "APP:\n\nAPQ:\n\nALERGIAS:",
+    jobAccidentHappened: true,
+    jobAccidentDate: new Date("2025-05-29T15:01:43.176Z"),
+    jobAccidentDescription: "SAMPLE",
+    jobAccidentObservation: "SAMPLE",
+    occupationalDiseaseHappened: false,
+    occupationalDiseaseDescription: "",
+    occupationalDiseaseDate: new Date("2025-05-29T15:02:03.592Z"),
+    occupationalDiseaseObservation: "SAMPLE",
+    vitalSignsBloodPressure: "10",
+    vitalSignsTemperature: "10",
+    vitalSignsHeartRate: "10",
+    vitalSignsOxygenSaturation: "10",
+    vitalSignsRespiratoryRate: "10",
+    vitalSignsWeight: "10",
+    vitalSignsSize: "10",
+    vitalSignsMassIndex: "10",
+    vitalSignsAbdominalPerimeter: "10",
+    examSkinScar: "SAMPLE",
+    examSkinTattoo: "",
+    examSkinLesions: "",
+    examEyeEyelids: "SAMPLE",
+    examEyeConjunctiva: "SAMPLE",
+    examEyePupils: "",
+    examEyeCorneas: "",
+    examEyeMotility: "",
+    examEarAuditoryExternal: "",
+    examEarAuricle: "",
+    examEarEardrum: "",
+    examPharynxLips: "",
+    examPharynxTongue: "",
+    examPharynxPharynx: "",
+    examPharynxTonsils: "",
+    examPharynxTeeth: "",
+    examNosePartition: "",
+    examNoseTurbinates: "",
+    examNoseMucousMembranes: "",
+    examNoseParanasalSinuses: "",
+    examNeckThyroid: "",
+    examNeckMobility: "",
+    examChestBreast: "",
+    examChestHeart: "",
+    examChestLungs: "",
+    examChestRibCage: "",
+    examAbdomenViscera: "",
+    examAbdomenAbdominalWall: "",
+    examColumnFlexibility: "",
+    examColumnDeviation: "",
+    examColumnPain: "",
+    examPelvis: "",
+    examPelvisGenitals: "",
+    examLimbVascular: "",
+    examLimbUpper: "",
+    examLimbLower: "",
+    examNeurologicForce: "",
+    examNeurologicSensitivity: "",
+    examNeurologicGait: "",
+    examNeurologicReflex: "",
+    generalExamResults: [
+        {
+            date: new Date("2025-05-29T15:01:08.442Z"),
+            exam: "SAMPLE",
+            result: "SAMPLE"
+        }
+    ],
+    generalExamObservation: "SAMPLE",
+    diagnostics: [
+        {
+            description: "SAMPLE",
+            cie: "SAMPLE",
+            flag: "pre"
+        },
+        {
+            description: "SAMPLE",
+            cie: "SAMPLE",
+            flag: "def"
+        }
+    ],
+    retirementEvaluationDone: true,
+    retirementEvaluationObservation: "",
+    recommendationDescription: "SAMPLE"
+}
 
 type RecordRetirementPageProps = {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -58,7 +162,7 @@ const RecordRetirementPage: React.FC<RecordRetirementPageProps> = async ({
                     { title: 'Resultados de Examenes Generales y Especificos', description: 'Regiones', icon: 'notebook' },
                     { title: 'F. Diagnostico', icon: 'notebook' },
                     { title: 'G. Evaluacion Medica de Retiro', icon: 'notebook' },
-                    { title: 'Recomendacionesy/o Tratamientos', icon: 'notebook' },
+                    { title: 'Recomendaciones y/o Tratamientos', icon: 'notebook' },
 
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
@@ -69,6 +173,7 @@ const RecordRetirementPage: React.FC<RecordRetirementPageProps> = async ({
                     patientLastName: patientLastName,
                     patientSecondLastName: patientSecondLastName,
                     patientGender: patient.patientGender,
+                    ...defaultValues
                 }}>
                 <RetirementInstitutionForm options={corporativeOptions} />
                 <RetirementActivityAndRiskForm />

@@ -65,7 +65,7 @@ const PreviewReintegrateRecord = React.forwardRef<HTMLFormElement, PreviewReinte
                         </PreviewRecordWrapper>
 
                         <PreviewRecordWrapper title='APTITUD MEDICA PARA EL TRABAJO'>
-                            <PreviewRecordMedicalFitnessForJob {...data} />
+                            <PreviewRecordMedicalFitnessForJob {...data} showReubication />
                         </PreviewRecordWrapper>
 
                         <PreviewRecordWrapper title='RECOMENDACIONES Y/O TRATAMIENTO'>

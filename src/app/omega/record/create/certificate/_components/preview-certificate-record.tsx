@@ -44,11 +44,11 @@ const PreviewCertificateRecord = React.forwardRef<HTMLFormElement, PreviewCertif
                         </PreviewRecordWrapper>
 
                         <PreviewRecordWrapper title='APTITUD MEDICA PARA EL LABORAL'>
-                            <PreviewRecordMedicalFitnessForJob {...data} />
+                            <PreviewRecordMedicalFitnessForJob {...data} hideLimitation />
                         </PreviewRecordWrapper>
 
                         <PreviewRecordWrapper title='EVALUACION MEDICA DE RETIRO'>
-                            <PreviewCertificateRecordRetirementEvaluation {...data} />
+                            <PreviewCertificateRecordRetirementEvaluation{...data} />
                         </PreviewRecordWrapper>
 
                         <PreviewRecordWrapper title='RECOMENDACIONES Y/O TRATAMIENTO'>

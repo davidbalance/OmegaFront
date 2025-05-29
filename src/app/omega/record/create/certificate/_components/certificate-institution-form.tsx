@@ -2,12 +2,11 @@
 
 import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback, useMemo } from 'react'
-import CertificateInstitutionSchema from '../_schemas/certificate-institution.schema'
+import CertificateInstitutionSchema, { adjustInitialValues } from '../_schemas/certificate-institution.schema'
 import { z } from 'zod';
-import { Box, Divider, rem, SimpleGrid, Stack, TextInput } from '@mantine/core';
+import { Box, Divider, rem, SimpleGrid, Stack, TextInput, Title } from '@mantine/core';
 import CorporativeSelect from '@/components/corporative-select';
 import { CorporativeOption } from '@/server/corporative/server-types';
-import GenderSelector from '@/components/gender-selector';
 import { CascadingSelectValue } from '@/components/cascading-select';
 
 type CertificateInstitutionFormProps = {
@@ -22,18 +21,7 @@ const CertificateInstitutionForm = React.forwardRef<HTMLFormElement, Certificate
 }, ref) => {
 
     const form = useForm<z.infer<typeof CertificateInstitutionSchema>>({
-        initialValues: {
-            companyName: data?.companyName ?? '',
-            companyRUC: data?.companyRUC ?? '',
-            companyCIU: data?.companyCIU ?? '',
-            institutionHealthFacility: data?.institutionHealthFacility ?? 'Omega Salud Ocupacional',
-            patientFirstName: data?.patientFirstName ?? '',
-            patientMiddleName: data?.patientMiddleName ?? '',
-            patientLastName: data?.patientLastName ?? '',
-            patientSecondLastName: data?.patientSecondLastName ?? '',
-            patientGender: data?.patientGender ?? 'male',
-            jobPosition: data?.jobPosition ?? ''
-        },
+        initialValues: adjustInitialValues(data),
         validate: zodResolver(CertificateInstitutionSchema)
     });
 
@@ -55,40 +43,44 @@ const CertificateInstitutionForm = React.forwardRef<HTMLFormElement, Certificate
     const defaultCorporative = useMemo(() => options.find(e => e.children.some(x => x.value === data?.companyRUC))?.value ?? undefined, [options, data?.companyRUC]);
 
     return (
-        <Box
-            ref={ref}
-            component='form'
-            onSubmit={form.onSubmit(handleSubmit)}
-            style={{ position: 'relative', width: '100%', height: '100%' }}>
+        <>
+            <Title order={3}>Datos del establecimiento</Title>
+            <Title order={5} c="dimmed">Empresa y Usuario</Title>
+            <Box
+                ref={ref}
+                component='form'
+                onSubmit={form.onSubmit(handleSubmit)}
+                style={{ position: 'relative', width: '100%', height: '100%' }}>
 
-            <input type='hidden' {...form.getInputProps('institutionHealthFacility')} />
-            <input type='hidden' {...form.getInputProps('patientFirstName')} />
-            <input type='hidden' {...form.getInputProps('patientMiddleName')} />
-            <input type='hidden' {...form.getInputProps('patientLastName')} />
-            <input type='hidden' {...form.getInputProps('patientSecondLastName')} />
-            <input type='hidden' {...form.getInputProps('patientGender')} />
+                <input type='hidden' {...form.getInputProps('institutionHealthFacility')} />
+                <input type='hidden' {...form.getInputProps('patientFirstName')} />
+                <input type='hidden' {...form.getInputProps('patientMiddleName')} />
+                <input type='hidden' {...form.getInputProps('patientLastName')} />
+                <input type='hidden' {...form.getInputProps('patientSecondLastName')} />
+                <input type='hidden' {...form.getInputProps('patientGender')} />
 
-            <Stack gap={rem(16)}>
-                <Divider label='Institucion' />
-                <SimpleGrid cols={{ base: 1, sm: 3 }}>
-                    <CorporativeSelect
-                        options={options}
-                        corporativeValue={defaultCorporative}
-                        companyValue={data?.companyRUC}
-                        useCompany
-                        onChange={handleCorporativeChange} />
+                <Stack gap={rem(16)}>
+                    <Divider label='Institucion' />
+                    <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                        <CorporativeSelect
+                            options={options}
+                            corporativeValue={defaultCorporative}
+                            companyValue={data?.companyRUC}
+                            useCompany
+                            onChange={handleCorporativeChange} />
+                        <TextInput
+                            label="CIIU"
+                            placeholder="CIIU"
+                            {...form.getInputProps('companyCIIU')} />
+                    </SimpleGrid>
+
                     <TextInput
-                        label="CIU"
-                        placeholder="CIU"
-                        {...form.getInputProps('companyCIU')} />
-                </SimpleGrid>
-
-                <TextInput
-                    label="PUESTO DE TRABAJO"
-                    placeholder='eg. Gerente'
-                    {...form.getInputProps('jobPosition')} />
-            </Stack>
-        </Box>
+                        label="PUESTO DE TRABAJO"
+                        placeholder='eg. Gerente'
+                        {...form.getInputProps('jobPosition')} />
+                </Stack>
+            </Box>
+        </>
     )
 });
 

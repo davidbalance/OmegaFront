@@ -35,6 +35,7 @@ const StepperInitialRecordForm: React.FC<StepperInitialRecordFormProps> = ({
     const router = useRouter();
 
     const handleSubmit = useCallback(async (data: StepperInitialRecordForm) => {
+        console.log(data);
         await createClientRecordInitial({ ...data, patientDni });
     }, [patientDni]);
 

@@ -62,12 +62,13 @@ const PreviewInitialRecord = React.forwardRef<HTMLFormElement, PreviewInitialRec
 
                         <PreviewRecordWrapper title='ANTECEDENTES PERSONALES'>
                             <PreviewRecordMedicalAndSurgicalHistory {...data} />
-                            <PreviewInitialRecordGinecological {...data} />
-                            <PreviewInitialRecordMaleReproduction {...data} />
+                            {data.patientGender === 'female'
+                                ? <PreviewInitialRecordGinecological {...data} />
+                                : <PreviewInitialRecordMaleReproduction {...data} />}
                             <PreviewRecordToxicHabits habits={[
-                                { habit: 'TABACO', ...data.toxicHabitTobacco },
-                                { habit: 'ALCOHOL', ...data.toxicHabitAlcohol },
-                                { habit: 'OTRAS DROGAS', ...data.toxicHabitOther },
+                                { name: 'TABACO', ...data.toxicHabitTobacco },
+                                { name: 'ALCOHOL', ...data.toxicHabitAlcohol },
+                                { name: 'OTRAS DROGAS', ...data.toxicHabitOther },
                             ]} />
                             <PreviewRecordLifeStyle {...data} />
                         </PreviewRecordWrapper>

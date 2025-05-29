@@ -1,16 +1,56 @@
 import { z } from "zod";
 
 const schema = z.object({
-    lifestylePhysicalActivityActive: z.coerce.boolean(),
+    lifestylePhysicalActivity: z.coerce.boolean(),
     lifestylePhysicalActivityType: z.coerce.string().optional(),
-    lifestylePhysicalActivityDuration: z.coerce.number().optional(),
-    lifestyleMedicationTaking: z.coerce.boolean(),
+    lifestylePhysicalActivityTimeQty: z.coerce.string().optional(),
+    lifestyleMedication: z.coerce.boolean(),
     lifestyleMedicationName: z.coerce.string().optional(),
-    lifestyleMedicationQuantity: z.coerce.number().optional(),
+    lifestyleMedicationTimeQty: z.coerce.string().optional(),
 })
-    .refine(args => !args.lifestylePhysicalActivityActive ? true : !!args.lifestylePhysicalActivityType, { message: 'No se ha indicado la actividad fisica.', path: ['lifestylePhysicalActivityType'] })
-    .refine(args => !args.lifestylePhysicalActivityActive ? true : !!args.lifestylePhysicalActivityDuration, { message: 'No se ha indicado la duracion.', path: ['lifestylePhysicalActivityDuration'] })
-    .refine(args => !args.lifestyleMedicationTaking ? true : !!args.lifestyleMedicationName, { message: 'No se ha indicado la medicacion.', path: ['lifestyleMedicationName'] })
-    .refine(args => !args.lifestyleMedicationTaking ? true : !!args.lifestyleMedicationQuantity, { message: 'No se ha indicado la cantidad.', path: ['lifestyleMedicationQuantity'] })
+    .superRefine((data, ctx) => {
+        if (data.lifestylePhysicalActivity) {
+            if (!data.lifestylePhysicalActivityType) {
+                ctx.addIssue({
+                    path: ['lifestylePhysicalActivityType'],
+                    code: z.ZodIssueCode.custom,
+                    message: "Debe agregar el nombre de la actividad."
+                });
+            }
+            if (!data.lifestylePhysicalActivityTimeQty) {
+                ctx.addIssue({
+                    path: ['lifestylePhysicalActivityTimeQty'],
+                    code: z.ZodIssueCode.custom,
+                    message: "Debe agregar el tiempo/cantidad de la actividad."
+                });
+            }
+        }
+
+        if (data.lifestyleMedication) {
+            if (!data.lifestyleMedicationName) {
+                ctx.addIssue({
+                    path: ['lifestyleMedicationName'],
+                    code: z.ZodIssueCode.custom,
+                    message: "Debe agregar el nombre del medicamento."
+                });
+            }
+            if (!data.lifestyleMedicationTimeQty) {
+                ctx.addIssue({
+                    path: ['lifestyleMedicationTimeQty'],
+                    code: z.ZodIssueCode.custom,
+                    message: "Debe agregar el tiempo/cantidad del medicamento."
+                });
+            }
+        }
+    })
+
+export const adjustInitialValue = (value?: Partial<z.infer<typeof schema>>) => ({
+    lifestylePhysicalActivity: value?.lifestylePhysicalActivity ?? false,
+    lifestylePhysicalActivityType: value?.lifestylePhysicalActivityType ?? '',
+    lifestylePhysicalActivityTimeQty: value?.lifestylePhysicalActivityTimeQty ?? '',
+    lifestyleMedication: value?.lifestyleMedication ?? false,
+    lifestyleMedicationName: value?.lifestyleMedicationName ?? '',
+    lifestyleMedicationTimeQty: value?.lifestyleMedicationTimeQty ?? '',
+});
 
 export default schema;

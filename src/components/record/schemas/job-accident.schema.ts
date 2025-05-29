@@ -6,7 +6,28 @@ const schema = z.object({
     jobAccidentDate: z.coerce.date().default(new Date()),
     jobAccidentObservation: z.coerce.string().optional(),
 })
-    .refine(args => !args.jobAccidentHappened ? true : !!args.jobAccidentDescription, { message: 'La descripcion tiene que llenarse', path: ['jobAccidentDescription'] })
-    .refine(args => !args.jobAccidentHappened ? true : !!args.jobAccidentDate, { message: 'Debe colocar una fecha', path: ['jobAccidentDate'] })
+    .superRefine((data, ctx) => {
+        if (data.jobAccidentHappened && !data.jobAccidentDescription) {
+            ctx.addIssue({
+                path: ['jobAccidentDescription'],
+                code: z.ZodIssueCode.custom,
+                message: "Debe colocar la descripcion del accidente"
+            })
+        }
+        if (data.jobAccidentHappened && !data.jobAccidentDate) {
+            ctx.addIssue({
+                path: ['jobAccidentDate'],
+                code: z.ZodIssueCode.custom,
+                message: "Debe colocar la fecha del accidente"
+            })
+        }
+    })
+
+export const adjustInitialValue = (data?: Partial<z.infer<typeof schema>>) => ({
+    jobAccidentHappened: data?.jobAccidentHappened ?? false,
+    jobAccidentDate: data?.jobAccidentDate ?? new Date(),
+    jobAccidentDescription: data?.jobAccidentDescription ?? '',
+    jobAccidentObservation: data?.jobAccidentObservation ?? ''
+});
 
 export default schema;

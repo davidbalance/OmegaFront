@@ -15,7 +15,7 @@ type PreviewRetirementRecordInstitutionProps = Pick<RetirementRecordPayload,
     | 'patientGender'
     | 'companyName'
     | 'companyRUC'
-    | 'companyCIU'
+    | 'companyCIIU'
     | 'institutionHealthFacility'
     | 'workStartDate'
     | 'workingEndDate'
@@ -31,7 +31,7 @@ const PreviewRetirementRecordInstitution: React.FC<PreviewRetirementRecordInstit
     patientGender,
     companyName,
     companyRUC,
-    companyCIU,
+    companyCIIU,
     institutionHealthFacility,
     workStartDate,
     workingEndDate,
@@ -46,7 +46,7 @@ const PreviewRetirementRecordInstitution: React.FC<PreviewRetirementRecordInstit
                 <Stack gap={rem(16)}>
                     <PreviewRecordElement title='NOMBRE DE LA EMPRESA' text={companyName} />
                     <PreviewRecordElement title='RUC' text={companyRUC} />
-                    <PreviewRecordElement title='CIU' text={companyCIU} />
+                    <PreviewRecordElement title='CIIU' text={companyCIIU ?? ''} />
                     <PreviewRecordElement title='ESTABLECIMIENTO DE SALUD' text={institutionHealthFacility} />
                 </Stack>
                 <Stack gap={rem(16)}>
@@ -71,10 +71,11 @@ const PreviewRetirementRecordInstitution: React.FC<PreviewRetirementRecordInstit
                             <TableTh>FACTORES DE RIESGO</TableTh>
                         </TableTr>
                     </TableThead>
-                    <TableTbody>{institutionActivities.map(e => <TableTr key={crypto.randomUUID()}>
-                        <TableTd>{e.activity}</TableTd>
-                        <TableTd>{e.risk}</TableTd>
-                    </TableTr>)}</TableTbody>
+                    <TableTbody>{institutionActivities.map(e =>
+                        <TableTr key={crypto.randomUUID()}>
+                            <TableTd>{e.activity}</TableTd>
+                            <TableTd>{e.risk}</TableTd>
+                        </TableTr>)}</TableTbody>
                 </Table>
             </Box>
         </PreviewRecordContent>

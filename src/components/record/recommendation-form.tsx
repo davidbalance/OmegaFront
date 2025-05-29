@@ -4,7 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import RecommendationSchema from './schemas/recommendation.schema'
 import { z } from 'zod';
-import { Box, rem, Textarea } from '@mantine/core';
+import { Box, rem, Textarea, Title } from '@mantine/core';
 
 type RecommendationFormProps = {
   data?: Partial<z.infer<typeof RecommendationSchema>>,
@@ -27,17 +27,20 @@ const RecommendationForm = React.forwardRef<HTMLFormElement, RecommendationFormP
   }, [onSubmit]);
 
   return (
-    <Box
-      ref={ref}
-      component='form'
-      onSubmit={form.onSubmit(handleSubmit)}
-      style={{ position: 'relative', width: '100%', height: '100%' }}>
-      <Textarea
-        label="DESCRIPCION"
-        placeholder='eg. Consulta...'
-        rows={10}
-        {...form.getInputProps('recommendationDescription')} />
-    </Box>
+    <>
+      <Title order={3}>Recomendaciones y/o Tratamientos</Title>
+      <Box
+        mt={rem(16)}
+        ref={ref}
+        component='form'
+        onSubmit={form.onSubmit(handleSubmit)}
+        style={{ position: 'relative', width: '100%', height: '100%' }}>
+        <Textarea
+          placeholder='eg. Consulta...'
+          rows={10}
+          {...form.getInputProps('recommendationDescription')} />
+      </Box>
+    </>
   )
 });
 

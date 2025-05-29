@@ -14,14 +14,14 @@ type PreviewPeriodicRecordInstitutionProps = Pick<PeriodicRecordPayload,
     | 'patientGender'
     | 'companyName'
     | 'companyRUC'
-    | 'companyCIU'
+    | 'companyCIIU'
     | 'institutionHealthFacility'
     | 'jobPosition'
 >
 const PreviewPeriodicRecordInstitution: React.FC<PreviewPeriodicRecordInstitutionProps> = ({
     companyName,
     companyRUC,
-    companyCIU,
+    companyCIIU,
     institutionHealthFacility,
     patientLastName,
     patientSecondLastName,
@@ -37,7 +37,7 @@ const PreviewPeriodicRecordInstitution: React.FC<PreviewPeriodicRecordInstitutio
                 <Stack gap={rem(16)}>
                     <PreviewRecordElement title='NOMBRE DE LA EMPRESA' text={companyName} />
                     <PreviewRecordElement title='RUC' text={companyRUC} />
-                    <PreviewRecordElement title='CIU' text={companyCIU} />
+                    <PreviewRecordElement title='CIU' text={companyCIIU ?? ''} />
                     <PreviewRecordElement title='ESTABLECIMIENTO DE SALUD' text={institutionHealthFacility} />
                 </Stack>
                 <Stack gap={rem(16)}>

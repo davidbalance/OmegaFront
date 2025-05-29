@@ -3,11 +3,17 @@ import React from 'react'
 import { Group, SimpleGrid, Text } from '@mantine/core'
 import PreviewRecordContent from './preview-record-content'
 
-type PreviewRecordMedicalFitnessForJobProps = MedicalFitnessForJob
+type PreviewRecordMedicalFitnessForJobProps = MedicalFitnessForJob & {
+    hideLimitation?: boolean;
+    showReubication?: boolean;
+}
 const PreviewRecordMedicalFitnessForJob: React.FC<PreviewRecordMedicalFitnessForJobProps> = ({
     medicalFitnessLimitation,
     medicalFitnessObservation,
-    medicalFitnessType
+    medicalFitnessReubication,
+    medicalFitnessType,
+    showReubication,
+    hideLimitation
 }) => {
 
     return (
@@ -34,10 +40,14 @@ const PreviewRecordMedicalFitnessForJob: React.FC<PreviewRecordMedicalFitnessFor
                 <Text component='span' fw='bold'>Observacion</Text>
                 <Text component='span'>{medicalFitnessObservation}</Text>
             </Group>
-            <Group>
+            {!hideLimitation && <Group>
                 <Text component='span' fw='bold'>Limitacion</Text>
                 <Text component='span'>{medicalFitnessLimitation}</Text>
-            </Group>
+            </Group>}
+            {showReubication && <Group>
+                <Text component='span' fw='bold'>Reubicacion</Text>
+                <Text component='span'>{medicalFitnessReubication}</Text>
+            </Group>}
         </PreviewRecordContent>
     )
 }

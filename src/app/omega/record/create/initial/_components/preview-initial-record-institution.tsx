@@ -7,18 +7,18 @@ import { rem, SimpleGrid, Stack } from '@mantine/core';
 import dayjs from 'dayjs';
 import React, { useMemo } from 'react'
 
-type PreviewInititalRecordInstitutionProps = Pick<InitialRecordPayload, 'companyName' | 'companyRUC' | 'companyCIU' | 'institutionHealthFacility'
-    | 'patientReligion' | 'patientOtherReligion' | 'patientSexualOrientation' | 'patientGenderIdentity'
+type PreviewInititalRecordInstitutionProps = Pick<InitialRecordPayload,
+    'companyName' | 'companyRUC' | 'companyCIIU' | 'institutionHealthFacility'
+    | 'patientReligion' | 'patientSexualOrientation' | 'patientGenderIdentity'
     | 'patientDisabilityType' | 'patientDisabilityPercent' | 'patientLastName' | 'patientSecondLastName'
     | 'patientFirstName' | 'patientMiddleName' | 'patientGender' | 'patientAge'
-    | 'patientBloodType' | 'patientLaterality' | 'jobStartDate' | 'jobPosition' | 'jobArea' | 'jobActivity'>
+    | 'patientBloodType' | 'patientLaterality' | 'institutionJobStartDate' | 'institutionJobPosition' | 'institutionJobArea' | 'institutionJobActivities'>
 const PreviewInititalRecordInstitution: React.FC<PreviewInititalRecordInstitutionProps> = ({
     companyName,
     companyRUC,
-    companyCIU,
+    companyCIIU,
     institutionHealthFacility,
     patientReligion,
-    patientOtherReligion,
     patientSexualOrientation,
     patientGenderIdentity,
     patientDisabilityType,
@@ -31,10 +31,10 @@ const PreviewInititalRecordInstitution: React.FC<PreviewInititalRecordInstitutio
     patientAge,
     patientBloodType,
     patientLaterality,
-    jobStartDate,
-    jobPosition,
-    jobArea,
-    jobActivity
+    institutionJobStartDate,
+    institutionJobPosition,
+    institutionJobArea,
+    institutionJobActivities
 }) => {
 
 
@@ -44,9 +44,9 @@ const PreviewInititalRecordInstitution: React.FC<PreviewInititalRecordInstitutio
             case 'evangelical': return 'Evangelica';
             case 'jehovah\'s witnesses': return 'Testigo de Jehová';
             case 'mormon': return 'Mormona';
-            case 'other': return patientOtherReligion ?? '';
+            case 'other': return 'Otra'
         }
-    }, [patientReligion, patientOtherReligion]);
+    }, [patientReligion]);
 
     const previewSexualOrientation = useMemo(() => {
         switch (patientSexualOrientation) {
@@ -78,7 +78,7 @@ const PreviewInititalRecordInstitution: React.FC<PreviewInititalRecordInstitutio
                 <Stack gap={rem(16)}>
                     <PreviewRecordElement title='NOMBRE DE LA EMPRESA' text={companyName} />
                     <PreviewRecordElement title='RUC' text={companyRUC} />
-                    <PreviewRecordElement title='CIU' text={companyCIU} />
+                    <PreviewRecordElement title='CIU' text={companyCIIU ?? ''} />
                     <PreviewRecordElement title='ESTABLECIMIENTO DE SALUD' text={institutionHealthFacility} />
                 </Stack>
                 <Stack gap={rem(16)}>
@@ -86,20 +86,20 @@ const PreviewInititalRecordInstitution: React.FC<PreviewInititalRecordInstitutio
                     <PreviewRecordElement title='SEGUNDO APELLIDO' text={patientSecondLastName} />
                     <PreviewRecordElement title='PRIMER NOMBRE' text={patientFirstName} />
                     <PreviewRecordElement title='SEGUNDO NOMBRE' text={patientMiddleName} />
-                    <PreviewRecordElement title='SEXO' text={patientGender === 'male' ? 'MASCULINO' : 'FEMENINO'} />
+                    <PreviewRecordElement title='SEXO' text={patientGender === 'male' ? 'HOMBRE (H)' : 'MUJER (M)'} />
                     <PreviewRecordElement title='EDAD (años)' text={patientAge.toString()} />
                     <PreviewRecordElement title='RELIGION' text={previewReligion} />
                     <PreviewRecordElement title='GRUPO SANGUINEO' text={patientBloodType} />
-                    <PreviewRecordElement title='LATERALIDAD' text={patientLaterality} />
+                    <PreviewRecordElement title='LATERALIDAD' text={patientLaterality === 'right' ? 'DIESTRO' : 'ZURDO'} />
                 </Stack>
                 <Stack gap={rem(16)}>
                     <PreviewRecordElement title='ORIENTACION SEXUAL' text={previewSexualOrientation} />
                     <PreviewRecordElement title='IDENTIDAD DE GÉNERO' text={previewGenderIdentity} />
                     <PreviewRecordElement title='DISCAPACIDAD' text={previewDisability} />
-                    <PreviewRecordElement title='FECHA DE INGRESO AL TRABAJO' text={dayjs(jobStartDate).format('YYYY/MM/DD')} />
-                    <PreviewRecordElement title='PUESTO DE TRABAJO (CUIO)' text={jobPosition} />
-                    <PreviewRecordElement title='ÁREA DE TRABAJO' text={jobArea} />
-                    <PreviewRecordElement title='ACTIVIDADES RELEVANTES AL PUESTO DE TRABAJO A OCUPAR' text={jobActivity} />
+                    <PreviewRecordElement title='FECHA DE INGRESO AL TRABAJO' text={dayjs(institutionJobStartDate).format('YYYY/MM/DD')} />
+                    <PreviewRecordElement title='PUESTO DE TRABAJO (CUIO)' text={institutionJobPosition} />
+                    <PreviewRecordElement title='ÁREA DE TRABAJO' text={institutionJobArea} />
+                    <PreviewRecordElement title='ACTIVIDADES RELEVANTES AL PUESTO DE TRABAJO A OCUPAR' text={institutionJobActivities} />
                 </Stack>
             </SimpleGrid>
         </PreviewRecordContent>

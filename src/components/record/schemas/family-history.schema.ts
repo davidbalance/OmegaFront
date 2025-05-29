@@ -11,4 +11,15 @@ const schema = z.object({
     familyHistoryOther: z.coerce.string().optional(),
 });
 
+export const adjustInitialValues = (data?: Partial<z.infer<typeof schema>>) => ({
+    familyHistoryCardioVascular: data?.familyHistoryCardioVascular ?? '',
+    familyHistoryMetabolic: data?.familyHistoryMetabolic ?? '',
+    familyHistoryNeurologic: data?.familyHistoryNeurologic ?? '',
+    familyHistoryOncologic: data?.familyHistoryOncologic ?? '',
+    familyHistoryInfectious: data?.familyHistoryInfectious ?? '',
+    familyHistoryHereditary: data?.familyHistoryHereditary ?? '',
+    familyHistoryDisability: data?.familyHistoryDisability ?? '',
+    familyHistoryOther: data?.familyHistoryOther ?? '',
+});
+
 export default schema;

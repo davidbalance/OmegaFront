@@ -1,15 +1,22 @@
+
+export type InstitutionHealthRecord = {
+    institutionHealthFacility: string;
+}
+
+export type PatientRecordGender = 'male' | 'female';
 export type PatientRecord = {
+    patientDni: string;
     patientFirstName: string;
     patientMiddleName: string;
     patientLastName: string;
     patientSecondLastName: string;
-    patientGender: 'male' | 'female';
+    patientGender: PatientRecordGender;
 };
 
 export type CompanyRecord = {
     companyName: string;
     companyRUC: string;
-    companyCIU: string;
+    companyCIIU?: string;
 };
 
 export type MedicalConsultation = {
@@ -17,43 +24,48 @@ export type MedicalConsultation = {
 }
 
 export type ExtraActivity = {
-    extraActivityDescription: string;
+    extraActivityDescription?: string;
 }
 
 export type CurrentDisease = {
-    currentDiseaseDescription: string;
+    currentDiseaseDescription?: string;
 }
 
+export type GeneralExamResult = {
+    exam: string;
+    date: Date;
+    result: string;
+};
 
 export type GeneralExamResultAndSpecific = {
     generalExamResults: GeneralExamResult[];
-    generalExamObservation: string;
+    generalExamObservation?: string;
 }
 
 export type MedicalAndSurgicalHistory = {
     medicalAndSurgicalHistory: string;
 }
 
-export type IndentRecord = {
+export type IncidentRecord = {
     incidentDescription: string;
 }
 
 export type ToxicDetail = {
-    consumed: boolean;
-    consumptionTime: number;
-    quantity: number;
-    consumer: boolean;
-    timeOfAbstinence: number;
-    other?: string;
+    haveConsume: boolean;
+    name?: string;
+    consumptionTime?: number;
+    quantity?: number;
+    isExConsumer?: boolean;
+    timeOfAbstinence?: number;
 };
 
 export type LifeStyle = {
-    lifestylePhysicalActivityActive: boolean;
+    lifestylePhysicalActivity: boolean;
     lifestylePhysicalActivityType?: string;
-    lifestylePhysicalActivityDuration?: number;
-    lifestyleMedicationTaking: boolean;
+    lifestylePhysicalActivityTimeQty?: string;
+    lifestyleMedication: boolean;
     lifestyleMedicationName?: string;
-    lifestyleMedicationQuantity?: number;
+    lifestyleMedicationTimeQty?: string;
 };
 
 export type JobAccident = {
@@ -141,7 +153,6 @@ export type PsychosocialRisk<T> = {
     psychosocialRiskJobInstability: T;
 }
 
-
 export type FamilyHistory = {
     familyHistoryCardioVascular?: string;
     familyHistoryMetabolic?: string;
@@ -167,15 +178,15 @@ export type ReviewOfOrgansAndSystem = {
 }
 
 export type VitalSignsAndAnthropometry = {
-    vitalSignsBloodPressure: number;
-    vitalSignsTemperature: number;
-    vitalSignsHeartRate: number;
-    vitalSignsOxygenSaturation: number;
-    vitalSignsRespiratoryRate: number;
-    vitalSignsWeight: number;
-    vitalSignsSize: number;
-    vitalSignsMassIndex: number;
-    vitalSignsAbdominalPerimeter: number;
+    vitalSignsBloodPressure: string;
+    vitalSignsTemperature: string;
+    vitalSignsHeartRate: string;
+    vitalSignsOxygenSaturation: string;
+    vitalSignsRespiratoryRate: string;
+    vitalSignsWeight: string;
+    vitalSignsSize: string;
+    vitalSignsMassIndex: string;
+    vitalSignsAbdominalPerimeter: string;
 };
 
 export type PhysicalRegionalExam = {
@@ -221,23 +232,18 @@ export type PhysicalRegionalExam = {
     examNeurologicReflex?: string;
 };
 
-export type GeneralExamResult = {
-    exam: string;
-    date: Date;
-    result: string;
-};
-
 export type MedicalDiagnostic = {
     description: string;
     cie: string;
-    pre: boolean;
-    def: boolean;
+    flag: 'pre' | 'def';
 };
 
+type MedicalFitnessType = 'fit' | 'fit-observation' | 'fit-limitation' | 'no-fit'
 export type MedicalFitnessForJob = {
-    medicalFitnessType: 'fit' | 'fit-observation' | 'fit-limitation' | 'no-fit';
-    medicalFitnessObservation: string;
-    medicalFitnessLimitation: string;
+    medicalFitnessType: MedicalFitnessType;
+    medicalFitnessObservation?: string;
+    medicalFitnessLimitation?: string;
+    medicalFitnessReubication?: string;
 };
 
 export type RecordRecommendation = {

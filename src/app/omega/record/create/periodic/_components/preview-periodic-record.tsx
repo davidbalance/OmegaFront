@@ -60,9 +60,9 @@ const PreviewPeriodicRecord = React.forwardRef<HTMLFormElement, PreviewPeriodicR
                         <PreviewRecordWrapper title='ANTECEDENTES PERSONALES'>
                             <PreviewRecordMedicalAndSurgicalHistory {...data} />
                             <PreviewRecordToxicHabits habits={[
-                                { habit: 'TABACO', ...data.toxicHabitTobacco },
-                                { habit: 'ALCOHOL', ...data.toxicHabitAlcohol },
-                                { habit: 'OTRAS DROGAS', ...data.toxicHabitOther },
+                                { name: 'TABACO', ...data.toxicHabitTobacco },
+                                { name: 'ALCOHOL', ...data.toxicHabitAlcohol },
+                                { name: 'OTRAS DROGAS', ...data.toxicHabitOther },
                             ]} />
                             <PreviewRecordLifeStyle {...data} />
                             <PreviewRecordIncident {...data} />

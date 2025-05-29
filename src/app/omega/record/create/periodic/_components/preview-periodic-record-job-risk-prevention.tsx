@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react'
 import { Box, rem, Stack, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text } from '@mantine/core'
-import { JobRiskWithPreventiveMeasure } from '@/server/record/create-record/periodic-record';
+import { JobRisk } from '@/server/record/create-record/periodic-record';
 
 type PreviewPeriodicRecordJobRiskPreventionProps = {
-    jobRiskWithPreventiveMeasure: JobRiskWithPreventiveMeasure[];
+    jobRisks: JobRisk[];
 }
 const PreviewPeriodicRecordJobRiskPrevention: React.FC<PreviewPeriodicRecordJobRiskPreventionProps> = ({
-    jobRiskWithPreventiveMeasure
+    jobRisks
 }) => {
 
-    const rows = useMemo(() => jobRiskWithPreventiveMeasure.map(e =>
+    const rows = useMemo(() => jobRisks.map(e =>
         <TableTr key={crypto.randomUUID()}>
             <TableTd>{e.name}</TableTd>
             <TableTd>{e.activity}</TableTd>
@@ -34,7 +34,7 @@ const PreviewPeriodicRecordJobRiskPrevention: React.FC<PreviewPeriodicRecordJobR
             <TableTd>{e.preventiveMeasure}</TableTd>
         </TableTr>
 
-    ), [jobRiskWithPreventiveMeasure]);
+    ), [jobRisks]);
 
     return (
         <Box px={rem(8)}>

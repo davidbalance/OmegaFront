@@ -37,7 +37,7 @@ const PreviewRecordGeneralExamResultAndSpecific: React.FC<PreviewRecordGeneralEx
                 </Table>
             </Box>
             <PreviewRecordContent>
-                <PreviewRecordElement title='Observaciones' text={generalExamObservation} />
+                <PreviewRecordElement title='Observaciones' text={generalExamObservation ?? ''} />
             </PreviewRecordContent>
         </>
     )

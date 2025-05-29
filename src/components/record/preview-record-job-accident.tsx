@@ -1,6 +1,6 @@
 import { JobAccident } from '@/server/record/create-record/_base'
 import React from 'react'
-import { Group, SimpleGrid, Text, Title } from '@mantine/core'
+import { SimpleGrid, Text, Title } from '@mantine/core'
 import PreviewRecordContent from './preview-record-content'
 import dayjs from 'dayjs';
 import PreviewRecordElement from './preview-record-element';

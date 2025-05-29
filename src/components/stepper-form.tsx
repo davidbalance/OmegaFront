@@ -74,6 +74,7 @@ const StepperForm = <T,>({
 
     const handleStepSubmit: StepSubmitEvent<T> = useCallback(
         async (value) => {
+            console.log(value);
             if (active !== childrenCount - 1) {
                 setFormValues((prev) => ({ ...prev, ...value }));
                 nextStep();

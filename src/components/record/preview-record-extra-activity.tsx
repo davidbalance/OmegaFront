@@ -1,4 +1,4 @@
-import { ExtraActivity, MedicalConsultation } from '@/server/record/create-record/_base'
+import { ExtraActivity } from '@/server/record/create-record/_base'
 import React from 'react'
 import PreviewRecordElement from './preview-record-element'
 import PreviewRecordContent from './preview-record-content'
@@ -9,7 +9,7 @@ const PreviewRecordExtraActivity: React.FC<PreviewRecordExtraActivityProps> = ({
 }) => {
     return (
         <PreviewRecordContent>
-            <PreviewRecordElement title='Descripcion' text={extraActivityDescription} />
+            <PreviewRecordElement title='Descripcion' text={extraActivityDescription ?? 'NINGÚNA'} />
         </PreviewRecordContent>
     )
 }

@@ -4,19 +4,19 @@ import { Box, rem, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Tit
 
 
 type PreviewRecordToxicHabitsProps = {
-    habits: (Partial<ToxicDetail> & { habit: string | 'other' })[]
+    habits: (Partial<ToxicDetail>)[]
 }
 const PreviewRecordToxicHabits: React.FC<PreviewRecordToxicHabitsProps> = ({
     habits
 }) => {
 
-    const rows = useMemo(() => habits.map(e =>
-        <TableTr key={e.habit}>
-            <TableTd>{e.habit === 'other' ? e.other : e.habit}</TableTd>
-            <TableTd>{e.consumer ? 'Si' : 'No'}</TableTd>
+    const rows = useMemo(() => habits.map((e) =>
+        <TableTr key={crypto.randomUUID()}>
+            <TableTd>{e.name ?? ''}</TableTd>
+            <TableTd>{e.haveConsume ? 'Si' : 'No'}</TableTd>
             <TableTd>{e.consumptionTime}</TableTd>
             <TableTd>{e.quantity}</TableTd>
-            <TableTd>{e.consumed ? 'Si' : 'No'}</TableTd>
+            <TableTd>{e.isExConsumer ? 'Si' : 'No'}</TableTd>
             <TableTd>{e.timeOfAbstinence}</TableTd>
         </TableTr>
 

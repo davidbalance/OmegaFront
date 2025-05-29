@@ -1,31 +1,83 @@
 import { z } from "zod";
 
 const ToxicHabit = z.object({
-    consumer: z.coerce.boolean().default(false),
+    haveConsume: z.coerce.boolean().default(false),
+    name: z.coerce.string().nonempty().optional(),
     consumptionTime: z.coerce.number().optional(),
     quantity: z.coerce.number().optional(),
-    consumed: z.coerce.boolean().default(false),
+    isExConsumer: z.coerce.boolean().default(false),
     timeOfAbstinence: z.coerce.number().optional(),
-    other: z.coerce.string().default('').optional()
-});
+})
+    .superRefine((data, ctx) => {
+        if (data.haveConsume) {
+            if (!data.name) {
+                ctx.addIssue({
+                    path: ['name'],
+                    code: z.ZodIssueCode.custom,
+                    message: "Debe agregar un habito toxico"
+                })
+            }
+
+            if (!data.consumptionTime) {
+                ctx.addIssue({
+                    path: ['consumptionTime'],
+                    code: z.ZodIssueCode.custom,
+                    message: "Debe agregar el tiempo de consumo"
+                })
+            } else if (data.consumptionTime <= 0) {
+                ctx.addIssue({
+                    path: ['consumptionTime'],
+                    code: z.ZodIssueCode.custom,
+                    message: "El tiempo de consumo es mayor a 0"
+                })
+            }
+
+            if (!data.quantity) {
+                ctx.addIssue({
+                    path: ['quantity'],
+                    code: z.ZodIssueCode.custom,
+                    message: "Debe agregar la cantidad que ha consumido"
+                })
+            } else if (data.quantity <= 0) {
+                ctx.addIssue({
+                    path: ['consumptionTime'],
+                    code: z.ZodIssueCode.custom,
+                    message: "La cantidad de consumo es mayor a 0"
+                })
+            }
+
+            if (data.isExConsumer && !data.timeOfAbstinence) {
+                ctx.addIssue({
+                    path: ['timeOfAbstinence'],
+                    code: z.ZodIssueCode.custom,
+                    message: "Debe agregar el tiempo de abstinencia"
+                })
+            } else if (data.isExConsumer && !!data.timeOfAbstinence && data.timeOfAbstinence <= 0) {
+                ctx.addIssue({
+                    path: ['consumptionTime'],
+                    code: z.ZodIssueCode.custom,
+                    message: "El tiempo de abstinencia es mayor a 0"
+                })
+            }
+        }
+    });
 
 const schema = z.object({
     toxicHabitTobacco: ToxicHabit,
     toxicHabitAlcohol: ToxicHabit,
     toxicHabitOther: ToxicHabit
-})
+});
 
-    .refine(args => !args.toxicHabitTobacco.consumer ? true : !!args.toxicHabitTobacco.quantity, { message: 'No se ha indicado el tiempo de consumo.', path: ['toxicHabitTobacco.consumptionTime'] })
-    .refine(args => !args.toxicHabitTobacco.consumer ? true : !!args.toxicHabitTobacco.quantity, { message: 'No se ha indicado la cantidad.', path: ['toxicHabitTobacco.quantity'] })
-    .refine(args => !args.toxicHabitTobacco.consumer ? true : !!args.toxicHabitTobacco.timeOfAbstinence, { message: 'No se ha indicado el tiempo de abstinencia.', path: ['toxicHabitTobacco.timeOfAbstinence'] })
-    .refine(args => !args.toxicHabitAlcohol.consumer ? true : !!args.toxicHabitAlcohol.consumptionTime, { message: 'No se ha indicado el tiempo de consumo.', path: ['toxicHabitAlcohol.consumptionTime'] })
-    .refine(args => !args.toxicHabitAlcohol.consumer ? true : !!args.toxicHabitAlcohol.quantity, { message: 'No se ha indicado la cantidad.', path: ['toxicHabitAlcohol.quantity'] })
-    .refine(args => !args.toxicHabitAlcohol.consumer ? true : !!args.toxicHabitAlcohol.timeOfAbstinence, { message: 'No se ha indicado el tiempo de abstinencia.', path: ['toxicHabitAlcohol.timeOfAbstinence'] })
-    .refine(args => !args.toxicHabitOther.consumer ? true : !!args.toxicHabitOther.consumptionTime, { message: 'No se ha indicado el tiempo de consumo.', path: ['toxicHabitOther.consumptionTime'] })
-    .refine(args => !args.toxicHabitOther.consumer ? true : !!args.toxicHabitOther.other, { message: 'No se ha indicado otra sustancia.', path: ['toxicHabitOther.other'] })
-    .refine(args => !args.toxicHabitOther.consumer ? true : !!args.toxicHabitOther.quantity, { message: 'No se ha indicado la cantidad.', path: ['toxicHabitOther.quantity'] })
-    .refine(args => !args.toxicHabitOther.consumer ? true : !!args.toxicHabitOther.timeOfAbstinence, { message: 'No se ha indicado el tiempo de abstinencia.', path: ['toxicHabitOther.timeOfAbstinence'] })
 
+export const adjustInitialValue = (data?: Partial<z.infer<typeof ToxicHabit>>) => ({
+    haveConsume: data?.haveConsume ?? false,
+    name: data?.name ?? '',
+    consumptionTime: data?.consumptionTime ?? 0,
+    quantity: data?.consumptionTime ?? 0,
+    isExConsumer: data?.isExConsumer ?? false,
+    timeOfAbstinence: data?.timeOfAbstinence ?? 0
+
+});
 
 
 export default schema;

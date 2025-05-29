@@ -3,17 +3,17 @@ import { Box, rem, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Tex
 
 type PreviewInitialRecordJobHistoryProps = {
     jobHistory: {
-        lastJobCompany: string;
-        lastJobPosition: string;
-        lastJobActivity: string;
-        lastJobTime: number;
-        lastJobRiskPhysical: boolean;
-        lastJobRiskMechanical: boolean;
-        lastJobRiskChemical: boolean;
-        lastJobRiskBiological: boolean;
-        lastJobRiskErgonomic: boolean;
-        lastJobRiskPsychosocial: boolean;
-        lastJobObservation: string;
+        jobHistoryCompany: string;
+        jobHistoryPosition: string;
+        jobHistoryActivity: string;
+        jobHistoryTime: number;
+        jobHistoryRiskPhysical: boolean;
+        jobHistoryRiskMechanical: boolean;
+        jobHistoryRiskChemical: boolean;
+        jobHistoryRiskBiological: boolean;
+        jobHistoryRiskErgonomic: boolean;
+        jobHistoryRiskPsychosocial: boolean;
+        jobHistoryObservation: string;
     }[]
 }
 const PreviewInitialRecordJobHistory: React.FC<PreviewInitialRecordJobHistoryProps> = ({
@@ -22,19 +22,19 @@ const PreviewInitialRecordJobHistory: React.FC<PreviewInitialRecordJobHistoryPro
 
     const rows = useMemo(() => jobHistory.map(e =>
         <TableTr key={crypto.randomUUID()}>
-            <TableTd>{e.lastJobCompany}</TableTd>
-            <TableTd>{e.lastJobPosition}</TableTd>
-            <TableTd>{e.lastJobActivity}</TableTd>
-            <TableTd>{e.lastJobTime}</TableTd>
+            <TableTd>{e.jobHistoryCompany}</TableTd>
+            <TableTd>{e.jobHistoryPosition}</TableTd>
+            <TableTd>{e.jobHistoryActivity}</TableTd>
+            <TableTd>{e.jobHistoryTime}</TableTd>
             <TableTd>
-                <Text fw={e.lastJobRiskPhysical ? 'bold' : 'lighter'}>FISICO</Text>
-                <Text fw={e.lastJobRiskMechanical ? 'bold' : 'lighter'}>MECANICO</Text>
-                <Text fw={e.lastJobRiskChemical ? 'bold' : 'lighter'}>QUIMICO</Text>
-                <Text fw={e.lastJobRiskBiological ? 'bold' : 'lighter'}>BIOLOGICO</Text>
-                <Text fw={e.lastJobRiskErgonomic ? 'bold' : 'lighter'}>ERGONOMICO</Text>
-                <Text fw={e.lastJobRiskPsychosocial ? 'bold' : 'lighter'}>PSICOSOCIAL</Text>
+                <Text fw={e.jobHistoryRiskPhysical ? 'bold' : 'lighter'}>FISICO</Text>
+                <Text fw={e.jobHistoryRiskMechanical ? 'bold' : 'lighter'}>MECANICO</Text>
+                <Text fw={e.jobHistoryRiskChemical ? 'bold' : 'lighter'}>QUIMICO</Text>
+                <Text fw={e.jobHistoryRiskBiological ? 'bold' : 'lighter'}>BIOLOGICO</Text>
+                <Text fw={e.jobHistoryRiskErgonomic ? 'bold' : 'lighter'}>ERGONOMICO</Text>
+                <Text fw={e.jobHistoryRiskPsychosocial ? 'bold' : 'lighter'}>PSICOSOCIAL</Text>
             </TableTd>
-            <TableTd>{e.lastJobObservation}</TableTd>
+            <TableTd>{e.jobHistoryObservation}</TableTd>
         </TableTr>
 
     ), [jobHistory]);
