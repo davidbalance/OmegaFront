@@ -13,8 +13,8 @@ export const adjustInitialValues = (data?: Partial<z.infer<typeof schema>>) => (
     maleReproductiveFamilyPlanningType: data?.maleReproductiveFamilyPlanningType || '',
     maleReproductiveExamProstateAntigen: data?.maleReproductiveExamProstateAntigen ?? { done: false, result: '', time: 0 },
     maleReproductiveExamProstateEcho: data?.maleReproductiveExamProstateEcho ?? { done: false, result: '', time: 0 },
-    maleReproductiveDeadChildren: 0,
-    maleReproductiveLivingChildren: 0
+    maleReproductiveDeadChildren: data?.maleReproductiveDeadChildren ?? 0,
+    maleReproductiveLivingChildren: data?.maleReproductiveLivingChildren ?? 0
 });
 
 export default schema;

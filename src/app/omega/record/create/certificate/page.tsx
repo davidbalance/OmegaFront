@@ -9,28 +9,6 @@ import CertificateGeneralDataForm from './_components/certificate-general-data-f
 import RecommendationForm from '@/components/record/recommendation-form';
 import PreviewCertificateRecord from './_components/preview-certificate-record';
 import CertificateEvaluation from './_components/certificate-evaluation';
-import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
-
-const defaultValues: Partial<CertificateRecordPayload> = {
-    companyName: "ENVAGRIF",
-    companyRUC: "1724317191001",
-    companyCIIU: "",
-    institutionHealthFacility: "Omega Salud Ocupacional",
-    patientFirstName: "MARIO",
-    patientMiddleName: "ALFONSO",
-    patientLastName: "NOBOA",
-    patientSecondLastName: "CORONEL",
-    patientGender: "male",
-    jobPosition: "SAMPLE",
-    generalData: "retirement",
-    retirementEvaluationDone: true,
-    retirementEvaluationCondition: "presuntive",
-    retirementEvaluationConditionWithJob: "yes",
-    /* generalData: "entry",
-    medicalFitnessType: "fit",
-    medicalFitnessObservation: "SAMPLE", */
-    recommendationDescription: "SAMPLE"
-}
 
 interface RecordCertificatePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -60,7 +38,7 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
 
     return (
         <>
-            <ReturnableHeader title='Ficha certificado' />
+            <ReturnableHeader title='Ficha de certificado' />
             <StepperCertificateForm
                 headers={[
                     { title: 'Datos del establecimiento', description: 'Empresa y Usuario', icon: 'building' },
@@ -71,12 +49,12 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
                 ]}
                 patientDni={patientDni}
                 initialData={{
+                    patientDni: patientDni,
                     patientFirstName: patientFirstName,
                     patientMiddleName: patientMiddleName,
                     patientLastName: patientLastName,
                     patientSecondLastName: patientSecondLastName,
-                    patientGender: patient.patientGender,
-                    ...defaultValues
+                    patientGender: patient.patientGender
                 }}>
                 <CertificateInstitutionForm options={corporativeOptions} />
                 <CertificateGeneralDataForm />

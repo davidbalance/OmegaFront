@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const ToxicHabit = z.object({
     haveConsume: z.coerce.boolean().default(false),
-    name: z.coerce.string().nonempty().optional(),
+    name: z.coerce.string().optional(),
     consumptionTime: z.coerce.number().optional(),
     quantity: z.coerce.number().optional(),
     isExConsumer: z.coerce.boolean().default(false),

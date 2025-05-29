@@ -33,10 +33,10 @@ const LateralityOptions: Option[] = [
     { label: 'Zurdo', value: 'left' }
 ]
 const SexualOrientationOptions: Option[] = [
+    { label: 'Heterosexual', value: 'heterosexual' },
     { label: 'Lesbica', value: 'lesbian' },
     { label: 'Gay', value: 'gay' },
     { label: 'Bisexual', value: "bisexual" },
-    { label: 'Heterosexual', value: 'heterosexual' },
     { label: 'No sabe / No responde', value: 'unknown' }
 ]
 

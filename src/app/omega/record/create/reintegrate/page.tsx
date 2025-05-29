@@ -15,94 +15,6 @@ import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
 import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-job-form';
 import RecommendationForm from '@/components/record/recommendation-form';
 import { REINTEGRATION_MEDICAL_CONSULTATION } from './_libs/constants';
-import { ReintegrateRecordPayload } from '@/server/record/create-record/reintegrate-record';
-
-const defaultValues: Partial<ReintegrateRecordPayload> = {
-    companyName: "EMPRESA ELECTRICA QUITO E.E.Q S.A.",
-    companyRUC: "1790053881001",
-    companyCIIU: "",
-    institutionHealthFacility: "Omega Salud Ocupacional",
-    patientFirstName: "MARIO",
-    patientMiddleName: "ALFONSO",
-    patientLastName: "NOBOA",
-    patientSecondLastName: "CORONEL",
-    patientGender: "male",
-    patientAge: 45,
-    jobPosition: "SAMPLE",
-    workingEndDate: new Date("2025-05-29T13:18:00.817Z"),
-    workingReintegrationDate: new Date("2025-05-29T13:18:00.817Z"),
-    workingTime: 1,
-    workingLeftCause: "SAMPLE",
-    currentDiseaseDescription: "",
-    vitalSignsBloodPressure: "10",
-    vitalSignsTemperature: "10",
-    vitalSignsHeartRate: "10",
-    vitalSignsOxygenSaturation: "10",
-    vitalSignsRespiratoryRate: "10",
-    vitalSignsWeight: "10",
-    vitalSignsSize: "10",
-    vitalSignsMassIndex: "10",
-    vitalSignsAbdominalPerimeter: "10",
-    examSkinScar: "SAMPLE",
-    examSkinTattoo: "",
-    examSkinLesions: "",
-    examEyeEyelids: "",
-    examEyeConjunctiva: "",
-    examEyePupils: "",
-    examEyeCorneas: "",
-    examEyeMotility: "",
-    examEarAuditoryExternal: "",
-    examEarAuricle: "",
-    examEarEardrum: "",
-    examPharynxLips: "",
-    examPharynxTongue: "",
-    examPharynxPharynx: "",
-    examPharynxTonsils: "",
-    examPharynxTeeth: "",
-    examNosePartition: "",
-    examNoseTurbinates: "",
-    examNoseMucousMembranes: "",
-    examNoseParanasalSinuses: "",
-    examNeckThyroid: "",
-    examNeckMobility: "",
-    examChestBreast: "",
-    examChestHeart: "",
-    examChestLungs: "",
-    examChestRibCage: "",
-    examAbdomenViscera: "",
-    examAbdomenAbdominalWall: "",
-    examColumnFlexibility: "",
-    examColumnDeviation: "",
-    examColumnPain: "",
-    examPelvis: "",
-    examPelvisGenitals: "",
-    examLimbVascular: "",
-    examLimbUpper: "",
-    examLimbLower: "",
-    examNeurologicForce: "",
-    examNeurologicSensitivity: "",
-    examNeurologicGait: "",
-    examNeurologicReflex: "",
-    generalExamResults: [],
-    generalExamObservation: "SAMPLE",
-    diagnostics: [
-        {
-            description: "SAMPLE",
-            cie: "SAMPLE",
-            flag: "def"
-        },
-        {
-            description: "SAMPLE",
-            cie: "SAMPLE",
-            flag: "pre"
-        }
-    ],
-    medicalFitnessType: "no-fit",
-    medicalFitnessLimitation: "",
-    medicalFitnessObservation: "",
-    medicalFitnessReubication: "SAMPLE",
-    recommendationDescription: "SAMPLE"
-}
 
 interface RecordReintegratePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -133,7 +45,7 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
 
     return (
         <>
-            <ReturnableHeader title='Ficha inicial' />
+            <ReturnableHeader title='Ficha de reintegración' />
             <StepperReintegrateForm
                 headers={[
                     { title: 'Datos del establecimiento', description: 'Empresa y Usuario', icon: 'building' },
@@ -148,14 +60,14 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
                 ]}
                 patientDni={patientDni}
                 initialData={{
+                    patientDni: patientDni,
                     patientFirstName: patientFirstName,
                     patientMiddleName: patientMiddleName,
                     patientLastName: patientLastName,
                     patientSecondLastName: patientSecondLastName,
                     patientGender: patient.patientGender,
                     patientAge: patientAge,
-                    medicalConsultationDescription: REINTEGRATION_MEDICAL_CONSULTATION,
-                    ...defaultValues
+                    medicalConsultationDescription: REINTEGRATION_MEDICAL_CONSULTATION
                 }}>
                 <ReintegrateInstitutionForm options={corporativeOptions} />
                 <CurrentDiseaseForm />
