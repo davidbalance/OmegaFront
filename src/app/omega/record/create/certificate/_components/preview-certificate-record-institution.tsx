@@ -39,7 +39,7 @@ const PreviewCertificateRecordInstitution: React.FC<PreviewCertificateRecordInst
                 <Stack gap={rem(16)}>
                     <PreviewRecordElement title='NOMBRE DE LA EMPRESA' text={companyName} />
                     <PreviewRecordElement title='RUC' text={companyRUC} />
-                    <PreviewRecordElement title='CIU' text={companyCIIU} />
+                    <PreviewRecordElement title='CIU' text={companyCIIU ?? ''} />
                     <PreviewRecordElement title='ESTABLECIMIENTO DE SALUD' text={institutionHealthFacility} />
                 </Stack>
                 <Stack gap={rem(16)}>

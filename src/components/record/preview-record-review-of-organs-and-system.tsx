@@ -24,7 +24,7 @@ const PreviewRecordReviewOfOrgansAndSystem: React.FC<PreviewRecordReviewOfOrgans
             {!Object.values(props).filter(Boolean) ? 'SIN PATOLOGIA APARENTE' : ''}
             {Object.entries(options).map(([key, values]) =>
                 props[key as keyof ReviewOfOrgansAndSystem] && (
-                    <Grid>
+                    <Grid key={key}>
                         <GridCol span={3}>
                             <Text fw='bold'>{values}</Text>
                         </GridCol>
