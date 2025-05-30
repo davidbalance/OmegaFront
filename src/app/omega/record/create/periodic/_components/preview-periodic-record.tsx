@@ -2,7 +2,7 @@
 
 import PreviewRecordWrapper from '@/components/record/preview-record-wrapper';
 import { PeriodicRecordPayload } from '@/server/record/create-record/periodic-record';
-import { rem, Stack } from '@mantine/core';
+import { Checkbox, rem, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useCallback } from 'react'
 import PreviewPeriodicRecordInstitution from './preview-periodic-record-institution';
@@ -35,7 +35,7 @@ const PreviewPeriodicRecord = React.forwardRef<HTMLFormElement, PreviewPeriodicR
 }, ref) => {
 
     const form = useForm<PeriodicRecordPayload>({
-        initialValues: data
+        initialValues: { ...data!, hideLogo: false }
     });
 
     const handleSubmit = useCallback((value: PeriodicRecordPayload) => {
@@ -49,6 +49,11 @@ const PreviewPeriodicRecord = React.forwardRef<HTMLFormElement, PreviewPeriodicR
             {
                 data ? (
                     <Stack gap={rem(32)}>
+                        <Checkbox
+                            label="Ocultar el logo de Omega."
+                            {...form.getInputProps('hideLogo')}
+                        />
+
                         <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
                             <PreviewPeriodicRecordInstitution {...data} />
                         </PreviewRecordWrapper>

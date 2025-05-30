@@ -20,6 +20,7 @@ const BloodGroupOptions: Option[] = [
     { label: 'O-', value: 'O-' },
     { label: 'AB+', value: 'AB+' },
     { label: 'AB-', value: 'AB-' },
+    { label: 'Desconoce', value: 'Desconoce' },
 ]
 const ReligionOptions: Option[] = [
     { label: 'Catolica', value: 'catholic' },

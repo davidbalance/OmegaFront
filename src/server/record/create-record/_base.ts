@@ -54,7 +54,7 @@ export type ToxicDetail = {
     haveConsume: boolean;
     name?: string;
     consumptionTime?: number;
-    quantity?: number;
+    quantity?: string;
     isExConsumer?: boolean;
     timeOfAbstinence?: number;
 };
@@ -249,3 +249,7 @@ export type MedicalFitnessForJob = {
 export type RecordRecommendation = {
     recommendationDescription: string;
 };
+
+export type RecordLogoFlag = {
+    hideLogo?: boolean;
+}

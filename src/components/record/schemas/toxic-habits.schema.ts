@@ -4,9 +4,9 @@ const ToxicHabit = z.object({
     haveConsume: z.coerce.boolean().default(false),
     name: z.coerce.string().optional(),
     consumptionTime: z.coerce.number().optional(),
-    quantity: z.coerce.number().optional(),
+    quantity: z.coerce.string().optional(),
     isExConsumer: z.coerce.boolean().default(false),
-    timeOfAbstinence: z.coerce.number().optional(),
+    timeOfAbstinence: z.coerce.string().optional(),
 })
     .superRefine((data, ctx) => {
         if (data.haveConsume) {
@@ -38,12 +38,6 @@ const ToxicHabit = z.object({
                     code: z.ZodIssueCode.custom,
                     message: "Debe agregar la cantidad que ha consumido"
                 })
-            } else if (data.quantity <= 0) {
-                ctx.addIssue({
-                    path: ['consumptionTime'],
-                    code: z.ZodIssueCode.custom,
-                    message: "La cantidad de consumo es mayor a 0"
-                })
             }
 
             if (data.isExConsumer && !data.timeOfAbstinence) {
@@ -51,12 +45,6 @@ const ToxicHabit = z.object({
                     path: ['timeOfAbstinence'],
                     code: z.ZodIssueCode.custom,
                     message: "Debe agregar el tiempo de abstinencia"
-                })
-            } else if (data.isExConsumer && !!data.timeOfAbstinence && data.timeOfAbstinence <= 0) {
-                ctx.addIssue({
-                    path: ['consumptionTime'],
-                    code: z.ZodIssueCode.custom,
-                    message: "El tiempo de abstinencia es mayor a 0"
                 })
             }
         }
@@ -73,9 +61,9 @@ export const adjustInitialValue = (data?: Partial<z.infer<typeof ToxicHabit>>) =
     haveConsume: data?.haveConsume ?? false,
     name: data?.name ?? '',
     consumptionTime: data?.consumptionTime ?? 0,
-    quantity: data?.consumptionTime ?? 0,
+    quantity: data?.quantity ?? '',
     isExConsumer: data?.isExConsumer ?? false,
-    timeOfAbstinence: data?.timeOfAbstinence ?? 0
+    timeOfAbstinence: data?.timeOfAbstinence ?? ''
 
 });
 

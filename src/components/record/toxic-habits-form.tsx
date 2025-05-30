@@ -54,7 +54,7 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                             <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
                                 <TextInput
                                     disabled={!form.values.toxicHabitTobacco.haveConsume}
-                                    label="TIEMPO DE CONSUMO (AÑOS)"
+                                    label="TIEMPO DE CONSUMO (MESES)"
                                     type='number'
                                     min={1}
                                     {...form.getInputProps('toxicHabitTobacco.consumptionTime')} />
@@ -89,7 +89,7 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                             <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
                                 <TextInput
                                     disabled={!form.values.toxicHabitAlcohol.haveConsume}
-                                    label="TIEMPO DE CONSUMO (AÑOS)"
+                                    label="TIEMPO DE CONSUMO (MESES)"
                                     type='number'
                                     min={1}
                                     {...form.getInputProps('toxicHabitAlcohol.consumptionTime')} />
@@ -129,7 +129,7 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                             <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
                                 <TextInput
                                     disabled={!form.values.toxicHabitOther.haveConsume}
-                                    label="TIEMPO DE CONSUMO (AÑOS)"
+                                    label="TIEMPO DE CONSUMO (MESES)"
                                     type='number'
                                     min={1}
                                     {...form.getInputProps('toxicHabitOther.consumptionTime')} />

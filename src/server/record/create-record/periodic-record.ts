@@ -23,7 +23,8 @@ import {
     CurrentDisease,
     GeneralExamResultAndSpecific,
     InstitutionHealthRecord,
-    IncidentRecord
+    IncidentRecord,
+    RecordLogoFlag
 } from "./_base";
 
 export type JobRisk = Partial<PhysicalRisk<boolean>>
@@ -46,6 +47,7 @@ export type JobRisk = Partial<PhysicalRisk<boolean>>
     }
 
 export type PeriodicRecordPayload =
+    RecordLogoFlag
     // Institution & Patient Information
     & InstitutionHealthRecord
     & CompanyRecord

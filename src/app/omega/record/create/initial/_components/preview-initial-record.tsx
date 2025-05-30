@@ -1,7 +1,7 @@
 'use client'
 
 import { InitialRecordPayload } from '@/server/record/create-record/initial-record';
-import { rem, Stack } from '@mantine/core';
+import { Checkbox, rem, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useCallback } from 'react'
 import PreviewInititalRecordInstitution from './preview-initial-record-institution';
@@ -38,7 +38,7 @@ const PreviewInitialRecord = React.forwardRef<HTMLFormElement, PreviewInitialRec
 }, ref) => {
 
     const form = useForm<InitialRecordPayload>({
-        initialValues: data
+        initialValues: { ...data!, hideLogo: false }
     });
 
     const handleSubmit = useCallback((value: InitialRecordPayload) => {
@@ -52,6 +52,12 @@ const PreviewInitialRecord = React.forwardRef<HTMLFormElement, PreviewInitialRec
             {
                 data ? (
                     <Stack gap={rem(32)}>
+
+                        <Checkbox
+                            label="Ocultar el logo de Omega."
+                            {...form.getInputProps('hideLogo')}
+                        />
+
                         <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
                             <PreviewInititalRecordInstitution {...data} />
                         </PreviewRecordWrapper>

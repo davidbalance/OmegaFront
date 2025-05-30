@@ -1,6 +1,6 @@
 'use client'
 
-import { rem, Stack } from '@mantine/core';
+import { Checkbox, rem, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useCallback } from 'react'
 import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
@@ -21,7 +21,7 @@ const PreviewCertificateRecord = React.forwardRef<HTMLFormElement, PreviewCertif
 }, ref) => {
 
     const form = useForm<CertificateRecordPayload>({
-        initialValues: data
+        initialValues: { ...data!, hideLogo: false }
     });
 
     const handleSubmit = useCallback((value: CertificateRecordPayload) => {
@@ -35,6 +35,11 @@ const PreviewCertificateRecord = React.forwardRef<HTMLFormElement, PreviewCertif
             {
                 data ? (
                     <Stack gap={rem(32)}>
+                        <Checkbox
+                            label="Ocultar el logo de Omega."
+                            {...form.getInputProps('hideLogo')}
+                        />
+
                         <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
                             <PreviewCertificateRecordInstitution {...data} />
                         </PreviewRecordWrapper>

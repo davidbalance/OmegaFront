@@ -4,7 +4,7 @@ import { useForm } from '@mantine/form';
 import React, { useCallback } from 'react'
 import PreviewReintegrateRecordInstitution from './preview-reintegrate-record-institution';
 import PreviewRecordWrapper from '@/components/record/preview-record-wrapper';
-import { rem, Stack } from '@mantine/core';
+import { Checkbox, rem, Stack } from '@mantine/core';
 import PreviewRecordMedicalConsultation from '@/components/record/preview-record-medical-consultation';
 import PreviewRecordCurrentDisease from '@/components/record/preview-record-current-disease';
 import PreviewRecordVitalSignsAndAnthropometry from '@/components/record/preview-record-vital-signs-and-anthropometry';
@@ -13,17 +13,20 @@ import PreviewRecordGeneralExamResultAndSpecific from '@/components/record/previ
 import PreviewRecordDiagnostic from '@/components/record/preview-record-diagnostic';
 import PreviewRecordMedicalFitnessForJob from '@/components/record/preview-record-medical-fitness-for-job';
 import PreviewRecordRecommendation from '@/components/record/preview-record-recommendation';
+import { ReintegrateRecordPayload } from '@/server/record/create-record/reintegrate-record';
 
 type PreviewReintegrateRecordProps = {
-    data?: any;
-    onSubmit?: (value: any) => void;
+    data?: ReintegrateRecordPayload;
+    onSubmit?: (value: ReintegrateRecordPayload) => void;
 }
 const PreviewReintegrateRecord = React.forwardRef<HTMLFormElement, PreviewReintegrateRecordProps>(({
     data,
     onSubmit
 }, ref) => {
 
-    const form = useForm();
+    const form = useForm<ReintegrateRecordPayload>({
+        initialValues: { ...data!, hideLogo: false }
+    });
 
     const handleSubmit = useCallback((value: any) => {
         onSubmit?.(value);
@@ -36,6 +39,12 @@ const PreviewReintegrateRecord = React.forwardRef<HTMLFormElement, PreviewReinte
             {
                 data ? (
                     <Stack gap={rem(32)}>
+
+                        <Checkbox
+                            label="Ocultar el logo de Omega."
+                            {...form.getInputProps('hideLogo')}
+                        />
+
                         <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
                             <PreviewReintegrateRecordInstitution {...data} />
                         </PreviewRecordWrapper>

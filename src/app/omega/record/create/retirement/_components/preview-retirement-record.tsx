@@ -2,7 +2,7 @@
 
 import PreviewRecordWrapper from '@/components/record/preview-record-wrapper';
 import { RetirementRecordPayload } from '@/server/record/create-record/retirement-record';
-import { rem, Stack } from '@mantine/core';
+import { Checkbox, rem, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useCallback } from 'react'
 import PreviewRetirementRecordInstitution from './preview-retirement-record-institution';
@@ -26,7 +26,7 @@ const PreviewRetirementRecord = React.forwardRef<HTMLFormElement, PreviewRetirem
 }, ref) => {
 
     const form = useForm<RetirementRecordPayload>({
-        initialValues: data
+        initialValues: { ...data!, hideLogo: false }
     });
 
     const handleSubmit = useCallback((value: RetirementRecordPayload) => {
@@ -40,6 +40,11 @@ const PreviewRetirementRecord = React.forwardRef<HTMLFormElement, PreviewRetirem
             {
                 data ? (
                     <Stack gap={rem(32)}>
+                        <Checkbox
+                            label="Ocultar el logo de Omega."
+                            {...form.getInputProps('hideLogo')}
+                        />
+
                         <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
                             <PreviewRetirementRecordInstitution {...data} />
                         </PreviewRecordWrapper>
