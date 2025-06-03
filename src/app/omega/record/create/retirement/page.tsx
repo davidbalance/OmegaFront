@@ -17,6 +17,8 @@ import RetirementEvaluationForm from './_components/retirement-evaluation-form';
 import RecommendationForm from '@/components/record/recommendation-form';
 import PreviewRetirementRecord from './_components/preview-retirement-record';
 import { RetirementRecordPayload } from '@/server/record/create-record/retirement-record';
+import { retriveFromTmpStore } from '@/lib/tmp-store/tmp-store.utils';
+import { parsedRetirement } from './_libs/parsed-retirement';
 
 type RecordRetirementPageProps = {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -27,6 +29,10 @@ const RecordRetirementPage: React.FC<RecordRetirementPageProps> = async ({
     const patientDni = typeof searchParams.patientDni === 'string' ? searchParams.patientDni : undefined;
 
     if (!patientDni) return <>Patient not specified</>
+
+    const stepperCookieKey: string = `record-retirement-${patientDni}`;
+    const tmpResult = await retriveFromTmpStore<Partial<RetirementRecordPayload>>(stepperCookieKey);
+    const initialData: Partial<RetirementRecordPayload> = tmpResult.isSuccess ? parsedRetirement(tmpResult.value) : {};
 
     const corporativeBaseOptions = await retriveCorporativesOptions();
     const corporativeOptions = corporativeBaseOptions.map<CorporativeOption>((e) => ({
@@ -63,6 +69,7 @@ const RecordRetirementPage: React.FC<RecordRetirementPageProps> = async ({
 
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
+                tmpStoreKey={stepperCookieKey}
                 patientDni={patientDni}
                 initialData={{
                     patientDni: patientDni,
@@ -70,7 +77,8 @@ const RecordRetirementPage: React.FC<RecordRetirementPageProps> = async ({
                     patientMiddleName: patientMiddleName,
                     patientLastName: patientLastName,
                     patientSecondLastName: patientSecondLastName,
-                    patientGender: patient.patientGender
+                    patientGender: patient.patientGender,
+                    ...initialData
                 }}>
                 <RetirementInstitutionForm options={corporativeOptions} />
                 <RetirementActivityAndRiskForm />

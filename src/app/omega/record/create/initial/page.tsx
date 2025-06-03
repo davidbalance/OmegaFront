@@ -27,7 +27,9 @@ import RecommendationForm from '@/components/record/recommendation-form';
 import ToxicHabitsForm from '@/components/record/toxic-habits-form';
 import LifestyleForm from '@/components/record/lifestyle-form';
 import { INITIAL_MEDICAL_CONSULTATION } from './_libs/constants';
+import { retriveFromTmpStore } from '@/lib/tmp-store/tmp-store.utils';
 import { InitialRecordPayload } from '@/server/record/create-record/initial-record';
+import { parsedInitial } from './_libs/parsed-initial';
 
 interface RecordInitialPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -38,6 +40,11 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
     const patientDni = typeof searchParams.patientDni === 'string' ? searchParams.patientDni : undefined;
 
     if (!patientDni) return <>Patient not specified</>
+
+    const stepperCookieKey: string = `record-initial-${patientDni}`;
+    const tmpResult = await retriveFromTmpStore<Partial<InitialRecordPayload>>(stepperCookieKey);
+    const initialData: Partial<InitialRecordPayload> = tmpResult.isSuccess ? parsedInitial(tmpResult.value) : {};
+    console.log(initialData);
 
     const corporativeBaseOptions = await retriveCorporativesOptions();
     const corporativeOptions = corporativeBaseOptions.map<CorporativeOption>((e) => ({
@@ -86,6 +93,7 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
                 patientDni={patientDni}
+                tmpStoreKey={stepperCookieKey}
                 initialData={{
                     patientDni: patientDni,
                     patientFirstName: patientFirstName,
@@ -94,7 +102,8 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
                     patientSecondLastName: patientSecondLastName,
                     patientGender: patient.patientGender,
                     patientAge: patientAge,
-                    medicalConsultationDescription: INITIAL_MEDICAL_CONSULTATION
+                    medicalConsultationDescription: INITIAL_MEDICAL_CONSULTATION,
+                    ...initialData
                 }}>
                 <InitialInstitutionForm options={corporativeOptions} />
                 <MedicalAndSurgicalHistoryForm />

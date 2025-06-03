@@ -7,6 +7,8 @@ import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper-form';
 import { PeriodicRecordPayload } from '@/server/record/create-record/periodic-record';
 import { createClientRecordPeriodic } from '@/server';
+import { RECORD_TMP_STORE_EXPIRE_AT } from '@/lib/utils/constants';
+import { removeFromTmpStore, storeInTmpStore } from '@/lib/tmp-store/tmp-store.utils';
 
 
 const icon: StepperIcon = {
@@ -24,21 +26,28 @@ const icon: StepperIcon = {
 }
 type StepperPeriodicRecordForm = PeriodicRecordPayload;
 type StepperPeriodicRecordFormProps = {
+    tmpStoreKey?: string;
     patientDni: string;
     initialData?: Partial<StepperPeriodicRecordForm>;
     headers: { title: string; description?: string, icon: 'user-check' | 'license' | 'building' | 'check' | 'briefcase' | 'tree' | 'risk' | 'activity' | 'disease' | 'heart' | 'notebook' }[]
 } & Required<Pick<React.ComponentPropsWithoutRef<typeof StepperForm>, 'children'>>
 const StepperPeriodicRecordForm: React.FC<StepperPeriodicRecordFormProps> = ({
     patientDni,
+    tmpStoreKey = 'tmpRecordPeriodic',
     ...props
 }) => {
     const router = useRouter();
 
     const handleSubmit = useCallback(async (data: StepperPeriodicRecordForm) => {
         await createClientRecordPeriodic({ ...data, patientDni });
-    }, [patientDni]);
+        await removeFromTmpStore(tmpStoreKey);
+    }, [patientDni, tmpStoreKey]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);
+
+    const handleNextStep = useCallback(async (value: Partial<StepperPeriodicRecordForm>) => {
+        await storeInTmpStore<Partial<PeriodicRecordPayload>>(tmpStoreKey, value, new Date(RECORD_TMP_STORE_EXPIRE_AT));
+    }, [tmpStoreKey]);
 
     return (
         <StepperForm<StepperPeriodicRecordForm>
@@ -46,6 +55,7 @@ const StepperPeriodicRecordForm: React.FC<StepperPeriodicRecordFormProps> = ({
             icon={icon}
             onFinish={handleFormFinish}
             orientation='vertical'
+            onNextStep={handleNextStep}
             {...props} />
     )
 }

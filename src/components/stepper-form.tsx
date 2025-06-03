@@ -21,6 +21,7 @@ type ButtonLabel = {
 type StepperFormProps<T = any> = {
     children: React.ReactNode[];
     onSubmit: (data: T) => Promise<void>;
+    onNextStep?: (data: Partial<T>) => Promise<void>;
     onFinish?: () => void;
     defaultIcon?: React.ReactElement;
     icon?: StepperIcon;
@@ -34,6 +35,7 @@ type StepperFormProps<T = any> = {
 const StepperForm = <T,>({
     children,
     onSubmit,
+    onNextStep,
     onFinish,
     defaultIcon = <IconBook style={{ width: rem(16), height: rem(16) }} />,
     icon = {},
@@ -74,16 +76,17 @@ const StepperForm = <T,>({
 
     const handleStepSubmit: StepSubmitEvent<T> = useCallback(
         async (value) => {
-            console.log(value);
             if (active !== childrenCount - 1) {
-                setFormValues((prev) => ({ ...prev, ...value }));
+                const newValues = { ...formValues, ...value };
+                setFormValues(newValues);
+                onNextStep?.(newValues);
                 nextStep();
             } else {
                 const newValues = { ...formValues, ...value };
                 setFormValues(newValues);
                 handleSubmit(newValues as T);
             }
-        }, [active, formValues, nextStep, childrenCount, handleSubmit]);
+        }, [active, formValues, nextStep, childrenCount, handleSubmit, onNextStep]);
 
     const handleNextChange = useDebounceCallback(() => {
         const formElement = formRefs.current.get(active);

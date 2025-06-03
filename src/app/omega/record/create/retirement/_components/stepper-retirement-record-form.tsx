@@ -7,6 +7,8 @@ import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper-form';
 import { RetirementRecordPayload } from '@/server/record/create-record/retirement-record';
 import { createClientRecordRetirement } from '@/server';
+import { RECORD_TMP_STORE_EXPIRE_AT } from '@/lib/utils/constants';
+import { removeFromTmpStore, storeInTmpStore } from '@/lib/tmp-store/tmp-store.utils';
 
 
 const icon: StepperIcon = {
@@ -24,21 +26,28 @@ const icon: StepperIcon = {
 }
 type StepperRetirementRecordForm = RetirementRecordPayload;
 type StepperRetirementRecordFormProps = {
+    tmpStoreKey?: string;
     patientDni: string;
     initialData?: Partial<StepperRetirementRecordForm>;
     headers: { title: string; description?: string, icon: 'user-check' | 'license' | 'building' | 'check' | 'briefcase' | 'tree' | 'risk' | 'activity' | 'disease' | 'heart' | 'notebook' }[]
 } & Required<Pick<React.ComponentPropsWithoutRef<typeof StepperForm>, 'children'>>
 const StepperRetirementRecordForm: React.FC<StepperRetirementRecordFormProps> = ({
     patientDni,
+    tmpStoreKey = 'tmpRecordRetirement',
     ...props
 }) => {
     const router = useRouter();
 
     const handleSubmit = useCallback(async (data: StepperRetirementRecordForm) => {
         await createClientRecordRetirement({ ...data, patientDni });
-    }, [patientDni]);
+        await removeFromTmpStore(tmpStoreKey);
+    }, [patientDni, tmpStoreKey]);
 
-    const handleFormFinish = useCallback(() => router.back(), [router]);
+    const handleFormFinish = useCallback(async () => router.back(), [router]);
+
+    const handleNextStep = useCallback(async (value: Partial<StepperRetirementRecordForm>) => {
+        await storeInTmpStore<Partial<StepperRetirementRecordForm>>(tmpStoreKey, value, new Date(RECORD_TMP_STORE_EXPIRE_AT));
+    }, [tmpStoreKey]);
 
     return (
         <StepperForm<StepperRetirementRecordForm>
@@ -46,6 +55,7 @@ const StepperRetirementRecordForm: React.FC<StepperRetirementRecordFormProps> = 
             icon={icon}
             onFinish={handleFormFinish}
             orientation='vertical'
+            onNextStep={handleNextStep}
             {...props} />
     )
 }

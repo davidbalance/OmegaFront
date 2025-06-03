@@ -7,6 +7,8 @@ import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper-form';
 import { createClientRecordReintegrate } from '@/server';
 import { ReintegrateRecordPayload } from '@/server/record/create-record/reintegrate-record';
+import { RECORD_TMP_STORE_EXPIRE_AT } from '@/lib/utils/constants';
+import { removeFromTmpStore, storeInTmpStore } from '@/lib/tmp-store/tmp-store.utils';
 
 
 const icon: StepperIcon = {
@@ -24,21 +26,28 @@ const icon: StepperIcon = {
 }
 type StepperReintegrateForm = ReintegrateRecordPayload;
 type StepperReintegrateFormProps = {
+    tmpStoreKey?: string;
     patientDni: string;
     initialData?: Partial<StepperReintegrateForm>;
     headers: { title: string; description?: string, icon: 'user-check' | 'license' | 'building' | 'check' | 'briefcase' | 'tree' | 'risk' | 'activity' | 'disease' | 'heart' | 'notebook' }[]
 } & Required<Pick<React.ComponentPropsWithoutRef<typeof StepperForm>, 'children'>>
 const StepperReintegrateForm: React.FC<StepperReintegrateFormProps> = ({
     patientDni,
+    tmpStoreKey = 'tmpRecordReintegrate',
     ...props
 }) => {
     const router = useRouter();
 
     const handleSubmit = useCallback(async (data: StepperReintegrateForm) => {
         await createClientRecordReintegrate({ ...data, patientDni });
-    }, [patientDni]);
+        await removeFromTmpStore(tmpStoreKey);
+    }, [patientDni, tmpStoreKey]);
 
     const handleFormFinish = useCallback(() => router.back(), [router]);
+
+    const handleNextStep = useCallback(async (value: Partial<StepperReintegrateForm>) => {
+        await storeInTmpStore<Partial<ReintegrateRecordPayload>>(tmpStoreKey, value, new Date(RECORD_TMP_STORE_EXPIRE_AT));
+    }, [tmpStoreKey]);
 
     return (
         <StepperForm<StepperReintegrateForm>
@@ -46,6 +55,7 @@ const StepperReintegrateForm: React.FC<StepperReintegrateFormProps> = ({
             icon={icon}
             onFinish={handleFormFinish}
             orientation='vertical'
+            onNextStep={handleNextStep}
             {...props} />
     )
 }

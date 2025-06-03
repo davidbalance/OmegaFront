@@ -1,0 +1,1 @@
+export const RECORD_TMP_STORE_EXPIRE_AT: number = Date.now() + (24 * 60 * 60 * 1000) // From today one day more;

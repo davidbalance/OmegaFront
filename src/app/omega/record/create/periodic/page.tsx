@@ -23,6 +23,9 @@ import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
 import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-job-form';
 import RecommendationForm from '@/components/record/recommendation-form';
 import { PERIODIC_MEDICAL_CONSULTATION } from './_libs/constants';
+import { retriveFromTmpStore } from '@/lib/tmp-store/tmp-store.utils';
+import { PeriodicRecordPayload } from '@/server/record/create-record/periodic-record';
+import { parsedPeriodic } from './_libs/parsed-periodic';
 
 type RecordPeriodicPageProps = {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -33,6 +36,10 @@ const RecordPeriodicPage: React.FC<RecordPeriodicPageProps> = async ({
     const patientDni = typeof searchParams.patientDni === 'string' ? searchParams.patientDni : undefined;
 
     if (!patientDni) return <>Patient not specified</>
+
+    const stepperCookieKey: string = `record-periodic-${patientDni}`;
+    const tmpResult = await retriveFromTmpStore<Partial<PeriodicRecordPayload>>(stepperCookieKey);
+    const initialData: Partial<PeriodicRecordPayload> = tmpResult.isSuccess ? parsedPeriodic(tmpResult.value) : {};
 
     const corporativeBaseOptions = await retriveCorporativesOptions();
     const corporativeOptions = corporativeBaseOptions.map<CorporativeOption>((e) => ({
@@ -76,6 +83,7 @@ const RecordPeriodicPage: React.FC<RecordPeriodicPageProps> = async ({
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
                 patientDni={patientDni}
+                tmpStoreKey={stepperCookieKey}
                 initialData={{
                     patientDni: patientDni,
                     patientFirstName: patientFirstName,
@@ -83,7 +91,8 @@ const RecordPeriodicPage: React.FC<RecordPeriodicPageProps> = async ({
                     patientLastName: patientLastName,
                     patientSecondLastName: patientSecondLastName,
                     patientGender: patient.patientGender,
-                    medicalConsultationDescription: PERIODIC_MEDICAL_CONSULTATION
+                    medicalConsultationDescription: PERIODIC_MEDICAL_CONSULTATION,
+                    ...initialData
                 }}>
                 <PeriodicInstitutionForm options={corporativeOptions} />
                 <MedicalAndSurgicalHistoryForm />

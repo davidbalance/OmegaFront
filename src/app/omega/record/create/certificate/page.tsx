@@ -9,6 +9,10 @@ import CertificateGeneralDataForm from './_components/certificate-general-data-f
 import RecommendationForm from '@/components/record/recommendation-form';
 import PreviewCertificateRecord from './_components/preview-certificate-record';
 import CertificateEvaluation from './_components/certificate-evaluation';
+import { retriveFromTmpStore } from '@/lib/tmp-store/tmp-store.utils';
+import { InitialRecordPayload } from '@/server/record/create-record/initial-record';
+import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
+import { parsedCertificate } from './_libs/parsed-certificate';
 
 interface RecordCertificatePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -19,6 +23,10 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
     const patientDni = typeof searchParams.patientDni === 'string' ? searchParams.patientDni : undefined;
 
     if (!patientDni) return <>Patient not specified</>
+
+    const stepperCookieKey: string = `record-certificate-${patientDni}`;
+    const tmpResult = await retriveFromTmpStore<Partial<CertificateRecordPayload>>(stepperCookieKey);
+    const initialData: Partial<CertificateRecordPayload> = tmpResult.isSuccess ? parsedCertificate(tmpResult.value) : {};
 
     const corporativeBaseOptions = await retriveCorporativesOptions();
     const corporativeOptions = corporativeBaseOptions.map<CorporativeOption>((e) => ({
@@ -48,13 +56,15 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
                 patientDni={patientDni}
+                tmpStoreKey={stepperCookieKey}
                 initialData={{
                     patientDni: patientDni,
                     patientFirstName: patientFirstName,
                     patientMiddleName: patientMiddleName,
                     patientLastName: patientLastName,
                     patientSecondLastName: patientSecondLastName,
-                    patientGender: patient.patientGender
+                    patientGender: patient.patientGender,
+                    ...initialData
                 }}>
                 <CertificateInstitutionForm options={corporativeOptions} />
                 <CertificateGeneralDataForm />

@@ -25,3 +25,13 @@ model Token {
 
   @@map("tbl_tokens")
 }
+
+model TempRecord {
+  id        String   @id @default(uuid()) @map("temp_record") @db.Char(36)
+  key       String   @unique @map("temp_key") @db.VarChar(255)
+  data      Json     @map("temp_json") @db.Json
+  expiresAt DateTime @map("temp_expires_at") @db.DateTime()
+
+  @@index([key])
+  @@map("tbl_temp_record")
+}
