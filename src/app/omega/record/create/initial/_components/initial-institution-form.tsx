@@ -12,14 +12,14 @@ import { DateInput } from '@mantine/dates';
 import { CascadingSelectValue } from '@/components/cascading-select';
 
 const BloodGroupOptions: Option[] = [
-    { label: 'A+', value: 'A+' },
-    { label: 'A-', value: 'A-' },
-    { label: 'B+', value: 'B+' },
-    { label: 'B-', value: 'B-' },
-    { label: 'O+', value: 'O+' },
-    { label: 'O-', value: 'O-' },
-    { label: 'AB+', value: 'AB+' },
-    { label: 'AB-', value: 'AB-' },
+    { label: 'ARh+', value: 'ARh+' },
+    { label: 'ARh-', value: 'ARh-' },
+    { label: 'BRh+', value: 'BRh+' },
+    { label: 'BRh-', value: 'BRh-' },
+    { label: 'ORh+', value: 'ORh+' },
+    { label: 'ORh-', value: 'ORh-' },
+    { label: 'ABRh+', value: 'ABRh+' },
+    { label: 'ABRh-', value: 'ABRh-' },
     { label: 'Desconoce', value: 'Desconoce' },
 ]
 const ReligionOptions: Option[] = [

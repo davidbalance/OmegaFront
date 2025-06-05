@@ -4,7 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import LifestyleSchema, { adjustInitialValue } from './schemas/lifestyle.schema'
 import { z } from 'zod';
-import { Box, Checkbox, Group, rem, SimpleGrid, Stack, TextInput, Title } from '@mantine/core';
+import { Box, Checkbox, Group, rem, SimpleGrid, Stack, Textarea, TextInput, Title } from '@mantine/core';
 
 type LifestyleFormProps = {
     data?: Partial<z.infer<typeof LifestyleSchema>>,
@@ -45,9 +45,10 @@ const LifestyleForm = React.forwardRef<HTMLFormElement, LifestyleFormProps>(({
                             {...form.getInputProps('lifestylePhysicalActivity')}
                         />
                         <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
-                            <TextInput
+                            <Textarea
                                 disabled={!form.values.lifestylePhysicalActivity}
                                 label="¿CÚAL?"
+                                rows={3}
                                 {...form.getInputProps('lifestylePhysicalActivityType')} />
                             <TextInput
                                 label="TIEMPO/CANTIDAD"
@@ -65,9 +66,10 @@ const LifestyleForm = React.forwardRef<HTMLFormElement, LifestyleFormProps>(({
                             {...form.getInputProps('lifestyleMedication')}
                         />
                         <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
-                            <TextInput
+                            <Textarea
                                 disabled={!form.values.lifestyleMedication}
                                 label="¿CÚAL?"
+                                rows={3}
                                 {...form.getInputProps('lifestyleMedicationName')} />
                             <TextInput
                                 disabled={!form.values.lifestyleMedication}

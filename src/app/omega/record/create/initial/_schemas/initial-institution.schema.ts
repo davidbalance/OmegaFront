@@ -37,7 +37,7 @@ export const adjustInitialValue = (data?: Partial<z.infer<typeof schema>>) => ({
     patientGender: data?.patientGender ?? 'male',
     patientAge: data?.patientAge ?? 0,
     patientReligion: data?.patientReligion ?? 'catholic',
-    patientBloodType: data?.patientBloodType ?? 'A+',
+    patientBloodType: data?.patientBloodType ?? 'ARh+',
     patientLaterality: data?.patientLaterality ?? 'right',
     patientSexualOrientation: data?.patientSexualOrientation ?? 'heterosexual',
     patientGenderIdentity: data?.patientGenderIdentity ?? 'male',
