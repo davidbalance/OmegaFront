@@ -28,7 +28,7 @@ const RecommendationForm = React.forwardRef<HTMLFormElement, RecommendationFormP
 
   return (
     <>
-      <Title order={3}>Recomendaciones y/o Tratamientos</Title>
+      <Title order={3}>Recomendaciones y/o tratamientos</Title>
       <Box
         mt={rem(16)}
         ref={ref}

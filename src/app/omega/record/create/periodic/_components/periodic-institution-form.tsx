@@ -56,7 +56,7 @@ const PeriodicInstitutionForm = React.forwardRef<HTMLFormElement, PeriodicInstit
     return (
         <>
             <Title order={3}>Datos del establecimiento</Title>
-            <Title order={5} c="dimmed">Empresa y Usuario</Title>
+            <Title order={5} c="dimmed">Empresa y usuario</Title>
             <Box
                 mt={rem(16)}
                 ref={ref}
@@ -86,7 +86,7 @@ const PeriodicInstitutionForm = React.forwardRef<HTMLFormElement, PeriodicInstit
                     </SimpleGrid>
 
                     <TextInput
-                        label="PUESTO DE TRABAJO"
+                        label="Puesto de trabajo"
                         placeholder='eg. Gerente'
                         {...form.getInputProps('jobPosition')} />
                 </Stack>

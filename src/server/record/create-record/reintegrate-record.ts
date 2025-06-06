@@ -1,8 +1,9 @@
-import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, MedicalDiagnostic, GeneralExamResultAndSpecific, RecordRecommendation, CurrentDisease, MedicalConsultation, InstitutionHealthRecord, RecordLogoFlag } from "./_base";
+import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, MedicalDiagnostic, GeneralExamResultAndSpecific, RecordRecommendation, CurrentDisease, MedicalConsultation, InstitutionHealthRecord, RecordLogoFlag, RecordAuthor } from "./_base";
 
 
 export type ReintegrateRecordPayload =
-    RecordLogoFlag
+    RecordAuthor
+    & RecordLogoFlag
     // Institution & Patient Information
     & InstitutionHealthRecord
     & CompanyRecord

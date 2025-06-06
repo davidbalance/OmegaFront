@@ -43,7 +43,7 @@ const MedicalDiagnosticForm = React.forwardRef<HTMLFormElement, MedicalDiagnosti
 
     return (
         <>
-            <Title order={3}>Diagnostico</Title>
+            <Title order={3}>Diagnóstico</Title>
             <Box
                 mt={rem(16)}
                 component='form'
@@ -68,7 +68,7 @@ const MedicalDiagnosticForm = React.forwardRef<HTMLFormElement, MedicalDiagnosti
                                 <Grid flex={1}>
                                     <GridCol span={{ base: 12, md: 6 }} component='div'>
                                         <TextInput
-                                            label="DESCRIPCION"
+                                            label="Descripción"
                                             {...form.getInputProps(`diagnostics.${i}.description`)} />
                                     </GridCol>
                                     <GridCol span={{ base: 6, md: 3 }} component='div'>

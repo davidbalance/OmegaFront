@@ -14,7 +14,7 @@ const evaluationCondition: Option[] = [
 ]
 
 const evaluationConditionWithJob: Option[] = [
-    { label: 'Si', value: 'yes' },
+    { label: 'Sí', value: 'yes' },
     { label: 'No', value: 'no' },
     { label: 'No aplica', value: 'no-apply' },
 ]
@@ -44,7 +44,7 @@ const CertificateRetirementEvaluationForm = React.forwardRef<HTMLFormElement, Ce
 
     return (
         <>
-            <Title order={3}>EVALUACIÓN MÉDICA DE RETIRO</Title>
+            <Title order={3}>Evaluación Médica de Retiro</Title>
             <Box
                 ref={ref}
                 component='form'
@@ -54,13 +54,13 @@ const CertificateRetirementEvaluationForm = React.forwardRef<HTMLFormElement, Ce
                 <Stack gap={rem(32)}>
                     <Checkbox
                         checked={form.values.retirementEvaluationDone}
-                        label='EL USUARIO SE REALIZO LA EVALUACION MEDICA DE RETIRO'
+                        label="El usuario se realizó la evaluación médica de retiro"
                         {...form.getInputProps('retirementEvaluationDone')} />
 
                     <Select
                         data={evaluationCondition}
                         checkIconPosition="left"
-                        label="CONDICION DEL DIAGNOSTICO"
+                        label="Condición del diagnóstico"
                         placeholder="eg. Catologica"
                         defaultDropdownOpened={false}
                         maxDropdownHeight={200}
@@ -69,7 +69,7 @@ const CertificateRetirementEvaluationForm = React.forwardRef<HTMLFormElement, Ce
                     <Select
                         data={evaluationConditionWithJob}
                         checkIconPosition="left"
-                        label="LA CONDICION DE SALUD ESTA RELACIONADA CON EL TRABAJO"
+                        label="La condición de salud está relacionada con el trabajo"
                         placeholder="eg. Catologica"
                         defaultDropdownOpened={false}
                         maxDropdownHeight={200}

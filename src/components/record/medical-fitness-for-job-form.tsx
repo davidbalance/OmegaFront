@@ -38,7 +38,7 @@ const MedicalFitnessForJobForm = React.forwardRef<HTMLFormElement, MedicalFitnes
 
     return (
         <>
-            <Title order={3}>Aptitud Medical para el Trabajo</Title>
+            <Title order={3}>Aptitud médica para el trabajo</Title>
             <Box
                 mt={rem(16)}
                 component='form'
@@ -52,22 +52,22 @@ const MedicalFitnessForJobForm = React.forwardRef<HTMLFormElement, MedicalFitnes
                             gap={rem(32)}
                             justify='center'
                             align='center'>
-                            <Radio value='fit' label='APTO' />
-                            <Radio value='fit-observation' label='APTO EN OBSERVACION' />
-                            <Radio value='fit-limitation' label='APTO CON LIMITACIONES' />
-                            <Radio value='no-fit' label='NO APTO' />
+                            <Radio value='fit' label='Apto' />
+                            <Radio value='fit-observation' label='Apto en observación' />
+                            <Radio value='fit-limitation' label='Apto con limitaciones' />
+                            <Radio value='no-fit' label='No apto' />
                         </Group>
                     </RadioGroup>
                     {(unhideObservation || form.values.medicalFitnessType === 'fit-observation') && <Textarea
-                        label="Observacion"
+                        label="Observación"
                         rows={5}
                         {...form.getInputProps('medicalFitnessObservation')} />}
                     {(!hideLimitation && form.values.medicalFitnessType === 'fit-limitation') && <Textarea
-                        label="Limitacion"
+                        label="Limitación"
                         rows={5}
                         {...form.getInputProps('medicalFitnessLimitation')} />}
                     {showReubication && <Textarea
-                        label="Reubicacion"
+                        label="Reubicación"
                         rows={5}
                         {...form.getInputProps('medicalFitnessReubication')} />}
                 </Stack>

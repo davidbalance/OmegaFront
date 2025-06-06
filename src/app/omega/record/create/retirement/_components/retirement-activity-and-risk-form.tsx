@@ -43,7 +43,7 @@ const RetirementActivityAndRiskForm = React.forwardRef<HTMLFormElement, Retireme
     return (
         <>
             <Title order={3}>Datos del establecimiento</Title>
-            <Title order={5} c="dimmed">Actividades y Factores de Riesgo</Title>
+            <Title order={5} c="dimmed">Actividades y factores de riesgo</Title>
             <Box
                 mt={rem(16)}
                 ref={ref}
@@ -69,11 +69,11 @@ const RetirementActivityAndRiskForm = React.forwardRef<HTMLFormElement, Retireme
                                 </Stack>
                                 <SimpleGrid cols={2} spacing={rem(32)} flex={1}>
                                     <TextInput
-                                        label="ACTIVIDAD"
+                                        label="Actividad"
                                         placeholder="eg. Gerente / Marketing"
                                         {...form.getInputProps(`institutionActivities.${i}.activity`)} />
                                     <TextInput
-                                        label="FACTOR DE RIESGO"
+                                        label="Factor de riesgo"
                                         placeholder="eg. Desempeña..."
                                         {...form.getInputProps(`institutionActivities.${i}.risk`)} />
                                 </SimpleGrid>

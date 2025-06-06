@@ -1,78 +1,85 @@
 import { BiologicalRisk, ChemicalRisk, ErgonomicRisk, MechanicalRisk, PhysicalRisk, PsychosocialRisk } from "@/server/record/create-record/_base";
 
+/* 
+*/
+
 export const optionsPhysical: PhysicalRisk<string> & { physicalRiskOther: string } = {
-    physicalRiskHighTemperature: "TEMPERATURAS ALTAS",
-    physicalRiskLowTemperature: "TEMPERATURAS BAJAS",
-    physicalRiskIonicRadiation: "RADIACION IONIZANTE",
-    physicalRiskNonIonicRadiation: "RADIACION NO IONIZANTE",
-    physicalRiskNoise: "RUIDO",
-    physicalRiskVibration: "VIBRACION",
-    physicalRiskIllumination: "ILUMINACION",
-    physicalRiskVentilation: "VENTILACION",
-    physicalRiskElectricFluid: "FLUIDO ELECTRICO",
-    physicalRiskOther: "OTRAS",
+    physicalRiskHighTemperature: "Temperaturas altas",
+    physicalRiskLowTemperature: "Temperaturas bajas",
+    physicalRiskIonicRadiation: "Radiación ionizante",
+    physicalRiskNonIonicRadiation: "Radiación no ionizante",
+    physicalRiskNoise: "Ruido",
+    physicalRiskVibration: "Vibración",
+    physicalRiskIllumination: "Iluminación",
+    physicalRiskVentilation: "Ventilación",
+    physicalRiskElectricFluid: "Fluido eléctrico",
+    physicalRiskOther: "Otras",
 }
 
+/* 
+*/
 export const optionsMechanical: MechanicalRisk<string> & { mechanicRiskOther: string } = {
-    mechanicRiskEntrapmentBetweenMachines: "ATRAPAMIENTO ENTRE MAQUINAS",
-    mechanicRiskTrappingBetweenSurfaces: "ATRAPAMIENTO ENTRE SUPERFICIES",
-    mechanicRiskEntrapmentBetweenObjects: "ATRAPAMIENTO ENTRE OBJETOS",
-    mechanicRiskObjectFalling: "CAIDAS DE OBJETOS",
-    mechanicRiskSameLevelFalling: "CAIDAS AL MISMO NIVEL",
-    mechanicRiskDifferentLevelFalling: "CAIDAS A DIFERENTE NIVEL",
-    mechanicRiskElectricContact: "CONTACTO ELECTRICO",
-    mechanicRiskSurfacesContact: "CONTACTO ENTRE SUPERFICIES",
-    mechanicRiskParticlesProjection: "PROYECCION DE PARTICULAS - FRAGMENTOS",
-    mechanicRiskFluidProjection: "PROYECCION DE FLUIDOS",
-    mechanicRiskJab: "PINCHAZOS",
-    mechanicRiskCut: "CORTES",
-    mechanicRiskHitByVehicles: "ATROPELLAMIENTO POR VEHICULOS",
-    mechanicRiskVehicleCollision: "CHOQUE / COLLISION VEHICULAR",
-    mechanicRiskOther: "OTRAS"
+    mechanicRiskEntrapmentBetweenMachines: "Atrapamiento entre máquinas",
+    mechanicRiskTrappingBetweenSurfaces: "Atrapamiento entre superficies",
+    mechanicRiskEntrapmentBetweenObjects: "Atrapamiento entre objetos",
+    mechanicRiskObjectFalling: "Caídas de objetos",
+    mechanicRiskSameLevelFalling: "Caídas al mismo nivel",
+    mechanicRiskDifferentLevelFalling: "Caídas a diferente nivel",
+    mechanicRiskElectricContact: "Contacto eléctrico",
+    mechanicRiskSurfacesContact: "Contacto entre superficies",
+    mechanicRiskParticlesProjection: "Proyección de partículas / fragmentos",
+    mechanicRiskFluidProjection: "Proyección de fluidos",
+    mechanicRiskJab: "Pinchazos",
+    mechanicRiskCut: "Cortes",
+    mechanicRiskHitByVehicles: "Atropellamiento por vehículos",
+    mechanicRiskVehicleCollision: "Choque / colisión vehicular",
+    mechanicRiskOther: "Otras"
 }
 
+/* 
+*/
 export const optionsChemical: ChemicalRisk<string> & { chemicalRiskOther: string } = {
-    chemicalRiskSolid: "SOLIDO",
-    chemicalRiskDust: "POLVOS",
-    chemicalRiskSmoke: "HUMOS",
-    chemicalRiskLiquid: "LIQUIDOS",
-    chemicalRiskSteam: "VAPORES",
-    chemicalRiskAerosol: "AEROSOLES",
-    chemicalRiskMist: "NEBLINAS",
-    chemicalRiskGas: "GASEOSAS",
-    chemicalRiskOther: "OTRAS"
+    chemicalRiskSolid: "Sólidos",
+    chemicalRiskDust: "Polvos",
+    chemicalRiskSmoke: "Humos",
+    chemicalRiskLiquid: "Líquidos",
+    chemicalRiskSteam: "Vapores",
+    chemicalRiskAerosol: "Aerosoles",
+    chemicalRiskMist: "Neblinas",
+    chemicalRiskGas: "Gaseosos",
+    chemicalRiskOther: "Otras"
 }
 
 export const optionsBiological: BiologicalRisk<string> & { biologicalRiskOther: string } = {
-    biologicalRiskVirus: "VIRUS",
-    biologicalRiskFungus: "HONGOS",
-    biologicalRiskBacteria: "BACTERIAS",
-    biologicalRiskParasites: "PARASITOS",
-    biologicalRiskExposureToVectors: "EXPOSICION A VECTORES",
-    biologicalRiskExposureToWildlifeAnimals: "EXPOSICION A ANIMALES SELVATICOS",
-    biologicalRiskOther: "OTRAS"
+    biologicalRiskVirus: "Virus",
+    biologicalRiskFungus: "Hongos",
+    biologicalRiskBacteria: "Bacterias",
+    biologicalRiskParasites: "Parásitos",
+    biologicalRiskExposureToVectors: "Exposición a vectores",
+    biologicalRiskExposureToWildlifeAnimals: "Exposición a animales silvestres",
+    biologicalRiskOther: "Otras"
 }
 
 export const optionsErgonomic: ErgonomicRisk<string> & { ergonomicRiskOther: string } = {
-    ergonomicRiskManualHandlingLoads: "MANEJO MANUAL DE CARGAS",
-    ergonomicRiskRepetitiveMoves: "MOVIMIENTO REPETITIVOS",
-    ergonomicRiskForcedPostures: "POSTURAS FORZADAS",
-    ergonomicRiskWorkWithPvd: "TRABAJOS CON PVD",
-    ergonomicRiskOther: "OTRAS"
+    ergonomicRiskManualHandlingLoads: "Manejo manual de cargas",
+    ergonomicRiskRepetitiveMoves: "Movimientos repetitivos",
+    ergonomicRiskForcedPostures: "Posturas forzadas",
+    ergonomicRiskWorkWithPvd: "Trabajos con PVD",
+    ergonomicRiskOther: "Otras"
 }
 
 export const optionsPsychosocial: PsychosocialRisk<string> & { psychosocialRiskOther: string } = {
-    psychosocialRiskMonotony: "MONOTONIA DEL TRABAJO",
-    psychosocialRiskWorkOverload: "SOBRECARGA LABORAL",
-    psychosocialRiskThoroughnessOfTheTask: "MINUSCIOSIDAD DE LA TAREA",
-    psychosocialRiskHighResponsibility: "ALTA RESPONSABILIDAD",
-    psychosocialRiskTakingResponsibilityAutonomy: "AUTONOMIA EN LA TOMA DE DECISIONES",
-    psychosocialRiskSupervision: "SUPERVICION Y ESTILOS DE DIRECCION DEFICIENTE",
-    psychosocialRiskRoleConflict: "CONFLICTO DE ROL",
-    psychosocialRiskNonFunctionClarify: "FALTA DE CLARIDAD EN LAS FUNCIONES",
-    psychosocialRiskBadWorkDistribution: "INCORRECTA DISTRIBUCION DEL TRABAJO",
-    psychosocialRiskRotativeShift: "TURNOS ROTATIVOS",
-    psychosocialRiskIntrapersonalRelations: "RELACIONES INTERPERSONALES",
-    psychosocialRiskJobInstability: "INESTABILIDAD PERSONAL",
-    psychosocialRiskOther: "OTRAS"
+    psychosocialRiskMonotony: "Monotonía del trabajo",
+    psychosocialRiskWorkOverload: "Sobrecarga laboral",
+    psychosocialRiskThoroughnessOfTheTask: "Minuciosidad de la tarea",
+    psychosocialRiskHighResponsibility: "Alta responsabilidad",
+    psychosocialRiskTakingResponsibilityAutonomy: "Autonomía en la toma de decisiones",
+    psychosocialRiskSupervision: "Supervisión y estilos de dirección deficientes",
+    psychosocialRiskRoleConflict: "Conflicto de rol",
+    psychosocialRiskNonFunctionClarify: "Falta de claridad en las funciones",
+    psychosocialRiskBadWorkDistribution: "Incorrecta distribución del trabajo",
+    psychosocialRiskRotativeShift: "Turnos rotativos",
+    psychosocialRiskIntrapersonalRelations: "Relaciones interpersonales",
+    psychosocialRiskJobInstability: "Inestabilidad personal",
+    psychosocialRiskOther: "Otras"
 }

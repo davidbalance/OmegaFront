@@ -1,4 +1,4 @@
-import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic, GeneralExamResult, MedicalConsultation, MedicalAndSurgicalHistory, ExtraActivity, CurrentDisease, GeneralExamResultAndSpecific, RecordRecommendation, InstitutionHealthRecord, RecordLogoFlag } from "./_base";
+import { PhysicalRisk, MechanicalRisk, ChemicalRisk, BiologicalRisk, ErgonomicRisk, PsychosocialRisk, PatientRecord, CompanyRecord, LifeStyle, JobAccident, OccupationalDisease, FamilyHistory, ReviewOfOrgansAndSystem, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalFitnessForJob, ToxicDetail, MedicalDiagnostic, GeneralExamResult, MedicalConsultation, MedicalAndSurgicalHistory, ExtraActivity, CurrentDisease, GeneralExamResultAndSpecific, RecordRecommendation, InstitutionHealthRecord, RecordLogoFlag, RecordAuthor } from "./_base";
 
 type ReligionRecord = 'catholic' | 'evangelical' | "jehovah's witnesses" | 'mormon' | 'other';
 type SexualOrientation = 'lesbian' | 'gay' | 'bisexual' | 'heterosexual' | 'unknown';
@@ -77,7 +77,8 @@ type InstitutionJobInformation = {
 }
 
 export type InitialRecordPayload =
-    RecordLogoFlag
+    RecordAuthor
+    & RecordLogoFlag
     // ---------------------------- Institution & Patient Information
     & CompanyRecord
     & InstitutionHealthRecord

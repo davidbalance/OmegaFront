@@ -1,7 +1,7 @@
 'use client'
 
 import { rem } from '@mantine/core';
-import { IconAlertOctagon, IconBriefcase, IconBuilding, IconCheck, IconHeart, IconLicense, IconNotebook, IconPick, IconTree, IconUserCheck, IconVirus } from '@tabler/icons-react';
+import { IconAlertOctagon, IconBriefcase, IconBuilding, IconCheck, IconHeart, IconLicense, IconMedicalCross, IconNotebook, IconPick, IconTree, IconUserCheck, IconVirus } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper-form';
@@ -23,13 +23,14 @@ const icon: StepperIcon = {
     'disease': <IconVirus style={{ width: rem(16), height: rem(16) }} />,
     'heart': <IconHeart style={{ width: rem(16), height: rem(16) }} />,
     'notebook': <IconNotebook style={{ width: rem(16), height: rem(16) }} />,
+    'medicine': <IconMedicalCross style={{ width: rem(16), height: rem(16) }} />,
 }
 type StepperPeriodicRecordForm = PeriodicRecordPayload;
 type StepperPeriodicRecordFormProps = {
     tmpStoreKey?: string;
     patientDni: string;
     initialData?: Partial<StepperPeriodicRecordForm>;
-    headers: { title: string; description?: string, icon: 'user-check' | 'license' | 'building' | 'check' | 'briefcase' | 'tree' | 'risk' | 'activity' | 'disease' | 'heart' | 'notebook' }[]
+    headers: { title: string; description?: string, icon: 'user-check' | 'license' | 'building' | 'check' | 'briefcase' | 'tree' | 'risk' | 'activity' | 'disease' | 'heart' | 'notebook' | 'medicine' }[]
 } & Required<Pick<React.ComponentPropsWithoutRef<typeof StepperForm>, 'children'>>
 const StepperPeriodicRecordForm: React.FC<StepperPeriodicRecordFormProps> = ({
     patientDni,

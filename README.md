@@ -277,7 +277,7 @@ Permite la descarga de un archivo pdf de un resultado asociado.
 
 ```typescript
 const type = "result"; // ESTE VALOR PUEDE UNICAMENTE SER 'result' o 'report';
-const id = 1; // ESTE ES EL IDENTIFICADOR DE UN RESULTADO O REPORTE
+const id = 1; // ESTE ES EL IDENTIFICADOR DE UN Resultado O REPORTE
 fetch("/api/medical/file/report", {
   method: "GET",
 });
@@ -319,7 +319,7 @@ Permite la descarga de un archivo pdf de un resultado asociado.
 
 ```typescript
 const type = "result"; // ESTE VALOR PUEDE UNICAMENTE SER 'result' o 'report';
-const id = 1; // ESTE ES EL IDENTIFICADOR DE UN RESULTADO O REPORTE
+const id = 1; // ESTE ES EL IDENTIFICADOR DE UN Resultado O REPORTE
 fetch("/api/medical/file/multiple", {
   method: "POST",
   body: [

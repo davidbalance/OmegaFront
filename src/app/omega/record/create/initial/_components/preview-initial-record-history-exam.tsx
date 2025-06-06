@@ -31,8 +31,8 @@ const PreviewInitialHistoryExam: React.FC<PreviewInitialHistoryExamProps> = ({
         <TableThead>
           <TableTr>
             <TableTh>EXAMENES REALIZADOS</TableTh>
-            <TableTh>SI/NO</TableTh>
-            <TableTh>TIEMPO (años)</TableTh>
+            <TableTh>Sí / No</TableTh>
+            <TableTh>Tiempo (años)</TableTh>
             <TableTh>Resultado</TableTh>
           </TableTr>
         </TableThead>

@@ -27,8 +27,8 @@ const IntialMaleReproductionForm = React.forwardRef<HTMLFormElement, IntialMaleR
 
     return (
         <>
-            <Title order={3}>Antecedentes personales</Title>
-            <Title order={5} c="dimmed">Antecedentes Reproductivos Masculinos</Title>
+            <Title order={3}>Antecedentes Personales</Title>
+            <Title order={5} c="dimmed">Antecedentes reproductivos masculinos</Title>
             <Box
                 mt={rem(16)}
                 ref={ref}
@@ -38,14 +38,14 @@ const IntialMaleReproductionForm = React.forwardRef<HTMLFormElement, IntialMaleR
 
                 <Stack gap={rem(16)}>
                     <Stack mt={rem(12)} gap={rem(8)}>
-                        <Divider label='Examenes Realizados' />
+                        <Divider label='Exámenes realizados' />
                         <SimpleGrid cols={{ base: 1, sm: 2 }}>
                             <Stack
                                 w="100%"
                                 justify='flex-start'
                                 align='start'>
                                 <Checkbox
-                                    label="ANTIGENO PROSTATICO"
+                                    label="Antígeno prostático"
                                     checked={form.values.maleReproductiveExamProstateAntigen.done}
                                     {...form.getInputProps('maleReproductiveExamProstateAntigen.done')}
                                 />
@@ -53,13 +53,13 @@ const IntialMaleReproductionForm = React.forwardRef<HTMLFormElement, IntialMaleR
                                     <TextInput
                                         w="100%"
                                         disabled={!form.values.maleReproductiveExamProstateAntigen.done}
-                                        label="TIEMPO (AÑOS)"
+                                        label="Tiempo (años)"
                                         type='number'
                                         min={1}
                                         {...form.getInputProps('maleReproductiveExamProstateAntigen.time')} />
                                     <TextInput
                                         w="100%"
-                                        label="RESULTADO"
+                                        label="Resultado"
                                         disabled={!form.values.maleReproductiveExamProstateAntigen.done}
                                         {...form.getInputProps('maleReproductiveExamProstateAntigen.result')} />
                                 </Group>
@@ -70,7 +70,7 @@ const IntialMaleReproductionForm = React.forwardRef<HTMLFormElement, IntialMaleR
                                 justify='flex-start'
                                 align='start'>
                                 <Checkbox
-                                    label="ECO PROSTATICO"
+                                    label="Eco prostático"
                                     checked={form.values.maleReproductiveExamProstateEcho.done}
                                     {...form.getInputProps('maleReproductiveExamProstateEcho.done')}
                                 />
@@ -78,13 +78,13 @@ const IntialMaleReproductionForm = React.forwardRef<HTMLFormElement, IntialMaleR
                                     <TextInput
                                         w="100%"
                                         disabled={!form.values.maleReproductiveExamProstateEcho.done}
-                                        label="TIEMPO (AÑOS)"
+                                        label="Tiempo (años)"
                                         type='number'
                                         min={1}
                                         {...form.getInputProps('maleReproductiveExamProstateEcho.time')} />
                                     <TextInput
                                         w="100%"
-                                        label="RESULTADO"
+                                        label="Resultado"
                                         disabled={!form.values.maleReproductiveExamProstateEcho.done}
                                         {...form.getInputProps('maleReproductiveExamProstateEcho.result')} />
                                 </Group>
@@ -95,7 +95,7 @@ const IntialMaleReproductionForm = React.forwardRef<HTMLFormElement, IntialMaleR
                     <Box>
                         <Divider label='Método de Planificacion Familiar' />
                         <TextInput
-                            label="METODO DE PLANIFICACION FAMILIAR"
+                            label="Método de planificación familiar"
                             {...form.getInputProps('maleReproductiveFamilyPlanningType')} />
                     </Box>
 
@@ -103,12 +103,12 @@ const IntialMaleReproductionForm = React.forwardRef<HTMLFormElement, IntialMaleR
                         <Divider label='Hijos' />
                         <SimpleGrid cols={{ base: 1, sm: 2 }}>
                             <TextInput
-                                label="HIJOS VIVOS"
+                                label="Hijos vivos"
                                 min={0}
                                 type='number'
                                 {...form.getInputProps('maleReproductiveLivingChildren')} />
                             <TextInput
-                                label="HIJOS MUERTOS"
+                                label="Hijos muertos"
                                 min={0}
                                 type='number'
                                 {...form.getInputProps('maleReproductiveDeadChildren')} />

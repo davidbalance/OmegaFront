@@ -20,15 +20,15 @@ const PreviewRecordVitalSignsAndAnthropometry: React.FC<PreviewRecordVitalSignsA
             <Table>
                 <TableThead>
                     <TableTr>
-                        <TableTh>PRESION ARTERIAL (mmHg)</TableTh>
-                        <TableTh>TEMPERATURA (c)</TableTh>
-                        <TableTh>FRECUENCIA CARDIACA (Lat/min)</TableTh>
-                        <TableTh>SATURACION DE OXIGENO (O2%)</TableTh>
-                        <TableTh>FRECUENCIA RESPIRATORIA (fr/min)</TableTh>
-                        <TableTh>PESO (Kg)</TableTh>
-                        <TableTh>TALLA (cm)</TableTh>
-                        <TableTh>INDICE DE MASA CORPORAL (kg/m2)</TableTh>
-                        <TableTh>PERIMETRO ABDOMINAL (cm)</TableTh>
+                        <TableTh>Presión arterial (mmHg)</TableTh>
+                        <TableTh>Temperatura (°C)</TableTh>
+                        <TableTh>Frecuencia cardíaca (lat/min)</TableTh>
+                        <TableTh>Saturación de oxígeno (O₂ %)</TableTh>
+                        <TableTh>Frecuencia respiratoria (fr/min)</TableTh>
+                        <TableTh>Peso (kg)</TableTh>
+                        <TableTh>Talla (cm)</TableTh>
+                        <TableTh>Índice de masa corporal (kg/m²)</TableTh>
+                        <TableTh>Perímetro abdominal (cm)</TableTh>
                     </TableTr>
                 </TableThead>
                 <TableTbody>

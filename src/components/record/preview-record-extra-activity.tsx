@@ -9,7 +9,7 @@ const PreviewRecordExtraActivity: React.FC<PreviewRecordExtraActivityProps> = ({
 }) => {
     return (
         <PreviewRecordContent>
-            <PreviewRecordElement title='Descripcion' text={extraActivityDescription ?? 'NINGÚNA'} />
+            <PreviewRecordElement title='Descripción' text={extraActivityDescription ?? 'NINGÚNA'} />
         </PreviewRecordContent>
     )
 }

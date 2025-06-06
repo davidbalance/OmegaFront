@@ -15,22 +15,22 @@ const PreviewCertificateRecordEvaluation: React.FC<PreviewCertificateRecordEvalu
 
     return (
         <PreviewRecordContent>
-            <Title component='span' order={6} fw='bolder'>EVALUACION</Title>
+            <Title component='span' order={6} fw='bolder'>Evaluación</Title>
             <PreviewRecordContent>
                 <Group gap={rem(8)}>
-                    <Text component='span' fw='bolder'>INGRESO</Text>
+                    <Text component='span' fw='bolder'>Ingreso</Text>
                     <Text component='span'>{generalData === 'entry' ? 'X' : ''}</Text>
                 </Group>
                 <Group gap={rem(8)}>
-                    <Text component='span' fw='bolder'>PERIODICO</Text>
+                    <Text component='span' fw='bolder'>Periódico</Text>
                     <Text component='span'>{generalData === 'periodic' ? 'X' : ''}</Text>
                 </Group>
                 <Group gap={rem(8)}>
-                    <Text component='span' fw='bolder'>REINTEGRO</Text>
+                    <Text component='span' fw='bolder'>Reintegro</Text>
                     <Text component='span'>{generalData === 'reintegrate' ? 'X' : ''}</Text>
                 </Group>
                 <Group gap={rem(8)}>
-                    <Text component='span' fw='bolder'>RETIRO</Text>
+                    <Text component='span' fw='bolder'>Retiro</Text>
                     <Text component='span'>{generalData === 'retirement' ? 'X' : ''}</Text>
                 </Group>
             </PreviewRecordContent>

@@ -20,46 +20,46 @@ const limbExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examLi
 const neurologicExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examNeurologicForce', 'examNeurologicSensitivity', 'examNeurologicGait', 'examNeurologicReflex'];
 
 const options: z.infer<typeof PhysicalRegionalExamSchema> = {
-    examSkinScar: "CICATRICES",
-    examSkinTattoo: "TATUAJES",
-    examSkinLesions: "FANACEAS",
-    examEyeEyelids: "PARPADOS",
-    examEyeConjunctiva: "CONJUNTIVAS",
-    examEyePupils: "PUPILAS",
-    examEyeCorneas: "CORNEA",
-    examEyeMotility: "MOTILIDAD",
-    examEarAuditoryExternal: "EXTERNO",
-    examEarAuricle: "PABELLON",
-    examEarEardrum: "TIMPANOS",
-    examPharynxLips: "LABIOS",
-    examPharynxTongue: "LENGUA",
-    examPharynxPharynx: "FARINGE",
-    examPharynxTonsils: "AMIGDALAS",
-    examPharynxTeeth: "DENTADURA",
-    examNosePartition: "TABIQUE",
-    examNoseTurbinates: "CORNETES",
-    examNoseMucousMembranes: "MUCOSAS",
-    examNoseParanasalSinuses: "PARANASALES",
-    examNeckThyroid: "MASAS",
-    examNeckMobility: "MOVILIDAD",
-    examChestBreast: "MAMAS",
-    examChestHeart: "CORAZON",
-    examChestLungs: "PULMONES",
-    examChestRibCage: "COSTAL",
-    examAbdomenViscera: "VISCERAS",
-    examAbdomenAbdominalWall: "ABDOMINAL",
-    examColumnFlexibility: "FLEXIBILIDAD",
-    examColumnDeviation: "DESVIACION",
-    examColumnPain: "DOLOR",
-    examPelvis: "PELVIS",
-    examPelvisGenitals: "GENITALES",
-    examLimbVascular: "VASCULAR",
-    examLimbUpper: "SUPERIORES",
-    examLimbLower: "INFERIORES",
-    examNeurologicForce: "FUERZA",
-    examNeurologicSensitivity: "SENSIBILIDAD",
-    examNeurologicGait: "MARCHA",
-    examNeurologicReflex: "REFLEJOS",
+    examSkinScar: "Cicatrices",
+    examSkinTattoo: "Tatuajes",
+    examSkinLesions: "Fácies",
+    examEyeEyelids: "Párpados",
+    examEyeConjunctiva: "Conjuntivas",
+    examEyePupils: "Pupilas",
+    examEyeCorneas: "Córnea",
+    examEyeMotility: "Motilidad",
+    examEarAuditoryExternal: "Externo",
+    examEarAuricle: "Pabellón",
+    examEarEardrum: "Tímpanos",
+    examPharynxLips: "Labios",
+    examPharynxTongue: "Lengua",
+    examPharynxPharynx: "Faringe",
+    examPharynxTonsils: "Amígdalas",
+    examPharynxTeeth: "Dentadura",
+    examNosePartition: "Tabique",
+    examNoseTurbinates: "Cornetes",
+    examNoseMucousMembranes: "Mucosas",
+    examNoseParanasalSinuses: "Paranasales",
+    examNeckThyroid: "Masas",
+    examNeckMobility: "Movilidad",
+    examChestBreast: "Mamas",
+    examChestHeart: "Corazón",
+    examChestLungs: "Pulmones",
+    examChestRibCage: "Costal",
+    examAbdomenViscera: "Vísceras",
+    examAbdomenAbdominalWall: "Abdominal",
+    examColumnFlexibility: "Flexibilidad",
+    examColumnDeviation: "Desviación",
+    examColumnPain: "Dolor",
+    examPelvis: "Pelvis",
+    examPelvisGenitals: "Genitales",
+    examLimbVascular: "Vascular",
+    examLimbUpper: "Superiores",
+    examLimbLower: "Inferiores",
+    examNeurologicForce: "Fuerza",
+    examNeurologicSensitivity: "Sensibilidad",
+    examNeurologicGait: "Marcha",
+    examNeurologicReflex: "Reflejos",
 }
 
 type PhysicalRegionalExamFormProps = {
@@ -130,7 +130,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
 
     return (
         <>
-            <Title order={3}>Examen Fisico Regional</Title>
+            <Title order={3}>Examen Físico Regional</Title>
             <Box
                 mt={rem(16)}
                 component='form'
@@ -161,7 +161,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                                         w='100%'
                                         rows={5}
                                         label={value}
-                                        placeholder="Escriba la observacion aqui"
+                                        placeholder="Escriba la observación aquí"
                                         {...form.getInputProps(key)} />
                                 ))}
                             </Stack>
@@ -192,7 +192,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                                         w='100%'
                                         rows={5}
                                         label={value}
-                                        placeholder="Escriba la observacion aqui"
+                                        placeholder="Escriba la observación aquí"
                                         {...form.getInputProps(key)} />
                                 ))}
                             </Stack>
@@ -223,7 +223,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                                         w='100%'
                                         rows={5}
                                         label={value}
-                                        placeholder="Escriba la observacion aqui"
+                                        placeholder="Escriba la observación aquí"
                                         {...form.getInputProps(key)} />
                                 ))}
                             </Stack>
@@ -254,7 +254,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                                         w='100%'
                                         rows={5}
                                         label={value}
-                                        placeholder="Escriba la observacion aqui"
+                                        placeholder="Escriba la observación aquí"
                                         {...form.getInputProps(key)} />
                                 ))}
                             </Stack>
@@ -285,7 +285,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                                         w='100%'
                                         rows={5}
                                         label={value}
-                                        placeholder="Escriba la observacion aqui"
+                                        placeholder="Escriba la observación aquí"
                                         {...form.getInputProps(key)} />
                                 ))}
                             </Stack>
@@ -316,7 +316,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                                         w='100%'
                                         rows={5}
                                         label={value}
-                                        placeholder="Escriba la observacion aqui"
+                                        placeholder="Escriba la observación aquí"
                                         {...form.getInputProps(key)} />
                                 ))}
                             </Stack>
@@ -347,7 +347,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                                         w='100%'
                                         rows={5}
                                         label={value}
-                                        placeholder="Escriba la observacion aqui"
+                                        placeholder="Escriba la observación aquí"
                                         {...form.getInputProps(key)} />
                                 ))}
                             </Stack>
@@ -378,7 +378,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                                         w='100%'
                                         rows={5}
                                         label={value}
-                                        placeholder="Escriba la observacion aqui"
+                                        placeholder="Escriba la observación aquí"
                                         {...form.getInputProps(key)} />
                                 ))}
                             </Stack>
@@ -409,7 +409,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                                         w='100%'
                                         rows={5}
                                         label={value}
-                                        placeholder="Escriba la observacion aqui"
+                                        placeholder="Escriba la observación aquí"
                                         {...form.getInputProps(key)} />
                                 ))}
                             </Stack>
@@ -440,7 +440,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                                         w='100%'
                                         rows={5}
                                         label={value}
-                                        placeholder="Escriba la observacion aqui"
+                                        placeholder="Escriba la observación aquí"
                                         {...form.getInputProps(key)} />
                                 ))}
                             </Stack>
@@ -471,7 +471,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                                         w='100%'
                                         rows={5}
                                         label={value}
-                                        placeholder="Escriba la observacion aqui"
+                                        placeholder="Escriba la observación aquí"
                                         {...form.getInputProps(key)} />
                                 ))}
                             </Stack>
@@ -502,7 +502,7 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
                                         w='100%'
                                         rows={5}
                                         label={value}
-                                        placeholder="Escriba la observacion aqui"
+                                        placeholder="Escriba la observación aquí"
                                         {...form.getInputProps(key)} />
                                 ))}
                             </Stack>

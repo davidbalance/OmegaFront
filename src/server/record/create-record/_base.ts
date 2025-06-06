@@ -253,3 +253,8 @@ export type RecordRecommendation = {
 export type RecordLogoFlag = {
     hideLogo?: boolean;
 }
+
+export type RecordAuthor = {
+    authorFullname: string;
+    authorDni: string;
+}

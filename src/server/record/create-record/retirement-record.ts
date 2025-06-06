@@ -1,4 +1,4 @@
-import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalDiagnostic, JobAccident, OccupationalDisease, GeneralExamResultAndSpecific, InstitutionHealthRecord, MedicalAndSurgicalHistory, RecordRecommendation, RecordLogoFlag } from "./_base";
+import { PatientRecord, CompanyRecord, VitalSignsAndAnthropometry, PhysicalRegionalExam, MedicalDiagnostic, JobAccident, OccupationalDisease, GeneralExamResultAndSpecific, InstitutionHealthRecord, MedicalAndSurgicalHistory, RecordRecommendation, RecordLogoFlag, RecordAuthor } from "./_base";
 
 export type RetirementInstitutionActivity = {
     activity: string;
@@ -11,7 +11,8 @@ export type RetirementEvaluation = {
 }
 
 export type RetirementRecordPayload =
-    RecordLogoFlag
+    RecordAuthor
+    & RecordLogoFlag
     // Institution & Patient Information
     & InstitutionHealthRecord
     & CompanyRecord

@@ -24,7 +24,7 @@ const PreviewRecordDiagnostic: React.FC<PreviewRecordDiagnosticProps> = ({
             <Table>
                 <TableThead>
                     <TableTr>
-                        <TableTh>DESCRIPCION</TableTh>
+                        <TableTh>Descripción</TableTh>
                         <TableTh>CIE</TableTh>
                         <TableTh>PRE</TableTh>
                         <TableTh>DEF</TableTh>

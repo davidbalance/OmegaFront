@@ -35,7 +35,7 @@ const RetirementEvaluationForm = React.forwardRef<HTMLFormElement, RetirementEva
             style={{ position: 'relative', width: '100%', height: '100%' }}>
             <Group gap={rem(36)}>
                 <Checkbox
-                    label="SE REALIZO AL EVALUACION"
+                    label="Se realizó la evaluación"
                     {...form.getInputProps('retirementEvaluationDone')} />
                 <Textarea
                     flex={1}

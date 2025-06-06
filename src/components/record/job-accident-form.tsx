@@ -28,7 +28,7 @@ const JobAccidentForm = React.forwardRef<HTMLFormElement, JobAccidentFormProps>(
     return (
         <>
             <Title order={3}>Antecedentes de Trabajo</Title>
-            <Title order={5} c="dimmed">Accidentes de Trabajo</Title>
+            <Title order={5} c="dimmed">Accidentes de trabajo</Title>
             <Box
                 mt={rem(16)}
                 component='form'
@@ -38,7 +38,7 @@ const JobAccidentForm = React.forwardRef<HTMLFormElement, JobAccidentFormProps>(
                     gap={rem(16)}
                     align='start' w='100%'>
                     <Checkbox
-                        label='FUE CALIFICADO POR EL INSTITUTO DE SEGURIDAD SOCIAL CORRESPONDIENTE'
+                        label='¿Fue calificado por el instituto de seguridad social correspondiente?'
                         labelPosition="left"
                         checked={form.values.jobAccidentHappened}
                         {...form.getInputProps(`jobAccidentHappened`)} />
@@ -47,12 +47,12 @@ const JobAccidentForm = React.forwardRef<HTMLFormElement, JobAccidentFormProps>(
                             <Grid w='100%'>
                                 <GridCol span={{ base: 12, sm: 6 }}>
                                     <DateInput
-                                        label="FECHA"
+                                        label="Fecha"
                                         {...form.getInputProps('jobAccidentDate')} />
                                 </GridCol>
                                 <GridCol span={{ base: 12, sm: 6 }}>
                                     <TextInput
-                                        label="ESPECIFICAR"
+                                        label="Especificar"
                                         placeholder="eg. Omega"
                                         {...form.getInputProps('jobAccidentDescription')} />
                                 </GridCol>
@@ -60,7 +60,7 @@ const JobAccidentForm = React.forwardRef<HTMLFormElement, JobAccidentFormProps>(
                         )}
                     <Textarea
                         w="100%"
-                        label="OBSERVACIONES"
+                        label="Observaciones"
                         placeholder="eg. Omega"
                         rows={10}
                         {...form.getInputProps('jobAccidentObservation')} />

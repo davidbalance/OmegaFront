@@ -7,14 +7,14 @@ import { z } from 'zod';
 import { Box, Flex, Grid, GridCol, rem, Stack, Switch, Textarea, Title } from '@mantine/core';
 
 const options: z.infer<typeof FamilyHistorySchema> = {
-    familyHistoryCardioVascular: "ENFERMEDAD CARDIO-VASCULAR",
-    familyHistoryMetabolic: "ENFERMEDAD METABOLICA",
-    familyHistoryNeurologic: "ENFERMEDAD NEUROLOGICA",
-    familyHistoryOncologic: "ENFERMEDAD ONCOLOGICA",
-    familyHistoryInfectious: "ENFERMEDAD INFECCIOSA",
-    familyHistoryHereditary: "ENFERMEDAD HEREDITARIA / CONGENITA",
-    familyHistoryDisability: "DISCAPACIDADES",
-    familyHistoryOther: "OTROS",
+    familyHistoryCardioVascular: "Enfermedad cardiovascular",
+    familyHistoryMetabolic: "Enfermedad metabólica",
+    familyHistoryNeurologic: "Enfermedad neurológica",
+    familyHistoryOncologic: "Enfermedad oncológica",
+    familyHistoryInfectious: "Enfermedad infecciosa",
+    familyHistoryHereditary: "Enfermedad hereditaria / congénita",
+    familyHistoryDisability: "Discapacidades",
+    familyHistoryOther: "Otros",
 }
 
 type FamilyHistoryFormProps = {
@@ -82,7 +82,7 @@ const FamilyHistoryForm = React.forwardRef<HTMLFormElement, FamilyHistoryFormPro
                                     w='100%'
                                     rows={5}
                                     label={value}
-                                    placeholder="Escriba la observacion aqui"
+                                    placeholder="Escriba la observación aquí"
                                     {...form.getInputProps(key)} />
                             ))}
                         </Stack>

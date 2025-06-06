@@ -45,7 +45,7 @@ const GeneralExamResultForm = React.forwardRef<HTMLFormElement, GeneralExamResul
 
     return (
         <>
-            <Title order={3}>Resultados de Examenes Generales y Especificos</Title>
+            <Title order={3}>Resultados de Exámenes generales y específicos</Title>
             <Box
                 mt={rem(16)}
                 component='form'
@@ -78,17 +78,17 @@ const GeneralExamResultForm = React.forwardRef<HTMLFormElement, GeneralExamResul
                                     <Grid flex={1}>
                                         <GridCol span={{ base: 12, md: 3 }}>
                                             <TextInput
-                                                label="EXAMEN"
+                                                label="Examen"
                                                 {...form.getInputProps(`generalExamResults.${i}.exam`)} />
                                         </GridCol>
                                         <GridCol span={{ base: 12, md: 3 }}>
                                             <DateInput
-                                                label='FECHA'
+                                                label='Fecha'
                                                 {...form.getInputProps(`generalExamResults.${i}.date`)} />
                                         </GridCol>
                                         <GridCol span={{ base: 12, md: 6 }}>
                                             <TextInput
-                                                label="RESULTADOS"
+                                                label="Resultados"
                                                 {...form.getInputProps(`generalExamResults.${i}.result`)} />
                                         </GridCol>
                                     </Grid>

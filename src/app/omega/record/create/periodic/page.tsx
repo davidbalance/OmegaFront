@@ -26,6 +26,7 @@ import { PERIODIC_MEDICAL_CONSULTATION } from './_libs/constants';
 import { retriveFromTmpStore } from '@/lib/tmp-store/tmp-store.utils';
 import { PeriodicRecordPayload } from '@/server/record/create-record/periodic-record';
 import { parsedPeriodic } from './_libs/parsed-periodic';
+import ProfessionalDataForm from '@/components/record/professional-data-form';
 
 type RecordPeriodicPageProps = {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -35,7 +36,7 @@ const RecordPeriodicPage: React.FC<RecordPeriodicPageProps> = async ({
 }) => {
     const patientDni = typeof searchParams.patientDni === 'string' ? searchParams.patientDni : undefined;
 
-    if (!patientDni) return <>Patient not specified</>
+    if (!patientDni) return <>Paciente no especificado</>
 
     const stepperCookieKey: string = `record-periodic-${patientDni}`;
     const tmpResult = await retriveFromTmpStore<Partial<PeriodicRecordPayload>>(stepperCookieKey);
@@ -59,26 +60,27 @@ const RecordPeriodicPage: React.FC<RecordPeriodicPageProps> = async ({
 
     return (
         <>
-            <ReturnableHeader title='Ficha periodica' />
+            <ReturnableHeader title='Ficha periódica' />
             <StepperPeriodicRecordForm
                 headers={[
-                    { title: 'Datos del establecimiento', description: 'Empresa y Usuario', icon: 'building' },
-                    { title: 'Antecedentes personales', description: 'Antecedentes Clinicos y Quirúrgicos', icon: 'user-check' },
-                    { title: 'Antecedentes personales', description: 'Habitos Toxicos', icon: 'user-check' },
-                    { title: 'Antecedentes personales', description: 'Estilo de vida', icon: 'user-check' },
-                    { title: 'Antecedentes personales', description: 'Incidentes', icon: 'user-check' },
-                    { title: 'Antecedentes personales', description: 'Antecedentes de Empleos Anteriores', icon: 'briefcase' },
-                    { title: 'Antecedentes personales', description: 'Accidentes de Trabajo', icon: 'briefcase' },
+                    { title: 'Datos del profesional', icon: 'medicine' },
+                    { title: 'Datos del establecimiento', description: 'Empresa y usuario', icon: 'building' },
+                    { title: 'Antecedentes Personales', description: 'Antecedentes clínicos y quirúrgicos', icon: 'user-check' },
+                    { title: 'Antecedentes Personales', description: 'Hábitos tóxicos', icon: 'user-check' },
+                    { title: 'Antecedentes Personales', description: 'Estilo de vida', icon: 'user-check' },
+                    { title: 'Antecedentes Personales', description: 'Incidentes', icon: 'user-check' },
+                    { title: 'Antecedentes Personales', description: 'Antecedentes de empleos anteriores', icon: 'briefcase' },
+                    { title: 'Antecedentes Personales', description: 'Accidentes de trabajo', icon: 'briefcase' },
                     { title: 'Antecedentes Familiares', icon: 'tree' },
-                    { title: 'Factores de Riesgos del Trabajo Actual', description: 'Riesgos', icon: 'risk' },
+                    { title: 'Factores de riesgo del trabajo actual', description: 'Riesgos', icon: 'risk' },
                     { title: 'Enfermedad Actual', icon: 'disease' },
-                    { title: 'Revision Actual de Organos y Sistemas', icon: 'heart' },
-                    { title: 'Constantes Vitales y Antropometria', icon: 'heart' },
-                    { title: 'Examen Fisico Regional', description: 'Regiones', icon: 'heart' },
-                    { title: 'Resultados de Examenes Generales y Especificos', description: 'Regiones', icon: 'notebook' },
-                    { title: 'M. Diagnostico', icon: 'notebook' },
-                    { title: 'N. Aptitud Medical para el Trabajo', icon: 'notebook' },
-                    { title: 'Recomendaciones y/o Tratamientos', icon: 'notebook' },
+                    { title: 'Revisión Actual de Órganos y Sistemas', icon: 'heart' },
+                    { title: 'Constantes Vitales y Antropometría', icon: 'heart' },
+                    { title: 'Examen Físico Regional', description: 'Regiones', icon: 'heart' },
+                    { title: 'Resultados de Exámenes generales y específicos', description: 'Regiones', icon: 'notebook' },
+                    { title: 'Diagnóstico', icon: 'notebook' },
+                    { title: 'Aptitud médica para el trabajo', icon: 'notebook' },
+                    { title: 'Recomendaciones y/o tratamientos', icon: 'notebook' },
 
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
@@ -94,6 +96,7 @@ const RecordPeriodicPage: React.FC<RecordPeriodicPageProps> = async ({
                     medicalConsultationDescription: PERIODIC_MEDICAL_CONSULTATION,
                     ...initialData
                 }}>
+                <ProfessionalDataForm />
                 <PeriodicInstitutionForm options={corporativeOptions} />
                 <MedicalAndSurgicalHistoryForm />
                 <ToxicHabitsForm />

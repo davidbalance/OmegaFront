@@ -28,7 +28,7 @@ const IncidentForm = React.forwardRef<HTMLFormElement, IncidentFormProps>(({
 
   return (
     <>
-      <Title order={3}>Antecedentes personales</Title>
+      <Title order={3}>Antecedentes Personales</Title>
       <Title order={5} c="dimmed">Incidentes</Title>
       <Box
         mt={rem(16)}
@@ -37,7 +37,7 @@ const IncidentForm = React.forwardRef<HTMLFormElement, IncidentFormProps>(({
         onSubmit={form.onSubmit(handleSubmit)}
         style={{ position: 'relative', width: '100%', height: '100%' }}>
         <Textarea
-          label="DESCRIPCION"
+          label="Descripción"
           placeholder='eg. Consulta...'
           rows={10}
           {...form.getInputProps('incidentDescription')} />

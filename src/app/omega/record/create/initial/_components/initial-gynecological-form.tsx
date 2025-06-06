@@ -44,8 +44,8 @@ const InitialGynecologicalForm = React.forwardRef<HTMLFormElement, InitialGyneco
 
     return (
         <>
-            <Title order={3}>Antecedentes personales</Title>
-            <Title order={5} c="dimmed">Antecedentes Gineco Obstreicos</Title>
+            <Title order={3}>Antecedentes Personales</Title>
+            <Title order={5} c="dimmed">Antecedentes gineco-obstétricos</Title>
             <Box
                 mt={rem(16)}
                 ref={ref}
@@ -55,58 +55,58 @@ const InitialGynecologicalForm = React.forwardRef<HTMLFormElement, InitialGyneco
                 <Stack gap={rem(16)}>
                     <SimpleGrid cols={{ base: 1, sm: 3 }}>
                         <TextInput
-                            label="MENARQUIA"
+                            label="Menarquía"
                             {...form.getInputProps('gynecologicalMenarche')} />
                         <TextInput
-                            label="CICLOS"
+                            label="Ciclos"
                             {...form.getInputProps('gynecologicalCycle')} />
                         <DateInput
-                            label='FECHA DE ULTIMA MENSTRUACION'
+                            label="Fecha de última menstruación"
                             {...form.getInputProps('gynecologicalLastMenstruationDate')} />
                     </SimpleGrid>
                     <SimpleGrid cols={{ base: 1, sm: 4 }}>
                         <TextInput
-                            label="GESTAS"
+                            label="Gestas"
                             min={0}
                             type='number'
                             {...form.getInputProps('gynecologicalDeeds')} />
                         <TextInput
-                            label="PARTOS"
+                            label="Partos"
                             min={0}
                             type='number'
                             {...form.getInputProps('gynecologicalBirths')} />
                         <TextInput
-                            label='CESAREAS'
+                            label="Cesáreas"
                             min={0}
                             type='number'
                             {...form.getInputProps('gynecologicalCesarean')} />
                         <TextInput
-                            label='ABORTOS'
+                            label="Abortos"
                             min={0}
                             type='number'
                             {...form.getInputProps('gynecologicalAbortions')} />
                     </SimpleGrid>
                     <SimpleGrid cols={{ base: 1, sm: 3 }}>
                         <TextInput
-                            label="HIJOS VIVOS"
+                            label="Hijos vivos"
                             min={0}
                             type='number'
                             {...form.getInputProps('gynecologicalLivingChildren')} />
                         <TextInput
-                            label="HIJOS MUERTOS"
+                            label="Hijos muertos"
                             min={0}
                             type='number'
                             {...form.getInputProps('gynecologicalDeadChildren')} />
                         <Stack h='100%' justify='center' align='center'>
                             <Checkbox
-                                label="VIDA SEXUAL ACTIVA"
+                                label="Vida sexual activa"
                                 checked={form.values.gynecologicalSexualLife}
                                 {...form.getInputProps('gynecologicalSexualLife')}
                             />
                         </Stack>
                     </SimpleGrid>
                     <TextInput
-                        label="METODO DE PLANIFICACION FAMILIAR"
+                        label="Método de planificación familiar"
                         {...form.getInputProps('gynecologicalFamilyPlanningType')} />
 
                     <SimpleGrid cols={{ base: 1, sm: 2 }}>
@@ -115,19 +115,19 @@ const InitialGynecologicalForm = React.forwardRef<HTMLFormElement, InitialGyneco
                             justify='flex-start'
                             align='start'>
                             <Checkbox
-                                label="PAPANICOULAU"
+                                label="Papanicolaou"
                                 checked={form.values.gynecologicalExamPapanicolau.done}
                                 {...form.getInputProps('gynecologicalExamPapanicolau.done')}
                             />
                             <Group gap={rem(8)}>
                                 <TextInput
                                     disabled={!form.values.gynecologicalExamPapanicolau.done}
-                                    label="TIEMPO (AÑOS)"
+                                    label="Tiempo (años)"
                                     type='number'
                                     min={1}
                                     {...form.getInputProps('gynecologicalExamPapanicolau.time')} />
                                 <TextInput
-                                    label="RESULTADO"
+                                    label="Resultado"
                                     disabled={!form.values.gynecologicalExamPapanicolau.done}
                                     {...form.getInputProps('gynecologicalExamPapanicolau.result')} />
                             </Group>
@@ -137,19 +137,19 @@ const InitialGynecologicalForm = React.forwardRef<HTMLFormElement, InitialGyneco
                             justify='flex-start'
                             align='start'>
                             <Checkbox
-                                label="COLPOSCOPIA"
+                                label="Colposcopia"
                                 checked={form.values.gynecologicalExamColposcopy.done}
                                 {...form.getInputProps('gynecologicalExamColposcopy.done')}
                             />
                             <Group gap={rem(8)}>
                                 <TextInput
                                     disabled={!form.values.gynecologicalExamColposcopy.done}
-                                    label="TIEMPO (AÑOS)"
+                                    label="Tiempo (años)"
                                     type='number'
                                     min={1}
                                     {...form.getInputProps('gynecologicalExamColposcopy.time')} />
                                 <TextInput
-                                    label="RESULTADO"
+                                    label="Resultado"
                                     disabled={!form.values.gynecologicalExamColposcopy.done}
                                     {...form.getInputProps('gynecologicalExamColposcopy.result')} />
                             </Group>
@@ -159,19 +159,19 @@ const InitialGynecologicalForm = React.forwardRef<HTMLFormElement, InitialGyneco
                             justify='flex-start'
                             align='start'>
                             <Checkbox
-                                label="ECO MAMARIO"
+                                label="Eco mamario"
                                 checked={form.values.gynecologicalExamBreastEcho.done}
                                 {...form.getInputProps('gynecologicalExamBreastEcho.done')}
                             />
                             <Group gap={rem(8)}>
                                 <TextInput
                                     disabled={!form.values.gynecologicalExamBreastEcho.done}
-                                    label="TIEMPO (AÑOS)"
+                                    label="Tiempo (años)"
                                     type='number'
                                     min={1}
                                     {...form.getInputProps('gynecologicalExamBreastEcho.time')} />
                                 <TextInput
-                                    label="RESULTADO"
+                                    label="Resultado"
                                     disabled={!form.values.gynecologicalExamBreastEcho.done}
                                     {...form.getInputProps('gynecologicalExamBreastEcho.result')} />
                             </Group>
@@ -181,19 +181,19 @@ const InitialGynecologicalForm = React.forwardRef<HTMLFormElement, InitialGyneco
                             justify='flex-start'
                             align='start'>
                             <Checkbox
-                                label="MAMOGRAFIA"
+                                label="Mamografía"
                                 checked={form.values.gynecologicalExamMammography.done}
                                 {...form.getInputProps('gynecologicalExamMammography.done')}
                             />
                             <Group gap={rem(8)}>
                                 <TextInput
                                     disabled={!form.values.gynecologicalExamMammography.done}
-                                    label="TIEMPO (AÑOS)"
+                                    label="Tiempo (años)"
                                     type='number'
                                     min={1}
                                     {...form.getInputProps('gynecologicalExamMammography.time')} />
                                 <TextInput
-                                    label="RESULTADO"
+                                    label="Resultado"
                                     disabled={!form.values.gynecologicalExamMammography.done}
                                     {...form.getInputProps('gynecologicalExamMammography.result')} />
                             </Group>

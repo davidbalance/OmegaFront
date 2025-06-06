@@ -20,32 +20,32 @@ const PreviewRecordMedicalFitnessForJob: React.FC<PreviewRecordMedicalFitnessFor
         <PreviewRecordContent>
             <SimpleGrid cols={4}>
                 <Group>
-                    <Text component='span' fw='bold'>APTO</Text>
+                    <Text component='span' fw='bold'>Apto</Text>
                     <Text component='span'>{medicalFitnessType === 'fit' ? 'X' : ''}</Text>
                 </Group>
                 <Group>
-                    <Text component='span' fw='bold'>APTO EN OBSERVACION</Text>
+                    <Text component='span' fw='bold'>Apto en observación</Text>
                     <Text component='span'>{medicalFitnessType === 'fit-observation' ? 'X' : ''}</Text>
                 </Group>
                 <Group>
-                    <Text component='span' fw='bold'>APTO CON LIMITACIONES</Text>
+                    <Text component='span' fw='bold'>Apto con limitaciones</Text>
                     <Text component='span'>{medicalFitnessType === 'fit-limitation' ? 'X' : ''}</Text>
                 </Group>
                 <Group>
-                    <Text component='span' fw='bold'>NO APTO</Text>
+                    <Text component='span' fw='bold'>No apto</Text>
                     <Text component='span'>{medicalFitnessType === 'no-fit' ? 'X' : ''}</Text>
                 </Group>
             </SimpleGrid>
             <Group>
-                <Text component='span' fw='bold'>Observacion</Text>
+                <Text component='span' fw='bold'>Observación</Text>
                 <Text component='span'>{medicalFitnessObservation}</Text>
             </Group>
             {!hideLimitation && <Group>
-                <Text component='span' fw='bold'>Limitacion</Text>
+                <Text component='span' fw='bold'>Limitación</Text>
                 <Text component='span'>{medicalFitnessLimitation}</Text>
             </Group>}
             {showReubication && <Group>
-                <Text component='span' fw='bold'>Reubicacion</Text>
+                <Text component='span' fw='bold'>Reubicación</Text>
                 <Text component='span'>{medicalFitnessReubication}</Text>
             </Group>}
         </PreviewRecordContent>

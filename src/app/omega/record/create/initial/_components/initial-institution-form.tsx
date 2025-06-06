@@ -23,9 +23,9 @@ const BloodGroupOptions: Option[] = [
     { label: 'Desconoce', value: 'Desconoce' },
 ]
 const ReligionOptions: Option[] = [
-    { label: 'Catolica', value: 'catholic' },
-    { label: 'Evangelica', value: 'evangelical' },
-    { label: 'Testigos de Jeová', value: "jehovah's witnesses" },
+    { label: 'Católica', value: 'catholic' },
+    { label: 'Evangélica', value: 'evangelical' },
+    { label: 'Testigos de Jehová', value: "jehovah's witnesses" },
     { label: 'Mormona', value: 'mormon' },
     { label: 'Otros', value: 'other' }
 ]
@@ -35,7 +35,7 @@ const LateralityOptions: Option[] = [
 ]
 const SexualOrientationOptions: Option[] = [
     { label: 'Heterosexual', value: 'heterosexual' },
-    { label: 'Lesbica', value: 'lesbian' },
+    { label: 'Lesbiana', value: 'lesbian' },
     { label: 'Gay', value: 'gay' },
     { label: 'Bisexual', value: "bisexual" },
     { label: 'No sabe / No responde', value: 'unknown' }
@@ -44,8 +44,8 @@ const SexualOrientationOptions: Option[] = [
 const GenderIdentityOptions: Option[] = [
     { label: 'Masculino', value: 'male' },
     { label: 'Femenino', value: 'female' },
-    { label: 'Trans Femenino', value: "trans-female" },
-    { label: 'Trans Masculino', value: 'trans-male' },
+    { label: 'Trans femenino', value: "trans-female" },
+    { label: 'Trans masculino', value: 'trans-male' },
     { label: 'No sabe / No responde', value: 'unknown' }
 ]
 
@@ -86,7 +86,7 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
     return (
         <>
             <Title order={3}>Datos del establecimiento</Title>
-            <Title order={5} c="dimmed">Empresa y Usuario</Title>
+            <Title order={5} c="dimmed">Empresa y usuario</Title>
             <Box
                 ref={ref}
                 component='form'
@@ -101,7 +101,7 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
                     <input type='hidden' {...form.getInputProps('patientAge')} />
                     <input type='hidden' {...form.getInputProps('patientGender')} />
 
-                    <Divider label='Institucion' />
+                    <Divider label='Institución' />
                     <SimpleGrid cols={{ base: 1, sm: 3 }}>
                         <CorporativeSelect
                             options={options}
@@ -120,7 +120,7 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
                         <Select
                             data={BloodGroupOptions}
                             checkIconPosition="left"
-                            label="GRUPO SANGUINEO"
+                            label="Grupo sanguíneo"
                             placeholder="eg. A"
                             defaultDropdownOpened={false}
                             maxDropdownHeight={200}
@@ -129,7 +129,7 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
                         <Select
                             data={LateralityOptions}
                             checkIconPosition="left"
-                            label="LATERALIDAD"
+                            label="Lateralidad"
                             placeholder="eg. Diestro"
                             defaultDropdownOpened={false}
                             maxDropdownHeight={200}
@@ -141,7 +141,7 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
                             <Select
                                 data={ReligionOptions}
                                 checkIconPosition="left"
-                                label="RELIGION"
+                                label="Religión"
                                 placeholder="eg. Catologica"
                                 defaultDropdownOpened={false}
                                 maxDropdownHeight={200}
@@ -151,7 +151,7 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
                             <Select
                                 data={SexualOrientationOptions}
                                 checkIconPosition="left"
-                                label="ORIENTACION SEXUAL"
+                                label="Orientación sexual"
                                 placeholder="eg. Catologica"
                                 defaultDropdownOpened={false}
                                 maxDropdownHeight={200}
@@ -160,7 +160,7 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
                         <Select
                             data={GenderIdentityOptions}
                             checkIconPosition="left"
-                            label="IDENTIDAD DE GENERO"
+                            label="Identidad de género"
                             placeholder="eg. Masculino"
                             defaultDropdownOpened={false}
                             maxDropdownHeight={200}
@@ -169,11 +169,11 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
 
                     <SimpleGrid cols={{ base: hasDisability ? 2 : 1 }}>
                         <TextInput
-                            label="TIPO DE DISCAPACIDAD"
+                            label="Tipo de discapacidad"
                             placeholder="eg. Discapacidad..."
                             {...form.getInputProps('patientDisabilityType')} />
                         {hasDisability && <TextInput
-                            label="PORCENTAJE DE DISCAPACIDAD"
+                            label="Porcentaje de discapacidad"
                             type='number'
                             step={1}
                             min={1}
@@ -184,21 +184,21 @@ const InitialInstitutionForm = React.forwardRef<HTMLFormElement, InitialInstitut
                     <Divider label='Trabajo' />
                     <SimpleGrid cols={{ base: 1, sm: 3 }}>
                         <DateInput
-                            label='INGRESO AL TRABAJO'
+                            label='Ingreso al trabajo'
                             {...form.getInputProps('institutionJobStartDate')} />
                         <TextInput
-                            label="PUESTO DE TRABAJO"
+                            label="Puesto de trabajo"
                             placeholder='eg. Gerente'
                             {...form.getInputProps('institutionJobPosition')} />
                         <TextInput
-                            label="AREA DE TRABAJO"
+                            label="Área de trabajo"
                             placeholder='eg. Marketing'
                             {...form.getInputProps('institutionJobArea')} />
                     </SimpleGrid>
 
                     <Textarea
-                        label="ACTIVIDAD DE TRABAJO"
-                        placeholder='eg. Gestion el control...'
+                        label="Actividad de trabajo"
+                        placeholder='eg. Gestión de control...'
                         rows={5}
                         {...form.getInputProps('institutionJobActivities')} />
                 </Stack>

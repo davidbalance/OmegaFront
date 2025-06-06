@@ -38,7 +38,7 @@ const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFor
 
     return (
         <>
-            <Title order={3}>Factores de Riesgos del Trabajo Actual</Title>
+            <Title order={3}>Factores de riesgo del trabajo actual</Title>
             <Box
                 mt={rem(16)}
                 component='form'
@@ -68,26 +68,26 @@ const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFor
                             <GridCol span={11}>
                                 <SimpleGrid cols={4}>
                                     <TextInput
-                                        label="PUESTO DE TRABAJO / AREA"
+                                        label="Puesto de trabajo / Área"
                                         placeholder="eg. Gerente / Marketing"
                                         {...form.getInputProps(`jobRisks.${i}.name`)} />
                                     <TextInput
-                                        label="ACTIVIDADES"
+                                        label="Actividades"
                                         placeholder="eg. Desempeña..."
                                         {...form.getInputProps(`jobRisks.${i}.activity`)} />
                                     <TextInput
-                                        label="TIEMPO DE TRABAJO (MESES)"
+                                        label="Tiempo de trabajo (meses)"
                                         type='number'
                                         min={0}
                                         {...form.getInputProps(`jobRisks.${i}.months`)} />
                                     <TextInput
-                                        label="MEDIDAS PREVENTIVAS"
+                                        label="Medidas preventivas"
                                         placeholder="eg. Desempeña..."
                                         {...form.getInputProps(`jobRisks.${i}.preventiveMeasure`)} />
                                 </SimpleGrid>
                             </GridCol>
                             <GridCol span={2}>
-                                <Title mb={rem(8)} order={6}>Fisico</Title>
+                                <Title mb={rem(8)} order={6}>Físico</Title>
                                 <Stack gap={8}>
                                     {
                                         Object.entries(optionsPhysical).map(([key, value]) => (
@@ -101,7 +101,7 @@ const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFor
                                 </Stack>
                             </GridCol>
                             <GridCol span={2}>
-                                <Title mb={rem(8)} order={6}>Mecanico</Title>
+                                <Title mb={rem(8)} order={6}>Mecánico</Title>
                                 <Stack gap={8}>
                                     {
                                         Object.entries(optionsMechanical).map(([key, value]) => (
@@ -115,7 +115,7 @@ const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFor
                                 </Stack>
                             </GridCol>
                             <GridCol span={2}>
-                                <Title mb={rem(8)} order={6}>Quimico</Title>
+                                <Title mb={rem(8)} order={6}>Químico</Title>
                                 <Stack gap={8}>
                                     {
                                         Object.entries(optionsChemical).map(([key, value]) => (
@@ -129,7 +129,7 @@ const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFor
                                 </Stack>
                             </GridCol>
                             <GridCol span={2}>
-                                <Title mb={rem(8)} order={6}>Biologico</Title>
+                                <Title mb={rem(8)} order={6}>Biológico</Title>
                                 <Stack gap={8}>
                                     {
                                         Object.entries(optionsBiological).map(([key, value]) => (
@@ -143,7 +143,7 @@ const PeriodicJobRiskForm = React.forwardRef<HTMLFormElement, PeriodicJobRiskFor
                                 </Stack>
                             </GridCol>
                             <GridCol span={2}>
-                                <Title mb={rem(8)} order={6}>Ergonomico</Title>
+                                <Title mb={rem(8)} order={6}>Ergonómico</Title>
                                 <Stack gap={8}>
                                     {
                                         Object.entries(optionsErgonomic).map(([key, value]) => (

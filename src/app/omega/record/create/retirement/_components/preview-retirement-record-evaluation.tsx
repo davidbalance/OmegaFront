@@ -16,7 +16,7 @@ const PreviewRetirementRecordEvaluation: React.FC<PreviewRetirementRecordEvaluat
 
     return (
         <PreviewRecordContent>
-            <PreviewRecordElement title='SE REALIZO LA EVALUACION' text={retirementEvaluationDone ? 'Si' : 'No'} />
+            <PreviewRecordElement title='Se realizó la evaluación' text={retirementEvaluationDone ? 'Si' : 'No'} />
             <PreviewRecordElement title='Observaciones' text={retirementEvaluationObservation ?? ''} />
         </PreviewRecordContent>
     )

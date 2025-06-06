@@ -23,7 +23,7 @@ const PreviewPeriodicRecordJobRiskPrevention: React.FC<PreviewPeriodicRecordJobR
                     <Text component='span' fw={e.psychosocialRiskTakingResponsibilityAutonomy ? 'bold' : 'lighter'}>Autonomía  en la toma de decisiones</Text>
                     <Text component='span' fw={e.psychosocialRiskSupervision ? 'bold' : 'lighter'}>Supervisión y estilos de dirección deficiente</Text>
                     <Text component='span' fw={e.psychosocialRiskRoleConflict ? 'bold' : 'lighter'}>Conflicto de rol</Text>
-                    <Text component='span' fw={e.psychosocialRiskNonFunctionClarify ? 'bold' : 'lighter'}>Falta de Claridad en las funciones</Text>
+                    <Text component='span' fw={e.psychosocialRiskNonFunctionClarify ? 'bold' : 'lighter'}>Falta de claridad en las funciones</Text>
                     <Text component='span' fw={e.psychosocialRiskBadWorkDistribution ? 'bold' : 'lighter'}>Incorrecta distribución del trabajo</Text>
                     <Text component='span' fw={e.psychosocialRiskRotativeShift ? 'bold' : 'lighter'}>Turnos rotativos</Text>
                     <Text component='span' fw={e.psychosocialRiskIntrapersonalRelations ? 'bold' : 'lighter'}>Relaciones interpersonales</Text>
@@ -41,10 +41,10 @@ const PreviewPeriodicRecordJobRiskPrevention: React.FC<PreviewPeriodicRecordJobR
             <Table>
                 <TableThead>
                     <TableTr>
-                        <TableTh>PUESTO DE TRABAJO / AREA</TableTh>
-                        <TableTh>ACTIVIDADES</TableTh>
-                        <TableTh>PSICOSOCIAL</TableTh>
-                        <TableTh>MEDIDAS PREVENTIVAS</TableTh>
+                        <TableTh>Puesto de trabajo / Área</TableTh>
+                        <TableTh>Actividades</TableTh>
+                        <TableTh>Psicosocial</TableTh>
+                        <TableTh>Medidas preventivas</TableTh>
                     </TableTr>
                 </TableThead>
                 <TableTbody>{rows}</TableTbody>

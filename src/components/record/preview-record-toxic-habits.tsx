@@ -24,17 +24,17 @@ const PreviewRecordToxicHabits: React.FC<PreviewRecordToxicHabitsProps> = ({
 
     return (
         <>
-            <Title component='span' order={6} fw='bolder'>HABITOS TOXICOS</Title>
+            <Title component='span' order={6} fw='bolder'>Hábitos tóxicos</Title>
             <Box px={rem(8)}>
                 <Table>
                     <TableThead>
                         <TableTr>
-                            <TableTh>CONSUMOS NOCIVOS</TableTh>
-                            <TableTh>SI/NO</TableTh>
-                            <TableTh>TIEMPO DE CONSUMO (meses)</TableTh>
-                            <TableTh>CANTIDAD</TableTh>
-                            <TableTh>EX CONSUMIDOR</TableTh>
-                            <TableTh>TIEMPO DE ABSTINENCIA (meses)</TableTh>
+                            <TableTh>Consumos nocivos</TableTh>
+                            <TableTh>Sí / No</TableTh>
+                            <TableTh>Tiempo de consumo (meses)</TableTh>
+                            <TableTh>Cantidad</TableTh>
+                            <TableTh>Ex consumidor</TableTh>
+                            <TableTh>Tiempo de abstinencia (meses)</TableTh>
                         </TableTr>
                     </TableThead>
                     <TableTbody>{rows}</TableTbody>

@@ -48,7 +48,7 @@ const RetirementInstitutionForm = React.forwardRef<HTMLFormElement, RetirementIn
     return (
         <>
             <Title order={3}>Datos del establecimiento</Title>
-            <Title order={5} c="dimmed">Empresa y Usuario</Title>
+            <Title order={5} c="dimmed">Empresa y usuario</Title>
             <Box
                 mt={rem(16)}
                 ref={ref}
@@ -65,7 +65,7 @@ const RetirementInstitutionForm = React.forwardRef<HTMLFormElement, RetirementIn
                 <input type='hidden' {...form.getInputProps('workingTime')} />
 
                 <Stack gap={rem(16)}>
-                    <Divider label='Institucion' />
+                    <Divider label='Institución' />
                     <SimpleGrid cols={{ base: 1, sm: 3 }}>
                         <CorporativeSelect
                             options={options}
@@ -82,13 +82,13 @@ const RetirementInstitutionForm = React.forwardRef<HTMLFormElement, RetirementIn
                     <SimpleGrid cols={{ base: 1, sm: 3 }}>
 
                         <DateInput
-                            label='FECHA DE INICIO DE LABORES'
+                            label='Fecha de inicio de labores'
                             {...form.getInputProps('workStartDate')} />
                         <DateInput
-                            label='FECHA DE SALIDA'
+                            label='Fecha de salida'
                             {...form.getInputProps('workingEndDate')} />
                         <TextInput
-                            label="PUESTO DE TRABAJO"
+                            label="Puesto de trabajo"
                             placeholder='eg. Gerente'
                             {...form.getInputProps('jobPosition')} />
 

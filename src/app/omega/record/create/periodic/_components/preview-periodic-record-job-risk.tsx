@@ -88,13 +88,13 @@ const PreviewPeriodicRecordJobRisk: React.FC<PreviewPeriodicRecordJobRiskProps> 
             <Table>
                 <TableThead>
                     <TableTr>
-                        <TableTh>PUESTO DE TRABAJO / AREA</TableTh>
-                        <TableTh>ACTIVIDADES</TableTh>
-                        <TableTh>FISICO</TableTh>
-                        <TableTh>MECANICO</TableTh>
-                        <TableTh>QUIMICO</TableTh>
-                        <TableTh>BIOLOGICO</TableTh>
-                        <TableTh>ERGONOMICO</TableTh>
+                        <TableTh>Puesto de trabajo / Área</TableTh>
+                        <TableTh>Actividades</TableTh>
+                        <TableTh>Físico</TableTh>
+                        <TableTh>Mecánico</TableTh>
+                        <TableTh>Químico</TableTh>
+                        <TableTh>Biológico</TableTh>
+                        <TableTh>Ergonómico</TableTh>
                     </TableTr>
                 </TableThead>
                 <TableTbody>{rows}</TableTbody>

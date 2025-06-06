@@ -9,7 +9,7 @@ const PreviewRecordRecommendation: React.FC<PreviewRecordRecommendationProps> = 
 }) => {
     return (
         <PreviewRecordContent>
-            <PreviewRecordElement title='Descripcion' text={recommendationDescription} />
+            <PreviewRecordElement title='Descripción' text={recommendationDescription} />
         </PreviewRecordContent>
     )
 }

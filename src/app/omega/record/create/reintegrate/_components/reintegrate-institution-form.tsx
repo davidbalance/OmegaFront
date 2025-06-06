@@ -46,7 +46,7 @@ const ReintegrateInstitutionForm = React.forwardRef<HTMLFormElement, Reintegrate
     return (
         <>
             <Title order={3}>Datos del establecimiento</Title>
-            <Title order={5} c="dimmed">Empresa y Usuario</Title>
+            <Title order={5} c="dimmed">Empresa y usuario</Title>
             <Box
                 mt={rem(16)}
                 ref={ref}
@@ -78,24 +78,24 @@ const ReintegrateInstitutionForm = React.forwardRef<HTMLFormElement, Reintegrate
 
                     <SimpleGrid cols={{ base: 1, sm: 4 }}>
                         <TextInput
-                            label="PUESTO DE TRABAJO"
+                            label="Puesto de trabajo"
                             placeholder='eg. Gerente'
                             {...form.getInputProps('jobPosition')} />
                         <DateInput
-                            label='FECHA DEL ULTIMO DIA LABORAL'
+                            label='Fecha del último día laboral'
                             {...form.getInputProps('workingEndDate')} />
                         <DateInput
-                            label='FECHA DE REINGRESO'
+                            label='Fecha de reingreso'
                             {...form.getInputProps('workingReintegrationDate')} />
                         <TextInput
-                            label="TOTAL (dias)"
+                            label="Total (días)"
                             type='number'
                             min={0}
                             {...form.getInputProps('workingTime')} />
                     </SimpleGrid>
 
                     <Textarea
-                        label="Causa de Salida"
+                        label="Causa de salida"
                         rows={5}
                         {...form.getInputProps('workingLeftCause')} />
                 </Stack>

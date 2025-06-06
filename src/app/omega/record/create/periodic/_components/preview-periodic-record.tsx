@@ -24,6 +24,7 @@ import PreviewRecordGeneralExamResultAndSpecific from '@/components/record/previ
 import PreviewRecordDiagnostic from '@/components/record/preview-record-diagnostic';
 import PreviewRecordMedicalFitnessForJob from '@/components/record/preview-record-medical-fitness-for-job';
 import PreviewRecordRecommendation from '@/components/record/preview-record-recommendation';
+import PreviewRecordProfessionalData from '@/components/record/preview-record-professional-data';
 
 type PreviewPeriodicRecordProps = {
     data?: PeriodicRecordPayload;
@@ -50,24 +51,26 @@ const PreviewPeriodicRecord = React.forwardRef<HTMLFormElement, PreviewPeriodicR
                 data ? (
                     <Stack gap={rem(32)}>
                         <Checkbox
-                            label="Ocultar el logo de Omega."
+                            label="Ocultar el logotipo de Omega."
                             {...form.getInputProps('hideLogo')}
                         />
 
-                        <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
+                        <PreviewRecordProfessionalData {...data} />
+
+                        <PreviewRecordWrapper title='Datos del Establecimiento - Empresa y Usuario'>
                             <PreviewPeriodicRecordInstitution {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='MOTIVO DE CONSULTA'>
+                        <PreviewRecordWrapper title='Motivo de Consulta'>
                             <PreviewRecordMedicalConsultation {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='ANTECEDENTES PERSONALES'>
+                        <PreviewRecordWrapper title='Antecedentes Personales'>
                             <PreviewRecordMedicalAndSurgicalHistory {...data} />
                             <PreviewRecordToxicHabits habits={[
-                                { name: 'TABACO', ...data.toxicHabitTobacco },
-                                { name: 'ALCOHOL', ...data.toxicHabitAlcohol },
-                                { name: 'OTRAS DROGAS', ...data.toxicHabitOther },
+                                { name: 'Tabaco', ...data.toxicHabitTobacco },
+                                { name: 'Alcohol', ...data.toxicHabitAlcohol },
+                                { name: 'Otras drogas', ...data.toxicHabitOther },
                             ]} />
                             <PreviewRecordLifeStyle {...data} />
                             <PreviewRecordIncident {...data} />
@@ -75,49 +78,49 @@ const PreviewPeriodicRecord = React.forwardRef<HTMLFormElement, PreviewPeriodicR
                             <PreviewOccupationalDisease {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='ANTECEDENTES FAMILIARES'>
+                        <PreviewRecordWrapper title='Antecedentes Familiares'>
                             <PreviewRecordFamilyHistory {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='FACTORES DE RIESGOS DEL PUESTO DE TRABAJO ACTUAL'>
+                        <PreviewRecordWrapper title='Factores de Riesgo del Puesto de Trabajo Actual'>
                             <PreviewPeriodicRecordJobRisk {...data} />
                             <PreviewPeriodicRecordJobRiskPrevention {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='ENFERMEDAD ACTUAL'>
+                        <PreviewRecordWrapper title='Enfermedad Actual'>
                             <PreviewRecordCurrentDisease {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='REVISION ACTUAL DE ORGANOS Y SISTEMAS'>
+                        <PreviewRecordWrapper title='Revisión Actual de Órganos y Sistemas'>
                             <PreviewRecordReviewOfOrgansAndSystem {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='CONSTANTES VITALES Y ANTROPOMETRIA'>
+                        <PreviewRecordWrapper title='Constantes Vitales y Antropometría'>
                             <PreviewRecordVitalSignsAndAnthropometry {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='EXAMEN FISICO REGIONAL'>
+                        <PreviewRecordWrapper title='Examen Físico Regional'>
                             <PreviewRecordPhysicalRegionalExam {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='RESULTADOS DE EXAMENES GENERALES Y ESPECIFICOS'>
+                        <PreviewRecordWrapper title='Resultados de Exámenes generales y específicos'>
                             <PreviewRecordGeneralExamResultAndSpecific {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='DIAGNOSTICO'>
+                        <PreviewRecordWrapper title='Diagnóstico'>
                             <PreviewRecordDiagnostic {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='APTITUD MEDICA PARA EL TRABAJO'>
+                        <PreviewRecordWrapper title='Aptitud médica para el trabajo'>
                             <PreviewRecordMedicalFitnessForJob {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='RECOMENDACIONES Y/O TRATAMIENTO'>
+                        <PreviewRecordWrapper title='Recomendaciones y/o Tratamiento'>
                             <PreviewRecordRecommendation {...data} />
                         </PreviewRecordWrapper>
 
                     </Stack>
-                ) : (<>No hay datos disponibles</>)
+                ) : (<>No hay datos disponibles.</>)
             }
         </form>
     )

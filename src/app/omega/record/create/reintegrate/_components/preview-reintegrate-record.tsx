@@ -14,6 +14,7 @@ import PreviewRecordDiagnostic from '@/components/record/preview-record-diagnost
 import PreviewRecordMedicalFitnessForJob from '@/components/record/preview-record-medical-fitness-for-job';
 import PreviewRecordRecommendation from '@/components/record/preview-record-recommendation';
 import { ReintegrateRecordPayload } from '@/server/record/create-record/reintegrate-record';
+import PreviewRecordProfessionalData from '@/components/record/preview-record-professional-data';
 
 type PreviewReintegrateRecordProps = {
     data?: ReintegrateRecordPayload;
@@ -41,48 +42,50 @@ const PreviewReintegrateRecord = React.forwardRef<HTMLFormElement, PreviewReinte
                     <Stack gap={rem(32)}>
 
                         <Checkbox
-                            label="Ocultar el logo de Omega."
+                            label="Ocultar el logotipo de Omega."
                             {...form.getInputProps('hideLogo')}
                         />
 
-                        <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
+                        <PreviewRecordProfessionalData {...data} />
+
+                        <PreviewRecordWrapper title='Datos del Establecimiento - Empresa y Usuario'>
                             <PreviewReintegrateRecordInstitution {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='MOTIVO DE CONSULTA'>
+                        <PreviewRecordWrapper title='Motivo de Consulta'>
                             <PreviewRecordMedicalConsultation {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='ENFERMEDAD ACTUAL'>
+                        <PreviewRecordWrapper title='Enfermedad Actual'>
                             <PreviewRecordCurrentDisease {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='CONSTANTES VITALES Y ANTROPOMETRIA'>
+                        <PreviewRecordWrapper title='Constantes Vitales y Antropometría'>
                             <PreviewRecordVitalSignsAndAnthropometry {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='EXAMEN FISICO REGIONAL'>
+                        <PreviewRecordWrapper title='Examen Físico Regional'>
                             <PreviewRecordPhysicalRegionalExam {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='RESULTADOS DE EXAMENES GENERALES Y ESPECIFICOS'>
+                        <PreviewRecordWrapper title='Resultados de Exámenes generales y específicos'>
                             <PreviewRecordGeneralExamResultAndSpecific {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='DIAGNOSTICO'>
+                        <PreviewRecordWrapper title='Diagnóstico'>
                             <PreviewRecordDiagnostic {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='APTITUD MEDICA PARA EL TRABAJO'>
+                        <PreviewRecordWrapper title='Aptitud médica para el trabajo'>
                             <PreviewRecordMedicalFitnessForJob {...data} showReubication />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='RECOMENDACIONES Y/O TRATAMIENTO'>
+                        <PreviewRecordWrapper title='Recomendaciones y/o Tratamiento'>
                             <PreviewRecordRecommendation {...data} />
                         </PreviewRecordWrapper>
 
                     </Stack>
-                ) : (<>No hay datos disponibles</>)
+                ) : (<>No hay datos disponibles.</>)
             }
         </form>
     )

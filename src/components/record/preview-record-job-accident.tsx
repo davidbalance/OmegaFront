@@ -15,12 +15,12 @@ const PreviewJobAccident: React.FC<PreviewJobAccidentProps> = ({
 
     return (
         <>
-            <Title component='span' order={6} fw='bolder'>ACCIDENTES DE TRABAJO</Title>
+            <Title component='span' order={6} fw='bolder'>Accidentes de trabajo</Title>
             <PreviewRecordContent>
-                <Text component='span'>FUE CALIFICADO POR EL INSTITUTO DE SEGURIDAD SOCIAL CORRESPONDIENTE: <Text component='span' fw='bold'>{jobAccidentHappened ? 'Si' : 'No'}</Text></Text>
+                <Text component='span'>¿Fue calificado por el instituto de seguridad social correspondiente?: <Text component='span' fw='bold'>{jobAccidentHappened ? 'Si' : 'No'}</Text></Text>
                 <SimpleGrid cols={2}>
-                    <Text component='span'><Text fw='bold'>ESPECIFICAR</Text> {jobAccidentDescription}</Text>
-                    <Text component='span'><Text fw='bold'>FECHA</Text> {dayjs(jobAccidentDate).format('YYYY-MM-DD')}</Text>
+                    <Text component='span'><Text fw='bold'>Especificar</Text> {jobAccidentDescription}</Text>
+                    <Text component='span'><Text fw='bold'>Fecha</Text> {dayjs(jobAccidentDate).format('YYYY-MM-DD')}</Text>
                 </SimpleGrid>
                 <PreviewRecordElement title={'Observaciones'} text={jobAccidentObservation ?? ''} />
             </PreviewRecordContent>

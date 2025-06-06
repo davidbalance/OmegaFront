@@ -29,7 +29,7 @@ const CertificateGeneralDataForm = React.forwardRef<HTMLFormElement, Certificate
 
     return (
         <>
-            <Title order={3}>Datos Generales</Title>
+            <Title order={3}>Datos generales</Title>
             <Box
                 mt={rem(16)}
                 ref={ref}
@@ -43,16 +43,16 @@ const CertificateGeneralDataForm = React.forwardRef<HTMLFormElement, Certificate
                         justify='center'
                         align='center'>
                         <Radio
-                            label='INGRESO'
+                            label='Ingreso'
                             value='entry' />
                         <Radio
-                            label='PERIODICO'
+                            label='Periódico'
                             value='periodic' />
                         <Radio
-                            label='REINTEGRO'
+                            label='Reintegración'
                             value='reintegrate' />
                         <Radio
-                            label='RETIRO'
+                            label='Retiro'
                             value='retirement' />
                     </Group>
                 </RadioGroup>

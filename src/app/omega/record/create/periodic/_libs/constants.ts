@@ -1,1 +1,1 @@
-export const PERIODIC_MEDICAL_CONSULTATION = "EVALUACIÓN MEDICA PERIODICA EN EL PUESTO DE TRABAJO";
+export const PERIODIC_MEDICAL_CONSULTATION = "Evaluación médica periódica en el puesto de trabajo";

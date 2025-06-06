@@ -58,7 +58,7 @@ const PreviewRecordPhysicalRegionalExam: React.FC<PreviewRecordPhysicalRegionalE
                             <Text fw='bold'>{values}</Text>
                         </GridCol>
                         <GridCol span={9}>
-                            <PreviewRecordElement title='Descripcion' text={props[key as keyof PhysicalRegionalExam] ?? ''} />
+                            <PreviewRecordElement title='Descripción' text={props[key as keyof PhysicalRegionalExam] ?? ''} />
                         </GridCol>
                     </Grid>
                 )

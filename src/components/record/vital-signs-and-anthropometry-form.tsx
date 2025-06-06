@@ -8,54 +8,47 @@ import { Box, rem, SimpleGrid, Stack, TextInput, Title } from '@mantine/core';
 
 const options: Record<keyof Omit<z.infer<typeof VitalSignsAndAnthropometryFormSchema>, 'vitalSignsMassIndex'>, { label: string, placeholder: string } & ({ type: 'text' } | { type: 'number'; min?: number; })> = {
     vitalSignsBloodPressure: {
-        label: "PRESION ARTERIAL (mmHg)",
+        label: "Presión arterial (mmHg)",
         type: 'text',
         placeholder: 'eg. 10mmHg'
     },
     vitalSignsTemperature: {
-        label: "TEMPERATURA (C)",
+        label: "Temperatura (°C)",
         type: 'text',
         placeholder: 'eg. 1°C'
     },
     vitalSignsHeartRate: {
-        label: "FRECUENCIA CARDIACA (lat/min)",
+        label: "Frecuencia cardíaca (lat/min)",
         type: 'text',
         placeholder: 'eg. 10 lat/min'
     },
     vitalSignsOxygenSaturation: {
-        label: "SATURACION DE OXIGENO (O2%)",
+        label: "Saturación de oxígeno (O₂ %)",
         type: 'text',
         placeholder: 'eg. 10 O2%'
     },
     vitalSignsRespiratoryRate: {
-        label: "FRECUENCIA CARDIACA (fr/min)",
+        label: "Frecuencia respiratoria (fr/min)",
         type: 'text',
         placeholder: 'eg. 10 fr/min'
     },
     vitalSignsWeight: {
-        label: "PESO (kg)",
+        label: "Peso (kg)",
         type: 'number',
         min: 1,
         placeholder: 'eg. 10 kg'
     },
     vitalSignsSize: {
-        label: "TALLA (cm)",
+        label: "Talla (cm)",
         type: 'number',
         min: 1,
         placeholder: 'eg. 10 cm'
     },
     vitalSignsAbdominalPerimeter: {
-        label: "PERIMETRO ABDOMINAL (cm)",
+        label: "Perímetro abdominal (cm)",
         type: 'text',
         placeholder: 'eg. 10 cm'
     }
-    /* 
-    
-    vitalSignsMassIndex: {
-        label: "INDICE DE MASA CORPORAL (kg/m2)",
-        placeholder: 'eg. 10 kg/m2'
-    },
-    */
 }
 
 type VitalSignsAndAnthropometryFormProps = {
@@ -82,7 +75,7 @@ const VitalSignsAndAnthropometryForm = React.forwardRef<HTMLFormElement, VitalSi
 
     return (
         <>
-            <Title order={3}>Constantes Vitales y Antropometria</Title>
+            <Title order={3}>Constantes Vitales y Antropometría</Title>
             <Box
                 mt={rem(16)}
                 component='form'

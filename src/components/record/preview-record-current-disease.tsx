@@ -9,7 +9,7 @@ const PreviewRecordCurrentDisease: React.FC<PreviewRecordCurrentDiseaseProps> = 
 }) => {
     return (
         <PreviewRecordContent>
-            <PreviewRecordElement title='Descripcion' text={currentDiseaseDescription ?? ''} />
+            <PreviewRecordElement title='Descripción' text={currentDiseaseDescription ?? ''} />
         </PreviewRecordContent>
     )
 }

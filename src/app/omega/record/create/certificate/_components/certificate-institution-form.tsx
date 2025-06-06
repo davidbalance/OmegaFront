@@ -45,7 +45,7 @@ const CertificateInstitutionForm = React.forwardRef<HTMLFormElement, Certificate
     return (
         <>
             <Title order={3}>Datos del establecimiento</Title>
-            <Title order={5} c="dimmed">Empresa y Usuario</Title>
+            <Title order={5} c="dimmed">Empresa y usuario</Title>
             <Box
                 ref={ref}
                 component='form'
@@ -60,7 +60,7 @@ const CertificateInstitutionForm = React.forwardRef<HTMLFormElement, Certificate
                 <input type='hidden' {...form.getInputProps('patientGender')} />
 
                 <Stack gap={rem(16)}>
-                    <Divider label='Institucion' />
+                    <Divider label='Institución' />
                     <SimpleGrid cols={{ base: 1, sm: 3 }}>
                         <CorporativeSelect
                             options={options}
@@ -75,7 +75,7 @@ const CertificateInstitutionForm = React.forwardRef<HTMLFormElement, Certificate
                     </SimpleGrid>
 
                     <TextInput
-                        label="PUESTO DE TRABAJO"
+                        label="Puesto de trabajo"
                         placeholder='eg. Gerente'
                         {...form.getInputProps('jobPosition')} />
                 </Stack>

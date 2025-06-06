@@ -19,10 +19,10 @@ const PreviewRecordLifeStyle: React.FC<PreviewRecordLifeStyleProps> = ({
                 <Table>
                     <TableThead>
                         <TableTr>
-                            <TableTh>CONSUMOS NOCIVOS</TableTh>
-                            <TableTh>SI/NO</TableTh>
+                            <TableTh>Consumos nocivos</TableTh>
+                            <TableTh>Sí / No</TableTh>
                             <TableTh>¿CUAL?</TableTh>
-                            <TableTh>TIEMPO / CANTIDAD</TableTh>
+                            <TableTh>Tiempo / Cantidad</TableTh>
                         </TableTr>
                     </TableThead>
                     <TableTbody>

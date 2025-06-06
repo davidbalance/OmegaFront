@@ -28,7 +28,7 @@ const OccupationalDiseaseForm = React.forwardRef<HTMLFormElement, OccupationalDi
     return (
         <>
             <Title order={3}>Antecedentes de Trabajo</Title>
-            <Title order={5} c="dimmed">Enfermedades Profesionales</Title>
+            <Title order={5} c="dimmed">Enfermedades profesionales</Title>
             <Box
                 mt={rem(16)}
                 component='form'
@@ -38,7 +38,7 @@ const OccupationalDiseaseForm = React.forwardRef<HTMLFormElement, OccupationalDi
                     gap={rem(16)}
                     align='start' w='100%'>
                     <Checkbox
-                        label='FUE CALIFICADO POR EL INSTITUTO DE SEGURIDAD SOCIAL CORRESPONDIENTE'
+                        label='¿Fue calificado por el instituto de seguridad social correspondiente?'
                         labelPosition="left"
                         checked={form.values.occupationalDiseaseHappened}
                         {...form.getInputProps(`occupationalDiseaseHappened`)} />
@@ -47,12 +47,12 @@ const OccupationalDiseaseForm = React.forwardRef<HTMLFormElement, OccupationalDi
                         <Grid w='100%'>
                             <GridCol span={{ base: 12, sm: 6 }}>
                                 <DateInput
-                                    label="FECHA"
+                                    label="Fecha"
                                     {...form.getInputProps('occupationalDiseaseDate')} />
                             </GridCol>
                             <GridCol span={{ base: 12, sm: 6 }}>
                                 <TextInput
-                                    label="ESPECIFICAR"
+                                    label="Especificar"
                                     placeholder="eg. Omega"
                                     {...form.getInputProps('occupationalDiseaseDescription')} />
                             </GridCol>
@@ -60,7 +60,7 @@ const OccupationalDiseaseForm = React.forwardRef<HTMLFormElement, OccupationalDi
                     }
                     <Textarea
                         w="100%"
-                        label="OBSERVACIONES"
+                        label="Observaciones"
                         placeholder="eg. Omega"
                         rows={10}
                         {...form.getInputProps('occupationalDiseaseObservation')} />

@@ -1,4 +1,4 @@
-import { PatientRecord, CompanyRecord, MedicalFitnessForJob, RecordRecommendation, InstitutionHealthRecord, RecordLogoFlag } from "./_base";
+import { PatientRecord, CompanyRecord, MedicalFitnessForJob, RecordRecommendation, InstitutionHealthRecord, RecordLogoFlag, RecordAuthor } from "./_base";
 
 export type GeneralData = {
     generalData: 'entry' | 'periodic' | 'reintegrate' | 'retirement'
@@ -11,7 +11,8 @@ export type RetirementEvaluation = {
 }
 
 export type CertificateRecordPayload =
-    RecordLogoFlag
+    RecordAuthor
+    & RecordLogoFlag
     // Institution & Patient Information
     & InstitutionHealthRecord
     & CompanyRecord

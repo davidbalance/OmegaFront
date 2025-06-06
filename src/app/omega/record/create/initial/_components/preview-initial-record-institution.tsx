@@ -40,8 +40,8 @@ const PreviewInititalRecordInstitution: React.FC<PreviewInititalRecordInstitutio
 
     const previewReligion = useMemo(() => {
         switch (patientReligion) {
-            case 'catholic': return 'Catálica';
-            case 'evangelical': return 'Evangelica';
+            case 'catholic': return 'Católica';
+            case 'evangelical': return 'Evangélica';
             case 'jehovah\'s witnesses': return 'Testigo de Jehová';
             case 'mormon': return 'Mormona';
             case 'other': return 'Otra'
@@ -76,30 +76,30 @@ const PreviewInititalRecordInstitution: React.FC<PreviewInititalRecordInstitutio
         <PreviewRecordContent>
             <SimpleGrid cols={3}>
                 <Stack gap={rem(16)}>
-                    <PreviewRecordElement title='NOMBRE DE LA EMPRESA' text={companyName} />
+                    <PreviewRecordElement title='Nombre de la empresa' text={companyName} />
                     <PreviewRecordElement title='RUC' text={companyRUC} />
-                    <PreviewRecordElement title='CIU' text={companyCIIU ?? ''} />
-                    <PreviewRecordElement title='ESTABLECIMIENTO DE SALUD' text={institutionHealthFacility} />
+                    <PreviewRecordElement title='CIIU' text={companyCIIU ?? ''} />
+                    <PreviewRecordElement title='Establecimiento de Salud' text={institutionHealthFacility} />
                 </Stack>
                 <Stack gap={rem(16)}>
-                    <PreviewRecordElement title='PRIMER APELLIDO' text={patientLastName} />
-                    <PreviewRecordElement title='SEGUNDO APELLIDO' text={patientSecondLastName} />
-                    <PreviewRecordElement title='PRIMER NOMBRE' text={patientFirstName} />
-                    <PreviewRecordElement title='SEGUNDO NOMBRE' text={patientMiddleName} />
-                    <PreviewRecordElement title='SEXO' text={patientGender === 'male' ? 'HOMBRE (H)' : 'MUJER (M)'} />
-                    <PreviewRecordElement title='EDAD (años)' text={patientAge.toString()} />
-                    <PreviewRecordElement title='RELIGION' text={previewReligion} />
-                    <PreviewRecordElement title='GRUPO SANGUINEO' text={patientBloodType} />
-                    <PreviewRecordElement title='LATERALIDAD' text={patientLaterality === 'right' ? 'DIESTRO' : 'ZURDO'} />
+                    <PreviewRecordElement title='Primer apellido' text={patientLastName} />
+                    <PreviewRecordElement title='Segundo apellido' text={patientSecondLastName} />
+                    <PreviewRecordElement title='Primer nombre' text={patientFirstName} />
+                    <PreviewRecordElement title='Segundo nombre' text={patientMiddleName} />
+                    <PreviewRecordElement title='Sexo' text={patientGender === 'male' ? 'HOMBRE (H)' : 'MUJER (M)'} />
+                    <PreviewRecordElement title='Edad (años)' text={patientAge.toString()} />
+                    <PreviewRecordElement title='Religión' text={previewReligion} />
+                    <PreviewRecordElement title='Grupo sanguíneo' text={patientBloodType} />
+                    <PreviewRecordElement title='Lateralidad' text={patientLaterality === 'right' ? 'Diestro' : 'Zurdo'} />
                 </Stack>
                 <Stack gap={rem(16)}>
-                    <PreviewRecordElement title='ORIENTACION SEXUAL' text={previewSexualOrientation} />
-                    <PreviewRecordElement title='IDENTIDAD DE GÉNERO' text={previewGenderIdentity} />
-                    <PreviewRecordElement title='DISCAPACIDAD' text={previewDisability} />
-                    <PreviewRecordElement title='FECHA DE INGRESO AL TRABAJO' text={dayjs(institutionJobStartDate).format('YYYY/MM/DD')} />
-                    <PreviewRecordElement title='PUESTO DE TRABAJO (CUIO)' text={institutionJobPosition} />
-                    <PreviewRecordElement title='ÁREA DE TRABAJO' text={institutionJobArea} />
-                    <PreviewRecordElement title='ACTIVIDADES RELEVANTES AL PUESTO DE TRABAJO A OCUPAR' text={institutionJobActivities} />
+                    <PreviewRecordElement title='Orientación sexual' text={previewSexualOrientation} />
+                    <PreviewRecordElement title='Identidad de género' text={previewGenderIdentity} />
+                    <PreviewRecordElement title='Discapacidad' text={previewDisability} />
+                    <PreviewRecordElement title='Fecha DE Ingreso al trabajo' text={dayjs(institutionJobStartDate).format('YYYY/MM/DD')} />
+                    <PreviewRecordElement title='Puesto de trabajo (CUIO)' text={institutionJobPosition} />
+                    <PreviewRecordElement title='Área de trabajo' text={institutionJobArea} />
+                    <PreviewRecordElement title='Actividades relevantes al puesto de trabajo a ocupar' text={institutionJobActivities} />
                 </Stack>
             </SimpleGrid>
         </PreviewRecordContent>

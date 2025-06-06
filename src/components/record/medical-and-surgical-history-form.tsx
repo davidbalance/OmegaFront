@@ -29,8 +29,8 @@ const MedicalAndSurgicalHistoryForm = React.forwardRef<HTMLFormElement, MedicalA
 
     return (
         <>
-            <Title order={3}>Antecedentes personales</Title>
-            <Title order={5} c="dimmed">Antecedentes Clinicos y Quirúrgicos</Title>
+            <Title order={3}>Antecedentes Personales</Title>
+            <Title order={5} c="dimmed">Antecedentes clínicos y quirúrgicos</Title>
             <Box
                 ref={ref}
                 component='form'
@@ -38,7 +38,7 @@ const MedicalAndSurgicalHistoryForm = React.forwardRef<HTMLFormElement, MedicalA
                 style={{ position: 'relative', width: '100%', height: '100%' }}
                 mt={rem(16)}>
                 <Textarea
-                    placeholder='Description'
+                    placeholder='Descripción'
                     rows={10}
                     {...form.getInputProps('medicalAndSurgicalHistory')} />
             </Box>

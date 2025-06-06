@@ -52,7 +52,7 @@ const InitialJobHistoryForm = React.forwardRef<HTMLFormElement, InitialJobHistor
     return (
         <>
             <Title order={3}>Antecedentes de Trabajo</Title>
-            <Title order={5} c="dimmed">Antecedentes de Empleos Anteriores</Title>
+            <Title order={5} c="dimmed">Antecedentes de empleos anteriores</Title>
             <Box
                 mt={rem(16)}
                 ref={ref}
@@ -88,19 +88,19 @@ const InitialJobHistoryForm = React.forwardRef<HTMLFormElement, InitialJobHistor
                                     <SimpleGrid cols={3} spacing={rem(32)} flex={1}>
                                         <Stack component='div' gap={rem(8)}>
                                             <TextInput
-                                                label="EMPRESA"
+                                                label="Empresa"
                                                 placeholder="eg. Omega"
                                                 {...form.getInputProps(`jobHistory.${i}.jobHistoryActivity`)} />
                                             <TextInput
-                                                label="PUESTO DE TRABAJO"
+                                                label="Puesto de trabajo"
                                                 placeholder="eg. Gerente"
                                                 {...form.getInputProps(`jobHistory.${i}.jobHistoryCompany`)} />
                                             <TextInput
-                                                label="ACTIVIDADES QUE DESEMPEÑA"
+                                                label="Actividades que desempeña"
                                                 placeholder="eg. Actividades"
                                                 {...form.getInputProps(`jobHistory.${i}.jobHistoryPosition`)} />
                                             <TextInput
-                                                label="TIEMPO DE TRABAJO (MESES)"
+                                                label="Tiempo de trabajo (meses)"
                                                 type='number'
                                                 min={1}
                                                 {...form.getInputProps(`jobHistory.${i}.jobHistoryTime`)} />
@@ -108,32 +108,32 @@ const InitialJobHistoryForm = React.forwardRef<HTMLFormElement, InitialJobHistor
                                         <Stack component='div' gap={rem(8)}>
                                             <Title order={6}>Riesgo</Title>
                                             <Checkbox
-                                                label='FISICO'
+                                                label='Físico'
                                                 checked={e.jobHistoryRiskPhysical}
                                                 {...form.getInputProps(`jobHistory.${i}.jobHistoryRiskPhysical`)} />
                                             <Checkbox
-                                                label='MECANICO'
+                                                label='Mecánico'
                                                 checked={e.jobHistoryRiskMechanical}
                                                 {...form.getInputProps(`jobHistory.${i}.jobHistoryRiskMechanical`)} />
                                             <Checkbox
-                                                label='QUIMICO'
+                                                label='Químico'
                                                 checked={e.jobHistoryRiskChemical}
                                                 {...form.getInputProps(`jobHistory.${i}.jobHistoryRiskChemical`)} />
                                             <Checkbox
-                                                label='BIOLOGICO'
+                                                label='Biológico'
                                                 checked={e.jobHistoryRiskBiological}
                                                 {...form.getInputProps(`jobHistory.${i}.jobHistoryRiskBiological`)} />
                                             <Checkbox
-                                                label='ERGONOMICO'
+                                                label='Ergonómico'
                                                 checked={e.jobHistoryRiskErgonomic}
                                                 {...form.getInputProps(`jobHistory.${i}.jobHistoryRiskErgonomic`)} />
                                             <Checkbox
-                                                label='PSICOSOCIAL'
+                                                label='Psicosocial'
                                                 checked={e.jobHistoryRiskPsychosocial}
                                                 {...form.getInputProps(`jobHistory.${i}.jobHistoryRiskPsychosocial`)} />
                                         </Stack>
                                         <Textarea
-                                            label="Observacion"
+                                            label="Observación"
                                             placeholder='eg. Lore Ipsum...'
                                             {...form.getInputProps(`jobHistory.${i}.jobHistoryObservation`)} />
                                     </SimpleGrid>

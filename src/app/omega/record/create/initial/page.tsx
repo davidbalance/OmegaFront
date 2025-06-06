@@ -30,6 +30,7 @@ import { INITIAL_MEDICAL_CONSULTATION } from './_libs/constants';
 import { retriveFromTmpStore } from '@/lib/tmp-store/tmp-store.utils';
 import { InitialRecordPayload } from '@/server/record/create-record/initial-record';
 import { parsedInitial } from './_libs/parsed-initial';
+import ProfessionalDataForm from '@/components/record/professional-data-form';
 
 interface RecordInitialPageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -39,12 +40,11 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
 }) => {
     const patientDni = typeof searchParams.patientDni === 'string' ? searchParams.patientDni : undefined;
 
-    if (!patientDni) return <>Patient not specified</>
+    if (!patientDni) return <>Paciente no especificado</>
 
     const stepperCookieKey: string = `record-initial-${patientDni}`;
     const tmpResult = await retriveFromTmpStore<Partial<InitialRecordPayload>>(stepperCookieKey);
     const initialData: Partial<InitialRecordPayload> = tmpResult.isSuccess ? parsedInitial(tmpResult.value) : {};
-    console.log(initialData);
 
     const corporativeBaseOptions = await retriveCorporativesOptions();
     const corporativeOptions = corporativeBaseOptions.map<CorporativeOption>((e) => ({
@@ -69,27 +69,28 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
             <ReturnableHeader title='Ficha inicial' />
             <StepperInitialRecordForm
                 headers={[
-                    { title: 'Datos del establecimiento', description: 'Empresa y Usuario', icon: 'building' },
-                    { title: 'Antecedentes personales', description: 'Antecedentes Clinicos y Quirúrgicos', icon: 'user-check' },
+                    { title: 'Datos del profesional', icon: 'medicine' },
+                    { title: 'Datos del establecimiento', description: 'Empresa y usuario', icon: 'building' },
+                    { title: 'Antecedentes Personales', description: 'Antecedentes clínicos y quirúrgicos', icon: 'user-check' },
                     (patient.patientGender === 'female'
-                        ? { title: 'Antecedentes personales', description: 'Antecedentes Gineco Obstreicos', icon: 'user-check' }
-                        : { title: 'Antecedentes personales', description: 'Antecedentes Reproductivos Masculinos', icon: 'user-check' }),
-                    { title: 'Antecedentes personales', description: 'Habitos Toxicos', icon: 'user-check' },
-                    { title: 'Antecedentes personales', description: 'Estilo de vida', icon: 'user-check' },
-                    { title: 'Antecedentes de Trabajo', description: 'Antecedentes de Empleos Anteriores', icon: 'briefcase' },
-                    { title: 'Antecedentes de Trabajo', description: 'Accidentes de Trabajo', icon: 'briefcase' },
-                    { title: 'Antecedentes de Trabajo', description: 'Enfermedades Profesionales', icon: 'briefcase' },
+                        ? { title: 'Antecedentes Personales', description: 'Antecedentes gineco-obstétricos', icon: 'user-check' }
+                        : { title: 'Antecedentes Personales', description: 'Antecedentes reproductivos masculinos', icon: 'user-check' }),
+                    { title: 'Antecedentes Personales', description: 'Hábitos tóxicos', icon: 'user-check' },
+                    { title: 'Antecedentes Personales', description: 'Estilo de vida', icon: 'user-check' },
+                    { title: 'Antecedentes de Trabajo', description: 'Antecedentes de empleos anteriores', icon: 'briefcase' },
+                    { title: 'Antecedentes de Trabajo', description: 'Accidentes de trabajo', icon: 'briefcase' },
+                    { title: 'Antecedentes de Trabajo', description: 'Enfermedades profesionales', icon: 'briefcase' },
                     { title: 'Antecedentes Familiares', icon: 'tree' },
-                    { title: 'Factores de Riesgos del Trabajo Actual', description: 'Riesgos', icon: 'risk' },
+                    { title: 'Factores de riesgo del trabajo actual', icon: 'risk' },
                     { title: 'Actividades Extra Laborales', icon: 'activity' },
                     { title: 'Enfermedad Actual', icon: 'disease' },
-                    { title: 'Revision Actual de Organos y Sistemas', icon: 'heart' },
-                    { title: 'Constantes Vitales y Antropometria', icon: 'heart' },
-                    { title: 'Examen Fisico Regional', description: 'Regiones', icon: 'heart' },
-                    { title: 'Resultados de Examenes Generales y Especificos', description: 'Regiones', icon: 'notebook' },
-                    { title: 'Diagnostico', icon: 'notebook' },
-                    { title: 'Aptitud Medical para el Trabajo', icon: 'notebook' },
-                    { title: 'Recomendaciones y/o Tratamientos', icon: 'notebook' },
+                    { title: 'Revisión Actual de Órganos y Sistemas', icon: 'heart' },
+                    { title: 'Constantes Vitales y Antropometría', icon: 'heart' },
+                    { title: 'Examen Físico Regional', icon: 'heart' },
+                    { title: 'Resultados de Exámenes generales y específicos', icon: 'notebook' },
+                    { title: 'Diagnóstico', icon: 'notebook' },
+                    { title: 'Aptitud médica para el trabajo', icon: 'notebook' },
+                    { title: 'Recomendaciones y/o tratamientos', icon: 'notebook' },
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
                 patientDni={patientDni}
@@ -105,6 +106,7 @@ const RecordInitialPage: React.FC<RecordInitialPageProps> = async ({
                     medicalConsultationDescription: INITIAL_MEDICAL_CONSULTATION,
                     ...initialData
                 }}>
+                <ProfessionalDataForm />
                 <InitialInstitutionForm options={corporativeOptions} />
                 <MedicalAndSurgicalHistoryForm />
                 {patient.patientGender === 'female'

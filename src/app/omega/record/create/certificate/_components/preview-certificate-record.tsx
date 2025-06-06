@@ -10,6 +10,7 @@ import PreviewCertificateRecordEvaluation from './preview-certificate-record-eva
 import PreviewRecordMedicalFitnessForJob from '@/components/record/preview-record-medical-fitness-for-job';
 import PreviewCertificateRecordRetirementEvaluation from './preview-certificate-record-retirement-evaluation';
 import PreviewRecordRecommendation from '@/components/record/preview-record-recommendation';
+import PreviewRecordProfessionalData from '@/components/record/preview-record-professional-data';
 
 type PreviewCertificateRecordProps = {
     data?: CertificateRecordPayload;
@@ -36,31 +37,33 @@ const PreviewCertificateRecord = React.forwardRef<HTMLFormElement, PreviewCertif
                 data ? (
                     <Stack gap={rem(32)}>
                         <Checkbox
-                            label="Ocultar el logo de Omega."
+                            label="Ocultar el logotipo de Omega."
                             {...form.getInputProps('hideLogo')}
                         />
 
-                        <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
+                        <PreviewRecordProfessionalData {...data} />
+
+                        <PreviewRecordWrapper title='Datos del Establecimiento - Empresa y Usuario'>
                             <PreviewCertificateRecordInstitution {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='DATOS GENERALES'>
+                        <PreviewRecordWrapper title='Datos generales'>
                             <PreviewCertificateRecordEvaluation {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='APTITUD MEDICA PARA EL LABORAL'>
+                        <PreviewRecordWrapper title='Aptitud médica para el trabajo'>
                             <PreviewRecordMedicalFitnessForJob {...data} hideLimitation />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='EVALUACION MEDICA DE RETIRO'>
-                            <PreviewCertificateRecordRetirementEvaluation{...data} />
+                        <PreviewRecordWrapper title='Evaluación Médica de Retiro'>
+                            <PreviewCertificateRecordRetirementEvaluation {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='RECOMENDACIONES Y/O TRATAMIENTO'>
+                        <PreviewRecordWrapper title='Recomendaciones y/o Tratamiento'>
                             <PreviewRecordRecommendation {...data} />
                         </PreviewRecordWrapper>
                     </Stack>
-                ) : (<>No hay datos disponibles</>)
+                ) : (<>No hay datos disponibles..</>)
             }
         </form>
     )

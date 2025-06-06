@@ -31,8 +31,8 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
 
     return (
         <>
-            <Title order={3}>Antecedentes personales</Title>
-            <Title order={5} c="dimmed">Habitos Toxicos</Title>
+            <Title order={3}>Antecedentes Personales</Title>
+            <Title order={5} c="dimmed">Hábitos tóxicos</Title>
             <Box
                 mt={rem(16)}
                 ref={ref}
@@ -41,35 +41,35 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                 style={{ position: 'relative', width: '100%', height: '100%' }}>
                 <Stack gap={rem(32)}>
                     <Box>
-                        <Divider label='Tabacco' />
+                        <Divider label='Tabaco' />
                         <Group
                             gap={rem(32)}
                             justify='start'
                             align='center'>
                             <Checkbox
-                                label="TABACCO"
+                                label="Tabaco"
                                 checked={form.values.toxicHabitTobacco.haveConsume}
                                 {...form.getInputProps('toxicHabitTobacco.haveConsume')}
                             />
                             <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
                                 <TextInput
                                     disabled={!form.values.toxicHabitTobacco.haveConsume}
-                                    label="TIEMPO DE CONSUMO (MESES)"
+                                    label="Tiempo de consumo (meses)"
                                     type='number'
                                     min={1}
                                     {...form.getInputProps('toxicHabitTobacco.consumptionTime')} />
                                 <TextInput
-                                    label="CANTIDAD"
+                                    label="Cantidad"
                                     disabled={!form.values.toxicHabitTobacco.haveConsume}
                                     {...form.getInputProps('toxicHabitTobacco.quantity')} />
                                 <Checkbox
-                                    label="EX CONSUMIDOR"
+                                    label="Ex consumidor"
                                     checked={form.values.toxicHabitTobacco.isExConsumer}
                                     disabled={!form.values.toxicHabitTobacco.haveConsume}
                                     {...form.getInputProps('toxicHabitTobacco.isExConsumer')}
                                 />
                                 <TextInput
-                                    label="TIEMPO DE ABSTINENCIA (MESES)"
+                                    label="Tiempo de abstinencia (meses)"
                                     disabled={!form.values.toxicHabitTobacco.haveConsume || !form.values.toxicHabitTobacco.isExConsumer}
                                     {...form.getInputProps('toxicHabitTobacco.timeOfAbstinence')} />
                             </SimpleGrid>
@@ -82,29 +82,29 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                             justify='start'
                             align='center'>
                             <Checkbox
-                                label="ALCOHOL"
+                                label="Alcohol"
                                 checked={form.values.toxicHabitAlcohol.haveConsume}
                                 {...form.getInputProps('toxicHabitAlcohol.haveConsume')}
                             />
                             <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
                                 <TextInput
                                     disabled={!form.values.toxicHabitAlcohol.haveConsume}
-                                    label="TIEMPO DE CONSUMO (MESES)"
+                                    label="Tiempo de consumo (meses)"
                                     type='number'
                                     min={1}
                                     {...form.getInputProps('toxicHabitAlcohol.consumptionTime')} />
                                 <TextInput
-                                    label="CANTIDAD"
+                                    label="Cantidad"
                                     disabled={!form.values.toxicHabitAlcohol.haveConsume}
                                     {...form.getInputProps('toxicHabitAlcohol.quantity')} />
                                 <Checkbox
-                                    label="EX CONSUMIDOR"
+                                    label="Ex consumidor"
                                     checked={form.values.toxicHabitAlcohol.isExConsumer}
                                     disabled={!form.values.toxicHabitAlcohol.haveConsume}
                                     {...form.getInputProps('toxicHabitAlcohol.isExConsumer')}
                                 />
                                 <TextInput
-                                    label="TIEMPO DE ABSTINENCIA (MESES)"
+                                    label="Tiempo de abstinencia (meses)"
                                     disabled={!form.values.toxicHabitAlcohol.haveConsume || !form.values.toxicHabitAlcohol.isExConsumer}
                                     {...form.getInputProps('toxicHabitAlcohol.timeOfAbstinence')} />
                             </SimpleGrid>
@@ -118,7 +118,7 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                             align='center'>
                             <Stack>
                                 <Checkbox
-                                    label="OTRO"
+                                    label="Otros"
                                     checked={form.values.toxicHabitOther.haveConsume}
                                     {...form.getInputProps('toxicHabitOther.haveConsume')}
                                 />
@@ -129,22 +129,22 @@ const ToxicHabitsForm = React.forwardRef<HTMLFormElement, ToxicHabitsFormProps>(
                             <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
                                 <TextInput
                                     disabled={!form.values.toxicHabitOther.haveConsume}
-                                    label="TIEMPO DE CONSUMO (MESES)"
+                                    label="Tiempo de consumo (meses)"
                                     type='number'
                                     min={1}
                                     {...form.getInputProps('toxicHabitOther.consumptionTime')} />
                                 <TextInput
-                                    label="CANTIDAD"
+                                    label="Cantidad"
                                     disabled={!form.values.toxicHabitOther.haveConsume}
                                     {...form.getInputProps('toxicHabitOther.quantity')} />
                                 <Checkbox
-                                    label="EX CONSUMIDOR"
+                                    label="Ex consumidor"
                                     checked={form.values.toxicHabitOther.isExConsumer}
                                     disabled={!form.values.toxicHabitOther.haveConsume}
                                     {...form.getInputProps('toxicHabitOther.isExConsumer')}
                                 />
                                 <TextInput
-                                    label="TIEMPO DE ABSTINENCIA (MESES)"
+                                    label="Tiempo de abstinencia (meses)"
                                     disabled={!form.values.toxicHabitOther.haveConsume || !form.values.toxicHabitOther.isExConsumer}
                                     {...form.getInputProps('toxicHabitOther.timeOfAbstinence')} />
                             </SimpleGrid>

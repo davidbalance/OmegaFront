@@ -26,7 +26,7 @@ const LifestyleForm = React.forwardRef<HTMLFormElement, LifestyleFormProps>(({
 
     return (
         <>
-            <Title order={3}>Antecedentes personales</Title>
+            <Title order={3}>Antecedentes Personales</Title>
             <Title order={5} c="dimmed">Estilo de vida</Title>
             <Box
                 mt={rem(16)}
@@ -40,18 +40,18 @@ const LifestyleForm = React.forwardRef<HTMLFormElement, LifestyleFormProps>(({
                         justify='start'
                         align='center'>
                         <Checkbox
-                            label="ACTIVIDAD FISICA"
+                            label="Actividad física"
                             checked={form.values.lifestylePhysicalActivity}
                             {...form.getInputProps('lifestylePhysicalActivity')}
                         />
                         <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
                             <Textarea
                                 disabled={!form.values.lifestylePhysicalActivity}
-                                label="¿CÚAL?"
+                                label="¿Cuál?"
                                 rows={3}
                                 {...form.getInputProps('lifestylePhysicalActivityType')} />
                             <TextInput
-                                label="TIEMPO/CANTIDAD"
+                                label="Tiempo / Cantidad"
                                 disabled={!form.values.lifestylePhysicalActivity}
                                 {...form.getInputProps('lifestylePhysicalActivityTimeQty')} />
                         </SimpleGrid>
@@ -61,19 +61,19 @@ const LifestyleForm = React.forwardRef<HTMLFormElement, LifestyleFormProps>(({
                         justify='start'
                         align='center'>
                         <Checkbox
-                            label="MEDICACION HABITUAL"
+                            label="Medicación habitual"
                             checked={form.values.lifestyleMedication}
                             {...form.getInputProps('lifestyleMedication')}
                         />
                         <SimpleGrid cols={{ base: 1, sm: 2 }} flex={1}>
                             <Textarea
                                 disabled={!form.values.lifestyleMedication}
-                                label="¿CÚAL?"
+                                label="¿Cuál?"
                                 rows={3}
                                 {...form.getInputProps('lifestyleMedicationName')} />
                             <TextInput
                                 disabled={!form.values.lifestyleMedication}
-                                label="TIEMPO/CANTIDAD"
+                                label="Tiempo / Cantidad"
                                 min={1}
                                 {...form.getInputProps('lifestyleMedicationTimeQty')} />
                         </SimpleGrid>

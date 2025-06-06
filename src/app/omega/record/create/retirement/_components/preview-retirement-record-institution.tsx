@@ -44,31 +44,31 @@ const PreviewRetirementRecordInstitution: React.FC<PreviewRetirementRecordInstit
         <PreviewRecordContent>
             <SimpleGrid cols={3}>
                 <Stack gap={rem(16)}>
-                    <PreviewRecordElement title='NOMBRE DE LA EMPRESA' text={companyName} />
+                    <PreviewRecordElement title='Nombre de la empresa' text={companyName} />
                     <PreviewRecordElement title='RUC' text={companyRUC} />
                     <PreviewRecordElement title='CIIU' text={companyCIIU ?? ''} />
-                    <PreviewRecordElement title='ESTABLECIMIENTO DE SALUD' text={institutionHealthFacility} />
+                    <PreviewRecordElement title='Establecimiento de Salud' text={institutionHealthFacility} />
                 </Stack>
                 <Stack gap={rem(16)}>
-                    <PreviewRecordElement title='PRIMER APELLIDO' text={patientLastName} />
-                    <PreviewRecordElement title='SEGUNDO APELLIDO' text={patientSecondLastName} />
-                    <PreviewRecordElement title='PRIMER NOMBRE' text={patientFirstName} />
-                    <PreviewRecordElement title='SEGUNDO NOMBRE' text={patientMiddleName} />
-                    <PreviewRecordElement title='SEXO' text={patientGender === 'male' ? 'MASCULINO' : 'FEMENINO'} />
+                    <PreviewRecordElement title='Primer apellido' text={patientLastName} />
+                    <PreviewRecordElement title='Segundo apellido' text={patientSecondLastName} />
+                    <PreviewRecordElement title='Primer nombre' text={patientFirstName} />
+                    <PreviewRecordElement title='Segundo nombre' text={patientMiddleName} />
+                    <PreviewRecordElement title='Sexo' text={patientGender === 'male' ? 'Masculino' : 'Femenino'} />
                 </Stack>
                 <Stack gap={rem(16)}>
-                    <PreviewRecordElement title='FECHA DE INICIO DE LABORES' text={dayjs(workStartDate).format('YYYY-MM-DD')} />
-                    <PreviewRecordElement title='FECHA DEL ULTIMO DIA LABORAL' text={dayjs(workingEndDate).format('YYYY-MM-DD')} />
-                    <PreviewRecordElement title='TIEMPO (DÍAS)' text={workingTime.toString()} />
-                    <PreviewRecordElement title='PUESTO DE TRABAJO (CUIO)' text={jobPosition} />
+                    <PreviewRecordElement title='Fecha de inicio de labores' text={dayjs(workStartDate).format('YYYY-MM-DD')} />
+                    <PreviewRecordElement title='Fecha del último día laboral' text={dayjs(workingEndDate).format('YYYY-MM-DD')} />
+                    <PreviewRecordElement title='Tiempo (días)' text={workingTime.toString()} />
+                    <PreviewRecordElement title='Puesto de trabajo (CUIO)' text={jobPosition} />
                 </Stack>
             </SimpleGrid>
             <Box px={rem(8)}>
                 <Table>
                     <TableThead>
                         <TableTr>
-                            <TableTh>ACTIVIDADES</TableTh>
-                            <TableTh>FACTORES DE RIESGO</TableTh>
+                            <TableTh>Actividades</TableTh>
+                            <TableTh>Factores de riesgo</TableTh>
                         </TableTr>
                     </TableThead>
                     <TableTbody>{institutionActivities.map(e =>

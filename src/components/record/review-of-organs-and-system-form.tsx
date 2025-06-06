@@ -4,19 +4,19 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback, useState } from 'react'
 import ReviewOfOrgansAndSystemSchema, { adjustInitalValues } from './schemas/review-of-organs-and-systems.schema'
 import { z } from 'zod';
-import { Box, Flex, Grid, GridCol, rem, Stack, Switch, Textarea, Title } from '@mantine/core';
+import { Box, Grid, GridCol, rem, Stack, Switch, Textarea, Title } from '@mantine/core';
 
 const options: z.infer<typeof ReviewOfOrgansAndSystemSchema> = {
-    reviewOfOrgansSkin: "PIEL - ANEXOS",
-    reviewOfOrgansSenseOrgans: "ORGANOS DE LOS SENTIDOS",
-    reviewOfOrgansBreath: "RESPIRATORIO",
-    reviewOfOrgansCardiovascular: "CADIO-VASCULAR",
-    reviewOfOrgansDigestive: "DIGESTIVO",
-    reviewOfOrgansUrinary: "GENITO - URINARIO",
-    reviewOfOrgansSkeletalMuscle: "MUSCULO ESQUELETICO",
-    reviewOfOrgansEndocrinic: "ENDOCRINO",
-    reviewOfOrgansHemoLymphatic: "HEMO LINFATICO",
-    reviewOfOrgansHighlyStrung: "NERVIOSO",
+    reviewOfOrgansSkin: "Piel y anexos",
+    reviewOfOrgansSenseOrgans: "Órganos de los sentidos",
+    reviewOfOrgansBreath: "Respiratorio",
+    reviewOfOrgansCardiovascular: "Cardiovascular",
+    reviewOfOrgansDigestive: "Digestivo",
+    reviewOfOrgansUrinary: "Genitourinario",
+    reviewOfOrgansSkeletalMuscle: "Músculo-esquelético",
+    reviewOfOrgansEndocrinic: "Endocrino",
+    reviewOfOrgansHemoLymphatic: "Hemo-linfático",
+    reviewOfOrgansHighlyStrung: "Nervioso",
 }
 
 type ReviewOfOrgansAndSystemFormProps = {
@@ -57,7 +57,7 @@ const ReviewOfOrgansAndSystemForm = React.forwardRef<HTMLFormElement, ReviewOfOr
 
     return (
         <>
-            <Title order={3}>Revision Actual de Organos y Sistemas</Title>
+            <Title order={3}>Revisión Actual de Órganos y Sistemas</Title>
             <Box
                 mt={rem(16)}
                 component='form'
@@ -86,7 +86,7 @@ const ReviewOfOrgansAndSystemForm = React.forwardRef<HTMLFormElement, ReviewOfOr
                                     w='100%'
                                     rows={5}
                                     label={value}
-                                    placeholder="Escriba la observacion aqui"
+                                    placeholder="Escriba la observación aquí"
                                     {...form.getInputProps(key)} />
                             ))}
                         </Stack>

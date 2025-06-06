@@ -18,6 +18,7 @@ import { REINTEGRATION_MEDICAL_CONSULTATION } from './_libs/constants';
 import { ReintegrateRecordPayload } from '@/server/record/create-record/reintegrate-record';
 import { retriveFromTmpStore } from '@/lib/tmp-store/tmp-store.utils';
 import { parsedReintegrate } from './_libs/parsed-reintegrate';
+import ProfessionalDataForm from '@/components/record/professional-data-form';
 
 interface RecordReintegratePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -27,7 +28,7 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
 }) => {
     const patientDni = typeof searchParams.patientDni === 'string' ? searchParams.patientDni : undefined;
 
-    if (!patientDni) return <>Patient not specified</>
+    if (!patientDni) return <>Paciente no especificado</>
 
     const stepperCookieKey: string = `record-reintegrate-${patientDni}`;
     const tmpResult = await retriveFromTmpStore<Partial<ReintegrateRecordPayload>>(stepperCookieKey);
@@ -55,14 +56,15 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
             <ReturnableHeader title='Ficha de reintegración' />
             <StepperReintegrateForm
                 headers={[
-                    { title: 'Datos del establecimiento', description: 'Empresa y Usuario', icon: 'building' },
+                    { title: 'Datos del profesional', icon: 'medicine' },
+                    { title: 'Datos del establecimiento', description: 'Empresa y usuario', icon: 'building' },
                     { title: 'Enfermedad Actual', icon: 'disease' },
-                    { title: 'Constantes Vitales y Antropometria', icon: 'heart' },
-                    { title: 'Examen Fisico Regional', description: 'Regiones', icon: 'heart' },
+                    { title: 'Constantes Vitales y Antropometría', icon: 'heart' },
+                    { title: 'Examen Físico Regional', description: 'Regiones', icon: 'heart' },
                     { title: 'Resultados de Examenes', icon: 'notebook' },
-                    { title: 'Diagnostico', icon: 'notebook' },
-                    { title: 'Aptitud Medical para el Trabajo', icon: 'notebook' },
-                    { title: 'Recomendaciones y/o Tratamientos', icon: 'notebook' },
+                    { title: 'Diagnóstico', icon: 'notebook' },
+                    { title: 'Aptitud médica para el trabajo', icon: 'notebook' },
+                    { title: 'Recomendaciones y/o tratamientos', icon: 'notebook' },
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
                 patientDni={patientDni}
@@ -78,6 +80,7 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
                     medicalConsultationDescription: REINTEGRATION_MEDICAL_CONSULTATION,
                     ...initialData
                 }}>
+                <ProfessionalDataForm />
                 <ReintegrateInstitutionForm options={corporativeOptions} />
                 <CurrentDiseaseForm />
                 <VitalSignsAndAnthropometryForm />
@@ -87,7 +90,6 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
                 <MedicalFitnessForJobForm showReubication />
                 <RecommendationForm />
                 <PreviewReintegrateRecord />
-
             </StepperReintegrateForm>
         </>
     )
