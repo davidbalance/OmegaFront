@@ -8,13 +8,13 @@ import { revalidateTag } from "next/cache";
 import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionProcessOptions = async (): Promise<Process[]> => {
-    return new Promise((resolver) => resolver([
-        { orderProcess: "Post-Ocupacional" },
-        { orderProcess: "Periodico" },
-        { orderProcess: "Pre-Ocupacional" },
-        { orderProcess: "Especial" },
-        { orderProcess: "Consulta Externa" },
-    ]));
+
+    const generalProcess = ["Post-Ocupacional", "Periodico", "Pre-Ocupacional", "Especial", "Consulta Externa"]
+    const eeqProcess = ["Reingreso", "Cambio de Puesto"];
+
+    const processSet = new Set([...generalProcess, ...eeqProcess]);
+
+    return new Promise((resolver) => resolver(Array.from(processSet).map(e => ({ orderProcess: e }))));
 }
 
 export const serverActionRetriveProcesses = async (): Promise<Process[]> => {
