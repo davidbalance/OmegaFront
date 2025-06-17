@@ -8,7 +8,6 @@ import { revalidateTag } from "next/cache";
 import { withResult } from "@/lib/utils/result.utils";
 
 export const serverActionProcessOptions = async (): Promise<Process[]> => {
-
     const generalProcess = ["Post-Ocupacional", "Periodico", "Pre-Ocupacional", "Especial", "Consulta Externa"]
     const eeqProcess = ["Reingreso", "Cambio de Puesto"];
 
