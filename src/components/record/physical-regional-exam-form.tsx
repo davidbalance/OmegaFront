@@ -2,9 +2,65 @@
 
 import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback, useState } from 'react'
-import PhysicalRegionalExamSchema from './schemas/physical-regional-exam.schema'
+import PhysicalRegionalExamSchema, { adjustInitialValues } from './schemas/physical-regional-exam.schema'
 import { z } from 'zod';
-import { Divider, Flex, Grid, GridCol, rem, Stack, Switch, Textarea, TextInput } from '@mantine/core';
+import { Box, Divider, Flex, Grid, GridCol, rem, Stack, Switch, Textarea, TextInput, Title } from '@mantine/core';
+
+const skinExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examSkinScar', 'examSkinTattoo', 'examSkinLesions'];
+const eyeExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examEyeEyelids', 'examEyeConjunctiva', 'examEyePupils', 'examEyeCorneas', 'examEyeMotility'];
+const earExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examEarAuditoryExternal', 'examEarAuricle', 'examEarEardrum'];
+const pharynxExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examPharynxLips', 'examPharynxTongue', 'examPharynxPharynx', 'examPharynxTonsils', 'examPharynxTeeth'];
+const noseExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examNosePartition', 'examNoseTurbinates', 'examNoseMucousMembranes', 'examNoseParanasalSinuses'];
+const neckExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examNeckThyroid', 'examNeckMobility'];
+const chestExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examChestBreast', 'examChestHeart', 'examChestLungs', 'examChestRibCage'];
+const abdomenExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examAbdomenViscera', 'examAbdomenAbdominalWall'];
+const columnExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examColumnFlexibility', 'examColumnDeviation', 'examColumnPain'];
+const pelvisExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examPelvis', 'examPelvisGenitals'];
+const limbExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examLimbVascular', 'examLimbUpper', 'examLimbLower'];
+const neurologicExams: (keyof z.infer<typeof PhysicalRegionalExamSchema>)[] = ['examNeurologicForce', 'examNeurologicSensitivity', 'examNeurologicGait', 'examNeurologicReflex'];
+
+const options: z.infer<typeof PhysicalRegionalExamSchema> = {
+    examSkinScar: "Cicatrices",
+    examSkinTattoo: "Tatuajes",
+    examSkinLesions: "Fácies",
+    examEyeEyelids: "Párpados",
+    examEyeConjunctiva: "Conjuntivas",
+    examEyePupils: "Pupilas",
+    examEyeCorneas: "Córnea",
+    examEyeMotility: "Motilidad",
+    examEarAuditoryExternal: "Externo",
+    examEarAuricle: "Pabellón",
+    examEarEardrum: "Tímpanos",
+    examPharynxLips: "Labios",
+    examPharynxTongue: "Lengua",
+    examPharynxPharynx: "Faringe",
+    examPharynxTonsils: "Amígdalas",
+    examPharynxTeeth: "Dentadura",
+    examNosePartition: "Tabique",
+    examNoseTurbinates: "Cornetes",
+    examNoseMucousMembranes: "Mucosas",
+    examNoseParanasalSinuses: "Paranasales",
+    examNeckThyroid: "Masas",
+    examNeckMobility: "Movilidad",
+    examChestBreast: "Mamas",
+    examChestHeart: "Corazón",
+    examChestLungs: "Pulmones",
+    examChestRibCage: "Costal",
+    examAbdomenViscera: "Vísceras",
+    examAbdomenAbdominalWall: "Abdominal",
+    examColumnFlexibility: "Flexibilidad",
+    examColumnDeviation: "Desviación",
+    examColumnPain: "Dolor",
+    examPelvis: "Pelvis",
+    examPelvisGenitals: "Genitales",
+    examLimbVascular: "Vascular",
+    examLimbUpper: "Superiores",
+    examLimbLower: "Inferiores",
+    examNeurologicForce: "Fuerza",
+    examNeurologicSensitivity: "Sensibilidad",
+    examNeurologicGait: "Marcha",
+    examNeurologicReflex: "Reflejos",
+}
 
 type PhysicalRegionalExamFormProps = {
     data?: Partial<z.infer<typeof PhysicalRegionalExamSchema>>;
@@ -15,90 +71,51 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
     onSubmit
 }, ref) => {
 
-    const [examSkinScar, setExamSkinScar] = useState(!!data?.examSkinScar);
-    const [examSkinTattoo, setExamSkinTattoo] = useState(!!data?.examSkinTattoo);
-    const [examSkinLesions, setExamSkinLesions] = useState(!!data?.examSkinLesions);
-    const [examEyeEyelids, setExamEyeEyelids] = useState(!!data?.examEyeEyelids);
-    const [examEyeConjunctiva, setExamEyeConjunctiva] = useState(!!data?.examEyeConjunctiva);
-    const [examEyePupils, setExamEyePupils] = useState(!!data?.examEyePupils);
-    const [examEyeCorneas, setExamEyeCorneas] = useState(!!data?.examEyeCorneas);
-    const [examEyeMotility, setExamEyeMotility] = useState(!!data?.examEyeMotility);
-    const [examEarAuditoryExternal, setExamEarAuditoryExternal] = useState(!!data?.examEarAuditoryExternal);
-    const [examEarAuricle, setExamEarAuricle] = useState(!!data?.examEarAuricle);
-    const [examEarEardrum, setExamEarEardrum] = useState(!!data?.examEarEardrum);
-    const [examPharynxLips, setExamPharynxLips] = useState(!!data?.examPharynxLips);
-    const [examPharynxTongue, setExamPharynxTongue] = useState(!!data?.examPharynxTongue);
-    const [examPharynxPharynx, setExamPharynxPharynx] = useState(!!data?.examPharynxPharynx);
-    const [examPharynxTonsils, setExamPharynxTonsils] = useState(!!data?.examPharynxTonsils);
-    const [examPharynxTeeth, setExamPharynxTeeth] = useState(!!data?.examPharynxTeeth);
-    const [examNosePartition, setExamNosePartition] = useState(!!data?.examNosePartition);
-    const [examNoseTurbinates, setExamNoseTurbinates] = useState(!!data?.examNoseTurbinates);
-    const [examNoseMucousMembranes, setExamNoseMucousMembranes] = useState(!!data?.examNoseMucousMembranes);
-    const [examNoseParanasalSinuses, setExamNoseParanasalSinuses] = useState(!!data?.examNoseParanasalSinuses);
-    const [examNeckThyroid, setExamNeckThyroid] = useState(!!data?.examNeckThyroid);
-    const [examNeckMobility, setExamNeckMobility] = useState(!!data?.examNeckMobility);
-    const [examChestBreast, setExamChestBreast] = useState(!!data?.examChestBreast);
-    const [examChestHeart, setExamChestHeart] = useState(!!data?.examChestHeart);
-    const [examChestLungs, setExamChestLungs] = useState(!!data?.examChestLungs);
-    const [examChestRibCage, setExamChestRibCage] = useState(!!data?.examChestRibCage);
-    const [examAbdomenViscera, setExamAbdomenViscera] = useState(!!data?.examAbdomenViscera);
-    const [examAbdomenAbdominalWall, setExamAbdomenAbdominalWall] = useState(!!data?.examAbdomenAbdominalWall);
-    const [examColumnFlexibility, setExamColumnFlexibility] = useState(!!data?.examColumnFlexibility);
-    const [examColumnDeviation, setExamColumnDeviation] = useState(!!data?.examColumnDeviation);
-    const [examColumnPain, setExamColumnPain] = useState(!!data?.examColumnPain);
-    const [examPelvis, setExamPelvis] = useState(!!data?.examPelvis);
-    const [examPelvisGenitals, setExamPelvisGenitals] = useState(!!data?.examPelvisGenitals);
-    const [examLimbVascular, setExamLimbVascular] = useState(!!data?.examLimbVascular);
-    const [examLimbUpper, setExamLimbUpper] = useState(!!data?.examLimbUpper);
-    const [examLimbLower, setExamLimbLower] = useState(!!data?.examLimbLower);
-    const [examNeurologicForce, setExamNeurologicForce] = useState(!!data?.examNeurologicForce);
-    const [examNeurologicSensitivity, setExamNeurologicSensitivity] = useState(!!data?.examNeurologicSensitivity);
-    const [examNeurologicGait, setExamNeurologicGait] = useState(!!data?.examNeurologicGait);
-    const [examNeurologicReflex, setExamNeurologicReflex] = useState(!!data?.examNeurologicReflex);
+    const [switches, setSwitches] = useState<Record<keyof z.infer<typeof PhysicalRegionalExamSchema>, boolean>>({
+        examSkinScar: !!data?.examSkinScar,
+        examSkinTattoo: !!data?.examSkinTattoo,
+        examSkinLesions: !!data?.examSkinLesions,
+        examEyeEyelids: !!data?.examEyeEyelids,
+        examEyeConjunctiva: !!data?.examEyeConjunctiva,
+        examEyePupils: !!data?.examEyePupils,
+        examEyeCorneas: !!data?.examEyeCorneas,
+        examEyeMotility: !!data?.examEyeMotility,
+        examEarAuditoryExternal: !!data?.examEarAuditoryExternal,
+        examEarAuricle: !!data?.examEarAuricle,
+        examEarEardrum: !!data?.examEarEardrum,
+        examPharynxLips: !!data?.examPharynxLips,
+        examPharynxTongue: !!data?.examPharynxTongue,
+        examPharynxPharynx: !!data?.examPharynxPharynx,
+        examPharynxTonsils: !!data?.examPharynxTonsils,
+        examPharynxTeeth: !!data?.examPharynxTeeth,
+        examNosePartition: !!data?.examNosePartition,
+        examNoseTurbinates: !!data?.examNoseTurbinates,
+        examNoseMucousMembranes: !!data?.examNoseMucousMembranes,
+        examNoseParanasalSinuses: !!data?.examNoseParanasalSinuses,
+        examNeckThyroid: !!data?.examNeckThyroid,
+        examNeckMobility: !!data?.examNeckMobility,
+        examChestBreast: !!data?.examChestBreast,
+        examChestHeart: !!data?.examChestHeart,
+        examChestLungs: !!data?.examChestLungs,
+        examChestRibCage: !!data?.examChestRibCage,
+        examAbdomenViscera: !!data?.examAbdomenViscera,
+        examAbdomenAbdominalWall: !!data?.examAbdomenAbdominalWall,
+        examColumnFlexibility: !!data?.examColumnFlexibility,
+        examColumnDeviation: !!data?.examColumnDeviation,
+        examColumnPain: !!data?.examColumnPain,
+        examPelvis: !!data?.examPelvis,
+        examPelvisGenitals: !!data?.examPelvisGenitals,
+        examLimbVascular: !!data?.examLimbVascular,
+        examLimbUpper: !!data?.examLimbUpper,
+        examLimbLower: !!data?.examLimbLower,
+        examNeurologicForce: !!data?.examNeurologicForce,
+        examNeurologicSensitivity: !!data?.examNeurologicSensitivity,
+        examNeurologicGait: !!data?.examNeurologicGait,
+        examNeurologicReflex: !!data?.examNeurologicReflex,
+    });
 
     const form = useForm<z.infer<typeof PhysicalRegionalExamSchema>>({
-        initialValues: {
-            examSkinScar: data?.examSkinScar ?? '',
-            examSkinTattoo: data?.examSkinTattoo ?? '',
-            examSkinLesions: data?.examSkinLesions ?? '',
-            examEyeEyelids: data?.examEyeEyelids ?? '',
-            examEyeConjunctiva: data?.examEyeConjunctiva ?? '',
-            examEyePupils: data?.examEyePupils ?? '',
-            examEyeCorneas: data?.examEyeCorneas ?? '',
-            examEyeMotility: data?.examEyeMotility ?? '',
-            examEarAuditoryExternal: data?.examEarAuditoryExternal ?? '',
-            examEarAuricle: data?.examEarAuricle ?? '',
-            examEarEardrum: data?.examEarEardrum ?? '',
-            examPharynxLips: data?.examPharynxLips ?? '',
-            examPharynxTongue: data?.examPharynxTongue ?? '',
-            examPharynxPharynx: data?.examPharynxPharynx ?? '',
-            examPharynxTonsils: data?.examPharynxTonsils ?? '',
-            examPharynxTeeth: data?.examPharynxTeeth ?? '',
-            examNosePartition: data?.examNosePartition ?? '',
-            examNoseTurbinates: data?.examNoseTurbinates ?? '',
-            examNoseMucousMembranes: data?.examNoseMucousMembranes ?? '',
-            examNoseParanasalSinuses: data?.examNoseParanasalSinuses ?? '',
-            examNeckThyroid: data?.examNeckThyroid ?? '',
-            examNeckMobility: data?.examNeckMobility ?? '',
-            examChestBreast: data?.examChestBreast ?? '',
-            examChestHeart: data?.examChestHeart ?? '',
-            examChestLungs: data?.examChestLungs ?? '',
-            examChestRibCage: data?.examChestRibCage ?? '',
-            examAbdomenViscera: data?.examAbdomenViscera ?? '',
-            examAbdomenAbdominalWall: data?.examAbdomenAbdominalWall ?? '',
-            examColumnFlexibility: data?.examColumnFlexibility ?? '',
-            examColumnDeviation: data?.examColumnDeviation ?? '',
-            examColumnPain: data?.examColumnPain ?? '',
-            examPelvis: data?.examPelvis ?? '',
-            examPelvisGenitals: data?.examPelvisGenitals ?? '',
-            examLimbVascular: data?.examLimbVascular ?? '',
-            examLimbUpper: data?.examLimbUpper ?? '',
-            examLimbLower: data?.examLimbLower ?? '',
-            examNeurologicForce: data?.examNeurologicForce ?? '',
-            examNeurologicSensitivity: data?.examNeurologicSensitivity ?? '',
-            examNeurologicGait: data?.examNeurologicGait ?? '',
-            examNeurologicReflex: data?.examNeurologicReflex ?? '',
-        },
+        initialValues: adjustInitialValues(data),
         validate: zodResolver(PhysicalRegionalExamSchema)
     });
 
@@ -106,541 +123,395 @@ const PhysicalRegionalExamForm = React.forwardRef<HTMLFormElement, PhysicalRegio
         onSubmit?.(value);
     }, [onSubmit]);
 
+    const handleSwitchChange = useCallback((key: keyof z.infer<typeof PhysicalRegionalExamSchema>, value: boolean) => {
+        setSwitches(prev => ({ ...prev, [key]: value }));
+        if (!value) form.setFieldValue(key, '');
+    }, [form]);
+
     return (
-        <form
-            ref={ref}
-            onSubmit={form.onSubmit(handleSubmit)}>
-            <Stack gap={rem(16)}>
-                <Divider label='Piel' />
-                <Grid>
-                    <GridCol span={4}>
-                        <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch
-                                label="CICATRICES"
-                                checked={examSkinScar}
-                                onChange={e => setExamSkinScar(e.target.checked)} />
-                            <Switch
-                                label="TATUAJES"
-                                checked={examSkinTattoo}
-                                onChange={e => setExamSkinTattoo(e.target.checked)} />
-                            <Switch
-                                label="PIEN Y FANACEAS"
-                                checked={examSkinLesions}
-                                onChange={e => setExamSkinLesions(e.target.checked)} />
-                        </Flex>
-                    </GridCol>
-                    <GridCol span={8}>
-                        <Stack
-                            gap={rem(16)}
-                            align='start' w='100%'>
-                            {examSkinScar && <TextInput
-                                w='100%'
-                                label="CICATRICES"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examSkinScar')} />}
-                            {examSkinTattoo && <TextInput
-                                w='100%'
-                                label="TATUAJES"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examSkinTattoo')} />}
-                            {examSkinLesions && <TextInput
-                                w='100%'
-                                label="PIEN Y FANACEAS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examSkinLesions')} />}
-                        </Stack>
-                    </GridCol>
-                </Grid>
+        <>
+            <Title order={3}>Examen Físico Regional</Title>
+            <Box
+                mt={rem(16)}
+                component='form'
+                ref={ref}
+                onSubmit={form.onSubmit(handleSubmit)}>
+                <Stack gap={rem(16)}>
+                    <Divider label='Piel' />
+                    <Grid>
+                        <GridCol span={4}>
+                            <Stack gap={rem(16)}>
+                                {Object.entries(options).filter(([key]) => skinExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    <Switch
+                                        key={key}
+                                        label={value}
+                                        checked={switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>]}
+                                        onChange={e => handleSwitchChange(key as keyof z.infer<typeof PhysicalRegionalExamSchema>, e.target.checked)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                        <GridCol span={8}>
+                            <Stack
+                                gap={rem(32)}
+                                align='start' w='100%'>
+                                {Object.entries(options).filter(([key]) => skinExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>] &&
+                                    <Textarea
+                                        key={key}
+                                        w='100%'
+                                        rows={5}
+                                        label={value}
+                                        placeholder="Escriba la observación aquí"
+                                        {...form.getInputProps(key)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                    </Grid>
 
-                <Divider label='Ojos' />
-                <Grid>
-                    <GridCol span={4}>
-                        <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch
-                                label="PARPADOS"
-                                checked={examEyeEyelids}
-                                onChange={e => setExamEyeEyelids(e.target.checked)} />
-                            <Switch
-                                label="CONJUNTIVAS"
-                                checked={examEyeConjunctiva}
-                                onChange={e => setExamEyeConjunctiva(e.target.checked)} />
-                            <Switch
-                                label="PUPILAS"
-                                checked={examEyePupils}
-                                onChange={e => setExamEyePupils(e.target.checked)} />
-                            <Switch
-                                label="CORNEA"
-                                checked={examEyeCorneas}
-                                onChange={e => setExamEyeCorneas(e.target.checked)} />
-                            <Switch
-                                label="MOTILIDAD"
-                                checked={examEyeMotility}
-                                onChange={e => setExamEyeMotility(e.target.checked)} />
-                        </Flex>
-                    </GridCol>
-                    <GridCol span={8}>
-                        <Stack
-                            gap={rem(16)}
-                            align='start' w='100%'>
-                            {examEyeEyelids && <TextInput
-                                w='100%'
-                                label="PARPADOS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examEyeEyelids')} />}
-                            {examEyeConjunctiva && <TextInput
-                                w='100%'
-                                label="CONJUNTIVAS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examEyeConjunctiva')} />}
-                            {examEyePupils && <TextInput
-                                w='100%'
-                                label="PUPILAS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examEyePupils')} />}
-                            {examEyeCorneas && <TextInput
-                                w='100%'
-                                label="CORNEA"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examEyeCorneas')} />}
-                            {examEyeMotility && <TextInput
-                                w='100%'
-                                label="MOTILIDAD"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examEyeMotility')} />}
-                        </Stack>
-                    </GridCol>
-                </Grid>
+                    <Divider label='Ojos' />
+                    <Grid>
+                        <GridCol span={4}>
+                            <Stack gap={rem(16)}>
+                                {Object.entries(options).filter(([key]) => eyeExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    <Switch
+                                        key={key}
+                                        label={value}
+                                        checked={switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>]}
+                                        onChange={e => handleSwitchChange(key as keyof z.infer<typeof PhysicalRegionalExamSchema>, e.target.checked)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                        <GridCol span={8}>
+                            <Stack
+                                gap={rem(32)}
+                                align='start' w='100%'>
+                                {Object.entries(options).filter(([key]) => eyeExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>] &&
+                                    <Textarea
+                                        key={key}
+                                        w='100%'
+                                        rows={5}
+                                        label={value}
+                                        placeholder="Escriba la observación aquí"
+                                        {...form.getInputProps(key)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                    </Grid>
 
-                <Divider label='Oido' />
-                <Grid>
-                    <GridCol span={4}>
-                        <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch
-                                label="C. AUDITIVO EXTERNO"
-                                checked={examEarAuditoryExternal}
-                                onChange={e => setExamEarAuditoryExternal(e.target.checked)} />
-                            <Switch
-                                label="PABELLON"
-                                checked={examEarAuricle}
-                                onChange={e => setExamEarAuricle(e.target.checked)} />
-                            <Switch
-                                label="TIMPANOS"
-                                checked={examEarEardrum}
-                                onChange={e => setExamEarEardrum(e.target.checked)} />
-                        </Flex>
-                    </GridCol>
-                    <GridCol span={8}>
-                        <Stack
-                            gap={rem(16)}
-                            align='start' w='100%'>
-                            {examEarAuditoryExternal && <TextInput
-                                w='100%'
-                                label="C. AUDITIVO EXTERNO"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examEarAuditoryExternal')} />}
-                            {examEarAuricle && <TextInput
-                                w='100%'
-                                label="PABELLON"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examEarAuricle')} />}
-                            {examEarEardrum && <TextInput
-                                w='100%'
-                                label="TIMPANOS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examEarEardrum')} />}
-                        </Stack>
-                    </GridCol>
-                </Grid>
+                    <Divider label='Oido' />
+                    <Grid>
+                        <GridCol span={4}>
+                            <Stack gap={rem(16)}>
+                                {Object.entries(options).filter(([key]) => earExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    <Switch
+                                        key={key}
+                                        label={value}
+                                        checked={switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>]}
+                                        onChange={e => handleSwitchChange(key as keyof z.infer<typeof PhysicalRegionalExamSchema>, e.target.checked)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                        <GridCol span={8}>
+                            <Stack
+                                gap={rem(32)}
+                                align='start' w='100%'>
+                                {Object.entries(options).filter(([key]) => earExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>] &&
+                                    <Textarea
+                                        key={key}
+                                        w='100%'
+                                        rows={5}
+                                        label={value}
+                                        placeholder="Escriba la observación aquí"
+                                        {...form.getInputProps(key)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                    </Grid>
 
-                <Divider label='Oro Faringe' />
-                <Grid>
-                    <GridCol span={4}>
-                        <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch
-                                label="LABIOS"
-                                checked={examPharynxLips}
-                                onChange={e => setExamPharynxLips(e.target.checked)} />
-                            <Switch
-                                label="LENGUA"
-                                checked={examPharynxTongue}
-                                onChange={e => setExamPharynxTongue(e.target.checked)} />
-                            <Switch
-                                label="FARINGE"
-                                checked={examPharynxPharynx}
-                                onChange={e => setExamPharynxPharynx(e.target.checked)} />
-                            <Switch
-                                label="AMIGDALAS"
-                                checked={examPharynxTonsils}
-                                onChange={e => setExamPharynxTonsils(e.target.checked)} />
-                            <Switch
-                                label="DENTADURA"
-                                checked={examPharynxTeeth}
-                                onChange={e => setExamPharynxTeeth(e.target.checked)} />
-                        </Flex>
-                    </GridCol>
-                    <GridCol span={8}>
-                        <Stack
-                            gap={rem(16)}
-                            align='start' w='100%'>
-                            {examPharynxLips && <TextInput
-                                w='100%'
-                                label="LABIOS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examPharynxLips')} />}
-                            {examPharynxTongue && <TextInput
-                                w='100%'
-                                label="LENGUA"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examPharynxTongue')} />}
-                            {examPharynxPharynx && <TextInput
-                                w='100%'
-                                label="FARINGE"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examPharynxPharynx')} />}
-                            {examPharynxTonsils && <TextInput
-                                w='100%'
-                                label="AMIGDALAS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examPharynxTonsils')} />}
-                            {examPharynxTeeth && <TextInput
-                                w='100%'
-                                label="DENTADURA"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examPharynxTeeth')} />}
-                        </Stack>
-                    </GridCol>
-                </Grid>
+                    <Divider label='Oro Faringe' />
+                    <Grid>
+                        <GridCol span={4}>
+                            <Stack gap={rem(16)}>
+                                {Object.entries(options).filter(([key]) => pharynxExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    <Switch
+                                        key={key}
+                                        label={value}
+                                        checked={switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>]}
+                                        onChange={e => handleSwitchChange(key as keyof z.infer<typeof PhysicalRegionalExamSchema>, e.target.checked)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                        <GridCol span={8}>
+                            <Stack
+                                gap={rem(32)}
+                                align='start' w='100%'>
+                                {Object.entries(options).filter(([key]) => pharynxExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>] &&
+                                    <Textarea
+                                        key={key}
+                                        w='100%'
+                                        rows={5}
+                                        label={value}
+                                        placeholder="Escriba la observación aquí"
+                                        {...form.getInputProps(key)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                    </Grid>
 
-                <Divider label='Nariz' />
-                <Grid>
-                    <GridCol span={4}>
-                        <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch
-                                label="TABIQUE"
-                                checked={examNosePartition}
-                                onChange={e => setExamNosePartition(e.target.checked)} />
-                            <Switch
-                                label="CORNETES"
-                                checked={examNoseTurbinates}
-                                onChange={e => setExamNoseTurbinates(e.target.checked)} />
-                            <Switch
-                                label="MUCOSAS"
-                                checked={examNoseMucousMembranes}
-                                onChange={e => setExamNoseMucousMembranes(e.target.checked)} />
-                            <Switch
-                                label="SENOS PARANASALES"
-                                checked={examNoseParanasalSinuses}
-                                onChange={e => setExamNoseParanasalSinuses(e.target.checked)} />
-                        </Flex>
-                    </GridCol>
-                    <GridCol span={8}>
-                        <Stack
-                            gap={rem(16)}
-                            align='start' w='100%'>
-                            {examNosePartition && <TextInput
-                                w='100%'
-                                label="TABIQUE"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examNosePartition')} />}
-                            {examNoseTurbinates && <TextInput
-                                w='100%'
-                                label="CORNETES"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examNoseTurbinates')} />}
-                            {examNoseMucousMembranes && <TextInput
-                                w='100%'
-                                label="MUCOSAS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examNoseMucousMembranes')} />}
-                            {examNoseParanasalSinuses && <TextInput
-                                w='100%'
-                                label="SENOS PARANASALES"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examNoseParanasalSinuses')} />}
-                        </Stack>
-                    </GridCol>
-                </Grid>
+                    <Divider label='Nariz' />
+                    <Grid>
+                        <GridCol span={4}>
+                            <Stack gap={rem(16)}>
+                                {Object.entries(options).filter(([key]) => noseExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    <Switch
+                                        key={key}
+                                        label={value}
+                                        checked={switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>]}
+                                        onChange={e => handleSwitchChange(key as keyof z.infer<typeof PhysicalRegionalExamSchema>, e.target.checked)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                        <GridCol span={8}>
+                            <Stack
+                                gap={rem(32)}
+                                align='start' w='100%'>
+                                {Object.entries(options).filter(([key]) => noseExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>] &&
+                                    <Textarea
+                                        key={key}
+                                        w='100%'
+                                        rows={5}
+                                        label={value}
+                                        placeholder="Escriba la observación aquí"
+                                        {...form.getInputProps(key)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                    </Grid>
 
-                <Divider label='Cuello' />
-                <Grid>
-                    <GridCol span={4}>
-                        <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch
-                                label="TIROIDES / MASAS"
-                                checked={examNeckThyroid}
-                                onChange={e => setExamNeckThyroid(e.target.checked)} />
-                            <Switch
-                                label="MOVILIDAD"
-                                checked={examNeckMobility}
-                                onChange={e => setExamNeckMobility(e.target.checked)} />
-                        </Flex>
-                    </GridCol>
-                    <GridCol span={8}>
-                        <Stack
-                            gap={rem(16)}
-                            align='start' w='100%'>
-                            {examNeckThyroid && <TextInput
-                                w='100%'
-                                label="TIROIDES / MASAS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examNeckThyroid')} />}
-                            {examNeckMobility && <TextInput
-                                w='100%'
-                                label="MOVILIDAD"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examNeckMobility')} />}
-                        </Stack>
-                    </GridCol>
-                </Grid>
+                    <Divider label='Cuello' />
+                    <Grid>
+                        <GridCol span={4}>
+                            <Stack gap={rem(16)}>
+                                {Object.entries(options).filter(([key]) => neckExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    <Switch
+                                        key={key}
+                                        label={value}
+                                        checked={switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>]}
+                                        onChange={e => handleSwitchChange(key as keyof z.infer<typeof PhysicalRegionalExamSchema>, e.target.checked)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                        <GridCol span={8}>
+                            <Stack
+                                gap={rem(32)}
+                                align='start' w='100%'>
+                                {Object.entries(options).filter(([key]) => neckExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>] &&
+                                    <Textarea
+                                        key={key}
+                                        w='100%'
+                                        rows={5}
+                                        label={value}
+                                        placeholder="Escriba la observación aquí"
+                                        {...form.getInputProps(key)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                    </Grid>
 
-                <Divider label='Torax' />
-                <Grid>
-                    <GridCol span={4}>
-                        <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch
-                                label="MAMAS"
-                                checked={examChestBreast}
-                                onChange={e => setExamChestBreast(e.target.checked)} />
-                            <Switch
-                                label="CORAZON"
-                                checked={examChestHeart}
-                                onChange={e => setExamChestHeart(e.target.checked)} />
-                            <Switch
-                                label="PULMONES"
-                                checked={examChestLungs}
-                                onChange={e => setExamChestLungs(e.target.checked)} />
-                            <Switch
-                                label="PARILLA COSTAL"
-                                checked={examChestRibCage}
-                                onChange={e => setExamChestRibCage(e.target.checked)} />
-                        </Flex>
-                    </GridCol>
-                    <GridCol span={8}>
-                        <Stack
-                            gap={rem(16)}
-                            align='start' w='100%'>
-                            {examChestBreast && <TextInput
-                                w='100%'
-                                label="MAMAS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examChestBreast')} />}
-                            {examChestHeart && <TextInput
-                                w='100%'
-                                label="CORAZON"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examChestHeart')} />}
-                            {examChestLungs && <TextInput
-                                w='100%'
-                                label="PULMONES"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examChestLungs')} />}
-                            {examChestRibCage && <TextInput
-                                w='100%'
-                                label="PARILLA COSTAL"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examChestRibCage')} />}
-                        </Stack>
-                    </GridCol>
-                </Grid>
+                    <Divider label='Torax' />
+                    <Grid>
+                        <GridCol span={4}>
+                            <Stack gap={rem(16)}>
+                                {Object.entries(options).filter(([key]) => chestExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    <Switch
+                                        key={key}
+                                        label={value}
+                                        checked={switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>]}
+                                        onChange={e => handleSwitchChange(key as keyof z.infer<typeof PhysicalRegionalExamSchema>, e.target.checked)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                        <GridCol span={8}>
+                            <Stack
+                                gap={rem(32)}
+                                align='start' w='100%'>
+                                {Object.entries(options).filter(([key]) => chestExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>] &&
+                                    <Textarea
+                                        key={key}
+                                        w='100%'
+                                        rows={5}
+                                        label={value}
+                                        placeholder="Escriba la observación aquí"
+                                        {...form.getInputProps(key)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                    </Grid>
 
-                <Divider label='Abdomen' />
-                <Grid>
-                    <GridCol span={4}>
-                        <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch
-                                label="VISCERAS"
-                                checked={examAbdomenViscera}
-                                onChange={e => setExamAbdomenViscera(e.target.checked)} />
-                            <Switch
-                                label="PARED ABDOMINAL"
-                                checked={examAbdomenAbdominalWall}
-                                onChange={e => setExamAbdomenAbdominalWall(e.target.checked)} />
-                        </Flex>
-                    </GridCol>
-                    <GridCol span={8}>
-                        <Stack
-                            gap={rem(16)}
-                            align='start' w='100%'>
-                            {examAbdomenViscera && <TextInput
-                                w='100%'
-                                label="VISCERAS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examAbdomenViscera')} />}
-                            {examAbdomenAbdominalWall && <TextInput
-                                w='100%'
-                                label="PARED ABDOMINAL"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examAbdomenAbdominalWall')} />}
-                        </Stack>
-                    </GridCol>
-                </Grid>
+                    <Divider label='Abdomen' />
+                    <Grid>
+                        <GridCol span={4}>
+                            <Stack gap={rem(16)}>
+                                {Object.entries(options).filter(([key]) => abdomenExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    <Switch
+                                        key={key}
+                                        label={value}
+                                        checked={switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>]}
+                                        onChange={e => handleSwitchChange(key as keyof z.infer<typeof PhysicalRegionalExamSchema>, e.target.checked)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                        <GridCol span={8}>
+                            <Stack
+                                gap={rem(32)}
+                                align='start' w='100%'>
+                                {Object.entries(options).filter(([key]) => abdomenExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>] &&
+                                    <Textarea
+                                        key={key}
+                                        w='100%'
+                                        rows={5}
+                                        label={value}
+                                        placeholder="Escriba la observación aquí"
+                                        {...form.getInputProps(key)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                    </Grid>
 
-                <Divider label='Columna' />
-                <Grid>
-                    <GridCol span={4}>
-                        <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch
-                                label="FLEXIBILIDAD"
-                                checked={examColumnFlexibility}
-                                onChange={e => setExamColumnFlexibility(e.target.checked)} />
-                            <Switch
-                                label="DESVIACION"
-                                checked={examColumnDeviation}
-                                onChange={e => setExamColumnDeviation(e.target.checked)} />
-                            <Switch
-                                label="DOLOR"
-                                checked={examColumnPain}
-                                onChange={e => setExamColumnPain(e.target.checked)} />
-                        </Flex>
-                    </GridCol>
-                    <GridCol span={8}>
-                        <Stack
-                            gap={rem(16)}
-                            align='start' w='100%'>
-                            {examColumnFlexibility && <TextInput
-                                w='100%'
-                                label="FLEXIBILIDAD"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examColumnFlexibility')} />}
-                            {examColumnDeviation && <TextInput
-                                w='100%'
-                                label="DESVIACION"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examColumnDeviation')} />}
-                            {examColumnPain && <TextInput
-                                w='100%'
-                                label="DOLOR"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examColumnPain')} />}
-                        </Stack>
-                    </GridCol>
-                </Grid>
+                    <Divider label='Columna' />
+                    <Grid>
+                        <GridCol span={4}>
+                            <Stack gap={rem(16)}>
+                                {Object.entries(options).filter(([key]) => columnExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    <Switch
+                                        key={key}
+                                        label={value}
+                                        checked={switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>]}
+                                        onChange={e => handleSwitchChange(key as keyof z.infer<typeof PhysicalRegionalExamSchema>, e.target.checked)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                        <GridCol span={8}>
+                            <Stack
+                                gap={rem(32)}
+                                align='start' w='100%'>
+                                {Object.entries(options).filter(([key]) => columnExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>] &&
+                                    <Textarea
+                                        key={key}
+                                        w='100%'
+                                        rows={5}
+                                        label={value}
+                                        placeholder="Escriba la observación aquí"
+                                        {...form.getInputProps(key)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                    </Grid>
 
-                <Divider label='Pelvis' />
-                <Grid>
-                    <GridCol span={4}>
-                        <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch
-                                label="PELVIS"
-                                checked={examPelvis}
-                                onChange={e => setExamPelvis(e.target.checked)} />
-                            <Switch
-                                label="GENITALES"
-                                checked={examPelvisGenitals}
-                                onChange={e => setExamPelvisGenitals(e.target.checked)} />
-                        </Flex>
-                    </GridCol>
-                    <GridCol span={8}>
-                        <Stack
-                            gap={rem(16)}
-                            align='start' w='100%'>
-                            {examPelvis && <TextInput
-                                w='100%'
-                                label="PELVIS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examPelvis')} />}
-                            {examPelvisGenitals && <TextInput
-                                w='100%'
-                                label="GENITALES"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examPelvisGenitals')} />}
-                        </Stack>
-                    </GridCol>
-                </Grid>
+                    <Divider label='Pelvis' />
+                    <Grid>
+                        <GridCol span={4}>
+                            <Stack gap={rem(16)}>
+                                {Object.entries(options).filter(([key]) => pelvisExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    <Switch
+                                        key={key}
+                                        label={value}
+                                        checked={switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>]}
+                                        onChange={e => handleSwitchChange(key as keyof z.infer<typeof PhysicalRegionalExamSchema>, e.target.checked)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                        <GridCol span={8}>
+                            <Stack
+                                gap={rem(32)}
+                                align='start' w='100%'>
+                                {Object.entries(options).filter(([key]) => pelvisExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>] &&
+                                    <Textarea
+                                        key={key}
+                                        w='100%'
+                                        rows={5}
+                                        label={value}
+                                        placeholder="Escriba la observación aquí"
+                                        {...form.getInputProps(key)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                    </Grid>
 
-                <Divider label='Extremidades' />
-                <Grid>
-                    <GridCol span={4}>
-                        <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch
-                                label="VASCULAR"
-                                checked={examLimbVascular}
-                                onChange={e => setExamLimbVascular(e.target.checked)} />
-                            <Switch
-                                label="MIEMBROS SUPERIORES"
-                                checked={examLimbUpper}
-                                onChange={e => setExamLimbUpper(e.target.checked)} />
-                            <Switch
-                                label="MIEMBROS INFERIORES"
-                                checked={examLimbLower}
-                                onChange={e => setExamLimbLower(e.target.checked)} />
-                        </Flex>
-                    </GridCol>
-                    <GridCol span={8}>
-                        <Stack
-                            gap={rem(16)}
-                            align='start' w='100%'>
-                            {examLimbVascular && <TextInput
-                                w='100%'
-                                label="VASCULAR"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examLimbVascular')} />}
-                            {examLimbUpper && <TextInput
-                                w='100%'
-                                label="MIEMBROS SUPERIORES"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examLimbUpper')} />}
-                            {examLimbLower && <TextInput
-                                w='100%'
-                                label="MIEMBROS INFERIORES"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examLimbLower')} />}
-                        </Stack>
-                    </GridCol>
-                </Grid>
+                    <Divider label='Extremidades' />
+                    <Grid>
+                        <GridCol span={4}>
+                            <Stack gap={rem(16)}>
+                                {Object.entries(options).filter(([key]) => limbExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    <Switch
+                                        key={key}
+                                        label={value}
+                                        checked={switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>]}
+                                        onChange={e => handleSwitchChange(key as keyof z.infer<typeof PhysicalRegionalExamSchema>, e.target.checked)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                        <GridCol span={8}>
+                            <Stack
+                                gap={rem(32)}
+                                align='start' w='100%'>
+                                {Object.entries(options).filter(([key]) => limbExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>] &&
+                                    <Textarea
+                                        key={key}
+                                        w='100%'
+                                        rows={5}
+                                        label={value}
+                                        placeholder="Escriba la observación aquí"
+                                        {...form.getInputProps(key)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                    </Grid>
 
-                <Divider label='Neurologico' />
-                <Grid>
-                    <GridCol span={4}>
-                        <Flex direction={{ base: 'row', md: 'column' }} gap={rem(8)}>
-                            <Switch
-                                label="FUERZA"
-                                checked={examNeurologicForce}
-                                onChange={e => setExamNeurologicForce(e.target.checked)} />
-                            <Switch
-                                label="SENSIBILIDAD"
-                                checked={examNeurologicSensitivity}
-                                onChange={e => setExamNeurologicSensitivity(e.target.checked)} />
-                            <Switch
-                                label="MARCHA"
-                                checked={examNeurologicGait}
-                                onChange={e => setExamNeurologicGait(e.target.checked)} />
-                            <Switch
-                                label="REFLEJOS"
-                                checked={examNeurologicReflex}
-                                onChange={e => setExamNeurologicReflex(e.target.checked)} />
-                        </Flex>
-                    </GridCol>
-                    <GridCol span={8}>
-                        <Stack
-                            gap={rem(16)}
-                            align='start' w='100%'>
-                            {examNeurologicForce && <TextInput
-                                w='100%'
-                                label="FUERZA"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examNeurologicForce')} />}
-                            {examNeurologicSensitivity && <TextInput
-                                w='100%'
-                                label="SENSIBILIDAD"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examNeurologicSensitivity')} />}
-                            {examNeurologicGait && <TextInput
-                                w='100%'
-                                label="MARCHA"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examNeurologicGait')} />}
-                            {examNeurologicReflex && <TextInput
-                                w='100%'
-                                label="REFLEJOS"
-                                placeholder="Escriba la observacion aqui"
-                                {...form.getInputProps('examNeurologicReflex')} />}
-                        </Stack>
-                    </GridCol>
-                </Grid>
+                    <Divider label='Neurologico' />
+                    <Grid>
+                        <GridCol span={4}>
+                            <Stack gap={rem(16)}>
+                                {Object.entries(options).filter(([key]) => neurologicExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    <Switch
+                                        key={key}
+                                        label={value}
+                                        checked={switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>]}
+                                        onChange={e => handleSwitchChange(key as keyof z.infer<typeof PhysicalRegionalExamSchema>, e.target.checked)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                        <GridCol span={8}>
+                            <Stack
+                                gap={rem(32)}
+                                align='start' w='100%'>
+                                {Object.entries(options).filter(([key]) => neurologicExams.includes(key as keyof z.infer<typeof PhysicalRegionalExamSchema>)).map(([key, value]) => (
+                                    switches[key as keyof z.infer<typeof PhysicalRegionalExamSchema>] &&
+                                    <Textarea
+                                        key={key}
+                                        w='100%'
+                                        rows={5}
+                                        label={value}
+                                        placeholder="Escriba la observación aquí"
+                                        {...form.getInputProps(key)} />
+                                ))}
+                            </Stack>
+                        </GridCol>
+                    </Grid>
 
-            </Stack>
-        </form>
+                </Stack>
+            </Box>
+        </>
     )
 });
 

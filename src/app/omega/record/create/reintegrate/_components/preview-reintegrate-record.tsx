@@ -4,7 +4,7 @@ import { useForm } from '@mantine/form';
 import React, { useCallback } from 'react'
 import PreviewReintegrateRecordInstitution from './preview-reintegrate-record-institution';
 import PreviewRecordWrapper from '@/components/record/preview-record-wrapper';
-import { rem, Stack } from '@mantine/core';
+import { Checkbox, rem, Stack } from '@mantine/core';
 import PreviewRecordMedicalConsultation from '@/components/record/preview-record-medical-consultation';
 import PreviewRecordCurrentDisease from '@/components/record/preview-record-current-disease';
 import PreviewRecordVitalSignsAndAnthropometry from '@/components/record/preview-record-vital-signs-and-anthropometry';
@@ -13,17 +13,21 @@ import PreviewRecordGeneralExamResultAndSpecific from '@/components/record/previ
 import PreviewRecordDiagnostic from '@/components/record/preview-record-diagnostic';
 import PreviewRecordMedicalFitnessForJob from '@/components/record/preview-record-medical-fitness-for-job';
 import PreviewRecordRecommendation from '@/components/record/preview-record-recommendation';
+import { ReintegrateRecordPayload } from '@/server/record/create-record/reintegrate-record';
+import PreviewRecordProfessionalData from '@/components/record/preview-record-professional-data';
 
 type PreviewReintegrateRecordProps = {
-    data?: any;
-    onSubmit?: (value: any) => void;
+    data?: ReintegrateRecordPayload;
+    onSubmit?: (value: ReintegrateRecordPayload) => void;
 }
 const PreviewReintegrateRecord = React.forwardRef<HTMLFormElement, PreviewReintegrateRecordProps>(({
     data,
     onSubmit
 }, ref) => {
 
-    const form = useForm();
+    const form = useForm<ReintegrateRecordPayload>({
+        initialValues: { ...data!, hideLogo: false }
+    });
 
     const handleSubmit = useCallback((value: any) => {
         onSubmit?.(value);
@@ -36,44 +40,52 @@ const PreviewReintegrateRecord = React.forwardRef<HTMLFormElement, PreviewReinte
             {
                 data ? (
                     <Stack gap={rem(32)}>
-                        <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
+
+                        <Checkbox
+                            label="Ocultar el logotipo de Omega."
+                            {...form.getInputProps('hideLogo')}
+                        />
+
+                        <PreviewRecordProfessionalData {...data} />
+
+                        <PreviewRecordWrapper title='Datos del Establecimiento - Empresa y Usuario'>
                             <PreviewReintegrateRecordInstitution {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='MOTIVO DE CONSULTA'>
+                        <PreviewRecordWrapper title='Motivo de Consulta'>
                             <PreviewRecordMedicalConsultation {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='ENFERMEDAD ACTUAL'>
+                        <PreviewRecordWrapper title='Enfermedad Actual'>
                             <PreviewRecordCurrentDisease {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='CONSTANTES VITALES Y ANTROPOMETRIA'>
+                        <PreviewRecordWrapper title='Constantes Vitales y Antropometría'>
                             <PreviewRecordVitalSignsAndAnthropometry {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='EXAMEN FISICO REGIONAL'>
+                        <PreviewRecordWrapper title='Examen Físico Regional'>
                             <PreviewRecordPhysicalRegionalExam {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='RESULTADOS DE EXAMENES GENERALES Y ESPECIFICOS'>
+                        <PreviewRecordWrapper title='Resultados de Exámenes generales y específicos'>
                             <PreviewRecordGeneralExamResultAndSpecific {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='DIAGNOSTICO'>
+                        <PreviewRecordWrapper title='Diagnóstico'>
                             <PreviewRecordDiagnostic {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='APTITUD MEDICA PARA EL TRABAJO'>
-                            <PreviewRecordMedicalFitnessForJob {...data} />
+                        <PreviewRecordWrapper title='Aptitud médica para el trabajo'>
+                            <PreviewRecordMedicalFitnessForJob {...data} showReubication />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='RECOMENDACIONES Y/O TRATAMIENTO'>
+                        <PreviewRecordWrapper title='Recomendaciones y/o Tratamiento'>
                             <PreviewRecordRecommendation {...data} />
                         </PreviewRecordWrapper>
 
                     </Stack>
-                ) : (<>No hay datos disponibles</>)
+                ) : (<>No hay datos disponibles.</>)
             }
         </form>
     )

@@ -1,19 +1,31 @@
-import { PatientRecord, CompanyRecord, MedicalFitnessForJob, RecordRecommendation } from "./_base";
+import { PatientRecord, CompanyRecord, MedicalFitnessForJob, RecordRecommendation, InstitutionHealthRecord, RecordLogoFlag, RecordAuthor } from "./_base";
 
-type GeneralData = {
+export type GeneralData = {
     generalData: 'entry' | 'periodic' | 'reintegrate' | 'retirement'
 };
 
-type RetirementEvaluation = {
+export type RetirementEvaluation = {
     retirementEvaluationDone: boolean;
     retirementEvaluationCondition: 'presuntive' | 'definitive' | 'no-apply';
     retirementEvaluationConditionWithJob: 'yes' | 'no' | 'no-apply';
 }
 
-export type CertificateRecordPayload = PatientRecord & CompanyRecord &
-    GeneralData & MedicalFitnessForJob & RetirementEvaluation &
-    RecordRecommendation & {
-        /** Institution & Patient Information */
-        institutionHealthFacility: string;
+export type CertificateRecordPayload =
+    RecordAuthor
+    & RecordLogoFlag
+    // Institution & Patient Information
+    & InstitutionHealthRecord
+    & CompanyRecord
+    & PatientRecord
+    // General Data
+    & GeneralData
+    // Medical Fitness for Job
+    & Pick<MedicalFitnessForJob, 'medicalFitnessType' | 'medicalFitnessObservation'> // Only if general data is different to `retirement`
+    // Retirement Evaluation
+    & RetirementEvaluation // Only if general data is equals to `retirement`
+    // Recommendation
+    & RecordRecommendation
+    & {
+        /* -------------------------------- Institution & Patient Information -------------------------------- */
         jobPosition: string;
     }

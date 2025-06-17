@@ -1,4 +1,4 @@
-import { CurrentDisease, ExtraActivity } from '@/server/record/create-record/_base'
+import { CurrentDisease } from '@/server/record/create-record/_base'
 import React from 'react'
 import PreviewRecordElement from './preview-record-element'
 import PreviewRecordContent from './preview-record-content'
@@ -9,7 +9,7 @@ const PreviewRecordCurrentDisease: React.FC<PreviewRecordCurrentDiseaseProps> = 
 }) => {
     return (
         <PreviewRecordContent>
-            <PreviewRecordElement title='Descripcion' text={currentDiseaseDescription} />
+            <PreviewRecordElement title='Descripción' text={currentDiseaseDescription ?? ''} />
         </PreviewRecordContent>
     )
 }

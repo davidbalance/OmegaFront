@@ -1,7 +1,7 @@
 'use client'
 
 import { InitialRecordPayload } from '@/server/record/create-record/initial-record';
-import { rem, Stack } from '@mantine/core';
+import { Checkbox, rem, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useCallback } from 'react'
 import PreviewInititalRecordInstitution from './preview-initial-record-institution';
@@ -27,6 +27,7 @@ import PreviewRecordGeneralExamResultAndSpecific from '@/components/record/previ
 import PreviewRecordDiagnostic from '@/components/record/preview-record-diagnostic';
 import PreviewRecordMedicalFitnessForJob from '@/components/record/preview-record-medical-fitness-for-job';
 import PreviewRecordRecommendation from '@/components/record/preview-record-recommendation';
+import PreviewRecordProfessionalData from '@/components/record/preview-record-professional-data';
 
 type PreviewInitialRecordProps = {
     data?: InitialRecordPayload;
@@ -38,7 +39,7 @@ const PreviewInitialRecord = React.forwardRef<HTMLFormElement, PreviewInitialRec
 }, ref) => {
 
     const form = useForm<InitialRecordPayload>({
-        initialValues: data
+        initialValues: { ...data!, hideLogo: false }
     });
 
     const handleSubmit = useCallback((value: InitialRecordPayload) => {
@@ -52,78 +53,87 @@ const PreviewInitialRecord = React.forwardRef<HTMLFormElement, PreviewInitialRec
             {
                 data ? (
                     <Stack gap={rem(32)}>
-                        <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
+
+                        <Checkbox
+                            label="Ocultar el logotipo de Omega."
+                            {...form.getInputProps('hideLogo')}
+                        />
+
+                        <PreviewRecordProfessionalData {...data} />
+
+                        <PreviewRecordWrapper title='Datos del Establecimiento - Empresa y Usuario'>
                             <PreviewInititalRecordInstitution {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='MOTIVO DE CONSULTA'>
+                        <PreviewRecordWrapper title='Motivo de Consulta'>
                             <PreviewRecordMedicalConsultation {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='ANTECEDENTES PERSONALES'>
+                        <PreviewRecordWrapper title='Antecedentes Personales'>
                             <PreviewRecordMedicalAndSurgicalHistory {...data} />
-                            <PreviewInitialRecordGinecological {...data} />
-                            <PreviewInitialRecordMaleReproduction {...data} />
+                            {data.patientGender === 'female'
+                                ? <PreviewInitialRecordGinecological {...data} />
+                                : <PreviewInitialRecordMaleReproduction {...data} />}
                             <PreviewRecordToxicHabits habits={[
-                                { habit: 'TABACO', ...data.toxicHabitTobacco },
-                                { habit: 'ALCOHOL', ...data.toxicHabitAlcohol },
-                                { habit: 'OTRAS DROGAS', ...data.toxicHabitOther },
+                                { name: 'Tabaco', ...data.toxicHabitTobacco },
+                                { name: 'Alcohol', ...data.toxicHabitAlcohol },
+                                { name: 'Otras drogas', ...data.toxicHabitOther },
                             ]} />
                             <PreviewRecordLifeStyle {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='ANTECEDENTES DE TRABAJO'>
+                        <PreviewRecordWrapper title='Antecedentes de Trabajo'>
                             <PreviewInitialRecordJobHistory {...data} />
                             <PreviewJobAccident {...data} />
                             <PreviewOccupationalDisease {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='ANTECEDENTES FAMILIARES'>
+                        <PreviewRecordWrapper title='Antecedentes Familiares'>
                             <PreviewRecordFamilyHistory {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='FACTORES DE RIESGOS DEL PUESTO DE TRABAJO ACTUAL'>
+                        <PreviewRecordWrapper title='Factores de Riesgo del Puesto de Trabajo Actual'>
                             <PreviewInitialRecordJobRisk {...data} />
                             <PreviewInitialRecordJobRiskPrevention {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='ACTIVIDADES EXTRA LABORALES'>
+                        <PreviewRecordWrapper title='Actividades Extra Laborales'>
                             <PreviewRecordExtraActivity {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='ENFERMEDAD ACTUAL'>
+                        <PreviewRecordWrapper title='Enfermedad Actual'>
                             <PreviewRecordCurrentDisease {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='REVISION ACTUAL DE ORGANOS Y SISTEMAS'>
+                        <PreviewRecordWrapper title='Revisión Actual de Órganos y Sistemas'>
                             <PreviewRecordReviewOfOrgansAndSystem {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='CONSTANTES VITALES Y ANTROPOMETRIA'>
+                        <PreviewRecordWrapper title='Constantes Vitales y Antropometría'>
                             <PreviewRecordVitalSignsAndAnthropometry {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='EXAMEN FISICO REGIONAL'>
+                        <PreviewRecordWrapper title='Examen Físico Regional'>
                             <PreviewRecordPhysicalRegionalExam {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='RESULTADOS DE EXAMENES GENERALES Y ESPECIFICOS'>
+                        <PreviewRecordWrapper title='Resultados de Exámenes generales y específicos'>
                             <PreviewRecordGeneralExamResultAndSpecific {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='DIAGNOSTICO'>
+                        <PreviewRecordWrapper title='Diagnóstico'>
                             <PreviewRecordDiagnostic {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='APTITUD MEDICA PARA EL TRABAJO'>
+                        <PreviewRecordWrapper title='Aptitud médica para el trabajo'>
                             <PreviewRecordMedicalFitnessForJob {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='RECOMENDACIONES Y/O TRATAMIENTO'>
+                        <PreviewRecordWrapper title='Recomendaciones y/o Tratamiento'>
                             <PreviewRecordRecommendation {...data} />
                         </PreviewRecordWrapper>
                     </Stack>
-                ) : (<>No hay datos disponibles</>)
+                ) : (<>No hay datos disponibles.</>)
             }
         </form>
     )

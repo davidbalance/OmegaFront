@@ -16,6 +16,10 @@ import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
 import RetirementEvaluationForm from './_components/retirement-evaluation-form';
 import RecommendationForm from '@/components/record/recommendation-form';
 import PreviewRetirementRecord from './_components/preview-retirement-record';
+import { RetirementRecordPayload } from '@/server/record/create-record/retirement-record';
+import { retriveFromTmpStore } from '@/lib/tmp-store/tmp-store.utils';
+import { parsedRetirement } from './_libs/parsed-retirement';
+import ProfessionalDataForm from '@/components/record/professional-data-form';
 
 type RecordRetirementPageProps = {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -25,7 +29,11 @@ const RecordRetirementPage: React.FC<RecordRetirementPageProps> = async ({
 }) => {
     const patientDni = typeof searchParams.patientDni === 'string' ? searchParams.patientDni : undefined;
 
-    if (!patientDni) return <>Patient not specified</>
+    if (!patientDni) return <>Paciente no especificado</>
+
+    const stepperCookieKey: string = `record-retirement-${patientDni}`;
+    const tmpResult = await retriveFromTmpStore<Partial<RetirementRecordPayload>>(stepperCookieKey);
+    const initialData: Partial<RetirementRecordPayload> = tmpResult.isSuccess ? parsedRetirement(tmpResult.value) : {};
 
     const corporativeBaseOptions = await retriveCorporativesOptions();
     const corporativeOptions = corporativeBaseOptions.map<CorporativeOption>((e) => ({
@@ -48,28 +56,33 @@ const RecordRetirementPage: React.FC<RecordRetirementPageProps> = async ({
             <ReturnableHeader title='Ficha de retiro' />
             <StepperRetirementRecordForm
                 headers={[
-                    { title: 'Datos del establecimiento', description: 'Empresa y Usuario', icon: 'building' },
-                    { title: 'Datos del establecimiento', description: 'Actividades y Factores de Riesgo', icon: 'building' },
-                    { title: 'Antecedentes personales', description: 'Antecedentes Clinicos y Quirúrgicos', icon: 'user-check' },
-                    { title: 'Antecedentes personales', description: 'Accidentes de Trabajo', icon: 'briefcase' },
-                    { title: 'Antecedentes personales', description: 'Enfermedades Profesionales', icon: 'briefcase' },
-                    { title: 'Constantes Vitales y Antropometria', icon: 'heart' },
-                    { title: 'Examen Fisico Regional', description: 'Regiones', icon: 'heart' },
-                    { title: 'Resultados de Examenes Generales y Especificos', description: 'Regiones', icon: 'notebook' },
-                    { title: 'F. Diagnostico', icon: 'notebook' },
-                    { title: 'G. Evaluacion Medica de Retiro', icon: 'notebook' },
-                    { title: 'Recomendacionesy/o Tratamientos', icon: 'notebook' },
+                    { title: 'Datos del profesional', icon: 'medicine' },
+                    { title: 'Datos del establecimiento', description: 'Empresa y usuario', icon: 'building' },
+                    { title: 'Datos del establecimiento', description: 'Actividades y factores de riesgo', icon: 'building' },
+                    { title: 'Antecedentes Personales', description: 'Antecedentes clínicos y quirúrgicos', icon: 'user-check' },
+                    { title: 'Antecedentes Personales', description: 'Accidentes de trabajo', icon: 'briefcase' },
+                    { title: 'Antecedentes Personales', description: 'Enfermedades profesionales', icon: 'briefcase' },
+                    { title: 'Constantes Vitales y Antropometría', icon: 'heart' },
+                    { title: 'Examen Físico Regional', description: 'Regiones', icon: 'heart' },
+                    { title: 'Resultados de Exámenes generales y específicos', description: 'Regiones', icon: 'notebook' },
+                    { title: 'Diagnóstico', icon: 'notebook' },
+                    { title: 'Evaluación Médica de Retiro', icon: 'notebook' },
+                    { title: 'Recomendaciones y/o tratamientos', icon: 'notebook' },
 
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
+                tmpStoreKey={stepperCookieKey}
                 patientDni={patientDni}
                 initialData={{
+                    patientDni: patientDni,
                     patientFirstName: patientFirstName,
                     patientMiddleName: patientMiddleName,
                     patientLastName: patientLastName,
                     patientSecondLastName: patientSecondLastName,
                     patientGender: patient.patientGender,
+                    ...initialData
                 }}>
+                <ProfessionalDataForm />
                 <RetirementInstitutionForm options={corporativeOptions} />
                 <RetirementActivityAndRiskForm />
                 <MedicalAndSurgicalHistoryForm />
@@ -81,7 +94,6 @@ const RecordRetirementPage: React.FC<RecordRetirementPageProps> = async ({
                 <MedicalDiagnosticForm />
                 <RetirementEvaluationForm />
                 <RecommendationForm />
-
                 <PreviewRetirementRecord />
             </StepperRetirementRecordForm >
         </>

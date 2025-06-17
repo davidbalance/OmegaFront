@@ -4,7 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import MedicalAndSurgicalHistorySchema from './schemas/medical-and.surgical-history.schema'
 import { z } from 'zod';
-import { Box, rem, ScrollArea, Textarea } from '@mantine/core';
+import { Box, rem, Textarea, Title } from '@mantine/core';
 
 
 type MedicalAndSurgicalHistoryFormProps = {
@@ -18,7 +18,7 @@ const MedicalAndSurgicalHistoryForm = React.forwardRef<HTMLFormElement, MedicalA
 
     const form = useForm<z.infer<typeof MedicalAndSurgicalHistorySchema>>({
         initialValues: {
-            medicalAndSurgicalHistory: data?.medicalAndSurgicalHistory || '',
+            medicalAndSurgicalHistory: data?.medicalAndSurgicalHistory || 'APP:\n\nAPQ:\n\nALERGIAS:',
         },
         validate: zodResolver(MedicalAndSurgicalHistorySchema)
     });
@@ -28,17 +28,21 @@ const MedicalAndSurgicalHistoryForm = React.forwardRef<HTMLFormElement, MedicalA
     }, [onSubmit]);
 
     return (
-        <Box
-            ref={ref}
-            component='form'
-            onSubmit={form.onSubmit(handleSubmit)}
-            style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <Textarea
-                label="ANTECEDENTES CLINICOS Y QUIRURGICOS"
-                placeholder='Description'
-                rows={10}
-                {...form.getInputProps('medicalAndSurgicalHistory')} />
-        </Box >
+        <>
+            <Title order={3}>Antecedentes Personales</Title>
+            <Title order={5} c="dimmed">Antecedentes clínicos y quirúrgicos</Title>
+            <Box
+                ref={ref}
+                component='form'
+                onSubmit={form.onSubmit(handleSubmit)}
+                style={{ position: 'relative', width: '100%', height: '100%' }}
+                mt={rem(16)}>
+                <Textarea
+                    placeholder='Descripción'
+                    rows={10}
+                    {...form.getInputProps('medicalAndSurgicalHistory')} />
+            </Box>
+        </>
     )
 });
 

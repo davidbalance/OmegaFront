@@ -16,7 +16,7 @@ type PreviewReintegrateRecordInstitutionProps = Pick<ReintegrateRecordPayload,
     | 'patientAge'
     | 'companyName'
     | 'companyRUC'
-    | 'companyCIU'
+    | 'companyCIIU'
     | 'institutionHealthFacility'
     | 'jobPosition'
     | 'workingEndDate'
@@ -33,7 +33,7 @@ const PreviewReintegrateRecordInstitution: React.FC<PreviewReintegrateRecordInst
     patientAge,
     companyName,
     companyRUC,
-    companyCIU,
+    companyCIIU,
     institutionHealthFacility,
     jobPosition,
     workingEndDate,
@@ -46,27 +46,27 @@ const PreviewReintegrateRecordInstitution: React.FC<PreviewReintegrateRecordInst
         <PreviewRecordContent>
             <SimpleGrid cols={3}>
                 <Stack gap={rem(16)}>
-                    <PreviewRecordElement title='NOMBRE DE LA EMPRESA' text={companyName} />
+                    <PreviewRecordElement title='Nombre de la empresa' text={companyName} />
                     <PreviewRecordElement title='RUC' text={companyRUC} />
-                    <PreviewRecordElement title='CIU' text={companyCIU} />
-                    <PreviewRecordElement title='ESTABLECIMIENTO DE SALUD' text={institutionHealthFacility} />
+                    <PreviewRecordElement title='CIIU' text={companyCIIU ?? ''} />
+                    <PreviewRecordElement title='Establecimiento de Salud' text={institutionHealthFacility} />
                 </Stack>
                 <Stack gap={rem(16)}>
-                    <PreviewRecordElement title='PRIMER APELLIDO' text={patientLastName} />
-                    <PreviewRecordElement title='SEGUNDO APELLIDO' text={patientSecondLastName} />
-                    <PreviewRecordElement title='PRIMER NOMBRE' text={patientFirstName} />
-                    <PreviewRecordElement title='SEGUNDO NOMBRE' text={patientMiddleName} />
-                    <PreviewRecordElement title='SEXO' text={patientGender === 'male' ? 'MASCULINO' : 'FEMENINO'} />
-                    <PreviewRecordElement title='EDAD (años)' text={patientAge.toString()} />
+                    <PreviewRecordElement title='Primer apellido' text={patientLastName} />
+                    <PreviewRecordElement title='Segundo apellido' text={patientSecondLastName} />
+                    <PreviewRecordElement title='Primer nombre' text={patientFirstName} />
+                    <PreviewRecordElement title='Segundo nombre' text={patientMiddleName} />
+                    <PreviewRecordElement title='Sexo' text={patientGender === 'male' ? 'Masculino' : 'Femenino'} />
+                    <PreviewRecordElement title='Edad (años)' text={patientAge.toString()} />
                 </Stack>
                 <Stack gap={rem(16)}>
-                    <PreviewRecordElement title='PUESTO DE TRABAJO (CUIO)' text={jobPosition} />
-                    <PreviewRecordElement title='FECHA DEL ULTIMO DIA LABORAL' text={dayjs(workingEndDate).format('YYYY-MM-DD')} />
-                    <PreviewRecordElement title='FECHA DEL REINGRESO' text={dayjs(workingReintegrationDate).format('YYYY-MM-DD')} />
-                    <PreviewRecordElement title='TOTAL (DÍAS)' text={workingTime.toString()} />
+                    <PreviewRecordElement title='Puesto de trabajo (CUIO)' text={jobPosition} />
+                    <PreviewRecordElement title='Fecha del último día laboral' text={dayjs(workingEndDate).format('YYYY-MM-DD')} />
+                    <PreviewRecordElement title='Fecha DEL REINGRESO' text={dayjs(workingReintegrationDate).format('YYYY-MM-DD')} />
+                    <PreviewRecordElement title='Total (días)' text={workingTime.toString()} />
                 </Stack>
             </SimpleGrid>
-            <PreviewRecordElement title='CAUSA DE SALIDA' text={workingLeftCause} />
+            <PreviewRecordElement title='Causa de salida' text={workingLeftCause} />
         </PreviewRecordContent>
     )
 }

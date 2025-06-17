@@ -2,7 +2,7 @@
 
 import PreviewRecordWrapper from '@/components/record/preview-record-wrapper';
 import { RetirementRecordPayload } from '@/server/record/create-record/retirement-record';
-import { rem, Stack } from '@mantine/core';
+import { Checkbox, rem, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useCallback } from 'react'
 import PreviewRetirementRecordInstitution from './preview-retirement-record-institution';
@@ -15,6 +15,7 @@ import PreviewRecordGeneralExamResultAndSpecific from '@/components/record/previ
 import PreviewRecordDiagnostic from '@/components/record/preview-record-diagnostic';
 import PreviewRecordRecommendation from '@/components/record/preview-record-recommendation';
 import PreviewRetirementRecordEvaluation from './preview-retirement-record-evaluation';
+import PreviewRecordProfessionalData from '@/components/record/preview-record-professional-data';
 
 type PreviewRetirementRecordProps = {
     data?: RetirementRecordPayload;
@@ -26,7 +27,7 @@ const PreviewRetirementRecord = React.forwardRef<HTMLFormElement, PreviewRetirem
 }, ref) => {
 
     const form = useForm<RetirementRecordPayload>({
-        initialValues: data
+        initialValues: { ...data!, hideLogo: false }
     });
 
     const handleSubmit = useCallback((value: RetirementRecordPayload) => {
@@ -40,41 +41,48 @@ const PreviewRetirementRecord = React.forwardRef<HTMLFormElement, PreviewRetirem
             {
                 data ? (
                     <Stack gap={rem(32)}>
-                        <PreviewRecordWrapper title='DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO'>
+                        <Checkbox
+                            label="Ocultar el logotipo de Omega."
+                            {...form.getInputProps('hideLogo')}
+                        />
+
+                        <PreviewRecordProfessionalData {...data} />
+
+                        <PreviewRecordWrapper title='Datos del Establecimiento - Empresa y Usuario'>
                             <PreviewRetirementRecordInstitution {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='ANTECEDENTES PERSONALES'>
+                        <PreviewRecordWrapper title='Antecedentes Personales'>
                             <PreviewRecordMedicalAndSurgicalHistory {...data} />
                             <PreviewJobAccident {...data} />
                             <PreviewOccupationalDisease {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='CONSTANTES VITALES Y ANTROPOMETRIA'>
+                        <PreviewRecordWrapper title='Constantes Vitales y Antropometría'>
                             <PreviewRecordVitalSignsAndAnthropometry {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='EXAMEN FISICO REGIONAL'>
+                        <PreviewRecordWrapper title='Examen Físico Regional'>
                             <PreviewRecordPhysicalRegionalExam {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='RESULTADOS DE EXAMENES GENERALES Y ESPECIFICOS'>
+                        <PreviewRecordWrapper title='Resultados de Exámenes generales y específicos'>
                             <PreviewRecordGeneralExamResultAndSpecific {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='DIAGNOSTICO'>
+                        <PreviewRecordWrapper title='Diagnóstico'>
                             <PreviewRecordDiagnostic {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='EVALUACION MEDICA DE RETIRO'>
+                        <PreviewRecordWrapper title='Evaluación Médica de Retiro'>
                             <PreviewRetirementRecordEvaluation {...data} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='RECOMENDACIONES Y/O TRATAMIENTO'>
+                        <PreviewRecordWrapper title='Recomendaciones y/o Tratamiento'>
                             <PreviewRecordRecommendation {...data} />
                         </PreviewRecordWrapper>
                     </Stack>
-                ) : (<>No hay datos disponibles</>)
+                ) : (<>No hay datos disponibles.</>)
             }
         </form>
     )

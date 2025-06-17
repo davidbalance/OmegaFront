@@ -4,7 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import CertificateRetirementEvaluationSchema from '../_schemas/certificate-retirement-evaluation.schema'
 import { z } from 'zod';
-import { Box, Checkbox, rem, Select, Stack } from '@mantine/core';
+import { Box, Checkbox, rem, Select, Stack, Title } from '@mantine/core';
 import { Option } from '@/lib/types/option.type';
 
 const evaluationCondition: Option[] = [
@@ -14,7 +14,7 @@ const evaluationCondition: Option[] = [
 ]
 
 const evaluationConditionWithJob: Option[] = [
-    { label: 'Si', value: 'yes' },
+    { label: 'Sí', value: 'yes' },
     { label: 'No', value: 'no' },
     { label: 'No aplica', value: 'no-apply' },
 ]
@@ -43,36 +43,40 @@ const CertificateRetirementEvaluationForm = React.forwardRef<HTMLFormElement, Ce
 
 
     return (
-        <Box
-            ref={ref}
-            component='form'
-            onSubmit={form.onSubmit(handleSubmit)}
-            style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <Stack gap={rem(32)}>
-                <Checkbox
-                    checked={form.values.retirementEvaluationDone}
-                    label='EL USUARIO SE REALIZO LA EVALUACION MEDICA DE RETIRO'
-                    {...form.getInputProps('retirementEvaluationDone')} />
+        <>
+            <Title order={3}>Evaluación Médica de Retiro</Title>
+            <Box
+                ref={ref}
+                component='form'
+                onSubmit={form.onSubmit(handleSubmit)}
+                style={{ position: 'relative', width: '100%', height: '100%' }}>
 
-                <Select
-                    data={evaluationCondition}
-                    checkIconPosition="left"
-                    label="CONDICION DEL DIAGNOSTICO"
-                    placeholder="eg. Catologica"
-                    defaultDropdownOpened={false}
-                    maxDropdownHeight={200}
-                    {...form.getInputProps('retirementEvaluationCondition')} />
+                <Stack gap={rem(32)}>
+                    <Checkbox
+                        checked={form.values.retirementEvaluationDone}
+                        label="El usuario se realizó la evaluación médica de retiro"
+                        {...form.getInputProps('retirementEvaluationDone')} />
 
-                <Select
-                    data={evaluationConditionWithJob}
-                    checkIconPosition="left"
-                    label="LA CONDICION DE SALUD ESTA RELACIONADA CON EL TRABAJO"
-                    placeholder="eg. Catologica"
-                    defaultDropdownOpened={false}
-                    maxDropdownHeight={200}
-                    {...form.getInputProps('retirementEvaluationConditionWithJob')} />
-            </Stack>
-        </Box>
+                    <Select
+                        data={evaluationCondition}
+                        checkIconPosition="left"
+                        label="Condición del diagnóstico"
+                        placeholder="eg. Catologica"
+                        defaultDropdownOpened={false}
+                        maxDropdownHeight={200}
+                        {...form.getInputProps('retirementEvaluationCondition')} />
+
+                    <Select
+                        data={evaluationConditionWithJob}
+                        checkIconPosition="left"
+                        label="La condición de salud está relacionada con el trabajo"
+                        placeholder="eg. Catologica"
+                        defaultDropdownOpened={false}
+                        maxDropdownHeight={200}
+                        {...form.getInputProps('retirementEvaluationConditionWithJob')} />
+                </Stack>
+            </Box>
+        </>
     )
 });
 

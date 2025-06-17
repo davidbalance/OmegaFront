@@ -18,26 +18,26 @@ const PreviewInitialRecordMaleReproduction: React.FC<PreviewInitialRecordMaleRep
 
     return (
         <>
-            <Title component='span' order={6} fw='bolder'>ANTECEDENTES REPRODUCTIVOS MASCULINOS</Title>
+            <Title component='span' order={6} fw='bolder'>Antecedentes reproductivos masculinos</Title>
             <PreviewInitialHistoryExam exams={[
-                { exam: 'ANTIGENO PROSTATICO', ...maleReproductiveExamProstateAntigen },
-                { exam: 'ECO PROSTATICO', ...maleReproductiveExamProstateEcho },
+                { exam: 'Antígeno prostático', ...maleReproductiveExamProstateAntigen },
+                { exam: 'Eco prostático', ...maleReproductiveExamProstateEcho },
             ]} />
             <PreviewRecordContent>
                 <SimpleGrid cols={2}>
                     <Stack gap={rem(2)}>
-                        <Text component='span' fw='bolder'>HIJOS</Text>
+                        <Text component='span' fw='bolder'>Hijos</Text>
                         <Group>
-                            <Text component='span'>VIVOS</Text>
+                            <Text component='span'>Vivos</Text>
                             <Text component='span'>{maleReproductiveDeadChildren.toString()}</Text>
                         </Group>
                         <Group>
-                            <Text component='span'>MUERTOS</Text>
+                            <Text component='span'>Muertos</Text>
                             <Text component='span'>{maleReproductiveLivingChildren.toString()}</Text>
                         </Group>
                     </Stack>
                     <Stack gap={rem(2)}>
-                        <Text component='span' fw='bolder'>METODO DE PLANIFICACION FAMILIAR</Text>
+                        <Text component='span' fw='bolder'>Método de planificación familiar</Text>
                         <Group>
                             <Text component='span'>{!!maleReproductiveFamilyPlanningType ? 'Si' : 'No'}</Text>
                             {!!maleReproductiveFamilyPlanningType && <Text component='span'>{maleReproductiveFamilyPlanningType}</Text>}

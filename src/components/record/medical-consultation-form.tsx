@@ -36,7 +36,7 @@ const MedicalConsultationForm = React.forwardRef<HTMLFormElement, MedicalConsult
       onSubmit={form.onSubmit(handleSubmit)}
       style={{ position: 'relative', width: '100%', height: '100%' }}>
       <Textarea
-        label="MOTIVO DE CONSULTA"
+        label="Motivo de Consulta"
         placeholder='eg. Consulta...'
         rows={10}
         {...form.getInputProps('medicalConsultationDescription')} />

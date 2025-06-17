@@ -6,18 +6,18 @@ import { RetirementRecordPayload } from '@/server/record/create-record/retiremen
 import React from 'react'
 
 type PreviewRetirementRecordEvaluationProps = Pick<RetirementRecordPayload,
-    'retirementDone'
-    | 'retirementObservation'
+    'retirementEvaluationDone'
+    | 'retirementEvaluationObservation'
 >
 const PreviewRetirementRecordEvaluation: React.FC<PreviewRetirementRecordEvaluationProps> = ({
-    retirementDone,
-    retirementObservation
+    retirementEvaluationDone,
+    retirementEvaluationObservation
 }) => {
 
     return (
         <PreviewRecordContent>
-            <PreviewRecordElement title='SE REALIZO LA EVALUACION' text={retirementDone ? 'Si' : 'No'} />
-            <PreviewRecordElement title='Observaciones' text={retirementObservation} />
+            <PreviewRecordElement title='Se realizó la evaluación' text={retirementEvaluationDone ? 'Si' : 'No'} />
+            <PreviewRecordElement title='Observaciones' text={retirementEvaluationObservation ?? ''} />
         </PreviewRecordContent>
     )
 }

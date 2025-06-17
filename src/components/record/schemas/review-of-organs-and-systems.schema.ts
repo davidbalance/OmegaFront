@@ -11,6 +11,19 @@ const schema = z.object({
     reviewOfOrgansEndocrinic: z.coerce.string().optional(),
     reviewOfOrgansHemoLymphatic: z.coerce.string().optional(),
     reviewOfOrgansHighlyStrung: z.coerce.string().optional(),
-})
+});
+
+export const adjustInitalValues = (data?: Partial<z.infer<typeof schema>>) => ({
+    reviewOfOrgansSkin: data?.reviewOfOrgansSkin ?? '',
+    reviewOfOrgansSenseOrgans: data?.reviewOfOrgansSenseOrgans ?? '',
+    reviewOfOrgansBreath: data?.reviewOfOrgansBreath ?? '',
+    reviewOfOrgansCardiovascular: data?.reviewOfOrgansCardiovascular ?? '',
+    reviewOfOrgansDigestive: data?.reviewOfOrgansDigestive ?? '',
+    reviewOfOrgansUrinary: data?.reviewOfOrgansUrinary ?? '',
+    reviewOfOrgansSkeletalMuscle: data?.reviewOfOrgansSkeletalMuscle ?? '',
+    reviewOfOrgansEndocrinic: data?.reviewOfOrgansEndocrinic ?? '',
+    reviewOfOrgansHemoLymphatic: data?.reviewOfOrgansHemoLymphatic ?? '',
+    reviewOfOrgansHighlyStrung: data?.reviewOfOrgansHighlyStrung ?? '',
+});
 
 export default schema;

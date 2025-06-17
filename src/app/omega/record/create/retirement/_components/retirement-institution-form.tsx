@@ -2,13 +2,14 @@
 
 import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback, useMemo } from 'react'
-import RetirementInstitutionSchema from '../_schemas/retirement-institution.schema'
+import RetirementInstitutionSchema, { adjustInitialValues } from '../_schemas/retirement-institution.schema'
 import { z } from 'zod';
-import { Box, Divider, rem, SimpleGrid, Stack, TextInput } from '@mantine/core';
+import { Box, Divider, rem, SimpleGrid, Stack, TextInput, Title } from '@mantine/core';
 import CorporativeSelect from '@/components/corporative-select';
 import { CorporativeOption } from '@/server/corporative/server-types';
-import GenderSelector from '@/components/gender-selector';
 import { CascadingSelectValue } from '@/components/cascading-select';
+import { DateInput } from '@mantine/dates';
+import dayjs from 'dayjs';
 
 type RetirementInstitutionFormProps = {
     data?: Partial<z.infer<typeof RetirementInstitutionSchema>>,
@@ -22,26 +23,13 @@ const RetirementInstitutionForm = React.forwardRef<HTMLFormElement, RetirementIn
 }, ref) => {
 
     const form = useForm<z.infer<typeof RetirementInstitutionSchema>>({
-        initialValues: {
-            companyName: data?.companyName ?? '',
-            companyRUC: data?.companyRUC ?? '',
-            companyCIU: data?.companyCIU ?? '',
-            institutionHealthFacility: data?.institutionHealthFacility ?? 'Omega Salud Ocupacional',
-            patientFirstName: data?.patientFirstName ?? '',
-            patientMiddleName: data?.patientMiddleName ?? '',
-            patientLastName: data?.patientLastName ?? '',
-            patientSecondLastName: data?.patientSecondLastName ?? '',
-            patientGender: data?.patientGender ?? 'male',
-            workStartDate: new Date(),
-            workingTime: 0,
-            workingEndDate: new Date(),
-            jobPosition: data?.jobPosition ?? '',
-        },
+        initialValues: adjustInitialValues(data),
         validate: zodResolver(RetirementInstitutionSchema)
     });
 
     const handleSubmit = useCallback((value: z.infer<typeof RetirementInstitutionSchema>) => {
-        onSubmit?.(value);
+        console.log(dayjs(value.workStartDate).diff(value.workingEndDate, 'M'));
+        onSubmit?.({ ...value, workingTime: dayjs(value.workingEndDate).diff(value.workStartDate, 'M') });
     }, [onSubmit]);
 
     const handleCorporativeChange = useCallback((selectedPath: CascadingSelectValue[]) => form.setValues(prev => {
@@ -58,40 +46,56 @@ const RetirementInstitutionForm = React.forwardRef<HTMLFormElement, RetirementIn
     const defaultCorporative = useMemo(() => options.find(e => e.children.some(x => x.value === data?.companyRUC))?.value ?? undefined, [options, data?.companyRUC]);
 
     return (
-        <Box
-            ref={ref}
-            component='form'
-            onSubmit={form.onSubmit(handleSubmit)}
-            style={{ position: 'relative', width: '100%', height: '100%' }}>
+        <>
+            <Title order={3}>Datos del establecimiento</Title>
+            <Title order={5} c="dimmed">Empresa y usuario</Title>
+            <Box
+                mt={rem(16)}
+                ref={ref}
+                component='form'
+                onSubmit={form.onSubmit(handleSubmit)}
+                style={{ position: 'relative', width: '100%', height: '100%' }}>
 
-            <input type='hidden' {...form.getInputProps('institutionHealthFacility')} />
-            <input type='hidden' {...form.getInputProps('patientLastName')} />
-            <input type='hidden' {...form.getInputProps('patientSecondLastName')} />
-            <input type='hidden' {...form.getInputProps('patientFirstName')} />
-            <input type='hidden' {...form.getInputProps('patientMiddleName')} />
-            <input type='hidden' {...form.getInputProps('patientGender')} />
+                <input type='hidden' {...form.getInputProps('institutionHealthFacility')} />
+                <input type='hidden' {...form.getInputProps('patientLastName')} />
+                <input type='hidden' {...form.getInputProps('patientSecondLastName')} />
+                <input type='hidden' {...form.getInputProps('patientFirstName')} />
+                <input type='hidden' {...form.getInputProps('patientMiddleName')} />
+                <input type='hidden' {...form.getInputProps('patientGender')} />
+                <input type='hidden' {...form.getInputProps('workingTime')} />
 
-            <Stack gap={rem(16)}>
-                <Divider label='Institucion' />
-                <SimpleGrid cols={{ base: 1, sm: 3 }}>
-                    <CorporativeSelect
-                        options={options}
-                        corporativeValue={defaultCorporative}
-                        companyValue={data?.companyRUC}
-                        useCompany
-                        onChange={handleCorporativeChange} />
-                    <TextInput
-                        label="CIU"
-                        placeholder="CIU"
-                        {...form.getInputProps('companyCIU')} />
-                </SimpleGrid>
+                <Stack gap={rem(16)}>
+                    <Divider label='Institución' />
+                    <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                        <CorporativeSelect
+                            options={options}
+                            corporativeValue={defaultCorporative}
+                            companyValue={data?.companyRUC}
+                            useCompany
+                            onChange={handleCorporativeChange} />
+                        <TextInput
+                            label="CIIU"
+                            placeholder="CIIU"
+                            {...form.getInputProps('companyCIIU')} />
+                    </SimpleGrid>
 
-                <TextInput
-                    label="PUESTO DE TRABAJO"
-                    placeholder='eg. Gerente'
-                    {...form.getInputProps('jobPosition')} />
-            </Stack>
-        </Box>
+                    <SimpleGrid cols={{ base: 1, sm: 3 }}>
+
+                        <DateInput
+                            label='Fecha de inicio de labores'
+                            {...form.getInputProps('workStartDate')} />
+                        <DateInput
+                            label='Fecha de salida'
+                            {...form.getInputProps('workingEndDate')} />
+                        <TextInput
+                            label="Puesto de trabajo"
+                            placeholder='eg. Gerente'
+                            {...form.getInputProps('jobPosition')} />
+
+                    </SimpleGrid>
+                </Stack>
+            </Box>
+        </>
     )
 });
 

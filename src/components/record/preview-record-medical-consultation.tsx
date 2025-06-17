@@ -9,7 +9,7 @@ const PreviewRecordMedicalConsultation: React.FC<PreviewRecordMedicalConsultatio
 }) => {
     return (
         <PreviewRecordContent>
-            <PreviewRecordElement title='Descripcion' text={medicalConsultationDescription} />
+            <PreviewRecordElement title='Descripción' text={medicalConsultationDescription} />
         </PreviewRecordContent>
     )
 }

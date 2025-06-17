@@ -1,0 +1,1 @@
+export const INITIAL_MEDICAL_CONSULTATION: string = 'Evaluación médica ocupacional para el ingreso al puesto de trabajo'

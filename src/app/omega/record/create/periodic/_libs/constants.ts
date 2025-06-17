@@ -1,0 +1,1 @@
+export const PERIODIC_MEDICAL_CONSULTATION = "Evaluación médica periódica en el puesto de trabajo";

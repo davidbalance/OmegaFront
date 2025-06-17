@@ -14,14 +14,14 @@ type PreviewPeriodicRecordInstitutionProps = Pick<PeriodicRecordPayload,
     | 'patientGender'
     | 'companyName'
     | 'companyRUC'
-    | 'companyCIU'
+    | 'companyCIIU'
     | 'institutionHealthFacility'
     | 'jobPosition'
 >
 const PreviewPeriodicRecordInstitution: React.FC<PreviewPeriodicRecordInstitutionProps> = ({
     companyName,
     companyRUC,
-    companyCIU,
+    companyCIIU,
     institutionHealthFacility,
     patientLastName,
     patientSecondLastName,
@@ -35,20 +35,20 @@ const PreviewPeriodicRecordInstitution: React.FC<PreviewPeriodicRecordInstitutio
         <PreviewRecordContent>
             <SimpleGrid cols={3}>
                 <Stack gap={rem(16)}>
-                    <PreviewRecordElement title='NOMBRE DE LA EMPRESA' text={companyName} />
+                    <PreviewRecordElement title='Nombre de la empresa' text={companyName} />
                     <PreviewRecordElement title='RUC' text={companyRUC} />
-                    <PreviewRecordElement title='CIU' text={companyCIU} />
-                    <PreviewRecordElement title='ESTABLECIMIENTO DE SALUD' text={institutionHealthFacility} />
+                    <PreviewRecordElement title='CIIU' text={companyCIIU ?? ''} />
+                    <PreviewRecordElement title='Establecimiento de Salud' text={institutionHealthFacility} />
                 </Stack>
                 <Stack gap={rem(16)}>
-                    <PreviewRecordElement title='PRIMER APELLIDO' text={patientLastName} />
-                    <PreviewRecordElement title='SEGUNDO APELLIDO' text={patientSecondLastName} />
-                    <PreviewRecordElement title='PRIMER NOMBRE' text={patientFirstName} />
-                    <PreviewRecordElement title='SEGUNDO NOMBRE' text={patientMiddleName} />
-                    <PreviewRecordElement title='SEXO' text={patientGender === 'male' ? 'MASCULINO' : 'FEMENINO'} />
+                    <PreviewRecordElement title='Primer apellido' text={patientLastName} />
+                    <PreviewRecordElement title='Segundo apellido' text={patientSecondLastName} />
+                    <PreviewRecordElement title='Primer nombre' text={patientFirstName} />
+                    <PreviewRecordElement title='Segundo nombre' text={patientMiddleName} />
+                    <PreviewRecordElement title='Sexo' text={patientGender === 'male' ? 'Masculino' : 'Femenino'} />
                 </Stack>
                 <Stack gap={rem(16)}>
-                    <PreviewRecordElement title='PUESTO DE TRABAJO (CUIO)' text={jobPosition} />
+                    <PreviewRecordElement title='Puesto de trabajo (CUIO)' text={jobPosition} />
                 </Stack>
             </SimpleGrid>
         </PreviewRecordContent>

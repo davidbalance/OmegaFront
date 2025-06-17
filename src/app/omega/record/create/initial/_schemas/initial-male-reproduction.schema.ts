@@ -4,11 +4,17 @@ import { z } from "zod";
 const schema = z.object({
     maleReproductiveExamProstateAntigen: InitialExamHistorySchema,
     maleReproductiveExamProstateEcho: InitialExamHistorySchema,
-    maleReproductiveFamilyPlanningType: z.coerce.string().optional(),
+    maleReproductiveFamilyPlanningType: z.coerce.string(),
     maleReproductiveDeadChildren: z.coerce.number().default(0),
     maleReproductiveLivingChildren: z.coerce.number().default(0),
 })
-    .refine(args => !args.maleReproductiveExamProstateAntigen.done ? true : !!args.maleReproductiveExamProstateAntigen.result, { message: 'Debe indicar el resultado', path: ['maleReproductiveExamProstateAntigen.result'] })
-    .refine(args => !args.maleReproductiveExamProstateEcho.done ? true : !!args.maleReproductiveExamProstateEcho.time, { message: 'Debe indicar el tiempo', path: ['maleReproductiveExamProstateEcho.time'] })
+
+export const adjustInitialValues = (data?: Partial<z.infer<typeof schema>>) => ({
+    maleReproductiveFamilyPlanningType: data?.maleReproductiveFamilyPlanningType || '',
+    maleReproductiveExamProstateAntigen: data?.maleReproductiveExamProstateAntigen ?? { done: false, result: '', time: 0 },
+    maleReproductiveExamProstateEcho: data?.maleReproductiveExamProstateEcho ?? { done: false, result: '', time: 0 },
+    maleReproductiveDeadChildren: data?.maleReproductiveDeadChildren ?? 0,
+    maleReproductiveLivingChildren: data?.maleReproductiveLivingChildren ?? 0
+});
 
 export default schema;

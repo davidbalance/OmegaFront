@@ -4,19 +4,19 @@ import { Box, rem, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Tit
 
 
 type PreviewRecordToxicHabitsProps = {
-    habits: (Partial<ToxicDetail> & { habit: string | 'other' })[]
+    habits: (Partial<ToxicDetail>)[]
 }
 const PreviewRecordToxicHabits: React.FC<PreviewRecordToxicHabitsProps> = ({
     habits
 }) => {
 
-    const rows = useMemo(() => habits.map(e =>
-        <TableTr key={e.habit}>
-            <TableTd>{e.habit === 'other' ? e.other : e.habit}</TableTd>
-            <TableTd>{e.consumer ? 'Si' : 'No'}</TableTd>
+    const rows = useMemo(() => habits.map((e) =>
+        <TableTr key={crypto.randomUUID()}>
+            <TableTd>{e.name ?? ''}</TableTd>
+            <TableTd>{e.haveConsume ? 'Si' : 'No'}</TableTd>
             <TableTd>{e.consumptionTime}</TableTd>
             <TableTd>{e.quantity}</TableTd>
-            <TableTd>{e.consumed ? 'Si' : 'No'}</TableTd>
+            <TableTd>{e.isExConsumer ? 'Si' : 'No'}</TableTd>
             <TableTd>{e.timeOfAbstinence}</TableTd>
         </TableTr>
 
@@ -24,17 +24,17 @@ const PreviewRecordToxicHabits: React.FC<PreviewRecordToxicHabitsProps> = ({
 
     return (
         <>
-            <Title component='span' order={6} fw='bolder'>HABITOS TOXICOS</Title>
+            <Title component='span' order={6} fw='bolder'>Hábitos tóxicos</Title>
             <Box px={rem(8)}>
                 <Table>
                     <TableThead>
                         <TableTr>
-                            <TableTh>CONSUMOS NOCIVOS</TableTh>
-                            <TableTh>SI/NO</TableTh>
-                            <TableTh>TIEMPO DE CONSUMO (meses)</TableTh>
-                            <TableTh>CANTIDAD</TableTh>
-                            <TableTh>EX CONSUMIDOR</TableTh>
-                            <TableTh>TIEMPO DE ABSTINENCIA (meses)</TableTh>
+                            <TableTh>Consumos nocivos</TableTh>
+                            <TableTh>Sí / No</TableTh>
+                            <TableTh>Tiempo de consumo (meses)</TableTh>
+                            <TableTh>Cantidad</TableTh>
+                            <TableTh>Ex consumidor</TableTh>
+                            <TableTh>Tiempo de abstinencia (meses)</TableTh>
                         </TableTr>
                     </TableThead>
                     <TableTbody>{rows}</TableTbody>

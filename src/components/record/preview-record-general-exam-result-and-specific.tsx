@@ -23,21 +23,21 @@ const PreviewRecordGeneralExamResultAndSpecific: React.FC<PreviewRecordGeneralEx
 
     return (
         <>
-            <Title component='span' order={6} fw='bolder'>HABITOS TOXICOS</Title>
+            <Title component='span' order={6} fw='bolder'>Hábitos tóxicos</Title>
             <Box px={rem(8)}>
                 <Table>
                     <TableThead>
                         <TableTr>
-                            <TableTh>EXAMEN</TableTh>
-                            <TableTh>FECHA</TableTh>
-                            <TableTh>RESULTADOS</TableTh>
+                            <TableTh>Examen</TableTh>
+                            <TableTh>Fecha</TableTh>
+                            <TableTh>Resultados</TableTh>
                         </TableTr>
                     </TableThead>
                     <TableTbody>{rows}</TableTbody>
                 </Table>
             </Box>
             <PreviewRecordContent>
-                <PreviewRecordElement title='Observaciones' text={generalExamObservation} />
+                <PreviewRecordElement title='Observaciones' text={generalExamObservation ?? ''} />
             </PreviewRecordContent>
         </>
     )

@@ -4,7 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import InitialExtraJobActivitySchema from '../_schemas/initial-extra-job-activity.schema'
 import { z } from 'zod';
-import { Textarea } from '@mantine/core';
+import { Box, rem, Textarea, Title } from '@mantine/core';
 
 type InitialExtraJobActivityFormProps = {
     data?: Partial<z.infer<typeof InitialExtraJobActivitySchema>>;
@@ -27,15 +27,20 @@ const InitialExtraJobActivityForm = React.forwardRef<HTMLFormElement, InitialExt
     }, [onSubmit]);
 
     return (
-        <form
-            ref={ref}
-            onSubmit={form.onSubmit(handleSubmit)}>
-            <Textarea
-                label="ACTIVIDADES EXTRA LABORALES"
-                placeholder="eg. Desempeña..."
-                rows={10}
-                {...form.getInputProps(`extraActivityDescription`)} />
-        </form >
+        <>
+            <Title order={3}>Actividades Extra Laborales</Title>
+            <Box
+                mt={rem(16)}
+                component='form'
+                ref={ref}
+                onSubmit={form.onSubmit(handleSubmit)}>
+                <Textarea
+                    mt={rem(16)}
+                    placeholder="eg. Desempeña..."
+                    rows={10}
+                    {...form.getInputProps(`extraActivityDescription`)} />
+            </Box>
+        </>
     )
 });
 

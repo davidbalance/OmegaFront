@@ -4,7 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
 import RetirementActivityAndRiskSchema from '../_schemas/retirement-activity-and-risk.schema'
 import { z } from 'zod';
-import { Button, ButtonGroup, Divider, Group, rem, SimpleGrid, Stack, TextInput } from '@mantine/core';
+import { ActionIcon, Box, Button, ButtonGroup, Divider, Group, rem, SimpleGrid, Stack, TextInput, Title } from '@mantine/core';
 import { IconMinus, IconPlus } from '@tabler/icons-react';
 
 const defaultActivityRisk = {
@@ -41,41 +41,49 @@ const RetirementActivityAndRiskForm = React.forwardRef<HTMLFormElement, Retireme
     }, [form]);
 
     return (
-        <form
-            ref={ref}
-            onSubmit={form.onSubmit(handleSubmit)}>
-            <Stack gap={rem(32)}>
-                {form.values.institutionActivities.map((e, i) =>
-                    <>
-                        <Group key={i} component='div' w='100%'>
-                            <ButtonGroup>
-                                {form.values.institutionActivities.length - 1 === i && <Button
-                                    variant='white'
-                                    onClick={handleAdd}>
-                                    <IconPlus style={{ width: rem(16), height: rem(16) }} />
-                                </Button>}
-                                {form.values.institutionActivities.length > 1
-                                    && <Button variant='white'
-                                        onClick={() => handleRemove(i)}>
-                                        <IconMinus style={{ width: rem(16), height: rem(16) }} />
-                                    </Button>}
-                            </ButtonGroup>
-                            <SimpleGrid cols={2} spacing={rem(32)} flex={1}>
-                                <TextInput
-                                    label="ACTIVIDAD"
-                                    placeholder="eg. Gerente / Marketing"
-                                    {...form.getInputProps(`institutionActivities.${i}.activity`)} />
-                                <TextInput
-                                    label="FACTOR DE RIESGO"
-                                    placeholder="eg. Desempeña..."
-                                    {...form.getInputProps(`institutionActivities.${i}.risk`)} />
-                            </SimpleGrid>
-                        </Group>
-                        {form.values.institutionActivities.length > 1 && <Divider />}
-                    </>
-                )}
-            </Stack>
-        </form >
+        <>
+            <Title order={3}>Datos del establecimiento</Title>
+            <Title order={5} c="dimmed">Actividades y factores de riesgo</Title>
+            <Box
+                mt={rem(16)}
+                ref={ref}
+                component='form'
+                onSubmit={form.onSubmit(handleSubmit)}
+                style={{ position: 'relative', width: '100%', height: '100%' }}>
+                <Stack gap={rem(32)}>
+                    {form.values.institutionActivities.map((e, i) =>
+                        <Stack key={i}>
+                            <Group key={i} component='div' w='100%'>
+                                <Stack
+                                    gap={rem(16)}>
+                                    {form.values.institutionActivities.length - 1 === i && <ActionIcon
+                                        variant='light'
+                                        onClick={handleAdd}>
+                                        <IconPlus style={{ width: rem(16), height: rem(16) }} />
+                                    </ActionIcon>}
+                                    {form.values.institutionActivities.length > 1
+                                        && <ActionIcon variant='light'
+                                            onClick={() => handleRemove(i)}>
+                                            <IconMinus style={{ width: rem(16), height: rem(16) }} />
+                                        </ActionIcon>}
+                                </Stack>
+                                <SimpleGrid cols={2} spacing={rem(32)} flex={1}>
+                                    <TextInput
+                                        label="Actividad"
+                                        placeholder="eg. Gerente / Marketing"
+                                        {...form.getInputProps(`institutionActivities.${i}.activity`)} />
+                                    <TextInput
+                                        label="Factor de riesgo"
+                                        placeholder="eg. Desempeña..."
+                                        {...form.getInputProps(`institutionActivities.${i}.risk`)} />
+                                </SimpleGrid>
+                            </Group>
+                            {form.values.institutionActivities.length > 1 && <Divider />}
+                        </Stack>
+                    )}
+                </Stack>
+            </Box>
+        </>
     )
 });
 

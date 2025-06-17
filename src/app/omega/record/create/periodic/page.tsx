@@ -6,7 +6,6 @@ import { CorporativeOption } from '@/server/corporative/server-types';
 import { retriveClientByDni } from '@/server';
 import PeriodicInstitutionForm from './_components/periodic-institution-form';
 import PreviewPeriodicRecord from './_components/preview-periodic-record';
-import MedicalConsultationForm from '@/components/record/medical-consultation-form';
 import MedicalAndSurgicalHistoryForm from '@/components/record/medical-and-surgical-history-form';
 import ToxicHabitsForm from '@/components/record/toxic-habits-form';
 import LifestyleForm from '@/components/record/lifestyle-form';
@@ -15,7 +14,6 @@ import JobAccidentForm from '@/components/record/job-accident-form';
 import OccupationalDiseaseForm from '@/components/record/occupational-diseases-form';
 import FamilyHistoryForm from '@/components/record/family-history-form';
 import PeriodicJobRiskForm from './_components/periodic-job-risk-form';
-import PeriodicJobRiskPreventiveForm from './_components/periodic-job-risk-preventive-form';
 import CurrentDiseaseForm from '@/components/record/current-disease-form';
 import ReviewOfOrgansAndSystemForm from '@/components/record/review-of-organs-and-system-form';
 import VitalSignsAndAnthropometryForm from '@/components/record/vital-signs-and-anthropometry-form';
@@ -24,6 +22,11 @@ import GeneralExamResultForm from '@/components/record/general-exam-result-form'
 import MedicalDiagnosticForm from '@/components/record/medical-diagnostic-form';
 import MedicalFitnessForJobForm from '@/components/record/medical-fitness-for-job-form';
 import RecommendationForm from '@/components/record/recommendation-form';
+import { PERIODIC_MEDICAL_CONSULTATION } from './_libs/constants';
+import { retriveFromTmpStore } from '@/lib/tmp-store/tmp-store.utils';
+import { PeriodicRecordPayload } from '@/server/record/create-record/periodic-record';
+import { parsedPeriodic } from './_libs/parsed-periodic';
+import ProfessionalDataForm from '@/components/record/professional-data-form';
 
 type RecordPeriodicPageProps = {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -33,7 +36,11 @@ const RecordPeriodicPage: React.FC<RecordPeriodicPageProps> = async ({
 }) => {
     const patientDni = typeof searchParams.patientDni === 'string' ? searchParams.patientDni : undefined;
 
-    if (!patientDni) return <>Patient not specified</>
+    if (!patientDni) return <>Paciente no especificado</>
+
+    const stepperCookieKey: string = `record-periodic-${patientDni}`;
+    const tmpResult = await retriveFromTmpStore<Partial<PeriodicRecordPayload>>(stepperCookieKey);
+    const initialData: Partial<PeriodicRecordPayload> = tmpResult.isSuccess ? parsedPeriodic(tmpResult.value) : {};
 
     const corporativeBaseOptions = await retriveCorporativesOptions();
     const corporativeOptions = corporativeBaseOptions.map<CorporativeOption>((e) => ({
@@ -53,41 +60,44 @@ const RecordPeriodicPage: React.FC<RecordPeriodicPageProps> = async ({
 
     return (
         <>
-            <ReturnableHeader title='Ficha periodica' />
+            <ReturnableHeader title='Ficha periódica' />
             <StepperPeriodicRecordForm
                 headers={[
-                    { title: 'Datos del establecimiento', description: 'Empresa y Usuario', icon: 'building' },
-                    { title: 'Motivo de la consulta', icon: 'license' },
-                    { title: 'Antecedentes personales', description: 'Antecedentes Clinicos y Quirúrgicos', icon: 'user-check' },
-                    { title: 'Antecedentes personales', description: 'Habitos Toxicos', icon: 'user-check' },
-                    { title: 'Antecedentes personales', description: 'Estilo de vida', icon: 'user-check' },
-                    { title: 'Antecedentes personales', description: 'Incidentes', icon: 'user-check' },
-                    { title: 'Antecedentes personales', description: 'Antecedentes de Empleos Anteriores', icon: 'briefcase' },
-                    { title: 'Antecedentes personales', description: 'Accidentes de Trabajo', icon: 'briefcase' },
+                    { title: 'Datos del profesional', icon: 'medicine' },
+                    { title: 'Datos del establecimiento', description: 'Empresa y usuario', icon: 'building' },
+                    { title: 'Antecedentes Personales', description: 'Antecedentes clínicos y quirúrgicos', icon: 'user-check' },
+                    { title: 'Antecedentes Personales', description: 'Hábitos tóxicos', icon: 'user-check' },
+                    { title: 'Antecedentes Personales', description: 'Estilo de vida', icon: 'user-check' },
+                    { title: 'Antecedentes Personales', description: 'Incidentes', icon: 'user-check' },
+                    { title: 'Antecedentes Personales', description: 'Antecedentes de empleos anteriores', icon: 'briefcase' },
+                    { title: 'Antecedentes Personales', description: 'Accidentes de trabajo', icon: 'briefcase' },
                     { title: 'Antecedentes Familiares', icon: 'tree' },
-                    { title: 'Factores de Riesgos del Trabajo Actual', description: 'Riesgos', icon: 'risk' },
-                    { title: 'Factores de Riesgos del Trabajo Actual', description: 'Riesgos con medidas preventivas', icon: 'risk' },
+                    { title: 'Factores de riesgo del trabajo actual', description: 'Riesgos', icon: 'risk' },
                     { title: 'Enfermedad Actual', icon: 'disease' },
-                    { title: 'Revision Actual de Organos y Sistemas', icon: 'heart' },
-                    { title: 'Constantes Vitales y Antropometria', icon: 'heart' },
-                    { title: 'Examen Fisico Regional', description: 'Regiones', icon: 'heart' },
-                    { title: 'Resultados de Examenes Generales y Especificos', description: 'Regiones', icon: 'notebook' },
-                    { title: 'M. Diagnostico', icon: 'notebook' },
-                    { title: 'N. Aptitud Medical para el Trabajo', icon: 'notebook' },
-                    { title: 'Recomendacionesy/o Tratamientos', icon: 'notebook' },
+                    { title: 'Revisión Actual de Órganos y Sistemas', icon: 'heart' },
+                    { title: 'Constantes Vitales y Antropometría', icon: 'heart' },
+                    { title: 'Examen Físico Regional', description: 'Regiones', icon: 'heart' },
+                    { title: 'Resultados de Exámenes generales y específicos', description: 'Regiones', icon: 'notebook' },
+                    { title: 'Diagnóstico', icon: 'notebook' },
+                    { title: 'Aptitud médica para el trabajo', icon: 'notebook' },
+                    { title: 'Recomendaciones y/o tratamientos', icon: 'notebook' },
 
                     { title: 'Vista anticipada de la ficha', icon: 'check' },
                 ]}
                 patientDni={patientDni}
+                tmpStoreKey={stepperCookieKey}
                 initialData={{
+                    patientDni: patientDni,
                     patientFirstName: patientFirstName,
                     patientMiddleName: patientMiddleName,
                     patientLastName: patientLastName,
                     patientSecondLastName: patientSecondLastName,
                     patientGender: patient.patientGender,
+                    medicalConsultationDescription: PERIODIC_MEDICAL_CONSULTATION,
+                    ...initialData
                 }}>
+                <ProfessionalDataForm />
                 <PeriodicInstitutionForm options={corporativeOptions} />
-                <MedicalConsultationForm />
                 <MedicalAndSurgicalHistoryForm />
                 <ToxicHabitsForm />
                 <LifestyleForm />
@@ -96,7 +106,6 @@ const RecordPeriodicPage: React.FC<RecordPeriodicPageProps> = async ({
                 <OccupationalDiseaseForm />
                 <FamilyHistoryForm />
                 <PeriodicJobRiskForm />
-                <PeriodicJobRiskPreventiveForm />
                 <CurrentDiseaseForm />
                 <ReviewOfOrgansAndSystemForm />
                 <VitalSignsAndAnthropometryForm />
@@ -106,7 +115,6 @@ const RecordPeriodicPage: React.FC<RecordPeriodicPageProps> = async ({
                 <MedicalFitnessForJobForm />
                 <RecommendationForm />
                 <PreviewPeriodicRecord />
-
             </StepperPeriodicRecordForm >
         </>
     )

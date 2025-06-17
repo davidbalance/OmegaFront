@@ -9,7 +9,7 @@ const PreviewRecordMedicalAndSurgicalHistory: React.FC<PreviewRecordMedicalAndSu
 }) => {
     return (
         <PreviewRecordContent>
-            <PreviewRecordElement title='ANTECEDENTES CLINICOS Y QUIRURGICOS' text={medicalAndSurgicalHistory} />
+            <PreviewRecordElement title='Antecedentes clínicos y quirúrgicos' text={medicalAndSurgicalHistory} />
         </PreviewRecordContent>
     )
 }

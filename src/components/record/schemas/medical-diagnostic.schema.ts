@@ -3,8 +3,7 @@ import { z } from "zod";
 const MedicalDiagnosticSchema = z.object({
     description: z.coerce.string().nonempty(),
     cie: z.coerce.string().nonempty(),
-    pre: z.coerce.boolean().default(false),
-    def: z.coerce.boolean().default(false),
+    flag: z.coerce.string().refine(arg => ['pre', 'def'].includes(arg), { message: 'No es un valor correcto' }),
 });
 
 const schema = z.object({

@@ -4,12 +4,12 @@ import { Box, rem, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Tit
 
 type PreviewRecordLifeStyleProps = LifeStyle;
 const PreviewRecordLifeStyle: React.FC<PreviewRecordLifeStyleProps> = ({
-    lifestyleMedicationTaking,
-    lifestylePhysicalActivityActive,
+    lifestylePhysicalActivity,
+    lifestylePhysicalActivityType,
+    lifestylePhysicalActivityTimeQty,
+    lifestyleMedication,
     lifestyleMedicationName,
-    lifestyleMedicationQuantity,
-    lifestylePhysicalActivityDuration,
-    lifestylePhysicalActivityType
+    lifestyleMedicationTimeQty,
 }) => {
 
     return (
@@ -19,24 +19,24 @@ const PreviewRecordLifeStyle: React.FC<PreviewRecordLifeStyleProps> = ({
                 <Table>
                     <TableThead>
                         <TableTr>
-                            <TableTh>CONSUMOS NOCIVOS</TableTh>
-                            <TableTh>SI/NO</TableTh>
+                            <TableTh>Consumos nocivos</TableTh>
+                            <TableTh>Sí / No</TableTh>
                             <TableTh>¿CUAL?</TableTh>
-                            <TableTh>TIEMPO / CANTIDAD</TableTh>
+                            <TableTh>Tiempo / Cantidad</TableTh>
                         </TableTr>
                     </TableThead>
                     <TableTbody>
                         <TableTr>
                             <TableTd>ACTVIIDAD FISICA</TableTd>
-                            <TableTd>{lifestylePhysicalActivityActive ? 'Si' : 'No'}</TableTd>
+                            <TableTd>{lifestylePhysicalActivity ? 'Si' : 'No'}</TableTd>
                             <TableTd>{lifestylePhysicalActivityType}</TableTd>
-                            <TableTd>{lifestylePhysicalActivityDuration} dias</TableTd>
+                            <TableTd>{lifestylePhysicalActivityTimeQty}</TableTd>
                         </TableTr>
                         <TableTr>
                             <TableTd>MEDICACIÓN HABITUAL</TableTd>
-                            <TableTd>{lifestyleMedicationTaking ? 'Si' : 'No'}</TableTd>
+                            <TableTd>{lifestyleMedication ? 'Si' : 'No'}</TableTd>
                             <TableTd>{lifestyleMedicationName}</TableTd>
-                            <TableTd>{lifestyleMedicationQuantity} (unidad)</TableTd>
+                            <TableTd>{lifestyleMedicationTimeQty}</TableTd>
                         </TableTr>
                     </TableTbody>
                 </Table>

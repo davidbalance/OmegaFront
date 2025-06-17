@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Box, rem, Stack, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text, Title } from '@mantine/core'
+import { Box, rem, Stack, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text } from '@mantine/core'
 import { JobRisk } from '@/server/record/create-record/initial-record'
 
 type PreviewInitialRecordJobRiskProps = {
@@ -24,7 +24,7 @@ const PreviewInitialRecordJobRisk: React.FC<PreviewInitialRecordJobRiskProps> = 
                     <Text component='span' fw={e.physicalRiskIllumination ? 'bold' : 'lighter'}>Iluminacion</Text>
                     <Text component='span' fw={e.physicalRiskVentilation ? 'bold' : 'lighter'}>Ventilacion</Text>
                     <Text component='span' fw={e.physicalRiskElectricFluid ? 'bold' : 'lighter'}>Fluido electrico</Text>
-                    <Text component='span'>Otros: <Text component='span' fw={e.physicalRiskOther ? 'bold' : 'lighter'}>{e.physicalRiskOther}</Text></Text>
+                    <Text component='span' fw={e.physicalRiskOther ? 'bold' : 'lighter'}>Otros</Text>
                 </Stack>
             </TableTd>
             <TableTd>
@@ -43,7 +43,7 @@ const PreviewInitialRecordJobRisk: React.FC<PreviewInitialRecordJobRiskProps> = 
                     <Text component='span' fw={e.mechanicRiskCut ? 'bold' : 'lighter'}>Cortes</Text>
                     <Text component='span' fw={e.mechanicRiskVehicleCollision ? 'bold' : 'lighter'}>Atropellamientos por vehiculos</Text>
                     <Text component='span' fw={e.mechanicRiskHitByVehicles ? 'bold' : 'lighter'}>Choques / Collision vehicular</Text>
-                    <Text component='span'>Otros: <Text component='span' fw={e.mechanicRiskOther ? 'bold' : 'lighter'}>{e.mechanicRiskOther}</Text></Text>
+                    <Text component='span' fw={e.mechanicRiskOther ? 'bold' : 'lighter'}>Otros</Text>
                 </Stack>
             </TableTd>
             <TableTd>
@@ -56,7 +56,7 @@ const PreviewInitialRecordJobRisk: React.FC<PreviewInitialRecordJobRiskProps> = 
                     <Text component='span' fw={e.chemicalRiskAerosol ? 'bold' : 'lighter'}>Aerosoles</Text>
                     <Text component='span' fw={e.chemicalRiskMist ? 'bold' : 'lighter'}>Neblinas</Text>
                     <Text component='span' fw={e.chemicalRiskGas ? 'bold' : 'lighter'}>Gaseosos</Text>
-                    <Text component='span'>Otros: <Text component='span' fw={e.chemicalRiskOther ? 'bold' : 'lighter'}>{e.chemicalRiskOther}</Text></Text>
+                    <Text component='span' fw={e.chemicalRiskOther ? 'bold' : 'lighter'}>Otros</Text>
                 </Stack>
             </TableTd>
         </TableTr>
@@ -68,11 +68,11 @@ const PreviewInitialRecordJobRisk: React.FC<PreviewInitialRecordJobRiskProps> = 
             <Table>
                 <TableThead>
                     <TableTr>
-                        <TableTh>PUESTO DE TRABAJO / AREA</TableTh>
-                        <TableTh>ACTIVIDADES</TableTh>
-                        <TableTh>FISICO</TableTh>
-                        <TableTh>MECANICO</TableTh>
-                        <TableTh>QUIMICO</TableTh>
+                        <TableTh>Puesto de trabajo / Área</TableTh>
+                        <TableTh>Actividades</TableTh>
+                        <TableTh>Físico</TableTh>
+                        <TableTh>Mecánico</TableTh>
+                        <TableTh>Químico</TableTh>
                     </TableTr>
                 </TableThead>
                 <TableTbody>{rows}</TableTbody>

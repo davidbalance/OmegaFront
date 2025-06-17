@@ -3,7 +3,7 @@ import { z } from "zod";
 const schema = z.object({
     companyName: z.coerce.string().nonempty(),
     companyRUC: z.coerce.string().length(13),
-    companyCIU: z.coerce.string().nonempty(),
+    companyCIIU: z.coerce.string().optional(),
     institutionHealthFacility: z.coerce.string().default('Omega Salud Ocupacional.'),
     patientFirstName: z.coerce.string().nonempty(),
     patientMiddleName: z.coerce.string().nonempty(),
