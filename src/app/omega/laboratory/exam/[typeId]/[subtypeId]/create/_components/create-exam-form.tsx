@@ -32,7 +32,7 @@ const CreateExamForm: React.FC<CreateExamFormProps> = ({
             } finally {
                 setLoading(false);
             }
-        }, [typeId, router]);
+        }, [typeId, subtypeId, router]);
 
     return (
         <>
