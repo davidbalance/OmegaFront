@@ -162,6 +162,7 @@ const OmegaLaboratoryPage: React.FC<OmegaLaboratoryPageProps> = async ({
             <Group justify='space-between' wrap='nowrap' gap={rem(16)}>
               <Title order={4} component='span'>Examenes</Title>
               <Group gap={rem(4)}>
+                {(!!typeActive && !!subtypeActive) && <CreateButton href={`laboratory/exam/${typeActive}/${subtypeActive}/create`} />}
                 <ReloadButton />
                 <RemoveQueryButton
                   queries={['subtype']}

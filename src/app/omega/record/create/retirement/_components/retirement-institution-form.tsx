@@ -28,7 +28,6 @@ const RetirementInstitutionForm = React.forwardRef<HTMLFormElement, RetirementIn
     });
 
     const handleSubmit = useCallback((value: z.infer<typeof RetirementInstitutionSchema>) => {
-        console.log(dayjs(value.workStartDate).diff(value.workingEndDate, 'M'));
         onSubmit?.({ ...value, workingTime: dayjs(value.workingEndDate).diff(value.workStartDate, 'M') });
     }, [onSubmit]);
 

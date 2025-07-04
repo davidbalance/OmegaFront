@@ -266,6 +266,10 @@ const endpoints = {
         resource: 'exam/write/:typeId/:subtypeId/:examId',
         method: 'put',
     } as ApiResource,
+    createExam: {
+        resource: 'exam/write/:typeId/:subtypeId',
+        method: 'post',
+    } as ApiResource,
     moveExam: {
         resource: 'exam/write/:typeId/:subtypeId/:examId/move',
         method: 'put',
