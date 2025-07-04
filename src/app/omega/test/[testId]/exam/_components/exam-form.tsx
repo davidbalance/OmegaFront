@@ -48,7 +48,6 @@ const ExamForm: React.FC<ExamFormProps> = ({
             event.preventDefault();
             setLoading(true);
             try {
-                console.log({ testId, ...formValue });
                 await editMedicalTestExam({ testId, ...formValue });
                 router.back();
             } catch (error: any) {

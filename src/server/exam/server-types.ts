@@ -10,6 +10,12 @@ export type ExamQuery = {
     filter?: string;
 } & Order<Exam>;
 
+export type CreateExamPayload = {
+    typeId: string;
+    subtypeId: string;
+    examName: string;
+}
+
 export type EditExamPayload = {
     typeId: string;
     subtypeId: string;

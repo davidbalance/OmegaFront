@@ -69,7 +69,6 @@ const VitalSignsAndAnthropometryForm = React.forwardRef<HTMLFormElement, VitalSi
         const sizeInMeters = value.vitalSignsSize / 100;
         const sqrtMeters = Math.pow(sizeInMeters, 2);
         const imc = Math.floor((value.vitalSignsWeight / sqrtMeters) * 100) / 100;
-        console.log(imc);
         onSubmit?.({ ...value, vitalSignsMassIndex: imc });
     }, [onSubmit]);
 

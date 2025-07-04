@@ -9,7 +9,7 @@ import { serverActionRetriveDiseases, serverActionRetriveDisease, serverActionCr
 import { serverActionRetriveDoctors, serverActionRetriveDoctor, serverActionRetriveDoctorsOptions, serverActionRetriveDoctorFile, serverActionUploadDoctorSignature } from "./doctor/actions";
 import { serverActionRetriveExamSubtypes, serverActionRetriveExamSubtype, serverActionCreateExamSubtype, serverActionEditExamSubtype, serverActionMoveExamSubtype, serverActionRemoveExamSubtype } from "./exam-subtype/actions";
 import { serverActionRetriveExamTypes, serverActionRetriveExamTypesOptions } from "./exam-type/actions";
-import { serverActionRetriveExams, serverActionRetriveExam, serverActionEditExam, serverActionMoveExam } from "./exam/actions";
+import { serverActionRetriveExams, serverActionRetriveExam, serverActionEditExam, serverActionMoveExam, serverActionCreateExam } from "./exam/actions";
 import { serverActionRetriveJobPositions, serverActionRetriveJobPosition, serverActionRetriveJobPositionsOptions } from "./job-position/actions";
 import { serverActionRetriveLogger, serverActionRetriveLoggerLevels } from "./logger/actions";
 import { serverActionRetriveLogos } from "./logo/actions";
@@ -72,6 +72,7 @@ export const uploadDoctorSignature = composedResultAction(serverActionUploadDoct
 
 export const retriveExams = serverActionRetriveExams;
 export const retriveExam = serverActionRetriveExam;
+export const createExam = composedResultAction(serverActionCreateExam, getResult);
 export const editExam = composedResultAction(serverActionEditExam, getResult);
 export const moveExam = composedResultAction(serverActionMoveExam, getResult);
 
