@@ -47,7 +47,7 @@ export type MedicalAndSurgicalHistory = {
 }
 
 export type IncidentRecord = {
-    incidentDescription: string;
+    incidentDescription?: string;
 }
 
 export type ToxicDetail = {
