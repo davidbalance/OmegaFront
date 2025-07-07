@@ -12,7 +12,7 @@ const PreviewRecordIncident: React.FC<PreviewRecordIncidentProps> = ({
         <>
             <Title component='span' order={6} fw='bolder'>Incidentes</Title>
             <PreviewRecordContent>
-                <PreviewRecordElement title='Descripción' text={incidentDescription} />
+                <PreviewRecordElement title='Descripción' text={incidentDescription ?? ''} />
             </PreviewRecordContent>
         </>
     )
