@@ -5,8 +5,8 @@ const schema = z.object({
     lifestylePhysicalActivityType: z.coerce.string().optional(),
     lifestylePhysicalActivityTimeQty: z.coerce.string().optional(),
     lifestyleMedication: z.coerce.boolean(),
-    lifestyleMedicationName: z.coerce.string().optional(),
-    lifestyleMedicationTimeQty: z.coerce.string().optional(),
+    lifestyleMedicationName: z.array(z.coerce.string().nonempty()).default([]),
+    lifestyleMedicationTimeQty: z.array(z.coerce.string().nonempty()).default([]),
 })
     .superRefine((data, ctx) => {
         if (data.lifestylePhysicalActivity) {
@@ -25,23 +25,6 @@ const schema = z.object({
                 });
             }
         }
-
-        if (data.lifestyleMedication) {
-            if (!data.lifestyleMedicationName) {
-                ctx.addIssue({
-                    path: ['lifestyleMedicationName'],
-                    code: z.ZodIssueCode.custom,
-                    message: "Debe agregar el nombre del medicamento."
-                });
-            }
-            if (!data.lifestyleMedicationTimeQty) {
-                ctx.addIssue({
-                    path: ['lifestyleMedicationTimeQty'],
-                    code: z.ZodIssueCode.custom,
-                    message: "Debe agregar el tiempo/cantidad del medicamento."
-                });
-            }
-        }
     })
 
 export const adjustInitialValue = (value?: Partial<z.infer<typeof schema>>) => ({
@@ -49,8 +32,8 @@ export const adjustInitialValue = (value?: Partial<z.infer<typeof schema>>) => (
     lifestylePhysicalActivityType: value?.lifestylePhysicalActivityType ?? '',
     lifestylePhysicalActivityTimeQty: value?.lifestylePhysicalActivityTimeQty ?? '',
     lifestyleMedication: value?.lifestyleMedication ?? false,
-    lifestyleMedicationName: value?.lifestyleMedicationName ?? '',
-    lifestyleMedicationTimeQty: value?.lifestyleMedicationTimeQty ?? '',
+    lifestyleMedicationName: value?.lifestyleMedicationName ?? [],
+    lifestyleMedicationTimeQty: value?.lifestyleMedicationTimeQty ?? [],
 });
 
 export default schema;

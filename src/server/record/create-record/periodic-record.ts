@@ -59,7 +59,7 @@ export type PeriodicRecordPayload =
     // Patient History
     & MedicalAndSurgicalHistory
     & LifeStyle
-    & IncidentRecord
+    & Partial<IncidentRecord>
     & JobAccident
     & OccupationalDisease
     // Family history
