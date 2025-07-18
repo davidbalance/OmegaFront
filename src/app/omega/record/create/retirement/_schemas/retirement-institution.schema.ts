@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { z } from "zod";
 
 const schema = z.object({
@@ -14,6 +15,23 @@ const schema = z.object({
     workingTime: z.coerce.number().optional(),
     workingEndDate: z.date().default(new Date()),
     jobPosition: z.coerce.string().nonempty(),
+}).superRefine((data, ctx) => {
+    const dayDifference = dayjs(data.workingEndDate).diff(data.workStartDate, 'day');
+    if (dayDifference < 1) {
+        console.log(dayDifference)
+        const issue = {
+            code: z.ZodIssueCode.custom,
+            message: "La diferencia entre el inicio y fin de labores tiene que ser mayor a 0 dias."
+        };
+        ctx.addIssue({
+            path: ['workStartDate'],
+            ...issue
+        });
+        ctx.addIssue({
+            path: ['workingEndDate'],
+            ...issue
+        });
+    }
 });
 
 export const adjustInitialValues = (data?: Partial<z.infer<typeof schema>>) => ({
