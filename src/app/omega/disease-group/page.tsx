@@ -77,7 +77,7 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = async ({ searchParams 
                                 removeQueries={['field', 'owner', 'order', 'group', 'groupPage']} />
                             <Button
                                 component={Link}
-                                href='/omega/disease/group/create'
+                                href='/omega/disease-group/create'
                                 radius='md'>
                                 Crear grupo
                             </Button>
