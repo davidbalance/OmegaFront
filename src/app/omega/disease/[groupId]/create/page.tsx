@@ -3,7 +3,7 @@ import React from 'react'
 import CreateDiseaseForm from './_components/create-disease-form';
 
 interface OmegaDiseaseCreatePageProps {
-    params: { id: string }
+    params: { groupId: string }
 }
 const OmegaDiseaseCreatePage: React.FC<OmegaDiseaseCreatePageProps> = ({
     params
@@ -11,7 +11,7 @@ const OmegaDiseaseCreatePage: React.FC<OmegaDiseaseCreatePageProps> = ({
     return (
         <>
             <ReturnableHeader title='Creacion de morbilidad' />
-            <CreateDiseaseForm groupId={params.id} />
+            <CreateDiseaseForm groupId={params.groupId} />
         </>)
 }
 
