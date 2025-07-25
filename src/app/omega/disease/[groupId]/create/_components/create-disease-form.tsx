@@ -7,7 +7,7 @@ import { CreateDiseasePayload } from '@/server/disease/server-types';
 import { LoadingOverlay } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 interface CreateDiseaseFormProps {
     groupId: string;
@@ -19,9 +19,10 @@ const CreateDiseaseForm: React.FC<CreateDiseaseFormProps> = ({
     const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
 
-    const handleSubmit = async (payload: Omit<CreateDiseasePayload, 'groupId'>) => {
+    const handleSubmit = useCallback(async (payload: Omit<CreateDiseasePayload, 'groupId'>) => {
         setLoading(true);
         try {
+            console.log(groupId)
             await createDisease({ ...payload, groupId });
             router.back();
         } catch (error: any) {
@@ -29,7 +30,7 @@ const CreateDiseaseForm: React.FC<CreateDiseaseFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }
+    }, [groupId])
 
     return (
         <>
