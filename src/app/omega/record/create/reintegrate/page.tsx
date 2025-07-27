@@ -46,9 +46,9 @@ const RecordReintegratePage: React.FC<RecordReintegratePageProps> = async ({
 
     const patient = await retriveClientByDni(patientDni);
     const patientFirstName = patient.patientName.split(' ')[0] ?? ' ';
-    const patientMiddleName = patient.patientName.split(' ')[1] ?? ' ';
+    const patientMiddleName = patient.patientName.split(' ').slice(1).join(" ") ?? ' ';
     const patientLastName = patient.patientLastname.split(' ')[0] ?? ' ';
-    const patientSecondLastName = patient.patientLastname.split(' ')[1] ?? ' ';
+    const patientSecondLastName = patient.patientLastname.split(' ').slice(1).join(" ") ?? ' ';
     const patientAge = dayjs().diff(patient.patientBirthday, 'year');
 
     return (
