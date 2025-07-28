@@ -34,11 +34,11 @@ const OmegaDiseasePage: React.FC<OmegaDiseasePageProps> = async ({ searchParams 
     const groupActive = typeof searchParams.group === 'string' ? searchParams.group : undefined;
     const groupSearch = typeof searchParams.groupSearch === 'string' ? searchParams.groupSearch : undefined;
     const groupField = owner === 'group' ? field : undefined;
-    const groupPage = typeof searchParams.groupPage === 'string' ? Number(searchParams.groupPage) : 1;
+    const groupPage = typeof searchParams.groupPage === 'string' ? Number(searchParams.groupPage) : 0;
 
     const diseaseSearch = typeof searchParams.diseaseSearch === 'string' ? searchParams.diseaseSearch : undefined;
     const diseaseField = owner === 'disease' ? field : undefined;
-    const diseasePage = typeof searchParams.diseasePage === 'string' ? Number(searchParams.diseasePage) : 1;
+    const diseasePage = typeof searchParams.diseasePage === 'string' ? Number(searchParams.diseasePage) : 0;
 
     const groupValue = await retriveDiseaseGroups({
         filter: groupSearch,
