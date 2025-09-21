@@ -116,7 +116,6 @@ const MedicalDiseaseForm: React.FC<MedicalDiseaseFormProps> = ({
                     minRows={2}
                     maxRows={8}
                     onChange={(e) => handleChange(e.target.name, e.target.value)}
-                    required
                 />
             </Flex>
             <Button
