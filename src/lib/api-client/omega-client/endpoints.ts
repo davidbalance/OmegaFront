@@ -421,12 +421,24 @@ const endpoints = {
         method: 'get',
     } as ApiResource,
     retriveClientRecordFile: {
-        resource: 'medical-client/records/record/:recordId',
+        resource: 'medical-client/records/record/:recordId/file',
+        method: 'get',
+    } as ApiResource,
+    retriveClientRecordMetadata: {
+        resource: 'medical-client/records/record/:recordId/metadata',
         method: 'get',
     } as ApiResource,
     createClientRecord: {
         resource: 'medical-client/write/:patientDni/record/:type',
         method: 'post',
+    } as ApiResource,
+    updateClientRecord: {
+        resource: 'medical-client/write/:patientDni/record/:recordId',
+        method: 'put',
+    } as ApiResource,
+    completeClientRecord: {
+        resource: 'medical-client/write/:patientDni/complete/record/:recordType/:recordId',
+        method: 'put',
     } as ApiResource,
 
     retriveProcesses: {

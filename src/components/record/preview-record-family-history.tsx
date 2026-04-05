@@ -1,4 +1,4 @@
-import { FamilyHistory } from '@/server/record/create-record/_base'
+import { FamilyHistory } from '@/server/record/create-record/base/author.schema'
 import React from 'react'
 import PreviewRecordElement from './preview-record-element'
 import PreviewRecordContent from './preview-record-content'

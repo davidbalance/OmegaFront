@@ -1,4 +1,4 @@
-import { JobAccident } from '@/server/record/create-record/_base'
+import { JobAccident } from '@/server/record/create-record/base/author.schema'
 import React from 'react'
 import { SimpleGrid, Text, Title } from '@mantine/core'
 import PreviewRecordContent from './preview-record-content'

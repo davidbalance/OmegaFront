@@ -1,4 +1,4 @@
-import { GeneralExamResultAndSpecific } from '@/server/record/create-record/_base'
+import { GeneralExamResultAndSpecific } from '@/server/record/create-record/base/author.schema'
 import React, { useMemo } from 'react'
 import { Box, rem, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Title } from '@mantine/core'
 import PreviewRecordContent from './preview-record-content'

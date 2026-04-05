@@ -1,19 +1,12 @@
-import { MedicalFitnessForJob } from '@/server/record/create-record/_base'
 import React from 'react'
 import { Group, SimpleGrid, Text } from '@mantine/core'
 import PreviewRecordContent from './preview-record-content'
+import { MedicalFitnessForWorkSchemaType } from '@/server/record/create-record/certificate/medical-fitness-for-work.schema'
 
-type PreviewRecordMedicalFitnessForJobProps = MedicalFitnessForJob & {
-    hideLimitation?: boolean;
-    showReubication?: boolean;
-}
+type PreviewRecordMedicalFitnessForJobProps = MedicalFitnessForWorkSchemaType
 const PreviewRecordMedicalFitnessForJob: React.FC<PreviewRecordMedicalFitnessForJobProps> = ({
-    medicalFitnessLimitation,
-    medicalFitnessObservation,
-    medicalFitnessReubication,
-    medicalFitnessType,
-    showReubication,
-    hideLimitation
+    fitnessType,
+    fitnessObservation
 }) => {
 
     return (
@@ -21,33 +14,25 @@ const PreviewRecordMedicalFitnessForJob: React.FC<PreviewRecordMedicalFitnessFor
             <SimpleGrid cols={4}>
                 <Group>
                     <Text component='span' fw='bold'>Apto</Text>
-                    <Text component='span'>{medicalFitnessType === 'fit' ? 'X' : ''}</Text>
+                    <Text component='span'>{fitnessType === 'fit' ? 'X' : ''}</Text>
                 </Group>
                 <Group>
                     <Text component='span' fw='bold'>Apto en observación</Text>
-                    <Text component='span'>{medicalFitnessType === 'fit-observation' ? 'X' : ''}</Text>
+                    <Text component='span'>{fitnessType === 'fit-observation' ? 'X' : ''}</Text>
                 </Group>
                 <Group>
                     <Text component='span' fw='bold'>Apto con limitaciones</Text>
-                    <Text component='span'>{medicalFitnessType === 'fit-limitation' ? 'X' : ''}</Text>
+                    <Text component='span'>{fitnessType === 'fit-limitation' ? 'X' : ''}</Text>
                 </Group>
                 <Group>
                     <Text component='span' fw='bold'>No apto</Text>
-                    <Text component='span'>{medicalFitnessType === 'no-fit' ? 'X' : ''}</Text>
+                    <Text component='span'>{fitnessType === 'no-fit' ? 'X' : ''}</Text>
                 </Group>
             </SimpleGrid>
             <Group>
                 <Text component='span' fw='bold'>Observación</Text>
-                <Text component='span'>{medicalFitnessObservation}</Text>
+                <Text component='span'>{fitnessObservation}</Text>
             </Group>
-            {!hideLimitation && <Group>
-                <Text component='span' fw='bold'>Limitación</Text>
-                <Text component='span'>{medicalFitnessLimitation}</Text>
-            </Group>}
-            {showReubication && <Group>
-                <Text component='span' fw='bold'>Reubicación</Text>
-                <Text component='span'>{medicalFitnessReubication}</Text>
-            </Group>}
         </PreviewRecordContent>
     )
 }
