@@ -1,4 +1,4 @@
-import { LifeStyle } from '@/server/record/create-record/_base'
+import { LifeStyle } from '@/server/record/create-record/base/author.schema'
 import React from 'react'
 import { Box, rem, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Title } from '@mantine/core'
 

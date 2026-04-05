@@ -1,4 +1,4 @@
-import { MedicalDiagnostic } from '@/server/record/create-record/_base'
+import { MedicalDiagnostic } from '@/server/record/create-record/base/author.schema'
 import React, { useMemo } from 'react'
 import { Box, rem, Table, TableTbody, TableTd, TableTh, TableThead, TableTr } from '@mantine/core'
 
