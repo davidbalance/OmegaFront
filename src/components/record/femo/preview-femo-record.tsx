@@ -456,7 +456,7 @@ const PreviewFemoRecord = React.forwardRef<HTMLFormElement, PreviewFemoRecordPro
                                         if (!(key in physicalExamLabels)) return null;
 
                                         return (
-                                            <Group>
+                                            <Group key={key}>
                                                 <Text fw="bold">{physicalExamLabels[key as RegionalExamType]}</Text>
                                                 <Text>{description}</Text>
                                             </Group>)
@@ -469,7 +469,7 @@ const PreviewFemoRecord = React.forwardRef<HTMLFormElement, PreviewFemoRecordPro
                         <PreviewRecordWrapper title='G. Factores de Riesgo del Trabajo Actual'>
                             <Stack gap={rem(32)}>
                                 {data.riskFactors.map((e, i) => (
-                                    <Stack flex={1} style={{ minWidth: 0 }}>
+                                    <Stack key={i} flex={1} style={{ minWidth: 0 }}>
                                         <Box
                                             style={{ width: '100%', height: rem(600) }}
                                             pos="relative">
@@ -578,8 +578,8 @@ const PreviewFemoRecord = React.forwardRef<HTMLFormElement, PreviewFemoRecordPro
                                             </TableTr>
                                         </TableThead>
                                         <TableTbody>
-                                            {data.employmentHistory.map(e => (
-                                                <TableTr>
+                                            {data.employmentHistory.map((e, i) => (
+                                                <TableTr key={`${e.workplace}-${i}`}>
                                                     <TableTd colSpan={2}>{e.workplace}</TableTd>
                                                     <TableTd colSpan={2}>{e.activities}</TableTd>
                                                     <TableTd>{e.lastWork}</TableTd>
@@ -612,8 +612,8 @@ const PreviewFemoRecord = React.forwardRef<HTMLFormElement, PreviewFemoRecordPro
                                     </TableTr>
                                 </TableThead>
                                 <TableTbody>
-                                    {data.extraLaboralActivities.map(e => (
-                                        <TableTr>
+                                    {data.extraLaboralActivities.map((e, i) => (
+                                        <TableTr key={`extra-activity-${i}`}>
                                             <TableTd colSpan={4}>{e.description}</TableTd>
                                             <TableTd>{e.date ? dayjs(e.date).format(FORMAT_DATE) : ""}</TableTd>
                                         </TableTr>
@@ -634,8 +634,8 @@ const PreviewFemoRecord = React.forwardRef<HTMLFormElement, PreviewFemoRecordPro
                                     </TableTr>
                                 </TableThead>
                                 <TableTbody>
-                                    {data.examResults.exams.map(e => (
-                                        <TableTr>
+                                    {data.examResults.exams.map((e, i) => (
+                                        <TableTr key={`${e.name}-${i}`}>
                                             <TableTd colSpan={2}>{e.name}</TableTd>
                                             <TableTd>{e.date ? dayjs(e.date).format(FORMAT_DATE) : ""}</TableTd>
                                             <TableTd colSpan={3}>{e.result}</TableTd>
@@ -657,8 +657,8 @@ const PreviewFemoRecord = React.forwardRef<HTMLFormElement, PreviewFemoRecordPro
                                     </TableTr>
                                 </TableThead>
                                 <TableTbody>
-                                    {data.diagnoses.map(e => (
-                                        <TableTr>
+                                    {data.diagnoses.map((e,i) => (
+                                        <TableTr key={`${e.cie}-i${i}`}>
                                             <TableTd colSpan={2}>{e.cie}</TableTd>
                                             <TableTd>{e.description}</TableTd>
                                             <TableTd colSpan={3}>{e.diagnosis}</TableTd>

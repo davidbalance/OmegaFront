@@ -29,7 +29,7 @@ const CreateDiseaseForm: React.FC<CreateDiseaseFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [groupId])
+    }, [groupId, router])
 
     return (
         <>
