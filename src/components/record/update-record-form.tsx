@@ -55,7 +55,7 @@ const UpdateRecordForm: React.FC<UpdateRecordFormProps> = ({
             });
         }
         return newChild;
-    }, [children, data, router])
+    }, [children, data, handleSubmit])
 
     return (
         <>
