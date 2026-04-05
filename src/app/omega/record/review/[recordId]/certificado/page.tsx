@@ -15,7 +15,6 @@ const stepperHeader: { title: string, description?: string, icon: any }[] = [
     { title: 'Datos del establecimiento', description: 'Empresa y usuario', icon: 'building' },
     { title: 'Datos generales', icon: 'license' },
     { title: 'Aptitud Médica para el Trabajo', icon: 'notebook' },
-    { title: 'Recomendaciones/Observaciones', icon: 'notebook' },
     { title: 'Vista anticipada del certificado', icon: 'check' },
 ]
 
