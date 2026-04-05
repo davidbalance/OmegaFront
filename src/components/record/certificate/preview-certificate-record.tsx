@@ -5,9 +5,6 @@ import { useForm } from '@mantine/form';
 import React, { useCallback } from 'react'
 import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
 import PreviewRecordWrapper from '@/components/record/preview-record-wrapper';
-import PreviewCertificateRecordEvaluation from './preview-certificate-record-evaluation';
-import PreviewRecordMedicalFitnessForJob from '@/components/record/preview-record-medical-fitness-for-job';
-import PreviewRecordRecommendation from '@/components/record/preview-record-recommendation';
 import { LOGO_NONE, LOGO_OMEGA } from '@/server/record/create-record/base/author.schema';
 import PreviewRecordElement from '../preview-record-element';
 import { GENERAL_DATA_EVALUATION_TYPE_ENTRY, GENERAL_DATA_EVALUATION_TYPE_PERIODIC, GENERAL_DATA_EVALUATION_TYPE_RETIREMENT, GENERAL_DATA_EVALUATION_TYPE_RETURN } from '@/server/record/create-record/certificate/general-data.schema';
