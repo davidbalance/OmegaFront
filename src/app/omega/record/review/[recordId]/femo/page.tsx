@@ -68,6 +68,7 @@ const RecordFemoPage: React.FC<RecordFemoPageProps> = async ({
                     { title: 'Recomendacion y/o Tratamiento', icon: "notebook" },
                     { title: 'Aptitud médica para el trabajo', icon: "activity" },
                     { title: 'Retiro (Evaluación)', icon: "briefcase" },
+                    { title: 'Vista anticipada del certificado', icon: 'check' },
                 ]}
                 initialData={metadata}
                 patientDni={record.patientDni}
