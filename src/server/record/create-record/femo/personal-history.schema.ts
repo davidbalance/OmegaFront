@@ -89,20 +89,20 @@ const toxicHabitSchema = z.object({
 
 const lifeStyleSchema = z.object({
     type: z.coerce.string().nonempty(),
-    duration: z.coerce.number().int().positive()
+    duration: z.coerce.string().nonempty()
 })
 export const DEFAULT_LIFE_STYLE: z.infer<typeof lifeStyleSchema> = {
-    duration: 0,
+    duration: "",
     type: ""
 }
 
 const preexistingConditionSchema = z.object({
     type: z.coerce.string().nonempty(),
-    quantity: z.coerce.number().int().positive()
+    quantity: z.coerce.string().nonempty()
 })
 export const DEFAULT_PREEXISTING_CONDITION: z.infer<typeof preexistingConditionSchema> = {
     type: "",
-    quantity: 0
+    quantity: ""
 }
 
 const schema = z.object({
@@ -124,7 +124,7 @@ export type PersonalHistorySchemaType = z.infer<typeof schema>
 
 export const adjustInitialValue = (data?: Partial<PersonalHistorySchemaType>): PersonalHistorySchemaType => ({
     personalHistory: {
-        clinicalAndSurgical: data?.personalHistory?.clinicalAndSurgical ?? "",
+        clinicalAndSurgical: data?.personalHistory?.clinicalAndSurgical ?? "APP:\nAPQ:\nAlergias:",
         familyHistory: data?.personalHistory?.familyHistory ?? "",
         gynecological: {
             lastMenstruationDate: data?.personalHistory?.gynecological?.lastMenstruationDate ?? new Date(),
@@ -142,7 +142,7 @@ export const adjustInitialValue = (data?: Partial<PersonalHistorySchemaType>): P
             status: data?.personalHistory?.familyPlanning.status ?? FAMILY_PLANNING_STATUS_NO,
             detail: data?.personalHistory?.familyPlanning.detail ?? ""
         },
-        exams: data?.personalHistory?.exams ?? [DEFAULT_PERFORMED_EXAM],
+        exams: data?.personalHistory?.exams ?? [],
         toxicHabits: {
             tabacco: {
                 status: data?.personalHistory?.toxicHabits?.tabacco.status ?? SUBSTANCE_CONSUMER_NON_USER,

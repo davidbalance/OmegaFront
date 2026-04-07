@@ -135,6 +135,9 @@ const FemoJobRiskFactorForm = React.forwardRef<HTMLFormElement, FemoJobRiskFacto
                                     </ActionIcon>}
                             </Flex>
                             <Stack flex={1} style={{ minWidth: 0 }}>
+                                <TextInput
+                                    label='Actividades Importantes dentro de la Jornada Laboral'
+                                    {...getInputProps(`riskFactors.${i}.activity`)} />
                                 <Box
                                     style={{ width: '100%', height: rem(600) }}
                                     pos="relative">

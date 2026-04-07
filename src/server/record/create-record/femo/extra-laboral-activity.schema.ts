@@ -11,17 +11,13 @@ const schema = z.object({
 
 export type ExtraLaboralActivitiesSchemaType = z.infer<typeof schema>
 
-export const DEFAULT_JOB_ACTIVITY: z.infer<typeof extraActivitySchema> = {
+export const DEFAULT_EXTRA_LABORAL_ACTIVITY: z.infer<typeof extraActivitySchema> = {
     description: "",
     date: new Date()
 }
 
 export const adjustInitialValue = (data?: Partial<ExtraLaboralActivitiesSchemaType>): ExtraLaboralActivitiesSchemaType => ({
-    extraLaboralActivities: [{
-        date: new Date(),
-        description: ""
-    }],
-    ...data
+    extraLaboralActivities: data?.extraLaboralActivities && data.extraLaboralActivities.length > 0 ? data.extraLaboralActivities : [DEFAULT_EXTRA_LABORAL_ACTIVITY],
 })
 
 export default schema;
