@@ -4,7 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback, useMemo } from 'react'
 import { ActionIcon, Box, Checkbox, Divider, Flex, rem, SimpleGrid, Stack, Textarea, TextInput, Title } from '@mantine/core';
 import { IconMinus, IconPlus } from '@tabler/icons-react';
-import EmploymentHistorySchema, { DEFAULT_JOB_HISTORY, EmploymentHistorySchemaType, adjustInitialValue } from '@/server/record/create-record/femo/employement-history.schema';
+import EmploymentHistorySchema, { DEFAULT_EMPLOYEMENT_HISTORY, EmploymentHistorySchemaType, adjustInitialValue } from '@/server/record/create-record/femo/employement-history.schema';
 import { DateInput } from '@mantine/dates';
 
 const MAX_JOB_HISTORY_LENGTH = 19
@@ -31,7 +31,7 @@ const FemoEmployementHistoryForm = React.forwardRef<HTMLFormElement, FemoEmploye
 
     const handleAdd = () => setValues(prev => (prev.employmentHistory?.length ?? 0) < MAX_JOB_HISTORY_LENGTH ? ({
         ...prev,
-        employmentHistory: [...(prev.employmentHistory ?? []), DEFAULT_JOB_HISTORY]
+        employmentHistory: [...(prev.employmentHistory ?? []), DEFAULT_EMPLOYEMENT_HISTORY]
     }) : prev);
 
     const handleRemove = (index: number) => setValues(prev => ({

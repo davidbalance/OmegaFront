@@ -54,9 +54,9 @@ const RecordFemoPage: React.FC<RecordFemoPageProps> = async ({
             <ReturnableHeader title='Formulario de Evaluación Médica Ocupacional' />
             <StepperCompleteRecordForm
                 headers={[
-                    { title: 'Datos del profesional', icon: 'medicine' },
                     { title: 'Datos del establecimiento', description: 'Empresa y usuario', icon: 'building' },
                     { title: 'Motivo de Consulta', icon: "notebook" },
+                    { title: 'Antecedentes Personales', icon: "user-check" },
                     { title: 'Enfermedad o Problema Actual', icon: "disease" },
                     { title: 'Constantes Vitales y Antropometría', icon: "briefcase" },
                     { title: 'Examen Físico Regional', icon: "heart" },

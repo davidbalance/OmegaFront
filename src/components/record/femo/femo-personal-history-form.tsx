@@ -114,6 +114,7 @@ const FemoPersonalHistoryForm = React.forwardRef<HTMLFormElement, FemoPersonalHi
                     <Textarea
                         label="Antecedentes Clínicos y Quirúrgicos"
                         placeholder='eg. Lore Ipsum...'
+                        rows={5}
                         {...getInputProps('personalHistory.clinicalAndSurgical')} />
 
                     <Textarea
@@ -358,7 +359,7 @@ const FemoPersonalHistoryForm = React.forwardRef<HTMLFormElement, FemoPersonalHi
                                     <Stack w="100%">
                                         <SimpleGrid cols={2} spacing={rem(8)}>
                                             <TextInput
-                                                label="¿Cuál?"
+                                                label="Actividad Fisica"
                                                 placeholder="eg. Omega"
                                                 {...getInputProps(`personalHistory.lifeStyles.${i}.type`)} />
                                             <TextInput
@@ -402,7 +403,7 @@ const FemoPersonalHistoryForm = React.forwardRef<HTMLFormElement, FemoPersonalHi
                                     <Stack w="100%">
                                         <SimpleGrid cols={2} spacing={rem(8)}>
                                             <TextInput
-                                                label="¿Cuál?"
+                                                label="Medicación Habitual"
                                                 placeholder="eg. Omega"
                                                 {...getInputProps(`personalHistory.preexistingConditions.${i}.type`)} />
                                             <TextInput
