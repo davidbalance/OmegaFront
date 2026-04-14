@@ -20,8 +20,8 @@ export type RetirementSchemaType = z.infer<typeof schema>
 
 export const adjustInitialValue = (data?: Partial<RetirementSchemaType>): RetirementSchemaType => ({
     retirementEvaluation: {
-        performed: data?.retirementEvaluation?.performed ?? "",
-        workRelated: data?.retirementEvaluation?.workRelated ?? "",
+        performed: data?.retirementEvaluation?.performed ?? RETIREMENT_NO_OPTION,
+        workRelated: data?.retirementEvaluation?.workRelated ?? RETIREMENT_NO_OPTION,
         observation: data?.retirementEvaluation?.observation ?? "",
     }
 })

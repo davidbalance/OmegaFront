@@ -5,7 +5,7 @@ import React, { useCallback, useMemo } from 'react'
 import { ActionIcon, Box, Divider, Flex, rem, SimpleGrid, Stack, TextInput, Title } from '@mantine/core';
 import { IconMinus, IconPlus } from '@tabler/icons-react';
 import { DateInput } from '@mantine/dates';
-import ExtraLaboralActivitiesSchema, { DEFAULT_JOB_ACTIVITY, ExtraLaboralActivitiesSchemaType, adjustInitialValue } from '@/server/record/create-record/femo/extra-laboral-activity.schema';
+import ExtraLaboralActivitiesSchema, { DEFAULT_EXTRA_LABORAL_ACTIVITY, ExtraLaboralActivitiesSchemaType, adjustInitialValue } from '@/server/record/create-record/femo/extra-laboral-activity.schema';
 
 const MAX_JOB_ACTIVITY_LENGTH = 3
 
@@ -31,7 +31,7 @@ const FemoExtraLaboralActivityForm = React.forwardRef<HTMLFormElement, FemoExtra
 
     const handleAdd = () => setValues(prev => (prev.extraLaboralActivities?.length ?? 0) < MAX_JOB_ACTIVITY_LENGTH ? ({
         ...prev,
-        extraLaboralActivities: [...(prev.extraLaboralActivities ?? []), DEFAULT_JOB_ACTIVITY]
+        extraLaboralActivities: [...(prev.extraLaboralActivities ?? []), DEFAULT_EXTRA_LABORAL_ACTIVITY]
     }) : prev);
 
     const handleRemove = (index: number) => setValues(prev => ({

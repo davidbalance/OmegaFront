@@ -111,6 +111,7 @@ export type ErgonomicFormType = `ergonomic.${keyof Omit<ErgonomicSchemaType, "ot
 export type PsychosocialFormType = `psychosocial.${keyof Omit<PsychosocialSchemaType, "other">}`
 
 const riskFactorSchema = z.object({
+    activity: z.string().nonempty(),
     physical: physicalSchema,
     safety: safetySchema,
     chemical: chemicalSchema,
@@ -122,6 +123,7 @@ const riskFactorSchema = z.object({
 export type RiskFactorSchemaType = z.infer<typeof riskFactorSchema>
 
 export const DEFAULT_RISK_FACTOR: RiskFactorSchemaType = {
+    activity: "",
     physical: {
         highTemperature: false,
         lowTemperature: false,

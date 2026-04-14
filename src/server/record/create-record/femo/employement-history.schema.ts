@@ -35,7 +35,7 @@ const schema = z.object({
 
 export type EmploymentHistorySchemaType = z.infer<typeof schema>
 
-export const DEFAULT_JOB_HISTORY: z.infer<typeof employmentHistory> = {
+export const DEFAULT_EMPLOYEMENT_HISTORY: z.infer<typeof employmentHistory> = {
     workplace: "",
     activities: "",
     lastWork: "",
@@ -51,8 +51,7 @@ export const DEFAULT_JOB_HISTORY: z.infer<typeof employmentHistory> = {
 }
 
 export const adjustInitialValue = (data?: Partial<EmploymentHistorySchemaType>): EmploymentHistorySchemaType => ({
-    employmentHistory: [DEFAULT_JOB_HISTORY],
-    ...data
+    employmentHistory: data?.employmentHistory && data?.employmentHistory.length > 0 ? data?.employmentHistory : [DEFAULT_EMPLOYEMENT_HISTORY],
 })
 
 export default schema;

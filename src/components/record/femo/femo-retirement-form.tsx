@@ -65,6 +65,7 @@ const FemoRetirementForm = React.forwardRef<HTMLFormElement, FemoRetirementFormP
 
           <Textarea
             label="Descripción"
+            placeholder='eg. Lorem Ipsum...'
             rows={10}
             {...getInputProps('retirementEvaluation.observation')} />
         </Stack>

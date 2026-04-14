@@ -35,6 +35,7 @@ const FemoRecommendationForm = React.forwardRef<HTMLFormElement, FemoRecommendat
         <Stack gap={rem(8)}>
           <Textarea
             label="Descripción"
+            placeholder='eg. Lorem Ipsum...'
             rows={10}
             {...getInputProps('recommendation.description')} />
         </Stack>
