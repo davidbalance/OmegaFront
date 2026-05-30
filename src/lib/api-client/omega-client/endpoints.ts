@@ -192,6 +192,10 @@ const endpoints = {
         resource: 'users/:userId',
         method: 'get',
     } as ApiResource,
+    retriveUserByDni: {
+        resource: 'users/:dni/dni',
+        method: 'get',
+    } as ApiResource,
     createUser: {
         resource: 'user/write',
         method: 'post',
@@ -385,6 +389,10 @@ const endpoints = {
     } as ApiResource,
     addAreaClient: {
         resource: 'medical-client/write/:dni/area',
+        method: 'put',
+    } as ApiResource,
+    updateClientName: {
+        resource: 'medical-client/write/:dni/name',
         method: 'put',
     } as ApiResource,
     addJobPositionClient: {

@@ -35,6 +35,15 @@ export const serverActionRetriveUser = async (userId: string): Promise<User> => 
     return data;
 }
 
+export const serverActionRetriveUserByDni = async (dni: string): Promise<User> => {
+    const session = await auth();
+    const data: User = await omega()
+        .addToken(session.access_token)
+        .addParams({ dni })
+        .execute('retriveUserByDni');
+    return data;
+}
+
 export const serverActionRetriveUserResources = async (userId: string): Promise<UserAuthResource[]> => {
     const session = await auth();
     const data: UserAuthResource[] = await omega()
