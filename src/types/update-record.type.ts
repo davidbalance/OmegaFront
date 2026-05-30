@@ -1,0 +1,2 @@
+export type UpdateFemoKey = "consultation" | "current-disease" | "vital-signs" | "physical-exam" | "risk-factor" | "employement-history" | "extra-laboral-activity" | "exam-result" | "diagnoses" | "recommendation" | "medical-fitness" | "retirement"
+export type UpdateCertificateKey = "general-form" | "fitness" | "recommendation"

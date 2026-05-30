@@ -1,0 +1,410 @@
+'use client'
+
+import { useForm, zodResolver } from '@mantine/form';
+import React, { useCallback, useState } from 'react'
+import { ActionIcon, Box, Checkbox, Divider, Flex, Group, rem, Select, Stack, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text, Textarea, TextInput, Title } from '@mantine/core';
+import { IconMinus, IconPlus } from '@tabler/icons-react';
+import JobRiskSchema, { BiologicalSchemaType, ChemicalSchemaType, DEFAULT_JOB_RISK, ElectricalSchemaType, ErgonomicSchemaType, JobRiskSchemaType, JobRisksSchemaType, LocativeSchemaType, MechanicalSchemaType, PhysicalSchemaType, PsychosocialSchemaType, adjustInitialValue } from '@/server/record/create-record/femo/job-risk.schema';
+import { Option } from '@/lib/types/option.type';
+
+type physicalFormType = `physical.${keyof Omit<PhysicalSchemaType, "other">}`
+type safetyLocativeFormType = `safety.locative.${keyof LocativeSchemaType}`
+type safetyMechanicalFormType = `safety.mechanical.${keyof MechanicalSchemaType}`
+type safetyElectricalFormType = `safety.electrical.${keyof ElectricalSchemaType}`
+type chemicalFormType = `chemical.${keyof Omit<ChemicalSchemaType, "other">}`
+type biologicalFormType = `biological.${keyof Omit<BiologicalSchemaType, "other">}`
+type ergonomicFormType = `ergonomic.${keyof Omit<ErgonomicSchemaType, "other">}`
+type psychosocialFormType = `psychosocial.${keyof Omit<PsychosocialSchemaType, "other">}`
+
+const physicals: physicalFormType[] = ["physical.highTemperature", "physical.lowTemperature", "physical.ionizingRadiation", "physical.nonIonizingRadiation", "physical.noise", "physical.vibration", "physical.lighting", "physical.ventilation", "physical.electricCurrent"];
+const locatives: safetyLocativeFormType[] = ["safety.locative.missingSignageCleaningDisorder"];
+const mechanicals: safetyMechanicalFormType[] = ["safety.mechanical.machineOrSurfaceEntrapment", "safety.mechanical.objectEntrapment", "safety.mechanical.fallingObjects", "safety.mechanical.fallsSameLevel", "safety.mechanical.fallsDifferentLevel", "safety.mechanical.punctures", "safety.mechanical.cuts", "safety.mechanical.vehicleCollision", "safety.mechanical.vehicleRunOver", "safety.mechanical.fluidProjection", "safety.mechanical.particleProjection", "safety.mechanical.contactWithWorkSurfaces"];
+const electricals: safetyElectricalFormType[] = ["safety.electrical.electricalContact"];
+const chemicals: chemicalFormType[] = ["chemical.dust", "chemical.solids", "chemical.smoke", "chemical.liquids", "chemical.vapors", "chemical.aerosols", "chemical.mists", "chemical.gases"];
+const biologicals: biologicalFormType[] = ["biological.virus", "biological.fungi", "biological.bacteria", "biological.parasites", "biological.vectorExposure", "biological.wildAnimalExposure"];
+const ergonomics: ergonomicFormType[] = ["ergonomic.manualHandling", "ergonomic.repetitiveMovements", "ergonomic.forcedPostures", "ergonomic.pvdWork", "ergonomic.poorWorkstationDesign"];
+const psychosocials: psychosocialFormType[] = ["psychosocial.monotony", "psychosocial.workOverload", "psychosocial.taskDetail", "psychosocial.highResponsibility", "psychosocial.decisionAutonomy", "psychosocial.poorSupervision", "psychosocial.roleConflict", "psychosocial.unclearResponsibilities", "psychosocial.poorTaskDistribution", "psychosocial.rotatingShifts", "psychosocial.interpersonalRelations", "psychosocial.jobInstability", "psychosocial.criminalThreat"];
+
+const safetyOptions = [locatives, mechanicals, electricals];
+const maxSafetyRows = safetyOptions.reduce((acc, prev) => acc < prev.length ? prev.length : acc, 0)
+
+const MAX_JOB_RISKS_LENGTH: number = 7;
+
+const jobRisksFormLabels: Record<physicalFormType | safetyLocativeFormType | safetyMechanicalFormType | safetyElectricalFormType | chemicalFormType | biologicalFormType | ergonomicFormType | psychosocialFormType, string> = {
+    'physical.highTemperature': 'Temperaturas altas',
+    'physical.lowTemperature': 'Temperaturas bajas',
+    'physical.ionizingRadiation': 'Radiación Ionizante',
+    'physical.nonIonizingRadiation': 'Radiación No Ionizante',
+    'physical.noise': 'Ruido',
+    'physical.vibration': 'Vibración',
+    'physical.lighting': 'Iluminación',
+    'physical.ventilation': 'Ventilación',
+    'physical.electricCurrent': 'Fluido eléctrico',
+    'safety.locative.missingSignageCleaningDisorder': 'Falta de señalización, aseo, desorden',
+    'safety.mechanical.machineOrSurfaceEntrapment': 'Atrapamiento entre Máquinas y o superficies',
+    'safety.mechanical.objectEntrapment': 'Atrapamiento entre objetos',
+    'safety.mechanical.fallingObjects': 'Caída de objetos',
+    'safety.mechanical.fallsSameLevel': 'Caídas al mismo nivel',
+    'safety.mechanical.fallsDifferentLevel': 'Caídas a diferente nivel',
+    'safety.mechanical.punctures': 'Pinchazos',
+    'safety.mechanical.cuts': 'Cortes',
+    'safety.mechanical.vehicleCollision': 'Choques /colisión vehicular',
+    'safety.mechanical.vehicleRunOver': 'Atropellamientos por vehículos',
+    'safety.mechanical.fluidProjection': 'Proyección de fluidos',
+    'safety.mechanical.particleProjection': 'Proyección de partículas - fragmentos',
+    'safety.mechanical.contactWithWorkSurfaces': 'Contacto con superficies de trabajos',
+    'safety.electrical.electricalContact': 'Contacto eléctrico',
+    'chemical.dust': 'Polvos',
+    'chemical.solids': 'Sólidos',
+    'chemical.smoke': 'Humos',
+    'chemical.liquids': 'Líquidos',
+    'chemical.vapors': 'Vapores',
+    'chemical.aerosols': 'Aerosoles',
+    'chemical.mists': 'Neblinas',
+    'chemical.gases': 'Gaseosos',
+    'biological.virus': 'Virus',
+    'biological.fungi': 'Hongos',
+    'biological.bacteria': 'Bacterias',
+    'biological.parasites': 'Parásitos',
+    'biological.vectorExposure': 'Exposición a vectores',
+    'biological.wildAnimalExposure': 'Exposición a animales selváticos',
+    'ergonomic.manualHandling': 'Manejo manual de cargas',
+    'ergonomic.repetitiveMovements': 'Movimiento repetitivos',
+    'ergonomic.forcedPostures': 'Posturas forzadas',
+    'ergonomic.pvdWork': 'Trabajos con PVD',
+    'ergonomic.poorWorkstationDesign': 'Diseño Inadecuado del puesto',
+    'psychosocial.monotony': 'Monotonía del trabajo',
+    'psychosocial.workOverload': 'Sobrecarga laboral',
+    'psychosocial.taskDetail': 'Minuciosidad de la tarea ',
+    'psychosocial.highResponsibility': 'Alta responsabilidad',
+    'psychosocial.decisionAutonomy': 'Autonomía en la toma de decisiones',
+    'psychosocial.poorSupervision': 'Supervisión y estilos de dirección deficiente',
+    'psychosocial.roleConflict': 'Conflicto de rol',
+    'psychosocial.unclearResponsibilities': 'Falta de Claridad en las funciones',
+    'psychosocial.poorTaskDistribution': 'Incorrecta distribución del trabajo ',
+    'psychosocial.rotatingShifts': 'Turnos rotativos',
+    'psychosocial.interpersonalRelations': 'Relaciones interpersonales ',
+    'psychosocial.jobInstability': 'Inestabilidad laboral',
+    'psychosocial.criminalThreat': 'Amenaza Delincuencial'
+}
+
+const JOB_RISK_OPTION_PHYSICAL = "physical"
+const JOB_RISK_OPTION_SAFETY = "locative"
+const JOB_RISK_OPTION_CHEMICAL = "chemical"
+const JOB_RISK_OPTION_BIOLOGICAL = "biological"
+const JOB_RISK_OPTION_ERGONOMIC = "ergonomic"
+const JOB_RISK_OPTION_PSYCHOSOCIAL = "psychosocial"
+const jobRisksOptions: Option[] = [
+    { label: "Físico", value: JOB_RISK_OPTION_PHYSICAL },
+    { label: "De Seguridad", value: JOB_RISK_OPTION_SAFETY },
+    { label: "Químico", value: JOB_RISK_OPTION_CHEMICAL },
+    { label: "Biológico", value: JOB_RISK_OPTION_BIOLOGICAL },
+    { label: "Ergonómico", value: JOB_RISK_OPTION_ERGONOMIC },
+    { label: "PsicoSocial", value: JOB_RISK_OPTION_PSYCHOSOCIAL }
+]
+
+type FemoJobRiskFormProps = {
+    data?: Partial<JobRisksSchemaType>;
+    onSubmit?: (value: JobRisksSchemaType) => void;
+}
+const FemoJobRiskForm = React.forwardRef<HTMLFormElement, FemoJobRiskFormProps>(({
+    data,
+    onSubmit
+}, ref) => {
+
+    const [jobRiskType, setJobRiskType] = useState<string>("")
+
+    const { onSubmit: formSubmit, getInputProps, values: formValues, setValues } = useForm<JobRisksSchemaType>({
+        initialValues: adjustInitialValue(data),
+        validate: zodResolver(JobRiskSchema)
+    });
+
+    const jobRisks: JobRiskSchemaType[] = formValues.jobRisks ?? [];
+
+    const handleSubmit = useCallback((value: JobRisksSchemaType) => {
+        console.log(value);
+        // onSubmit?.(value);
+    }, [onSubmit]);
+
+    const handleAdd = () => setValues(prev => (prev.jobRisks?.length ?? 0) < MAX_JOB_RISKS_LENGTH ? ({
+        ...prev,
+        jobRisks: [...(prev.jobRisks ?? []), DEFAULT_JOB_RISK]
+    }) : prev);
+
+    const handleRemove = (index: number) => setValues(prev => ({
+        ...prev,
+        jobRisks: [...(prev.jobRisks?.slice(0, index) ?? []), ...(prev.jobRisks?.slice(index + 1) ?? [])]
+    }));
+
+    const physicalForm = (index: number) => {
+        return (
+            <>
+                <TableThead>
+                    <TableTr>
+                        <TableTh>Físico</TableTh>
+                    </TableTr>
+                </TableThead>
+                <TableTbody>
+                    {physicals.map((examKey, subIndex) => (
+                        <TableTr key={`form-key-${index}-${subIndex}-${examKey}`}>
+                            <TableTd>
+                                <Checkbox
+                                    label={jobRisksFormLabels[examKey]}
+                                    {...getInputProps(`jobRisks.${index}.${examKey}`)} />
+                            </TableTd>
+                        </TableTr>
+                    ))}
+                    <TableTr>
+                        <TableTd>
+                            <TextInput
+                                label="Otros"
+                                {...getInputProps(`jobRisks.${index}.physical.other`)} />
+                        </TableTd>
+                    </TableTr>
+                </TableTbody>
+            </>
+        )
+    }
+
+    const safetyForm = (index: number) => {
+        return (
+            <>
+                <TableThead>
+                    <TableTr>
+                        <TableTh colSpan={3}>De Seguridad</TableTh>
+                    </TableTr>
+                    <TableTr>
+                        <TableTh>Locativos</TableTh>
+                        <TableTh>Mecánicos</TableTh>
+                        <TableTh>Electricos</TableTh>
+                    </TableTr>
+                </TableThead>
+                <TableTbody>
+                    {Array.from({ length: maxSafetyRows }).map((_, subIndex) => (
+                        <TableTr key={`form-key-${index}-${subIndex}`}>
+                            {safetyOptions.map((e, jobRisk) => {
+                                const key = e[subIndex];
+                                if (key) {
+                                    return (
+                                        <TableTd key={`${index}-${subIndex}-${jobRisk}-${key}`}>
+                                            <Checkbox
+                                                label={jobRisksFormLabels[key]}
+                                                {...getInputProps(`jobRisks.${index}.${key}`)} />
+                                        </TableTd>
+                                    )
+                                } else {
+                                    return (
+                                        <TableTd key={`${index}-${subIndex}-${jobRisk}-empty`}>{" "}</TableTd>
+                                    )
+                                }
+                            })}
+                        </TableTr>
+                    ))}
+                    <TableTr>
+                        <TableTd colSpan={3}>
+                            <TextInput
+                                label="Otros"
+                                {...getInputProps(`jobRisks.${index}.safety.other`)} />
+                        </TableTd>
+                    </TableTr>
+                </TableTbody>
+            </>
+        )
+    }
+
+    const chemicalForm = (index: number) => {
+        return (
+            <>
+                <TableThead>
+                    <TableTr>
+                        <TableTh>Químico</TableTh>
+                    </TableTr>
+                </TableThead>
+                <TableTbody>
+                    {chemicals.map((examKey, subIndex) => (
+                        <TableTr key={`form-key-${index}-${subIndex}-${examKey}`}>
+                            <TableTd>
+                                <Checkbox
+                                    label={jobRisksFormLabels[examKey]}
+                                    {...getInputProps(`jobRisks.${index}.${examKey}`)} />
+                            </TableTd>
+                        </TableTr>
+                    ))}
+                    <TableTr>
+                        <TableTd>
+                            <TextInput
+                                label="Otros"
+                                {...getInputProps(`jobRisks.${index}.chemical.other`)} />
+                        </TableTd>
+                    </TableTr>
+                </TableTbody>
+            </>
+        )
+    }
+
+    const biologicalForm = (index: number) => {
+        return (
+            <>
+                <TableThead>
+                    <TableTr>
+                        <TableTh>Biológico</TableTh>
+                    </TableTr>
+                </TableThead>
+                <TableTbody>
+                    {biologicals.map((examKey, subIndex) => (
+                        <TableTr key={`form-key-${index}-${subIndex}-${examKey}`}>
+                            <TableTd>
+                                <Checkbox
+                                    label={jobRisksFormLabels[examKey]}
+                                    {...getInputProps(`jobRisks.${index}.${examKey}`)} />
+                            </TableTd>
+                        </TableTr>
+                    ))}
+                    <TableTr>
+                        <TableTd>
+                            <TextInput
+                                label="Otros"
+                                {...getInputProps(`jobRisks.${index}.biological.other`)} />
+                        </TableTd>
+                    </TableTr>
+                </TableTbody>
+            </>
+        )
+    }
+
+    const ergonomicForm = (index: number) => {
+        return (
+            <>
+                <TableThead>
+                    <TableTr>
+                        <TableTh>Ergonómico</TableTh>
+                    </TableTr>
+                </TableThead>
+                <TableTbody>
+                    {ergonomics.map((examKey, subIndex) => (
+                        <TableTr key={`form-key-${index}-${subIndex}-${examKey}`}>
+                            <TableTd>
+                                <Checkbox
+                                    label={jobRisksFormLabels[examKey]}
+                                    {...getInputProps(`jobRisks.${index}.${examKey}`)} />
+                            </TableTd>
+                        </TableTr>
+                    ))}
+                    <TableTr>
+                        <TableTd>
+                            <TextInput
+                                label="Otros"
+                                {...getInputProps(`jobRisks.${index}.ergonomic.other`)} />
+                        </TableTd>
+                    </TableTr>
+                </TableTbody>
+            </>
+        )
+    }
+
+    const psychosocialForm = (index: number) => {
+        return (
+            <>
+                <TableThead>
+                    <TableTr>
+                        <TableTh>PsicoSocial</TableTh>
+                    </TableTr>
+                </TableThead>
+                <TableTbody>
+                    {psychosocials.map((examKey, subIndex) => (
+                        <TableTr key={`form-key-${index}-${subIndex}-${examKey}`}>
+                            <TableTd>
+                                <Checkbox
+                                    label={jobRisksFormLabels[examKey]}
+                                    {...getInputProps(`jobRisks.${index}.${examKey}`)} />
+                            </TableTd>
+                        </TableTr>
+                    ))}
+                    <TableTr>
+                        <TableTd>
+                            <TextInput
+                                label="Otros"
+                                {...getInputProps(`jobRisks.${index}.psychosocial.other`)} />
+                        </TableTd>
+                    </TableTr>
+                </TableTbody>
+            </>
+        )
+    }
+
+    const formMapper = useCallback((index: number) => {
+        switch (jobRiskType) {
+            case JOB_RISK_OPTION_SAFETY:
+                return safetyForm(index)
+            case JOB_RISK_OPTION_CHEMICAL:
+                return chemicalForm(index)
+            case JOB_RISK_OPTION_BIOLOGICAL:
+                return biologicalForm(index)
+            case JOB_RISK_OPTION_ERGONOMIC:
+                return ergonomicForm(index)
+            case JOB_RISK_OPTION_PSYCHOSOCIAL:
+                return psychosocialForm(index)
+            case JOB_RISK_OPTION_PHYSICAL:
+            default:
+                return physicalForm(index)
+        }
+    }, [jobRiskType])
+
+    return (
+        <>
+            <Title order={3}>Factores de riesgo del trabajo actual</Title>
+            <Box
+                mt={rem(16)}
+                component='form'
+                ref={ref}
+                onSubmit={formSubmit(handleSubmit)}>
+                <Stack gap={rem(32)}>
+                    <Select
+                        data={jobRisksOptions}
+                        checkIconPosition="left"
+                        label="Tipo de riesgo"
+                        defaultDropdownOpened={false}
+                        maxDropdownHeight={200}
+                        value={jobRiskType}
+                        onChange={(value) => setJobRiskType(value ?? JOB_RISK_OPTION_PHYSICAL)} />
+
+                    {jobRisks.map((_, i) => (
+                        <Stack key={`root-${i}`} gap={rem(16)}>
+                            <Flex gap={rem(8)}>
+                                {jobRisks.length - 1 === i && jobRisks.length < MAX_JOB_RISKS_LENGTH && (
+                                    <ActionIcon
+                                        w="100%"
+                                        variant='light'
+                                        onClick={handleAdd}>
+                                        <IconPlus style={{ width: rem(16), height: rem(16) }} />
+                                    </ActionIcon>)}
+                                {jobRisks.length > 1
+                                    && (
+                                        <ActionIcon variant='light'
+                                            w="100%"
+                                            onClick={() => handleRemove(i)}>
+                                            <IconMinus style={{ width: rem(16), height: rem(16) }} />
+                                        </ActionIcon>)}
+                            </Flex>
+                            <Stack w="100%">
+                                <Table w="100%" withColumnBorders withRowBorders={false}>
+                                    {formMapper(i)}
+                                </Table>
+                                <Textarea
+                                    label="Medidas Preventivas"
+                                    placeholder='eg. Lorem Ipsum...'
+                                    rows={5}
+                                    {...getInputProps(`jobRisks.${i}.preventiveMeasures`)} />
+                                {(jobRisks.length > 1 && i < jobRisks.length - 1) && <Divider />}
+                            </Stack>
+                        </Stack>
+                    ))}
+                </Stack>
+            </Box >
+        </>
+    )
+});
+
+FemoJobRiskForm.displayName = 'FemoJobRiskForm';
+
+export default FemoJobRiskForm

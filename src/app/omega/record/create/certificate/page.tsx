@@ -3,16 +3,23 @@ import { retriveCorporativesOptions } from '@/server';
 import { CorporativeOption } from '@/server/corporative/server-types';
 import { retriveClientByDni } from '@/server';
 import React from 'react'
-import CertificateInstitutionForm from './_components/certificate-institution-form';
-import StepperCertificateForm from './_components/stepper-certificate-record-form';
-import CertificateGeneralDataForm from './_components/certificate-general-data-form';
-import RecommendationForm from '@/components/record/recommendation-form';
-import PreviewCertificateRecord from './_components/preview-certificate-record';
-import CertificateEvaluation from './_components/certificate-evaluation';
-import { retriveFromTmpStore } from '@/lib/tmp-store/tmp-store.utils';
-import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
-import { parsedCertificate } from './_libs/parsed-certificate';
+import CertificateInstitutionForm from '../../../../../components/record/certificate/certificate-institution-form';
+import StepperCertificateForm from '../../../../../components/record/certificate/stepper-certificate-record-form';
+import CertificateGeneralDataForm from '../../../../../components/record/certificate/certificate-general-data-form';
+import PreviewCertificateRecord from '../../../../../components/record/certificate/preview-certificate-record';
 import ProfessionalDataForm from '@/components/record/professional-data-form';
+import MedicalFitnessForJobForm from '@/components/record/certificate/medical-fitness-for-work-form';
+import RecommendationForm from '@/components/record/certificate/recommendation-form';
+import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
+
+const stepperHeader: { title: string, description?: string, icon: any }[] = [
+    { title: 'Datos del profesional', icon: 'medicine' },
+    { title: 'Datos del establecimiento', description: 'Empresa y usuario', icon: 'building' },
+    { title: 'Datos generales', icon: 'license' },
+    { title: 'Aptitud Médica para el Trabajo', icon: 'notebook' },
+    { title: 'Recomendaciones/Observaciones', icon: 'notebook' },
+    { title: 'Vista anticipada del certificado', icon: 'check' },
+]
 
 interface RecordCertificatePageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -25,8 +32,6 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
     if (!patientDni) return <>Paciente no especificado</>
 
     const stepperCookieKey: string = `record-certificate-${patientDni}`;
-    const tmpResult = await retriveFromTmpStore<Partial<CertificateRecordPayload>>(stepperCookieKey);
-    const initialData: Partial<CertificateRecordPayload> = tmpResult.isSuccess ? parsedCertificate(tmpResult.value) : {};
 
     const corporativeBaseOptions = await retriveCorporativesOptions();
     const corporativeOptions = corporativeBaseOptions.map<CorporativeOption>((e) => ({
@@ -44,35 +49,29 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
     const patientLastName = patient.patientLastname.split(' ')[0] ?? ' ';
     const patientSecondLastName = patient.patientLastname.split(' ').slice(1).join(" ") ?? ' ';
 
+    const initialPatientData: Pick<CertificateRecordPayload["patient"], "firstName" | "middleName" | "lastName" | "secondLastName" | "gender"> = {
+        firstName: patientFirstName,
+        middleName: patientMiddleName,
+        lastName: patientLastName,
+        secondLastName: patientSecondLastName,
+        gender: patient.patientGender
+    }
+
     return (
         <>
             <ReturnableHeader title='Ficha de certificado' />
             <StepperCertificateForm
-                headers={[
-                    { title: 'Datos del profesional', icon: 'medicine' },
-                    { title: 'Datos del establecimiento', description: 'Empresa y usuario', icon: 'building' },
-                    { title: 'Datos generales', icon: 'license' },
-                    { title: 'Evaluación', icon: 'notebook' },
-                    { title: 'Recomendaciones y/o tratamientos', icon: 'notebook' },
-                    { title: 'Vista anticipada de la ficha', icon: 'check' },
-                ]}
+                headers={stepperHeader}
                 patientDni={patientDni}
                 tmpStoreKey={stepperCookieKey}
-                initialData={{
-                    patientDni: patientDni,
-                    patientFirstName: patientFirstName,
-                    patientMiddleName: patientMiddleName,
-                    patientLastName: patientLastName,
-                    patientSecondLastName: patientSecondLastName,
-                    patientGender: patient.patientGender,
-                    ...initialData
-                }}>
+                initialData={{ patient: initialPatientData }}>
                 <ProfessionalDataForm />
-                <CertificateInstitutionForm options={corporativeOptions} />
-                <CertificateGeneralDataForm />
-                <CertificateEvaluation />
+                <CertificateInstitutionForm
+                    options={corporativeOptions} />
+                {/* <CertificateGeneralDataForm />
+                <MedicalFitnessForJobForm />
                 <RecommendationForm />
-                <PreviewCertificateRecord />
+                <PreviewCertificateRecord /> */}
             </StepperCertificateForm>
         </>
     )

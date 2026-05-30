@@ -22,7 +22,6 @@ const CreateDiseaseForm: React.FC<CreateDiseaseFormProps> = ({
     const handleSubmit = useCallback(async (payload: Omit<CreateDiseasePayload, 'groupId'>) => {
         setLoading(true);
         try {
-            console.log(groupId)
             await createDisease({ ...payload, groupId });
             router.back();
         } catch (error: any) {
@@ -30,7 +29,7 @@ const CreateDiseaseForm: React.FC<CreateDiseaseFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [groupId])
+    }, [groupId, router])
 
     return (
         <>
