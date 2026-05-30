@@ -1,7 +1,7 @@
 import React from 'react'
 import { MenuItem, MenuLabel, rem } from '@mantine/core'
 import Link from 'next/link'
-import { IconAt, IconBriefcase, IconBuildingCommunity } from '@tabler/icons-react'
+import { IconAt, IconBriefcase, IconBuildingCommunity, IconEdit } from '@tabler/icons-react'
 
 type PatientMenuItemsProps = {
     patientDni: string
@@ -12,6 +12,14 @@ const PatientMenuItems: React.FC<PatientMenuItemsProps> = ({
     return (
         <>
             <MenuLabel>Aplicacion</MenuLabel>
+            <MenuItem
+                href={`/omega/admin/patient/${patientDni}/name`}
+                component={Link}
+                leftSection={(
+                    <IconEdit style={{ width: rem(16), height: rem(16) }} />
+                )}>
+                Nombre y Apellido
+            </MenuItem>
             <MenuItem
                 href={`/omega/admin/patient/${patientDni}/email`}
                 component={Link}

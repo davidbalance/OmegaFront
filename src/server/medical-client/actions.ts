@@ -2,7 +2,7 @@
 
 import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth";
-import { AddAreaMedicalClientPayload, AddJobPositionMedicalClientPayload, AddManagementMedicalClientPayload, ChangeRoleClientPayload, CreateClientEmailPayload, CreateMedicalClientPayload, DefaultClientEmailPayload, MedicalAreaClient, MedicalClient, MedicalClientEmail, MedicalClientQuery, MedicalJobPositionClient, MedicalManagementClient, RemoveClientEmailPayload } from "./server-types";
+import { AddAreaMedicalClientPayload, AddJobPositionMedicalClientPayload, AddManagementMedicalClientPayload, ChangeRoleClientPayload, CreateClientEmailPayload, CreateMedicalClientPayload, DefaultClientEmailPayload, MedicalAreaClient, MedicalClient, MedicalClientEmail, MedicalClientQuery, MedicalJobPositionClient, MedicalManagementClient, RemoveClientEmailPayload, UpdateMedicalClientNamePayload } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { withResult } from "@/lib/utils/result.utils";
@@ -123,7 +123,6 @@ const massiveLoadClient = async (formData: FormData): Promise<void> => {
     revalidateTag('retriveClientsDoctor');
 }
 
-
 const addAreaClient = async (payload: AddAreaMedicalClientPayload): Promise<void> => {
     const { dni, ...body } = payload;
     const session = await auth();
@@ -132,6 +131,16 @@ const addAreaClient = async (payload: AddAreaMedicalClientPayload): Promise<void
         .addParams({ dni })
         .addBody({ ...body })
         .execute('addAreaClient');
+}
+
+const updateClientName = async (payload: UpdateMedicalClientNamePayload): Promise<void> => {
+    const { dni, ...body } = payload;
+    const session = await auth();
+    await omega()
+        .addToken(session.access_token)
+        .addParams({ dni })
+        .addBody({ ...body })
+        .execute('updateClientName');
 }
 
 const addJobPositionClient = async (payload: AddJobPositionMedicalClientPayload): Promise<void> => {
@@ -203,6 +212,7 @@ const removeClientEmail = async (payload: RemoveClientEmailPayload): Promise<voi
 export const serverActionCreateClient = withResult(createClient);
 export const serverActionMassiveLoadClient = withResult(massiveLoadClient);
 export const serverActionAddAreaClient = withResult(addAreaClient);
+export const serverActionUpdateClientName = withResult(updateClientName);
 export const serverActionAddJobPositionClient = withResult(addJobPositionClient);
 export const serverActionAddManagementClient = withResult(addManagementClient);
 export const serverActionChangeRoleClient = withResult(changeRoleClient);

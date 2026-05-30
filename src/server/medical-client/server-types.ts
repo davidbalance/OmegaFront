@@ -54,6 +54,12 @@ export type AddAreaMedicalClientPayload = {
     areaName: string;
 }
 
+export type UpdateMedicalClientNamePayload = {
+    dni: string;
+    patientName: string;
+    patientLastname: string;
+}
+
 export type AddJobPositionMedicalClientPayload = {
     dni: string;
     jobPositionName: string;

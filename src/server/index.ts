@@ -14,13 +14,13 @@ import { serverActionRetriveJobPositions, serverActionRetriveJobPosition, server
 import { serverActionRetriveLogger, serverActionRetriveLoggerLevels } from "./logger/actions";
 import { serverActionRetriveLogos } from "./logo/actions";
 import { serverActionRetriveManagements, serverActionRetriveManagement, serverActionRetriveManagementOptions, serverActionCreateManagement, serverActionEditManagement, serverActionRemoveManagement } from "./management/actions";
-import { serverActionRetriveClientByDni, serverActionRetriveClients, serverActionRetriveClientsCompany, serverActionRetriveClientsEEQ, serverActionRetriveClientsDoctor, serverActionRetriveClientEmails, serverActionRetriveClientArea, serverActionRetriveClientJobPosition, serverActionRetriveClientManagement, serverActionRetriveClientMassiveLoadTemplate, serverActionCreateClient, serverActionMassiveLoadClient, serverActionAddAreaClient, serverActionAddJobPositionClient, serverActionAddManagementClient, serverActionChangeRoleClient, serverActionCreateClientEmail, serverActionDefaultClientEmail, serverActionRemoveClientEmail } from "./medical-client/actions";
+import { serverActionRetriveClientByDni, serverActionRetriveClients, serverActionRetriveClientsCompany, serverActionRetriveClientsEEQ, serverActionRetriveClientsDoctor, serverActionRetriveClientEmails, serverActionRetriveClientArea, serverActionRetriveClientJobPosition, serverActionRetriveClientManagement, serverActionRetriveClientMassiveLoadTemplate, serverActionCreateClient, serverActionMassiveLoadClient, serverActionAddAreaClient, serverActionAddJobPositionClient, serverActionAddManagementClient, serverActionChangeRoleClient, serverActionCreateClientEmail, serverActionDefaultClientEmail, serverActionRemoveClientEmail, serverActionUpdateClientName } from "./medical-client/actions";
 import { serverActionRetriveProcesses, serverActionRetriveYears, serverActionRetriveMedicalOrders, serverActionRetriveMedicalOrdersEEQ, serverActionRetriveMedicalOrdersCompany, serverActionRetriveMedicalOrder, serverActionRetriveMedicalOrdersPatient, serverActionRetriveMedicalCloud, serverActionRetriveMedicalChecklist, serverActionRetriveMedicalChecklistFile, serverActionRetriveMedicalOrdersDoctor, serverActionRetriveMedicalOrderMassiveLoadTemplate, serverActionCreateMedicalOrder, serverActionRemoveMedicalOrder, serverActionSendMedicalOrder, serverActionValidatedStatusMedicalOrder, serverActionCreatedStatusMedicalOrder, serverActionMassiveLoadOrder, serverActionProcessOptions, serverActionUpdateMedicalOrderProcess } from "./medical-order/actions";
 import { serverActionRetriveMedicalDiseases, serverActionRetriveMedicalDisease, serverActionRetriveMedicalReport, serverActionRetriveMedicalReportFile, serverActionRetriveMedicalResultFile, serverActionRetriveMedicalTests, serverActionRetriveMedicalTest, serverActionRetriveMedicalDiseaseReportFile, serverActionRetriveMedicalTestFileReport, serverActionRetriveMedicalTestFileCount, serverActionCreateMedicalResultDisease, serverActionEditMedicalResultDisease, serverActionRemoveMedicalResultDisease, serverActionAddMedicalReport, serverActionAddMedicalReportFile, serverActionRemoveMedicalReport, serverActionAddMedicalResult, serverActionRemoveMedicalResult, serverActionCheckMedicalTest, serverActionRemoveMedicalTest, serverActionCreateMedicalTest, serverActionUncheckMedicalTest, serverActionCheckMedicalTestFile, serverActionEditMedicalTestExam, serverActionRetriveMedicalTestZip } from "./medical-test/actions";
 import { serverActionRetriveClientRecords, serverActionRetriveClientRecordFile, serverActionCreateClientRecordInitial, serverActionCreateClientRecordPeriodic, serverActionCreateClientRecordReintegrate, serverActionCreateClientRecordRetirement, serverActionCreateClientRecordCertificate } from "./record/actions";
 import { serverActionRetriveResources, serverActionRetriveResource, serverActionCreateResource, serverActionEditResource, serverActionRemoveResource } from "./resource/actions";
 import { serverActionRetriveUserAttribute, serverActionAddUserAttribute, serverActionRemoveUserAttribute } from "./user-attribute/actions";
-import { serverActionFindMe, serverActionRetriveUsers, serverActionRetriveUser, serverActionRetriveUserResources, serverActionCreateUser, serverActionEditUser, serverActionAddAuthUser, serverActionAddUserResource, serverActionRemoveUser } from "./user/actions";
+import { serverActionFindMe, serverActionRetriveUsers, serverActionRetriveUser, serverActionRetriveUserResources, serverActionCreateUser, serverActionEditUser, serverActionAddAuthUser, serverActionAddUserResource, serverActionRemoveUser, serverActionEditUserByDni } from "./user/actions";
 
 const composedResultAction = <P extends any[], B>(f: (...params: P) => Promise<Result<B>>, g: (param: Result<B>) => B) =>
     async (...params: P) => g(await f(...params))
@@ -115,6 +115,7 @@ export const retriveClientMassiveLoadTemplate = serverActionRetriveClientMassive
 export const createClient = composedResultAction(serverActionCreateClient, getResult);
 export const massiveLoadClient = composedResultAction(serverActionMassiveLoadClient, getResult);
 export const addAreaClient = composedResultAction(serverActionAddAreaClient, getResult);
+export const updateClientName = composedResultAction(serverActionUpdateClientName, getResult);
 export const addJobPositionClient = composedResultAction(serverActionAddJobPositionClient, getResult);
 export const addManagementClient = composedResultAction(serverActionAddManagementClient, getResult);
 export const changeRoleClient = composedResultAction(serverActionChangeRoleClient, getResult);
@@ -189,6 +190,7 @@ export const retriveUser = serverActionRetriveUser;
 export const retriveUserResources = serverActionRetriveUserResources;
 export const createUser = composedResultAction(serverActionCreateUser, getResult);
 export const editUser = composedResultAction(serverActionEditUser, getResult);
+export const editUserByDni = composedResultAction(serverActionEditUserByDni, getResult);
 export const addAuthUser = composedResultAction(serverActionAddAuthUser, getResult);
 export const addUserResource = composedResultAction(serverActionAddUserResource, getResult);
 export const removeUser = composedResultAction(serverActionRemoveUser, getResult);
