@@ -20,7 +20,7 @@ import { serverActionRetriveMedicalDiseases, serverActionRetriveMedicalDisease, 
 import { serverActionRetriveClientRecords, serverActionRetriveClientRecordFile, serverActionCreateClientRecordInitial, serverActionCreateClientRecordPeriodic, serverActionCreateClientRecordReintegrate, serverActionCreateClientRecordRetirement, serverActionCreateClientRecordCertificate } from "./record/actions";
 import { serverActionRetriveResources, serverActionRetriveResource, serverActionCreateResource, serverActionEditResource, serverActionRemoveResource } from "./resource/actions";
 import { serverActionRetriveUserAttribute, serverActionAddUserAttribute, serverActionRemoveUserAttribute } from "./user-attribute/actions";
-import { serverActionFindMe, serverActionRetriveUsers, serverActionRetriveUser, serverActionRetriveUserResources, serverActionCreateUser, serverActionEditUser, serverActionAddAuthUser, serverActionAddUserResource, serverActionRemoveUser, serverActionRetriveUserByDni } from "./user/actions";
+import { serverActionFindMe, serverActionRetriveUsers, serverActionRetriveUser, serverActionRetriveUserResources, serverActionCreateUser, serverActionEditUser, serverActionAddAuthUser, serverActionAddUserResource, serverActionRemoveUser, serverActionEditUserByDni } from "./user/actions";
 
 const composedResultAction = <P extends any[], B>(f: (...params: P) => Promise<Result<B>>, g: (param: Result<B>) => B) =>
     async (...params: P) => g(await f(...params))
@@ -187,10 +187,10 @@ export const removeResource = composedResultAction(serverActionRemoveResource, g
 export const findMe = serverActionFindMe;
 export const retriveUsers = serverActionRetriveUsers;
 export const retriveUser = serverActionRetriveUser;
-export const retriveUserByDni = serverActionRetriveUserByDni;
 export const retriveUserResources = serverActionRetriveUserResources;
 export const createUser = composedResultAction(serverActionCreateUser, getResult);
 export const editUser = composedResultAction(serverActionEditUser, getResult);
+export const editUserByDni = composedResultAction(serverActionEditUserByDni, getResult);
 export const addAuthUser = composedResultAction(serverActionAddAuthUser, getResult);
 export const addUserResource = composedResultAction(serverActionAddUserResource, getResult);
 export const removeUser = composedResultAction(serverActionRemoveUser, getResult);

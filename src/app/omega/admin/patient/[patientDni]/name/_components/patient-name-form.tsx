@@ -4,7 +4,7 @@ import LoadingOverlay from '@/components/_base/loading-overlay';
 import { ModularBox } from '@/components/modular/box/ModularBox';
 import ModularLayout from '@/components/modular/layout/ModularLayout';
 import { getErrorMessage } from '@/lib/utils/errors';
-import { editUser, updateClientName } from '@/server';
+import { editUser, editUserByDni, updateClientName } from '@/server';
 import { rem, Button, Flex, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
@@ -15,13 +15,11 @@ import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 
 type PatientNameFormProps = {
-    userId: string;
     patientDni: string;
     patientName: string;
     patientLastname: string;
 }
 const PatientNameForm: React.FC<PatientNameFormProps> = ({
-    userId,
     patientDni,
     patientName,
     patientLastname
@@ -45,10 +43,10 @@ const PatientNameForm: React.FC<PatientNameFormProps> = ({
                 ...value,
                 dni: patientDni
             });
-            await editUser({
+            await editUserByDni({
                 lastname: value.patientLastname,
                 name: value.patientName,
-                userId: userId
+                userDni: patientDni
             })
             router.back();
         } catch (error: any) {
@@ -56,7 +54,7 @@ const PatientNameForm: React.FC<PatientNameFormProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [router, userId, patientDni]);
+    }, [router, patientDni]);
 
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>

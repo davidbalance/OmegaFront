@@ -46,3 +46,9 @@ export type EditUserPayload = {
     name: string;
     lastname: string;
 }
+
+export type EditUserDyDniPayload = {
+    userDni: string;
+    name: string;
+    lastname: string;
+}

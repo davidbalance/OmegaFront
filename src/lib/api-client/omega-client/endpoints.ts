@@ -193,7 +193,7 @@ const endpoints = {
         method: 'get',
     } as ApiResource,
     retriveUserByDni: {
-        resource: 'users/:dni/dni',
+        resource: 'users/:userDni/dni',
         method: 'get',
     } as ApiResource,
     createUser: {
@@ -206,6 +206,10 @@ const endpoints = {
     } as ApiResource,
     editUser: {
         resource: 'user/write/:userId',
+        method: 'put',
+    } as ApiResource,
+    editUserByDni: {
+        resource: 'user/write/:userDni/dni',
         method: 'put',
     } as ApiResource,
     removeUser: {
