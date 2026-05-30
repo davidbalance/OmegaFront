@@ -4,7 +4,7 @@ import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth";
 import { register } from "@/lib/auth/auth.utils";
 import { AuthRegisterPayload } from "@/lib/auth/auth.types";
-import { AddAuthPayload, AddUserResourcesPayload, EditUserPayload, User, UserAuthResource, UserInstrospect, UserQuery } from "./server-types";
+import { AddAuthPayload, AddUserResourcesPayload, EditUserDyDniPayload, EditUserPayload, User, UserAuthResource, UserInstrospect, UserQuery } from "./server-types";
 import { PaginationResponse } from "@/lib/types/pagination.type";
 import { revalidateTag } from "next/cache";
 import { withResult } from "@/lib/utils/result.utils";
@@ -61,6 +61,18 @@ const editUser = async (payload: EditUserPayload): Promise<void> => {
     revalidateTag('retriveUsers');
 }
 
+const editUserByDni = async (payload: EditUserDyDniPayload): Promise<void> => {
+    const { userDni, ...body } = payload;
+    const session = await auth();
+    await omega()
+        .addToken(session.access_token)
+        .addParams({ userDni })
+        .addBody({ ...body })
+        .execute('editUserByDni');
+
+    revalidateTag('retriveUsers');
+}
+
 const addAuthUser = async (payload: AddAuthPayload): Promise<void> => {
     const session = await auth();
     await omega()
@@ -91,6 +103,7 @@ const removeUser = async (userId: string): Promise<void> => {
 
 export const serverActionCreateUser = withResult(createUser);
 export const serverActionEditUser = withResult(editUser);
+export const serverActionEditUserByDni = withResult(editUserByDni);
 export const serverActionAddAuthUser = withResult(addAuthUser);
 export const serverActionAddUserResource = withResult(addUserResource);
 export const serverActionRemoveUser = withResult(removeUser);

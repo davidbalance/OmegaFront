@@ -68,10 +68,6 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
                 <ProfessionalDataForm />
                 <CertificateInstitutionForm
                     options={corporativeOptions} />
-                {/* <CertificateGeneralDataForm />
-                <MedicalFitnessForJobForm />
-                <RecommendationForm />
-                <PreviewCertificateRecord /> */}
             </StepperCertificateForm>
         </>
     )

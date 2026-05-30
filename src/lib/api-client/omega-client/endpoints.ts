@@ -204,6 +204,10 @@ const endpoints = {
         resource: 'user/write/:userId',
         method: 'put',
     } as ApiResource,
+    editUserByDni: {
+        resource: 'user/write/:userDni/dni',
+        method: 'put',
+    } as ApiResource,
     removeUser: {
         resource: 'user/write/:userId',
         method: 'delete',
@@ -385,6 +389,10 @@ const endpoints = {
     } as ApiResource,
     addAreaClient: {
         resource: 'medical-client/write/:dni/area',
+        method: 'put',
+    } as ApiResource,
+    updateClientName: {
+        resource: 'medical-client/write/:dni/name',
         method: 'put',
     } as ApiResource,
     addJobPositionClient: {
