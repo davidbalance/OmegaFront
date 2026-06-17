@@ -70,8 +70,8 @@ const validateConsumerStatus = (arg: string) => consumerStatus.includes(arg)
 const substanceConsumerSchema = z.object({
     name: z.coerce.string().default(""),
     status: z.coerce.string().refine(validateConsumerStatus),
-    abstinenceDuration: z.coerce.number().int().optional(),
-    substanceUseDuration: z.coerce.number().int().optional(),
+    abstinenceDuration: z.coerce.string().optional(),
+    substanceUseDuration: z.coerce.string().optional(),
 }).
     refine(args => (args.status === SUBSTANCE_CONSUMER_FORMER_USER || args.status === SUBSTANCE_CONSUMER_CURRENT_USER) ? !!args.substanceUseDuration : true, {
         message: "Estos campos son necesarios",
@@ -147,20 +147,20 @@ export const adjustInitialValue = (data?: Partial<PersonalHistorySchemaType>): P
             tabacco: {
                 status: data?.personalHistory?.toxicHabits?.tabacco.status ?? SUBSTANCE_CONSUMER_NON_USER,
                 name: "tabacoo",
-                abstinenceDuration: data?.personalHistory?.toxicHabits?.tabacco.abstinenceDuration ?? 0,
-                substanceUseDuration: data?.personalHistory?.toxicHabits?.tabacco.substanceUseDuration ?? 0,
+                abstinenceDuration: data?.personalHistory?.toxicHabits?.tabacco.abstinenceDuration ?? "",
+                substanceUseDuration: data?.personalHistory?.toxicHabits?.tabacco.substanceUseDuration ?? "",
             },
             alcohol: {
                 status: data?.personalHistory?.toxicHabits?.alcohol.status ?? SUBSTANCE_CONSUMER_NON_USER,
                 name: "alcohol",
-                abstinenceDuration: data?.personalHistory?.toxicHabits?.alcohol.abstinenceDuration ?? 0,
-                substanceUseDuration: data?.personalHistory?.toxicHabits?.alcohol.substanceUseDuration ?? 0,
+                abstinenceDuration: data?.personalHistory?.toxicHabits?.alcohol.abstinenceDuration ?? "",
+                substanceUseDuration: data?.personalHistory?.toxicHabits?.alcohol.substanceUseDuration ?? "",
             },
             other: {
                 status: data?.personalHistory?.toxicHabits?.other.status ?? SUBSTANCE_CONSUMER_NON_USER,
                 name: data?.personalHistory?.toxicHabits?.other.name ?? "",
-                abstinenceDuration: data?.personalHistory?.toxicHabits?.other.abstinenceDuration ?? 0,
-                substanceUseDuration: data?.personalHistory?.toxicHabits?.other.substanceUseDuration ?? 0,
+                abstinenceDuration: data?.personalHistory?.toxicHabits?.other.abstinenceDuration ?? "",
+                substanceUseDuration: data?.personalHistory?.toxicHabits?.other.substanceUseDuration ?? "",
             },
         },
         lifeStyles: data?.personalHistory?.lifeStyles ?? [DEFAULT_LIFE_STYLE],

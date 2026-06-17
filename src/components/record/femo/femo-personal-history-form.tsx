@@ -259,15 +259,13 @@ const FemoPersonalHistoryForm = React.forwardRef<HTMLFormElement, FemoPersonalHi
                                 {(toxicHabitTabaccoStatus === SUBSTANCE_CONSUMER_FORMER_USER || toxicHabitTabaccoStatus === SUBSTANCE_CONSUMER_CURRENT_USER) && (
                                     <TextInput
                                         label="Tiempo de Consumo (años)"
-                                        min={0}
-                                        type='number'
+                                        placeholder='20 u/sem'
                                         {...getInputProps('personalHistory.toxicHabits.tabacco.substanceUseDuration')} />
                                 )}
                                 {(toxicHabitTabaccoStatus === SUBSTANCE_CONSUMER_FORMER_USER) && (
                                     <TextInput
                                         label="Tiempo de Abstinencia (meses)"
-                                        min={0}
-                                        type='number'
+                                        placeholder='20 u/sem'
                                         {...getInputProps('personalHistory.toxicHabits.tabacco.abstinenceDuration')} />
                                 )}
                             </Stack>
@@ -364,8 +362,7 @@ const FemoPersonalHistoryForm = React.forwardRef<HTMLFormElement, FemoPersonalHi
                                                 {...getInputProps(`personalHistory.lifeStyles.${i}.type`)} />
                                             <TextInput
                                                 label="Tiempo"
-                                                min={0}
-                                                type='number'
+                                                placeholder="e.g,. 2 días/sem"
                                                 {...getInputProps(`personalHistory.lifeStyles.${i}.duration`)} />
                                         </SimpleGrid>
                                     </Stack>
@@ -408,8 +405,7 @@ const FemoPersonalHistoryForm = React.forwardRef<HTMLFormElement, FemoPersonalHi
                                                 {...getInputProps(`personalHistory.preexistingConditions.${i}.type`)} />
                                             <TextInput
                                                 label="Cantidad"
-                                                min={0}
-                                                type='number'
+                                                placeholder="e.g,. 2 días/sem"
                                                 {...getInputProps(`personalHistory.preexistingConditions.${i}.quantity`)} />
                                         </SimpleGrid>
                                     </Stack>

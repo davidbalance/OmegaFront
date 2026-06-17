@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper-form';
 import { FemoRecordPayload } from '@/server/record/create-record/femo-record';
-import { completeClientRecord, createClientRecordFemo } from '@/server';
+import { createClientRecordFemo } from '@/server';
 
 const icon: StepperIcon = {
     'user-check': <IconUserCheck style={{ width: rem(16), height: rem(16) }} />,
