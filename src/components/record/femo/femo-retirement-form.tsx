@@ -45,14 +45,12 @@ const FemoRetirementForm = React.forwardRef<HTMLFormElement, FemoRetirementFormP
         onSubmit={formSubmit(handleSubmit)}
         style={{ position: 'relative', width: '100%', height: '100%' }}>
         <Stack gap={rem(8)}>
-
           {
-            data?.consultation?.evaluationType === CONSULTATION_EVALUATION_TYPE_RETIRE ? (
+            data?.consultation?.evaluationType !== CONSULTATION_EVALUATION_TYPE_RETIRE ? (
               <>
-                <Text>Tipo de evaluacion:
-                  <Text component='span' fw={500}>Retiro</Text>
+                <Text>
+                  No se require completar esta sección
                 </Text>
-                No se require completar esta sección
               </>
             ) : (<>
               <Select

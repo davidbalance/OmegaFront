@@ -59,6 +59,7 @@ const FemoInstitutionForm = React.forwardRef<HTMLFormElement, FemoInstitutionFor
         const updatedValues = { ...prev };
         selectedPath.forEach(({ name, label, value }) => {
             if (name === 'companyId') {
+                console.log(label)
                 updatedValues.establishment = {
                     ...updatedValues.establishment!,
                     healthFacility: label,

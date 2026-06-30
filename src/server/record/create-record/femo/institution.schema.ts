@@ -80,7 +80,7 @@ export const adjustInitialValue = (data?: Partial<InstitutionSchemaType>): Insti
     establishment: {
         institutionName: "",
         ruc: data?.establishment?.ruc ?? "",
-        healthFacility: data?.establishment?.institutionName ?? "",
+        healthFacility: data?.establishment?.healthFacility ?? "",
         ciiu: data?.establishment?.ciiu ?? ""
     },
     patient: {

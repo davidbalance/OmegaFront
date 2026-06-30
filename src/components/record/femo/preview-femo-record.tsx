@@ -681,7 +681,7 @@ const PreviewFemoRecord = React.forwardRef<HTMLFormElement, PreviewFemoRecordPro
                         </PreviewRecordWrapper>
 
                         {
-                            data.consultation.evaluationType !== CONSULTATION_EVALUATION_TYPE_RETIRE && (
+                            data.consultation.evaluationType === CONSULTATION_EVALUATION_TYPE_RETIRE && (
                                 <PreviewRecordWrapper title='N. Retiro (Evaluación)'>
                                     <SimpleGrid cols={2}>
                                         <PreviewRecordElement title='Se realiza la evaluación' text={data.retirementEvaluation.performed === RETIREMENT_YES_OPTION ? "Sí" : "No"} />
