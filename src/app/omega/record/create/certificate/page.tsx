@@ -1,15 +1,10 @@
 import ReturnableHeader from '@/components/_base/returnable-header';
-import { retriveCorporativesOptions } from '@/server';
+import { retriveClientRecordMetadata, retriveCorporativesOptions } from '@/server';
 import { CorporativeOption } from '@/server/corporative/server-types';
-import { retriveClientByDni } from '@/server';
 import React from 'react'
 import CertificateInstitutionForm from '../../../../../components/record/certificate/certificate-institution-form';
 import StepperCertificateForm from '../../../../../components/record/certificate/stepper-certificate-record-form';
-import CertificateGeneralDataForm from '../../../../../components/record/certificate/certificate-general-data-form';
-import PreviewCertificateRecord from '../../../../../components/record/certificate/preview-certificate-record';
 import ProfessionalDataForm from '@/components/record/professional-data-form';
-import MedicalFitnessForJobForm from '@/components/record/certificate/medical-fitness-for-work-form';
-import RecommendationForm from '@/components/record/certificate/recommendation-form';
 import { CertificateRecordPayload } from '@/server/record/create-record/certificate-record';
 
 const stepperHeader: { title: string, description?: string, icon: any }[] = [
@@ -27,11 +22,12 @@ interface RecordCertificatePageProps {
 const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
     searchParams
 }) => {
-    const patientDni = typeof searchParams.patientDni === 'string' ? searchParams.patientDni : undefined;
 
-    if (!patientDni) return <>Paciente no especificado</>
+    const femoId = typeof searchParams.femoId === 'string' ? searchParams.femoId : undefined;
 
-    const stepperCookieKey: string = `record-certificate-${patientDni}`;
+    if (!femoId) return <>Formulraio de Evaluación Médica Ocupacional no especificado</>
+
+    const stepperCookieKey: string = `record-certificate-${femoId}`;
 
     const corporativeBaseOptions = await retriveCorporativesOptions();
     const corporativeOptions = corporativeBaseOptions.map<CorporativeOption>((e) => ({
@@ -43,18 +39,32 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
         }))
     }));
 
-    const patient = await retriveClientByDni(patientDni);
-    const patientFirstName = patient.patientName.split(' ')[0] ?? ' ';
-    const patientMiddleName = patient.patientName.split(' ').slice(1).join(" ") ?? ' ';
-    const patientLastName = patient.patientLastname.split(' ')[0] ?? ' ';
-    const patientSecondLastName = patient.patientLastname.split(' ').slice(1).join(" ") ?? ' ';
+    const femo = await retriveClientRecordMetadata(femoId);
 
-    const initialPatientData: Pick<CertificateRecordPayload["patient"], "firstName" | "middleName" | "lastName" | "secondLastName" | "gender"> = {
-        firstName: patientFirstName,
-        middleName: patientMiddleName,
-        lastName: patientLastName,
-        secondLastName: patientSecondLastName,
-        gender: patient.patientGender
+    const initialPatientData: Partial<CertificateRecordPayload["patient"]> = {
+        firstName: femo.metadata.patient.firstName,
+        middleName: femo.metadata.patient.middleName,
+        lastName: femo.metadata.patient.lastName,
+        secondLastName: femo.metadata.patient.secondLastName,
+        gender: femo.metadata.patient.gender
+    }
+
+    let initialAuthor: Partial<CertificateRecordPayload["author"]> = {
+        dni: femo.metadata.author.dni,
+        fullname: femo.metadata.author.fullname
+    }
+
+    let initialEstablishment: Partial<CertificateRecordPayload["establishment"]> = {
+        healthFacility: femo.metadata.establishment.healthFacility,
+        institutionName: femo.metadata.establishment.institutionName,
+        ruc: femo.metadata.establishment.ruc,
+        ciiu: femo.metadata.establishment.ciiu,
+    }
+
+    let initialGeneralDataEvaluation: Partial<CertificateRecordPayload["generalDataEvaluation"]> = femo.metadata.consultation.evaluationType
+
+    let initialFitness: Partial<CertificateRecordPayload["fitness"]> = {
+        type: femo.metadata.medicalAptitude.type
     }
 
     return (
@@ -62,9 +72,15 @@ const RecordCertificatePage: React.FC<RecordCertificatePageProps> = async ({
             <ReturnableHeader title='Ficha de certificado' />
             <StepperCertificateForm
                 headers={stepperHeader}
-                patientDni={patientDni}
+                patientDni={femo.patientDni}
                 tmpStoreKey={stepperCookieKey}
-                initialData={{ patient: initialPatientData }}>
+                initialData={{
+                    patient: initialPatientData,
+                    author: initialAuthor,
+                    establishment: initialEstablishment,
+                    generalDataEvaluation: initialGeneralDataEvaluation,
+                    fitness: initialFitness
+                }}>
                 <ProfessionalDataForm />
                 <CertificateInstitutionForm
                     options={corporativeOptions} />

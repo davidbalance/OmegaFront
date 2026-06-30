@@ -10,15 +10,11 @@ import ActionMenuProvider from '@/contexts/action-menu.context'
 import Link from 'next/link'
 import { IconEdit, IconNotebook } from '@tabler/icons-react'
 import { UpdateCertificateKey, UpdateFemoKey } from '@/types/update-record.type'
+import MenuActionCreateCertificate from './menu-action-create-certificate'
 
 const v2MenuItems: Record<string,
     Partial<Record<UpdateCertificateKey | UpdateFemoKey, string>>
 > = {
-    "certificado": {
-        "general-form": "Datos Generales",
-        "fitness": "Aptitud Médica para el Trabajo",
-        "recommendation": "Recomendaciones/Observaciones"
-    },
     "femo": {
         // "consultation": "Motivo de Consulta",
         // "current-disease": "Enfermedad o Problema Actual",
@@ -87,6 +83,8 @@ const RecordItemActionButton: React.FC<RecordItemActionButtonProps> = ({
                             recordName={recordName} />
                     </>
                 )}
+                <MenuLabel>Certificado</MenuLabel>
+                {recordName === "femo" && <MenuActionCreateCertificate recordId={recordId} />}
                 {status !== RECORD_STATUS_COMPLETED && (
                     <>
                         <MenuLabel>Revisión</MenuLabel>
@@ -98,9 +96,9 @@ const RecordItemActionButton: React.FC<RecordItemActionButtonProps> = ({
                             )}>
                             Revisar y Aprobar
                         </MenuItem>
+                        {version === "v2" && <ActionButtonsV2 id={recordId} name={recordName} />}
                     </>
                 )}
-                {version === "v2" && <ActionButtonsV2 id={recordId} name={recordName} />}
             </ActionMenu>
         </ActionMenuProvider>)
 }
