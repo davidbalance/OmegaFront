@@ -8,7 +8,7 @@ import RecordDownload from './record-download'
 import ActionMenu from '@/components/_base/action-menu'
 import ActionMenuProvider from '@/contexts/action-menu.context'
 import Link from 'next/link'
-import { IconEdit, IconNotebook } from '@tabler/icons-react'
+import { IconEdit, IconEye, IconNotebook } from '@tabler/icons-react'
 import { UpdateCertificateKey, UpdateFemoKey } from '@/types/update-record.type'
 import MenuActionCreateCertificate from './menu-action-create-certificate'
 
@@ -81,10 +81,22 @@ const RecordItemActionButton: React.FC<RecordItemActionButtonProps> = ({
                         <RecordDownload
                             recordId={recordId}
                             recordName={recordName} />
+                        <MenuItem
+                            component={Link}
+                            href={`/omega/record/${recordId}/file/view`}
+                            leftSection={(
+                                <IconEye style={{ width: rem(16), height: rem(16) }} />
+                            )}>
+                            Visualizar resultado
+                        </MenuItem>
                     </>
                 )}
-                <MenuLabel>Certificado</MenuLabel>
-                {recordName === "femo" && <MenuActionCreateCertificate recordId={recordId} />}
+                {recordName === "femo" && (
+                    <>
+                        <MenuLabel>Certificado</MenuLabel>
+                        <MenuActionCreateCertificate recordId={recordId} />
+                    </>
+                )}
                 {status !== RECORD_STATUS_COMPLETED && (
                     <>
                         <MenuLabel>Revisión</MenuLabel>

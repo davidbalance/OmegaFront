@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const schema = z.object({
     recommendation: z.object({
-        observation: z.coerce.string().optional(),
+        observation: z.coerce.string().nonempty(),
     })
 });
 
