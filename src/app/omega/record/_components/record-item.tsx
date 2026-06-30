@@ -12,8 +12,7 @@ import { IconEdit, IconNotebook } from '@tabler/icons-react'
 import { UpdateCertificateKey, UpdateFemoKey } from '@/types/update-record.type'
 
 const v2MenuItems: Record<string,
-    Record<UpdateCertificateKey, string> |
-    Record<UpdateFemoKey, string>
+    Partial<Record<UpdateCertificateKey | UpdateFemoKey, string>>
 > = {
     "certificado": {
         "general-form": "Datos Generales",
@@ -21,18 +20,18 @@ const v2MenuItems: Record<string,
         "recommendation": "Recomendaciones/Observaciones"
     },
     "femo": {
-        "consultation": "Motivo de Consulta",
-        "current-disease": "Enfermedad o Problema Actual",
+        // "consultation": "Motivo de Consulta",
+        // "current-disease": "Enfermedad o Problema Actual",
         "vital-signs": "Constantes Vitales y Antropometría",
-        "physical-exam": "Examen Físico Regional",
-        "risk-factor": "Factores de Riesgo del Trabajo Actual",
-        "employement-history": "Actividad Laboral/Incidentes/Accidentes/Enfermedades Ocupaciones",
-        "extra-laboral-activity": "Actividades extra laborales",
-        "exam-result": "Resultados de Exámenes Generales y Específicos",
-        "diagnoses": "Diagnostico",
-        "medical-fitness": "Aptitud Médica para el Trabajo",
-        "retirement": "Retiro",
-        "recommendation": "Recomendaciones y/o Tratamiento",
+        // "physical-exam": "Examen Físico Regional",
+        // "risk-factor": "Factores de Riesgo del Trabajo Actual",
+        // "employement-history": "Actividad Laboral/Incidentes/Accidentes/Enfermedades Ocupaciones",
+        // "extra-laboral-activity": "Actividades extra laborales",
+        // "exam-result": "Resultados de Exámenes Generales y Específicos",
+        // "diagnoses": "Diagnostico",
+        // "medical-fitness": "Aptitud Médica para el Trabajo",
+        // "retirement": "Retiro",
+        // "recommendation": "Recomendaciones y/o Tratamiento",
     },
 }
 

@@ -17,7 +17,7 @@ export const DEFAULT_EXTRA_LABORAL_ACTIVITY: z.infer<typeof extraActivitySchema>
 }
 
 export const adjustInitialValue = (data?: Partial<ExtraLaboralActivitiesSchemaType>): ExtraLaboralActivitiesSchemaType => ({
-    extraLaboralActivities: data?.extraLaboralActivities && data.extraLaboralActivities.length > 0 ? data.extraLaboralActivities : [DEFAULT_EXTRA_LABORAL_ACTIVITY],
+    extraLaboralActivities: data?.extraLaboralActivities && data.extraLaboralActivities.length > 0 ? data.extraLaboralActivities : [],
 })
 
 export default schema;

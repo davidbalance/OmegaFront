@@ -25,11 +25,6 @@ const LateralityOptions: Option[] = [
     { label: 'Zurdo', value: PATIENT_LATERALITY_LEFT }
 ]
 
-const GenderIdentityOptions: Option[] = [
-    { label: 'Hombre', value: PATIENT_GENDER_MALE },
-    { label: 'Mujer', value: PATIENT_GENDER_FEMALE },
-]
-
 const PriorityGroupOptions: Option[] = [
     { label: "Embarazada", value: PRIORITY_GROUP_PREGNANT },
     { label: "Persona con Discapacidad", value: PRIORITY_GROUP_DISABILITY },
@@ -56,6 +51,7 @@ const FemoInstitutionForm = React.forwardRef<HTMLFormElement, FemoInstitutionFor
     const selectedPriorityGroups: string[] = values.patient.priorityGroup ?? [];
 
     const handleSubmit = useCallback((value: InstitutionSchemaType) => {
+        console.log(value)
         onSubmit?.(value);
     }, [onSubmit]);
 
@@ -65,7 +61,7 @@ const FemoInstitutionForm = React.forwardRef<HTMLFormElement, FemoInstitutionFor
             if (name === 'companyId') {
                 updatedValues.establishment = {
                     ...updatedValues.establishment!,
-                    institutionName: label,
+                    healthFacility: label,
                     ruc: value
                 }
             }
@@ -104,7 +100,7 @@ const FemoInstitutionForm = React.forwardRef<HTMLFormElement, FemoInstitutionFor
                 onSubmit={formSubmit(handleSubmit)}
                 style={{ position: 'relative', width: '100%', height: '100%' }}>
                 <Stack gap={rem(16)}>
-                    <input type='hidden' {...getInputProps('establishment.healthFacility')} />
+                    <input type='hidden' {...getInputProps('establishment.institutionName')} />
                     <input type='hidden' {...getInputProps('patient.firstName')} />
                     <input type='hidden' {...getInputProps('patient.middleName')} />
                     <input type='hidden' {...getInputProps('patient.lastName')} />

@@ -2,7 +2,7 @@
 
 import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback, useMemo } from 'react'
-import { ActionIcon, Box, Divider, Flex, rem, SimpleGrid, Stack, TextInput, Title } from '@mantine/core';
+import { ActionIcon, Box, Divider, Flex, rem, SimpleGrid, Stack, Text, TextInput, Title } from '@mantine/core';
 import { IconMinus, IconPlus } from '@tabler/icons-react';
 import { DateInput } from '@mantine/dates';
 import ExtraLaboralActivitiesSchema, { DEFAULT_EXTRA_LABORAL_ACTIVITY, ExtraLaboralActivitiesSchemaType, adjustInitialValue } from '@/server/record/create-record/femo/extra-laboral-activity.schema';
@@ -48,6 +48,19 @@ const FemoExtraLaboralActivityForm = React.forwardRef<HTMLFormElement, FemoExtra
                 ref={ref}
                 onSubmit={formSubmit(handleSubmit)}>
                 <Stack gap={rem(32)}>
+                    {extraLaboralActivities.length === 0 && (
+                        <>
+                            <Flex gap={rem(8)} direction="column">
+                                <ActionIcon
+                                    w="100%"
+                                    variant='light'
+                                    onClick={handleAdd}>
+                                    <IconPlus style={{ width: rem(16), height: rem(16) }} />
+                                </ActionIcon>
+                                <Text fs="italic" ta="center">No se han añadido actividades laborales extra</Text>
+                            </Flex>
+                        </>
+                    )}
                     {extraLaboralActivities.map((e, i) => (
                         <Stack key={`root-${i}`} gap={rem(16)}>
                             <Flex gap={rem(8)}>
@@ -58,7 +71,7 @@ const FemoExtraLaboralActivityForm = React.forwardRef<HTMLFormElement, FemoExtra
                                         onClick={handleAdd}>
                                         <IconPlus style={{ width: rem(16), height: rem(16) }} />
                                     </ActionIcon>)}
-                                {extraLaboralActivities.length > 1 && i < MAX_JOB_ACTIVITY_LENGTH && (
+                                {extraLaboralActivities.length > 0 && i < MAX_JOB_ACTIVITY_LENGTH && (
                                     <ActionIcon variant='light'
                                         w="100%"
                                         onClick={() => handleRemove(i)}>

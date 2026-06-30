@@ -258,7 +258,7 @@ const FemoPersonalHistoryForm = React.forwardRef<HTMLFormElement, FemoPersonalHi
                             <Stack gap={rem(8)}>
                                 {(toxicHabitTabaccoStatus === SUBSTANCE_CONSUMER_FORMER_USER || toxicHabitTabaccoStatus === SUBSTANCE_CONSUMER_CURRENT_USER) && (
                                     <TextInput
-                                        label="Tiempo de Consumo (años)"
+                                        label="Tiempo de Consumo"
                                         placeholder='20 u/sem'
                                         {...getInputProps('personalHistory.toxicHabits.tabacco.substanceUseDuration')} />
                                 )}
@@ -283,9 +283,8 @@ const FemoPersonalHistoryForm = React.forwardRef<HTMLFormElement, FemoPersonalHi
                             <Stack gap={rem(8)}>
                                 {(toxicHabitAlcoholStatus === SUBSTANCE_CONSUMER_FORMER_USER || toxicHabitAlcoholStatus === SUBSTANCE_CONSUMER_CURRENT_USER) && (
                                     <TextInput
-                                        label="Tiempo de Consumo (años)"
-                                        min={0}
-                                        type='number'
+                                        label="Tiempo de Consumo"
+                                        placeholder='20 u/sem'
                                         {...getInputProps('personalHistory.toxicHabits.alcohol.substanceUseDuration')} />
                                 )}
                                 {(toxicHabitAlcoholStatus === SUBSTANCE_CONSUMER_FORMER_USER) && (
@@ -311,9 +310,8 @@ const FemoPersonalHistoryForm = React.forwardRef<HTMLFormElement, FemoPersonalHi
                             <Stack gap={rem(8)}>
                                 {(toxicHabitOtherStatus === SUBSTANCE_CONSUMER_FORMER_USER || toxicHabitOtherStatus === SUBSTANCE_CONSUMER_CURRENT_USER) && (
                                     <TextInput
-                                        label="Tiempo de Consumo (años)"
-                                        min={0}
-                                        type='number'
+                                        label="Tiempo de Consumo"
+                                        placeholder='20 u/sem'
                                         {...getInputProps('personalHistory.toxicHabits.other.substanceUseDuration')} />
                                 )}
                                 {(toxicHabitOtherStatus === SUBSTANCE_CONSUMER_FORMER_USER) && (

@@ -15,7 +15,7 @@ const specialConditionsSchema = z.object({
     hormoneTherapyDetails: z.coerce.string().optional()
 }).
     refine(args => {
-        return args.hormoneTherapyStatus && args.hormoneTherapyStatus === SPECIAL_CONDITIONS_STATUS_YES && !!args.hormoneTherapyDetails;
+        return args.hormoneTherapyStatus === SPECIAL_CONDITIONS_STATUS_YES ? !!args.hormoneTherapyDetails : true;
     }, {
         message: "Debe indicar el tratamiento homonal",
         path: ["hormoneTherapyDetails"]

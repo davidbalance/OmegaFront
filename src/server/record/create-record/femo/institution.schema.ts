@@ -51,10 +51,10 @@ const patientBloodGroup: string[] = [
 const validatePatientBloodGroup = (arg: string) => patientBloodGroup.includes(arg)
 
 const establishmentSchema = z.object({
-    institutionName: z.coerce.string(),
+    institutionName: z.coerce.string().default(""),
     ruc: z.coerce.string().length(13),
     ciiu: z.coerce.string().optional(),
-    healthFacility: z.coerce.string().default(DEFAULT_HEALTH_FACILITY_NAME)
+    healthFacility: z.coerce.string()
 })
 
 const patientSchema = z.object({
@@ -78,9 +78,9 @@ export type InstitutionSchemaType = z.infer<typeof schema>
 
 export const adjustInitialValue = (data?: Partial<InstitutionSchemaType>): InstitutionSchemaType => ({
     establishment: {
-        institutionName: data?.establishment?.institutionName ?? "",
+        institutionName: "",
         ruc: data?.establishment?.ruc ?? "",
-        healthFacility: data?.establishment?.healthFacility ?? DEFAULT_HEALTH_FACILITY_NAME,
+        healthFacility: data?.establishment?.institutionName ?? "",
         ciiu: data?.establishment?.ciiu ?? ""
     },
     patient: {

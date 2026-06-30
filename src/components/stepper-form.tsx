@@ -77,10 +77,17 @@ const StepperForm = <T,>({
     const handleStepSubmit: StepSubmitEvent<T> = useCallback(
         async (value) => {
             if (active !== childrenCount - 1) {
-                const newValues = { ...formValues, ...value };
-                setFormValues(newValues);
-                onNextStep?.(newValues);
-                nextStep();
+                setLoading(true);
+                try {
+                    const newValues = { ...formValues, ...value };
+                    setFormValues(newValues);
+                    await onNextStep?.(newValues);
+                    nextStep();
+                } catch (error: any) {
+                    notifications.show({ message: getErrorMessage(error), color: 'red' });
+                } finally {
+                    setLoading(false);
+                }
             } else {
                 const newValues = { ...formValues, ...value };
                 setFormValues(newValues);
