@@ -89,12 +89,12 @@ const RecordItemActionButton: React.FC<RecordItemActionButtonProps> = ({
                             )}>
                             Visualizar resultado
                         </MenuItem>
-                    </>
-                )}
-                {recordName === "femo" && (
-                    <>
-                        <MenuLabel>Certificado</MenuLabel>
-                        <MenuActionCreateCertificate recordId={recordId} />
+                        {recordName === "femo" && (
+                            <>
+                                <MenuLabel>Certificado</MenuLabel>
+                                <MenuActionCreateCertificate recordId={recordId} />
+                            </>
+                        )}
                     </>
                 )}
                 {status !== RECORD_STATUS_COMPLETED && (
@@ -108,7 +108,7 @@ const RecordItemActionButton: React.FC<RecordItemActionButtonProps> = ({
                             )}>
                             Revisar y Aprobar
                         </MenuItem>
-                        {version === "v2" && <ActionButtonsV2 id={recordId} name={recordName} />}
+                        {/* {version === "v2" && <ActionButtonsV2 id={recordId} name={recordName} />} */}
                     </>
                 )}
             </ActionMenu>
