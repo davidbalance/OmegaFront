@@ -59,9 +59,9 @@ const establishmentSchema = z.object({
 
 const patientSchema = z.object({
     firstName: z.coerce.string().nonempty(),
-    middleName: z.coerce.string().nonempty(),
+    middleName: z.coerce.string().default(""),
     lastName: z.coerce.string().nonempty(),
-    secondLastName: z.coerce.string().nonempty(),
+    secondLastName: z.coerce.string().default(""),
     gender: z.coerce.string().refine(validatePatientGender, { message: 'Solo puede escoger entre Hombre o Mujer' }),
     priorityGroup: z.array(z.string().nonempty()).default([]).refine(validatePriorityGroup),
     birthDate: z.coerce.date(),
