@@ -239,6 +239,19 @@ const endpoints = {
         method: 'post',
     } as ApiResource,
 
+    retriveUserCompanyFilter: {
+        resource: 'users/:userId/company-filters',
+        method: 'get',
+    } as ApiResource,
+    addUserCompanyFilter: {
+        resource: 'user/write/company-filter',
+        method: 'post',
+    } as ApiResource,
+    removeUserCompanyFilter: {
+        resource: 'user/write/company-filter/:userId/:filterId',
+        method: 'delete',
+    } as ApiResource,
+
     retriveDoctors: {
         resource: 'doctors',
         method: 'get',
