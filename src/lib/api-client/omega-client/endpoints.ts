@@ -192,6 +192,10 @@ const endpoints = {
         resource: 'users/:userId',
         method: 'get',
     } as ApiResource,
+    retriveUserByDni: {
+        resource: 'users/:userDni/dni',
+        method: 'get',
+    } as ApiResource,
     createUser: {
         resource: 'user/write',
         method: 'post',
@@ -233,6 +237,19 @@ const endpoints = {
     removeUserAttribute: {
         resource: 'user/write/:userId/:attributeName',
         method: 'post',
+    } as ApiResource,
+
+    retriveUserCompanyFilter: {
+        resource: 'users/:userId/company-filters',
+        method: 'get',
+    } as ApiResource,
+    addUserCompanyFilter: {
+        resource: 'user/write/company-filter',
+        method: 'post',
+    } as ApiResource,
+    removeUserCompanyFilter: {
+        resource: 'user/write/company-filter/:userId/:filterId',
+        method: 'delete',
     } as ApiResource,
 
     retriveDoctors: {

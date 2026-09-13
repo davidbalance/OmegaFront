@@ -19,7 +19,7 @@ import { serverActionRetriveProcesses, serverActionRetriveYears, serverActionRet
 import { serverActionRetriveMedicalDiseases, serverActionRetriveMedicalDisease, serverActionRetriveMedicalReport, serverActionRetriveMedicalReportFile, serverActionRetriveMedicalResultFile, serverActionRetriveMedicalTests, serverActionRetriveMedicalTest, serverActionRetriveMedicalDiseaseReportFile, serverActionRetriveMedicalTestFileReport, serverActionRetriveMedicalTestFileCount, serverActionCreateMedicalResultDisease, serverActionEditMedicalResultDisease, serverActionRemoveMedicalResultDisease, serverActionAddMedicalReport, serverActionAddMedicalReportFile, serverActionRemoveMedicalReport, serverActionAddMedicalResult, serverActionRemoveMedicalResult, serverActionCheckMedicalTest, serverActionRemoveMedicalTest, serverActionCreateMedicalTest, serverActionUncheckMedicalTest, serverActionCheckMedicalTestFile, serverActionEditMedicalTestExam, serverActionRetriveMedicalTestZip } from "./medical-test/actions";
 import { serverActionRetriveClientRecords, serverActionRetriveClientRecordFile, serverActionCreateClientRecordFemo, serverActionCreateClientRecordCertificate, serverActionUpdateClientRecord, serviceActionRetriveClientRecordMetadata, serverActionCompleteClientRecord } from "./record/actions";
 import { serverActionRetriveResources, serverActionRetriveResource, serverActionCreateResource, serverActionEditResource, serverActionRemoveResource } from "./resource/actions";
-import { serverActionRetriveUserAttribute, serverActionAddUserAttribute, serverActionRemoveUserAttribute } from "./user-attribute/actions";
+import { serverActionRetriveUserAttribute, serverActionAddUserAttribute, serverActionRemoveUserAttribute, serverActionRetriveUserCompanyFilter, serverActionAddUserCompanyFilter, serverActionRemoveUserCompanyFilter } from "./user-attribute/actions";
 import { serverActionFindMe, serverActionRetriveUsers, serverActionRetriveUser, serverActionRetriveUserResources, serverActionCreateUser, serverActionEditUser, serverActionAddAuthUser, serverActionAddUserResource, serverActionRemoveUser, serverActionEditUserByDni } from "./user/actions";
 
 const composedResultAction = <P extends any[], B>(f: (...params: P) => Promise<Result<B>>, g: (param: Result<B>) => B) =>
@@ -196,5 +196,6 @@ export const addUserResource = composedResultAction(serverActionAddUserResource,
 export const removeUser = composedResultAction(serverActionRemoveUser, getResult);
 
 export const retriveUserAttribute = serverActionRetriveUserAttribute;
-export const addUserAttribute = composedResultAction(serverActionAddUserAttribute, getResult);
-export const removeUserAttribute = composedResultAction(serverActionRemoveUserAttribute, getResult);
+export const retriveUserCompanyFilter = serverActionRetriveUserCompanyFilter;
+export const addUserCompanyFilter = composedResultAction(serverActionAddUserCompanyFilter, getResult);
+export const removeUserCompanyFilter = composedResultAction(serverActionRemoveUserCompanyFilter, getResult);
