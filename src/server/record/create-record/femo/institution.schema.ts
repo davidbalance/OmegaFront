@@ -51,17 +51,17 @@ const patientBloodGroup: string[] = [
 const validatePatientBloodGroup = (arg: string) => patientBloodGroup.includes(arg)
 
 const establishmentSchema = z.object({
-    institutionName: z.coerce.string(),
+    institutionName: z.coerce.string().default(""),
     ruc: z.coerce.string().length(13),
     ciiu: z.coerce.string().optional(),
-    healthFacility: z.coerce.string().default(DEFAULT_HEALTH_FACILITY_NAME)
+    healthFacility: z.coerce.string()
 })
 
 const patientSchema = z.object({
     firstName: z.coerce.string().nonempty(),
-    middleName: z.coerce.string().nonempty(),
+    middleName: z.coerce.string().default(""),
     lastName: z.coerce.string().nonempty(),
-    secondLastName: z.coerce.string().nonempty(),
+    secondLastName: z.coerce.string().default(""),
     gender: z.coerce.string().refine(validatePatientGender, { message: 'Solo puede escoger entre Hombre o Mujer' }),
     priorityGroup: z.array(z.string().nonempty()).default([]).refine(validatePriorityGroup),
     birthDate: z.coerce.date(),
@@ -78,9 +78,9 @@ export type InstitutionSchemaType = z.infer<typeof schema>
 
 export const adjustInitialValue = (data?: Partial<InstitutionSchemaType>): InstitutionSchemaType => ({
     establishment: {
-        institutionName: data?.establishment?.institutionName ?? "",
+        institutionName: "",
         ruc: data?.establishment?.ruc ?? "",
-        healthFacility: data?.establishment?.healthFacility ?? DEFAULT_HEALTH_FACILITY_NAME,
+        healthFacility: data?.establishment?.healthFacility ?? "",
         ciiu: data?.establishment?.ciiu ?? ""
     },
     patient: {

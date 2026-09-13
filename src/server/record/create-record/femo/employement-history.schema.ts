@@ -3,8 +3,8 @@ import { z } from "zod";
 const employmentHistory = z.object({
     workplace: z.coerce.string().nonempty(),
     activities: z.coerce.string().nonempty(),
-    lastWork: z.coerce.string().nonempty(),
-    currentWork: z.coerce.string().nonempty(),
+    lastWork: z.coerce.string().optional(),
+    currentWork: z.coerce.string().optional(),
     duration: z.coerce.string().nonempty(),
     incident: z.coerce.string().optional(),
     accident: z.coerce.string().optional(),

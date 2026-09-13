@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react'
 import StepperForm, { StepperIcon } from '@/components/stepper-form';
 import { FemoRecordPayload } from '@/server/record/create-record/femo-record';
-import { completeClientRecord, createClientRecordFemo } from '@/server';
+import { completeClientRecord, createClientRecordFemo, updateClientRecord } from '@/server';
 
 const icon: StepperIcon = {
     'user-check': <IconUserCheck style={{ width: rem(16), height: rem(16) }} />,
@@ -42,12 +42,15 @@ const StepperCompleteRecordForm: React.FC<StepperCompleteRecordFormProps> = ({
         await completeClientRecord({ patientDni, recordId, recordType }, { ...data });
     }, [patientDni, recordId, recordType]);
 
+    const handleNextStep = useCallback(async (data: Partial<FemoRecordPayload>): Promise<void> => updateClientRecord(patientDni, recordId, { ...data }), [patientDni, recordId])
+
     const handleFormFinish = useCallback(() => router.back(), [router]);
 
     return (
         <StepperForm<StepperCompleteRecordForm>
             onSubmit={handleSubmit}
             icon={icon}
+            onNextStep={handleNextStep}
             onFinish={handleFormFinish}
             orientation='vertical'
             buttonLabels={{

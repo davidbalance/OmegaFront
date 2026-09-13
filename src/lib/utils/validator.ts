@@ -1,6 +1,9 @@
 const femoValidator = (metadata: any) => {
     metadata.patient.birthDate = metadata.patient.birthDate ? new Date(metadata.patient.birthDate) : null
-    metadata.personalHistory.gynecological.lastMenstruationDate = metadata.personalHistory.gynecological.lastMenstruationDate ? new Date(metadata.personalHistory.gynecological.lastMenstruationDate) : null
+
+    if (metadata.personalHistory) {
+        metadata.personalHistory.gynecological.lastMenstruationDate = metadata.personalHistory.gynecological.lastMenstruationDate ? new Date(metadata.personalHistory.gynecological.lastMenstruationDate) : null
+    }
 
     if (metadata.consultation && metadata.consultation.work) {
         metadata.consultation.work.startDate = metadata.consultation.work.startDate ? new Date(metadata.consultation.work.startDate) : null;

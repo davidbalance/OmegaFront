@@ -9,9 +9,6 @@ const values: {
 }[] = [{
     label: "FEMO",
     name: "femo"
-}, {
-    label: "Certificado",
-    name: "certificate"
 }]
 
 type RecordCreateProps = {

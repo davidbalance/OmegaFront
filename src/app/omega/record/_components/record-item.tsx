@@ -8,31 +8,26 @@ import RecordDownload from './record-download'
 import ActionMenu from '@/components/_base/action-menu'
 import ActionMenuProvider from '@/contexts/action-menu.context'
 import Link from 'next/link'
-import { IconEdit, IconNotebook } from '@tabler/icons-react'
+import { IconEdit, IconEye, IconNotebook } from '@tabler/icons-react'
 import { UpdateCertificateKey, UpdateFemoKey } from '@/types/update-record.type'
+import MenuActionCreateCertificate from './menu-action-create-certificate'
 
 const v2MenuItems: Record<string,
-    Record<UpdateCertificateKey, string> |
-    Record<UpdateFemoKey, string>
+    Partial<Record<UpdateCertificateKey | UpdateFemoKey, string>>
 > = {
-    "certificado": {
-        "general-form": "Datos Generales",
-        "fitness": "Aptitud Médica para el Trabajo",
-        "recommendation": "Recomendaciones/Observaciones"
-    },
     "femo": {
-        "consultation": "Motivo de Consulta",
-        "current-disease": "Enfermedad o Problema Actual",
+        // "consultation": "Motivo de Consulta",
+        // "current-disease": "Enfermedad o Problema Actual",
         "vital-signs": "Constantes Vitales y Antropometría",
-        "physical-exam": "Examen Físico Regional",
-        "risk-factor": "Factores de Riesgo del Trabajo Actual",
-        "employement-history": "Actividad Laboral/Incidentes/Accidentes/Enfermedades Ocupaciones",
-        "extra-laboral-activity": "Actividades extra laborales",
-        "exam-result": "Resultados de Exámenes Generales y Específicos",
-        "diagnoses": "Diagnostico",
-        "medical-fitness": "Aptitud Médica para el Trabajo",
-        "retirement": "Retiro",
-        "recommendation": "Recomendaciones y/o Tratamiento",
+        // "physical-exam": "Examen Físico Regional",
+        // "risk-factor": "Factores de Riesgo del Trabajo Actual",
+        // "employement-history": "Actividad Laboral/Incidentes/Accidentes/Enfermedades Ocupaciones",
+        // "extra-laboral-activity": "Actividades extra laborales",
+        // "exam-result": "Resultados de Exámenes Generales y Específicos",
+        // "diagnoses": "Diagnostico",
+        // "medical-fitness": "Aptitud Médica para el Trabajo",
+        // "retirement": "Retiro",
+        // "recommendation": "Recomendaciones y/o Tratamiento",
     },
 }
 
@@ -86,6 +81,20 @@ const RecordItemActionButton: React.FC<RecordItemActionButtonProps> = ({
                         <RecordDownload
                             recordId={recordId}
                             recordName={recordName} />
+                        <MenuItem
+                            component={Link}
+                            href={`/omega/record/${recordId}/file/view`}
+                            leftSection={(
+                                <IconEye style={{ width: rem(16), height: rem(16) }} />
+                            )}>
+                            Visualizar resultado
+                        </MenuItem>
+                        {recordName === "femo" && (
+                            <>
+                                <MenuLabel>Certificado</MenuLabel>
+                                <MenuActionCreateCertificate recordId={recordId} />
+                            </>
+                        )}
                     </>
                 )}
                 {status !== RECORD_STATUS_COMPLETED && (
@@ -99,9 +108,9 @@ const RecordItemActionButton: React.FC<RecordItemActionButtonProps> = ({
                             )}>
                             Revisar y Aprobar
                         </MenuItem>
+                        {/* {version === "v2" && <ActionButtonsV2 id={recordId} name={recordName} />} */}
                     </>
                 )}
-                {version === "v2" && <ActionButtonsV2 id={recordId} name={recordName} />}
             </ActionMenu>
         </ActionMenuProvider>)
 }

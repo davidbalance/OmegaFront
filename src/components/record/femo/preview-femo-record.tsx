@@ -14,6 +14,7 @@ import { FAMILY_PLANNING_STATUS_DO_NOT_ANSWER, FAMILY_PLANNING_STATUS_NO, FAMILY
 import { PhysicalRegionalExamSchemaType } from '@/server/record/create-record/femo/physical-regional-exam.schema';
 import { PhysicalFormType, SafetyLocativeFormType, SafetyMechanicalFormType, SafetyElectricalFormType, ChemicalFormType, BiologicalFormType, ErgonomicFormType, PsychosocialFormType } from '@/server/record/create-record/femo/risk-factor.schema';
 import { MEDICAL_APTITUDE_FIT, MEDICAL_APTITUDE_FIT_OBSERVATION, MEDICAL_APTITUDE_FIT_LIMITATION, MEDICAL_APTITUDE_NO_FIT } from '@/server/record/create-record/femo/medical-fitness-for-work.schema';
+import { RETIREMENT_YES_OPTION } from '@/server/record/create-record/femo/retirement.schema';
 
 const priorityGroup: Record<string, string> = {
     [PRIORITY_GROUP_PREGNANT]: "Embarazada",
@@ -233,7 +234,7 @@ const PreviewFemoRecord = React.forwardRef<HTMLFormElement, PreviewFemoRecordPro
                                     <PreviewRecordElement title='Grupo de Atención Prioritaria' text={data.patient.priorityGroup.filter(e => e in priorityGroup).map(e => priorityGroup[e]).join(", ")} />
                                     <PreviewRecordElement title='Sexo' text={data.patient.gender === 'male' ? 'Hombre' : 'Mujer'} />
                                     <PreviewRecordElement title='Fecha de Nacimiento' text={dayjs(data.patient.birthDate).format("YYYY/MM/DD")} />
-                                    <PreviewRecordElement title='Edad' text={dayjs().diff(data.patient.birthDate).toString()} />
+                                    <PreviewRecordElement title='Edad' text={dayjs().diff(data.patient.birthDate, 'year').toString()} />
                                     <PreviewRecordElement title='Grupo sanguíneo' text={data.patient.bloodGroup ?? PATIENT_BLOOD_GROUP_ARh_PLUS} />
                                     <PreviewRecordElement title='Lateralidad' text={data.patient.laterality === 'right' ? 'Diestro' : 'Zurdo'} />
                                 </Stack>
@@ -657,7 +658,7 @@ const PreviewFemoRecord = React.forwardRef<HTMLFormElement, PreviewFemoRecordPro
                                     </TableTr>
                                 </TableThead>
                                 <TableTbody>
-                                    {data.diagnoses.map((e,i) => (
+                                    {data.diagnoses.map((e, i) => (
                                         <TableTr key={`${e.cie}-i${i}`}>
                                             <TableTd colSpan={2}>{e.cie}</TableTd>
                                             <TableTd>{e.description}</TableTd>
@@ -679,13 +680,17 @@ const PreviewFemoRecord = React.forwardRef<HTMLFormElement, PreviewFemoRecordPro
                             <PreviewRecordElement title='Descripción' text={data.recommendation.description ?? ""} />
                         </PreviewRecordWrapper>
 
-                        <PreviewRecordWrapper title='N. Retiro (Evaluación)'>
-                            <SimpleGrid cols={2}>
-                                <PreviewRecordElement title='Se realiza la evaluación' text={data.retirementEvaluation.performed ? "Sí" : "No"} />
-                                <PreviewRecordElement title='La condición de salud está relacionada con el trabajo' text={data.retirementEvaluation.workRelated ? "Sí" : "No"} />
-                            </SimpleGrid>
-                            <PreviewRecordElement title='Observación' text={data.retirementEvaluation.observation ?? ""} />
-                        </PreviewRecordWrapper>
+                        {
+                            data.consultation.evaluationType === CONSULTATION_EVALUATION_TYPE_RETIRE && (
+                                <PreviewRecordWrapper title='N. Retiro (Evaluación)'>
+                                    <SimpleGrid cols={2}>
+                                        <PreviewRecordElement title='Se realiza la evaluación' text={data.retirementEvaluation.performed === RETIREMENT_YES_OPTION ? "Sí" : "No"} />
+                                        <PreviewRecordElement title='La condición de salud está relacionada con el trabajo' text={data.retirementEvaluation.workRelated === RETIREMENT_YES_OPTION ? "Sí" : "No"} />
+                                    </SimpleGrid>
+                                    <PreviewRecordElement title='Observación' text={data.retirementEvaluation.observation ?? ""} />
+                                </PreviewRecordWrapper>
+                            )
+                        }
 
                     </Stack>
                 ) : (<>No hay datos disponibles..</>)

@@ -2,9 +2,10 @@
 
 import { useForm, zodResolver } from '@mantine/form';
 import React, { useCallback } from 'react'
-import { Box, rem, Select, Stack, Textarea, Title } from '@mantine/core';
+import { Box, rem, Select, Stack, Text, Textarea, Title } from '@mantine/core';
 import RetirementSchema, { RETIREMENT_NO_OPTION, RETIREMENT_YES_OPTION, RetirementSchemaType, adjustInitialValue } from '@/server/record/create-record/femo/retirement.schema';
 import { Option } from '@/lib/types/option.type';
+import { CONSULTATION_EVALUATION_TYPE_RETIRE, ConsultationSchemaType } from '@/server/record/create-record/femo/consultation.schema';
 
 const evaluationPerformedOptions: Option[] = [
   { label: "Sí", value: RETIREMENT_YES_OPTION },
@@ -17,7 +18,7 @@ const healthConditionWorkRelatedOptions: Option[] = [
 ]
 
 type FemoRetirementFormProps = {
-  data?: Partial<RetirementSchemaType>,
+  data?: Partial<RetirementSchemaType & ConsultationSchemaType>,
   onSubmit?: (value: RetirementSchemaType) => void;
 }
 const FemoRetirementForm = React.forwardRef<HTMLFormElement, FemoRetirementFormProps>(({
@@ -44,30 +45,39 @@ const FemoRetirementForm = React.forwardRef<HTMLFormElement, FemoRetirementFormP
         onSubmit={formSubmit(handleSubmit)}
         style={{ position: 'relative', width: '100%', height: '100%' }}>
         <Stack gap={rem(8)}>
+          {
+            data?.consultation?.evaluationType !== CONSULTATION_EVALUATION_TYPE_RETIRE ? (
+              <>
+                <Text>
+                  No se require completar esta sección
+                </Text>
+              </>
+            ) : (<>
+              <Select
+                data={evaluationPerformedOptions}
+                checkIconPosition="left"
+                label="Se realiza la evaluación"
+                defaultDropdownOpened={false}
+                maxDropdownHeight={200}
+                allowDeselect={false}
+                {...getInputProps('retirementEvaluation.performed')} />
 
-          <Select
-            data={evaluationPerformedOptions}
-            checkIconPosition="left"
-            label="Se realiza la evaluación"
-            defaultDropdownOpened={false}
-            maxDropdownHeight={200}
-            allowDeselect={false}
-            {...getInputProps('retirementEvaluation.performed')} />
+              <Select
+                data={healthConditionWorkRelatedOptions}
+                checkIconPosition="left"
+                label="La condición de salud esta relacionada con el Trabajo"
+                defaultDropdownOpened={false}
+                maxDropdownHeight={200}
+                allowDeselect={false}
+                {...getInputProps('retirementEvaluation.workRelated')} />
 
-          <Select
-            data={healthConditionWorkRelatedOptions}
-            checkIconPosition="left"
-            label="La condición de salud esta relacionada con el Trabajo"
-            defaultDropdownOpened={false}
-            maxDropdownHeight={200}
-            allowDeselect={false}
-            {...getInputProps('retirementEvaluation.workRelated')} />
-
-          <Textarea
-            label="Descripción"
-            placeholder='eg. Lorem Ipsum...'
-            rows={10}
-            {...getInputProps('retirementEvaluation.observation')} />
+              <Textarea
+                label="Descripción"
+                placeholder='eg. Lorem Ipsum...'
+                rows={10}
+                {...getInputProps('retirementEvaluation.observation')} />
+            </>)
+          }
         </Stack>
       </Box>
     </>
