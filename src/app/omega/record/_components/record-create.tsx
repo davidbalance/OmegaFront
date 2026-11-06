@@ -3,6 +3,14 @@ import { IconPlus } from '@tabler/icons-react'
 import Link from 'next/link'
 import React from 'react'
 
+const values: {
+    label: string,
+    name: string
+}[] = [{
+    label: "FEMO",
+    name: "femo"
+}]
+
 type RecordCreateProps = {
     patientDni: string
 }
@@ -19,31 +27,13 @@ const RecordCreate: React.FC<RecordCreateProps> = ({
                 </ActionIcon>
             </MenuTarget>
             <MenuDropdown>
-                <MenuItem
-                    href={`/omega/record/create/initial?patientDni=${patientDni}`}
-                    component={Link}>
-                    Inicial
-                </MenuItem>
-                <MenuItem
-                    href={`/omega/record/create/periodic?patientDni=${patientDni}`}
-                    component={Link}>
-                    Periodico
-                </MenuItem>
-                <MenuItem
-                    href={`/omega/record/create/reintegrate?patientDni=${patientDni}`}
-                    component={Link}>
-                    Reintegracion
-                </MenuItem>
-                <MenuItem
-                    href={`/omega/record/create/retirement?patientDni=${patientDni}`}
-                    component={Link}>
-                    Retiro
-                </MenuItem>
-                <MenuItem
-                    href={`/omega/record/create/certificate?patientDni=${patientDni}`}
-                    component={Link}>
-                    Certificado
-                </MenuItem>
+                {values.map(e => (
+                    <MenuItem
+                        key={e.name}
+                        href={`/omega/record/create/${e.name}?patientDni=${patientDni}`}
+                        component={Link}>
+                        {e.label}
+                    </MenuItem>))}
             </MenuDropdown>
         </Menu>
     )
