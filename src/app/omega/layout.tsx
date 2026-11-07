@@ -1,5 +1,4 @@
 import { Box, Flex, rem, ScrollAreaAutosize, Stack } from "@mantine/core"
-import Footer from "@/components/footer/Footer"
 import ModularLayout from "@/components/modular/layout/ModularLayout"
 import OmegaLogo from "./_components/omega-logo"
 import OmegaShellBurger from "./_components/omega-shell/omega-shell-burger"

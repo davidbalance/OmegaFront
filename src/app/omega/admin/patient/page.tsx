@@ -197,7 +197,6 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                             <TestHeader />
                             <TestList
                                 tests={testValues}
-                                notEditReports
                                 orderStatus={medicalOrder?.orderStatus ?? 'created'} />
                         </ListRoot>
                     </ModularBox>

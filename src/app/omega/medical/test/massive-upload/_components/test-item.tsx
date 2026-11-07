@@ -52,7 +52,7 @@ const TestItem: React.FC<TestItemProps> = ({
 
     const handleRemove = useCallback(() => {
         onRemove(item.name)
-    }, [item])
+    }, [item, onRemove])
 
     return (
         <ListRow

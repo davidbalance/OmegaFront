@@ -86,12 +86,13 @@ export const MassiveUploadProvider: React.FC<{
                     continue
                 }
 
-                if (updatedFiles[index].status === 'error') {
+                const currentFile = updatedFiles[index]
+                if (currentFile.status === 'error') {
                     continue
                 }
 
                 updatedFiles[index] = {
-                    ...updatedFiles[index],
+                    ...currentFile,
                     status: 'ready',
                     file: newFile
                 }
@@ -123,7 +124,7 @@ export const MassiveUploadProvider: React.FC<{
         } finally {
             setIsUploading(false)
         }
-    }, [files])
+    }, [files, router])
 
     const value: MassiveUploadContextProps = {
         files,

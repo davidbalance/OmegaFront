@@ -5,10 +5,10 @@ import ResultUploadForm from './_components/result-upload-form'
 import { Stack } from '@mantine/core'
 import { retriveMedicalTest } from '@/server'
 
-interface MedicalReportFileUploadProps {
+interface MedicalResultFileUploadProps {
   params: { testId: string }
 }
-const MedicalReportFileUpload: React.FC<MedicalReportFileUploadProps> = async ({ params }) => {
+const MedicalResultFileUpload: React.FC<MedicalResultFileUploadProps> = async ({ params }) => {
 
   const test = await retriveMedicalTest(params.testId);
 
@@ -25,4 +25,4 @@ const MedicalReportFileUpload: React.FC<MedicalReportFileUploadProps> = async ({
   )
 }
 
-export default MedicalReportFileUpload
+export default MedicalResultFileUpload

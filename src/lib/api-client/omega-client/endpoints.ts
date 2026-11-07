@@ -531,10 +531,6 @@ const endpoints = {
         resource: 'medical-tests/:testId/diseases/:diseaseId',
         method: 'get',
     } as ApiResource,
-    retriveMedicalReport: {
-        resource: 'medical-tests/:testId/report',
-        method: 'get',
-    } as ApiResource,
     retriveMedicalReportFile: {
         resource: 'medical-files/:testId/report',
         method: 'get',
@@ -565,18 +561,6 @@ const endpoints = {
     } as ApiResource,
     removeMedicalResultDisease: {
         resource: 'medical-test/write/:testId/disease/:diseaseReportId',
-        method: 'delete',
-    } as ApiResource,
-    addMedicalReport: {
-        resource: 'medical-test/write/:testId/report',
-        method: 'put',
-    } as ApiResource,
-    addMedicalReportFile: {
-        resource: 'medical-test/write/:testId/report',
-        method: 'post',
-    } as ApiResource,
-    removeMedicalReport: {
-        resource: 'medical-test/write/:testId/report',
         method: 'delete',
     } as ApiResource,
     addMedicalResult: {
