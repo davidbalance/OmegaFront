@@ -275,6 +275,16 @@ const retriveMedicalTestZip = async (payload: MedicalFileZipPayload[]): Promise<
     return data;
 }
 
+const massiveTestUpload = async (formData: FormData): Promise<void> => {
+    const promises = formData.entries().map(async ([key, file]) => {
+        const newForm = new FormData()
+        newForm.append("file", file)
+
+        await addMedicalResult(key, newForm);
+    })
+
+    await Promise.all(promises)
+}
 
 export const serverActionCreateMedicalResultDisease = withResult(createMedicalResultDisease);
 export const serverActionEditMedicalResultDisease = withResult(editMedicalResultDisease);
@@ -291,3 +301,4 @@ export const serverActionUncheckMedicalTest = withResult(uncheckMedicalTest);
 export const serverActionCheckMedicalTestFile = withResult(checkMedicalTestFile);
 export const serverActionEditMedicalTestExam = withResult(editMedicalTestExam);
 export const serverActionRetriveMedicalTestZip = withResult(retriveMedicalTestZip);
+export const serverActionMassiveTestUpload = withResult(massiveTestUpload);

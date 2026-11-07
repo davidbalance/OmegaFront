@@ -1,12 +1,8 @@
 import React from 'react'
 import ReturnableHeader from '@/components/_base/returnable-header';
-import { retriveClientByDni, retriveCorporativesOptions } from '@/server';
+import { retriveClientByDni } from '@/server';
 import ProfessionalDataForm from '@/components/record/professional-data-form';
-import { CorporativeOption } from '@/server/corporative/server-types';
-import InitialInstitutionForm from '../../../../../components/record/femo/femo-institution-form';
 import { FemoRecordPayload } from '@/server/record/create-record/femo-record';
-import FemoPatientHistoryForm from '../../../../../components/record/femo/femo-personal-history-form';
-import { PATIENT_GENDER_FEMALE } from '@/server/record/create-record/femo/institution.schema';
 import StepperCreateFemoRecordForm from '@/components/record/femo/stepper-create-femo-record-form';
 import FemoVitalSignsAndAnthropometryForm from '@/components/record/femo/femo-vital-signs-form';
 

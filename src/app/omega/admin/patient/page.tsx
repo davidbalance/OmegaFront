@@ -178,6 +178,7 @@ const PatientPage: React.FC<PatientPageProps> = async ({ searchParams }) => {
                             <Title order={4} component='span'>Resultados medicos</Title>
                             <Group gap={rem(4)}>
                                 {medicalOrder?.orderStatus !== 'validated' && !!orderActive && <CreateButton href={`/omega/medical/test/create?orderId=${orderActive}`} />}
+                                {medicalOrder?.orderStatus !== 'validated' && !!orderActive && <MassiveLoadButton href={`/omega/medical/test/massive-upload?order=${orderActive}`} />}
                                 <ReloadButton />
                                 <RemoveQueryButton
                                     queries={['medicalOrder']}
