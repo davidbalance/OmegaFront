@@ -46,8 +46,7 @@ const TestItem: React.FC<TestItemProps> = ({
     } => FILE_LABELS[item.status], [item])
 
     const onClipboard = useCallback(async () => {
-        const filename = `${item.name} ${patientName}`
-        await navigator.clipboard.writeText(slugifyFilename(filename))
+        await navigator.clipboard.writeText(slugifyFilename(item.name, patientName))
         notifications.show({ message: "Nombre de archivo copiado al portapapeles" });
     }, [item, patientName])
 

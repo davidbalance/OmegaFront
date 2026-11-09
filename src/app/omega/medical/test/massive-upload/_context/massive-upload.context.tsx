@@ -75,8 +75,7 @@ export const MassiveUploadProvider: React.FC<{
                 const filename = normalizeFilename(newFile.name)
 
                 const index = updatedFiles.findIndex(file => {
-                    const newFilename = `${file.name} ${patientName}`
-                    return file.status !== 'error' && slugifyFilename(newFilename) === filename
+                    return file.status !== 'error' && slugifyFilename(file.name, patientName) === filename
                 })
 
                 if (index === -1) {
