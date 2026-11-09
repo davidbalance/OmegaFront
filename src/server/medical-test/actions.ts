@@ -24,15 +24,6 @@ export const serverActionRetriveMedicalDisease = async (testId: string, diseaseI
     return data;
 }
 
-export const serverActionRetriveMedicalReport = async (testId: string): Promise<MedicalReport> => {
-    const session = await auth();
-    const data: MedicalReport = await omega()
-        .addToken(session.access_token)
-        .addParams({ testId })
-        .execute('retriveMedicalReport');
-    return data;
-}
-
 export const serverActionRetriveMedicalReportFile = async (testId: string): Promise<Blob> => {
     const timestamp = Date.now();
     const data: Blob = await omega()
@@ -141,45 +132,6 @@ const removeMedicalResultDisease = async (payload: { diseaseReportId: string; te
     revalidateTag('retriveMedicalDiseaseReportFile');
 }
 
-const addMedicalReport = async (payload: AddMedicalReportPayload): Promise<void> => {
-    const { testId, ...body } = payload;
-    const session = await auth();
-    await omega()
-        .addToken(session.access_token)
-        .addParams({ testId })
-        .addBody(body)
-        .execute('addMedicalReport');
-
-    revalidateTag('retriveMedicalTests');
-    revalidateTag('retriveMedicalOrdersDoctor');
-}
-
-const addMedicalReportFile = async (testId: string, formData: FormData): Promise<void> => {
-    const session = await auth();
-    await omega()
-        .addToken(session.access_token)
-        .addParams({ testId })
-        .addBody(formData)
-        .execute('addMedicalReportFile');
-
-    revalidateTag('retriveMedicalTests');
-    revalidateTag('retriveMedicalOrdersDoctor');
-    revalidateTag('retriveMedicalTestZip');
-    revalidateTag('retriveMedicalReportFile');
-}
-
-const removeMedicalReport = async (testId: string): Promise<void> => {
-    const session = await auth();
-    await omega()
-        .addToken(session.access_token)
-        .addParams({ testId })
-        .execute('removeMedicalReport');
-
-    revalidateTag('retriveMedicalTests');
-    revalidateTag('retriveMedicalTestZip');
-    revalidateTag('retriveMedicalReportFile');
-}
-
 const addMedicalResult = async (testId: string, formData: FormData): Promise<void> => {
     const session = await auth();
     await omega()
@@ -275,13 +227,21 @@ const retriveMedicalTestZip = async (payload: MedicalFileZipPayload[]): Promise<
     return data;
 }
 
+const massiveTestUpload = async (formData: FormData): Promise<void> => {
+    const entries = Array.from(formData.entries());
+    const promises = entries.map(async ([key, file]) => {
+        const newForm = new FormData()
+        newForm.append("file", file)
+
+        await addMedicalResult(key, newForm);
+    })
+
+    await Promise.all(promises)
+}
 
 export const serverActionCreateMedicalResultDisease = withResult(createMedicalResultDisease);
 export const serverActionEditMedicalResultDisease = withResult(editMedicalResultDisease);
 export const serverActionRemoveMedicalResultDisease = withResult(removeMedicalResultDisease);
-export const serverActionAddMedicalReport = withResult(addMedicalReport);
-export const serverActionAddMedicalReportFile = withResult(addMedicalReportFile);
-export const serverActionRemoveMedicalReport = withResult(removeMedicalReport);
 export const serverActionAddMedicalResult = withResult(addMedicalResult);
 export const serverActionRemoveMedicalResult = withResult(removeMedicalResult);
 export const serverActionCheckMedicalTest = withResult(checkMedicalTest);
@@ -291,3 +251,4 @@ export const serverActionUncheckMedicalTest = withResult(uncheckMedicalTest);
 export const serverActionCheckMedicalTestFile = withResult(checkMedicalTestFile);
 export const serverActionEditMedicalTestExam = withResult(editMedicalTestExam);
 export const serverActionRetriveMedicalTestZip = withResult(retriveMedicalTestZip);
+export const serverActionMassiveTestUpload = withResult(massiveTestUpload);

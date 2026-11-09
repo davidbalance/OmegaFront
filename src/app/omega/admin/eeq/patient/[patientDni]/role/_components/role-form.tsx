@@ -1,4 +1,5 @@
 'use client'
+
 import { ModularBox } from '@/components/modular/box/ModularBox'
 import ModularLayout from '@/components/modular/layout/ModularLayout'
 import { MedicalClient } from '@/server/medical-client/server-types'

@@ -184,7 +184,6 @@ const OmegaPatientPage: React.FC<OmegaPatientPageProps> = async ({
                             <TestHeader />
                             <TestList
                                 tests={testValues}
-                                notEditReports
                                 notEditResults
                                 notShowMisc
                                 orderStatus={medicalOrder?.orderStatus ?? 'created'} />
