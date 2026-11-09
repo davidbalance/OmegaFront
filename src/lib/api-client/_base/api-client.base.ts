@@ -25,7 +25,7 @@ const buildUrl = (url: string) =>
                 .build();
 
 const executeRequest = async (url: string, options: RequestInit): Promise<any> => {
-    const response = await fetch(url, options);
+    const response = await fetch(url, { cache: 'no-store', ...options });
 
     if (!response.ok) {
         const error = await response.json();

@@ -18,7 +18,6 @@ export type MedicalTest = {
     testId: string;
     testCheck: boolean;
     resultHasFile: boolean;
-    reportHasContent: boolean;
     orderId: string;
     examName: string;
     examSubtype: string;

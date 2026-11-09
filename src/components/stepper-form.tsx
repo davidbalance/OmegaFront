@@ -29,7 +29,7 @@ type StepperFormProps<T = any> = {
     headers?: StepperHeader[];
     buttonLabels?: Partial<ButtonLabel>;
     endMessage?: string;
-    initialData?: Partial<T>;
+    initialData?: DeepPartial<T>;
     orientation?: 'vertical' | 'horizontal'
 }
 const StepperForm = <T,>({
@@ -54,7 +54,7 @@ const StepperForm = <T,>({
 
     const [loading, setLoading] = useState<boolean>(false);
     const [active, setActive] = useState<number>(0);
-    const [formValues, setFormValues] = useState<Partial<T>>(initialData);
+    const [formValues, setFormValues] = useState<DeepPartial<T>>(initialData);
     const formRefs = useRef<Map<number, HTMLFormElement>>(new Map());
     const childrenCount = useMemo(() => React.Children.count(children), [children]);
 
@@ -77,10 +77,17 @@ const StepperForm = <T,>({
     const handleStepSubmit: StepSubmitEvent<T> = useCallback(
         async (value) => {
             if (active !== childrenCount - 1) {
-                const newValues = { ...formValues, ...value };
-                setFormValues(newValues);
-                onNextStep?.(newValues);
-                nextStep();
+                setLoading(true);
+                try {
+                    const newValues = { ...formValues, ...value };
+                    setFormValues(newValues);
+                    await onNextStep?.(newValues);
+                    nextStep();
+                } catch (error: any) {
+                    notifications.show({ message: getErrorMessage(error), color: 'red' });
+                } finally {
+                    setLoading(false);
+                }
             } else {
                 const newValues = { ...formValues, ...value };
                 setFormValues(newValues);
@@ -138,7 +145,11 @@ const StepperForm = <T,>({
                             const title = headers[index]?.title ?? `Paso ${index + 1}`;
                             const description = headers[index]?.description ?? defaultHeaderDescription;
                             return (
-                                <StepperStep key={index} icon={stepIcon} label={title} description={description}>
+                                <StepperStep key={index} icon={stepIcon} label={
+                                    <Box maw={rem(175)} h={"100%"}>
+                                        <Text truncate="end" fw="bold">{title}</Text>
+                                    </Box>
+                                } description={description}>
                                     <Box component='div' h='100%' pos='relative'>
                                         <ScrollArea
                                             scrollbars='y'
