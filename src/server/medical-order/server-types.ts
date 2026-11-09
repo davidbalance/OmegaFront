@@ -23,9 +23,7 @@ export type MedicalOrderQuery = {
     filter?: string;
 } & Order<MedicalOrder> & Pagination;
 
-export type MedicalOrderDoctor = MedicalOrder & {
-    orderLeftReport: number;
-}
+export type MedicalOrderDoctor = MedicalOrder
 
 export type MedicalOrderPatient = {
     orderId: string;
@@ -52,7 +50,6 @@ export type MedicalCloudFile = {
     patientFullname: string;
     examName: string;
     resultHasFile: boolean;
-    reportHasContent: boolean;
 }
 
 export type MedicalChecklist = {

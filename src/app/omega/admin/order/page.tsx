@@ -129,7 +129,6 @@ const OmegaAdminOrderPage: React.FC<OmegaAdminOrderPageProps> = async ({
                             <ListTbody>
                                 {testValues.map(e => <TestItem
                                     key={e.testId}
-                                    notEditReports
                                     orderStatus={medicalOrder?.orderStatus ?? 'created'}
                                     {...e} />)}
                             </ListTbody>

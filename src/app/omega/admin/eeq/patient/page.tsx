@@ -197,7 +197,6 @@ const OmegaAdminEeqPatientPage: React.FC<OmegaAdminEeqPatientPageProps> = async 
                             <TestHeader />
                             <TestList
                                 tests={testValues}
-                                notEditReports
                                 orderStatus={medicalOrder?.orderStatus ?? 'created'} />
                         </ListRoot>
                     </ModularBox>

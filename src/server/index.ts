@@ -1,4 +1,4 @@
-import { getResult, Result, withResult } from "@/lib/utils/result.utils";
+import { getResult, Result } from "@/lib/utils/result.utils";
 import { serverActionRetriveApiKeys, serverActionCreateApiKey } from "./apikey/actions";
 import { serverActionRetriveAreas, serverActionRetriveArea, serverActionRetriveAreaOptions, serverActionCreateArea, serverActionEditArea, serverActionRemoveArea } from "./area/actions";
 import { serverActionRetriveBranches, serverActionCreateBranch, serverActionMoveBranch, serverActionRemoveBranch } from "./branch/actions";
@@ -16,8 +16,8 @@ import { serverActionRetriveLogos } from "./logo/actions";
 import { serverActionRetriveManagements, serverActionRetriveManagement, serverActionRetriveManagementOptions, serverActionCreateManagement, serverActionEditManagement, serverActionRemoveManagement } from "./management/actions";
 import { serverActionRetriveClientByDni, serverActionRetriveClients, serverActionRetriveClientsCompany, serverActionRetriveClientsEEQ, serverActionRetriveClientsDoctor, serverActionRetriveClientEmails, serverActionRetriveClientArea, serverActionRetriveClientJobPosition, serverActionRetriveClientManagement, serverActionRetriveClientMassiveLoadTemplate, serverActionCreateClient, serverActionMassiveLoadClient, serverActionAddAreaClient, serverActionAddJobPositionClient, serverActionAddManagementClient, serverActionChangeRoleClient, serverActionCreateClientEmail, serverActionDefaultClientEmail, serverActionRemoveClientEmail, serverActionUpdateClientName } from "./medical-client/actions";
 import { serverActionRetriveProcesses, serverActionRetriveYears, serverActionRetriveMedicalOrders, serverActionRetriveMedicalOrdersEEQ, serverActionRetriveMedicalOrdersCompany, serverActionRetriveMedicalOrder, serverActionRetriveMedicalOrdersPatient, serverActionRetriveMedicalCloud, serverActionRetriveMedicalChecklist, serverActionRetriveMedicalChecklistFile, serverActionRetriveMedicalOrdersDoctor, serverActionRetriveMedicalOrderMassiveLoadTemplate, serverActionCreateMedicalOrder, serverActionRemoveMedicalOrder, serverActionSendMedicalOrder, serverActionValidatedStatusMedicalOrder, serverActionCreatedStatusMedicalOrder, serverActionMassiveLoadOrder, serverActionProcessOptions, serverActionUpdateMedicalOrderProcess } from "./medical-order/actions";
-import { serverActionRetriveMedicalDiseases, serverActionRetriveMedicalDisease, serverActionRetriveMedicalReport, serverActionRetriveMedicalReportFile, serverActionRetriveMedicalResultFile, serverActionRetriveMedicalTests, serverActionRetriveMedicalTest, serverActionRetriveMedicalDiseaseReportFile, serverActionRetriveMedicalTestFileReport, serverActionRetriveMedicalTestFileCount, serverActionCreateMedicalResultDisease, serverActionEditMedicalResultDisease, serverActionRemoveMedicalResultDisease, serverActionAddMedicalReport, serverActionAddMedicalReportFile, serverActionRemoveMedicalReport, serverActionAddMedicalResult, serverActionRemoveMedicalResult, serverActionCheckMedicalTest, serverActionRemoveMedicalTest, serverActionCreateMedicalTest, serverActionUncheckMedicalTest, serverActionCheckMedicalTestFile, serverActionEditMedicalTestExam, serverActionRetriveMedicalTestZip } from "./medical-test/actions";
-import { serverActionRetriveClientRecords, serverActionRetriveClientRecordFile, serverActionCreateClientRecordInitial, serverActionCreateClientRecordPeriodic, serverActionCreateClientRecordReintegrate, serverActionCreateClientRecordRetirement, serverActionCreateClientRecordCertificate } from "./record/actions";
+import { serverActionRetriveMedicalDiseases, serverActionRetriveMedicalDisease, serverActionRetriveMedicalReportFile, serverActionRetriveMedicalResultFile, serverActionRetriveMedicalTests, serverActionRetriveMedicalTest, serverActionRetriveMedicalDiseaseReportFile, serverActionRetriveMedicalTestFileReport, serverActionRetriveMedicalTestFileCount, serverActionCreateMedicalResultDisease, serverActionEditMedicalResultDisease, serverActionRemoveMedicalResultDisease, serverActionAddMedicalResult, serverActionRemoveMedicalResult, serverActionCheckMedicalTest, serverActionRemoveMedicalTest, serverActionCreateMedicalTest, serverActionUncheckMedicalTest, serverActionCheckMedicalTestFile, serverActionEditMedicalTestExam, serverActionRetriveMedicalTestZip, serverActionMassiveTestUpload } from "./medical-test/actions";
+import { serverActionRetriveClientRecords, serverActionRetriveClientRecordFile, serverActionCreateClientRecordFemo, serverActionCreateClientRecordCertificate, serverActionUpdateClientRecord, serviceActionRetriveClientRecordMetadata, serverActionCompleteClientRecord } from "./record/actions";
 import { serverActionRetriveResources, serverActionRetriveResource, serverActionCreateResource, serverActionEditResource, serverActionRemoveResource } from "./resource/actions";
 import { serverActionRetriveUserAttribute, serverActionAddUserAttribute, serverActionRemoveUserAttribute, serverActionRetriveUserCompanyFilter, serverActionAddUserCompanyFilter, serverActionRemoveUserCompanyFilter } from "./user-attribute/actions";
 import { serverActionFindMe, serverActionRetriveUsers, serverActionRetriveUser, serverActionRetriveUserResources, serverActionCreateUser, serverActionEditUser, serverActionAddAuthUser, serverActionAddUserResource, serverActionRemoveUser, serverActionEditUserByDni } from "./user/actions";
@@ -146,7 +146,6 @@ export const massiveLoadOrder = composedResultAction(serverActionMassiveLoadOrde
 
 export const retriveMedicalDiseases = serverActionRetriveMedicalDiseases;
 export const retriveMedicalDisease = serverActionRetriveMedicalDisease;
-export const retriveMedicalReport = serverActionRetriveMedicalReport;
 export const retriveMedicalReportFile = serverActionRetriveMedicalReportFile;
 export const retriveMedicalResultFile = serverActionRetriveMedicalResultFile;
 export const retriveMedicalTests = serverActionRetriveMedicalTests;
@@ -157,9 +156,6 @@ export const retriveMedicalTestFileCount = serverActionRetriveMedicalTestFileCou
 export const createMedicalResultDisease = composedResultAction(serverActionCreateMedicalResultDisease, getResult);
 export const editMedicalResultDisease = composedResultAction(serverActionEditMedicalResultDisease, getResult);
 export const removeMedicalResultDisease = composedResultAction(serverActionRemoveMedicalResultDisease, getResult);
-export const addMedicalReport = composedResultAction(serverActionAddMedicalReport, getResult);
-export const addMedicalReportFile = composedResultAction(serverActionAddMedicalReportFile, getResult);
-export const removeMedicalReport = composedResultAction(serverActionRemoveMedicalReport, getResult);
 export const addMedicalResult = composedResultAction(serverActionAddMedicalResult, getResult);
 export const removeMedicalResult = composedResultAction(serverActionRemoveMedicalResult, getResult);
 export const checkMedicalTest = composedResultAction(serverActionCheckMedicalTest, getResult);
@@ -169,14 +165,15 @@ export const uncheckMedicalTest = composedResultAction(serverActionUncheckMedica
 export const checkMedicalTestFile = composedResultAction(serverActionCheckMedicalTestFile, getResult);
 export const editMedicalTestExam = composedResultAction(serverActionEditMedicalTestExam, getResult);
 export const retriveMedicalTestZip = composedResultAction(serverActionRetriveMedicalTestZip, getResult);
+export const massiveTestUpload = composedResultAction(serverActionMassiveTestUpload, getResult);
 
 export const retriveClientRecords = serverActionRetriveClientRecords;
 export const retriveClientRecordFile = serverActionRetriveClientRecordFile;
-export const createClientRecordInitial = composedResultAction(serverActionCreateClientRecordInitial, getResult);
-export const createClientRecordPeriodic = composedResultAction(serverActionCreateClientRecordPeriodic, getResult);
-export const createClientRecordReintegrate = composedResultAction(serverActionCreateClientRecordReintegrate, getResult);
-export const createClientRecordRetirement = composedResultAction(serverActionCreateClientRecordRetirement, getResult);
+export const retriveClientRecordMetadata = serviceActionRetriveClientRecordMetadata;
+export const createClientRecordFemo = composedResultAction(serverActionCreateClientRecordFemo, getResult);
 export const createClientRecordCertificate = composedResultAction(serverActionCreateClientRecordCertificate, getResult);
+export const updateClientRecord = composedResultAction(serverActionUpdateClientRecord, getResult);
+export const completeClientRecord = composedResultAction(serverActionCompleteClientRecord, getResult);
 
 export const retriveResources = serverActionRetriveResources;
 export const retriveResource = serverActionRetriveResource;
