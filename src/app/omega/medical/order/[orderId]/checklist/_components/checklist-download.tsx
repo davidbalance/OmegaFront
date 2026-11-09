@@ -3,17 +3,26 @@
 import { useFileDownload } from '@/hooks/useFileDownload'
 import { ActionIcon, rem, Tooltip } from '@mantine/core'
 import { IconDownload } from '@tabler/icons-react'
-import dayjs from 'dayjs'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 interface ChecklistDownloadProps {
+    patientName: string;
+    patientLastname: string;
+    patientDni: string;
     orderId: string;
 }
 const ChecklistDownload: React.FC<ChecklistDownloadProps> = ({
+    patientName,
+    patientLastname,
+    patientDni,
     orderId
 }) => {
 
     const { loading, trigger } = useFileDownload(`/api/medical/checklist/${orderId}`);
+    const filenameRoot = useMemo(() => `${patientLastname} ${patientName} ${patientDni}`
+    .trim()
+    .replace(/ +/g, "_"), 
+    [patientName, patientLastname, patientDni])
 
     return (
         <Tooltip
@@ -22,7 +31,7 @@ const ChecklistDownload: React.FC<ChecklistDownloadProps> = ({
             withArrow>
             <ActionIcon
                 loading={loading}
-                onClick={() => trigger(`checklist_${dayjs().format('YYYY_MM_DD_HH:mm:ss')}.pdf`)}
+                onClick={() => trigger(`${filenameRoot}.pdf`)}
                 pos='absolute'
                 bottom={rem(12)}
                 right={rem(12)}
