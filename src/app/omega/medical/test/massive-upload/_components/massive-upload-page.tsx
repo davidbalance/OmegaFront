@@ -8,14 +8,18 @@ import FileList from './file-list'
 import UploadButton from './upload-button'
 
 type MassiveUploadPage = {
+    patientName: string
     tests: MedicalTest[]
 }
 
 const MassiveUploadPage: React.FC<MassiveUploadPage> = ({
+    patientName,
     tests
 }) => {
     return (
-        <MassiveUploadProvider tests={tests}>
+        <MassiveUploadProvider
+            patientName={patientName}
+            tests={tests}>
             <UploadButton />
             <Flex
                 direction="row"

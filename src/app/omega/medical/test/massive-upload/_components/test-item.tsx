@@ -38,7 +38,7 @@ const TestItem: React.FC<TestItemProps> = ({
     item
 }) => {
 
-    const { onRemove } = useMassiveUpload()
+    const { patientName, onRemove } = useMassiveUpload()
 
     const label = useMemo((): {
         color: DefaultMantineColor,
@@ -46,9 +46,10 @@ const TestItem: React.FC<TestItemProps> = ({
     } => FILE_LABELS[item.status], [item])
 
     const onClipboard = useCallback(async () => {
-        await navigator.clipboard.writeText(slugifyFilename(item.name))
+        const filename = `${item.name} ${patientName}`
+        await navigator.clipboard.writeText(slugifyFilename(filename))
         notifications.show({ message: "Nombre de archivo copiado al portapapeles" });
-    }, [item])
+    }, [item, patientName])
 
     const handleRemove = useCallback(() => {
         onRemove(item.name)

@@ -30,6 +30,7 @@ export type UploadItem = TestFile | FileReady | FileError
 
 interface MassiveUploadContextProps {
     files: UploadItem[]
+    patientName: string
     isUploading: boolean
     onUpload: (files: File[]) => void
     onRemove: (name: string) => void
@@ -49,8 +50,9 @@ export const useMassiveUpload = () => {
 
 export const MassiveUploadProvider: React.FC<{
     tests: MedicalTest[],
+    patientName: string,
     children: React.ReactNode
-}> = ({ children, tests }) => {
+}> = ({ children, patientName, tests }) => {
 
     const [files, setFiles] = useState<UploadItem[]>([]);
     const [isUploading, setIsUploading] = useState<boolean>(false)
@@ -72,10 +74,10 @@ export const MassiveUploadProvider: React.FC<{
             for (const newFile of newFiles) {
                 const filename = normalizeFilename(newFile.name)
 
-                const index = updatedFiles.findIndex(file =>
-                    file.status !== 'error' &&
-                    slugifyFilename(file.name) === filename
-                )
+                const index = updatedFiles.findIndex(file => {
+                    const newFilename = `${file.name} ${patientName}`
+                    return file.status !== 'error' && slugifyFilename(newFilename) === filename
+                })
 
                 if (index === -1) {
                     updatedFiles.push({
@@ -100,7 +102,7 @@ export const MassiveUploadProvider: React.FC<{
 
             return updatedFiles
         })
-    }, [])
+    }, [patientName])
 
     const onRemove = useCallback((name: string) => {
         setFiles((f) => f.filter(e => e.status !== "error" && e.name !== name))
@@ -128,6 +130,7 @@ export const MassiveUploadProvider: React.FC<{
 
     const value: MassiveUploadContextProps = {
         files,
+        patientName,
         isUploading,
         onUpload,
         onRemove,
