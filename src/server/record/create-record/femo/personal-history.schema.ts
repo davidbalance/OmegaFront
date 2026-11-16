@@ -146,7 +146,7 @@ export const adjustInitialValue = (data?: Partial<PersonalHistorySchemaType>): P
         toxicHabits: {
             tabacco: {
                 status: data?.personalHistory?.toxicHabits?.tabacco.status ?? SUBSTANCE_CONSUMER_NON_USER,
-                name: "tabacoo",
+                name: "tabacco",
                 abstinenceDuration: data?.personalHistory?.toxicHabits?.tabacco.abstinenceDuration ?? "",
                 substanceUseDuration: data?.personalHistory?.toxicHabits?.tabacco.substanceUseDuration ?? "",
             },
