@@ -1,1 +1,0 @@
-export const REINTEGRATION_MEDICAL_CONSULTATION = "Evaluación médica ocupacional para el reingreso al puesto de trabajo";

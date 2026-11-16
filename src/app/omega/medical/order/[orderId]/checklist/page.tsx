@@ -99,7 +99,11 @@ const MedicalChecklistPage: React.FC<MedicalChecklistPageProps> = async ({
           </Stack>
         </ScrollArea>
       </Box>
-      <ChecklistDownload orderId={orderData.orderId} />
+      <ChecklistDownload
+        patientName={orderData.patientName}
+        patientLastname={orderData.patientLastname}
+        patientDni={orderData.patientDni}
+        orderId={orderData.orderId} />
     </>
   )
 }

@@ -22,8 +22,7 @@ const OrderDownloadAll: React.FC<OrderDownloadAllPorps> = ({
     const files: MedicalFileZipPayload[] = useMemo(() =>
         baseFiles
             .map<OrderFile[]>(e => [
-                { testId: e.testId, examName: e.examName, hasFile: e.resultHasFile, fileType: 'result' },
-                { testId: e.testId, examName: e.examName, hasFile: e.reportHasContent, fileType: 'report' }
+                { testId: e.testId, examName: e.examName, hasFile: e.resultHasFile, fileType: 'result' }
             ])
             .reduce((prev, curr) => [...prev, ...curr], [])
             .filter(e => e.hasFile),

@@ -1,0 +1,2 @@
+export const normalizeFilename = (name: string) => name.split(".")[0]
+export const slugifyFilename = (filename: string, patientName: string) => `${filename.trim()} - ${patientName.trim()}`.toUpperCase()

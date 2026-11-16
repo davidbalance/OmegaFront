@@ -2,14 +2,11 @@
 
 import omega from "@/lib/api-client/omega-client/omega";
 import auth from "@/lib/auth";
-import { ClientRecord, ClientRecordQuery } from "./server-types";
-import { InitialRecordPayload } from "./create-record/initial-record";
-import { PeriodicRecordPayload } from "./create-record/periodic-record";
-import { ReintegrateRecordPayload } from "./create-record/reintegrate-record";
-import { RetirementRecordPayload } from "./create-record/retirement-record";
+import { ClientRecord, ClientRecordMetadata, ClientRecordQuery } from "./server-types";
 import { CertificateRecordPayload } from "./create-record/certificate-record";
 import { revalidateTag } from "next/cache";
 import { withResult } from "@/lib/utils/result.utils";
+import { FemoRecordPayload } from "./create-record/femo-record";
 
 export const serverActionRetriveClientRecords = async (payload: ClientRecordQuery): Promise<ClientRecord[]> => {
     const { patientDni, ...query } = payload;
@@ -32,68 +29,63 @@ export const serverActionRetriveClientRecordFile = async (recordId: string): Pro
     return data;
 }
 
-const createClientRecordInitial = async (payload: InitialRecordPayload & { patientDni: string }): Promise<void> => {
-    const type: string = 'initial';
+export const serviceActionRetriveClientRecordMetadata = async (recordId: string): Promise<ClientRecordMetadata> => {
+    const session = await auth();
+    const data: ClientRecordMetadata = await omega()
+        .addToken(session.access_token)
+        .addParams({ recordId })
+        .addCache('no-cache')
+        .execute('retriveClientRecordMetadata');
+
+    return data;
+}
+
+const createClientRecordFemo = async ({ patientDni, ...metadata }: FemoRecordPayload & { patientDni: string }): Promise<void> => {
+    const type: string = 'femo';
+    await createClientRecord(patientDni, type, metadata)
+}
+
+const createClientRecordCertificate = async ({ patientDni, ...metadata }: CertificateRecordPayload & { patientDni: string }): Promise<void> => {
+    const type: string = 'certificado';
+    await createClientRecord(patientDni, type, metadata)
+}
+
+const createClientRecord = async (patientDni: string, type: string, metadata: any): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
-        .addParams({ patientDni: payload.patientDni, type })
-        .addBody({ ...payload })
+        .addParams({ patientDni: patientDni, type })
+        .addBody({ metadata })
         .execute('createClientRecord');
 
     revalidateTag('retriveClientRecords');
 }
 
-const createClientRecordPeriodic = async (payload: PeriodicRecordPayload & { patientDni: string }): Promise<void> => {
-    const type: string = 'periodic';
+export const updateClientRecord = async (patientDni: string, recordId: string, metadata: any): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
-        .addParams({ patientDni: payload.patientDni, type })
-        .addBody({ ...payload })
-        .execute('createClientRecord');
+        .addParams({ patientDni: patientDni, recordId })
+        .addBody({ metadata })
+        .execute('updateClientRecord');
 
     revalidateTag('retriveClientRecords');
+    revalidateTag('retriveClientRecordMetadata');
 }
 
-const createClientRecordReintegrate = async (payload: ReintegrateRecordPayload & { patientDni: string }): Promise<void> => {
-    const type: string = 'reintegrate';
+export const completeClientRecord = async (path: { patientDni: string, recordType: string, recordId: string }, metadata: any): Promise<void> => {
     const session = await auth();
     await omega()
         .addToken(session.access_token)
-        .addParams({ patientDni: payload.patientDni, type })
-        .addBody({ ...payload })
-        .execute('createClientRecord');
+        .addParams({ ...path })
+        .addBody({ metadata })
+        .execute('completeClientRecord');
 
     revalidateTag('retriveClientRecords');
+    revalidateTag('retriveClientRecordMetadata');
 }
 
-const createClientRecordRetirement = async (payload: RetirementRecordPayload & { patientDni: string }): Promise<void> => {
-    const type: string = 'retirement';
-    const session = await auth();
-    await omega()
-        .addToken(session.access_token)
-        .addParams({ patientDni: payload.patientDni, type })
-        .addBody({ ...payload })
-        .execute('createClientRecord');
-
-    revalidateTag('retriveClientRecords');
-}
-
-const createClientRecordCertificate = async (payload: CertificateRecordPayload & { patientDni: string }): Promise<void> => {
-    const type: string = 'certificate';
-    const session = await auth();
-    await omega()
-        .addToken(session.access_token)
-        .addParams({ patientDni: payload.patientDni, type })
-        .addBody({ ...payload })
-        .execute('createClientRecord');
-
-    revalidateTag('retriveClientRecords');
-}
-
-export const serverActionCreateClientRecordInitial = withResult(createClientRecordInitial);
-export const serverActionCreateClientRecordPeriodic = withResult(createClientRecordPeriodic);
-export const serverActionCreateClientRecordReintegrate = withResult(createClientRecordReintegrate);
-export const serverActionCreateClientRecordRetirement = withResult(createClientRecordRetirement);
+export const serverActionCreateClientRecordFemo = withResult(createClientRecordFemo);
 export const serverActionCreateClientRecordCertificate = withResult(createClientRecordCertificate);
+export const serverActionUpdateClientRecord = withResult(updateClientRecord);
+export const serverActionCompleteClientRecord = withResult(completeClientRecord);

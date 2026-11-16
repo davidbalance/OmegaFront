@@ -7,26 +7,20 @@ import MedicalTestMenuMiscContent from './medical-test-menu-misc-content';
 import ResultMenu from './result-menu';
 import { MedicalTest } from '@/server/medical-test/server-types'
 import { OrderStatus } from '@/server/medical-order/server-types'
-import ReportMenu from './report-menu'
 
 type TestItemProps = MedicalTest & {
     orderStatus: OrderStatus | undefined;
     notShowMisc?: boolean;
     notEditResults?: boolean;
-    notEditReports?: boolean;
-    showReportLabel?: boolean;
 }
 const TestItem: React.FC<TestItemProps> = async ({
     testId,
     examName,
     resultHasFile,
-    reportHasContent,
     diseases,
     orderStatus,
     notShowMisc,
-    notEditResults,
-    notEditReports,
-    showReportLabel
+    notEditResults
 }) => {
     return (
         <ListRow
@@ -44,7 +38,6 @@ const TestItem: React.FC<TestItemProps> = async ({
                         </Box>
                     ))}
                     <Text size='xs' c={resultHasFile ? 'blue' : 'red'}>{resultHasFile ? 'Archivo listo' : 'Archivo no encontrado'}</Text>
-                    {showReportLabel && !reportHasContent && <Text size='xs' c='red'>Reporte no realizado</Text>}
                 </Box>
                 <Group gap={4}>
                     <ActionMenuProvider>
@@ -57,11 +50,6 @@ const TestItem: React.FC<TestItemProps> = async ({
                                 testId={testId}
                                 examName={examName}
                                 editable={orderStatus === 'created' && !notEditResults} />
-                            <ReportMenu
-                                testId={testId}
-                                examName={examName}
-                                reportHasContent={reportHasContent}
-                                editable={orderStatus === 'created' && !notEditReports} />
                         </ActionMenu>
                     </ActionMenuProvider>
                 </Group>

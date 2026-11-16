@@ -446,12 +446,24 @@ const endpoints = {
         method: 'get',
     } as ApiResource,
     retriveClientRecordFile: {
-        resource: 'medical-client/records/record/:recordId',
+        resource: 'medical-client/records/record/:recordId/file',
+        method: 'get',
+    } as ApiResource,
+    retriveClientRecordMetadata: {
+        resource: 'medical-client/records/record/:recordId/metadata',
         method: 'get',
     } as ApiResource,
     createClientRecord: {
         resource: 'medical-client/write/:patientDni/record/:type',
         method: 'post',
+    } as ApiResource,
+    updateClientRecord: {
+        resource: 'medical-client/write/:patientDni/record/:recordId',
+        method: 'put',
+    } as ApiResource,
+    completeClientRecord: {
+        resource: 'medical-client/write/:patientDni/complete/record/:recordType/:recordId',
+        method: 'put',
     } as ApiResource,
 
     retriveProcesses: {
@@ -536,10 +548,6 @@ const endpoints = {
         resource: 'medical-tests/:testId/diseases/:diseaseId',
         method: 'get',
     } as ApiResource,
-    retriveMedicalReport: {
-        resource: 'medical-tests/:testId/report',
-        method: 'get',
-    } as ApiResource,
     retriveMedicalReportFile: {
         resource: 'medical-files/:testId/report',
         method: 'get',
@@ -570,18 +578,6 @@ const endpoints = {
     } as ApiResource,
     removeMedicalResultDisease: {
         resource: 'medical-test/write/:testId/disease/:diseaseReportId',
-        method: 'delete',
-    } as ApiResource,
-    addMedicalReport: {
-        resource: 'medical-test/write/:testId/report',
-        method: 'put',
-    } as ApiResource,
-    addMedicalReportFile: {
-        resource: 'medical-test/write/:testId/report',
-        method: 'post',
-    } as ApiResource,
-    removeMedicalReport: {
-        resource: 'medical-test/write/:testId/report',
         method: 'delete',
     } as ApiResource,
     addMedicalResult: {

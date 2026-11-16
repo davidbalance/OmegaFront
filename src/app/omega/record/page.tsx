@@ -54,7 +54,6 @@ const OmegaRecordPages: React.FC<OmegaRecordPages> = async ({
         })
         : [];
 
-
     return (
         <MultipleLayerRoot>
             <MultipleLayerSection active={!patientActive}>

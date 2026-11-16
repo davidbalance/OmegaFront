@@ -6,13 +6,12 @@ import OrderDownloadSingle from './order-download-single'
 import { MedicalCloudFile } from '@/server/medical-order/server-types'
 
 const fileType: Record<string, string> = {
-    'report': 'Reporte Medico',
     'result': 'Resultado Medico'
 }
 
 type OrderCloudItemProps = Pick<MedicalCloudFile, 'testId' | 'examName'> & {
     hasFile: boolean;
-    type: 'report' | 'result'
+    type: 'result'
 };
 const OrderCloudItem: React.FC<OrderCloudItemProps> = ({
     testId,
